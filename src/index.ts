@@ -1,30 +1,13 @@
-﻿import { ViseronCore } from "./core/ViseronCore";
-
-import {AgentManager} from "./core/agents/AgentManager";
-
-import {CEOAgent} from "./agents/CEOAgent";
+﻿import {TVSOrchestrator} from "./core/orchestrator/Orchestrator";
+import {CEOAgent} from "./agents/ceo/CEOAgent";
 
 
-
-const tvs=new ViseronCore();
-
+const tvs=new TVSOrchestrator();
 
 
-tvs.start();
+tvs.register(CEOAgent);
 
 
-
-const manager=new AgentManager();
-
-
-
-manager.register(CEOAgent);
-
-
-
-console.log(
-manager.run(
-"CEO Agent",
+tvs.execute(
 "Crear estrategia inicial de Trinnity Viseron System"
-)
 );
