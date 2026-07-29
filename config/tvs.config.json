@@ -1,0 +1,44 @@
+{
+  "name": "Trinnity Viseron System",
+  "version": "5.0.0",
+  "mode": "development",
+  "core": {
+    "agents": {
+      "maxActive": 200,
+      "autoEvolve": true,
+      "evolutionIntervalMs": 3600000
+    },
+    "memory": {
+      "stmMaxItemsPerSession": 100,
+      "stmTtlMs": 1800000,
+      "ltmAutoSaveIntervalMs": 300000
+    },
+    "learning": {
+      "cycleIntervalMs": 1800000,
+      "autoStart": true
+    }
+  },
+  "commanders": {
+    "pedro": {
+      "role": "Supreme Commander",
+      "strategy": "expansion"
+    },
+    "trinnity": {
+      "role": "Queen Architect",
+      "strategy": "evolution"
+    }
+  },
+  "models": {
+    "local": ["ollama", "deepseek", "qwen"],
+    "cloud": ["openai", "claude", "gemini", "grok"]
+  },
+  "services": {
+    "n8n": { "enabled": true, "host": "http://localhost:5678" },
+    "qdrant": { "enabled": true, "host": "http://localhost:6333" },
+    "mcp": { "enabled": true }
+  },
+  "dashboard": {
+    "port": 3000,
+    "autoStart": true
+  }
+}
