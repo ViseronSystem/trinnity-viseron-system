@@ -6,12 +6,12 @@ export function cryptoSiteTemplate(
   const html = `
 <!-- Hero Section -->
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-gray-900"></div>
+  <div class="absolute inset-0 animate-gradient" style="background: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); background-size: 400% 400%;"></div>
   <div class="absolute inset-0 opacity-30">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full filter blur-3xl animate-pulse"></div>
-    <div class="absolute top-40 right-20 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 1s"></div>
-    <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-pink-500 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]"></div>
+    <div class="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full filter blur-3xl animate-pulse"></div>
+    <div class="absolute top-40 right-20 w-96 h-96 bg-white/20 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+    <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-white/20 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 2s"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.5)_100%)]"></div>
   </div>
   <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
     <div class="inline-block px-4 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm text-purple-300 mb-6 border border-purple-500/30">
@@ -292,10 +292,12 @@ body { background: #0f172a; color: #e2e8f0; font-family: 'Inter', system-ui, -ap
 ::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
 @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
 @keyframes pulse-glow { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
-@keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes gradient-shift { 0% { background-position: 0% 50%; } 25% { background-position: 100% 0%; } 50% { background-position: 100% 100%; } 75% { background-position: 0% 100%; } 100% { background-position: 0% 50%; } }
+@keyframes rainbow-float { 0%, 100% { transform: translateY(0px) scale(1); } 33% { transform: translateY(-15px) scale(1.05); } 66% { transform: translateY(10px) scale(0.95); } }
 .animate-float { animation: float 6s ease-in-out infinite; }
 .animate-glow { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-gradient { background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
+.animate-gradient { background-size: 400% 400% !important; animation: gradient-shift 12s ease infinite !important; }
+.rainbow-float { animation: rainbow-float 8s ease-in-out infinite; }
 .faq-item.active { border-color: #a855f7; }
 `;
 
