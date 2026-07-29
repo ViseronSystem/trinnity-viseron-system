@@ -1,0 +1,30 @@
+﻿{
+"name":"Trinnity Viseron System",
+
+"version":"2.0",
+
+"commanders":[
+"Pedro Costa Commander",
+"Trinnity Hurtado Queen"
+],
+
+"agents":200,
+
+"mode":"development",
+
+"models":[
+"Ollama",
+"OpenAI",
+"Claude",
+"Gemini",
+"Grok",
+"DeepSeek"
+],
+
+"services":[
+"n8n",
+"MCP",
+"Vector Memory"
+]
+
+}

@@ -1,7 +1,8 @@
 ﻿node_modules/
 dist/
 .env
-logs/
-backups/
 *.log
-.vscode/
+generated-crypto-sites/
+generated-apps/
+backups/
+logs/
