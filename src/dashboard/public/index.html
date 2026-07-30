@@ -63,6 +63,8 @@
     @keyframes hologram-rotate { to { transform:rotate(360deg); } }
     .reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
     .reveal.in-view { opacity:1; transform:translateY(0); }
+    .lang-btn { background:none; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:2px 6px; font-size:14px; cursor:pointer; transition:all 0.2s; line-height:1; }
+    .lang-btn:hover { border-color:rgba(0,240,255,0.3); background:rgba(0,240,255,0.1); }
   </style>
 </head>
 <body>
@@ -76,14 +78,17 @@
       <span class="text-neon neon-glow">V</span><span class="text-white/40">iseron</span>
       <span class="text-[10px] text-white/20 ml-2">Dashboard v5.0</span>
     </a>
-    <div class="hidden md:flex items-center gap-4 text-sm">
-      <div class="flex items-center gap-2 text-xs text-white/40"><span class="pulse"></span> CORE Online</div>
-      <a href="#monitor" class="nav-link text-white/40 hover:text-neon transition-colors">Monitor</a>
-      <a href="#agents" class="nav-link text-white/40 hover:text-neon transition-colors">Agents</a>
-      <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors">Platform</a>
-      <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors">$VSR</a>
+    <div class="hidden md:flex items-center gap-3 text-sm">
+      <div class="flex items-center gap-2 text-xs text-white/40"><span class="pulse"></span> <span class="core-status">CORE Online</span></div>
+      <button onclick="setPageLang('pt')" class="lang-btn" title="Português">🇧🇷</button>
+      <button onclick="setPageLang('en')" class="lang-btn" title="English">🇺🇸</button>
+      <button onclick="setPageLang('es')" class="lang-btn" title="Español">🇪🇸</button>
+      <a href="#monitor" class="nav-link text-white/40 hover:text-neon transition-colors nav-monitor">Monitor</a>
+      <a href="#agents" class="nav-link text-white/40 hover:text-neon transition-colors nav-agents">Agents</a>
+      <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors nav-platform">Platform</a>
+      <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-token">$VSR</a>
       <a href="http://localhost:4000" target="_blank" class="btn-neon text-xs px-3 py-1.5">Forge</a>
-      <a href="https://trinnityviseron.com" target="_blank" class="btn-neon btn-neon-solid text-xs px-3 py-1.5">Site</a>
+      <a href="https://trinnityviseron.com" target="_blank" class="btn-neon btn-neon-solid text-xs px-3 py-1.5 nav-site">Site</a>
     </div>
     <button id="menuBtn" onclick="toggleMenu()" class="md:hidden text-white p-2">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -104,12 +109,12 @@
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(0,240,255,0.06),transparent 60%)"></div>
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20">
     <div class="reveal">
-      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase">v5.0 — Painel de Controle Multi-Agente</span>
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase hero-tag">v5.0 — Painel de Controle Multi-Agente</span>
     </div>
     <h1 class="reveal text-4xl sm:text-5xl md:text-6xl font-black leading-[0.9] tracking-tight mt-6" style="transition-delay:0.1s">
       <span class="glitch" data-text="Viseron">Viseron</span> <span class="text-white/20">Dashboard</span>
     </h1>
-    <p class="reveal text-base sm:text-lg text-white/40 max-w-2xl mx-auto mt-4 leading-relaxed font-light" style="transition-delay:0.2s">
+    <p class="reveal text-base sm:text-lg text-white/40 max-w-2xl mx-auto mt-4 leading-relaxed font-light hero-desc" style="transition-delay:0.2s">
       Sistema Operacional Multi-Agente de Superinteligência — 5000+ mentes, 290+ provedores de IA, auto-evolução genética
     </p>
     <div class="reveal mt-8 flex flex-wrap justify-center gap-3 sm:gap-6" style="transition-delay:0.3s">
@@ -126,7 +131,7 @@
   <div class="max-w-7xl mx-auto">
     <div class="mb-8">
       <span class="text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Monitor</span>
-      <h2 class="text-2xl sm:text-3xl font-bold mt-2 tracking-tight">Status do Sistema</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 tracking-tight" data-lang="monitorTitle">Status do Sistema</h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       <div class="metric-box cyber-card">
@@ -331,6 +336,12 @@ function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hi
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
+const LANG_DATA={
+  pt:{core:"CORE Online",monitor:"Monitor",agents:"Agents",platform:"Platform",token:"$VSR",site:"Site",heroTag:"v5.0 — Painel de Controle Multi-Agente",heroDesc:"Sistema Operacional Multi-Agente de Superinteligência — 5000+ mentes, 290+ provedores de IA, auto-evolução genética",minds:"Mentes",providers:"Providers",setores:"Setores",monitorTitle:"Status do Sistema",agentes:"Agentes Operacionais",provedores:"Provedores de IA (Local + Cloud)",memoria:"Memória Vetorial Ativa",evol:"Auto-Evolução Genética",cmdChain:"Command Chain",leaderEstr:"Líder Estratégico",leaderTec:"Líder Técnico",console:"Console de Eventos",agentsTitle:"Agentes Especializados",platformTitle:"Ecossistema Viseron",platformDesc:"18 módulos core, 6 integrações, 386 agentes operacionais, 34 ferramentas",downloads:"Executáveis",cliDesc:"Standalone Windows",desktopDesc:"Electron — Portable",androidDesc:"EAS Cloud Build",ready:"Pronto",building:"Em build",tokenTitle:"$VSR — Viseron Crown Token",supply:"Supply Total",distrib:"Distribuição",cta:"Multi Agent AI Operating System",ctaDesc:"5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência"},
+  en:{core:"CORE Online",monitor:"Monitor",agents:"Agents",platform:"Platform",token:"$VSR",site:"Site",heroTag:"v5.0 — Multi-Agent Control Panel",heroDesc:"Multi-Agent Superintelligence Operating System — 5,000+ minds, 290+ AI providers, genetic auto-evolution",minds:"Minds",providers:"Providers",setores:"Sectors",monitorTitle:"System Status",agentes:"Operational Agents",provedores:"AI Providers (Local + Cloud)",memoria:"Vector Memory Active",evol:"Genetic Auto-Evolution",cmdChain:"Command Chain",leaderEstr:"Strategic Leader",leaderTec:"Technical Leader",console:"Event Console",agentsTitle:"Specialized Agents",platformTitle:"Viseron Ecosystem",platformDesc:"18 core modules, 6 integrations, 386 operational agents, 34 tools",downloads:"Builds",cliDesc:"Standalone Windows",desktopDesc:"Electron — Portable",androidDesc:"EAS Cloud Build",ready:"Ready",building:"Building",tokenTitle:"$VSR — Viseron Crown Token",supply:"Total Supply",distrib:"Distribution",cta:"Multi Agent AI Operating System",ctaDesc:"5,000+ minds · 290+ providers · 25 sectors · 300M $VSR · Auto-evolution · Superintelligence"},
+  es:{core:"CORE En Línea",monitor:"Monitor",agents:"Agentes",platform:"Plataforma",token:"$VSR",site:"Sitio",heroTag:"v5.0 — Panel de Control Multi-Agente",heroDesc:"Sistema Operativo Multi-Agente de Superinteligencia — 5000+ mentes, 290+ proveedores de IA, auto-evolución genética",minds:"Mentes",providers:"Proveedores",setores:"Sectores",monitorTitle:"Estado del Sistema",agentes:"Agentes Operativos",provedores:"Proveedores de IA (Local + Cloud)",memoria:"Memoria Vectorial Activa",evol:"Auto-Evolución Genética",cmdChain:"Cadena de Mando",leaderEstr:"Líder Estratégico",leaderTec:"Líder Técnico",console:"Consola de Eventos",agentsTitle:"Agentes Especializados",platformTitle:"Ecosistema Viseron",platformDesc:"18 módulos core, 6 integraciones, 386 agentes operativos, 34 herramientas",downloads:"Ejecutables",cliDesc:"Standalone Windows",desktopDesc:"Electron — Portable",androidDesc:"EAS Cloud Build",ready:"Listo",building:"En construcción",tokenTitle:"$VSR — Viseron Crown Token",supply:"Suministro Total",distrib:"Distribución",cta:"Multi Agent AI Operating System",ctaDesc:"5000+ mentes · 290+ providers · 25 sectores · 300M $VSR · Auto-evolución · Superinteligencia"}
+};
+function setPageLang(l){const d=LANG_DATA[l]||LANG_DATA.pt;document.querySelector('.core-status')&&(document.querySelector('.core-status').textContent=d.core);document.querySelector('.nav-monitor')&&(document.querySelector('.nav-monitor').textContent=d.monitor);document.querySelector('.nav-agents')&&(document.querySelector('.nav-agents').textContent=d.agents);document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token);document.querySelector('.nav-site')&&(document.querySelector('.nav-site').textContent=d.site);document.querySelector('.hero-tag')&&(document.querySelector('.hero-tag').textContent=d.heroTag);document.querySelector('.hero-desc')&&(document.querySelector('.hero-desc').textContent=d.heroDesc);document.querySelectorAll('[data-lang]').forEach(el=>{const k=el.dataset.lang;if(d[k])el.textContent=d[k]})}
 </script>
 </body>
 </html>

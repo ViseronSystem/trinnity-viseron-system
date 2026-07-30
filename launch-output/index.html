@@ -38,6 +38,8 @@
     .grid-overlay { background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px); background-size:40px 40px; }
     .reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
     .reveal.in-view { opacity:1; transform:translateY(0); }
+    .lang-btn { background:none; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:2px 6px; font-size:14px; cursor:pointer; transition:all 0.2s; line-height:1; }
+    .lang-btn:hover { border-color:rgba(0,240,255,0.3); background:rgba(0,240,255,0.1); }
     .btn-neon { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:100px; font-weight:600; font-size:14px; background:rgba(0,240,255,0.08); border:1px solid rgba(0,240,255,0.2); color:var(--neon); transition:all 0.3s; cursor:pointer; text-decoration:none; }
     .btn-neon:hover { background:rgba(0,240,255,0.15); box-shadow:0 0 30px rgba(0,240,255,0.15); transform:translateY(-2px); }
     .btn-neon-solid { background:var(--neon); color:var(--bg); border-color:var(--neon); }
@@ -73,12 +75,15 @@
     <a href="#" class="text-lg font-bold tracking-tight font-['Space_Grotesk']">
       <span class="text-neon neon-glow">V</span><span class="text-white/40">iseron</span>
     </a>
-    <div class="hidden md:flex items-center gap-5 text-sm">
-      <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors">Platform</a>
-      <a href="#forge" class="nav-link text-white/40 hover:text-neon transition-colors">Forge</a>
-      <a href="#jarvis" class="nav-link text-white/40 hover:text-neon2 transition-colors">JARVIS</a>
-      <a href="#downloads" class="nav-link text-white/40 hover:text-neon transition-colors">Downloads</a>
-      <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors">$VSR</a>
+    <div class="hidden md:flex items-center gap-4 text-sm">
+      <button onclick="setPageLang('pt')" class="lang-btn" title="Português">🇧🇷</button>
+      <button onclick="setPageLang('en')" class="lang-btn" title="English">🇺🇸</button>
+      <button onclick="setPageLang('es')" class="lang-btn" title="Español">🇪🇸</button>
+      <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors nav-platform">Platform</a>
+      <a href="#forge" class="nav-link text-white/40 hover:text-neon transition-colors nav-forge">Forge</a>
+      <a href="#jarvis" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-jarvis">JARVIS</a>
+      <a href="#downloads" class="nav-link text-white/40 hover:text-neon transition-colors nav-downloads">Downloads</a>
+      <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-token">$VSR</a>
       <a href="http://localhost:4000" target="_blank" class="btn-neon text-xs px-4 py-1.5">Forge</a>
       <a href="http://localhost:3000" target="_blank" class="btn-neon btn-neon-solid text-xs px-4 py-1.5">Dashboard</a>
     </div>
@@ -417,6 +422,8 @@ function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hi
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
+const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",forge:"Forge",jarvis:"JARVIS",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",downloads:"Descargas",token:"$VSR"}};
+function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
 </script>
 </body>
 </html>
