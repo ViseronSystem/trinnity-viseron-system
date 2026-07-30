@@ -34,4 +34,4 @@ COPY --from=builder /app/ANTIGRAVITY.md ./
 # Exponer puerto para API / Socket.IO
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/src/index.js"]

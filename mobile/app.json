@@ -9,29 +9,56 @@
     "splash": {
       "backgroundColor": "#0a0a2e"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.trinnity.viseron",
       "buildNumber": "1",
       "infoPlist": {
-        "NSAppTransportSecurity": { "NSAllowsArbitraryLoads": true },
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
         "NSMicrophoneUsageDescription": "Usado para comandos de voz ao TVS"
       }
     },
     "android": {
-      "adaptiveIcon": { "backgroundColor": "#0a0a2e" },
+      "adaptiveIcon": {
+        "backgroundColor": "#0a0a2e"
+      },
       "package": "com.trinnity.viseron",
       "versionCode": 1,
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE", "RECORD_AUDIO"],
-      "usesCleartextTraffic": true
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "RECORD_AUDIO"
+      ]
     },
     "plugins": [
-      "expo-build-properties"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
+          "kotlinVersion": "1.9.22",
+          "usesCleartextTraffic": true
+        },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
+      "expo-asset",
+      "expo-font"
     ],
     "extra": {
       "tvsServerUrl": "http://192.168.1.100:3000",
-      "eas": { "projectId": "723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7" }
+      "eas": {
+        "projectId": "723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7"
+      }
     },
     "owner": "viseronsystem"
   }

@@ -81,7 +81,7 @@ if ($Vercel -or $Full) {
         Write-Step "Deploy Vercel OK!" "OK"
     } else {
         Write-Step "Falha no deploy Vercel!" "WARN"
-        Write-Step "Execute manualmente: cd trinnityviseron.com && vercel --prod" "WARN"
+        Write-Step "Execute manualmente: cd trinnityviseron.com; vercel --prod" "WARN"
     }
     Pop-Location
 }

@@ -51,6 +51,13 @@ cd mobile && npx expo start
 | `npm run build:ios` | Build IPA for Apple Store |
 | `npm run test` | Run core tests |
 | `npm run lint` | TypeScript check |
+| `npm run backup` | Run daily backup |
+| `npm run backup:schedule` | Schedule auto-backup (Task Scheduler) |
+| `npm run init` | Build + backup + start |
+| `npm run init:full` | Full system initialization |
+| `npm run deploy` | Deploy to GitHub + Vercel |
+| `npm run deploy:github` | Deploy to GitHub only |
+| `npm run deploy:vercel` | Deploy to Vercel only |
 
 ## AI Providers
 
