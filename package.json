@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/src/index.js",
     "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"const f=require('fs-extra');const src='src/dashboard/public',dest='dist/src/dashboard/public';if(!f.existsSync(dest))f.copySync(src,dest);console.log('[build] public/ copied')\"",
     "test": "tsx tests/core.test.ts",
     "test:hyper": "tsx tests/hyperbrain.test.ts",
     "build:android": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target android",

@@ -5,6 +5,7 @@ import { IAgent, AgentExecutionResult } from "./core/types";
 import { BusinessProblem } from "./core/agents/BusinessSolutionEngine";
 import { SuperIntegration } from "./integrations/SuperIntegration";
 import { OmniRouteHub } from "./integrations/omniroute/OmniRouteHub";
+import { N8NBridge } from "./integrations/n8n/N8NBridge";
 
 (global as any).__TVS_START_TIME = Date.now();
 
@@ -55,6 +56,10 @@ tvs.toolManager.createQuickTool("tool_scaffold_app", "App Scaffolding Generator"
     name: input.name || "AutoGenApp", description: input.description || "App generada por TVS",
     template: input.template || "express-api", port: input.port || 3000
   }));
+
+const n8nBridge = new N8NBridge(tvs.toolManager, tvs.agentManager, tvs.memoryEngine, 5678);
+n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}`));
+(global as any).__N8N_BRIDGE = n8nBridge;
 
 (async () => {
   console.log(`\n══════════════════════════════════════════════════════`);
@@ -132,6 +137,7 @@ tvs.toolManager.createQuickTool("tool_scaffold_app", "App Scaffolding Generator"
   console.log(`   🧠 OpenJarvis: AI local Stanford (${integStats.details.openJarvis?.count || 0} skills)`);
   console.log(`   🤖 ASNO JARVIS: Assistente com WhatsApp + Home Assistant`);
   console.log(`   🛠️  Ferramentas: ${integStats.totalTools} novas`);
+  console.log(`   ⚙️  n8n Workflows: ${n8nBridge.templates.length} templates`);
   console.log(`   📋 Dashboard: http://localhost:3000`);
   console.log(`   🖨️  PDF: http://localhost:${tvs.reportServer.getPort()}/report/pdf`);
   console.log(`   💰 Token: $TRIN + $VSR gerados`);

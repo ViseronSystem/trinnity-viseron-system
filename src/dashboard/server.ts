@@ -139,6 +139,33 @@ export class TVSDashboardServer {
       res.json({ ok: true });
     });
 
+    // n8n Workflow endpoints
+    this.app.get("/api/workflows", (req, res) => {
+      const bridge = (global as any).__N8N_BRIDGE;
+      if (bridge) {
+        res.json({
+          workflows: bridge.templates.map((t: any) => ({ id: t.id, name: t.name, description: t.description, triggers: t.triggers }))
+        });
+      } else {
+        res.json({ workflows: [] });
+      }
+    });
+
+    this.app.post("/api/workflows/run", async (req, res) => {
+      try {
+        const bridge = (global as any).__N8N_BRIDGE;
+        if (!bridge) return res.status(503).json({ error: "n8n bridge not available" });
+        const { workflowId, data } = req.body;
+        if (!workflowId) return res.status(400).json({ error: "workflowId required" });
+        const template = bridge.templates.find((t: any) => t.id === workflowId);
+        if (!template) return res.status(404).json({ error: `Workflow ${workflowId} not found` });
+        const result = await bridge.workflowEngine.execute(template, data || {});
+        res.json(result);
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
       if (req.method === 'GET' && !req.path.startsWith('/api/')) {
