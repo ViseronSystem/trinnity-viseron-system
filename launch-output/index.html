@@ -1,88 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trinnity Viseron System v5.0</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viseron — Multi-Agent AI Superintelligence v5.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
+    :root {
+      --neon: #00f0ff;
+      --neon2: #bf5af2;
+      --neon3: #ff2d55;
+      --bg: #050510;
+      --card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --text: #e4e4f0;
+      --text2: rgba(228,228,240,0.5);
+    }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:#0a0a2e; color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center; }
-    .container { max-width:800px; width:100%; padding:40px 20px; }
-    h1 { font-size:3em; background:linear-gradient(135deg,#ff6b35,#ffd700); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; margin-bottom:10px; }
-    .subtitle { text-align:center; font-size:1.2em; color:#8af; margin-bottom:40px; }
-    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; margin-bottom:40px; }
-    .stat-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:20px; text-align:center; }
-    .stat-value { font-size:2em; font-weight:700; color:#ffd700; }
-    .stat-label { font-size:0.85em; color:#888; margin-top:5px; }
-    .section { margin-bottom:30px; }
-    h2 { color:#ffd700; font-size:1.5em; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
-    .item { background:rgba(255,255,255,0.03); padding:10px 15px; border-radius:8px; font-size:0.9em; }
-    .item strong { color:#8af; }
-    .badge { display:inline-block; background:#ff6b35; color:#fff; padding:3px 10px; border-radius:20px; font-size:0.75em; margin-left:8px; }
-    .nav { display:flex; gap:10px; justify-content:center; margin-top:30px; flex-wrap:wrap; }
-    .nav a { background:linear-gradient(135deg,#ff6b35,#ff4500); color:#fff; text-decoration:none; padding:12px 24px; border-radius:8px; font-weight:600; transition:opacity 0.2s; }
-    .nav a:hover { opacity:0.85; }
-    .nav a.secondary { background:transparent; border:1px solid #ff6b35; }
-    footer { text-align:center; margin-top:50px; color:#555; font-size:0.8em; }
+    html { scroll-behavior: smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden; }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif; }
+    .scanline { position:fixed; inset:0; z-index:9999; pointer-events:none; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,240,255,0.015) 2px,rgba(0,240,255,0.015) 4px); }
+    #three-bg { position:fixed; inset:0; z-index:0; }
+    .neon-glow { text-shadow:0 0 10px var(--neon),0 0 30px var(--neon),0 0 60px var(--neon); }
+    .neon-glow2 { text-shadow:0 0 10px var(--neon2),0 0 30px var(--neon2); }
+    .cyber-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:12px; transition:all 0.4s cubic-bezier(0.16,1,0.3,1); position:relative; overflow:hidden; }
+    .cyber-card::before { content:''; position:absolute; inset:0; border-radius:12px; background:linear-gradient(135deg,rgba(0,240,255,0.05),transparent,rgba(191,90,242,0.05)); opacity:0; transition:opacity 0.4s; }
+    .cyber-card:hover { border-color:rgba(0,240,255,0.2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 20px rgba(0,240,255,0.05); }
+    .cyber-card:hover::before { opacity:1; }
+    .hologram::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(from 0deg,transparent,rgba(0,240,255,0.03),transparent,rgba(191,90,242,0.03),transparent); animation:hologram-rotate 8s linear infinite; pointer-events:none; }
+    @keyframes hologram-rotate { to { transform:rotate(360deg); } }
+    .text-neon { color:var(--neon); }
+    .text-neon2 { color:var(--neon2); }
+    .grid-overlay { background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px); background-size:40px 40px; }
+    .reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in-view { opacity:1; transform:translateY(0); }
+    .btn-neon { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:100px; font-weight:600; font-size:14px; background:rgba(0,240,255,0.08); border:1px solid rgba(0,240,255,0.2); color:var(--neon); transition:all 0.3s; cursor:pointer; text-decoration:none; }
+    .btn-neon:hover { background:rgba(0,240,255,0.15); box-shadow:0 0 30px rgba(0,240,255,0.15); transform:translateY(-2px); }
+    .btn-neon-solid { background:var(--neon); color:var(--bg); border-color:var(--neon); }
+    .btn-neon-solid:hover { background:#00d4e6; box-shadow:0 0 40px rgba(0,240,255,0.3); }
+    .btn-purple { background:rgba(191,90,242,0.15); border-color:rgba(191,90,242,0.3); color:var(--neon2); }
+    .btn-purple:hover { background:rgba(191,90,242,0.25); box-shadow:0 0 30px rgba(191,90,242,0.15); }
+    .data-line { height:1px; background:linear-gradient(90deg,transparent,rgba(0,240,255,0.2),transparent); margin:80px auto; max-width:600px; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--neon); border-radius:2px; }
+    .glitch { position:relative; display:inline-block; }
+    .glitch::before,.glitch::after { content:attr(data-text); position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; pointer-events:none; }
+    .glitch:hover::before { animation:glitch1 0.4s ease; color:var(--neon); clip-path:inset(10% 0 70% 0); }
+    .glitch:hover::after { animation:glitch2 0.4s ease; color:var(--neon2); clip-path:inset(70% 0 10% 0); }
+    @keyframes glitch1 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(-2px,1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
+    @keyframes glitch2 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(2px,-1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
+    .badge { display:inline-block; padding:2px 10px; border-radius:100px; font-size:11px; font-weight:600; }
+    .badge-green { background:rgba(0,255,135,0.15); color:#00ff87; border:1px solid rgba(0,255,135,0.2); }
+    .badge-neon { background:rgba(0,240,255,0.1); color:var(--neon); border:1px solid rgba(0,240,255,0.15); }
+    .badge-purple { background:rgba(191,90,242,0.1); color:var(--neon2); border:1px solid rgba(191,90,242,0.15); }
+    @media (max-width:640px) { .scanline { display:none; } }
+    .download-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--text); transition:all 0.3s; text-decoration:none; }
+    .download-btn:hover { background:rgba(0,240,255,0.08); border-color:rgba(0,240,255,0.2); color:var(--neon); transform:translateY(-2px); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>TRINNITY VISERON</h1>
-    <div class="subtitle">Multi-Agent AI Superintelligence v5.0</div>
+<div class="scanline"></div>
+<canvas id="three-bg"></canvas>
 
-    <div class="stats">
-      <div class="stat-card"><div class="stat-value">5,112</div><div class="stat-label">Autonomous Minds</div></div>
-      <div class="stat-card"><div class="stat-value">114</div><div class="stat-label">Battalion Agents</div></div>
-      <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">Coverage Areas</div></div>
-      <div class="stat-card"><div class="stat-value">300M</div><div class="stat-label">VSR Tokens</div></div>
+<!-- Nav -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:transparent;">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="text-lg font-bold tracking-tight font-['Space_Grotesk']">
+      <span class="text-neon neon-glow">V</span><span class="text-white/40">iseron</span>
+    </a>
+    <div class="hidden md:flex items-center gap-5 text-sm">
+      <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors">Platform</a>
+      <a href="#forge" class="nav-link text-white/40 hover:text-neon transition-colors">Forge</a>
+      <a href="#jarvis" class="nav-link text-white/40 hover:text-neon2 transition-colors">JARVIS</a>
+      <a href="#downloads" class="nav-link text-white/40 hover:text-neon transition-colors">Downloads</a>
+      <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors">$VSR</a>
+      <a href="http://localhost:4000" target="_blank" class="btn-neon text-xs px-4 py-1.5">Forge</a>
+      <a href="http://localhost:3000" target="_blank" class="btn-neon btn-neon-solid text-xs px-4 py-1.5">Dashboard</a>
     </div>
-
-    <div class="section">
-      <h2>🏛️ Command</h2>
-      <div class="grid">
-        <div class="item"><strong>Trinnity Hurtado</strong> — Reina <span class="badge">Corona</span></div>
-        <div class="item"><strong>Pedro Costa</strong> — Capitán <span class="badge">Hierro</span></div>
-        <div class="item">12 Commanders · 114 Agents · 2 Sovereigns</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>🌍 Coverage Areas</h2>
-      <div class="grid">
-        <div class="item"><strong>Aerospace</strong> Propulsion, Orbit, Exploration, Astro-resources, Defense</div>
-        <div class="item"><strong>Terrestrial</strong> Health, Finance, Education, Legal, Industry, Agriculture, Energy, Logistics, Marketing, Cybersecurity, Government, Art, Science, Sports, Tourism, HR, Real Estate, Retail, Telecom, Environment</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>🧠 Intelligence</h2>
-      <div class="grid">
-        <div class="item"><strong>8 AI Providers</strong> Ollama (local) + OpenAI, Claude, Gemini, Grok, DeepSeek, Mistral, Cohere</div>
-        <div class="item"><strong>Auto-Evolution</strong> +500% every 30min</div>
-        <div class="item"><strong>4,742 Minds</strong> Socrates → Singularity</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>💰 VSR Tokenomics</h2>
-      <div class="grid">
-        <div class="item">300M Total Supply</div>
-        <div class="item">Trinnity: 30% · Pedro: 25% · Legion: 30% · Reserve: 15%</div>
-        <div class="item">0.5% Commission · 80% Burn</div>
-      </div>
-    </div>
-
-    <div class="nav">
-      <a href="http://localhost:3000" target="_blank">Open Dashboard</a>
-      <a href="http://localhost:3001/report/comprehensive-pdf" class="secondary" target="_blank">Download PDF Report</a>
-    </div>
-
-    <footer>
-      Trinnity Viseron System v5.0<br>
-      Trinnity Hurtado (Reina) & Pedro Costa (Capitán) — Sovereigns
-    </footer>
+    <button id="menuBtn" onclick="toggleMenu()" class="md:hidden text-white p-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
   </div>
+  <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+    <div class="flex flex-col gap-3 text-sm">
+      <a href="#platform" onclick="toggleMenu()" class="text-white/50 py-2">Platform</a>
+      <a href="#forge" onclick="toggleMenu()" class="text-white/50 py-2">Forge</a>
+      <a href="#jarvis" onclick="toggleMenu()" class="text-white/50 py-2">JARVIS</a>
+      <a href="#downloads" onclick="toggleMenu()" class="text-white/50 py-2">Downloads</a>
+      <a href="#token" onclick="toggleMenu()" class="text-white/50 py-2">$VSR</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-overlay" style="z-index:1;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(0,240,255,0.06),transparent 60%)"></div>
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24">
+    <div class="reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase">v5.0 — Multi-Agent Superintelligence</span>
+    </div>
+    <h1 class="reveal text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mt-6" style="transition-delay:0.1s">
+      <span class="glitch" data-text="Viseron">Viseron</span>
+    </h1>
+    <p class="reveal text-lg sm:text-xl text-white/40 max-w-3xl mx-auto mt-6 leading-relaxed font-light" style="transition-delay:0.2s">
+      Multi-Agent AI Operating System — 5,000+ minds, 290+ AI providers,<br>
+      genetic auto-evolution, hyper-exponential learning. <span class="text-neon">By Viseron.</span>
+    </p>
+    <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s">
+      <a href="#platform" class="btn-neon btn-neon-solid">Explore Platform</a>
+      <a href="#downloads" class="btn-neon">Downloads</a>
+      <a href="http://localhost:4000" target="_blank" class="btn-neon btn-purple">ViseronForge</a>
+    </div>
+    <div class="reveal mt-16 flex flex-wrap justify-center gap-4 sm:gap-8" style="transition-delay:0.4s">
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon">5,112</p><p class="text-xs text-white/40 mt-0.5">Autonomous Minds</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon">114</p><p class="text-xs text-white/40 mt-0.5">Battalion Agents</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon2">25</p><p class="text-xs text-white/40 mt-0.5">Coverage Areas</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon2">300M</p><p class="text-xs text-white/40 mt-0.5">$VSR Tokens</p></div>
+    </div>
+  </div>
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/20">
+    <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Platform -->
+<section id="platform" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Platform</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Viseron Architecture</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">18 core modules, 6 integrations, 9 operational agents, dozens of tools</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">ViseronCore</h3>
+        <p class="text-sm text-white/40">Multi-agent OS core with 18 integrated subsystems</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">OmniRoute Gateway</h3>
+        <p class="text-sm text-white/40">290+ AI providers, 500+ models, auto-fallback, RTK compression, MCP/A2A</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">SuperIntelligence</h3>
+        <p class="text-sm text-white/40">Multi-provider ensemble synthesis with 5,000 historical and futuristic minds</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Genetic Auto-Evolution</h3>
+        <p class="text-sm text-white/40">Agents evolve automatically with hyper-exponential learning (x6 every 30min)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Command Chain</h3>
+        <p class="text-sm text-white/40">Hierarchical command chain with Corona and Hierro lineages, dual-signature directives</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Call System</h3>
+        <p class="text-sm text-white/40">AI voice calls with Twilio, OpenAI Realtime API, ElevenLabs TTS, transcription and analysis</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Forge -->
+<section id="forge" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Forge</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">ViseronForge</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Your complete Git platform — the open source alternative to GitHub, built with TVS superintelligence</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">📂 Git Hosting</h3>
+        <p class="text-sm text-white/40">Unlimited public and private repositories with full Git protocol via HTTP</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">🔀 Pull Requests</h3>
+        <p class="text-sm text-white/40">Code review with branching, forking, merge and conflict resolution</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">⚠ Issues</h3>
+        <p class="text-sm text-white/40">Issue tracking with labels, assignees, milestones and comments</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">🚀 REST API</h3>
+        <p class="text-sm text-white/40">Full API for repository automation, CI/CD and TVS integration</p>
+      </div>
+    </div>
+    <div class="reveal text-center mt-10" style="transition-delay:0.5s">
+      <a href="http://localhost:4000" target="_blank" class="btn-neon btn-neon-solid">Open ViseronForge</a>
+      <span class="text-xs text-white/20 ml-4">localhost:4000</span>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- JARVIS -->
+<section id="jarvis" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// JARVIS</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Personal AI Assistant</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">9 specialized agents across 2 bridges — voice, WhatsApp, smart home, cameras, code, research, memory</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s;border-left:2px solid var(--neon)">
+        <span class="badge badge-neon mb-2">ASNO Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">JarvisVoz</h3>
+        <p class="text-sm text-white/40">JARVIS-style voice assistant with natural commands</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s;border-left:2px solid var(--neon)">
+        <span class="badge badge-neon mb-2">ASNO Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">JarvisWhatsApp</h3>
+        <p class="text-sm text-white/40">WhatsApp assistant with home control and media analysis</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s;border-left:2px solid var(--neon)">
+        <span class="badge badge-neon mb-2">ASNO Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">HomeController</h3>
+        <p class="text-sm text-white/40">Home Assistant + SmartThings controller: lights, climate, media, sensors</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s;border-left:2px solid var(--neon)">
+        <span class="badge badge-neon mb-2">ASNO Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">CameraAnalyzer</h3>
+        <p class="text-sm text-white/40">IP camera analysis with computer vision and object detection</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s;border-left:2px solid var(--neon2)">
+        <span class="badge badge-purple mb-2">OpenJarvis Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">OpenJarvis</h3>
+        <p class="text-sm text-white/40">Local personal AI (Stanford OpenJarvis)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s;border-left:2px solid var(--neon2)">
+        <span class="badge badge-purple mb-2">OpenJarvis Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">MorningDigest</h3>
+        <p class="text-sm text-white/40">Daily digest with email, calendar, news and TTS</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s;border-left:2px solid var(--neon2)">
+        <span class="badge badge-purple mb-2">OpenJarvis Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">DeepResearch</h3>
+        <p class="text-sm text-white/40">Multi-hop web + local document research with citations</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s;border-left:2px solid var(--neon2)">
+        <span class="badge badge-purple mb-2">OpenJarvis Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">CodeAssistant</h3>
+        <p class="text-sm text-white/40">Code assistant with Python execution and shell access</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s;border-left:2px solid var(--neon2)">
+        <span class="badge badge-purple mb-2">OpenJarvis Bridge</span>
+        <h3 class="text-lg font-semibold mb-1">OperativeAgent</h3>
+        <p class="text-sm text-white/40">Persistent autonomous agent with memory and scheduled tasks</p>
+      </div>
+    </div>
+    <div class="reveal mt-10" style="transition-delay:0.6s">
+      <div class="cyber-card p-6">
+        <h3 class="text-lg font-semibold mb-3">8 Operational Skills</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-neon">web_search</span>
+          <span class="badge badge-neon">file_read</span>
+          <span class="badge badge-purple">code_interpreter</span>
+          <span class="badge badge-neon">shell_exec</span>
+          <span class="badge badge-purple">memory_index</span>
+          <span class="badge badge-neon">text_to_speech</span>
+          <span class="badge badge-neon">calendar_read</span>
+          <span class="badge badge-purple">email_read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Downloads -->
+<section id="downloads" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Downloads</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Viseron Executables</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">3 formats — choose yours</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.1s">
+        <div class="text-4xl mb-4">🖥️</div>
+        <h3 class="text-xl font-semibold mb-2">CLI Executable</h3>
+        <p class="text-sm text-white/40 mb-1">Standalone .exe for Windows</p>
+        <p class="text-xs text-white/20 mb-4">50 MB — No Node.js required</p>
+        <span class="badge badge-green mb-4">Ready</span>
+        <div><span class="text-xs text-white/20">.build/tvs-standalone/</span></div>
+      </div>
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.2s">
+        <div class="text-4xl mb-4">🪟</div>
+        <h3 class="text-xl font-semibold mb-2">Desktop App</h3>
+        <p class="text-sm text-white/40 mb-1">Electron — Portable + Installer</p>
+        <p class="text-xs text-white/20 mb-4">74 MB Portable / 82 MB Setup</p>
+        <span class="badge badge-green mb-4">Ready</span>
+        <div><span class="text-xs text-white/20">electron/dist-electron/</span></div>
+      </div>
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.3s">
+        <div class="text-4xl mb-4">📱</div>
+        <h3 class="text-xl font-semibold mb-2">Mobile App</h3>
+        <p class="text-sm text-white/40 mb-1">Android APK via EAS Cloud</p>
+        <p class="text-xs text-white/20 mb-4">Expo React Native</p>
+        <span class="badge badge-purple mb-4">Building</span>
+        <div><a href="https://expo.dev/accounts/viseronsystem/projects/trinnity-viseron/builds/b96386f3-8ca3-4834-863e-ca793545b001" target="_blank" class="text-xs text-neon">Track build</a></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.4s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Quick Commands</h3>
+          <p class="text-sm text-white/40">npm run build:exe · npm run electron:build:win · npm run build:android</p>
+        </div>
+        <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon text-sm">GitHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Token -->
+<section id="token" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Token</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">$VSR — Viseron Crown</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Ecosystem governance token — 300,000,000 VSR</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.1s">
+        <p class="text-xs text-white/40 mb-1">Total Supply</p>
+        <p class="text-4xl sm:text-5xl font-bold text-neon">300M</p>
+        <p class="text-sm mt-2 text-white/20">VSR — Viseron Crown Token</p>
+      </div>
+      <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.2s">
+        <p class="text-xs text-white/40 mb-1">Distribution</p>
+        <div class="mt-2 space-y-2">
+          <div class="flex justify-between text-sm"><span>👑 Trinnity (Corona)</span><span class="text-neon">90M (30%)</span></div>
+          <div class="flex justify-between text-sm"><span>⚔️ Pedro (Hierro)</span><span class="text-neon2">75M (25%)</span></div>
+          <div class="flex justify-between text-sm"><span>🤖 Legion (Agent Pool)</span><span class="text-neon">90M (30%)</span></div>
+          <div class="flex justify-between text-sm"><span>🏦 Strategic Reserve</span><span class="text-white/40">45M (15%)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6" style="transition-delay:0.3s">
+      <h3 class="text-lg font-semibold mb-3">Tokenomics Rules</h3>
+      <div class="grid sm:grid-cols-2 gap-3 text-sm text-white/50">
+        <div>• Each mission has a VSR budget — agent pauses when depleted</div>
+        <div>• Commission: 0.5% per transaction (80% burned → programmed scarcity)</div>
+        <div>• VSR required for directive issuance and agent spawning</div>
+        <div>• Governance: 1 VSR = 1 vote on system evolution</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- CTA -->
+<section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-4xl mx-auto text-center">
+    <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Viseron</span>
+    <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Multi Agent AI Operating System</h2>
+    <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">5,000+ minds · 290+ providers · 25 sectors · 300M $VSR · Auto-evolution · Superintelligence</p>
+    <div class="reveal mt-10 flex flex-wrap justify-center gap-4" style="transition-delay:0.3s">
+      <a href="http://localhost:3000" target="_blank" class="btn-neon btn-neon-solid text-base px-8 py-4">
+        Dashboard
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="http://localhost:4000" target="_blank" class="btn-neon btn-purple text-base px-8 py-4">ViseronForge</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-white/5 py-10 px-6 relative" style="z-index:1;">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
+    <p><span class="text-white/40 font-semibold">Viseron</span> — Multi Agent AI Operating System v5.0</p>
+    <div class="flex gap-5">
+      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" class="hover:text-neon transition-colors">GitHub</a>
+    </div>
+    <p>&copy; 2026 — By Viseron</p>
+  </div>
+</footer>
+
+<script>
+(function initThree(){const c=document.getElementById('three-bg');const s=new THREE.Scene();const a=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));const g=new THREE.Group();s.add(g);const k1=new THREE.TorusKnotGeometry(1.2,0.3,128,16);const m1=new THREE.Mesh(k1,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.12}));m1.position.set(-2.5,0.5,-3);m1.scale.set(0.6,0.6,0.6);g.add(m1);const k2=new THREE.IcosahedronGeometry(1,0);const m2=new THREE.Mesh(k2,new THREE.MeshBasicMaterial({color:0xbf5af2,wireframe:true,transparent:true,opacity:0.08}));m2.position.set(2.8,-0.8,-4);m2.scale.set(0.5,0.5,0.5);g.add(m2);const k3=new THREE.TorusGeometry(1,0.2,32,64);const m3=new THREE.Mesh(k3,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.06}));m3.position.set(0,1.5,-5);m3.scale.set(0.7,0.7,0.7);g.add(m3);const p=new THREE.BufferGeometry();const pos=new Float32Array(800*3);for(let i=0;i<800*3;i++)pos[i]=(Math.random()-0.5)*20;p.setAttribute('position',new THREE.BufferAttribute(pos,3));const pt=new THREE.PointsMaterial({color:0x00f0ff,size:0.02,transparent:true,opacity:0.3});const ps=new THREE.Points(p,pt);ps.position.z=-5;g.add(ps);a.position.z=5;let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2});function an(){requestAnimationFrame(an);m1.rotation.x+=0.003;m1.rotation.y+=0.006;m2.rotation.x+=0.005;m2.rotation.y-=0.004;m3.rotation.x+=0.002;m3.rotation.z+=0.003;ps.rotation.y+=0.0005;g.rotation.x+=(my*0.02-g.rotation.x)*0.02;g.rotation.y+=(mx*0.02-g.rotation.y)*0.02;r.render(s,a)}an();window.addEventListener('resize',()=>{a.aspect=window.innerWidth/window.innerHeight;a.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)})})();
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hidden')}
+const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
+const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
+</script>
 </body>
 </html>
