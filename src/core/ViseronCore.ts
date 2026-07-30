@@ -21,6 +21,11 @@ import { TokenEngine } from "./tokenomics/TokenEngine";
 import { WebAppGenerator } from "./webapp/WebAppGenerator";
 import { getAllArchetypes } from "./archetypes";
 import { IAgent } from "./types";
+import { SuperIntelligenceEngine } from "./superintelligence/SuperIntelligenceEngine";
+import { AgentSpawner } from "./agents/AgentSpawner";
+import { HyperLearningEngine } from "./learning/HyperLearningEngine";
+import { ReportServer } from "./reporting/ReportServer";
+import { BattalionRegistry, battalionRegistry, LineageTracker, DirectiveEngine } from "./standard";
 
 export class ViseronCore {
   public name: string = "Trinnity Viseron System v5.0 Multiversal";
@@ -60,6 +65,23 @@ export class ViseronCore {
   // Arquetipos
   public archetypes: ReturnType<typeof getAllArchetypes>;
   public spawnedArchetypeAgents: IAgent[] = [];
+
+  // SuperIntelligence
+  public superIntelligence: SuperIntelligenceEngine;
+
+  // Agent Spawner (5000+ minds)
+  public agentSpawner: AgentSpawner;
+
+  // Hyper Learning (500% per 30min)
+  public hyperLearningEngine: HyperLearningEngine;
+
+  // Report Server with PDF
+  public reportServer: ReportServer;
+
+  // TVS Standard v1.0.0
+  public battalionRegistry: BattalionRegistry;
+  public lineageTracker: LineageTracker;
+  public directiveEngine: DirectiveEngine;
 
   constructor() {
     this.archetypes = getAllArchetypes();
@@ -122,6 +144,45 @@ export class ViseronCore {
 
     // AI Community Platform
     this.aiCommunity = new AICommunityPlatform(this.aiBridge, this.memoryEngine);
+
+    // SuperIntelligence Engine (1000%+ intelligence)
+    this.superIntelligence = new SuperIntelligenceEngine(this.aiBridge, this.superMind, this.memoryEngine, this.agentManager);
+
+    // Agent Spawner (5000 minds -> 400+ agents)
+    this.agentSpawner = new AgentSpawner(this.agentManager, this.aiBridge, this.superMind);
+
+    // Hyper Learning (500% per 30min cycle)
+    this.hyperLearningEngine = new HyperLearningEngine(this.memoryEngine, this.agentManager, this.aiBridge, this.superMind);
+
+    // TVS Standard v1.0.0 - Battalion + Lineage + Directive
+    this.battalionRegistry = battalionRegistry;
+    this.lineageTracker = new LineageTracker();
+    this.directiveEngine = new DirectiveEngine();
+    this.registerBattalionAgents();
+
+    // Report Server with PDF (must be after TVS standard properties)
+    this.reportServer = new ReportServer(this.agentManager, this.memoryEngine, this.superIntelligence, this.aiBridge, this.superMind, this.battalionRegistry, this.directiveEngine, this.lineageTracker, 3001);
+  }
+
+  private registerBattalionAgents(): void {
+    const battalionAgents = this.battalionRegistry.createTVSAgents();
+    for (const agent of battalionAgents) {
+      this.agentManager.register(agent);
+    }
+    // Add lineage nodes
+    for (const a of this.battalionRegistry.getAll()) {
+      this.lineageTracker.addNode(a.id, a.name, a.rank, a.line, a.parent);
+    }
+    // Create squads from lineage
+    for (const root of this.lineageTracker.getRoots()) {
+      const kids = this.lineageTracker.getChildren(root.id);
+      if (kids.length > 0) {
+        this.directiveEngine.createSquad(
+          `squad_${root.id}`,
+          kids.map(k => `tvs_${k.id}`)
+        );
+      }
+    }
   }
 
   spawnAllArchetypes(): IAgent[] {
@@ -174,11 +235,38 @@ export class ViseronCore {
     console.log(`\n`);
   }
 
+  async startSuperIntelligence(): Promise<void> {
+    console.log(`[SuperIntelligence] Engine initialized - 1000%+ above single-AI baseline`);
+  }
+
+  async spawnAllMinds(): Promise<number> {
+    const count = await this.agentSpawner.loadMinds();
+    console.log(`[AgentSpawner] Loaded ${count} minds from database`);
+    const agents = this.agentSpawner.spawnAll();
+    console.log(`[AgentSpawner] Spawned ${agents.length} agents from ${count} minds`);
+    return agents.length;
+  }
+
+  startHyperLearning(): void {
+    this.hyperLearningEngine.start(30);
+    console.log(`[HyperLearning] Started - intelligence doubles every 30 minutes`);
+  }
+
+  async startReportServer(): Promise<void> {
+    await this.reportServer.start();
+    console.log(`[ReportServer] Listening on port ${this.reportServer.getPort()}`);
+  }
+
+  getSuperIntelligenceLevel(): number {
+    return this.hyperLearningEngine.getIntelligenceLevel();
+  }
+
   async startCycles(): Promise<void> {
     this.autoLearningEngine.startLearningCycle();
     this.autonomousPlanner.start();
     this.autoEvolutionEngine.startContinuousEvolution();
-    console.log(`[TVS] All evolution cycles started (learning, planning, agent evolution)`);
+    this.startHyperLearning();
+    console.log(`[TVS] All evolution cycles started (learning, planning, agent evolution, hyperlearning)`);
 
     const wisdom = await this.superMind.synthesize("system readiness", ["Artificial Intelligence", "Computer Science", "Systems Theory"]);
     this.memoryEngine.setLongTerm("system_first_wisdom", wisdom);

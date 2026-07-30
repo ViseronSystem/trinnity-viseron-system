@@ -28,6 +28,35 @@ export class ModelRouter {
   }
 
   private initDefaultModels(): void {
+    // OmniRoute Gateway (290+ providers via one endpoint)
+    this.registerModel({
+      provider: 'omniroute',
+      modelName: 'auto',
+      isLocal: false,
+      costPer1kTokens: 0,
+      latencyMs: 300,
+      qualityScore: 95,
+      supportedTasks: ['code', 'reasoning', 'research', 'general', 'creative', 'automation']
+    });
+    this.registerModel({
+      provider: 'omniroute',
+      modelName: 'oc/free',
+      isLocal: false,
+      costPer1kTokens: 0,
+      latencyMs: 500,
+      qualityScore: 85,
+      supportedTasks: ['general', 'creative', 'automation']
+    });
+    this.registerModel({
+      provider: 'omniroute',
+      modelName: 'kimi-k3',
+      isLocal: false,
+      costPer1kTokens: 0.002,
+      latencyMs: 350,
+      qualityScore: 96,
+      supportedTasks: ['code', 'reasoning', 'research', 'creative']
+    });
+
     // Modelos Locales
     this.registerModel({
       provider: 'ollama',

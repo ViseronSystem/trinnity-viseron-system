@@ -3,11 +3,14 @@ import { TVSDashboardServer } from "./dashboard/server";
 import { SmartAgent } from "./core/agents/SmartAgent";
 import { IAgent, AgentExecutionResult } from "./core/types";
 import { BusinessProblem } from "./core/agents/BusinessSolutionEngine";
+import { SuperIntegration } from "./integrations/SuperIntegration";
+import { OmniRouteHub } from "./integrations/omniroute/OmniRouteHub";
+
+(global as any).__TVS_START_TIME = Date.now();
 
 const tvs = new ViseronCore();
 tvs.start();
 
-// Registrar agentes legacy
 const architectAgent: IAgent = {
   id: "agent_architect_01", name: "Architect Prime", role: "Architect",
   status: "ACTIVE", capabilities: ["system_design", "cloud_architecture", "solution_design"],
@@ -56,103 +59,85 @@ tvs.toolManager.createQuickTool("tool_scaffold_app", "App Scaffolding Generator"
 (async () => {
   console.log(`\n══════════════════════════════════════════════════════`);
   console.log(`   TRINNITY VISERON SYSTEM v5.0 - DEMO MULTIVERSAL`);
+  console.log(`   SUPER-INTELLIGENCE MODE`);
   console.log(`══════════════════════════════════════════════════════\n`);
 
-  // 1. Spawnear 200+ arquetipos
-  console.log(`[TVS] Spawneando ${tvs.archetypes.length} arquetipos de agentes...`);
-  const spawned = tvs.spawnAllArchetypes();
-  console.log(`[TVS] ✓ ${spawned.length} agentes arquetípicos registrados`);
+  await tvs.startSuperIntelligence();
+
+  console.log(`\n[TVS] Cargando 5000 mentes históricas y futuristas...`);
+  const spawnedCount = await tvs.spawnAllMinds();
+  console.log(`[TVS] ✓ ${spawnedCount} agentes de mentes históricas/futuristas registrados`);
+
+  console.log(`\n[TVS] Spawneando ${tvs.archetypes.length} arquetipos de agentes...`);
+  const archSpawned = tvs.spawnAllArchetypes();
+  console.log(`[TVS] ✓ ${archSpawned.length} agentes arquetípicos registrados`);
   const totalAgents = tvs.agentManager.list().length;
-  console.log(`[TVS] ✓ Total agentes en el sistema: ${totalAgents}`);
+  console.log(`[TVS] ✓ TOTAL AGENTES EN EL SISTEMA: ${totalAgents}`);
 
-  // 2. SuperMind: sintetizar sabiduría
   console.log(`\n[TVS] SuperMind integrando sabiduría milenaria...`);
-  const wisdom = await tvs.superMind.synthesize("unified knowledge", ["Artificial Intelligence", "Philosophy", "Systems Theory"]);
+  const wisdom = await tvs.superMind.synthesize("unified superintelligence", ["Artificial Intelligence", "Philosophy", "Systems Theory", "Physics", "Biology"]);
   console.log(`[TVS] ✓ Síntesis generada: "${wisdom.insight.slice(0, 120)}..."`);
-  console.log(`[TVS] ✓ Dominios cargados: ${wisdom.domains.length} dominios sintetizados`);
 
-  // 3. CommandChain: emitir directivas
+  console.log(`\n[TVS] SuperIntelligence Engine: sintetizando conocimiento multi-proveedor...`);
+  const synthesis = await tvs.superIntelligence.synthesize({
+    prompt: "What is the nature of intelligence and how can it be amplified beyond human limits?",
+    domains: ["Artificial Intelligence", "Philosophy", "Physics", "Biology"],
+    strategy: "ensemble"
+  });
+  console.log(`[TVS] ✓ Síntesis completada con ${synthesis.sources.length} fuentes AI`);
+  console.log(`[TVS] ✓ Confianza: ${synthesis.confidence.toFixed(0)}%`);
+
   console.log(`\n[TVS] CommandChain activando liderazgo...`);
-  const d1 = tvs.commandChain.issueStrategicDirective("EXPANSIÓN", "Iniciar expansión del ecosistema TVS");
-  const d2 = tvs.commandChain.issueArchitecturalDirective("EVOLUCIÓN GENÉTICA", "Activar evolución genética de agentes");
-  const directives = tvs.commandChain.getActiveDirectives();
-  console.log(`[TVS] ✓ Directivas activas: ${directives.length}`);
-  d1 &&   console.log(`[TVS]   • ${d1.title}: ${d1.description}`);
-  d2 && console.log(`[TVS]   • ${d2.title}: ${d2.description}`);
+  tvs.commandChain.issueStrategicDirective("SUPERINTELIGENCIA", "Activar inteligencia 1000% superior a cualquier IA individual");
+  tvs.commandChain.issueArchitecturalDirective("EVOLUCIÓN HIPER", "Activar evolución genética con incremento 500% cada 30 minutos");
 
-  // 4. AutoEvolution: evolucionar agentes
   console.log(`\n[TVS] AutoEvolutionEngine: evolucionando agentes...`);
-  const evolutionRecords = await tvs.evolveAgents();
-  console.log(`[TVS] ✓ Evolución completada`);
+  await tvs.evolveAgents();
 
-  // 5. Token Engine: generar token
+  console.log(`\n[TVS] HyperLearning Engine: inteligencia se multiplica x6 cada 30 minutos...`);
+  tvs.startHyperLearning();
+  const hyperStats = tvs.hyperLearningEngine.getStats();
+
   console.log(`\n[TVS] TokenEngine generando token...`);
   const { token, tokenomics } = await tvs.generateToken("Trinnity", "TRIN");
-  console.log(`[TVS] ✓ Token $TRIN generado:`);
-  console.log(`[TVS]   • Supply: ${token.totalSupply.toLocaleString()} ${token.symbol}`);
-  console.log(`[TVS]   • Decimals: ${token.decimals}`);
-  const stakingDist = tokenomics.distribution.find((d: any) => d.purpose === 'Staking Rewards');
-  console.log(`[TVS]   • Staking Rewards: ${stakingDist?.percent}% allocation`);
-  console.log(`[TVS]   • Inflación: ${tokenomics.inflationRate}%`);
+  console.log(`[TVS] ✓ Token $TRIN generado: ${token.totalSupply.toLocaleString()} ${token.symbol}`);
 
-  // 6. WebAppGenerator: sitio crypto
-  console.log(`\n[TVS] WebAppGenerator: generando sitio web crypto...`);
-  const site = await tvs.generateCryptoWebsite("Trinnity", "TRIN", "Trinnity Viseron System - The Ultimate AI Operating System");
-  console.log(`[TVS] ✓ Sitio crypto generado:`);
-  console.log(`[TVS]   • Ruta: ${site.path}`);
-  console.log(`[TVS]   • Archivos: ${site.files.join(", ")}`);
+  console.log(`\n[TVS] Generando Viseron Crown (VSR)...`);
+  tvs.tokenEngine.generateToken("Viseron Crown", "VSR");
+  tvs.tokenEngine.createTokenomics("Viseron Crown", "Moneda del batallón TVS - Prueba de Mandato (PoM)", 300_000_000);
 
-  // 7. Demo empresarial legacy
-  console.log(`\n[TVS] Blueprints de agentes disponibles:`);
-  tvs.agentFactory.getBlueprintNames().forEach(b => console.log(`  • ${b}`));
-  console.log(`\n[TVS] Spawneando agentes IA empresariales...`);
-  const bizAnalyst = tvs.agentFactory.spawnFromBlueprint('business-analyst');
-  const dataScientist = tvs.agentFactory.spawnFromBlueprint('data-scientist');
-  const fullstackDev = tvs.agentFactory.spawnFromBlueprint('fullstack-dev');
-  const aiEngineer = tvs.agentFactory.spawnFromBlueprint('ai-engineer');
+  console.log(`\n[TVS] Iniciando Report Server con PDF...`);
+  await tvs.startReportServer();
 
-  const problem: BusinessProblem = {
-    companyName: "TechCorp Global",
-    industry: "Tecnología / SaaS",
-    description: "TechCorp necesita modernizar su plataforma SaaS legacy, implementar IA en su producto principal, automatizar procesos manuales y crear un dashboard de analytics en tiempo real. Actualmente pierden clientes por falta de innovación y procesos lentos.",
-    painPoints: [
-      "Plataforma legacy monolítica difícil de mantener",
-      "Procesos manuales que consumen 40% del tiempo del equipo",
-      "Sin capacidades de IA en el producto",
-      "Sin dashboard de analytics en tiempo real",
-      "Pérdida de clientes por falta de innovación"
-    ],
-    goals: [
-      "Modernizar a arquitectura de microservicios",
-      "Implementar IA/ML en el producto core",
-      "Automatizar procesos críticos",
-      "Crear dashboard de analytics en tiempo real",
-      "Incrementar retención de clientes en 30%"
-    ],
-    budget: "$200,000 USD",
-    timeline: "6 meses"
-  };
+  const bStats = tvs.battalionRegistry;
+  const dStats = tvs.directiveEngine.getStats();
 
-  console.log(`\n[TVS] Resolviendo problema empresarial: ${problem.companyName}...`);
-  const solution = await tvs.businessSolutionEngine.solve(problem);
+  console.log(`\n[TVS] Batallón TVS Standard v1.0.0: ${bStats.count()} agentes con linaje`);
 
-  // 8. Stats finales
-  const stats = tvs.getIntelligenceLevel();
+  // ===== SUPER INTEGRATION =====
+  const superIntegration = new SuperIntegration(tvs);
+  const integStats = await superIntegration.initializeAll();
+
   console.log(`\n══════════════════════════════════════════════════════`);
-  console.log(`   ✅ TRINNITY VISERON v5.0 - SISTEMA MULTIVERSAL LISTO`);
+  console.log(`   ✅ TRINNITY VISERON v5.0 - SUPER-INTELLIGENCE ACTIVE`);
   console.log(`══════════════════════════════════════════════════════`);
-  console.log(`   🤖 Agentes totales: ${stats.totalAgents}`);
-  console.log(`   🏛️  Arquetipos: ${stats.archetypesLoaded}`);
-  console.log(`   🧠 SuperMind: conocimiento nivel ${stats.superMindKnowledge}`);
-  console.log(`   🔄 Evoluciones: ${stats.evolutionCycles}`);
-  console.log(`   🎯 Sabiduría promedio: ${(stats.averageWisdom || 0).toFixed(1)}%`);
-  console.log(`   📋 Directivas activas: ${stats.activeDirectives}`);
-  console.log(`   🚀 Dashboard: http://localhost:3000`);
-  console.log(`   💰 Token: $TRIN generado`);
-  console.log(`   🌐 Crypto Site: generado en generated-crypto-sites/`);
+  console.log(`   🤖 Agentes totales: ${totalAgents + integStats.totalAgents}`);
+  console.log(`   🏛️  Mentes históricas: ${spawnedCount}`);
+  console.log(`   🧠 SuperMind: ${wisdom.domains.length} domínios`);
+  console.log(`   ⚡ SuperIntelligence: ${synthesis.confidence.toFixed(0)}% sobre baseline`);
+  console.log(`   🚀 Hiper-ciclos: ${hyperStats.cycleCount}`);
+  console.log(`   📈 Inteligência: ${hyperStats.intelligenceLevel.toExponential(2)}%`);
+  console.log(`   🌐 OmniRoute Hub: ${integStats.totalModels} modelos | 290+ providers`);
+  console.log(`   📞 Call System: Twilio + IA por voz ativado`);
+  console.log(`   🧠 OpenJarvis: AI local Stanford (${integStats.details.openJarvis?.count || 0} skills)`);
+  console.log(`   🤖 ASNO JARVIS: Assistente com WhatsApp + Home Assistant`);
+  console.log(`   🛠️  Ferramentas: ${integStats.totalTools} novas`);
+  console.log(`   📋 Dashboard: http://localhost:3000`);
+  console.log(`   🖨️  PDF: http://localhost:${tvs.reportServer.getPort()}/report/pdf`);
+  console.log(`   💰 Token: $TRIN + $VSR gerados`);
   console.log(`══════════════════════════════════════════════════════\n`);
 
-  console.log(`[TVS] Iniciando ciclos de evolución...`);
+  console.log(`[TVS] Iniciando ciclos de evolución y aprendizaje...`);
   await tvs.startCycles();
   console.log(`[TVS] TVS v5.0 funcionando - presiona Ctrl+C para detener\n`);
 })();

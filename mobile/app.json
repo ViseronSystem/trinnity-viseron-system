@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Trinnity Viseron System",
+    "slug": "trinnity-viseron",
+    "version": "5.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0a0a2e"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trinnity.viseron",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0a0a2e"
+      },
+      "package": "com.trinnity.viseron",
+      "versionCode": 1,
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "plugins": [
+      "expo-build-properties"
+    ],
+    "extra": {
+      "tvsServerUrl": "http://localhost:3000",
+      "eas": {
+        "projectId": "723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7"
+      }
+    },
+    "owner": "viseronsystem"
+  }
+}

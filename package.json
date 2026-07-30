@@ -7,12 +7,43 @@
     "start": "node dist/src/index.js",
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "tsc",
-    "test": "tsx tests/core.test.ts"
+    "test": "tsx tests/core.test.ts",
+    "test:hyper": "tsx tests/hyperbrain.test.ts",
+    "build:android": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target android",
+    "build:ios": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target ios",
+    "build:all": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target all",
+    "build:eas-android": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target eas-android",
+    "build:eas-ios": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target eas-ios",
+    "mobile:start": "cd mobile && npx expo start",
+    "mobile:android": "cd mobile && npx expo run:android",
+    "mobile:ios": "cd mobile && npx expo run:ios",
+    "launch": "tsx src/launch/market.ts",
+    "setup": "npm install && cd mobile && npm install",
+    "lint": "tsc --noEmit",
+    "omniroute:install": "npm install omniroute",
+    "omniroute:start": "node -e \"const{OmniRouteBridge}=require('./dist/src/integrations/omniroute/OmniRouteBridge');new OmniRouteBridge(null,{port:20128,autoStart:true}).initialize()\"",
+    "build:exe": "node scripts/build-standalone.mjs",
+    "build:exe:win": "node scripts/build-standalone.mjs --platform win",
+    "build:exe:mac": "node scripts/build-standalone.mjs --platform mac",
+    "build:exe:linux": "node scripts/build-standalone.mjs --platform linux",
+    "build:exe:all": "node scripts/build-standalone.mjs --platform all",
+    "build:electron": "node scripts/build-standalone.mjs --platform win --electron",
+    "build:electron:all": "node scripts/build-standalone.mjs --platform all --electron",
+    "electron:setup": "cd electron && npm install",
+    "electron:start": "cd electron && npx electron .",
+    "electron:build:win": "cd electron && npm run build:win",
+    "electron:build:mac": "cd electron && npm run build:mac",
+    "electron:build:linux": "cd electron && npm run build:linux",
+    "call:start": "node -e \"require('./dist/src/integrations/call-system/CallSystemBridge').startServer()\"",
+    "jarvis:start": "node -e \"require('./dist/src/integrations/openjarvis/OpenJarvisBridge').startServer()\"",
+    "asno:start": "node -e \"require('./dist/src/integrations/asno/ASNOBridge').startServer()\"",
+    "super:start": "tsx src/index.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",
     "@modelcontextprotocol/client": "^2.0.0",
     "@modelcontextprotocol/server": "^2.0.0",
+    "@types/pdfkit": "^0.17.6",
     "axios": "^1.18.1",
     "chalk": "^5.3.0",
     "commander": "^15.0.0",
@@ -23,16 +54,34 @@
     "ollama": "^0.6.3",
     "open-multi-agent": "^1.8.0",
     "openai": "^7.1.0",
+    "pdfkit": "^0.19.1",
     "socket.io": "^4.8.3",
     "tsx": "^4.23.1",
     "typescript": "^5.9.3",
     "winston": "^3.19.0",
     "zod": "^3.25.76"
   },
+  "pkg": {
+    "scripts": [
+      "dist/src/**/*.js",
+      "dist/tests/**/*.js"
+    ],
+    "assets": [
+      "node_modules/**/*",
+      "data/**/*",
+      "config/**/*",
+      ".env"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": ".build/tvs-standalone"
+  },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "pkg": "^5.8.1"
   }
 }

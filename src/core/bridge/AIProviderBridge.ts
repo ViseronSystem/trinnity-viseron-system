@@ -10,7 +10,8 @@ export type AIProviderId =
   | "ollama" | "deepseek" | "qwen" | "mistral"
   | "openai" | "claude" | "gemini" | "grok"
   | "cohere" | "ai21" | "together" | "replicate"
-  | "huggingface" | "perplexity" | "anthropic" | "xai";
+  | "huggingface" | "perplexity" | "anthropic" | "xai"
+  | "omniroute";
 
 export interface AIProviderConfig {
   id: AIProviderId;
@@ -206,10 +207,22 @@ export class AIProviderBridge {
     return best;
   }
 
+  private getDefaultProvider(): AIProviderId {
+    const hasOpenAI = !!process.env.OPENAI_API_KEY;
+    const hasClaude = !!process.env.ANTHROPIC_API_KEY;
+    const hasGemini = !!process.env.GEMINI_API_KEY;
+    const hasGrok = !!process.env.XAI_API_KEY;
+    if (hasOpenAI) return "openai";
+    if (hasClaude) return "claude";
+    if (hasGemini) return "gemini";
+    if (hasGrok) return "grok";
+    return "ollama";
+  }
+
   async chat(request: AIBridgeRequest): Promise<AIBridgeResponse> {
     const startTime = Date.now();
 
-    let providerId = request.providerId || "openai";
+    let providerId = request.providerId || this.getDefaultProvider();
     let modelId = request.modelId;
     const taskType = request.taskType || "general";
 

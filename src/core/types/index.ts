@@ -42,7 +42,9 @@ export type ModelProvider =
   // Local Models
   | 'ollama' | 'deepseek' | 'qwen' | 'mistral'
   // External / Cloud Models
-  | 'openai' | 'claude' | 'gemini' | 'grok';
+  | 'openai' | 'claude' | 'gemini' | 'grok'
+  // OmniRoute Gateway (290+ providers)
+  | 'omniroute';
 
 export type PrivacyLevel = 'HIGH' | 'MEDIUM' | 'LOW';
 export type SpeedPreference = 'FAST' | 'BALANCED' | 'QUALITY';

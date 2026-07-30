@@ -6,3 +6,14 @@ generated-crypto-sites/
 generated-apps/
 backups/
 logs/
+.build/
+electron/dist-electron/
+electron/node_modules/
+mobile/android/
+mobile/ios/
+mobile/node_modules/
+*.zip
+*.7z
+TVS_VISERON_MASTER_REPORT.pdf
+tvs_stderr.txt
+tvs_stdout.txt

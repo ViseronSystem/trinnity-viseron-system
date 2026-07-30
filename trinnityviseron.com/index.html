@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinnity Viseron — Autonomous AI Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --neon: #00f0ff;
+      --neon2: #bf5af2;
+      --neon3: #ff2d55;
+      --bg: #050510;
+      --card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --text: #e4e4f0;
+      --text2: rgba(228,228,240,0.5);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; cursor: default; }
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    .scanline { position: fixed; inset: 0; z-index: 9999; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.015) 2px, rgba(0,240,255,0.015) 4px); }
+
+    #three-bg { position: fixed; inset: 0; z-index: 0; }
+
+    .neon-glow { text-shadow: 0 0 10px var(--neon), 0 0 30px var(--neon), 0 0 60px var(--neon); }
+    .neon-glow2 { text-shadow: 0 0 10px var(--neon2), 0 0 30px var(--neon2); }
+    .neon-border { box-shadow: 0 0 5px var(--neon), inset 0 0 5px rgba(0,240,255,0.05); }
+
+    .cyber-card {
+      background: var(--card); backdrop-filter: blur(20px);
+      border: 1px solid var(--border); border-radius: 12px;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      position: relative; overflow: hidden;
+    }
+    .cyber-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,240,255,0.05), transparent, rgba(191,90,242,0.05));
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .cyber-card:hover { border-color: rgba(0,240,255,0.2); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 20px rgba(0,240,255,0.05); }
+    .cyber-card:hover::before { opacity: 1; }
+    .cyber-card .glow-corner { position: absolute; width: 60px; height: 60px; border-radius: 50%; filter: blur(30px); opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+    .cyber-card:hover .glow-corner { opacity: 0.3; }
+    .cyber-card .glow-corner.tl { top: -20px; left: -20px; background: var(--neon); }
+    .cyber-card .glow-corner.br { bottom: -20px; right: -20px; background: var(--neon2); }
+
+    .glitch { position: relative; display: inline-block; }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;
+      pointer-events: none;
+    }
+    .glitch:hover::before {
+      animation: glitch1 0.4s ease; color: var(--neon);
+      clip-path: inset(10% 0 70% 0);
+    }
+    .glitch:hover::after {
+      animation: glitch2 0.4s ease; color: var(--neon2);
+      clip-path: inset(70% 0 10% 0);
+    }
+    @keyframes glitch1 { 0% { transform: translate(0); opacity: 0.8; } 50% { transform: translate(-2px, 1px); opacity: 0.4; } 100% { transform: translate(0); opacity: 0; } }
+    @keyframes glitch2 { 0% { transform: translate(0); opacity: 0.8; } 50% { transform: translate(2px, -1px); opacity: 0.4; } 100% { transform: translate(0); opacity: 0; } }
+
+    .hologram {
+      position: relative; overflow: hidden;
+    }
+    .hologram::after {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(0,240,255,0.03), transparent, rgba(191,90,242,0.03), transparent);
+      animation: hologram-rotate 8s linear infinite; pointer-events: none;
+    }
+    @keyframes hologram-rotate { to { transform: rotate(360deg); } }
+
+    .text-neon { color: var(--neon); }
+    .text-neon2 { color: var(--neon2); }
+    .border-neon { border-color: rgba(0,240,255,0.2); }
+
+    .grid-overlay { background-image: linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    .btn-neon {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 100px; font-weight: 600; font-size: 14px;
+      background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.2);
+      color: var(--neon); transition: all 0.3s; cursor: pointer;
+    }
+    .btn-neon:hover { background: rgba(0,240,255,0.15); box-shadow: 0 0 30px rgba(0,240,255,0.15); transform: translateY(-2px); }
+    .btn-neon-solid { background: var(--neon); color: var(--bg); border-color: var(--neon); }
+    .btn-neon-solid:hover { background: #00d4e6; box-shadow: 0 0 40px rgba(0,240,255,0.3); }
+
+    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--text2); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: var(--neon); color: var(--neon); }
+    .lang-btn.active { border-color: var(--neon); color: var(--neon); background: rgba(0,240,255,0.1); }
+
+    .data-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,240,255,0.2), transparent); margin: 80px auto; max-width: 600px; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 2px; }
+
+    @media (max-width: 640px) {
+      .scanline { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scanline"></div>
+  <canvas id="three-bg"></canvas>
+
+  <!-- Nav -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background: transparent;">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="text-lg font-bold tracking-tight font-['Space_Grotesk']">
+        <span class="text-neon neon-glow">TV</span><span class="text-white/40">.io</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-neon after:transition-all hover:after:w-full" data-i18n="nav_platform">Platform</a>
+        <a href="#token" class="nav-link text-white/40 hover:text-neon transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-neon after:transition-all hover:after:w-full" data-i18n="nav_token">$TVS</a>
+        <a href="#agent" class="nav-link text-white/40 hover:text-neon transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-neon after:transition-all hover:after:w-full" data-i18n="nav_agent">AI Agent</a>
+        <a href="#contact" class="nav-link text-white/40 hover:text-neon transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-neon after:transition-all hover:after:w-full" data-i18n="nav_contact">Contact</a>
+        <div class="flex gap-1 ml-4">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="pt">PT</button>
+        </div>
+        <a href="#contact" class="btn-neon btn-neon-solid text-sm px-5 py-2" data-i18n="nav_cta">Launch App</a>
+      </div>
+      <div class="md:hidden flex items-center gap-2">
+        <button class="lang-btn active text-xs px-2 py-1" data-lang="en">EN</button>
+        <button class="lang-btn text-xs px-2 py-1" data-lang="es">ES</button>
+        <button class="lang-btn text-xs px-2 py-1" data-lang="pt">PT</button>
+        <button id="menuBtn" onclick="toggleMenu()" class="text-white p-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+      <div class="flex flex-col gap-3 text-sm">
+        <a href="#platform" onclick="toggleMenu()" class="text-white/50 py-2" data-i18n="nav_platform">Platform</a>
+        <a href="#token" onclick="toggleMenu()" class="text-white/50 py-2" data-i18n="nav_token">$TVS</a>
+        <a href="#agent" onclick="toggleMenu()" class="text-white/50 py-2" data-i18n="nav_agent">AI Agent</a>
+        <a href="#contact" onclick="toggleMenu()" class="text-white/50 py-2" data-i18n="nav_contact">Contact</a>
+        <a href="#contact" onclick="toggleMenu()" class="btn-neon btn-neon-solid text-center mt-2" data-i18n="nav_cta">Launch App</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-overlay" style="z-index:1;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%, rgba(0,240,255,0.06), transparent 60%)"></div>
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24">
+      <div class="reveal">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase" data-i18n="hero_badge">v5.0 — Autonomous Multi-Agent System</span>
+      </div>
+      <h1 class="reveal text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mt-6" style="transition-delay:0.1s;">
+        <span class="glitch" data-text="Trinnity Viseron">Trinnity Viseron</span>
+      </h1>
+      <p class="reveal text-lg sm:text-xl text-white/40 max-w-2xl mx-auto mt-6 leading-relaxed font-light" style="transition-delay:0.2s;" data-i18n="hero_sub">
+        The autonomous AI platform deploying 260+ intelligent agents across a decentralised supermind. Tokenised. Governed. Evolved.
+      </p>
+      <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s;">
+        <a href="#contact" class="btn-neon btn-neon-solid" data-i18n="hero_cta1">Enter the Network</a>
+        <a href="#platform" class="btn-neon" data-i18n="hero_cta2">Explore Platform</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="reveal mt-16 flex flex-wrap justify-center gap-6 sm:gap-12" style="transition-delay:0.4s;">
+        <div class="text-center cyber-card px-6 py-4 min-w-[100px]"><p class="text-2xl sm:text-3xl font-bold text-neon metric" data-target="260">0</p><p class="text-xs text-white/40 mt-1" data-i18n="stat_agents">AI Agents</p></div>
+        <div class="text-center cyber-card px-6 py-4 min-w-[100px]"><p class="text-2xl sm:text-3xl font-bold text-neon metric" data-target="50">0</p><p class="text-xs text-white/40 mt-1" data-i18n="stat_markets">Markets</p></div>
+        <div class="text-center cyber-card px-6 py-4 min-w-[100px]"><p class="text-2xl sm:text-3xl font-bold text-neon metric" data-target="99.9" data-decimals="1">0</p><p class="text-xs text-white/40 mt-1" data-i18n="stat_uptime">Uptime %</p></div>
+        <div class="text-center cyber-card px-6 py-4 min-w-[100px]"><p class="text-2xl sm:text-3xl font-bold text-neon2 metric" data-target="400000">0</p><p class="text-xs text-white/40 mt-1" data-i18n="stat_network">Network</p></div>
+      </div>
+    </div>
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/20">
+      <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+  </section>
+
+  <!-- Platform -->
+  <section id="platform" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 sm:mb-20">
+        <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase" data-i18n="platform_tag">// Platform</span>
+        <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s;" data-i18n="platform_title">The Supermind Engine</h2>
+        <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s;" data-i18n="platform_sub">260+ agents collaborating, evolving, and executing in real-time across a decentralised intelligence network.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.1s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p1_title">SuperMind Orchestration</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p1_desc">Autonomous swarm of specialised agents coordinated by a central SuperMind, executing complex workflows across domains.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.2s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p2_title">Auto-Evolution Engine</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p2_desc">Agents self-improve through reinforcement learning, adapting strategies based on real-time market conditions.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.3s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p3_title">Cross-Chain Bridge</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p3_desc">Seamless asset and data transfer across multiple blockchains, enabling truly decentralised multi-chain operations.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.4s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p4_title">DAO Governance</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p4_desc">Token holders vote on protocol upgrades, treasury allocations, and agent behaviour through quadratic voting.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.5s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p5_title">Real-Time Analytics</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p5_desc">Live dashboard tracking agent performance, treasury metrics, network health, and market data across all integrated chains.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.6s;">
+          <div class="glow-corner tl"></div><div class="glow-corner br"></div>
+          <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="p6_title">Secure Wallet</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="p6_desc">Built-in non-custodial wallet with multi-sig support, hardware wallet integration, and one-click staking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="data-line"></div>
+
+  <!-- Token -->
+  <section id="token" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 sm:mb-20">
+        <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase" data-i18n="token_tag">// Token</span>
+        <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s;" data-i18n="token_title">$TVS — The Network Fuel</h2>
+        <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s;" data-i18n="token_sub">Powering agent execution, governance, and staking rewards across the Trinnity ecosystem.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-5 mb-6">
+        <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.1s;">
+          <p class="text-xs text-white/40 mb-1" data-i18n="token_price">Current Price</p>
+          <p class="text-4xl sm:text-5xl font-bold text-neon" id="priceDisplay">$0.042</p>
+          <p class="text-sm mt-2" id="changeDisplay"><span class="text-green-400">+2.47%</span> <span class="text-white/20">24h</span></p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.2s;">
+          <p class="text-xs text-white/40 mb-1" data-i18n="token_mcap">Market Cap</p>
+          <p class="text-4xl sm:text-5xl font-bold text-neon2">$42.6M</p>
+          <p class="text-sm mt-2 text-white/20" data-i18n="token_circ">Circulating: 650M TVS</p>
+        </div>
+      </div>
+      <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.3s;">
+        <h3 class="text-lg font-semibold mb-6" data-i18n="token_tok">Tokenomics</h3>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#ff4d6a"></div><span class="text-xs text-white/50" data-i18n="tok_team">Team</span></div><p class="font-semibold">10% <span class="text-xs text-white/20" data-i18n="tok_team_lock">(24mo lock)</span></p></div>
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#4d9eff"></div><span class="text-xs text-white/50" data-i18n="tok_mktg">Marketing</span></div><p class="font-semibold">15%</p></div>
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#4dff91"></div><span class="text-xs text-white/50" data-i18n="tok_liq">Liquidity</span></div><p class="font-semibold">20%</p></div>
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#ffd64d"></div><span class="text-xs text-white/50" data-i18n="tok_dev">Development</span></div><p class="font-semibold">10%</p></div>
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#bf5af2"></div><span class="text-xs text-white/50" data-i18n="tok_stake">Staking Rewards</span></div><p class="font-semibold">25%</p></div>
+          <div><div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full" style="background:#ff6eb4"></div><span class="text-xs text-white/50" data-i18n="tok_comm">Community</span></div><p class="font-semibold">20%</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="data-line"></div>
+
+  <!-- AI Agent -->
+  <section id="agent" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 sm:mb-20">
+        <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase" data-i18n="agent_tag">// AI Agent</span>
+        <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s;" data-i18n="agent_title">Intelligent Call & Outreach Engine</h2>
+        <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s;" data-i18n="agent_sub">Deploy autonomous voice and messaging agents that engage, qualify, and convert at enterprise scale.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
+        <div class="reveal cyber-card p-6 sm:p-8 row-span-2 hologram" style="transition-delay:0.1s;background:linear-gradient(135deg,rgba(0,240,255,0.06),transparent);">
+          <div class="glow-corner tl" style="background:var(--neon)"></div><div class="glow-corner br" style="background:var(--neon2)"></div>
+          <div class="w-12 h-12 rounded-xl bg-neon/20 border border-neon/30 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-neon" data-i18n="agent_vtitle">Voice AI Agent</h3>
+          <p class="text-sm text-white/40 leading-relaxed mb-6" data-i18n="agent_vdesc">Natural voice conversations powered by our multi-agent orchestration layer. Handles inbound and outbound calls with human-like speech and dynamic adaptation.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-sm text-white/50"><svg class="w-4 h-4 text-neon mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4.5 12.75 6 6 9-13.5"/></svg><span data-i18n="agent_f1">Simultaneous 1,000+ concurrent calls</span></li>
+            <li class="flex items-start gap-3 text-sm text-white/50"><svg class="w-4 h-4 text-neon mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4.5 12.75 6 6 9-13.5"/></svg><span data-i18n="agent_f2">Multi-language support (50+ languages)</span></li>
+            <li class="flex items-start gap-3 text-sm text-white/50"><svg class="w-4 h-4 text-neon mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4.5 12.75 6 6 9-13.5"/></svg><span data-i18n="agent_f3">Smart lead qualification & CRM sync</span></li>
+            <li class="flex items-start gap-3 text-sm text-white/50"><svg class="w-4 h-4 text-neon mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4.5 12.75 6 6 9-13.5"/></svg><span data-i18n="agent_f4">Real-time transcription & analytics</span></li>
+          </ul>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.2s;">
+          <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="agent_mtitle">Messaging Campaigns</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="agent_mdesc">Multi-channel outreach via SMS, WhatsApp, Telegram, and email with intelligent sequencing and A/B testing.</p>
+        </div>
+        <div class="reveal cyber-card p-6 sm:p-8 hologram" style="transition-delay:0.3s;">
+          <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" data-i18n="agent_atitle">Analytics Dashboard</h3>
+          <p class="text-sm text-white/40 leading-relaxed" data-i18n="agent_adesc">Real-time campaign performance, conversion tracking, ROI attribution, and predictive modelling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="data-line"></div>
+
+  <!-- Network / Contact -->
+  <section id="contact" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase" data-i18n="contact_tag">// Network</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s;" data-i18n="contact_title">400,000+ Contacts Ready</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s;" data-i18n="contact_sub">Proprietary B2B/B2C network. Multi-channel outreach engine ready to deploy at your command. Voice, SMS, email, and social.</p>
+      <div class="reveal mt-10 flex flex-col items-center gap-4" style="transition-delay:0.3s;">
+        <a href="#" class="btn-neon btn-neon-solid text-base px-10 py-4">
+          <span data-i18n="contact_cta">Request Access</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        </a>
+        <p class="text-xs text-white/15" data-i18n="contact_note">Enterprise-grade. GDPR compliant. API ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-10 px-6 relative" style="z-index:1;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
+      <p><span class="text-white/40 font-semibold" data-i18n="footer_brand">Trinnity Viseron</span> — <span data-i18n="footer_sub">Autonomous AI Platform v5.0</span></p>
+      <div class="flex gap-5">
+        <a href="#" class="hover:text-neon transition-colors">X / Twitter</a>
+        <a href="#" class="hover:text-neon transition-colors">Telegram</a>
+        <a href="#" class="hover:text-neon transition-colors">Discord</a>
+        <a href="#" class="hover:text-neon transition-colors">GitHub</a>
+      </div>
+      <p>&copy; 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // === THREE.JS BACKGROUND ===
+    (function initThree() {
+      const canvas = document.getElementById('three-bg');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // Torus Knot
+      const geo1 = new THREE.TorusKnotGeometry(1.2, 0.3, 128, 16);
+      const mat1 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.15 });
+      const mesh1 = new THREE.Mesh(geo1, mat1);
+      mesh1.position.set(-2.5, 0.5, -3);
+      mesh1.scale.set(0.6, 0.6, 0.6);
+      group.add(mesh1);
+
+      // Icosahedron
+      const geo2 = new THREE.IcosahedronGeometry(1, 0);
+      const mat2 = new THREE.MeshBasicMaterial({ color: 0xbf5af2, wireframe: true, transparent: true, opacity: 0.1 });
+      const mesh2 = new THREE.Mesh(geo2, mat2);
+      mesh2.position.set(2.8, -0.8, -4);
+      mesh2.scale.set(0.5, 0.5, 0.5);
+      group.add(mesh2);
+
+      // Torus
+      const geo3 = new THREE.TorusGeometry(1, 0.2, 32, 64);
+      const mat3 = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.08 });
+      const mesh3 = new THREE.Mesh(geo3, mat3);
+      mesh3.position.set(0, 1.5, -5);
+      mesh3.scale.set(0.7, 0.7, 0.7);
+      group.add(mesh3);
+
+      // Small particles
+      const particlesGeo = new THREE.BufferGeometry();
+      const count = 800;
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 20;
+      particlesGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const particlesMat = new THREE.PointsMaterial({ color: 0x00f0ff, size: 0.02, transparent: true, opacity: 0.4 });
+      const particles = new THREE.Points(particlesGeo, particlesMat);
+      particles.position.z = -5;
+      group.add(particles);
+
+      camera.position.z = 5;
+
+      let mouseX = 0, mouseY = 0;
+      document.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        mesh1.rotation.x += 0.003;
+        mesh1.rotation.y += 0.006;
+        mesh2.rotation.x += 0.005;
+        mesh2.rotation.y -= 0.004;
+        mesh3.rotation.x += 0.002;
+        mesh3.rotation.z += 0.003;
+        particles.rotation.y += 0.0005;
+        group.rotation.x += (mouseY * 0.02 - group.rotation.x) * 0.02;
+        group.rotation.y += (mouseX * 0.02 - group.rotation.y) * 0.02;
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    })();
+
+    // === I18N ===
+    const i18n = {
+      en: {
+        nav_platform: 'Platform', nav_token: '$TVS', nav_agent: 'AI Agent', nav_contact: 'Contact', nav_cta: 'Launch App',
+        hero_badge: 'v5.0 — Autonomous Multi-Agent System',
+        hero_sub: 'The autonomous AI platform deploying 260+ intelligent agents across a decentralised supermind. Tokenised. Governed. Evolved.',
+        hero_cta1: 'Enter the Network', hero_cta2: 'Explore Platform',
+        stat_agents: 'AI Agents', stat_markets: 'Markets', stat_uptime: 'Uptime %', stat_network: 'Network',
+        platform_tag: '// Platform', platform_title: 'The Supermind Engine',
+        platform_sub: '260+ agents collaborating, evolving, and executing in real-time across a decentralised intelligence network.',
+        p1_title: 'SuperMind Orchestration', p1_desc: 'Autonomous swarm of specialised agents coordinated by a central SuperMind, executing complex workflows across domains.',
+        p2_title: 'Auto-Evolution Engine', p2_desc: 'Agents self-improve through reinforcement learning, adapting strategies based on real-time market conditions.',
+        p3_title: 'Cross-Chain Bridge', p3_desc: 'Seamless asset and data transfer across multiple blockchains, enabling truly decentralised multi-chain operations.',
+        p4_title: 'DAO Governance', p4_desc: 'Token holders vote on protocol upgrades, treasury allocations, and agent behaviour through quadratic voting.',
+        p5_title: 'Real-Time Analytics', p5_desc: 'Live dashboard tracking agent performance, treasury metrics, network health, and market data across all integrated chains.',
+        p6_title: 'Secure Wallet', p6_desc: 'Built-in non-custodial wallet with multi-sig support, hardware wallet integration, and one-click staking.',
+        token_tag: '// Token', token_title: '$TVS — The Network Fuel',
+        token_sub: 'Powering agent execution, governance, and staking rewards across the Trinnity ecosystem.',
+        token_price: 'Current Price', token_mcap: 'Market Cap', token_circ: 'Circulating: 650M TVS',
+        token_tok: 'Tokenomics', tok_team: 'Team', tok_team_lock: '(24mo lock)', tok_mktg: 'Marketing',
+        tok_liq: 'Liquidity', tok_dev: 'Development', tok_stake: 'Staking Rewards', tok_comm: 'Community',
+        agent_tag: '// AI Agent', agent_title: 'Intelligent Call & Outreach Engine',
+        agent_sub: 'Deploy autonomous voice and messaging agents that engage, qualify, and convert at enterprise scale.',
+        agent_vtitle: 'Voice AI Agent', agent_vdesc: 'Natural voice conversations powered by our multi-agent orchestration layer. Handles inbound and outbound calls with human-like speech and dynamic adaptation.',
+        agent_f1: 'Simultaneous 1,000+ concurrent calls', agent_f2: 'Multi-language support (50+ languages)',
+        agent_f3: 'Smart lead qualification & CRM sync', agent_f4: 'Real-time transcription & analytics',
+        agent_mtitle: 'Messaging Campaigns', agent_mdesc: 'Multi-channel outreach via SMS, WhatsApp, Telegram, and email with intelligent sequencing and A/B testing.',
+        agent_atitle: 'Analytics Dashboard', agent_adesc: 'Real-time campaign performance, conversion tracking, ROI attribution, and predictive modelling.',
+        contact_tag: '// Network', contact_title: '400,000+ Contacts Ready',
+        contact_sub: 'Proprietary B2B/B2C network. Multi-channel outreach engine ready to deploy at your command. Voice, SMS, email, and social.',
+        contact_cta: 'Request Access', contact_note: 'Enterprise-grade. GDPR compliant. API ready.',
+        footer_brand: 'Trinnity Viseron', footer_sub: 'Autonomous AI Platform v5.0'
+      },
+      es: {
+        nav_platform: 'Plataforma', nav_token: '$TVS', nav_agent: 'IA Agent', nav_contact: 'Contacto', nav_cta: 'Lanzar App',
+        hero_badge: 'v5.0 — Sistema Multi-Agente Autónomo',
+        hero_sub: 'La plataforma de IA autónoma que despliega 260+ agentes inteligentes en una supermente descentralizada. Tokenizada. Gobernada. Evolucionada.',
+        hero_cta1: 'Entrar a la Red', hero_cta2: 'Explorar Plataforma',
+        stat_agents: 'Agentes IA', stat_markets: 'Mercados', stat_uptime: 'Disponibilidad %', stat_network: 'Red',
+        platform_tag: '// Plataforma', platform_title: 'El Motor Supermente',
+        platform_sub: '260+ agentes colaborando, evolucionando y ejecutando en tiempo real a través de una red de inteligencia descentralizada.',
+        p1_title: 'Orquestación SuperMind', p1_desc: 'Enjambre autónomo de agentes especializados coordinados por una Supermente central, ejecutando flujos de trabajo complejos entre dominios.',
+        p2_title: 'Motor de Auto-Evolución', p2_desc: 'Los agentes se mejoran mediante aprendizaje por refuerzo, adaptando estrategias según condiciones del mercado en tiempo real.',
+        p3_title: 'Puente Multi-Cadena', p3_desc: 'Transferencia fluida de activos y datos a través de múltiples blockchains, permitiendo operaciones multi-cadena verdaderamente descentralizadas.',
+        p4_title: 'Gobernanza DAO', p4_desc: 'Los tenedores de tokens votan actualizaciones de protocolo, asignaciones de tesorería y comportamiento de agentes mediante voto cuadrático.',
+        p5_title: 'Analíticas en Tiempo Real', p5_desc: 'Dashboard en vivo que rastrea rendimiento de agentes, métricas de tesorería, salud de la red y datos de mercado.',
+        p6_title: 'Billetera Segura', p6_desc: 'Billetera no custodia integrada con soporte multi-firma, integración con hardware wallet y staking con un clic.',
+        token_tag: '// Token', token_title: '$TVS — El Combustible de la Red',
+        token_sub: 'Potenciando ejecución de agentes, gobernanza y recompensas de staking en el ecosistema Trinnity.',
+        token_price: 'Precio Actual', token_mcap: 'Capitalización', token_circ: 'Circulando: 650M TVS',
+        token_tok: 'Tokenómica', tok_team: 'Equipo', tok_team_lock: '(bloqueo 24m)', tok_mktg: 'Marketing',
+        tok_liq: 'Liquidez', tok_dev: 'Desarrollo', tok_stake: 'Recompensas Staking', tok_comm: 'Comunidad',
+        agent_tag: '// IA Agent', agent_title: 'Motor Inteligente de Llamadas y Outreach',
+        agent_sub: 'Despliega agentes autónomos de voz y mensajería que involucran, califican y convierten a escala empresarial.',
+        agent_vtitle: 'Agente de Voz IA', agent_vdesc: 'Conversaciones de voz naturales impulsadas por nuestra capa de orquestación multi-agente. Maneja llamadas entrantes y salientes con voz humana y adaptación dinámica.',
+        agent_f1: '1,000+ llamadas simultáneas', agent_f2: 'Soporte multi-idioma (50+ idiomas)',
+        agent_f3: 'Calificación inteligente de leads y sincronización CRM', agent_f4: 'Transcripción y analíticas en tiempo real',
+        agent_mtitle: 'Campañas de Mensajería', agent_mdesc: 'Outreach multi-canal vía SMS, WhatsApp, Telegram y email con secuenciación inteligente y pruebas A/B.',
+        agent_atitle: 'Panel de Analíticas', agent_adesc: 'Rendimiento de campañas en tiempo real, seguimiento de conversiones, atribución ROI y modelado predictivo.',
+        contact_tag: '// Red', contact_title: '400,000+ Contactos Listos',
+        contact_sub: 'Red B2B/B2C propia. Motor de outreach multi-canal listo para desplegar bajo tu comando. Voz, SMS, email y redes sociales.',
+        contact_cta: 'Solicitar Acceso', contact_note: 'Nivel empresarial. Cumple GDPR. API lista.',
+        footer_brand: 'Trinnity Viseron', footer_sub: 'Plataforma de IA Autónoma v5.0'
+      },
+      pt: {
+        nav_platform: 'Plataforma', nav_token: '$TVS', nav_agent: 'Agente IA', nav_contact: 'Contato', nav_cta: 'Lançar App',
+        hero_badge: 'v5.0 — Sistema Multi-Agente Autônomo',
+        hero_sub: 'A plataforma de IA autônoma que implanta 260+ agentes inteligentes em uma supermente descentralizada. Tokenizada. Governada. Evoluída.',
+        hero_cta1: 'Entrar na Rede', hero_cta2: 'Explorar Plataforma',
+        stat_agents: 'Agentes IA', stat_markets: 'Mercados', stat_uptime: 'Disponibilidade %', stat_network: 'Rede',
+        platform_tag: '// Plataforma', platform_title: 'O Motor SuperMente',
+        platform_sub: '260+ agentes colaborando, evoluindo e executando em tempo real através de uma rede de inteligência descentralizada.',
+        p1_title: 'Orquestração SuperMind', p1_desc: 'Enxame autônomo de agentes especializados coordenados por uma SuperMente central, executando fluxos de trabalho complexos entre domínios.',
+        p2_title: 'Motor de Auto-Evolução', p2_desc: 'Agentes se auto-aprimoram através de aprendizado por reforço, adaptando estratégias com base nas condições de mercado em tempo real.',
+        p3_title: 'Ponte Multi-Cadeia', p3_desc: 'Transferência fluida de ativos e dados através de múltiplos blockchains, permitindo operações multi-cadeia verdadeiramente descentralizadas.',
+        p4_title: 'Governança DAO', p4_desc: 'Detentores de tokens votam atualizações de protocolo, alocações de tesouraria e comportamento de agentes através de voto quadrático.',
+        p5_title: 'Análises em Tempo Real', p5_desc: 'Dashboard ao vivo rastreando desempenho de agentes, métricas de tesouraria, saúde da rede e dados de mercado.',
+        p6_title: 'Carteira Segura', p6_desc: 'Carteira não-custodial integrada com suporte multi-assinatura, integração com hardware wallet e staking com um clique.',
+        token_tag: '// Token', token_title: '$TVS — O Combustível da Rede',
+        token_sub: 'Alimentando execução de agentes, governança e recompensas de staking no ecossistema Trinnity.',
+        token_price: 'Preço Atual', token_mcap: 'Capitalização', token_circ: 'Circulando: 650M TVS',
+        token_tok: 'Tokenômica', tok_team: 'Equipe', tok_team_lock: '(bloqueio 24m)', tok_mktg: 'Marketing',
+        tok_liq: 'Liquidez', tok_dev: 'Desenvolvimento', tok_stake: 'Recompensas Staking', tok_comm: 'Comunidade',
+        agent_tag: '// Agente IA', agent_title: 'Motor Inteligente de Chamadas e Outreach',
+        agent_sub: 'Implante agentes autônomos de voz e mensagens que engajam, qualificam e convertem em escala empresarial.',
+        agent_vtitle: 'Agente de Voz IA', agent_vdesc: 'Conversas de voz naturais impulsionadas por nossa camada de orquestração multi-agente. Gerencia chamadas recebidas e realizadas com fala humana e adaptação dinâmica.',
+        agent_f1: '1,000+ chamadas simultâneas', agent_f2: 'Suporte multi-idioma (50+ idiomas)',
+        agent_f3: 'Qualificação inteligente de leads e sincronização CRM', agent_f4: 'Transcrição e análises em tempo real',
+        agent_mtitle: 'Campanhas de Mensagens', agent_mdesc: 'Outreach multi-canal via SMS, WhatsApp, Telegram e email com sequenciamento inteligente e testes A/B.',
+        agent_atitle: 'Painel de Análises', agent_adesc: 'Desempenho de campanhas em tempo real, rastreamento de conversões, atribuição ROI e modelagem preditiva.',
+        contact_tag: '// Rede', contact_title: '400,000+ Contatos Prontos',
+        contact_sub: 'Rede B2B/B2C própria. Motor de outreach multi-canal pronto para implantar sob seu comando. Voz, SMS, email e redes sociais.',
+        contact_cta: 'Solicitar Acesso', contact_note: 'Nível empresarial. Compatível GDPR. API pronta.',
+        footer_brand: 'Trinnity Viseron', footer_sub: 'Plataforma de IA Autônoma v5.0'
+      }
+    };
+
+    let currentLang = 'en';
+    function applyLang(lang) {
+      currentLang = lang;
+      const t = i18n[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key]) el.textContent = t[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      document.documentElement.lang = lang;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    // === Menu ===
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+    // === Nav ===
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.background = window.scrollY > 50 ? 'rgba(5,5,16,0.9)' : 'transparent';
+      nav.style.backdropFilter = window.scrollY > 50 ? 'blur(20px)' : 'none';
+      nav.style.borderBottom = window.scrollY > 50 ? '1px solid rgba(255,255,255,0.04)' : 'none';
+    });
+
+    // === Animated counters ===
+    const metrics = document.querySelectorAll('.metric');
+    let counted = false;
+    function animateMetrics() {
+      if (counted) return;
+      counted = true;
+      metrics.forEach(el => {
+        const target = parseFloat(el.dataset.target);
+        const dec = parseInt(el.dataset.decimals) || 0;
+        const dur = 2000;
+        const start = performance.now();
+        function update(now) {
+          const t = Math.min((now - start) / dur, 1);
+          const e = 1 - Math.pow(1 - t, 3);
+          if (target >= 1000) el.textContent = Math.round(target * e).toLocaleString();
+          else el.textContent = (target * e).toFixed(dec);
+          if (t < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    // === Scroll reveal ===
+    const revealEls = document.querySelectorAll('.reveal');
+    let heroCounted = false;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          if (!heroCounted && entry.target.closest('section')?.querySelector('.metric')) {
+            heroCounted = true;
+            setTimeout(animateMetrics, 500);
+          }
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    // === Price ticker ===
+    function tickPrice() {
+      const p = document.getElementById('priceDisplay');
+      const c = document.getElementById('changeDisplay');
+      if (p && c) {
+        const base = 0.042;
+        const ch = (Math.random() - 0.5) * 0.004;
+        p.textContent = '$' + (base + ch).toFixed(4);
+        const pct = (ch / base) * 100;
+        const sign = pct >= 0 ? '+' : '';
+        c.innerHTML = `<span class="${pct >= 0 ? 'text-green-400' : 'text-red-400'}">${sign}${pct.toFixed(2)}%</span> <span class="text-white/20">24h</span>`;
+      }
+    }
+    setInterval(tickPrice, 4000);
+
+    // === Smooth scroll ===
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>

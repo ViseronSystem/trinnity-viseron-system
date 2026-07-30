@@ -1,0 +1,66 @@
+{
+  "system": "Trinnity Viseron System",
+  "version": "5.0",
+  "launchTimestamp": "2026-07-29T21-45-44",
+  "platform": "win32",
+  "nodeVersion": "v24.18.0",
+  "agents": {
+    "total": 5112,
+    "battalion": 114,
+    "historical": 4742,
+    "archetypes": 246,
+    "core": 10
+  },
+  "sovereigns": [
+    {
+      "name": "Trinnity Hurtado",
+      "title": "Reina",
+      "line": "Corona"
+    },
+    {
+      "name": "Pedro Costa",
+      "title": "Capitán",
+      "line": "Hierro"
+    }
+  ],
+  "token": {
+    "symbol": "VSR",
+    "supply": 300000000,
+    "standard": "TVS v1.0.0"
+  },
+  "coverageAreas": [
+    "Aerospace (5)",
+    "Terrestrial (20)"
+  ],
+  "aiProviders": [
+    "Ollama",
+    "OpenAI",
+    "Claude",
+    "Gemini",
+    "Grok",
+    "DeepSeek",
+    "Mistral",
+    "Cohere"
+  ],
+  "endpoints": {
+    "dashboard": "http://localhost:3000",
+    "reportPDF": "http://localhost:3001/report/comprehensive-pdf",
+    "api": "http://localhost:3000/api",
+    "battalionAPI": "http://localhost:3000/api/battalion",
+    "directiveAPI": "http://localhost:3000/api/directive",
+    "synthesizeAPI": "http://localhost:3000/api/synthesize"
+  },
+  "mobileApp": {
+    "android": "npm run build:android",
+    "ios": "npm run build:ios",
+    "expoDev": "npm run mobile:start"
+  },
+  "buildCommands": {
+    "build": "npm run build",
+    "start": "npm start",
+    "dev": "npm run dev",
+    "launch": "npm run launch"
+  },
+  "ngrok_public_url": "Instale ngrok para exponer públicamente",
+  "launchAssets": "C:\\Trinnity-Viseron-System\\launch-output"
+}

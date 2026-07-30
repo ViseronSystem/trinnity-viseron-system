@@ -4,6 +4,7 @@ import { OpenAIProvider } from "./OpenAIProvider";
 import { ClaudeProvider } from "./ClaudeProvider";
 import { GeminiProvider } from "./GeminiProvider";
 import { GrokProvider } from "./GrokProvider";
+import { OmniRouteProvider } from "../../integrations/omniroute/OmniRouteProvider";
 import { ModelProvider } from "../types";
 
 export class ProviderFactory {
@@ -15,6 +16,7 @@ export class ProviderFactory {
     this.registerProvider(new ClaudeProvider());
     this.registerProvider(new GeminiProvider());
     this.registerProvider(new GrokProvider());
+    this.registerProvider(new OmniRouteProvider());
   }
 
   public registerProvider(provider: ILLMProvider): void {

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trinnity Viseron System v5.0</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:#0a0a2e; color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center; }
+    .container { max-width:800px; width:100%; padding:40px 20px; }
+    h1 { font-size:3em; background:linear-gradient(135deg,#ff6b35,#ffd700); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; margin-bottom:10px; }
+    .subtitle { text-align:center; font-size:1.2em; color:#8af; margin-bottom:40px; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; margin-bottom:40px; }
+    .stat-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:20px; text-align:center; }
+    .stat-value { font-size:2em; font-weight:700; color:#ffd700; }
+    .stat-label { font-size:0.85em; color:#888; margin-top:5px; }
+    .section { margin-bottom:30px; }
+    h2 { color:#ffd700; font-size:1.5em; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+    .item { background:rgba(255,255,255,0.03); padding:10px 15px; border-radius:8px; font-size:0.9em; }
+    .item strong { color:#8af; }
+    .badge { display:inline-block; background:#ff6b35; color:#fff; padding:3px 10px; border-radius:20px; font-size:0.75em; margin-left:8px; }
+    .nav { display:flex; gap:10px; justify-content:center; margin-top:30px; flex-wrap:wrap; }
+    .nav a { background:linear-gradient(135deg,#ff6b35,#ff4500); color:#fff; text-decoration:none; padding:12px 24px; border-radius:8px; font-weight:600; transition:opacity 0.2s; }
+    .nav a:hover { opacity:0.85; }
+    .nav a.secondary { background:transparent; border:1px solid #ff6b35; }
+    footer { text-align:center; margin-top:50px; color:#555; font-size:0.8em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TRINNITY VISERON</h1>
+    <div class="subtitle">Multi-Agent AI Superintelligence v5.0</div>
+
+    <div class="stats">
+      <div class="stat-card"><div class="stat-value">5,112</div><div class="stat-label">Autonomous Minds</div></div>
+      <div class="stat-card"><div class="stat-value">114</div><div class="stat-label">Battalion Agents</div></div>
+      <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">Coverage Areas</div></div>
+      <div class="stat-card"><div class="stat-value">300M</div><div class="stat-label">VSR Tokens</div></div>
+    </div>
+
+    <div class="section">
+      <h2>🏛️ Command</h2>
+      <div class="grid">
+        <div class="item"><strong>Trinnity Hurtado</strong> — Reina <span class="badge">Corona</span></div>
+        <div class="item"><strong>Pedro Costa</strong> — Capitán <span class="badge">Hierro</span></div>
+        <div class="item">12 Commanders · 114 Agents · 2 Sovereigns</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🌍 Coverage Areas</h2>
+      <div class="grid">
+        <div class="item"><strong>Aerospace</strong> Propulsion, Orbit, Exploration, Astro-resources, Defense</div>
+        <div class="item"><strong>Terrestrial</strong> Health, Finance, Education, Legal, Industry, Agriculture, Energy, Logistics, Marketing, Cybersecurity, Government, Art, Science, Sports, Tourism, HR, Real Estate, Retail, Telecom, Environment</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🧠 Intelligence</h2>
+      <div class="grid">
+        <div class="item"><strong>8 AI Providers</strong> Ollama (local) + OpenAI, Claude, Gemini, Grok, DeepSeek, Mistral, Cohere</div>
+        <div class="item"><strong>Auto-Evolution</strong> +500% every 30min</div>
+        <div class="item"><strong>4,742 Minds</strong> Socrates → Singularity</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>💰 VSR Tokenomics</h2>
+      <div class="grid">
+        <div class="item">300M Total Supply</div>
+        <div class="item">Trinnity: 30% · Pedro: 25% · Legion: 30% · Reserve: 15%</div>
+        <div class="item">0.5% Commission · 80% Burn</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <a href="http://localhost:3000" target="_blank">Open Dashboard</a>
+      <a href="http://localhost:3001/report/comprehensive-pdf" class="secondary" target="_blank">Download PDF Report</a>
+    </div>
+
+    <footer>
+      Trinnity Viseron System v5.0<br>
+      Trinnity Hurtado (Reina) & Pedro Costa (Capitán) — Sovereigns
+    </footer>
+  </div>
+</body>
+</html>
