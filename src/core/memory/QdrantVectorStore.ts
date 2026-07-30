@@ -15,6 +15,7 @@ export class QdrantVectorStore {
   private collectionName: string;
   private vectorSize: number;
   private fallbackStore: Map<string, VectorEmbedding> = new Map();
+  private static warnedOnce = false;
 
   constructor(config?: Partial<QdrantConfig>) {
     this.host = config?.host || process.env.QDRANT_HOST || "http://localhost:6333";
@@ -25,7 +26,6 @@ export class QdrantVectorStore {
 
   private async initCollection(): Promise<void> {
     try {
-      // Verificar si la colección existe en Qdrant
       await axios.put(`${this.host}/collections/${this.collectionName}`, {
         vectors: {
           size: this.vectorSize,
@@ -34,7 +34,10 @@ export class QdrantVectorStore {
       });
       console.log(`[QdrantVectorStore] Colección '${this.collectionName}' inicializada en Qdrant.`);
     } catch (err: any) {
-      console.warn(`[QdrantVectorStore] Qdrant no alcanzable en '${this.host}' (Usando almacenamiento vectorial en memoria con fallback).`);
+      if (!QdrantVectorStore.warnedOnce) {
+        QdrantVectorStore.warnedOnce = true;
+        console.warn(`[QdrantVectorStore] Qdrant no alcanzable en '${this.host}' (Usando almacenamiento vectorial en memoria con fallback).`);
+      }
     }
   }
 

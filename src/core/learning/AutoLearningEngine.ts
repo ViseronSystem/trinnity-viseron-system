@@ -40,6 +40,7 @@ export class AutoLearningEngine {
     this.cronJob = cron.schedule("*/30 * * * *", () => {
       this.executeLearningCycle();
     });
+    console.log(`[AutoLearningEngine] Cron schedule: */30 * * * *`);
   }
 
   /**

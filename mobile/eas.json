@@ -1,7 +1,5 @@
 {
-  "cli": {
-    "version": ">= 3.0.0"
-  },
+  "cli": { "version": ">= 3.0.0" },
   "build": {
     "development": {
       "developmentClient": true,
@@ -12,15 +10,19 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
       },
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_USE_COMMUNITY_AUTOLINKING": "1"
+      }
     },
     "production": {
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_USE_COMMUNITY_AUTOLINKING": "1"
       }
     }
   },
-  "submit": {
-    "production": {}
-  }
+  "submit": { "production": {} }
 }

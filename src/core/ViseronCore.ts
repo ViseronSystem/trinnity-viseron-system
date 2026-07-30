@@ -101,8 +101,6 @@ export class ViseronCore {
 
     // Command Chain with Pedro & Trinnity enhanced
     this.commandChain = new CommandChain(this.agentManager);
-    this.agentManager.register(this.commandChain.pedro);
-    this.agentManager.register(this.commandChain.trinnity);
 
     // Registrar líderes legacy (compatibilidad)
     this.agentManager.register(this.squadManager.leaderPedro);

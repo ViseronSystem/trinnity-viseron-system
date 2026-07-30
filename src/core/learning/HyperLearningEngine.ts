@@ -25,7 +25,7 @@ export class HyperLearningEngine {
 
   start(intervalMinutes: number = 30): void {
     this.executeCycle();
-    this.cronJob = cron.schedule(`*/${intervalMinutes} * * * *`, () => {
+    this.cronJob = cron.schedule(`2-59/${intervalMinutes} * * * *`, () => {
       this.executeCycle();
     });
   }

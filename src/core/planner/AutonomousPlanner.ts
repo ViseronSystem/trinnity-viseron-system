@@ -124,7 +124,7 @@ export class AutonomousPlanner {
     this.executePlanningCycle();
 
     // Ciclo recurrente cada 30 minutos
-    this.cronJob = cron.schedule("*/30 * * * *", () => {
+    this.cronJob = cron.schedule("1-59/30 * * * *", () => {
       this.executePlanningCycle();
     });
   }

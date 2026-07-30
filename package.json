@@ -1,12 +1,12 @@
 {
   "name": "trinnity-viseron-system",
-  "version": "1.0.0",
-  "description": "Multi Agent AI Operating System CORE v1.0",
+  "version": "5.0.0",
+  "description": "Multi Agent AI Operating System CORE v5.0",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "node dist/src/index.js",
-    "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc && node -e \"const f=require('fs-extra');const src='src/dashboard/public',dest='dist/src/dashboard/public';if(!f.existsSync(dest))f.copySync(src,dest);console.log('[build] public/ copied')\"",
+    "start": "node --max-old-space-size=8192 dist/src/index.js",
+    "dev": "nodemon --exec tsx --max-old-space-size=8192 src/index.ts",
+    "build": "tsc && node -e \"const f=require('fs-extra');f.copySync('src/dashboard/public','dist/src/dashboard/public',{overwrite:true});console.log('[build] public/ copied')\"",
     "test": "tsx tests/core.test.ts",
     "test:hyper": "tsx tests/hyperbrain.test.ts",
     "build:android": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target android",

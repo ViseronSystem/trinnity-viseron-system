@@ -9,37 +9,29 @@
     "splash": {
       "backgroundColor": "#0a0a2e"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.trinnity.viseron",
       "buildNumber": "1",
       "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        }
+        "NSAppTransportSecurity": { "NSAllowsArbitraryLoads": true },
+        "NSMicrophoneUsageDescription": "Usado para comandos de voz ao TVS"
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#0a0a2e"
-      },
+      "adaptiveIcon": { "backgroundColor": "#0a0a2e" },
       "package": "com.trinnity.viseron",
       "versionCode": 1,
-      "permissions": [
-        "INTERNET"
-      ]
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE", "RECORD_AUDIO"],
+      "usesCleartextTraffic": true
     },
     "plugins": [
       "expo-build-properties"
     ],
     "extra": {
-      "tvsServerUrl": "http://localhost:3000",
-      "eas": {
-        "projectId": "723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7"
-      }
+      "tvsServerUrl": "http://192.168.1.100:3000",
+      "eas": { "projectId": "723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7" }
     },
     "owner": "viseronsystem"
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,8 +8,22 @@ import { TVSProvider } from './src/context/TVSContext';
 import DashboardScreen from './src/screens/DashboardScreen';
 import AgentsScreen from './src/screens/AgentsScreen';
 import TerminalScreen from './src/screens/TerminalScreen';
+import TokenScreen from './src/screens/TokenScreen';
+import VoiceScreen from './src/screens/VoiceScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
+
+type IoniconsName = keyof typeof Ionicons.glyphMap;
+
+const TAB_ICONS: Record<string, { focused: IoniconsName; unfocused: IoniconsName }> = {
+  Dashboard: { focused: 'grid', unfocused: 'grid-outline' },
+  Agents: { focused: 'people', unfocused: 'people-outline' },
+  Terminal: { focused: 'terminal', unfocused: 'terminal-outline' },
+  Token: { focused: 'cash', unfocused: 'cash-outline' },
+  Voice: { focused: 'mic', unfocused: 'mic-outline' },
+  Settings: { focused: 'settings', unfocused: 'settings-outline' },
+};
 
 export default function App() {
   return (
@@ -19,10 +33,8 @@ export default function App() {
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
-                let iconName: keyof typeof Ionicons.glyphMap = 'ellipse';
-                if (route.name === 'Dashboard') iconName = focused ? 'grid' : 'grid-outline';
-                else if (route.name === 'Agents') iconName = focused ? 'people' : 'people-outline';
-                else if (route.name === 'Terminal') iconName = focused ? 'terminal' : 'terminal-outline';
+                const icons = TAB_ICONS[route.name] || { focused: 'ellipse', unfocused: 'ellipse' };
+                const iconName = focused ? icons.focused : icons.unfocused;
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
               tabBarActiveTintColor: '#00f5ff',
@@ -31,17 +43,20 @@ export default function App() {
                 backgroundColor: '#0a0a2e',
                 borderTopColor: '#1a1a4e',
                 borderTopWidth: 1,
+                paddingBottom: 4,
+                height: 56,
               },
-              headerStyle: {
-                backgroundColor: '#0a0a2e',
-              },
+              headerStyle: { backgroundColor: '#0a0a2e' },
               headerTintColor: '#00f5ff',
               headerTitleStyle: { fontWeight: 'bold' },
             })}
           >
-            <Tab.Screen name="Dashboard" component={DashboardScreen} />
+            <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ title: 'TVS' }} />
             <Tab.Screen name="Agents" component={AgentsScreen} />
             <Tab.Screen name="Terminal" component={TerminalScreen} />
+            <Tab.Screen name="Token" component={TokenScreen} />
+            <Tab.Screen name="Voice" component={VoiceScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
         </NavigationContainer>
         <StatusBar style="light" />
