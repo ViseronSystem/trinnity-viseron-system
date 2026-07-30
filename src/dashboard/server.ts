@@ -3,6 +3,7 @@ import http from "http";
 import path from "path";
 import { Server } from "socket.io";
 import { ViseronCore } from "../core/ViseronCore";
+import { VoiceBridge } from "../voice/VoiceBridge";
 
 /**
  * TVSDashboardServer - Servidor Web de Monitoreo en Tiempo Real para TVS v2.0
@@ -13,13 +14,20 @@ export class TVSDashboardServer {
   private io: Server;
   private port: number;
   private tvsCore: ViseronCore;
+  private voiceBridge: VoiceBridge;
 
   constructor(tvsCore: ViseronCore, port?: number) {
     this.tvsCore = tvsCore;
     this.port = port || parseInt(process.env.PORT || "3000", 10);
     this.app = express();
     this.server = http.createServer(this.app);
-    this.io = new Server(this.server);
+    this.io = new Server(this.server, {
+      path: "/api/socket.io",
+      cors: { origin: "*", methods: ["GET", "POST"] }
+    });
+
+    this.voiceBridge = new VoiceBridge(tvsCore);
+    this.voiceBridge.attachSocketIO(this.io);
 
     this.setupRoutes();
     this.setupSocket();
@@ -111,6 +119,26 @@ export class TVSDashboardServer {
       }
     });
 
+    this.app.post("/api/voice/command", async (req, res) => {
+      try {
+        const { text, speaker } = req.body;
+        if (!text) return res.status(400).json({ error: "text required" });
+        const result = await (this.voiceBridge as any).processVoiceCommand({ text, speaker: speaker || "pedro", timestamp: Date.now() });
+        res.json(result);
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    this.app.get("/api/voice/history", (req, res) => {
+      res.json(this.voiceBridge.getHistory());
+    });
+
+    this.app.post("/api/voice/clear", (req, res) => {
+      this.voiceBridge.clearHistory();
+      res.json({ ok: true });
+    });
+
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
       if (req.method === 'GET' && !req.path.startsWith('/api/')) {
@@ -127,6 +155,20 @@ export class TVSDashboardServer {
       socket.emit("system:info", {
         coreName: this.tvsCore.name,
         agents: this.tvsCore.agentManager.list()
+      });
+
+      socket.on("voice:command", async (cmd: any) => {
+        try {
+          const result = await (this.voiceBridge as any).processVoiceCommand(cmd);
+          socket.emit("voice:response", result);
+          socket.broadcast.emit("voice:response", result);
+        } catch (e: any) {
+          socket.emit("voice:error", { error: e.message });
+        }
+      });
+
+      socket.on("voice:transcript", (data: any) => {
+        socket.broadcast.emit("voice:transcript", data);
       });
     });
   }

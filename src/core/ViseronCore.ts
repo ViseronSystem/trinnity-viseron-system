@@ -26,6 +26,7 @@ import { AgentSpawner } from "./agents/AgentSpawner";
 import { HyperLearningEngine } from "./learning/HyperLearningEngine";
 import { ReportServer } from "./reporting/ReportServer";
 import { BattalionRegistry, battalionRegistry, LineageTracker, DirectiveEngine } from "./standard";
+import { VoiceBridge } from "../voice/VoiceBridge";
 
 export class ViseronCore {
   public name: string = "Trinnity Viseron System v5.0 Multiversal";
@@ -82,6 +83,9 @@ export class ViseronCore {
   public battalionRegistry: BattalionRegistry;
   public lineageTracker: LineageTracker;
   public directiveEngine: DirectiveEngine;
+
+  // JARVIS Voice Bridge
+  public voiceBridge: VoiceBridge;
 
   constructor() {
     this.archetypes = getAllArchetypes();
@@ -162,6 +166,9 @@ export class ViseronCore {
 
     // Report Server with PDF (must be after TVS standard properties)
     this.reportServer = new ReportServer(this.agentManager, this.memoryEngine, this.superIntelligence, this.aiBridge, this.superMind, this.battalionRegistry, this.directiveEngine, this.lineageTracker, 3001);
+
+    // JARVIS Voice Bridge
+    this.voiceBridge = new VoiceBridge(this);
   }
 
   private registerBattalionAgents(): void {
