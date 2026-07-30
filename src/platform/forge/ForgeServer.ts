@@ -28,20 +28,26 @@ export class ForgeServer {
     this.setupFrontend();
   }
 
+  private p(req: express.Request, name: string): string {
+    return (req.params as any)[name] as string;
+  }
+
   private setupMiddleware(): void {
     this.app.use(express.json({ limit: "50mb" }));
     this.app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   }
 
   private auth(req: express.Request, res: express.Response, next: express.NextFunction): void {
-    const token = req.headers.authorization?.replace("Bearer ", "") || req.query.token as string;
+    const token = req.headers.authorization?.replace("Bearer ", "") || (req.query.token as string);
     if (!token) {
-      return res.status(401).json({ error: "Authentication required" });
+      res.status(401).json({ error: "Authentication required" });
+      return;
     }
-    const users = this.repoManager["listUsers"]?.() || [];
+    const users = this.repoManager.listUsers();
     const user = users.find((u: ForgeUser) => u.token === token);
     if (!user) {
-      return res.status(401).json({ error: "Invalid token" });
+      res.status(401).json({ error: "Invalid token" });
+      return;
     }
     (req as any).user = user;
     next();
@@ -50,17 +56,16 @@ export class ForgeServer {
   private setupAPI(): void {
     const api = express.Router();
 
-    // --- Health ---
     api.get("/health", (req, res) => {
       res.json({ status: "ok", service: "ViseronForge", version: "1.0.0", uptime: process.uptime() });
     });
 
-    // --- Auth ---
     api.post("/auth/login", (req, res) => {
       const { username, password } = req.body;
       const user = this.repoManager.getUser(username);
       if (!user || user.token !== password) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        res.status(401).json({ error: "Invalid credentials" });
+        return;
       }
       res.json({ token: user.token, user: { username: user.username, displayName: user.displayName, avatar: user.avatar } });
     });
@@ -68,7 +73,8 @@ export class ForgeServer {
     api.post("/auth/register", async (req, res) => {
       const { username, email, password, displayName } = req.body;
       if (this.repoManager.getUser(username)) {
-        return res.status(409).json({ error: "Username already exists" });
+        res.status(409).json({ error: "Username already exists" });
+        return;
       }
       const user = await this.repoManager.createUser({
         username, email, displayName: displayName || username,
@@ -79,46 +85,40 @@ export class ForgeServer {
       res.json({ token: user.token, user: { username: user.username, displayName: user.displayName } });
     });
 
-    // --- Users ---
     api.get("/users/:username", (req, res) => {
-      const user = this.repoManager.getUser(req.params.username);
-      if (!user) return res.status(404).json({ error: "User not found" });
+      const user = this.repoManager.getUser(this.p(req, "username"));
+      if (!user) { res.status(404).json({ error: "User not found" }); return; }
       const { token, ...safe } = user;
       res.json(safe);
     });
 
-    // --- Repos ---
     api.get("/repos", (req, res) => {
-      const { owner, visibility, q } = req.query;
+      const q = req.query.q as string | undefined;
       if (q) {
-        return res.json(this.repoManager.searchRepos(q as string));
+        res.json(this.repoManager.searchRepos(q));
+        return;
       }
-      res.json(this.repoManager.listRepos(owner as string, visibility as any));
+      res.json(this.repoManager.listRepos(req.query.owner as string, req.query.visibility as any));
     });
 
     api.get("/repos/:owner/:name", (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.name);
-      if (!repo) return res.status(404).json({ error: "Repository not found" });
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "name"));
+      if (!repo) { res.status(404).json({ error: "Repository not found" }); return; }
       res.json(repo);
     });
 
     api.post("/repos", this.auth.bind(this), async (req, res) => {
       try {
         const { name, description, visibility, language, license, defaultBranch, isTemplate } = req.body;
-        const user = (req as any).user;
-
-        if (!name) return res.status(400).json({ error: "Repository name is required" });
-
-        const gitPath = this.gitEngine.getRepoPath(user.username, name);
+        const user = (req as any).user as ForgeUser;
+        if (!name) { res.status(400).json({ error: "Repository name is required" }); return; }
         if (this.gitEngine.repoExists(user.username, name)) {
-          return res.status(409).json({ error: "Repository already exists" });
+          res.status(409).json({ error: "Repository already exists" }); return;
         }
-
         await this.gitEngine.createRepo(user.username, name, true);
         const repo = await this.repoManager.createRepo(user.username, name, {
           description, visibility, language, license, defaultBranch, isTemplate,
         });
-
         res.status(201).json(repo);
       } catch (err: any) {
         res.status(500).json({ error: err.message });
@@ -127,12 +127,14 @@ export class ForgeServer {
 
     api.delete("/repos/:owner/:name", this.auth.bind(this), async (req, res) => {
       try {
-        const user = (req as any).user;
-        if (user.username !== req.params.owner && !user.isAdmin) {
-          return res.status(403).json({ error: "Not authorized" });
+        const user = (req as any).user as ForgeUser;
+        const owner = this.p(req, "owner");
+        const name = this.p(req, "name");
+        if (user.username !== owner && !user.isAdmin) {
+          res.status(403).json({ error: "Not authorized" }); return;
         }
-        await this.gitEngine.deleteRepo(req.params.owner, req.params.name);
-        this.repoManager.deleteRepo(req.params.owner, req.params.name);
+        await this.gitEngine.deleteRepo(owner, name);
+        this.repoManager.deleteRepo(owner, name);
         res.json({ deleted: true });
       } catch (err: any) {
         res.status(500).json({ error: err.message });
@@ -141,9 +143,9 @@ export class ForgeServer {
 
     api.post("/repos/:owner/:name/fork", this.auth.bind(this), async (req, res) => {
       try {
-        const user = (req as any).user;
-        await this.gitEngine.forkRepo(req.params.owner, req.params.name, user.username, req.params.name);
-        const forked = await this.repoManager.forkRepo(req.params.owner, req.params.name, user.username, req.params.name);
+        const user = (req as any).user as ForgeUser;
+        await this.gitEngine.forkRepo(this.p(req, "owner"), this.p(req, "name"), user.username, this.p(req, "name"));
+        const forked = await this.repoManager.forkRepo(this.p(req, "owner"), this.p(req, "name"), user.username, this.p(req, "name"));
         res.status(201).json(forked);
       } catch (err: any) {
         res.status(500).json({ error: err.message });
@@ -151,15 +153,14 @@ export class ForgeServer {
     });
 
     api.post("/repos/:owner/:name/star", this.auth.bind(this), async (req, res) => {
-      const user = (req as any).user;
-      await this.repoManager.starRepo(req.params.owner, req.params.name, user.username);
+      const user = (req as any).user as ForgeUser;
+      await this.repoManager.starRepo(this.p(req, "owner"), this.p(req, "name"), user.username);
       res.json({ starred: true });
     });
 
-    // --- Git Data ---
     api.get("/repos/:owner/:name/git/branches", async (req, res) => {
       try {
-        const branches = await this.gitEngine.getBranches(req.params.owner, req.params.name);
+        const branches = await this.gitEngine.getBranches(this.p(req, "owner"), this.p(req, "name"));
         res.json(branches);
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -170,7 +171,7 @@ export class ForgeServer {
       try {
         const branch = req.query.branch as string || "main";
         const limit = parseInt(req.query.limit as string) || 50;
-        const commits = await this.gitEngine.getCommits(req.params.owner, req.params.name, branch, limit);
+        const commits = await this.gitEngine.getCommits(this.p(req, "owner"), this.p(req, "name"), branch, limit);
         res.json(commits);
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -179,7 +180,7 @@ export class ForgeServer {
 
     api.get("/repos/:owner/:name/git/commits/:hash/diff", async (req, res) => {
       try {
-        const diff = await this.gitEngine.getCommitDiff(req.params.owner, req.params.name, req.params.hash);
+        const diff = await this.gitEngine.getCommitDiff(this.p(req, "owner"), this.p(req, "name"), this.p(req, "hash"));
         res.json(diff);
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -190,7 +191,7 @@ export class ForgeServer {
       try {
         const ref = req.query.ref as string || "main";
         const dirPath = req.query.path as string || "";
-        const tree = await this.gitEngine.getFileTree(req.params.owner, req.params.name, ref, dirPath);
+        const tree = await this.gitEngine.getFileTree(this.p(req, "owner"), this.p(req, "name"), ref, dirPath);
         res.json(tree);
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -199,10 +200,10 @@ export class ForgeServer {
 
     api.get("/repos/:owner/:name/git/blobs/*", async (req, res) => {
       try {
-        const filePath = req.params[0];
+        const filePath = this.p(req, "0");
         const ref = req.query.ref as string || "main";
-        const content = await this.gitEngine.getFileContent(req.params.owner, req.params.name, filePath, ref);
-        if (content === null) return res.status(404).json({ error: "File not found" });
+        const content = await this.gitEngine.getFileContent(this.p(req, "owner"), this.p(req, "name"), filePath, ref);
+        if (content === null) { res.status(404).json({ error: "File not found" }); return; }
         res.json({ path: filePath, content, size: content.length });
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -211,7 +212,7 @@ export class ForgeServer {
 
     api.get("/repos/:owner/:name/git/tags", async (req, res) => {
       try {
-        const tags = await this.gitEngine.getTags(req.params.owner, req.params.name);
+        const tags = await this.gitEngine.getTags(this.p(req, "owner"), this.p(req, "name"));
         res.json(tags);
       } catch (err: any) {
         res.status(404).json({ error: err.message });
@@ -220,39 +221,37 @@ export class ForgeServer {
 
     api.get("/repos/:owner/:name/git/info", async (req, res) => {
       try {
-        const info = await this.gitEngine.getRepoInfo(req.params.owner, req.params.name);
-        const meta = this.repoManager.getRepo(req.params.owner, req.params.name);
+        const info = await this.gitEngine.getRepoInfo(this.p(req, "owner"), this.p(req, "name"));
+        const meta = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "name"));
         res.json({ ...info, ...meta });
       } catch (err: any) {
         res.status(404).json({ error: err.message });
       }
     });
 
-    // --- Issues ---
     api.get("/repos/:owner/:name/issues", (req, res) => {
-      const repoId = `${req.params.owner}/${req.params.name}`;
+      const repoId = `${this.p(req, "owner")}/${this.p(req, "name")}`;
       const state = req.query.state as "open" | "closed" | undefined;
       res.json(this.repoManager.listIssues(repoId, state));
     });
 
     api.post("/repos/:owner/:name/issues", this.auth.bind(this), (req, res) => {
-      const repoId = `${req.params.owner}/${req.params.name}`;
-      const user = (req as any).user;
+      const repoId = `${this.p(req, "owner")}/${this.p(req, "name")}`;
+      const user = (req as any).user as ForgeUser;
       const issue = this.repoManager.createIssue(repoId, { ...req.body, author: user.username });
       res.status(201).json(issue);
     });
 
     api.patch("/repos/:owner/:name/issues/:id", this.auth.bind(this), (req, res) => {
-      const repoId = `${req.params.owner}/${req.params.name}`;
-      const issue = this.repoManager.updateIssue(repoId, parseInt(req.params.id), req.body);
-      if (!issue) return res.status(404).json({ error: "Issue not found" });
+      const repoId = `${this.p(req, "owner")}/${this.p(req, "name")}`;
+      const issue = this.repoManager.updateIssue(repoId, parseInt(this.p(req, "id")), req.body);
+      if (!issue) { res.status(404).json({ error: "Issue not found" }); return; }
       res.json(issue);
     });
 
-    // --- Pull Requests ---
     api.post("/repos/:owner/:name/pulls", this.auth.bind(this), (req, res) => {
-      const repoId = `${req.params.owner}/${req.params.name}`;
-      const user = (req as any).user;
+      const repoId = `${this.p(req, "owner")}/${this.p(req, "name")}`;
+      const user = (req as any).user as ForgeUser;
       const pr = this.repoManager.createIssue(repoId, {
         title: req.body.title,
         body: req.body.body,
@@ -265,24 +264,22 @@ export class ForgeServer {
     });
 
     api.post("/repos/:owner/:name/pulls/:id/merge", this.auth.bind(this), async (req, res) => {
-      const repoId = `${req.params.owner}/${req.params.name}`;
-      const pr = this.repoManager.getIssue?.(repoId, parseInt(req.params.id));
-      if (!pr) return res.status(404).json({ error: "PR not found" });
+      const repoId = `${this.p(req, "owner")}/${this.p(req, "name")}`;
+      const pr = this.repoManager.getIssue(repoId, parseInt(this.p(req, "id")));
+      if (!pr) { res.status(404).json({ error: "PR not found" }); return; }
       try {
-        await this.gitEngine.mergeBranch(req.params.owner, req.params.name, pr.prBranch!, pr.prTarget!);
-        this.repoManager.mergePR(repoId, parseInt(req.params.id));
+        await this.gitEngine.mergeBranch(this.p(req, "owner"), this.p(req, "name"), pr.prBranch!, pr.prTarget!);
+        this.repoManager.mergePR(repoId, parseInt(this.p(req, "id")));
         res.json({ merged: true });
       } catch (err: any) {
         res.status(409).json({ error: `Merge conflict: ${err.message}` });
       }
     });
 
-    // --- Activity ---
     api.get("/activity", (req, res) => {
       res.json(this.repoManager.getRecentActivity());
     });
 
-    // --- Trending ---
     api.get("/trending", (req, res) => {
       const repos = this.repoManager.listRepos("public")
         .sort((a, b) => b.stars - a.stars)
@@ -295,20 +292,24 @@ export class ForgeServer {
 
   private setupGitHTTP(): void {
     this.app.post("/git/:owner/:name/git-receive-pack", (req, res) => {
-      const { owner, name } = req.params;
+      const owner = this.p(req, "owner");
+      const name = this.p(req, "name");
       if (!this.gitEngine.repoExists(owner, name)) {
-        return res.status(404).send("Repository not found");
+        res.status(404).send("Repository not found");
+        return;
       }
       res.set("Content-Type", "application/x-git-receive-pack-result");
       res.send("");
     });
 
     this.app.get("/git/:owner/:name/info/refs", (req, res) => {
-      const { owner, name } = req.params;
+      const owner = this.p(req, "owner");
+      const name = this.p(req, "name");
       const service = req.query.service as string;
 
       if (!this.gitEngine.repoExists(owner, name)) {
-        return res.status(404).send("Repository not found");
+        res.status(404).send("Repository not found");
+        return;
       }
 
       const repoPath = this.gitEngine.getRepoPath(owner, name);
@@ -344,39 +345,41 @@ export class ForgeServer {
     });
 
     this.app.get("/:owner", (req, res) => {
-      const user = this.repoManager.getUser(req.params.owner);
-      if (!user) return res.status(404).send("User not found");
+      const user = this.repoManager.getUser(this.p(req, "owner"));
+      if (!user) { res.status(404).send("User not found"); return; }
       const repos = this.repoManager.listRepos(user.username);
       res.send(this.getHTML(`${user.displayName} - ViseronForge`, this.getProfileHTML(user, repos)));
     });
 
     this.app.get("/:owner/:repo", (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
       res.send(this.getHTML(`${repo.owner}/${repo.name} - ViseronForge`, this.getRepoHTML(repo)));
     });
 
     this.app.get("/:owner/:repo/tree/:ref(.*)", async (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
+      const ref = this.p(req, "ref");
       try {
-        const tree = await this.gitEngine.getFileTree(req.params.owner, req.params.repo, req.params.ref);
-        const readme = await this.gitEngine.getFileContent(req.params.owner, req.params.repo, "README.md", req.params.ref);
-        res.send(this.getHTML(`${repo.owner}/${repo.name} - ${req.params.ref}`, this.getTreeHTML(repo, req.params.ref, tree, readme)));
+        const tree = await this.gitEngine.getFileTree(this.p(req, "owner"), this.p(req, "repo"), ref);
+        const readme = await this.gitEngine.getFileContent(this.p(req, "owner"), this.p(req, "repo"), "README.md", ref);
+        res.send(this.getHTML(`${repo.owner}/${repo.name} - ${ref}`, await this.getTreeHTML(repo, ref, tree, readme)));
       } catch {
         res.send(this.getHTML(`${repo.owner}/${repo.name}`, this.getRepoHTML(repo)));
       }
     });
 
     this.app.get("/:owner/:repo/blob/:ref(.*)", async (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
-      const parts = req.params.ref.split("/");
-      const ref = parts[0];
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
+      const ref = this.p(req, "ref");
+      const parts = ref.split("/");
+      const fileRef = parts[0];
       const filePath = parts.slice(1).join("/");
       try {
-        const content = await this.gitEngine.getFileContent(req.params.owner, req.params.repo, filePath, ref);
-        if (content === null) return res.status(404).send("File not found");
+        const content = await this.gitEngine.getFileContent(this.p(req, "owner"), this.p(req, "repo"), filePath, fileRef);
+        if (content === null) { res.status(404).send("File not found"); return; }
         res.send(this.getHTML(`${filePath} - ${repo.owner}/${repo.name}`, this.getFileHTML(repo, filePath, ref, content)));
       } catch {
         res.status(404).send("File not found");
@@ -384,27 +387,27 @@ export class ForgeServer {
     });
 
     this.app.get("/:owner/:repo/commits/:branch(*)", async (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
-      const commits = await this.gitEngine.getCommits(req.params.owner, req.params.repo, req.params.branch);
-      res.send(this.getHTML(`Commits - ${repo.owner}/${repo.name}`, this.getCommitsHTML(repo, req.params.branch, commits)));
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
+      const branch = this.p(req, "branch");
+      const commits = await this.gitEngine.getCommits(this.p(req, "owner"), this.p(req, "repo"), branch);
+      res.send(this.getHTML(`Commits - ${repo.owner}/${repo.name}`, this.getCommitsHTML(repo, branch, commits)));
     });
 
     this.app.get("/:owner/:repo/issues", (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
-      const issues = this.repoManager.listIssues(`${req.params.owner}/${req.params.repo}`);
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
+      const issues = this.repoManager.listIssues(`${this.p(req, "owner")}/${this.p(req, "repo")}`);
       res.send(this.getHTML(`Issues - ${repo.owner}/${repo.name}`, this.getIssuesHTML(repo, issues)));
     });
 
     this.app.get("/:owner/:repo/pulls", (req, res) => {
-      const repo = this.repoManager.getRepo(req.params.owner, req.params.repo);
-      if (!repo) return res.status(404).send("Repository not found");
-      const prs = this.repoManager.listIssues(`${req.params.owner}/${req.params.repo}`).filter(i => i.isPR);
+      const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
+      if (!repo) { res.status(404).send("Repository not found"); return; }
+      const prs = this.repoManager.listIssues(`${this.p(req, "owner")}/${this.p(req, "repo")}`).filter(i => i.isPR);
       res.send(this.getHTML(`Pull Requests - ${repo.owner}/${repo.name}`, this.getIssuesHTML(repo, prs, true)));
     });
 
-    // Static files
     this.app.use("/assets", express.static(PUBLIC_DIR));
   }
 
@@ -666,7 +669,7 @@ ${items.length ? `<div class="file-list">${items.map(i => `<div class="file-row"
         console.log(`  ║  Git:     http://localhost:${this.port}/git        ║`);
         console.log(`  ╠════════════════════════════════════════════════╣`);
         console.log(`  ║  Repos:   ${this.repoManager.listRepos().length}                    ║`);
-        console.log(`  ║  Users:   ${this.repoManager.listAllUsers?.()?.length || 0}                    ║`);
+        console.log(`  ║  Users:   ${this.repoManager.listAllUsers().length}                    ║`);
         console.log(`  ╚════════════════════════════════════════════════╝\n`);
         resolve();
       });
@@ -681,21 +684,3 @@ ${items.length ? `<div class="file-list">${items.map(i => `<div class="file-row"
     return this.port;
   }
 }
-
-// Extend RepoManager for internal use
-(RepoManager.prototype as any).listUsers = function() {
-  const usersDir = path.join(this["dataDir"], "users");
-  if (!fs.existsSync(usersDir)) return [];
-  return fs.readdirSync(usersDir).filter(f => f.endsWith(".json")).map(f => fs.readJsonSync(path.join(usersDir, f)));
-};
-
-(RepoManager.prototype as any).getIssue = function(repoId: string, issueId: number): ForgeIssue | null {
-  const issues = this.listIssues(repoId);
-  return issues.find((i: ForgeIssue) => i.id === issueId) || null;
-};
-
-(RepoManager.prototype as any).listAllUsers = function(): ForgeUser[] {
-  const usersDir = path.join(this["dataDir"], "users");
-  if (!fs.existsSync(usersDir)) return [];
-  return fs.readdirSync(usersDir).filter(f => f.endsWith(".json")).map(f => fs.readJsonSync(path.join(usersDir, f)));
-};

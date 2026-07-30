@@ -286,6 +286,22 @@ export class RepoManager {
     return this.updateIssue(repoId, prId, { state: "closed", prMerged: true, closedAt: new Date().toISOString() });
   }
 
+  // --- Utility extensions ---
+  listUsers(): ForgeUser[] {
+    const usersDir = path.join(this.dataDir, "users");
+    if (!fs.existsSync(usersDir)) return [];
+    return fs.readdirSync(usersDir).filter(f => f.endsWith(".json")).map(f => fs.readJsonSync(path.join(usersDir, f)));
+  }
+
+  listAllUsers(): ForgeUser[] {
+    return this.listUsers();
+  }
+
+  getIssue(repoId: string, issueId: number): ForgeIssue | null {
+    const issues = this.listIssues(repoId);
+    return issues.find(i => i.id === issueId) || null;
+  }
+
   // --- Activity ---
   getRecentActivity(limit: number = 20): any[] {
     const repos = this.listRepos();
