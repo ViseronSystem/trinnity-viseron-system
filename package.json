@@ -37,7 +37,15 @@
     "call:start": "node -e \"require('./dist/src/integrations/call-system/CallSystemBridge').startServer()\"",
     "jarvis:start": "node -e \"require('./dist/src/integrations/openjarvis/OpenJarvisBridge').startServer()\"",
     "asno:start": "node -e \"require('./dist/src/integrations/asno/ASNOBridge').startServer()\"",
-    "super:start": "tsx src/index.ts"
+    "super:start": "tsx src/index.ts",
+    "backup": "powershell -ExecutionPolicy Bypass -File scripts/backup-system.ps1",
+    "backup:schedule": "powershell -ExecutionPolicy Bypass -File scripts/schedule-backup.ps1",
+    "init": "powershell -ExecutionPolicy Bypass -File scripts/init-system.ps1",
+    "init:full": "powershell -ExecutionPolicy Bypass -File scripts/init-system.ps1 -Full",
+    "deploy": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1",
+    "deploy:full": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -Full",
+    "deploy:github": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -GitHub",
+    "deploy:vercel": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -Vercel"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",

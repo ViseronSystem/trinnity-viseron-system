@@ -17,3 +17,7 @@ mobile/node_modules/
 TVS_VISERON_MASTER_REPORT.pdf
 tvs_stderr.txt
 tvs_stdout.txt
+
+# Backup archives are excluded; individual backup metadata stays
+backups/*.zip
+backups/*.7z

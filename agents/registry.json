@@ -1,0 +1,261 @@
+{
+  "version": "5.0.0",
+  "lastUpdated": "2026-07-31T00:00:00Z",
+  "commanders": [
+    {
+      "id": "pedro-costa",
+      "name": "Pedro Costa",
+      "title": "Supreme Commander",
+      "role": "Commander-in-Chief",
+      "strategy": "expansion",
+      "status": "active",
+      "squads": ["aiox-core", "expansion-force", "deployment-squad"],
+      "capabilities": [
+        "strategic-planning",
+        "resource-allocation",
+        "deployment-orchestration",
+        "system-architecture"
+      ],
+      "priority": 1,
+      "color": "#00ff88"
+    },
+    {
+      "id": "trinnity-hurtado",
+      "name": "Trinnity Hurtado",
+      "title": "Queen Architect",
+      "role": "Chief Evolution Officer",
+      "strategy": "evolution",
+      "status": "active",
+      "squads": ["aiox-core", "evolution-lab", "intelligence-squad"],
+      "capabilities": [
+        "ai-evolution",
+        "hyper-learning",
+        "super-intelligence",
+        "knowledge-synthesis"
+      ],
+      "priority": 1,
+      "color": "#ff00ff"
+    }
+  ],
+  "squads": [
+    {
+      "id": "aiox-core",
+      "name": "AIOX Core Squad",
+      "description": "Core artificial intelligence operating system squad",
+      "leadBy": ["pedro-costa", "trinnity-hurtado"],
+      "agents": [
+        {
+          "id": "aiox-orchestrator",
+          "name": "AIOX Orchestrator",
+          "type": "orchestrator",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["task-routing", "workflow-management", "agent-coordination"]
+        },
+        {
+          "id": "aiox-planner",
+          "name": "AIOX Autonomous Planner",
+          "type": "planner",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["strategic-planning", "goal-decomposition", "scheduling"]
+        },
+        {
+          "id": "aiox-evolver",
+          "name": "AIOX Evolution Engine",
+          "type": "evolution",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["genetic-algorithms", "agent-mutation", "fitness-optimization"]
+        },
+        {
+          "id": "aiox-learner",
+          "name": "AIOX Hyper Learner",
+          "type": "learning",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["accelerated-learning", "pattern-recognition", "knowledge-distillation"]
+        },
+        {
+          "id": "aiox-memory",
+          "name": "AIOX Memory Keeper",
+          "type": "memory",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["stm-ltm-management", "vector-embeddings", "context-retention"]
+        },
+        {
+          "id": "aiox-provider",
+          "name": "AIOX Provider Router",
+          "type": "router",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["model-routing", "provider-bridge", "cost-optimization"]
+        },
+        {
+          "id": "aiox-builder",
+          "name": "AIOX App Builder",
+          "type": "scaffolder",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["code-generation", "app-scaffolding", "template-rendering"]
+        }
+      ]
+    },
+    {
+      "id": "expansion-force",
+      "name": "Expansion Force",
+      "description": "Deployment and infrastructure expansion squad",
+      "leadBy": ["pedro-costa"],
+      "agents": [
+        {
+          "id": "exp-deployer",
+          "name": "Deploy Master",
+          "type": "deployment",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["vercel-deploy", "github-actions", "docker-compose", "railway-deploy"]
+        },
+        {
+          "id": "exp-backup",
+          "name": "Backup Guardian",
+          "type": "maintenance",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["daily-backup", "data-integrity", "disaster-recovery"]
+        },
+        {
+          "id": "exp-monitor",
+          "name": "System Monitor",
+          "type": "monitoring",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["health-check", "performance-metrics", "alerting"]
+        }
+      ]
+    },
+    {
+      "id": "evolution-lab",
+      "name": "Evolution Lab",
+      "description": "AI research and evolution squad",
+      "leadBy": ["trinnity-hurtado"],
+      "agents": [
+        {
+          "id": "evo-researcher",
+          "name": "AI Researcher",
+          "type": "research",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["paper-analysis", "model-benchmarking", "architecture-research"]
+        },
+        {
+          "id": "evo-tokenomics",
+          "name": "Tokenomics Engineer",
+          "type": "tokenomics",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["token-economics", "supply-management", "value-modeling"]
+        },
+        {
+          "id": "evo-supermind",
+          "name": "SuperMind Synthesizer",
+          "type": "superintelligence",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["knowledge-synthesis", "cross-domain-reasoning", "wisdom-accumulation"]
+        }
+      ]
+    },
+    {
+      "id": "deployment-squad",
+      "name": "Deployment Squad",
+      "description": "Multi-platform deployment team",
+      "leadBy": ["pedro-costa"],
+      "agents": [
+        {
+          "id": "dep-web",
+          "name": "Web Deployer",
+          "type": "deployment",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["vercel", "netlify", "static-sites", "ssl-config"]
+        },
+        {
+          "id": "dep-mobile",
+          "name": "Mobile Builder",
+          "type": "deployment",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["expo-build", "android-apk", "ios-ipa", "eas-build"]
+        },
+        {
+          "id": "dep-desktop",
+          "name": "Desktop Packager",
+          "type": "deployment",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["electron-builder", "pkg-standalone", "cross-platform"]
+        },
+        {
+          "id": "dep-docker",
+          "name": "Docker Captain",
+          "type": "deployment",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["docker-compose", "dockerfile", "container-orchestration"]
+        }
+      ]
+    },
+    {
+      "id": "intelligence-squad",
+      "name": "Intelligence Squad",
+      "description": "AI intelligence amplification team",
+      "leadBy": ["trinnity-hurtado"],
+      "agents": [
+        {
+          "id": "int-voice",
+          "name": "Voice Commander",
+          "type": "voice",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["tts", "stt", "voice-commands", "elevenlabs"]
+        },
+        {
+          "id": "int-omniroute",
+          "name": "OmniRoute Navigator",
+          "type": "gateway",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["multi-provider", "api-gateway", "load-balancing"]
+        },
+        {
+          "id": "int-n8n",
+          "name": "n8n Automator",
+          "type": "automation",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["workflow-automation", "webhook-management", "integration-pipelines"]
+        },
+        {
+          "id": "int-call",
+          "name": "Call System Operator",
+          "type": "telephony",
+          "status": "active",
+          "model": "ollama-deepseek",
+          "capabilities": ["twilio-integration", "voice-calls", "sms-automation"]
+        },
+        {
+          "id": "int-jarvis",
+          "name": "JARVIS Bridge",
+          "type": "bridge",
+          "status": "active",
+          "model": "ollama-qwen",
+          "capabilities": ["openjarvis", "personal-ai", "assistant-integration"]
+        }
+      ]
+    }
+  ],
+  "totalAgents": 25,
+  "totalSquads": 5,
+  "status": "operational"
+}
