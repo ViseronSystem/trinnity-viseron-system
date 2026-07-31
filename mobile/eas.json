@@ -10,17 +10,11 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
       },
-      "distribution": "internal",
-      "env": {
-        "EXPO_USE_COMMUNITY_AUTOLINKING": "1"
-      }
+      "distribution": "internal"
     },
     "production": {
       "android": {
         "buildType": "app-bundle"
-      },
-      "env": {
-        "EXPO_USE_COMMUNITY_AUTOLINKING": "1"
       }
     }
   },
