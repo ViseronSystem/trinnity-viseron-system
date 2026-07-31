@@ -10,7 +10,8 @@
     "build:android": "eas build --platform android --profile production",
     "build:ios": "eas build --platform ios --profile production",
     "build:apk": "eas build --platform android --profile preview",
-    "lint": "npx tsc --noEmit"
+    "lint": "npx tsc --noEmit",
+    "postinstall": "cd nodejs-assets/nodejs-project && npm install --production"
   },
   "dependencies": {
     "@expo/vector-icons": "~14.0.4",
