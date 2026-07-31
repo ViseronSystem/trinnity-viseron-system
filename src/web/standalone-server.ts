@@ -35,6 +35,13 @@ export class ViseronWebServer {
 
   private setupMiddleware(): void {
     this.app.use(express.json());
+    this.app.use((req, res, next) => {
+      const host = (req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
+      if (host === "trinnityviseron.com") {
+        return res.redirect(301, "https://www.trinnityviseron.com" + req.url);
+      }
+      next();
+    });
     this.app.use(express.static(PUBLIC_DIR));
   }
 

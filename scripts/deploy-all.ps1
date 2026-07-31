@@ -1,5 +1,7 @@
-param(
+﻿param(
     [switch]$GitHub,
+    [switch]$Render,
+    [switch]$Hostalia,
     [switch]$Vercel,
     [switch]$Full
 )
@@ -54,6 +56,7 @@ if ($GitHub -or $Full) {
         git push origin main
         if ($LASTEXITCODE -eq 0) {
             Write-Step "Push GitHub OK!" "OK"
+            Write-Step "Render reimplanta automaticamente (autoDeploy: true)" "INFO"
         } else {
             Write-Step "Falha no push GitHub!" "ERROR"
         }
@@ -64,8 +67,30 @@ if ($GitHub -or $Full) {
     Pop-Location
 }
 
-# Step 4: Vercel
-if ($Vercel -or $Full) {
+# Step 3.5: Render (deploy via API, fallback/garantia)
+if ($Render -or $Full) {
+    Write-Step "Disparando deploy via API do Render..." "INFO"
+    & "$Root\scripts\deploy-render.ps1"
+    if ($LASTEXITCODE -eq 0) {
+        Write-Step "Deploy Render OK!" "OK"
+    } else {
+        Write-Step "Falha no deploy Render via API!" "WARN"
+    }
+}
+
+# Step 4: Hostalia (landing page via FTP)
+if ($Hostalia -or $Full) {
+    Write-Step "Enviando landing page para Hostalia (FTP)..." "INFO"
+    & "$Root\scripts\deploy-hostalia.ps1"
+    if ($LASTEXITCODE -eq 0) {
+        Write-Step "Deploy Hostalia OK!" "OK"
+    } else {
+        Write-Step "Falha no deploy Hostalia! Verifique credenciais FTP no .env" "WARN"
+    }
+}
+
+# Step 5: Vercel
+if ($Vercel) {
     Write-Step "Fazendo deploy da landing page para Vercel..." "INFO"
     
     # Check if Vercel CLI is installed
@@ -89,6 +114,8 @@ if ($Vercel -or $Full) {
 Write-Step "Deploy concluido!" "OK"
 Write-Host ""
 Write-Host "Resumo:" -ForegroundColor Cyan
-if ($GitHub -or $Full) { Write-Host "  GitHub: https://github.com/Trinnity/Viseron-System" -ForegroundColor Green }
-if ($Vercel -or $Full) { Write-Host "  Vercel: https://trinnityviseron.com" -ForegroundColor Green }
+if ($GitHub -or $Full) { Write-Host "  GitHub: https://github.com/ViseronSystem/trinnity-viseron-system" -ForegroundColor Green }
+if ($Render -or $Full) { Write-Host "  Render: https://viseron-web.onrender.com" -ForegroundColor Green }
+if ($Hostalia -or $Full) { Write-Host "  Hostalia: landing page + painel" -ForegroundColor Green }
+if ($Vercel) { Write-Host "  Vercel: https://trinnityviseron.com" -ForegroundColor Green }
 Write-Host ""
