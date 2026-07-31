@@ -53,6 +53,8 @@ cd mobile && npx expo start
 | `npm run lint` | TypeScript check |
 | `npm run backup` | Run daily backup |
 | `npm run backup:schedule` | Schedule auto-backup (Task Scheduler) |
+| `npm run skills:install` | Install/update skill collections (autonomous) |
+| `npm run skills` | Skills CLI (list, search, info) |
 | `npm run init` | Build + backup + start |
 | `npm run init:full` | Full system initialization |
 | `npm run deploy` | Deploy to GitHub + Vercel |

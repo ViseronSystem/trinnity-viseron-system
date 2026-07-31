@@ -79,6 +79,21 @@ async function runCoreTests() {
   const report = await tvs.orchestrator.orchestrate("Prueba Orquestador", "Verificar flujo de subtareas");
   assert(report.status === "COMPLETED" && report.subtaskResults.length === 3, "TVSOrchestrator: Flujo Completo de Orquestación");
 
+  // Test 7: SkillsRegistry - Indexación y búsqueda de skills (módulo Viseron)
+  const { skillsRegistry } = await import("../src/core/skills");
+  const skillTotal = await skillsRegistry.ensureLoaded();
+  assert(skillTotal > 0, `SkillsRegistry: ${skillTotal} skills indexadas de las colecciones vendered (npm run skills:install)`);
+  if (skillTotal > 0) {
+    const allSkills = await skillsRegistry.listSkills();
+    const withDesc = allSkills.filter((s) => s.description && s.description.length > 0);
+    assert(withDesc.length > 0, "SkillsRegistry: Descripciones de frontmatter parseadas");
+    const searchRes = await skillsRegistry.searchSkills("test");
+    assert(Array.isArray(searchRes), "SkillsRegistry: Búsqueda por texto funcional");
+    const sample = allSkills[0];
+    const detail = await skillsRegistry.getSkill(sample.id);
+    assert(detail !== undefined && detail.body.includes("#"), "SkillsRegistry: Carga de cuerpo de skill (SKILL.md)");
+  }
+
   console.log(`\n==========================================`);
   console.log(`RESUMEN DE PRUEBAS: ${passed}/${total} PRUEBAS PASADAS CON ÉXITO.`);
   console.log("==========================================\n");

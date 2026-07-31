@@ -19,6 +19,9 @@ TVS_VISERON_MASTER_REPORT.pdf
 tvs_stderr.txt
 tvs_stdout.txt
 
+# Colecciones de skills vendered (instalables via npm run skills:install)
+skills/vendor/
+
 # Backup archives are excluded; individual backup metadata stays
 backups/*.zip
 backups/*.7z

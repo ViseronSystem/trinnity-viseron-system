@@ -5,6 +5,7 @@ import path from "path";
 import { Server } from "socket.io";
 import { ViseronCore } from "../core/ViseronCore";
 import { VoiceBridge } from "../voice/VoiceBridge";
+import { skillsRegistry } from "../core/skills";
 
 /**
  * TVSDashboardServer - Servidor Web de Monitoreo en Tiempo Real para TVS v2.0
@@ -162,6 +163,37 @@ export class TVSDashboardServer {
         if (!template) return res.status(404).json({ error: `Workflow ${workflowId} not found` });
         const result = await bridge.workflowEngine.execute(template, data || {});
         res.json(result);
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    // Viseron Skills API
+    this.app.get("/api/skills/stats", async (req, res) => {
+      try {
+        res.json(await skillsRegistry.stats());
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    this.app.get("/api/skills", async (req, res) => {
+      try {
+        const { source, q } = req.query as any;
+        const list = q
+          ? await skillsRegistry.searchSkills(q, source)
+          : await skillsRegistry.listSkills();
+        res.json({ total: list.length, skills: list });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    this.app.get("/api/skills/:id", async (req, res) => {
+      try {
+        const skill = await skillsRegistry.getSkill(req.params.id);
+        if (!skill) return res.status(404).json({ error: "Skill not found" });
+        res.json(skill);
       } catch (e: any) {
         res.status(500).json({ error: e.message });
       }
