@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: viseron-web
+    env: node
+    region: ohio
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:web
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: CONTENT_SCHEDULE_MINUTES
+        value: 120
+    autoDeploy: true

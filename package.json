@@ -45,7 +45,9 @@
     "deploy": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1",
     "deploy:full": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -Full",
     "deploy:github": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -GitHub",
-    "deploy:vercel": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -Vercel"
+    "deploy:vercel": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -Vercel",
+    "start:web": "node dist/src/web/standalone-server.js",
+    "dev:web": "tsx src/web/standalone-server.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",
