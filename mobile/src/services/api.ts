@@ -77,7 +77,7 @@ export interface HealthCheck {
   timestamp: number;
 }
 
-const DEFAULT_SERVER = 'http://192.168.1.100:3000';
+const DEFAULT_SERVER = 'http://localhost:3000';
 
 function getServerUrl(): string {
   if (typeof globalThis !== 'undefined' && (globalThis as any).__TVS_SERVER_URL) {

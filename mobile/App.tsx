@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { TVSProvider } from './src/context/TVSContext';
 import DashboardScreen from './src/screens/DashboardScreen';
+import DashboardWebScreen from './src/screens/DashboardWebScreen';
 import AgentsScreen from './src/screens/AgentsScreen';
 import TerminalScreen from './src/screens/TerminalScreen';
 import TokenScreen from './src/screens/TokenScreen';
@@ -18,6 +19,7 @@ type IoniconsName = keyof typeof Ionicons.glyphMap;
 
 const TAB_ICONS: Record<string, { focused: IoniconsName; unfocused: IoniconsName }> = {
   Dashboard: { focused: 'grid', unfocused: 'grid-outline' },
+  DashboardWeb: { focused: 'globe', unfocused: 'globe-outline' },
   Agents: { focused: 'people', unfocused: 'people-outline' },
   Terminal: { focused: 'terminal', unfocused: 'terminal-outline' },
   Token: { focused: 'cash', unfocused: 'cash-outline' },
@@ -52,6 +54,7 @@ export default function App() {
             })}
           >
             <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ title: 'TVS' }} />
+            <Tab.Screen name="DashboardWeb" component={DashboardWebScreen} options={{ title: 'Web' }} />
             <Tab.Screen name="Agents" component={AgentsScreen} />
             <Tab.Screen name="Terminal" component={TerminalScreen} />
             <Tab.Screen name="Token" component={TokenScreen} />
