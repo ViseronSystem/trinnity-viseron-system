@@ -96,8 +96,23 @@ export class ContentAgent {
 
   start(scheduleMinutes: number = 120): void {
     console.log(`[ContentAgent] Auto-content generation every ${scheduleMinutes} minutes`);
+    this.cleanupMockPosts();
     this.generatePost();
     this.intervalId = setInterval(() => this.generatePost(), scheduleMinutes * 60 * 1000);
+  }
+
+  private cleanupMockPosts(): void {
+    try {
+      const posts = this.blog.listAll();
+      for (const post of posts) {
+        if (post.content.startsWith("[Ollama Mock Response]") ||
+            post.content.startsWith("[Gemini Error Fallback]") ||
+            post.content.startsWith("[Gemini Google Connector Ready]")) {
+          this.blog.delete(post.id);
+          console.log(`[ContentAgent] Removed mock post: ${post.title}`);
+        }
+      }
+    } catch {}
   }
 
   stop(): void {
