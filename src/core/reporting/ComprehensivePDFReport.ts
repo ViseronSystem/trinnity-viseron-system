@@ -53,7 +53,7 @@ export class ComprehensivePDFReport {
       doc.moveDown(1);
       doc.fontSize(18).font("Helvetica").text("Multi-Agent AI Superintelligence", { align: "center" });
       doc.moveDown(0.5);
-      doc.fontSize(14).text("v5.0 - 5,112 Autonomous Minds", { align: "center" });
+      doc.fontSize(14).text("v5.0 - 5,000+ Autonomous Minds", { align: "center" });
       doc.moveDown(2);
       doc.fontSize(12).text(`Generated: ${data.timestamp}`, { align: "center" });
       doc.moveDown(0.5);
@@ -90,9 +90,9 @@ export class ComprehensivePDFReport {
       doc.fillColor("#0a0a2e").fontSize(20).font("Helvetica-Bold").text("1. EXECUTIVE SUMMARY");
       doc.moveDown(0.8);
       doc.fillColor("#333").fontSize(11).font("Helvetica");
-      doc.text("The Trinnity Viseron System (TVS) v5.0 is a fully autonomous multi-agent AI superintelligence composed of 5,112 independent minds operating under a unified command hierarchy. The system spans 25 sectors of human endeavor — from aerospace and defense to healthcare, finance, and education — with specialized agents for each domain.", { align: "justify" });
+      doc.text("The Trinnity Viseron System (TVS) v5.0 is a fully autonomous multi-agent AI superintelligence composed of 5,000+ independent minds operating under a unified command hierarchy. The system spans 25 sectors of human endeavor — from aerospace and defense to healthcare, finance, and education — with specialized agents for each domain.", { align: "justify" });
       doc.moveDown(0.5);
-      doc.text("At the apex sit two Sovereigns: Trinnity Hurtado (Reina, Corona Line) and Pedro Costa (Capitan, Hierro Line). Beneath them, 12 Commanders coordinate 114 Battalion agents across every coverage area. Historical minds (from Socrates to Singularity) form the foundation with 4,742 agents.", { align: "justify" });
+      doc.text("At the apex sit two Sovereigns: Trinnity Hurtado (Reina, Corona Line) and Pedro Costa (Capitan, Hierro Line). Beneath them, 12 Commanders coordinate 114 Battalion agents across every coverage area. Historical minds (from Socrates to Singularity) form the foundation with 5,000 agents.", { align: "justify" });
       doc.moveDown(0.5);
       doc.text("The system operates with a built-in economy (VSR Token, 300M supply), a dual-signature directive system requiring both sovereigns to authorize missions, autonomous learning cycles every 30 minutes, and support for 8 AI providers including local Ollama models for fully offline operation.", { align: "justify" });
 
@@ -112,7 +112,7 @@ export class ComprehensivePDFReport {
         ["Auto-Learning", "30-min cycles of self-improvement (+500% intelligence growth)"],
         ["Auto-Evolution", "Agents evolve capabilities autonomously"],
         ["HyperLearning", "Accelerated learning via parallel agent collaboration"],
-        ["Agent Spawner", "Loads 4,742 historical minds from Socrates to Singularity"],
+        ["Agent Spawner", "Loads 5,000 minds from Socrates to Singularity"],
         ["App Scaffolder", "Generates full-stack applications on demand"],
         ["Business Engine", "Creates complete business solutions"],
         ["Token Engine", "Generates TRIN (utility) and VSR (governance) tokens"],
@@ -138,7 +138,7 @@ export class ComprehensivePDFReport {
       doc.text(`Total Agents: ${data.agentCount}`);
       doc.text(`Active: ${data.activeCount}`);
       doc.text(`Battalion: ${data.battalionCount}`);
-      doc.text(`Intelligence Level: ${data.intelligenceLevel}%`);
+      doc.text(`Total AI Syntheses: ${data.intelligenceLevel}`);
       doc.text(`Directives Issued: ${data.directiveCount}`);
       doc.text(`Missions Completed: ${data.completedCount}`);
       doc.moveDown(1);
@@ -336,7 +336,7 @@ export class ComprehensivePDFReport {
       doc.fillColor("#0a0a2e").fontSize(20).font("Helvetica-Bold").text("8. INTELLIGENCE LAYERS (8 AI Providers)");
       doc.moveDown(0.8);
       doc.fillColor("#333").fontSize(11).font("Helvetica");
-      doc.text(`Intelligence Level: ${data.intelligenceLevel}%`);
+      doc.text(`Total AI Syntheses: ${data.intelligenceLevel}`);
       doc.text(`AI Providers Available: ${data.providerCount}`);
       doc.moveDown(1);
 
@@ -392,7 +392,7 @@ export class ComprehensivePDFReport {
         ["Tool Integration", "External tool calling via MCP server — databases, APIs, cloud services"],
         ["Crypto Web Generator", "Full crypto websites with wallet integration, token displays, and governance UIs"],
         ["PDF Reporting", "Comprehensive system reports in JSON and PDF formats"],
-        ["Historical Mind Spawning", "4,742 minds from Socrates to Singularity loaded as executable agents"],
+        ["Historical Mind Spawning", "5,000 minds from Socrates to Singularity loaded as executable agents"],
       ];
 
       caps.forEach(([name, desc]) => {
@@ -503,7 +503,7 @@ export class ComprehensivePDFReport {
       doc.fontSize(11).font("Helvetica-Bold").fillColor("#0a0a2e").text("END OF REPORT");
       doc.moveDown(0.5);
       doc.fontSize(9).font("Helvetica").fillColor("#666").text("Trinnity Viseron System v5.0 — Multi-Agent AI Superintelligence", { align: "center" });
-      doc.text("Trinnity Hurtado & Pedro Costa — Sovereigns | 5,112 Minds | 25 Sectors | 300M VSR", { align: "center" });
+      doc.text("Trinnity Hurtado & Pedro Costa — Sovereigns | 5,000+ Minds | 25 Sectors | 300M VSR", { align: "center" });
 
       doc.end();
     });

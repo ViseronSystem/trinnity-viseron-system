@@ -23,8 +23,13 @@ export class AgentSpawner {
   }
 
   async loadMinds(): Promise<number> {
-    const mindsPath = path.join(__dirname, "..", "..", "..", "..", "data", "minds", "minds.json");
-    if (await fs.pathExists(mindsPath)) {
+    const candidates = [
+      path.join(process.cwd(), "data", "minds", "minds.json"),
+      path.join(__dirname, "..", "..", "..", "..", "data", "minds", "minds.json"),
+      path.join(__dirname, "..", "..", "data", "minds", "minds.json")
+    ];
+    const mindsPath = candidates.find((p) => fs.existsSync(p));
+    if (mindsPath) {
       this.minds = await fs.readJSON(mindsPath);
     }
     return this.minds.length;
@@ -88,7 +93,7 @@ export class AgentSpawner {
           const response = await this.bridge.chat({
             prompt: `${task}\n\nContext: ${JSON.stringify(context || {})}`,
             systemPrompt: `You are ${mind.name}, a ${mind.era} ${mind.origin} with wisdom ${mind.wisdom}/100. Your specialties: ${mind.specialties.join(", ")}. Your personality: ${mind.personality.join(", ")}. Analyze and respond to the task using your unique perspective and knowledge. Be thorough and insightful.`,
-            providerId: "openai" as AIProviderId,
+            providerId: "ollama" as AIProviderId,
             temperature: 0.7,
             maxTokens: 2048,
             taskType: "reasoning"

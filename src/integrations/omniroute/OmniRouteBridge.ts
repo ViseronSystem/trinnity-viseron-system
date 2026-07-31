@@ -33,16 +33,17 @@ export class OmniRouteBridge {
         { id: "deepseek-chat", name: "DeepSeek Chat", capabilities: ["code", "reasoning", "general", "chat"], costPer1kTokens: 0.0005, contextWindow: 128000, speed: "balanced" },
         { id: "grok-3", name: "Grok 3", capabilities: ["code", "research", "reasoning", "creative", "chat"], costPer1kTokens: 0.002, contextWindow: 131072, speed: "balanced" },
       ],
-      baseUrl: "http://localhost:20128/v1"
+      baseUrl: "http://localhost:20128"
     },
   ];
 
   constructor(aiBridge: AIProviderBridge, config?: Partial<OmniRouteConfig>) {
+    const port = config?.port ?? parseInt(process.env.OMNIROUTE_PORT || "20128", 10);
     this.config = {
-      port: config?.port ?? 20128,
-      dataDir: config?.dataDir ?? "./data/omniroute",
+      port,
+      dataDir: config?.dataDir ?? process.env.OMNIROUTE_DATA_DIR ?? "./data/omniroute",
       autoStart: config?.autoStart ?? true,
-      baseUrl: config?.baseUrl ?? `http://localhost:${config?.port ?? 20128}`,
+      baseUrl: config?.baseUrl ?? `http://localhost:${port}`,
     };
     this.provider = new OmniRouteProvider(this.config.baseUrl);
     this.aiBridge = aiBridge;
@@ -72,6 +73,7 @@ export class OmniRouteBridge {
   }
 
   private async registerWithBridge(): Promise<void> {
+    if (!this.aiBridge) return;
     for (const cfg of OmniRouteBridge.OMNIROUTE_PROVIDERS) {
       this.aiBridge.registerExternalProvider(
         cfg.id as any,
@@ -127,20 +129,23 @@ export class OmniRouteBridge {
       this.process = null;
     });
 
-    await this.waitForReady(30000);
-    console.log(`  [OmniRoute] Server ready at ${this.config.baseUrl}`);
+    const ready = await this.waitForReady(30000);
+    if (ready) {
+      console.log(`  [OmniRoute] Server ready at ${this.config.baseUrl}`);
+    }
   }
 
-  private async waitForReady(timeoutMs: number): Promise<void> {
+  private async waitForReady(timeoutMs: number): Promise<boolean> {
     const start = Date.now();
     while (Date.now() - start < timeoutMs) {
       try {
         const available = await this.provider.isAvailable();
-        if (available) return;
+        if (available) return true;
       } catch {}
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
     console.warn(`  [OmniRoute] Server did not become ready within ${timeoutMs}ms (will retry on demand)`);
+    return false;
   }
 
   stop(): void {

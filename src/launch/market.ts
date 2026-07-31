@@ -80,18 +80,18 @@ async function main() {
 # Lanzamiento al Mercado — ${timestamp}
 
 ## Resumen Ejecutivo
-TVS v5.0 es una superinteligencia autónoma multi-agente con **5,112 mentes independientes** operando bajo una jerarquía unificada de comando. El sistema cubre **25 sectores estratégicos** — desde aeroespacial y defensa hasta salud, finanzas y educación — con agentes especializados en cada dominio.
+TVS v5.0 es una superinteligencia autónoma multi-agente con **5,000+ mentes independientes** operando bajo una jerarquía unificada de comando. El sistema cubre **25 sectores estratégicos** — desde aeroespacial y defensa hasta salud, finanzas y educación — con agentes especializados en cada dominio.
 
 ## Comando Supremo
 - **Trinnity Hurtado** (Reina, Línea Corona) — Ratifica toda directiva
 - **Pedro Costa** (Capitán, Línea Hierro) — Comanda toda operación
 
 ## Especificaciones Técnicas
-- **Agentes:** 5,112 total (4,742 mentes históricas + 246 arquetipos + 114 batallón + ~10 núcleo)
+- **Agentes:** 5,360 total (5,000 mentes + 246 arquetipos + 114 batallón + ~10 núcleo)
 - **Batallón:** 114 agentes especializados, 25 áreas de cobertura
 - **Token VSR:** 300,000,000 supply — governance + utility
 - **AI Providers:** 8 (Ollama local + OpenAI, Claude, Gemini, Grok, DeepSeek, Mistral, Cohere)
-- **Inteligencia:** +500% cada 30 min (Auto-Evolution + HyperLearning)
+- **Inteligencia:** +5% cada ciclo (Auto-Evolution + HyperLearning)
 - **Plataforma:** Web Dashboard + Mobile App (Android APK / iOS IPA)
 
 ## Enlaces
@@ -151,7 +151,7 @@ Trinnity Hurtado (Reina) & Pedro Costa (Capitán)
     <div class="subtitle">Multi-Agent AI Superintelligence v5.0</div>
 
     <div class="stats">
-      <div class="stat-card"><div class="stat-value">5,112</div><div class="stat-label">Autonomous Minds</div></div>
+      <div class="stat-card"><div class="stat-value">5,000+</div><div class="stat-label">Autonomous Minds</div></div>
       <div class="stat-card"><div class="stat-value">114</div><div class="stat-label">Battalion Agents</div></div>
       <div class="stat-card"><div class="stat-value">25</div><div class="stat-label">Coverage Areas</div></div>
       <div class="stat-card"><div class="stat-value">300M</div><div class="stat-label">VSR Tokens</div></div>
@@ -178,8 +178,8 @@ Trinnity Hurtado (Reina) & Pedro Costa (Capitán)
       <h2>\u{1F9E0} Intelligence</h2>
       <div class="grid">
         <div class="item"><strong>8 AI Providers</strong> Ollama (local) + OpenAI, Claude, Gemini, Grok, DeepSeek, Mistral, Cohere</div>
-        <div class="item"><strong>Auto-Evolution</strong> +500% every 30min</div>
-        <div class="item"><strong>4,742 Minds</strong> Socrates \u2192 Singularity</div>
+        <div class="item"><strong>Auto-Evolution</strong> +5% every cycle</div>
+        <div class="item"><strong>5,000 Minds</strong> Socrates \u2192 Singularity</div>
       </div>
     </div>
 
@@ -220,7 +220,7 @@ Trinnity Hurtado (Reina) & Pedro Costa (Capitán)
     launchTimestamp: timestamp,
     platform: os.platform(),
     nodeVersion: process.version,
-    agents: { total: 5112, battalion: 114, historical: 4742, archetypes: 246, core: 10 },
+    agents: { total: 5360, battalion: 114, historical: 5000, archetypes: 246, core: 10 },
     sovereigns: [
       { name: "Trinnity Hurtado", title: "Reina", line: "Corona" },
       { name: "Pedro Costa", title: "Capitán", line: "Hierro" },
@@ -264,7 +264,7 @@ Trinnity Hurtado (Reina) & Pedro Costa (Capitán)
   console.log("  RESUMEN DE LANZAMIENTO");
   console.log(SEP);
   console.log(`  Sistema:    Trinnity Viseron System v5.0`);
-  console.log(`  Agentes:    5,112 mentes autónomas`);
+  console.log(`  Agentes:    5,360 mentes autónomas`);
   console.log(`  Batallón:   114 agentes especializados`);
   console.log(`  Token VSR:  300,000,000 supply`);
   console.log(`  Áreas:      25 sectores estratégicos`);

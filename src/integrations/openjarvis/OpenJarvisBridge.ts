@@ -85,7 +85,7 @@ You check email, calendar, news, and health data to create a spoken daily briefi
       autoStart: config?.autoStart ?? true,
       pythonPath: config?.pythonPath || process.env.OPENJARVIS_PYTHON || "python",
       serverPort: config?.serverPort || 8000,
-      modelName: config?.modelName || "qwen3.5:9b",
+      modelName: config?.modelName || "qwen3:9b",
       agentName: config?.agentName || "simple",
     };
     this.agentManager = agentManager;
@@ -253,4 +253,13 @@ You check email, calendar, news, and health data to create a spoken daily briefi
       this.process = null;
     }
   }
+}
+
+export async function startServer(config?: Partial<OpenJarvisConfig>): Promise<OpenJarvisBridge> {
+  const { AgentManager } = await import("../../core/AgentManager");
+  const { ToolManager } = await import("../../core/tools/ToolManager");
+  const bridge = new OpenJarvisBridge(new AgentManager(), new ToolManager(), config);
+  await bridge.initialize();
+  console.log(`[OpenJarvis] Server pronta (porta ${bridge.getStats().serverPort})`);
+  return bridge;
 }

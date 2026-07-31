@@ -40,7 +40,7 @@ export class HyperLearningEngine {
   async executeCycle(): Promise<void> {
     this.cycleCount++;
     const start = Date.now();
-    this.intelligenceLevel = this.intelligenceLevel + (this.intelligenceLevel * 5); // +500% each cycle
+    this.intelligenceLevel = Math.min(this.intelligenceLevel * 1.05, 1_000_000); // +5% each cycle (capped)
 
     const insights: string[] = [];
     const agents = this.agentManager.list("ACTIVE");
@@ -54,7 +54,7 @@ export class HyperLearningEngine {
       const bridgeResponse = await this.bridge.chat({
         prompt: `Analyze the current state of the TVS system. Cycle ${this.cycleCount}. Intelligence level: ${this.intelligenceLevel.toExponential(2)}%. Generate strategic insights.`,
         systemPrompt: "You are the Trinnity Viseron HyperLearning Engine. Generate deep insights.",
-        providerId: "openai" as AIProviderId,
+        providerId: "ollama" as AIProviderId,
         maxTokens: 2048,
         taskType: "reasoning"
       });
@@ -71,8 +71,8 @@ export class HyperLearningEngine {
 
       const report = {
         cycle: this.cycleCount,
-        intelligenceLevel: this.intelligenceLevel,
-        levelMultiplier: Math.pow(6, this.cycleCount - 1),
+        intelligenceLevel: Math.round(this.intelligenceLevel),
+        levelMultiplier: Math.pow(1.05, this.cycleCount - 1),
         activeAgents: agentCount,
         knowledgeDocuments: knowledgeCount,
         insights,
@@ -87,7 +87,13 @@ export class HyperLearningEngine {
         timestamp: Date.now()
       });
 
-      const reportsDir = path.join(__dirname, "..", "..", "..", "data", "reports");
+      const reportsDir = (() => {
+        const candidates = [
+          path.join(process.cwd(), "data", "reports"),
+          path.join(__dirname, "..", "..", "..", "data", "reports")
+        ];
+        return candidates.find((p) => fs.existsSync(p)) || candidates[0];
+      })();
       await fs.ensureDir(reportsDir);
       const reportPath = path.join(reportsDir, `cycle_${this.cycleCount}.json`);
       await fs.writeJson(reportPath, report, { spaces: 2 });
@@ -98,11 +104,11 @@ export class HyperLearningEngine {
       this.memoryEngine.addKnowledge(
         `HyperLearning Cycle #${this.cycleCount}`,
         "HYPER_LEARNING",
-        `Intelligence: ${this.intelligenceLevel.toExponential(2)}% (${(Math.pow(6, this.cycleCount - 1) * 1000).toExponential(2)}x base). Agents: ${agentCount}. Insights: ${insights.length}`,
+        `Intelligence: ${this.intelligenceLevel.toFixed(0)} (${(Math.pow(1.05, this.cycleCount - 1) * 1000).toFixed(0)}x base). Agents: ${agentCount}. Insights: ${insights.length}`,
         ["hyperlearning", `cycle_${this.cycleCount}`, "evolution"]
       );
 
-      console.log(`[HyperLearning] Cycle ${this.cycleCount} | Intelligence: ${this.intelligenceLevel.toExponential(2)}% | +500% growth | ${insights.length} insights stored`);
+      console.log(`[HyperLearning] Cycle ${this.cycleCount} | Intelligence: ${this.intelligenceLevel.toFixed(0)} | +5% growth | ${insights.length} insights stored`);
     } catch (err) {
       console.error(`[HyperLearning] Error in cycle ${this.cycleCount}:`, err);
     }
@@ -124,7 +130,7 @@ export class HyperLearningEngine {
     return {
       cycleCount: this.cycleCount,
       intelligenceLevel: this.intelligenceLevel,
-      multiplier: Math.pow(6, Math.max(0, this.cycleCount - 1))
+      multiplier: Math.pow(1.05, Math.max(0, this.cycleCount - 1))
     };
   }
 }

@@ -397,7 +397,10 @@ add("Hadid","modern","architect",82,["parametric","zaha","fluid","deconstructivi
 add("Calatrava","modern","architect",78,["structural","kinetic","bridges","organic"],["sculptural","engineering","expressive","innovative"],["architecture","engineering","bridges","design"],"🌉");
 
 // COMPLETE UP TO ~700 HISTORICAL FIGURES
-// Now generate the remaining ~4300 synthetic minds procedurally
+// Now generate the remaining synthetic minds procedurally (target: 5000+ total minds)
+
+// Generate all minds
+const allMinds = [...FAMOUS_MINDS, ...generateSyntheticMinds(5000 - FAMOUS_MINDS.length)];
 
 function generateSyntheticMinds(count: number): Mind[] {
   const origins = ["philosopher","scientist","artist","inventor","leader","writer","mathematician","engineer","explorer","spiritual","teacher","strategist","healer","builder","visionary","analyst","creator","thinker","innovator","scholar","sage","pioneer","reformer","master","genius"];
@@ -471,9 +474,6 @@ function generateSyntheticMinds(count: number): Mind[] {
 
   return generated;
 }
-
-// Generate all minds
-const allMinds = [...FAMOUS_MINDS, ...generateSyntheticMinds(4400)];
 
 fs.ensureDirSync(MINDS_DIR);
 fs.writeJSONSync(path.join(MINDS_DIR, "minds.json"), allMinds, { spaces: 0 });

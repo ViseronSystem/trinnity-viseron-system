@@ -3,6 +3,9 @@ param(
     [int]$RetentionDays = 30
 )
 
+$RepoRoot = Split-Path -Parent $PSScriptRoot
+Set-Location -Path $RepoRoot
+
 $Date = Get-Date -Format "yyyy-MM-dd_HHmmss"
 $BackupDir = Join-Path -Path $BackupRoot -ChildPath $Date
 $LogFile = Join-Path -Path $BackupRoot -ChildPath "backup-log.txt"
@@ -30,7 +33,12 @@ Write-Log "Backup config..."
 if (Test-Path "config") {
     Copy-Item -Path "config\*" -Destination (Join-Path -Path $BackupDir -ChildPath "config") -Recurse -Force
 }
-Copy-Item -Path ".env" -Destination (Join-Path -Path $BackupDir -ChildPath ".env") -Force -ErrorAction SilentlyContinue
+# Segurança: .env (chaves API/secrets) NÃO vai para o backup. Só o template sanitizado.
+if (Test-Path ".env.example") {
+    Copy-Item -Path ".env.example" -Destination (Join-Path -Path $BackupDir -ChildPath ".env.example") -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Log "AVISO: .env NÃO incluído no backup (secrets). Restaure-o manualmente."
+}
 Copy-Item -Path "package.json" -Destination (Join-Path -Path $BackupDir -ChildPath "package.json") -Force -ErrorAction SilentlyContinue
 Copy-Item -Path "tsconfig.json" -Destination (Join-Path -Path $BackupDir -ChildPath "tsconfig.json") -Force -ErrorAction SilentlyContinue
 Copy-Item -Path "railway.json" -Destination (Join-Path -Path $BackupDir -ChildPath "railway.json") -Force -ErrorAction SilentlyContinue

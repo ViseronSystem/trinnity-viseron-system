@@ -3,8 +3,8 @@
   window.__voiceWidgetLoaded = true;
 
   const CONFIG = {
-    backendUrl: 'http://localhost:3000',
-    socketUrl: 'http://localhost:3000'
+    backendUrl: window.location.origin,
+    socketUrl: window.location.origin
   };
   if (window.__voiceConfig) Object.assign(CONFIG, window.__voiceConfig);
 

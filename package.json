@@ -82,8 +82,7 @@
     "assets": [
       "node_modules/**/*",
       "data/**/*",
-      "config/**/*",
-      ".env"
+      "config/**/*"
     ],
     "targets": [
       "node18-win-x64"

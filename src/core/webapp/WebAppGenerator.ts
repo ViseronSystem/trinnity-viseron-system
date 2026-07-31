@@ -53,7 +53,7 @@ const TYPE_FEATURES: Record<AppType, string[]> = {
 export class WebAppGenerator {
   private appScaffolder: AppScaffolder;
   private generatedApps: GeneratedApp[] = [];
-  private portCounter: number = 3000;
+  private portCounter: number = 4100;
 
   constructor(appScaffolder: AppScaffolder) {
     this.appScaffolder = appScaffolder;
@@ -100,8 +100,8 @@ export class WebAppGenerator {
 
   async generateApp(blueprint: AppBlueprint): Promise<GeneratedApp> {
     const port = this.portCounter++;
-    const frontendFiles = this.generateFrontend(blueprint);
-    const backendFiles = this.generateBackend(blueprint);
+    const frontendFiles = this.generateFrontend(blueprint, port);
+    const backendFiles = this.generateBackend(blueprint, port);
     const schemaFile = {
       path: 'database/schema.sql',
       content: this.generateDatabaseSchema(blueprint)
@@ -184,7 +184,7 @@ export class WebAppGenerator {
     return app;
   }
 
-  generateFrontend(blueprint: AppBlueprint): { path: string; content: string }[] {
+  generateFrontend(blueprint: AppBlueprint, port: number): { path: string; content: string }[] {
     const files: { path: string; content: string }[] = [];
     const appName = blueprint.name;
     const framework = blueprint.framework;
@@ -215,7 +215,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: ${this.portCounter + 3000}, proxy: { '/api': 'http://localhost:${this.portCounter + 3000}' } }
+  server: { port: ${port + 1}, proxy: { '/api': 'http://localhost:${port}' } }
 });`
     });
 
@@ -398,7 +398,7 @@ export default ${page.replace(/\s+/g, '')};`
     return files;
   }
 
-  generateBackend(blueprint: AppBlueprint): { path: string; content: string }[] {
+  generateBackend(blueprint: AppBlueprint, port: number): { path: string; content: string }[] {
     const files: { path: string; content: string }[] = [];
     const appName = blueprint.name;
 
@@ -411,7 +411,7 @@ ${blueprint.database === 'mongodb' ? "import mongoose from 'mongoose';" : ''}
 ${blueprint.database === 'postgresql' ? "import { Pool } from 'pg';" : ''}
 
 const app = express();
-const PORT = process.env.PORT || ${this.portCounter + 3000};
+const PORT = process.env.PORT || ${port};
 
 app.use(cors());
 app.use(express.json());
@@ -690,7 +690,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_created ON audit_log(created_at);`);
 
 const TOKEN_NAME = "${tokenName}";
 const TOKEN_SYMBOL = "${tokenSymbol}";
-const TOKEN_DESC = ;
+const TOKEN_DESC = "${description.replace(/"/g, '\\"')}";
 
 function App() {
   return (

@@ -1,4 +1,7 @@
 import { io, Socket } from 'socket.io-client';
+import Constants from 'expo-constants';
+
+const DEFAULT_SERVER = (Constants.expoConfig?.extra?.tvsServerUrl as string) || 'http://localhost:3000';
 
 export interface TVSStats {
   totalAgents: number;
@@ -76,8 +79,6 @@ export interface HealthCheck {
   status: string;
   timestamp: number;
 }
-
-const DEFAULT_SERVER = 'http://localhost:3000';
 
 function getServerUrl(): string {
   if (typeof globalThis !== 'undefined' && (globalThis as any).__TVS_SERVER_URL) {

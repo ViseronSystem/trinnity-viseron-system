@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Viseron — Plataforma Multi-Agente de Superinteligência</title>
+  <title>Trinnity Viseron System — Plataforma Multi-Agente de Superinteligência</title>
+  <meta name="description" content="Trinnity Viseron System (TVS) — Sistema Operacional Multi-Agente de Superinteligência v5.0. 5000+ mentes, 290+ provedores de IA, auto-evolução genética." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050510'/%3E%3Cpath d='M16 5l3.5 7.5 7.5 3.5-7.5 3.5L16 27l-3.5-7.5L5 16l7.5-3.5z' fill='none' stroke='%2300f0ff' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23bf5af2'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -56,6 +58,11 @@
     .glitch:hover::after { animation:glitch2 0.4s ease; color:var(--neon2); clip-path:inset(70% 0 10% 0); }
     @keyframes glitch1 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(-2px,1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
     @keyframes glitch2 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(2px,-1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
+    .brand-gradient { background:linear-gradient(90deg,var(--neon),var(--neon2),#ff2d55,var(--neon)); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:brand-flow 6s linear infinite; }
+    @keyframes brand-flow { to { background-position:300% 0; } }
+    .hero-title-glow { text-shadow:0 0 20px rgba(0,240,255,0.25),0 0 60px rgba(0,240,255,0.12); }
+    .card-glow:hover { box-shadow:0 0 0 1px rgba(0,240,255,0.15),0 20px 60px rgba(0,0,0,0.6),0 0 40px rgba(0,240,255,0.08); }
+    .grid-fade { -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%); mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%); }
     .terminal-line { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text2); }
     .terminal-line .prompt { color:var(--neon); }
     .terminal-line .cmd { color:#fff; }
@@ -76,8 +83,12 @@
 <!-- Nav -->
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:transparent;">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="#" class="text-lg font-bold tracking-tight font-['Space_Grotesk']">
-      <span class="text-neon neon-glow">V</span><span class="text-white/40">iseron</span>
+    <a href="#" class="flex items-center gap-2 text-lg font-bold tracking-tight font-['Space_Grotesk']">
+      <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon/20 to-neon2/20 border border-neon/30 flex items-center justify-center text-sm font-black" style="box-shadow:0 0 20px rgba(0,240,255,0.15);">
+        <span class="brand-gradient">T</span>
+      </span>
+      <span class="hidden sm:inline"><span class="text-neon neon-glow">Trinnity</span><span class="text-white/40"> Viseron</span></span>
+      <span class="sm:hidden text-neon neon-glow">TVS</span>
     </a>
     <div class="hidden md:flex items-center gap-4 text-sm">
       <button onclick="setPageLang('pt')" class="lang-btn" title="Português">🇧🇷</button>
@@ -115,14 +126,15 @@
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(0,240,255,0.06),transparent 60%)"></div>
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24">
     <div class="reveal">
-      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase">v5.0 — Multi-Agent Superintelligence</span>
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase">v5.0 — Trinnity Viseron System</span>
     </div>
-    <h1 class="reveal text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mt-6" style="transition-delay:0.1s">
-      <span class="glitch" data-text="Viseron">Viseron</span>
+    <h1 class="reveal text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mt-6 hero-title-glow" style="transition-delay:0.1s">
+      <span class="block glitch" data-text="Trinnity">Trinnity</span>
+      <span class="block glitch brand-gradient" data-text="Viseron System">Viseron System</span>
     </h1>
     <p class="reveal text-lg sm:text-xl text-white/40 max-w-3xl mx-auto mt-6 leading-relaxed font-light" style="transition-delay:0.2s">
-      Sistema Operacional Multi-Agente de Superinteligência — 5000+ mentes, 290+ provedores de IA,<br>
-      auto-evolução genética, aprendizado hiper-exponencial. <span class="text-neon">Autoria de Viseron.</span>
+      Trinnity Viseron System — Sistema Operacional Multi-Agente de Superinteligência. 5000+ mentes, 290+ provedores de IA,<br>
+      auto-evolução genética, aprendizado hiper-exponencial. <span class="text-neon">Autoria de Trinnity &amp; Viseron.</span>
     </p>
     <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s">
       <a href="#platform" class="btn-neon btn-neon-solid">Explorar Plataforma</a>
@@ -148,7 +160,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16 sm:mb-20">
       <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Platform</span>
-      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Arquitetura Viseron</h2>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Arquitetura Trinnity Viseron</h2>
       <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">18 módulos de core, 6 integrações, 9 agentes operacionais, dezenas de ferramentas</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -156,7 +168,7 @@
         <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
           <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
         </div>
-        <h3 class="text-lg font-semibold mb-2">ViseronCore</h3>
+        <h3 class="text-lg font-semibold mb-2">Trinnity Core</h3>
         <p class="text-sm text-white/40">Núcleo do sistema operacional multi-agente com 18 subsistemas integrados</p>
       </div>
       <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
@@ -205,7 +217,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16 sm:mb-20">
       <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Forge</span>
-      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">ViseronForge</h2>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">TVS Forge</h2>
       <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Sua plataforma Git completa — a alternativa open source ao GitHub, construída com a superinteligência TVS</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -240,13 +252,13 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16 sm:mb-20">
       <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Pricing</span>
-      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Planos Viseron</h2>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Planos Trinnity Viseron</h2>
       <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Da automação pessoal à superinteligência corporativa</p>
     </div>
     <div class="grid sm:grid-cols-3 gap-6">
       <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.1s">
         <div class="text-3xl mb-3 text-white/30">⚡</div>
-        <h3 class="text-2xl font-bold mb-2">Viseron Core</h3>
+        <h3 class="text-2xl font-bold mb-2">TVS Core</h3>
         <p class="text-5xl font-black text-neon mb-1">$29</p>
         <p class="text-xs text-white/30 mb-6">/mês — Individual</p>
         <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
@@ -261,7 +273,7 @@
       <div class="reveal cyber-card p-8 text-center border-neon/30" style="transition-delay:0.2s">
         <div class="text-3xl mb-3 text-neon">🚀</div>
         <span class="badge badge-neon text-xs mb-3">Mais Popular</span>
-        <h3 class="text-2xl font-bold mb-2">Viseron Pro</h3>
+        <h3 class="text-2xl font-bold mb-2">TVS Pro</h3>
         <p class="text-5xl font-black text-neon mb-1">$99</p>
         <p class="text-xs text-white/30 mb-6">/mês — Profissional</p>
         <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
@@ -275,7 +287,7 @@
       </div>
       <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.3s">
         <div class="text-3xl mb-3 text-neon2">🏢</div>
-        <h3 class="text-2xl font-bold mb-2">Viseron Enterprise</h3>
+        <h3 class="text-2xl font-bold mb-2">TVS Enterprise</h3>
         <p class="text-5xl font-black text-neon2 mb-1">$499</p>
         <p class="text-xs text-white/30 mb-6">/mês — Corporativo</p>
         <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
@@ -300,6 +312,11 @@
       <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// JARVIS</span>
       <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Assistente Pessoal IA</h2>
       <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">9 agentes especializados em 2 bridges — voz, WhatsApp, casa inteligente, câmeras, código, pesquisa, memória</p>
+      <div class="reveal mt-6 flex items-center justify-center gap-4" style="transition-delay:0.3s">
+        <span class="badge badge-neon">⚔️ Pedro</span>
+        <span class="badge badge-purple">👑 Trinnity</span>
+        <span class="text-xs text-white/30">Clique no microfone no canto inferior direito para falar com o JARVIS</span>
+      </div>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s;border-left:2px solid var(--neon)">
@@ -373,7 +390,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16">
       <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Downloads</span>
-      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Executáveis Viseron</h2>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Executáveis TVS</h2>
       <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">3 formatos — escolha o seu</p>
     </div>
     <div class="grid sm:grid-cols-3 gap-6">
@@ -433,14 +450,14 @@
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-16">
       <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Token</span>
-      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">$VSR — Viseron Crown</h2>
-      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Token de governança do ecossistema Viseron — 300,000,000 VSR</p>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">$VSR — Trinnity Viseron Crown</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Token de governança do ecossistema Trinnity Viseron — 300,000,000 VSR</p>
     </div>
     <div class="grid sm:grid-cols-2 gap-4 mb-6">
       <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.1s">
         <p class="text-xs text-white/40 mb-1">Supply Total</p>
         <p class="text-4xl sm:text-5xl font-bold text-neon">300M</p>
-        <p class="text-sm mt-2 text-white/20">VSR — Viseron Crown Token</p>
+        <p class="text-sm mt-2 text-white/20">VSR — Trinnity Viseron Crown Token</p>
       </div>
       <div class="reveal cyber-card p-6 sm:p-8" style="transition-delay:0.2s">
         <p class="text-xs text-white/40 mb-1">Distribuição</p>
@@ -469,7 +486,7 @@
 <!-- Terminal / CTA -->
 <section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
   <div class="max-w-4xl mx-auto text-center">
-    <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Viseron</span>
+    <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// TVS</span>
     <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Multi Agent AI Operating System</h2>
     <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência</p>
     <div class="reveal mt-10 flex flex-wrap justify-center gap-4" style="transition-delay:0.3s">
@@ -485,15 +502,16 @@
 <!-- Footer -->
 <footer class="border-t border-white/5 py-10 px-6 relative" style="z-index:1;">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-    <p><span class="text-white/40 font-semibold">Viseron</span> — Multi Agent AI Operating System v5.0</p>
+    <p><span class="text-white/40 font-semibold">Trinnity Viseron System</span> — Multi Agent AI Operating System v5.0</p>
     <div class="flex gap-5">
       <a href="https://github.com/ViseronSystem/trinnity-viseron-system" class="hover:text-neon transition-colors">GitHub</a>
     </div>
-    <p>&copy; 2026 — Autoria de Viseron</p>
+    <p>&copy; 2026 — Autoria de Trinnity &amp; Viseron</p>
   </div>
 </footer>
 
-<!-- voice-widget.js at runtime via local dashboard -->
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="voice-widget.js"></script>
 <script>
 (function initThree(){const c=document.getElementById('three-bg');const s=new THREE.Scene();const a=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));const g=new THREE.Group();s.add(g);const k1=new THREE.TorusKnotGeometry(1.2,0.3,128,16);const m1=new THREE.Mesh(k1,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.12}));m1.position.set(-2.5,0.5,-3);m1.scale.set(0.6,0.6,0.6);g.add(m1);const k2=new THREE.IcosahedronGeometry(1,0);const m2=new THREE.Mesh(k2,new THREE.MeshBasicMaterial({color:0xbf5af2,wireframe:true,transparent:true,opacity:0.08}));m2.position.set(2.8,-0.8,-4);m2.scale.set(0.5,0.5,0.5);g.add(m2);const k3=new THREE.TorusGeometry(1,0.2,32,64);const m3=new THREE.Mesh(k3,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.06}));m3.position.set(0,1.5,-5);m3.scale.set(0.7,0.7,0.7);g.add(m3);const p=new THREE.BufferGeometry();const pos=new Float32Array(800*3);for(let i=0;i<800*3;i++)pos[i]=(Math.random()-0.5)*20;p.setAttribute('position',new THREE.BufferAttribute(pos,3));const pt=new THREE.PointsMaterial({color:0x00f0ff,size:0.02,transparent:true,opacity:0.3});const ps=new THREE.Points(p,pt);ps.position.z=-5;g.add(ps);a.position.z=5;let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2});function an(){requestAnimationFrame(an);m1.rotation.x+=0.003;m1.rotation.y+=0.006;m2.rotation.x+=0.005;m2.rotation.y-=0.004;m3.rotation.x+=0.002;m3.rotation.z+=0.003;ps.rotation.y+=0.0005;g.rotation.x+=(my*0.02-g.rotation.x)*0.02;g.rotation.y+=(mx*0.02-g.rotation.y)*0.02;r.render(s,a)}an();window.addEventListener('resize',()=>{a.aspect=window.innerWidth/window.innerHeight;a.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)})})();
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hidden')}

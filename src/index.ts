@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { ViseronCore } from "./core/ViseronCore";
 import { TVSDashboardServer } from "./dashboard/server";
 import { SmartAgent } from "./core/agents/SmartAgent";
@@ -57,7 +58,7 @@ tvs.toolManager.createQuickTool("tool_scaffold_app", "App Scaffolding Generator"
     template: input.template || "express-api", port: input.port || 3000
   }));
 
-const n8nBridge = new N8NBridge(tvs.toolManager, tvs.agentManager, tvs.memoryEngine, 5678);
+const n8nBridge = new N8NBridge(tvs.toolManager, tvs.agentManager, tvs.memoryEngine, parseInt(process.env.N8N_PORT || "5678", 10));
 n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}`));
 (global as any).__N8N_BRIDGE = n8nBridge;
 
@@ -69,7 +70,7 @@ n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}
 
   await tvs.startSuperIntelligence();
 
-  console.log(`\n[TVS] Cargando 5000 mentes históricas y futuristas...`);
+  console.log(`\n[TVS] Cargando mentes históricas y futuristas...`);
   const spawnedCount = await tvs.spawnAllMinds();
   console.log(`[TVS] ✓ ${spawnedCount} agentes de mentes históricas/futuristas registrados`);
 
@@ -146,7 +147,10 @@ n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}
   console.log(`[TVS] Iniciando ciclos de evolución y aprendizaje...`);
   await tvs.startCycles();
   console.log(`[TVS] TVS v5.0 funcionando - presiona Ctrl+C para detener\n`);
-})();
+})().catch((err) => {
+  console.error("[TVS] ERROR FATAL no arranque do sistema:", err);
+  process.exit(1);
+});
 
-const dashboardServer = new TVSDashboardServer(tvs, 3000);
+const dashboardServer = new TVSDashboardServer(tvs);
 dashboardServer.start();

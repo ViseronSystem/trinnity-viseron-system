@@ -198,9 +198,9 @@ export class ForgeServer {
       }
     });
 
-    api.get("/repos/:owner/:name/git/blobs/*", async (req, res) => {
+    api.get("/repos/:owner/:name/git/blobs/{*path}", async (req, res) => {
       try {
-        const filePath = this.p(req, "0");
+        const filePath = this.p(req, "path");
         const ref = req.query.ref as string || "main";
         const content = await this.gitEngine.getFileContent(this.p(req, "owner"), this.p(req, "name"), filePath, ref);
         if (content === null) { res.status(404).json({ error: "File not found" }); return; }
@@ -291,6 +291,22 @@ export class ForgeServer {
   }
 
   private setupGitHTTP(): void {
+    const runGit = (service: string, repoPath: string, req: express.Request, res: express.Response) => {
+      const { spawn } = require("child_process");
+      const child = spawn("git", [service, repoPath], { stdio: ["pipe", "pipe", "pipe"] });
+      let stderr = "";
+      child.stderr.on("data", (d: Buffer) => { stderr += d.toString(); });
+      child.on("error", (err: Error) => { res.status(500).send(err.message); });
+      child.on("close", (code: number | null) => {
+        if (code && code !== 0 && !res.headersSent) {
+          res.status(500).send(stderr || `git ${service} failed with code ${code}`);
+        }
+      });
+      res.on("close", () => child.kill());
+      child.stdout.pipe(res);
+      req.pipe(child.stdin);
+    };
+
     this.app.post("/git/:owner/:name/git-receive-pack", (req, res) => {
       const owner = this.p(req, "owner");
       const name = this.p(req, "name");
@@ -299,7 +315,18 @@ export class ForgeServer {
         return;
       }
       res.set("Content-Type", "application/x-git-receive-pack-result");
-      res.send("");
+      runGit("receive-pack", this.gitEngine.getRepoPath(owner, name), req, res);
+    });
+
+    this.app.post("/git/:owner/:name/git-upload-pack", (req, res) => {
+      const owner = this.p(req, "owner");
+      const name = this.p(req, "name");
+      if (!this.gitEngine.repoExists(owner, name)) {
+        res.status(404).send("Repository not found");
+        return;
+      }
+      res.set("Content-Type", "application/x-git-upload-pack-result");
+      runGit("upload-pack", this.gitEngine.getRepoPath(owner, name), req, res);
     });
 
     this.app.get("/git/:owner/:name/info/refs", (req, res) => {
@@ -357,7 +384,7 @@ export class ForgeServer {
       res.send(this.getHTML(`${repo.owner}/${repo.name} - ViseronForge`, this.getRepoHTML(repo)));
     });
 
-    this.app.get("/:owner/:repo/tree/:ref(.*)", async (req, res) => {
+    this.app.get("/:owner/:repo/tree/{*ref}", async (req, res) => {
       const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
       if (!repo) { res.status(404).send("Repository not found"); return; }
       const ref = this.p(req, "ref");
@@ -370,7 +397,7 @@ export class ForgeServer {
       }
     });
 
-    this.app.get("/:owner/:repo/blob/:ref(.*)", async (req, res) => {
+    this.app.get("/:owner/:repo/blob/{*ref}", async (req, res) => {
       const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
       if (!repo) { res.status(404).send("Repository not found"); return; }
       const ref = this.p(req, "ref");
@@ -386,7 +413,7 @@ export class ForgeServer {
       }
     });
 
-    this.app.get("/:owner/:repo/commits/:branch(*)", async (req, res) => {
+    this.app.get("/:owner/:repo/commits/{*branch}", async (req, res) => {
       const repo = this.repoManager.getRepo(this.p(req, "owner"), this.p(req, "repo"));
       if (!repo) { res.status(404).send("Repository not found"); return; }
       const branch = this.p(req, "branch");

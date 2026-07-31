@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a0a2e"/>
+    </linearGradient>
+    <linearGradient id="pedro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00ff87"/><stop offset="100%" stop-color="#00c96a"/>
+    </linearGradient>
+    <linearGradient id="trinnity" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff00ff"/><stop offset="100%" stop-color="#bf00bf"/>
+    </linearGradient>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#00f0ff"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#00ff87"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#ff00ff"/>
+    </marker>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="900" fill="url(#bg)"/>
+  <text x="640" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#00ff87" filter="url(#glow)">TRINNITY VISERON SYSTEM v5.0 — DIAGRAMA DE OPERAÇÃO</text>
+  <text x="640" y="78" text-anchor="middle" font-family="Arial" font-size="14" fill="#bf5af2">Comando: Pedro Costa · Arquitetura: Trinnity Hurtado · 5.000 Mentes · 246 Arquetipos · 114 Batallón</text>
+
+  <!-- ===== LINEA 1: SOBERANOS ===== -->
+  <rect x="390" y="105" width="240" height="52" rx="10" fill="url(#pedro)" filter="url(#glow)"/>
+  <text x="510" y="128" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#04260f">👑 PEDRO COSTA</text>
+  <text x="510" y="147" text-anchor="middle" font-family="Arial" font-size="11" fill="#04260f">Supreme Commander</text>
+  <rect x="650" y="105" width="240" height="52" rx="10" fill="url(#trinnity)" filter="url(#glow)"/>
+  <text x="770" y="128" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#3a003a">👸 TRINNITY HURTADO</text>
+  <text x="770" y="147" text-anchor="middle" font-family="Arial" font-size="11" fill="#3a003a">Queen Architect</text>
+
+  <!-- ===== LINEA 2: AIOX SQUADS ===== -->
+  <line x1="510" y1="157" x2="510" y2="195" stroke="#00ff87" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="770" y1="157" x2="770" y2="195" stroke="#ff00ff" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <rect x="480" y="198" width="320" height="46" rx="10" fill="#0a1a2e" stroke="#00f0ff" stroke-width="2"/>
+  <text x="640" y="218" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#00f0ff">AIOX CORE SQUAD (orquestado)</text>
+  <text x="640" y="236" text-anchor="middle" font-family="Arial" font-size="11" fill="#9db8d8">Supervisão: Pedro Costa + Trinnity Hurtado</text>
+
+  <!-- ===== LINEA 3: NUCLEO ===== -->
+  <line x1="510" y1="244" x2="300" y2="285" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <line x1="640" y1="244" x2="640" y2="285" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <line x1="770" y1="244" x2="980" y2="285" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+
+  <rect x="150" y="288" width="300" height="62" rx="10" fill="#131a3a" stroke="#7a5af2" stroke-width="2"/>
+  <text x="300" y="310" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#a78bfa">SuperMind + SuperIntelligence</text>
+  <text x="300" y="328" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">Síntese multi-provider</text>
+  <text x="300" y="342" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">Auto-Evolução + Aprendizado Hiper</text>
+
+  <rect x="490" y="288" width="300" height="62" rx="10" fill="#131a3a" stroke="#00ff87" stroke-width="2"/>
+  <text x="640" y="310" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">Orchestrator + Squads + 5.000 Mentes</text>
+  <text x="640" y="328" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">5.000 mentes (342 históricas + 4.658 sintéticas)</text>
+  <text x="640" y="342" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">246 arquetipos · 114 batallón · 25 setores</text>
+
+  <rect x="830" y="288" width="300" height="62" rx="10" fill="#131a3a" stroke="#00f0ff" stroke-width="2"/>
+  <text x="980" y="310" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00f0ff">Memória + Evolução</text>
+  <text x="980" y="328" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">MemoryEngine (STM/LTM) · Qdrant</text>
+  <text x="980" y="342" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">Tokenomics $TRIN + $VSR</text>
+
+  <!-- ===== LINEA 4: IA ===== -->
+  <line x1="300" y1="350" x2="300" y2="390" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <line x1="640" y1="350" x2="640" y2="390" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <line x1="980" y1="350" x2="980" y2="390" stroke="#00f0ff" stroke-width="2" marker-end="url(#arrowCyan)"/>
+
+  <rect x="150" y="393" width="300" height="52" rx="10" fill="#0d3a2a" stroke="#00ff87" stroke-width="2"/>
+  <text x="300" y="414" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">🖥️ OLLAMA LOCAL (padrão)</text>
+  <text x="300" y="432" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">llama3:8b · qwen3:9b · deepseek-coder</text>
+
+  <rect x="490" y="393" width="300" height="52" rx="10" fill="#2a1a3a" stroke="#bf5af2" stroke-width="2"/>
+  <text x="640" y="414" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#d8a5ff">☁️ IA NA NUVEM (opcional)</text>
+  <text x="640" y="432" text-anchor="middle" font-family="Arial" font-size="10" fill="#c9b5e0">OpenAI · Claude · Gemini · Grok (chaves em .env)</text>
+
+  <rect x="830" y="393" width="300" height="52" rx="10" fill="#1a2a3a" stroke="#00f0ff" stroke-width="2"/>
+  <text x="980" y="414" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00f0ff">🌐 OMNIROUTE (opcional)</text>
+  <text x="980" y="432" text-anchor="middle" font-family="Arial" font-size="10" fill="#9db8d8">Gateway com 290+ provedores · porta 20128</text>
+
+  <!-- ===== LINEA 5: INTERFACES ===== -->
+  <line x1="300" y1="445" x2="240" y2="500" stroke="#bf5af2" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <line x1="640" y1="445" x2="560" y2="500" stroke="#bf5af2" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <line x1="800" y1="445" x2="870" y2="500" stroke="#bf5af2" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <line x1="980" y1="445" x2="1080" y2="500" stroke="#bf5af2" stroke-width="2" marker-end="url(#arrowPink)"/>
+
+  <rect x="80" y="505" width="320" height="54" rx="10" fill="#3a0a1a" stroke="#ff6b8a" stroke-width="2"/>
+  <text x="240" y="527" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#ff9db8">📊 WEBOS DASHBOARD</text>
+  <text x="240" y="546" text-anchor="middle" font-family="Arial" font-size="10" fill="#e0b0c0">http://localhost:3000/dashboard.html</text>
+
+  <rect x="420" y="505" width="280" height="54" rx="10" fill="#3a0a1a" stroke="#ff6b8a" stroke-width="2"/>
+  <text x="560" y="527" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#ff9db8">📄 PDF REPORTS</text>
+  <text x="560" y="546" text-anchor="middle" font-family="Arial" font-size="10" fill="#e0b0c0">:3001/report/pdf · :3001/report/comprehensive-pdf</text>
+
+  <rect x="720" y="505" width="280" height="54" rx="10" fill="#3a0a1a" stroke="#ff6b8a" stroke-width="2"/>
+  <text x="860" y="527" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#ff9db8">📱 APP MÓVEL (APK/IPA)</text>
+  <text x="860" y="546" text-anchor="middle" font-family="Arial" font-size="10" fill="#e0b0c0">Expo · tvsServerUrl configurável</text>
+
+  <rect x="1020" y="505" width="220" height="54" rx="10" fill="#3a0a1a" stroke="#ff6b8a" stroke-width="2"/>
+  <text x="1130" y="527" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#ff9db8">🎤 VOZ / JARVIS</text>
+  <text x="1130" y="546" text-anchor="middle" font-family="Arial" font-size="10" fill="#e0b0c0">Chat · Twilio · WhatsApp</text>
+
+  <!-- ===== LINEA 6: DEPLOY / BACKUP ===== -->
+  <line x1="240" y1="559" x2="240" y2="600" stroke="#00ff87" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="560" y1="559" x2="560" y2="600" stroke="#00ff87" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="860" y1="559" x2="860" y2="600" stroke="#00ff87" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <rect x="80" y="605" width="320" height="54" rx="10" fill="#04141f" stroke="#00ff87" stroke-width="2"/>
+  <text x="240" y="627" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">📦 DEPLOY</text>
+  <text x="240" y="646" text-anchor="middle" font-family="Arial" font-size="10" fill="#7fc9a8">GitHub · Render · Vercel · Hostalia</text>
+
+  <rect x="420" y="605" width="280" height="54" rx="10" fill="#04141f" stroke="#00ff87" stroke-width="2"/>
+  <text x="560" y="627" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">🛟 BACKUP DIÁRIO</text>
+  <text x="560" y="646" text-anchor="middle" font-family="Arial" font-size="10" fill="#7fc9a8">npm run backup · agendado 03:00</text>
+
+  <rect x="720" y="605" width="280" height="54" rx="10" fill="#04141f" stroke="#00ff87" stroke-width="2"/>
+  <text x="860" y="627" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">🔑 SECRETS (.env)</text>
+  <text x="860" y="646" text-anchor="middle" font-family="Arial" font-size="10" fill="#7fc9a8">Só manual · nunca em git/backups/executáveis</text>
+
+  <rect x="1020" y="605" width="220" height="54" rx="10" fill="#04141f" stroke="#00ff87" stroke-width="2"/>
+  <text x="1130" y="627" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#00ff87">🧪 QUALIDADE</text>
+  <text x="1130" y="646" text-anchor="middle" font-family="Arial" font-size="10" fill="#7fc9a8">npm run lint · npm test</text>
+
+  <!-- ===== PIE ===== -->
+  <line x1="130" y1="690" x2="1150" y2="690" stroke="#333366" stroke-width="1"/>
+  <text x="640" y="720" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#bf5af2">FLUXO HUMANO DIÁRIO</text>
+  <text x="640" y="748" text-anchor="middle" font-family="Arial" font-size="13" fill="#9db8d8">1. npm start → 2. Dashboard :3000 → 3. PDF :3001 → 4. Ver log → 5. Backup semanal</text>
+  <text x="640" y="776" text-anchor="middle" font-family="Arial" font-size="11" fill="#6b7aa8">IA local roda sozinha (Ollama). A pessoa só supervisiona, faz backup e preenche as chaves.</text>
+</svg>

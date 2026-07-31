@@ -15,7 +15,8 @@ $Trigger = New-ScheduledTaskTrigger -Daily -At 03:00
 
 # Action: run PowerShell script
 $Action = New-ScheduledTaskAction -Execute "powershell.exe" `
-    -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`""
+    -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`"" `
+    -WorkingDirectory $WorkingDir
 
 # Run as current user
 $Principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest

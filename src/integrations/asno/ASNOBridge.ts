@@ -165,10 +165,10 @@ Respond in Portuguese (Brazilian) with clear descriptions.`,
     if (this.config.homeAssistantUrl && this.config.homeAssistantToken) {
       try {
         const domain = device.split(".")[0];
-        const service = device.split(".")[1];
+        const service = action;
         const res = await axios.post(
-          `${this.config.homeAssistantUrl}/api/services/${domain}/${action}_${service || ""}`,
-          params,
+          `${this.config.homeAssistantUrl}/api/services/${domain}/${service}`,
+          { entity_id: device, ...params },
           { headers: { Authorization: `Bearer ${this.config.homeAssistantToken}`, "Content-Type": "application/json" } },
         );
         return { device, action, status: "ok", haResponse: res.data };
@@ -224,4 +224,13 @@ Respond in Portuguese (Brazilian) with clear descriptions.`,
       availableNames: ["Jarvis", "Kratos", "Chefe", "Sara", "Sophia"],
     };
   }
+}
+
+export async function startServer(config?: Partial<ASNOConfig>): Promise<ASNOBridge> {
+  const { AgentManager } = await import("../../core/AgentManager");
+  const { ToolManager } = await import("../../core/tools/ToolManager");
+  const bridge = new ASNOBridge(new AgentManager(), new ToolManager(), config);
+  await bridge.initialize();
+  console.log(`[ASNO] Server pronta`);
+  return bridge;
 }

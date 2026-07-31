@@ -5,8 +5,8 @@ import { execSync } from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-const PYTHON = "C:\\Users\\MySystem\\AppData\\Local\\Programs\\Python\\Python313\\python.exe";
-const SCRIPTS = "C:\\Users\\MySystem\\AppData\\Local\\Programs\\Python\\Python313\\Scripts";
+const PYTHON = process.env.TVS_PYTHON || "python";
+const SCRIPTS = process.env.TVS_PYTHON_SCRIPTS || "";
 
 function run(cmd: string): string {
   try { return execSync(cmd, { timeout: 120000, encoding: "utf-8", shell: "powershell" }).trim(); }
@@ -216,7 +216,7 @@ export class TVSToolsIntegration {
           };
         }
 
-        if (!file && action === "transcribe" || action === "transcrever") {
+        if (!file && (action === "transcribe" || action === "transcrever")) {
           return {
             comando: "whisper transcribe",
             erro: "Informe o arquivo de audio/video",

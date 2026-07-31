@@ -127,7 +127,7 @@ export class ReportServer {
         intelligenceLevel: this.superIntelligence.getStats().totalSyntheses || 0,
         directiveCount: this.comprehensivePDF["directives"].getActiveDirectives().length,
         completedCount: this.comprehensivePDF["directives"].getCompletedReturns().length,
-        providerCount: Object.keys(this.bridge.getStats?.() || {}).length || 8,
+        providerCount: this.bridge.getAvailableProviders().length,
         uptime: Date.now() - (global as any).__TVS_START_TIME || 0,
         timestamp: new Date().toISOString()
       };

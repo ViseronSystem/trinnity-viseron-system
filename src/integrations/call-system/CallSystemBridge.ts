@@ -190,3 +190,16 @@ Provide structured summaries of each call interaction.`,
     this.activeCalls.clear();
   }
 }
+
+export async function startServer(config?: Partial<CallSystemConfig>): Promise<CallSystemBridge> {
+  const { AgentManager } = await import("../../core/AgentManager");
+  const { ToolManager } = await import("../../core/tools/ToolManager");
+  const { ProviderFactory } = await import("../../core/providers/ProviderFactory");
+  const { ModelRouter } = await import("../../core/model-router/ModelRouter");
+  const bridge = new CallSystemBridge(
+    new AgentManager(), new ToolManager(), new ProviderFactory(), new ModelRouter(), config
+  );
+  await bridge.initialize();
+  console.log(`[CallSystem] Server pronta (porta ${bridge.getStats().port})`);
+  return bridge;
+}

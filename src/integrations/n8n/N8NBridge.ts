@@ -169,8 +169,8 @@ export class N8NBridge {
           env: {
             ...process.env,
             N8N_BASIC_AUTH_ACTIVE: "true",
-            N8N_BASIC_AUTH_USER: "admin",
-            N8N_BASIC_AUTH_PASSWORD: "viseron",
+            N8N_BASIC_AUTH_USER: process.env.N8N_BASIC_AUTH_USER || "admin",
+            N8N_BASIC_AUTH_PASSWORD: process.env.N8N_BASIC_AUTH_PASSWORD || "viseron",
             WEBHOOK_URL: `http://localhost:${this.port}`
           }
         });
