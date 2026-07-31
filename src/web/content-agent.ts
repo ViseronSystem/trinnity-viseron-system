@@ -151,6 +151,13 @@ export class ContentAgent {
         return;
       }
 
+      if (result.text.startsWith("[Ollama Mock Response]") ||
+          result.text.startsWith("[Gemini Error Fallback]") ||
+          result.text.startsWith("[Gemini Google Connector Ready]")) {
+        console.log(`[ContentAgent] Skipping mock/error response (no AI provider available): ${topic.title}`);
+        return;
+      }
+
       let parsed: { content?: string; excerpt?: string; contentHtml?: string } = {};
       try {
         parsed = JSON.parse(result.text);
@@ -194,6 +201,12 @@ export class ContentAgent {
     try {
       const result = await this.providerFactory.generate(providerToUse as ModelProvider, request);
       if (!result || !result.text) return;
+      if (result.text.startsWith("[Ollama Mock Response]") ||
+          result.text.startsWith("[Gemini Error Fallback]") ||
+          result.text.startsWith("[Gemini Google Connector Ready]")) {
+        console.log(`[ContentAgent] Skipping mock/error response for custom post: ${title}`);
+        return;
+      }
 
       let parsed: any = {};
       try { parsed = JSON.parse(result.text); } catch { parsed = { content: result.text, excerpt: result.text.substring(0, 200) }; }
