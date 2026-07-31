@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { Platform } from 'react-native';
 import { tvsApi, TVSStats, Agent, StatusInfo, BattalionInfo, DirectiveInfo, setServerUrl } from '../services/api';
-import { useNodeJsServer, isNodeRunning } from '../../bridge/NodeRunner';
 
 interface TVSContextType {
   connected: boolean;
@@ -13,7 +11,6 @@ interface TVSContextType {
   loading: boolean;
   error: string | null;
   serverUrl: string;
-  localServer: boolean;
   setServer: (url: string) => void;
   refresh: () => Promise<void>;
   executeTask: (agentId: string, task: string) => Promise<string | null>;
@@ -23,7 +20,7 @@ interface TVSContextType {
 const TVSContext = createContext<TVSContextType>({
   connected: false, stats: null, agents: [], status: null,
   battalion: null, directives: null, loading: true, error: null,
-  serverUrl: 'http://localhost:3000', localServer: false,
+  serverUrl: 'http://localhost:3000',
   setServer: () => {}, refresh: async () => {},
   executeTask: async () => null, sendCommand: async () => null,
 });
@@ -38,9 +35,6 @@ export function TVSProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [serverUrl, setServerUrlState] = useState(tvsApi.baseUrl);
-  const [localServer, setLocalServer] = useState(Platform.OS === 'android');
-
-  useNodeJsServer();
 
   const fetchAll = useCallback(async () => {
     const health = await tvsApi.health();
@@ -116,15 +110,10 @@ export function TVSProvider({ children }: { children: ReactNode }) {
       tvsApi.health().then(h => {
         if (h && !connected) {
           fetchAll();
-          setLocalServer(true);
-        }
-        if (!h && localServer && Platform.OS === 'android') {
-          // Node.js server still starting up
-          console.log('[TVS] Aguardando servidor local iniciar...');
         }
         setConnected(h);
       });
-    }, localServer ? 2000 : 10000);
+    }, 10000);
     return () => {
       clearInterval(interval);
       tvsApi.disconnectSocket();
@@ -134,7 +123,7 @@ export function TVSProvider({ children }: { children: ReactNode }) {
   return (
     <TVSContext.Provider value={{
       connected, stats, agents, status, battalion, directives,
-      loading, error, serverUrl, localServer, setServer, refresh, executeTask, sendCommand,
+      loading, error, serverUrl, setServer, refresh, executeTask, sendCommand,
     }}>
       {children}
     </TVSContext.Provider>

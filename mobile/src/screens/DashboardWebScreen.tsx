@@ -4,15 +4,13 @@ import { WebView } from 'react-native-webview';
 import { useTVS } from '../context/TVSContext';
 
 export default function DashboardWebScreen() {
-  const { serverUrl, connected, localServer } = useTVS();
+  const { serverUrl, connected } = useTVS();
 
   if (!connected) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#00f5ff" />
-        <Text style={styles.loadingText}>
-          {localServer ? 'Iniciando servidor TVS local...' : 'Conectando ao servidor...'}
-        </Text>
+        <Text style={styles.loadingText}>Conectando ao servidor...</Text>
       </View>
     );
   }
@@ -21,9 +19,7 @@ export default function DashboardWebScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={[styles.dot, { backgroundColor: '#00ff88' }]} />
-        <Text style={styles.headerText}>
-          {localServer ? 'Servidor Local' : serverUrl}
-        </Text>
+        <Text style={styles.headerText}>{serverUrl}</Text>
       </View>
       <WebView
         source={{ uri: serverUrl }}
