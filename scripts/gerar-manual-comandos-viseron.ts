@@ -4,6 +4,78 @@ import * as path from "path";
 
 const OUTPUT = path.resolve("data/reports/manual-comandos-viseron.pdf");
 
+// ==========================================================================
+// Comandos npm são lidos DINAMICAMENTE de package.json — comandos novos
+// aparecem automaticamente no PDF a cada regeneração.
+// ==========================================================================
+const pkgScripts: Record<string, string> = require("../package.json").scripts || {};
+
+const descMap: Record<string, string> = {
+  "start": "Executar sistema compilado (dist)",
+  "start:exe": "Executar executável standalone Windows",
+  "dev": "Modo desenvolvimento com hot reload",
+  "build": "Compilar TypeScript para dist/",
+  "test": "Rodar testes core + web (50)",
+  "test:core": "Rodar testes do núcleo",
+  "test:web": "Rodar testes da camada web (auth/billing/onboarding/email)",
+  "test:hyper": "Rodar testes hyperbrain",
+  "demo": "Demo operacional real (HTTP 9 endpoints)",
+  "demo:email": "Demo dos 3+ fluxos de email (verify/reset/invoice/agent)",
+  "lint": "Verificar TypeScript (tsc --noEmit)",
+  "deploy": "Deploy completo (build + PDFs + backup)",
+  "deploy:github": "Deploy GitHub",
+  "deploy:render": "Deploy Render via API",
+  "deploy:hostalia": "Deploy landing page via FTP Hostalia",
+  "deploy:vercel": "Deploy Vercel",
+  "deploy:domain": "Configurar domínio www.trinnityviseronsystem.io no .env",
+  "deploy:domain:check": "Validar DNS/HTTPS do domínio novo",
+  "update:auto": "Self-update: pull + install + PDFs + build + testes + deploy",
+  "docs:100": "Gerar data/Viseron_100_Melhorias_Integracao.pdf",
+  "report:update": "Gerar relatório de update PDF",
+  "gmail:setup": "Setup Gmail API (OAuth consent → refresh token)",
+  "backup": "Executar backup diário",
+  "backup:schedule": "Agendar backup automático (Task Scheduler)",
+  "skills:install": "Instalar/atualizar coleções de skills (autónomo)",
+  "skills": "Skills CLI (list, search, info)",
+  "skills:list": "Listar skills instaladas",
+  "skills:search": "Pesquisar skills",
+  "skills:info": "Ver info de uma skill",
+  "init": "Build + backup + start",
+  "init:full": "Inicialização completa do sistema",
+  "mobile:start": "Iniciar app mobile Expo",
+  "mobile:android": "Executar app Android",
+  "mobile:ios": "Executar app iOS",
+  "build:android": "Gerar APK Android",
+  "build:ios": "Gerar IPA iOS",
+  "build:all": "Gerar APK + IPA",
+  "build:eas-android": "Build Android via EAS",
+  "build:eas-ios": "Build iOS via EAS",
+  "pitch": "Gerar pitch de investidores",
+  "pitch:startup": "Gerar pitch startup (3 idiomas)",
+  "pitch:v6": "Gerar pitch v6",
+  "roadmap": "Gerar roadmap milionário",
+  "pdfs:all": "Regenerar TODOS os PDFs (manuais, pitches, roadmap, 100 melhorias)",
+  "launch": "Script de lançamento de mercado",
+  "setup": "Instalar todas as dependências",
+  "dev:web": "Servidor web em modo desenvolvimento",
+  "start:web": "Executar servidor web compilado",
+};
+
+function buildScriptList(): Array<[string, string]> {
+  const known: Array<[string, string]> = [];
+  const rest: Array<[string, string]> = [];
+  for (const [name, cmd] of Object.entries(pkgScripts)) {
+    const entry: [string, string] = descMap[name]
+      ? [`npm run ${name}`, descMap[name]]
+      : [`npm run ${name}`, cmd.replace(/powershell -ExecutionPolicy Bypass -File /i, "").replace(/^tsx /, "")];
+    if (descMap[name]) known.push(entry);
+    else rest.push(entry);
+  }
+  return [...known, ...rest];
+}
+
+const tvsBuiltIn = buildScriptList();
+
 const tools = [
   {
     id: "tvs_ytdlp", name: "yt-dlp — Downloader Universal", repo: "github.com/yt-dlp/yt-dlp",
@@ -92,40 +164,35 @@ const tools = [
   },
 ];
 
-const tvsBuiltIn = [
-  ["npm run dev", "Iniciar TVS em modo desenvolvimento com hot reload"],
-  ["npm run build", "Compilar TypeScript para producao"],
-  ["npm start", "Executar sistema compilado"],
-  ["npm run build:android", "Gerar APK Android"],
-  ["npm run build:ios", "Gerar IPA iOS"],
-  ["npm run mobile:start", "Iniciar app mobile Expo"],
-  ["npm test", "Rodar testes do nucleo"],
-  ["npm run test:hyper", "Rodar testes hyperbrain"],
-  ["npm run launch", "Script de lancamento de mercado"],
-  ["npm run lint", "Verificar TypeScript"],
-  ["npm run setup", "Instalar todas as dependencias"],
-  ["npx tsx scripts/ativar-bilionarios-e-plano.ts", "Ativar mentes bilionarias + plano $100k"],
-  ["npx aiox-core init <projeto>", "Criar novo projeto AIOX"],
-  ["npx aiox-core install", "Instalar modulos AIOX"],
-  ["npx aiox-core status", "Verificar status AIOX"],
-];
-
 const apiEndpoints = [
-  ["GET /api/health", "Health check do sistema"],
-  ["GET /api/stats", "Estatisticas completas"],
-  ["GET /api/agents", "Listar todos os agentes"],
-  ["GET /api/status", "Status do sistema com esquadroes"],
-  ["GET /api/battalion", "Relatorio do batalhao"],
-  ["GET /api/battalion/:id", "Agente do batalhao por ID"],
-  ["GET /api/directives", "Estatisticas de diretivas"],
-  ["POST /api/directive", "Emitir nova diretiva"],
-  ["POST /api/synthesize", "Sintese multi-provider"],
-  ["GET /report", "Relatorio JSON completo"],
-  ["GET /report/pdf", "Download PDF do sistema"],
-  ["GET /report/comprehensive-pdf", "PDF abrangente"],
-  ["GET /superintelligence", "Status SuperIntelligence"],
-  ["GET /supermind", "Nivel SuperMind"],
-  ["GET /tvs-tools/stats", "Status ferramentas GitHub"],
+  ["GET /api/health", "Health + db + billing + email + contagens"],
+  ["GET /api/metrics", "Métricas de uso"],
+  ["GET /api/system/status", "Status do servidor standalone"],
+  ["POST /api/waitlist", "Registar email na waitlist"],
+  ["GET /pitch/:file", "Baixar PDFs de pitch"],
+  ["POST /api/auth/register", "Registo multi-tenant (org → tenant + owner + JWT)"],
+  ["POST /api/auth/login", "Login JWT (rate-limited)"],
+  ["GET /api/auth/me", "Perfil autenticado"],
+  ["PATCH /api/auth/profile", "Atualizar nome/perfil/role"],
+  ["GET /api/auth/users", "Listar membros (owner/admin)"],
+  ["POST /api/auth/logout", "Terminar sessão"],
+  ["GET /api/billing/plans", "Planos Core $29 / Pro $99 / Enterprise $499"],
+  ["POST /api/billing/checkout", "Criar sessão de checkout"],
+  ["POST /api/billing/webhook", "Webhook de pagamento → upgrade do plano"],
+  ["GET /api/billing/subscription", "Estado da subscrição/trial"],
+  ["GET /api/onboarding/templates", "5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom)"],
+  ["POST /api/onboarding/apply", "Materializar agentes no workspace do tenant"],
+  ["GET /api/email/status", "Provider de email ativo + estado Gmail"],
+  ["POST /api/email/test", "Enviar email de teste"],
+  ["POST /api/email/verify/send", "Enviar código de verificação"],
+  ["POST /api/email/verify/confirm", "Confirmar código de verificação"],
+  ["GET /api/email/verified", "Estado de verificação do email"],
+  ["POST /api/email/reset/send", "Enviar código de reposição de password"],
+  ["POST /api/email/reset/confirm", "Confirmar código + nova password"],
+  ["GET /api/blog/posts", "Listar posts do blog"],
+  ["POST /api/content/generate", "Gerar post de conteúdo"],
+  ["POST /api/content/trigger", "Disparar geração de conteúdo"],
+  ["GET /api/content/schedule", "Estado do agendamento de conteúdo"],
 ];
 
 const doc = new PDFDocument({
@@ -162,7 +229,7 @@ doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("SUMARIO", { u
 doc.moveDown(1);
 doc.fillColor("#333333").fontSize(11).font("Helvetica");
 const toc = [
-  "1. Comandos Viseron (npm + CLI + API)",
+  "1. Comandos Viseron (npm + CLI + API) — lido de package.json",
   "2. tvs_ytdlp — YouTube/Video Downloader",
   "3. tvs_ollama — IA Local (LLaMA, Qwen, Mistral...)",
   "4. tvs_fooocus — Gerador de Imagens AI",
@@ -170,7 +237,7 @@ const toc = [
   "6. tvs_plausible — Web Analytics",
   "7. tvs_appflowy — Workspace AI",
   "8. tvs_penpot — Design Tool + MCP",
-  "9. API TVS Completa",
+  "9. API TVS Completa (auth/billing/onboarding/email)",
   "10. Como emitir comandos via Diretivas",
 ];
 toc.forEach((t, i) => {
@@ -183,12 +250,13 @@ doc.addPage();
 doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("1. COMANDOS VISERON", { underline: true });
 doc.moveDown(0.5);
 doc.fillColor("#333333").fontSize(11).font("Helvetica");
-doc.text("Comandos npm para operar o Trinnity Viseron System:", { align: "justify" });
+doc.text("Comandos npm para operar o Trinnity Viseron System (lidos automaticamente de package.json — novos comandos aparecem aqui a cada regeneração):", { align: "justify" });
 doc.moveDown(0.5);
 
 tvsBuiltIn.forEach(([cmd, desc]) => {
-  doc.font("Courier").fontSize(8).fillColor("#0a0a2e").text("  " + cmd.padEnd(40));
-  doc.font("Helvetica").fontSize(9).fillColor("#555").text("    " + desc);
+  if (doc.y > 700) doc.addPage();
+  doc.font("Courier").fontSize(7.5).fillColor("#0a0a2e").text("  " + cmd);
+  doc.font("Helvetica").fontSize(8).fillColor("#555").text("    " + desc);
   doc.fillColor("#333");
   doc.moveDown(0.15);
 });
@@ -239,6 +307,7 @@ doc.moveDown(0.3);
 
 doc.font("Courier").fontSize(8);
 apiEndpoints.forEach(([ep, desc]) => {
+  if (doc.y > 700) doc.addPage();
   doc.text("  " + ep.padEnd(38) + desc);
 });
 

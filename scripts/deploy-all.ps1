@@ -31,13 +31,9 @@ if ($LASTEXITCODE -eq 0) {
     exit 1
 }
 
-# Step 1.5: Regenerar PDFs a cada deploy
-Write-Step "Regenerando PDFs (pitch/roadmap/100/update)..." "INFO"
-npx tsx scripts/gerar-pitch-startup.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-pitch-v6.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-roadmap-milionario.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-100-melhorias.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-relatorio-update.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+# Step 1.5: Regenerar TODOS os PDFs a cada deploy (manuais + pitches + roadmap + 100 melhorias + relatório)
+Write-Step "Regenerando todos os PDFs..." "INFO"
+& "$Root\scripts\gerar-todos-pdfs.ps1"
 Write-Step "PDFs OK!" "OK"
 Pop-Location
 

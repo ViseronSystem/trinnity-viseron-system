@@ -26,12 +26,9 @@ Write-Step "npm install..." "INFO"
 npm install --no-audit --no-fund 2>&1 | Out-Null
 Write-Step "Dependências OK" "OK"
 
-# 3) Regenerar PDFs (pitch + roadmap + 100 melhorias + relatório de update)
-Write-Step "Regenerando PDFs..." "INFO"
-npx tsx scripts/gerar-pitch-startup.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-pitch-v6.ts      2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-roadmap-milionario.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
-npx tsx scripts/gerar-100-melhorias.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+# 3) Regenerar TODOS os PDFs (manuais + pitch + roadmap + 100 melhorias)
+Write-Step "Regenerando todos os PDFs..." "INFO"
+& "$Root\scripts\gerar-todos-pdfs.ps1"
 
 # 4) Build
 Write-Step "npm run build..." "INFO"

@@ -69,6 +69,7 @@
     "report:update": "tsx scripts/gerar-relatorio-update.ts",
     "gmail:setup": "tsx scripts/setup-gmail.ts",
     "demo:email": "tsx scripts/demo-email.ts",
+    "pdfs:all": "powershell -ExecutionPolicy Bypass -File scripts/gerar-todos-pdfs.ps1",
     "deploy:domain": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -GenEnv",
     "deploy:domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
     "update:auto": "powershell -ExecutionPolicy Bypass -File scripts/self-update.ps1"
