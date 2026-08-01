@@ -21,6 +21,9 @@ tvs_stdout.txt
 tvs_demo_*.txt
 tvs_demo_pid.txt
 
+# Memória runtime do sistema (demasiado grande para git; backup via npm run backup)
+database/memory/ltm.json
+
 # Colecciones de skills vendered (instalables via npm run skills:install)
 skills/vendor/
 
