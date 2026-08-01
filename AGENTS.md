@@ -49,7 +49,10 @@ cd mobile && npx expo start
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |
 | `npm run build:ios` | Build IPA for Apple Store |
-| `npm run test` | Run core tests |
+| `npm run test` | Run core + web tests (39 total) |
+| `npm run test:core` | Run core tests |
+| `npm run test:web` | Run web layer tests (auth/billing/onboarding) |
+| `npm run demo` | Demo operacional real (HTTP 9/9 endpoints) |
 | `npm run lint` | TypeScript check |
 | `npm run backup` | Run daily backup |
 | `npm run backup:schedule` | Schedule auto-backup (Task Scheduler) |
@@ -60,6 +63,36 @@ cd mobile && npx expo start
 | `npm run deploy` | Deploy to GitHub + Vercel |
 | `npm run deploy:github` | Deploy to GitHub only |
 | `npm run deploy:vercel` | Deploy to Vercel only |
+| `npm run deploy:domain` | Configura domínio novo (www.trinnityviseronsystem.io) no .env |
+| `npm run deploy:domain:check` | Valida DNS/HTTPS do domínio novo |
+| `npm run update:auto` | Self-update: pull + install + PDFs + build + testes + deploy |
+| `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
+| `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
+
+## Domínio novo
+
+Sítio: **www.trinnityviseronsystem.io** (registo em Cloudflare/Namecheap/GoDaddy).
+Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz push ao GitHub.
+
+## API Web (Phase 0)
+
+| Endpoint | Descrição |
+|----------|-----------|
+| `POST /api/auth/register` | Registo multi-tenant (org → tenant + owner + JWT) |
+| `POST /api/auth/login` | Login JWT (rate-limited) |
+| `GET /api/auth/me` | Perfil autenticado |
+| `PATCH /api/auth/profile` | Atualizar nome/perfil |
+| `GET /api/auth/users` | Listar membros (owner/admin) |
+| `GET /api/billing/plans` | Planos Core $29 / Pro $99 / Enterprise $499 |
+| `POST /api/billing/checkout` | Criar sessão de checkout (Stripe ou manual) |
+| `POST /api/billing/webhook` | Webhook de pagamento → upgrade do plano |
+| `GET /api/billing/subscription` | Estado da subscrição/trial |
+| `GET /api/onboarding/templates` | 5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) |
+| `POST /api/onboarding/apply` | Materializa agentes no workspace do tenant |
+| `GET /api/health` | Health + db + billing + contagens |
+| `GET /api/metrics` | Métricas de uso |
+
+Variáveis de ambiente: `DATABASE_URL` (Postgres opcional), `STRIPE_SECRET_KEY`, `TVS_JWT_SECRET`.
 
 ## AI Providers
 

@@ -30,6 +30,15 @@ if ($LASTEXITCODE -eq 0) {
     Write-Step "Falha no build!" "ERROR"
     exit 1
 }
+
+# Step 1.5: Regenerar PDFs a cada deploy
+Write-Step "Regenerando PDFs (pitch/roadmap/100/update)..." "INFO"
+npx tsx scripts/gerar-pitch-startup.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+npx tsx scripts/gerar-pitch-v6.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+npx tsx scripts/gerar-roadmap-milionario.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+npx tsx scripts/gerar-100-melhorias.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+npx tsx scripts/gerar-relatorio-update.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+Write-Step "PDFs OK!" "OK"
 Pop-Location
 
 # Step 2: Backup pre-deploy

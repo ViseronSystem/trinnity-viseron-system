@@ -7,9 +7,18 @@ import { Server } from "socket.io";
 import { BlogStorage } from "./blog-storage";
 import { createBlogRouter } from "./blog-routes";
 import { ContentAgent } from "./content-agent";
+import { AccountStore } from "./auth/store";
+import { createAuthRouter } from "./auth/routes";
+import { createLogger, ILogger } from "./monitoring/logger";
+import { MetricsCollector, IMetrics } from "./monitoring/metrics";
+import { requestLogger } from "./monitoring/middleware";
+import { StripeBilling } from "./billing/stripe";
+import { createBillingRouter } from "./billing/routes";
+import { createOnboardingRouter } from "./onboarding/routes";
+import { getDatabase } from "./db";
 
-const PORT = parseInt(process.env.PORT || "3000", 10);
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
+const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
 
 export class ViseronWebServer {
   private app: express.Application;
@@ -17,8 +26,15 @@ export class ViseronWebServer {
   private io: Server;
   private blog: BlogStorage;
   private contentAgent: ContentAgent;
+  private accounts: AccountStore;
+  private logger: ILogger;
+  private metrics: IMetrics;
+  private billing: StripeBilling;
+  private db: ReturnType<typeof getDatabase>;
+  private dataDir: string;
+  private port: number;
 
-  constructor() {
+  constructor(options?: { dataDir?: string; port?: number }) {
     this.app = express();
     this.server = http.createServer(this.app);
     this.io = new Server(this.server, {
@@ -26,8 +42,15 @@ export class ViseronWebServer {
       cors: { origin: "*", methods: ["GET", "POST"] }
     });
 
+    this.dataDir = options?.dataDir || DATA_DIR;
+    this.port = options?.port ?? parseInt(process.env.PORT || "3000", 10);
     this.blog = new BlogStorage();
     this.contentAgent = new ContentAgent(this.blog);
+    this.accounts = new AccountStore(path.join(this.dataDir, "accounts.json"));
+    this.logger = createLogger();
+    this.metrics = new MetricsCollector();
+    this.billing = new StripeBilling();
+    this.db = getDatabase();
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -35,11 +58,19 @@ export class ViseronWebServer {
   }
 
   private setupMiddleware(): void {
-    this.app.use(express.json());
+    this.app.use(express.json({
+      verify: (req, _res, buf) => {
+        (req as any).rawBody = buf;
+      },
+    }));
+    this.app.use(requestLogger(this.logger, this.metrics));
     this.app.use((req, res, next) => {
       const host = (req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
       if (host === "trinnityviseron.com") {
         return res.redirect(301, "https://www.trinnityviseron.com" + req.url);
+      }
+      if (host === "trinnityviseronsystem.io") {
+        return res.redirect(301, "https://www.trinnityviseronsystem.io" + req.url);
       }
       next();
     });
@@ -48,10 +79,22 @@ export class ViseronWebServer {
 
   private setupRoutes(): void {
     this.app.get("/api/health", (_req, res) => {
-      res.json({ status: "OK", timestamp: Date.now(), mode: "web-standalone", version: "5.0.0" });
+      res.json({
+        status: "OK",
+        timestamp: Date.now(),
+        mode: "web-standalone",
+        version: "5.0.0",
+        db: this.db.enabled ? "postgres" : "json-fallback",
+        billing: this.billing.enabled ? "stripe" : "manual",
+        tenants: this.accounts.count().tenants,
+        users: this.accounts.count().users,
+      });
     });
 
-    const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
+    this.app.get("/api/metrics", (_req, res) => {
+      res.json(this.metrics.snapshot());
+    });
+
     const WAITLIST_FILE = path.join(DATA_DIR, "waitlist.json");
 
     this.app.get("/pitch/:file", (req, res) => {
@@ -87,8 +130,14 @@ export class ViseronWebServer {
         mode: "standalone",
         blog: this.blog.count(),
         uptime: process.uptime(),
+        tenants: this.accounts.count().tenants,
+        users: this.accounts.count().users,
       });
     });
+
+    this.app.use("/api", createAuthRouter(this.accounts, this.logger, this.metrics));
+    this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics));
+    this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
@@ -143,14 +192,23 @@ export class ViseronWebServer {
 
   start(): Promise<void> {
     return new Promise((resolve) => {
-      this.server.listen(PORT, () => {
+      this.server.listen(this.port, () => {
         console.log(`\n==========================================`);
-        console.log(`[Viseron Web] Servidor rodando em http://localhost:${PORT}`);
-        console.log(`[Viseron Web] Blog: http://localhost:${PORT}/blog`);
-        console.log(`[Viseron Web] Dashboard: http://localhost:${PORT}/dashboard`);
+        console.log(`[Viseron Web] Servidor rodando em http://localhost:${this.port}`);
+        console.log(`[Viseron Web] Blog: http://localhost:${this.port}/blog`);
+        console.log(`[Viseron Web] Dashboard: http://localhost:${this.port}/dashboard`);
+        console.log(`[Viseron Web] Auth: http://localhost:${this.port}/api/auth/*`);
+        console.log(`[Viseron Web] Billing: http://localhost:${this.port}/api/billing/*`);
+        console.log(`[Viseron Web] Onboarding: http://localhost:${this.port}/api/onboarding/*`);
+        console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();
       });
+      this.db.runMigrations()
+        .then((n) => {
+          if (n > 0) console.log(`[DB] ${n} migração(ões) aplicada(s)`);
+        })
+        .catch((e) => console.error(`[DB] Migração falhou (usando fallback JSON): ${e.message}`));
     });
   }
 
