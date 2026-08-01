@@ -58,6 +58,7 @@ export class AutoLearningEngine {
    */
   public async executeLearningCycle(): Promise<void> {
     this.cycleCount++;
+    (global as any).__TVS_LAST_LEARNING = Date.now();
     const timestamp = Date.now();
     console.log(`\n==================================================`);
     console.log(`[AutoLearningEngine] Ciclo de Aprendizaje #${this.cycleCount} (${new Date(timestamp).toLocaleTimeString()})`);

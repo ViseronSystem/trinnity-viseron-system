@@ -140,6 +140,7 @@ export class AutonomousPlanner {
     if (this.isRunning) return;
     this.isRunning = true;
     this.cycleCount++;
+    (global as any).__TVS_LAST_PLANNER = Date.now();
 
     console.log(`\n==================================================`);
     console.log(`[AutonomousPlanner] Ciclo de Planificación #${this.cycleCount}`);

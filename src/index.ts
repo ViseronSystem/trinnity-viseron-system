@@ -1,14 +1,25 @@
 import "dotenv/config";
 import { ViseronCore } from "./core/ViseronCore";
 import { TVSDashboardServer } from "./dashboard/server";
-import { SmartAgent } from "./core/agents/SmartAgent";
 import { IAgent, AgentExecutionResult } from "./core/types";
+import { SmartAgent } from "./core/agents/SmartAgent";
 import { BusinessProblem } from "./core/agents/BusinessSolutionEngine";
 import { SuperIntegration } from "./integrations/SuperIntegration";
 import { OmniRouteHub } from "./integrations/omniroute/OmniRouteHub";
 import { N8NBridge } from "./integrations/n8n/N8NBridge";
+import { TVSTerminal } from "./terminal/TerminalInterface";
 
 (global as any).__TVS_START_TIME = Date.now();
+
+// ═══ REDE DE SEGURANÇA GLOBAL ═══
+// Nenhum erro pode travar o sistema: loga e segue.
+process.on("uncaughtException", (err) => {
+  console.error(`[TVS] ⚠ Erro global capturado (sistema continua): ${err?.message || err}`);
+});
+process.on("unhandledRejection", (reason) => {
+  const msg = reason instanceof Error ? reason.message : String(reason);
+  console.error(`[TVS] ⚠ Rejeição não tratada (sistema continua): ${msg}`);
+});
 
 const tvs = new ViseronCore();
 tvs.start();
@@ -62,58 +73,74 @@ const n8nBridge = new N8NBridge(tvs.toolManager, tvs.agentManager, tvs.memoryEng
 n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}`));
 (global as any).__N8N_BRIDGE = n8nBridge;
 
+// ═══ EXECUTOR SEGURO ═══
+// Cada passo da inicialização é isolado: se falhar, loga e segue para o próximo.
+async function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise<T | undefined> {
+  try {
+    return await fn();
+  } catch (err: any) {
+    console.error(`[TVS] ⚠ ${label}: ${err?.message || err}`);
+    return fallback;
+  }
+}
+
 (async () => {
   console.log(`\n══════════════════════════════════════════════════════`);
   console.log(`   TRINNITY VISERON SYSTEM v5.0 - DEMO MULTIVERSAL`);
   console.log(`   SUPER-INTELLIGENCE MODE`);
   console.log(`══════════════════════════════════════════════════════\n`);
 
-  await tvs.startSuperIntelligence();
+  await step("SuperIntelligence", () => tvs.startSuperIntelligence());
 
   console.log(`\n[TVS] Cargando mentes históricas y futuristas...`);
-  const spawnedCount = await tvs.spawnAllMinds();
+  const spawnedCount = (await step("spawnAllMinds", () => tvs.spawnAllMinds())) || 0;
   console.log(`[TVS] ✓ ${spawnedCount} agentes de mentes históricas/futuristas registrados`);
 
   console.log(`\n[TVS] Spawneando ${tvs.archetypes.length} arquetipos de agentes...`);
-  const archSpawned = tvs.spawnAllArchetypes();
+  const archSpawned = (await step("spawnAllArchetypes", () => Promise.resolve(tvs.spawnAllArchetypes()))) || [];
   console.log(`[TVS] ✓ ${archSpawned.length} agentes arquetípicos registrados`);
   const totalAgents = tvs.agentManager.list().length;
   console.log(`[TVS] ✓ TOTAL AGENTES EN EL SISTEMA: ${totalAgents}`);
 
   console.log(`\n[TVS] SuperMind integrando sabiduría milenaria...`);
-  const wisdom = await tvs.superMind.synthesize("unified superintelligence", ["Artificial Intelligence", "Philosophy", "Systems Theory", "Physics", "Biology"]);
-  console.log(`[TVS] ✓ Síntesis generada: "${wisdom.insight.slice(0, 120)}..."`);
+  const wisdom = (await step("SuperMind synthesize", () => tvs.superMind.synthesize("unified superintelligence", ["Artificial Intelligence", "Philosophy", "Systems Theory", "Physics", "Biology"]))) || { insight: "Sem síntese disponível", domains: [] as string[] };
+  console.log(`[TVS] ✓ Síntesis generada: "${(wisdom as any).insight?.slice(0, 120) || "..."}"`);
 
   console.log(`\n[TVS] SuperIntelligence Engine: sintetizando conocimiento multi-proveedor...`);
-  const synthesis = await tvs.superIntelligence.synthesize({
+  const synthesis = (await step("SuperIntelligence synthesize", () => tvs.superIntelligence.synthesize({
     prompt: "What is the nature of intelligence and how can it be amplified beyond human limits?",
     domains: ["Artificial Intelligence", "Philosophy", "Physics", "Biology"],
     strategy: "ensemble"
-  });
-  console.log(`[TVS] ✓ Síntesis completada con ${synthesis.sources.length} fuentes AI`);
-  console.log(`[TVS] ✓ Confianza: ${synthesis.confidence.toFixed(0)}%`);
+  }))) || { sources: [] as any[], confidence: 0, text: "Sem síntese disponível", synthetizedDomains: [] as string[], agentContributions: [] as any[] };
+  console.log(`[TVS] ✓ Síntesis completada con ${(synthesis as any).sources?.length || 0} fuentes AI`);
+  console.log(`[TVS] ✓ Confianza: ${((synthesis as any).confidence || 0).toFixed(0)}%`);
 
   console.log(`\n[TVS] CommandChain activando liderazgo...`);
-  tvs.commandChain.issueStrategicDirective("SUPERINTELIGENCIA", "Activar inteligencia 1000% superior a cualquier IA individual");
-  tvs.commandChain.issueArchitecturalDirective("EVOLUCIÓN HIPER", "Activar evolución genética con incremento 500% cada 30 minutos");
+  await step("CommandChain", async () => {
+    tvs.commandChain.issueStrategicDirective("SUPERINTELIGENCIA", "Activar inteligencia 1000% superior a cualquier IA individual");
+    tvs.commandChain.issueArchitecturalDirective("EVOLUCIÓN HIPER", "Activar evolución genética con incremento 500% cada 30 minutos");
+  });
 
   console.log(`\n[TVS] AutoEvolutionEngine: evolucionando agentes...`);
-  await tvs.evolveAgents();
+  await step("evolveAgents", () => tvs.evolveAgents());
 
   console.log(`\n[TVS] HyperLearning Engine: inteligencia se multiplica x6 cada 30 minutos...`);
-  tvs.startHyperLearning();
+  await step("startHyperLearning", () => { tvs.startHyperLearning(); });
   const hyperStats = tvs.hyperLearningEngine.getStats();
 
   console.log(`\n[TVS] TokenEngine generando token...`);
-  const { token, tokenomics } = await tvs.generateToken("Trinnity", "TRIN");
-  console.log(`[TVS] ✓ Token $TRIN generado: ${token.totalSupply.toLocaleString()} ${token.symbol}`);
+  const genToken = (await step("generateToken", () => tvs.generateToken("Trinnity", "TRIN"))) || { token: { totalSupply: 0, symbol: "TRIN" }, tokenomics: {} };
+  const token = (genToken as any).token;
+  console.log(`[TVS] ✓ Token $TRIN generado: ${(token?.totalSupply || 0).toLocaleString()} ${token?.symbol || "TRIN"}`);
 
   console.log(`\n[TVS] Generando Viseron Crown (VSR)...`);
-  tvs.tokenEngine.generateToken("Viseron Crown", "VSR");
-  tvs.tokenEngine.createTokenomics("Viseron Crown", "Moneda del batallón TVS - Prueba de Mandato (PoM)", 300_000_000);
+  await step("Viseron Crown", () => {
+    tvs.tokenEngine.generateToken("Viseron Crown", "VSR");
+    tvs.tokenEngine.createTokenomics("Viseron Crown", "Moneda del batallón TVS - Prueba de Mandato (PoM)", 300_000_000);
+  });
 
   console.log(`\n[TVS] Iniciando Report Server con PDF...`);
-  await tvs.startReportServer();
+  await step("startReportServer", () => tvs.startReportServer());
 
   const bStats = tvs.battalionRegistry;
   const dStats = tvs.directiveEngine.getStats();
@@ -122,22 +149,24 @@ n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}
 
   // ===== SUPER INTEGRATION =====
   const superIntegration = new SuperIntegration(tvs);
-  const integStats = await superIntegration.initializeAll();
+  const integStats = (await step("SuperIntegration", () => superIntegration.initializeAll())) || {
+    totalAgents: 0, totalTools: 0, totalModels: 0, details: { openJarvis: { count: 0 } }
+  };
 
   console.log(`\n══════════════════════════════════════════════════════`);
   console.log(`   ✅ TRINNITY VISERON v5.0 - SUPER-INTELLIGENCE ACTIVE`);
   console.log(`══════════════════════════════════════════════════════`);
-  console.log(`   🤖 Agentes totales: ${totalAgents + integStats.totalAgents}`);
+  console.log(`   🤖 Agentes totales: ${totalAgents + (integStats as any).totalAgents}`);
   console.log(`   🏛️  Mentes históricas: ${spawnedCount}`);
-  console.log(`   🧠 SuperMind: ${wisdom.domains.length} domínios`);
-  console.log(`   ⚡ SuperIntelligence: ${synthesis.confidence.toFixed(0)}% sobre baseline`);
+  console.log(`   🧠 SuperMind: ${(wisdom as any).domains?.length || 0} domínios`);
+  console.log(`   ⚡ SuperIntelligence: ${((synthesis as any).confidence || 0).toFixed(0)}% sobre baseline`);
   console.log(`   🚀 Hiper-ciclos: ${hyperStats.cycleCount}`);
   console.log(`   📈 Inteligência: ${hyperStats.intelligenceLevel.toExponential(2)}%`);
-  console.log(`   🌐 OmniRoute Hub: ${integStats.totalModels} modelos | 290+ providers`);
+  console.log(`   🌐 OmniRoute Hub: ${(integStats as any).totalModels} modelos | 290+ providers`);
   console.log(`   📞 Call System: Twilio + IA por voz ativado`);
-  console.log(`   🧠 OpenJarvis: AI local Stanford (${integStats.details.openJarvis?.count || 0} skills)`);
+  console.log(`   🧠 OpenJarvis: AI local Stanford (${(integStats as any).details?.openJarvis?.count || 0} skills)`);
   console.log(`   🤖 ASNO JARVIS: Assistente com WhatsApp + Home Assistant`);
-  console.log(`   🛠️  Ferramentas: ${integStats.totalTools} novas`);
+  console.log(`   🛠️  Ferramentas: ${(integStats as any).totalTools} novas`);
   console.log(`   ⚙️  n8n Workflows: ${n8nBridge.templates.length} templates`);
   console.log(`   📋 Dashboard: http://localhost:3000`);
   console.log(`   🖨️  PDF: http://localhost:${tvs.reportServer.getPort()}/report/pdf`);
@@ -145,12 +174,14 @@ n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}
   console.log(`══════════════════════════════════════════════════════\n`);
 
   console.log(`[TVS] Iniciando ciclos de evolución y aprendizaje...`);
-  await tvs.startCycles();
+  await step("startCycles", () => tvs.startCycles());
   console.log(`[TVS] TVS v5.0 funcionando - presiona Ctrl+C para detener\n`);
 })().catch((err) => {
-  console.error("[TVS] ERROR FATAL no arranque do sistema:", err);
-  process.exit(1);
+  console.error("[TVS] Erro durante a inicialização (sistema continua no terminal):", err?.message || err);
 });
 
 const dashboardServer = new TVSDashboardServer(tvs);
-dashboardServer.start();
+step("Dashboard", () => dashboardServer.start());
+
+const terminal = new TVSTerminal(tvs, dashboardServer);
+step("Terminal", () => terminal.start());

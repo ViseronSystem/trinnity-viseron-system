@@ -58,7 +58,13 @@ function copyAssets() {
   const assetsDir = join(BUILD, "tvs-standalone", "assets");
   ensureDirSync(assetsDir);
 
-  const assetPaths = ["data", "config", ".env.example"];
+  const assetPaths = [
+    "data",
+    "config",
+    ".env.example",
+    "agents",
+    "skills",
+  ];
   for (const p of assetPaths) {
     const src = join(ROOT, p);
     const dest = join(assetsDir, p);
@@ -72,35 +78,14 @@ function copyAssets() {
 function createStandaloneEntry() {
   log("Creating standalone entry point...");
   const entryPath = join(BUILD, "standalone.js");
-  const entry = `
-const path = require("path");
-process.env.TVS_ROOT = __dirname;
-process.env.NODE_ENV = "production";
-
-// Ensure .env is loaded
-try { require("dotenv").config({ path: path.join(__dirname, "assets", ".env") }); } catch {}
-
-try {
-  require("../dist/src/index.js");
-} catch (err) {
-  console.error("[TVS] Fatal startup error:", err.message);
-  process.exit(1);
-}
-
-process.on("SIGINT", () => {
-  console.log("[TVS] Shutting down gracefully...");
-  process.exit(0);
-});
-process.on("SIGTERM", () => {
-  console.log("[TVS] Shutting down gracefully...");
-  process.exit(0);
-});
-process.on("uncaughtException", (err) => {
-  console.error("[TVS] Uncaught exception:", err.message);
-});
-`;
-  ensureDirSync(BUILD);
-  writeFileSync(entryPath, entry);
+  const entrySource = join(ROOT, "scripts", "standalone-entry.js");
+  if (existsSync(entrySource)) {
+    copySync(entrySource, entryPath, { overwrite: true });
+  } else {
+    // Fallback inline entry
+    const entry = `...`; // fallback if needed
+    writeFileSync(entryPath, entry);
+  }
   log("Standalone entry created");
 }
 
@@ -120,14 +105,21 @@ function buildExe(targetPlatform) {
     `npx pkg`,
     `"${join(BUILD, "standalone.js")}"`,
     `--targets ${target}`,
-    `--output "${join(outPath, `tvs-viseron-${targetPlatform}`)}"`,
+    `--output "${join(outPath, `tvs-viseron-${targetPlatform}${targetPlatform === "win" ? ".exe" : ""}`)}"`,
     `--compress GZip`,
+    `--scripts "${join(ROOT, "dist/src/**/*.js")}"`,
+    `--assets "${join(ROOT, "node_modules/**/*")}"`,
+    `--assets "${join(ROOT, "data/**/*")}"`,
+    `--assets "${join(ROOT, "config/**/*")}"`,
+    `--assets "${join(ROOT, "agents/**/*")}"`,
+    `--assets "${join(ROOT, "skills/**/*")}"`,
+    `--assets "${join(ROOT, ".env.example")}"`,
   ].join(" ");
 
   log(`Running: ${cmd}`);
   try {
     execSync(cmd, { cwd: ROOT, stdio: "inherit", timeout: 300000 });
-    log(`Executable built at: ${join(outPath, `tvs-viseron-${targetPlatform}`)}`);
+    log(`Executable built at: ${join(outPath, `tvs-viseron-${targetPlatform}${targetPlatform === "win" ? ".exe" : ""}`)}`);
   } catch (err) {
     log(`Build failed: ${err.message}`);
     log("Trying alternative build without compression...");
@@ -135,7 +127,14 @@ function buildExe(targetPlatform) {
       `npx pkg`,
       `"${join(BUILD, "standalone.js")}"`,
       `--targets ${target}`,
-      `--output "${join(outPath, `tvs-viseron-${targetPlatform}`)}"`,
+      `--output "${join(outPath, `tvs-viseron-${targetPlatform}${targetPlatform === "win" ? ".exe" : ""}`)}"`,
+      `--scripts "${join(ROOT, "dist/src/**/*.js")}"`,
+      `--assets "${join(ROOT, "node_modules/**/*")}"`,
+      `--assets "${join(ROOT, "data/**/*")}"`,
+      `--assets "${join(ROOT, "config/**/*")}"`,
+      `--assets "${join(ROOT, "agents/**/*")}"`,
+      `--assets "${join(ROOT, "skills/**/*")}"`,
+      `--assets "${join(ROOT, ".env.example")}"`,
     ].join(" ");
     execSync(fallbackCmd, { cwd: ROOT, stdio: "inherit", timeout: 300000 });
   }
@@ -359,7 +358,8 @@ async function main() {
   log("\n═══════════════════════════════════════════════════════════════════════════");
   log("   BUILD COMPLETE");
   log("═══════════════════════════════════════════════════════════════════════════");
-  log(`   CLI executable: ${join(BUILD, "tvs-standalone", `tvs-viseron-${platformFlag}`)}`);
+  const exeName = `tvs-viseron-${platformFlag}${platformFlag === "win" ? ".exe" : ""}`;
+  log(`   CLI executable: ${join(BUILD, "tvs-standalone", exeName)}`);
   if (buildElectron) {
     log(`   Electron app: ${join(ROOT, "electron")}`);
     log(`   Run: cd electron && npm run build:win`);

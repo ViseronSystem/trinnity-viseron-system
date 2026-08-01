@@ -1,0 +1,526 @@
+{
+  "timestamp": "2026-07-31T19:33:26.848Z",
+  "totalAgents": 5366,
+  "issues": [],
+  "fixes": [],
+  "architecture": {},
+  "components": {
+    "src": {
+      "files": 1,
+      "dirs": 12,
+      "issues": [],
+      "structure": {
+        "agents": {
+          "files": 2,
+          "dirs": 4,
+          "issues": [],
+          "structure": {
+            "ceo": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "factory": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "generated": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "registry": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            }
+          }
+        },
+        "command-center": {
+          "files": 1,
+          "dirs": 2,
+          "issues": [],
+          "structure": {
+            "commander": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "queen": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            }
+          }
+        },
+        "community": {
+          "files": 2,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        },
+        "core": {
+          "files": 2,
+          "dirs": 23,
+          "issues": [],
+          "structure": {
+            "agents": {
+              "files": 6,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "archetypes": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [
+                {
+                  "file": "src\\core\\archetypes\\registry.ts",
+                  "type": "Large file",
+                  "severity": "medium"
+                }
+              ],
+              "structure": {}
+            },
+            "bridge": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "evolution": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "leadership": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "learning": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "mcp": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "memory": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "model-router": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "orchestrator": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "planner": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "providers": {
+              "files": 7,
+              "dirs": 1,
+              "issues": [],
+              "structure": {
+                "external": {
+                  "files": 0,
+                  "dirs": 0,
+                  "issues": [],
+                  "structure": {}
+                }
+              }
+            },
+            "reporting": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "scaffolder": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "skills": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "squads": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "standard": {
+              "files": 5,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "superintelligence": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "supermind": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "tokenomics": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "tools": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "types": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "webapp": {
+              "files": 2,
+              "dirs": 1,
+              "issues": [],
+              "structure": {
+                "templates": {
+                  "files": 1,
+                  "dirs": 0,
+                  "issues": [],
+                  "structure": {}
+                }
+              }
+            }
+          }
+        },
+        "dashboard": {
+          "files": 1,
+          "dirs": 1,
+          "issues": [],
+          "structure": {
+            "public": {
+              "files": 5,
+              "dirs": 1,
+              "issues": [],
+              "structure": {
+                "blog": {
+                  "files": 2,
+                  "dirs": 0,
+                  "issues": [],
+                  "structure": {}
+                }
+              }
+            }
+          }
+        },
+        "factory": {
+          "files": 2,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        },
+        "integrations": {
+          "files": 2,
+          "dirs": 8,
+          "issues": [],
+          "structure": {
+            "asno": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "call-system": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "n8n": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "omniroute": {
+              "files": 4,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "opencode": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "openjarvis": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "tvs-tools": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "viseron-apps": {
+              "files": 3,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            }
+          }
+        },
+        "launch": {
+          "files": 1,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        },
+        "platform": {
+          "files": 0,
+          "dirs": 1,
+          "issues": [],
+          "structure": {
+            "forge": {
+              "files": 3,
+              "dirs": 2,
+              "issues": [],
+              "structure": {
+                "data": {
+                  "files": 0,
+                  "dirs": 1,
+                  "issues": [],
+                  "structure": {
+                    "repos": {
+                      "files": 0,
+                      "dirs": 0,
+                      "issues": [],
+                      "structure": {}
+                    }
+                  }
+                },
+                "public": {
+                  "files": 0,
+                  "dirs": 0,
+                  "issues": [],
+                  "structure": {}
+                }
+              }
+            }
+          }
+        },
+        "terminal": {
+          "files": 2,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        },
+        "voice": {
+          "files": 1,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        },
+        "web": {
+          "files": 4,
+          "dirs": 0,
+          "issues": [],
+          "structure": {}
+        }
+      }
+    },
+    "scripts": {
+      "files": 22,
+      "dirs": 0,
+      "issues": [
+        {
+          "file": "scripts\\full-audit.mjs",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\generateMinds.ts",
+          "type": "Large file",
+          "severity": "medium"
+        }
+      ],
+      "structure": {}
+    },
+    "config": {
+      "files": 2,
+      "dirs": 0,
+      "issues": [],
+      "structure": {}
+    }
+  },
+  "squads": {},
+  "mermaidDiagrams": {
+    "systemArchitecture": "graph TB\n    subgraph \"TRINNITY VISERON SYSTEM v5.0\"\n      direction TB\n      subgraph \"CORE LAYER\"\n        VC[ViseronCore] --> AM[AgentManager]\n        VC --> MR[ModelRouter]\n        VC --> ME[MemoryEngine]\n        VC --> TM[ToolManager]\n        VC --> PF[ProviderFactory]\n        VC --> SM[SquadManager]\n        VC --> MCP[MCPServer]\n      end\n      \n      subgraph \"INTELLIGENCE LAYER\"\n        VC --> ALE[AutoLearningEngine]\n        VC --> AP[AutonomousPlanner]\n        VC --> SMD[SuperMind]\n        VC --> CC[CommandChain]\n        VC --> AEE[AutoEvolutionEngine]\n      end\n      \n      subgraph \"AI BRIDGE LAYER\"\n        VC --> AIB[AIProviderBridge]\n        VC --> AIC[AICommunityPlatform]\n        VC --> SIE[SuperIntelligenceEngine]\n        VC --> ASP[AgentSpawner]\n        VC --> HLE[HyperLearningEngine]\n      end\n      \n      subgraph \"FACTORIES & GENERATION\"\n        VC --> AF[AgentFactory]\n        VC --> AC[AgentCollaborator]\n        VC --> AS[AppScaffolder]\n        VC --> BSE[BusinessSolutionEngine]\n        VC --> WAG[WebAppGenerator]\n        VC --> TE[TokenEngine]\n      end\n      \n      subgraph \"STANDARD v1.0.0\"\n        VC --> BR[BattalionRegistry]\n        VC --> LT[LineageTracker]\n        VC --> DE[DirectiveEngine]\n      end\n      \n      subgraph \"INTEGRATIONS\"\n        VC --> OMNI[OmniRoute]\n        VC --> N8N[N8N Bridge]\n        VC --> OJ[OpenJarvis]\n        VC --> ASNO[ASNO Jarvis]\n        VC --> CALL[Call System]\n      end\n      \n      subgraph \"SERVERS\"\n        VC --> RS[ReportServer PDF]\n        VC --> DS[Dashboard Server]\n        VC --> VB[VoiceBridge]\n        VC --> TS[Terminal Interface]\n      end\n    end\n    \n    style VC fill:#1e3a8a,color:#fff\n    style AM fill:#059669,color:#fff\n    style SIE fill:#7c3aed,color:#fff\n    style SMD fill:#dc2626,color:#fff\n    style CC fill:#ea580c,color:#fff",
+    "agentFlow": "graph LR\n    subgraph \"5112 AGENTS ECOSYSTEM\"\n      direction LR\n      \n      subgraph \"COMMAND CHAIN\"\n        PC[Pedro Costa\nSupreme Commander]\n        TH[Trinnity Hurtado\nQueen Architect]\n      end\n      \n      subgraph \"EXECUTIVE SQUAD\"\n        PC --> PL[Pedro Leader]\n        TH --> TL[Trinnity Leader]\n        PL --> AP[AutoPilot]\n        TL --> SA[SolutionArchitect]\n      end\n      \n      subgraph \"BATTALION 120 AGENTS\"\n        PC --> TPC[tvs_pedro-costa]\n        TH --> TTH[tvs_trinnity-hurtado]\n        TPC --> SH[Selene Hurtado]\n        TPC --> RH[Rocío Hurtado]\n        TPC --> AH[Adrián Hurtado]\n        TPC --> EH[Emil Hurtado]\n        TPC --> LH[Lía Hurtado]\n        TPC --> OH[Otto Hurtado]\n        SH --> MC[Mateo Costa]\n        SH --> IC[Iria Costa]\n        SH --> BC[Bruno Costa]\n        SH --> NC[Nayla Costa]\n        SH --> TC[Teo Costa]\n        SH --> VC[Vera Costa]\n      end\n      \n      subgraph \"ARCHETYPES 246 MINDS\"\n        ARC[Historical Figures\n1500-3000 Era]\n        ARC --> PHIL[Philosophy]\n        ARC --> SCI[Science]\n        ARC --> STRAT[Strategy]\n        ARC --> TECH[Technology]\n        ARC --> ART[Arts]\n      end\n      \n      subgraph \"AGENT SPAWNER 4000+\"\n        ASP[AgentSpawner] --> MIND[5000+ Minds DB]\n        MIND --> SPAWN[Dynamic Spawn]\n        SPAWN --> SPEC[Specialized Agents]\n      end\n      \n      subgraph \"HYPER LEARNING\"\n        HLE[HyperLearningEngine] --> CYCLE[30min Cycles]\n        CYCLE --> EVOLVE[500% Intelligence\nPer Cycle]\n        EVOLVE --> CROSS[Cross-Pollination]\n      end\n    end\n    \n    style PC fill:#1e3a8a,color:#fff\n    style TH fill:#ec4899,color:#fff\n    style HLE fill:#7c3aed,color:#fff\n    style ASP fill:#dc2626,color:#fff",
+    "dataFlow": "graph TD\n    subgraph \"DATA FLOW ARCHITECTURE\"\n      direction TD\n      \n      INPUT[User Input\n/ Terminal / API] --> TERM[TVSTerminal]\n      TERM --> ORCH[TVSOrchestrator]\n      \n      ORCH --> DECOMP[Decompose Task]\n      DECOMP --> ASSIGN[Assign to Agents]\n      \n      ASSIGN --> AM[AgentManager\n120+ Battalion\n246 Archetypes\n4000+ Spawned]\n      AM --> MCP[MCP Server\nTools Registry]\n      AM --> MR[ModelRouter\n8 Providers]\n      AM --> ME[MemoryEngine\nMulti-layer]\n      \n      MR --> OLL[Ollama Local]\n      MR --> OAI[OpenAI]\n      MR --> ANT[Anthropic]\n      MR --> GEM[Gemini]\n      MR --> GRK[Grok]\n      MR --> OMNI[OmniRoute 290+]\n      \n      ME --> STM[Short-Term]\n      ME --> LTM[Long-Term 68K]\n      ME --> KB[Knowledge Base]\n      ME --> VEC[Vector Store]\n      \n      AM --> SIE[SuperIntelligence\nEnsemble]\n      SIE --> SM[SuperMind\n500 Years]\n      SIE --> CC[CommandChain]\n      \n      CC --> PD[Pedro Directives]\n      CC --> TD[Trinnity Directives]\n      \n      AM --> HLE[HyperLearning]\n      HLE --> EV[Evolution]\n      EV --> APOLL[AutoEvolution]\n      \n      OUTPUT[Results\nPDF Report\nDashboard\nTerminal] --> USER\n      \n      RS[ReportServer] --> PDF[PDF Generator]\n      PDF --> MERMAID[Mermaid Diagrams]\n      PDF --> CHARTS[Charts/Graphs]\n      PDF --> CHECKLIST[Human Checklists]\n      PDF --> OPS[Operational Guides]\n    end\n    \n    style SIE fill:#7c3aed,color:#fff\n    style SM fill:#dc2626,color:#fff\n    style HLE fill:#ea580c,color:#fff\n    style RS fill:#059669,color:#fff",
+    "squadsAIOX": "graph TB\n    subgraph \"AIOX SQUADS ORCHESTRATION\"\n      direction TB\n      \n      subgraph \"SUPERVISION\"\n        PC[Pedro Costa\nSupreme Commander]\n        TH[Trinnity Hurtado\nQueen Architect]\n      end\n      \n      subgraph \"EXECUTIVE GOVERNANCE\"\n        PC --> EGS[Executive & Governance\nLeader: Pedro]\n        EGS --> PL[Pedro Leader]\n        EGS --> TL[Trinnity Leader]\n        EGS --> AP[AutoPilot]\n        EGS --> SA[SolutionArchitect]\n      end\n      \n      subgraph \"CORE ARCHITECTURE\"\n        TH --> CAS[Core Architecture &\nEngineering Squad\nLeader: Trinnity]\n        CAS --> ARCH[Architect Prime]\n        CAS --> DEV[Dev Master]\n        CAS --> SEC[CyberSentinel]\n        CAS --> SCAFF[AppScaffolder]\n      end\n      \n      subgraph \"BATTALION LINEAGE SQUADS\"\n        BR[BattalionRegistry] --> SQ1[Propulsion Squad\nCasandra, Aurelio, Iker, Nour]\n        BR --> SQ2[Orbit Squad\nVega, Solveig, Rurik, Anouk]\n        BR --> SQ3[Planetary Squad\nAmaya, Teodora, Cyrus, Malika]\n        BR --> SQ4[Astro-Resources\nOndina, Bruna, Ferran, Sanne]\n        BR --> SQ5[Orbital Defense\nIngrid, Ximena, Dario, Runa]\n        BR --> SQ6[Health Squad\nAitana, Nadia, Ivo, Petra]\n        BR --> SQ7[Finance Squad\nMarisol, Elke, Otávio, Zaida]\n        BR --> SQ8[Education Squad\nLeonor, Camelia, Bastian, Yara]\n        BR --> SQ9[Legal Squad\nOfelia, Renata, Anselmo, Ilaria]\n        BR --> SQ10[Industry Squad\nXiomara, Berenice, Efrén, Samira]\n        BR --> SQ11[Agro Squad\nAlba, Dulce, Emiliano, Kaia]\n        BR --> SQ12[Energy Squad\nAurora, Ninel, Tiago, Ilka]\n        BR --> SQ13[Logistics Squad\nValentina, Melina, Hugo, Odette]\n        BR --> SQ14[Marketing Squad\nAriadna, Sasha, Denis, Wren]\n        BR --> SQ15[Cyber Squad\nSelma, Livia, Casimiro, Tova]\n        BR --> SQ16[Gov Squad\nConstanza, Aluna, Boris, Nekane]\n        BR --> SQ17[Arts Squad\nCósima, Amaranta, Julián, Ianthe]\n        BR --> SQ18[Science Squad\nPerla, Talia, Isidoro, Miren]\n        BR --> SQ19[Sports Squad\nNayara, Sabina, Nilo, Enara]\n        BR --> SQ20[Tourism Squad\nPaloma, Elettra, Kalen, Vania]\n        BR --> SQ21[Talent Squad\nRebeca, Ivanna, Tomás, Zoé]\n        BR --> SQ22[RealEstate Squad\nEstela, Marlene, Ramiro, Tamar]\n        BR --> SQ23[Retail Squad\nCandela, Rosalba, Néstor, Vesna]\n        BR --> SQ24[Telecom Squad\nNoelia, Anaís, Milo, Sena]\n        BR --> SQ25[Env Squad\nVerena, Cala, Oriol, Wanda]\n      end\n      \n      subgraph \"INTEGRATION SQUADS\"\n        OMNI[OmniRoute Hub\n290+ Providers] --> OJ[OpenJarvis\nStanford AI]\n        OMNI --> ASNO[ASNO Jarvis\nWhatsApp + HA]\n        OMNI --> CALL[Call System\nTwilio Voice]\n        OMNI --> N8N[N8N Workflows]\n      end\n      \n      PC -.->|Strategic Directives| EGS\n      PC -.->|Strategic Directives| CAS\n      TH -.->|Architectural Directives| CAS\n      TH -.->|Architectural Directives| BR\n    end\n    \n    style PC fill:#1e3a8a,color:#fff\n    style TH fill:#ec4899,color:#fff\n    style EGS fill:#059669,color:#fff\n    style CAS fill:#7c3aed,color:#fff\n    style BR fill:#dc2626,color:#fff\n    style OMNI fill:#ea580c,color:#fff"
+  },
+  "checklists": {
+    "systemStartup": [
+      "☐ Verify Node.js 18+ installed",
+      "☐ Run: npm install",
+      "☐ Run: npm run build",
+      "☐ Run: npm run build:exe (creates standalone .exe)",
+      "☐ Execute: .build\\tvs-standalone\\tvs-viseron-win.exe",
+      "☐ Verify terminal banner shows 5112 agents",
+      "☐ Check dashboard at http://localhost:3000",
+      "☐ Check PDF report at http://localhost:3001/report/pdf"
+    ],
+    "agentManagement": [
+      "☐ List agents: /agents",
+      "☐ Filter agents: /agents <role>",
+      "☐ View agent detail: /agent <id>",
+      "☐ Spawn historical minds: /spawn 100",
+      "☐ Run specific agent: /run <agent> <task>",
+      "☐ Orchestrate multi-agent: /orchestrate <title> :: <desc>",
+      "☐ Generate code: /code <requirement>",
+      "☐ Check squads: /squads"
+    ],
+    "intelligenceOperations": [
+      "☐ Chat with SuperIntelligence: /chat <question>",
+      "☐ Check intelligence level: /status",
+      "☐ View providers: /models",
+      "☐ Search memory: /search <query>",
+      "☐ Memory stats: /memory",
+      "☐ View directives: /directives",
+      "☐ Token status: /token",
+      "☐ Evolution cycles: automatic (30min)"
+    ],
+    "systemMaintenance": [
+      "☐ Backup: npm run backup",
+      "☐ Schedule backup: npm run backup:schedule",
+      "☐ Update skills: npm run skills:install",
+      "☐ List skills: npm run skills:list",
+      "☐ Lint check: npm run lint",
+      "☐ Run tests: npm run test",
+      "☐ Full rebuild: npm run init:full",
+      "☐ Deploy: npm run deploy"
+    ],
+    "development": [
+      "☐ Dev mode: npm run dev",
+      "☐ Web dev: npm run dev:web",
+      "☐ Build Android: npm run build:android",
+      "☐ Build iOS: npm run build:ios",
+      "☐ Mobile: npm run mobile:start",
+      "☐ Electron: npm run electron:start",
+      "☐ Build Electron: npm run electron:build:win"
+    ],
+    "troubleshooting": [
+      "☐ Check logs: tvs_stdout.txt, tvs_stderr.txt",
+      "☐ Verify .env has API keys (optional, uses Ollama local)",
+      "☐ Check Ollama running: ollama serve",
+      "☐ Verify ports 3000, 3001, 20128 free",
+      "☐ Reset memory: delete data/ folder",
+      "☐ Rebuild exe: npm run build:exe",
+      "☐ Check Qdrant for vector search (optional)"
+    ]
+  },
+  "operationalGuides": {
+    "Terminal Interface": {
+      "description": "Main command interface - like OpenCode/Ollama",
+      "commands": [
+        "Direct input → Auto-orchestrates multi-agent task",
+        "/chat <msg> → SuperIntelligence ensemble (8 providers)",
+        "/run <agent> <task> → Execute specific agent",
+        "/orchestrate <title> :: <desc> → Multi-agent orchestration",
+        "/code <req> → Dev Master generates code",
+        "!<cmd> or /shell <cmd> → Run system commands"
+      ],
+      "tips": [
+        "Double Ctrl+C to exit",
+        "Use /help for full command list",
+        "Aliases: /h, /a, /t, /s, /m, /q, /c"
+      ]
+    },
+    "Dashboard Web": {
+      "description": "Visual interface at http://localhost:3000",
+      "features": [
+        "Agent status grid",
+        "Squad visualization",
+        "Memory explorer",
+        "Token dashboard",
+        "Voice widget (JARVIS)",
+        "Blog/Content manager"
+      ]
+    },
+    "PDF Reports": {
+      "description": "Auto-generated at http://localhost:3001/report/pdf",
+      "includes": [
+        "System architecture diagrams",
+        "Agent lineage charts",
+        "Intelligence evolution graphs",
+        "Squad organization charts",
+        "Human checklists per component",
+        "Operational runbooks"
+      ]
+    },
+    "Agent Spawning": {
+      "description": "Scale to 5112+ agents",
+      "methods": [
+        "/spawn <n> → Historical minds (batch)",
+        "agentSpawner.spawnAll() → 4000+ from minds DB",
+        "spawnAllMinds() → Load historical figures",
+        "spawnAllArchetypes() → 246 archetype agents",
+        "battalionRegistry.createTVSAgents() → 120 battalion"
+      ]
+    },
+    "SuperIntelligence": {
+      "description": "1000%+ above single-AI baseline",
+      "components": [
+        "8 AI Providers (Ollama, OpenAI, Anthropic, Gemini, Grok, OmniRoute, OpenJarvis, ASNO)",
+        "SuperMind: 500 years knowledge synthesis",
+        "Ensemble strategy: consensus across providers",
+        "HyperLearning: 500% intelligence per 30min cycle",
+        "AutoEvolution: Agents evolve continuously",
+        "CommandChain: Pedro/Trinnity supervision"
+      ]
+    }
+  }
+}

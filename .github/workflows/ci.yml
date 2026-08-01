@@ -1,0 +1,31 @@
+name: CI — Tests & Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Tests + Lint + Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm install
+
+      - name: TypeScript check (lint)
+        run: npm run lint
+
+      - name: Run core tests
+        run: npm test
+
+      - name: Build TypeScript
+        run: npm run build

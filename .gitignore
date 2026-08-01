@@ -18,6 +18,8 @@ mobile/node_modules/
 TVS_VISERON_MASTER_REPORT.pdf
 tvs_stderr.txt
 tvs_stdout.txt
+tvs_demo_*.txt
+tvs_demo_pid.txt
 
 # Colecciones de skills vendered (instalables via npm run skills:install)
 skills/vendor/

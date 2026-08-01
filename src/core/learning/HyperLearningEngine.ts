@@ -39,6 +39,7 @@ export class HyperLearningEngine {
 
   async executeCycle(): Promise<void> {
     this.cycleCount++;
+    (global as any).__TVS_LAST_HYPER = Date.now();
     const start = Date.now();
     this.intelligenceLevel = Math.min(this.intelligenceLevel * 1.05, 1_000_000); // +5% each cycle (capped)
 

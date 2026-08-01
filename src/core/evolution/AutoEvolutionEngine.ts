@@ -42,6 +42,7 @@ export class AutoEvolutionEngine {
 
   async evolveAll(): Promise<EvolutionRecord[]> {
     this.evolutionCycle++;
+    (global as any).__TVS_LAST_EVOLUTION = Date.now();
     const records: EvolutionRecord[] = [];
     const agents = this.agentManager.list('ACTIVE');
 

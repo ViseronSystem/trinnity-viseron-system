@@ -51,6 +51,35 @@ export class ViseronWebServer {
       res.json({ status: "OK", timestamp: Date.now(), mode: "web-standalone", version: "5.0.0" });
     });
 
+    const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
+    const WAITLIST_FILE = path.join(DATA_DIR, "waitlist.json");
+
+    this.app.get("/pitch/:file", (req, res) => {
+      const safe = path.basename(req.params.file).replace(/[^a-zA-Z0-9._-]/g, "");
+      res.sendFile(path.join(DATA_DIR, safe), (err) => {
+        if (err) res.status(404).json({ error: "PDF não encontrado" });
+      });
+    });
+
+    this.app.post("/api/waitlist", (req, res) => {
+      const email = String(req.body?.email || "").trim().toLowerCase();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: "Email inválido" });
+      }
+      try {
+        const list = fs.existsSync(WAITLIST_FILE) ? JSON.parse(fs.readFileSync(WAITLIST_FILE, "utf8")) : [];
+        if (!Array.isArray(list)) throw new Error("corrupt");
+        if (list.some((e: any) => e?.email === email)) {
+          return res.status(409).json({ error: "Já registado", ok: true });
+        }
+        list.push({ email, createdAt: new Date().toISOString() });
+        fs.writeFileSync(WAITLIST_FILE, JSON.stringify(list, null, 2));
+        res.json({ ok: true, position: list.length });
+      } catch (e: any) {
+        res.status(500).json({ error: "Falha ao gravar. Tente novamente." });
+      }
+    });
+
     this.app.get("/api/system/status", (_req, res) => {
       res.json({
         version: "5.0.0",
