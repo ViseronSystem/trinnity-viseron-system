@@ -112,10 +112,30 @@ if (-not (Test-Path $SiteDir)) {
 Write-Step "Conectando em $FtpHost..." "INFO"
 $BaseUri = "ftp://$FtpHost$FtpPath"
 if (-not (Test-FtpDir -Uri $BaseUri -FtpHost $FtpHost -FtpUser $FtpUser -FtpPass $FtpPass -UseSsl $UseSsl)) {
-    Write-Step "Pasta remota $FtpPath nao existe no servidor." "WARN"
-    Write-Step "Crie a pasta no painel Hostalia ou ajuste HOSTALIA_FTP_PATH no .env" "WARN"
-    Write-Step "Teste manual: abra ftp://$FtpHost no navegador com suas credenciais" "WARN"
-    exit 1
+    Write-Step "Pasta remota $FtpPath nao existe. Tentando criar..." "WARN"
+    $RootUri = "ftp://$FtpHost/"
+    if (Test-FtpDir -Uri $RootUri -FtpHost $FtpHost -FtpUser $FtpUser -FtpPass $FtpPass -UseSsl $UseSsl) {
+        $Parts = $FtpPath.Split("/", [System.StringSplitOptions]::RemoveEmptyEntries)
+        $Cur = "ftp://$FtpHost"
+        foreach ($Part in $Parts) {
+            $Cur = "$Cur/$Part"
+            if (-not (Test-FtpDir -Uri $Cur -FtpHost $FtpHost -FtpUser $FtpUser -FtpPass $FtpPass -UseSsl $UseSsl)) {
+                try {
+                    Invoke-FtpRequest -Method ([System.Net.WebRequestMethods+Ftp]::MakeDirectory) -Uri $Cur -FtpHost $FtpHost -FtpUser $FtpUser -FtpPass $FtpPass -UseSsl $UseSsl
+                    Write-Step "  Criando pasta: $Cur" "OK"
+                } catch {
+                    Write-Step "  Falha ao criar ${Cur}: $($_.Exception.Message)" "WARN"
+                }
+            }
+        }
+    } else {
+        Write-Step "Raiz FTP inacessível (verifique host/credenciais)." "ERROR"
+        exit 1
+    }
+    if (-not (Test-FtpDir -Uri $BaseUri -FtpHost $FtpHost -FtpUser $FtpUser -FtpPass $FtpPass -UseSsl $UseSsl)) {
+        Write-Step "Pasta $FtpPath continua inexistente após tentativa. Ajuste HOSTALIA_FTP_PATH no .env" "WARN"
+        exit 1
+    }
 }
 
 $Files = Get-ChildItem -Path $SiteDir -Recurse -File -Force | Where-Object {

@@ -5,12 +5,14 @@ import { AccountStore } from "../auth/store";
 import { AuthedRequest, requireAuth } from "../auth/middleware";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
+import { EmailService } from "../email/service";
 
 export function createBillingRouter(
   store: AccountStore,
   billing: StripeBilling,
   logger: ILogger,
-  metrics: IMetrics
+  metrics: IMetrics,
+  email?: EmailService
 ): Router {
   const router = Router();
 
@@ -64,6 +66,16 @@ export function createBillingRouter(
         const plan = event.plan || "pro";
         store.updateTenantPlan(event.tenantId || "", plan as any);
         logger.info(`Pagamento confirmado: tenant ${event.tenantId} → plano ${plan}`);
+        if (email?.transport.enabled) {
+          const owner = store.listUsers(event.tenantId || "").find((u) => u.role === "owner");
+          if (owner) {
+            const planInfo = PLANS.find((p) => p.id === plan);
+            const amount = planInfo ? `${planInfo.monthlyPrice}€/mês` : plan;
+            email
+              .sendInvoice(owner.email, owner.name, plan, amount, `${process.env.TVS_PUBLIC_URL || "https://www.trinnityviseronsystem.io"}/dashboard`)
+              .catch(() => {});
+          }
+        }
       }
       res.json({ ok: true, received: true });
     } catch (e: any) {

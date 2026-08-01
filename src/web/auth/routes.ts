@@ -6,6 +6,7 @@ import { hashPassword, verifyPassword } from "./password";
 import { RateLimiter } from "./rate-limiter";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
+import { EmailService } from "../email/service";
 
 function slugify(name: string): string {
   const slug = name
@@ -18,7 +19,7 @@ function slugify(name: string): string {
   return slug || `org-${Date.now().toString(36)}`;
 }
 
-export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: IMetrics): Router {
+export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: IMetrics, mail?: EmailService): Router {
   const router = Router();
   const loginLimiter = new RateLimiter(10, 60_000);
   const registerLimiter = new RateLimiter(5, 60_000);
@@ -50,6 +51,11 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
       metrics.inc("tenants_total");
       logger.info(`Registo: ${email} → tenant ${tenant.slug}`);
       const token = issueToken(user.id, tenant.id, user.role, user.email);
+      if (mail?.transport.enabled) {
+        mail
+          .sendWelcome(user.email, user.name, tenant.name, `${process.env.TVS_PUBLIC_URL || "https://www.trinnityviseronsystem.io"}/dashboard`)
+          .catch(() => {});
+      }
       res.status(201).json({
         ok: true,
         token,

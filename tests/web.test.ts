@@ -128,6 +128,45 @@ async function runWebTests() {
     } catch (e: any) {
       assert(e.response?.status === 401, "Onboarding sem token → 401");
     }
+
+    // ── Email (dev transport) ────────────────────────────────
+    const emailStatus = await axios.get(`${BASE}/api/email/status`);
+    assert(emailStatus.data.provider === "dev" && emailStatus.data.enabled === true, "GET /api/email/status → dev transport");
+
+    const emailTest = await axios.post(`${BASE}/api/email/test`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(emailTest.data.ok === true && emailTest.data.provider === "dev", "POST /api/email/test envia email dev");
+
+    const emailFiles = fs.readdirSync(path.join(tmpDir, "emails")).filter((f) => f.endsWith(".json"));
+    assert(emailFiles.length >= 2, "Emails dev gravados no disco (welcome + test)");
+
+    const verifySend = await axios.post(`${BASE}/api/email/verify/send`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(verifySend.data.ok === true && typeof verifySend.data.devCode === "string", "POST /api/email/verify/send gera código");
+
+    try {
+      await axios.post(`${BASE}/api/email/verify/confirm`, { code: "000000" }, { headers: { Authorization: `Bearer ${regToken}` } });
+      assert(false, "Código errado rejeitado");
+    } catch (e: any) {
+      assert(e.response?.status === 400, "Código de verificação errado → 400");
+    }
+
+    const verifyConfirm = await axios.post(`${BASE}/api/email/verify/confirm`, { code: verifySend.data.devCode }, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(verifyConfirm.data.ok === true && verifyConfirm.data.verified === true, "POST /api/email/verify/confirm valida código");
+
+    const verified = await axios.get(`${BASE}/api/email/verified`, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(verified.data.verified === true, "GET /api/email/verified → true");
+
+    const resetSend = await axios.post(`${BASE}/api/email/reset/send`, { email: "teste@viseron.ai" });
+    assert(resetSend.data.ok === true && typeof resetSend.data.devCode === "string", "POST /api/email/reset/send envia código");
+
+    const resetConfirm = await axios.post(`${BASE}/api/email/reset/confirm`, {
+      email: "teste@viseron.ai",
+      code: resetSend.data.devCode,
+      password: "novaPassword123",
+    });
+    assert(resetConfirm.data.ok === true, "POST /api/email/reset/confirm repõe password");
+
+    const loginNova = await axios.post(`${BASE}/api/auth/login`, { email: "teste@viseron.ai", password: "novaPassword123" });
+    assert(loginNova.data.ok === true && loginNova.data.token, "Login com password reposta → OK");
   } finally {
     server.stop();
   }

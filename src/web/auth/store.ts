@@ -138,11 +138,12 @@ export class AccountStore {
     return user;
   }
 
-  updateUser(id: string, patch: Partial<Pick<UserRecord, "name" | "role">>): UserRecord | undefined {
+  updateUser(id: string, patch: Partial<Pick<UserRecord, "name" | "role" | "passwordHash">>): UserRecord | undefined {
     const user = this.getUserById(id);
     if (!user) return undefined;
     if (patch.name !== undefined) user.name = patch.name.trim();
     if (patch.role !== undefined) user.role = patch.role;
+    if (patch.passwordHash !== undefined) user.passwordHash = patch.passwordHash;
     this.persist();
     return user;
   }

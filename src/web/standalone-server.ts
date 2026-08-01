@@ -16,6 +16,8 @@ import { StripeBilling } from "./billing/stripe";
 import { createBillingRouter } from "./billing/routes";
 import { createOnboardingRouter } from "./onboarding/routes";
 import { getDatabase } from "./db";
+import { createEmailService, EmailService } from "./email/service";
+import { createEmailRouter } from "./email/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -30,6 +32,7 @@ export class ViseronWebServer {
   private logger: ILogger;
   private metrics: IMetrics;
   private billing: StripeBilling;
+  private email: EmailService;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -50,6 +53,7 @@ export class ViseronWebServer {
     this.logger = createLogger();
     this.metrics = new MetricsCollector();
     this.billing = new StripeBilling();
+    this.email = createEmailService(this.dataDir);
     this.db = getDatabase();
 
     this.setupMiddleware();
@@ -86,6 +90,7 @@ export class ViseronWebServer {
         version: "5.0.0",
         db: this.db.enabled ? "postgres" : "json-fallback",
         billing: this.billing.enabled ? "stripe" : "manual",
+        email: this.email.transport.enabled ? this.email.transport.provider : "off",
         tenants: this.accounts.count().tenants,
         users: this.accounts.count().users,
       });
@@ -135,9 +140,10 @@ export class ViseronWebServer {
       });
     });
 
-    this.app.use("/api", createAuthRouter(this.accounts, this.logger, this.metrics));
-    this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics));
+    this.app.use("/api", createAuthRouter(this.accounts, this.logger, this.metrics, this.email));
+    this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics, this.email));
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
+    this.app.use("/api", createEmailRouter(this.accounts, this.email, this.logger, this.metrics));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
@@ -200,6 +206,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Auth: http://localhost:${this.port}/api/auth/*`);
         console.log(`[Viseron Web] Billing: http://localhost:${this.port}/api/billing/*`);
         console.log(`[Viseron Web] Onboarding: http://localhost:${this.port}/api/onboarding/*`);
+        console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();
