@@ -65,10 +65,10 @@ export function getRevenueReadiness(): RevenueReadiness {
     {
       key: "domain",
       label: "Domínio próprio",
-      description: "www.trinnityviseronsystem.io registado e com HTTPS para converter vendas",
-      ready: !!publicUrl && publicUrl.includes("trinnityviseronsystem.io"),
+      description: "Domínio registado com TVS_PUBLIC_URL definido (https://www.trinnityviseron.com) para converter vendas",
+      ready: !!publicUrl,
       value: publicUrl || "sem TVS_PUBLIC_URL",
-      action: "Registar o domínio (Cloudflare/Namecheap/GoDaddy) e definir TVS_PUBLIC_URL",
+      action: "Definir TVS_PUBLIC_URL=https://www.trinnityviseron.com e apontar DNS do domínio para o Render",
     },
     {
       key: "database",

@@ -78,6 +78,8 @@
     "cudacyclone": "tsx scripts/cudacyclone.ts",
     "deploy:domain": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -GenEnv",
     "deploy:domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
+    "domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
+    "go-live:stripe": "tsx scripts/go-live-stripe.ts",
     "update:auto": "powershell -ExecutionPolicy Bypass -File scripts/self-update.ps1"
   },
   "dependencies": {
