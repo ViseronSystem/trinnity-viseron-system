@@ -442,7 +442,7 @@ export class TVSToolsIntegration {
       "Solver de 'Satoshi puzzles' (busca de chave privada em intervalo) com aceleracao CUDA em GPU NVIDIA. Baseado em VanitySearch/Bitcrack. Comandos: status, build, run, benchmark. Requer NVIDIA GPU + CUDA toolkit (Linux/WSL2)",
       async (input) => {
         const action = input.acao || input.action || "help";
-        const binary = path.resolve("../CUDACyclone/CUDACyclone");
+        const binary = path.resolve(__dirname, "..", "..", "..", "tools", "CUDACyclone", "CUDACyclone");
         const hasBinary = fs.existsSync(binary);
 
         if (action === "status" || action === "info") {
@@ -450,18 +450,19 @@ export class TVSToolsIntegration {
             comando: "cudacyclone status",
             binario: binary,
             compilado: hasBinary,
+            integracao: "Vendido em tools/CUDACyclone (GPL — VanitySearch/Bitcrack, créditos preservados)",
             requisitos: [
               "GPU NVIDIA com suporte CUDA (compute 7.5+)",
               "CUDA toolkit instalado (apt install cuda-toolkit)",
               "Linux ou Windows via WSL2",
             ],
-            instalacao: "git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone && cd ../CUDACyclone && make",
-            docs: "https://github.com/Dookoo2/CUDACyclone",
+            instalacao: "npm run cudacyclone -- build  (ou: cd tools/CUDACyclone && make)",
+            docs: "tools/CUDACyclone/VISERON-INTEGRATION.md",
           };
         }
 
         if (action === "build" || action === "instalar") {
-          const cmd = `git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone 2>&1 && cd ../CUDACyclone && make 2>&1`;
+          const cmd = `cd "${path.dirname(binary)}" && make 2>&1`;
           const result = run(cmd);
           return { comando: "cudacyclone build", resultado: result.slice(0, 500), binario: binary };
         }
@@ -470,11 +471,10 @@ export class TVSToolsIntegration {
           if (!hasBinary) {
             return {
               comando: "cudacyclone run",
-              erro: "Binario nao encontrado. Compile primeiro (action=build) numa maquina com NVIDIA GPU + CUDA.",
+              erro: "Binario nao encontrado. Compile primeiro (npm run cudacyclone -- build) numa maquina com NVIDIA GPU + CUDA.",
               instrucoes: [
-                "git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone",
-                "cd ../CUDACyclone && make",
-                `./CUDACyclone --range ${input.range || "2000000000:3FFFFFFFFF"} --address ${input.address || input.bitcoin_address || "1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2"} --grid ${input.grid || "512,256"}`,
+                "npm run cudacyclone -- build",
+                `npm run cudacyclone -- run --range=${input.range || "2000000000:3FFFFFFFFF"} --address=${input.address || "1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2"} --grid=${input.grid || "512,256"}`,
               ],
             };
           }
