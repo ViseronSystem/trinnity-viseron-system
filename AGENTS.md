@@ -68,7 +68,8 @@ cd mobile && npx expo start
 | `npm run update:auto` | Self-update: pull + install + PDFs + build + testes + deploy |
 | `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
 | `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
-| `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatório) — correr a cada atualização/comando novo |
+| `npm run report:state` | Gera data/Viseron_Relatorio_Estado.pdf (o que podes fazer + estado real do sistema) |
+| `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
 | `npm run demo:messaging` | Demo de mensageria E2E (contactos/conversas/grupos/leitura) |

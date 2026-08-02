@@ -37,5 +37,9 @@ foreach ($g in $Generators) {
 Write-Step "Gerando relatorio de update..." "INFO"
 npx tsx scripts/gerar-relatorio-update.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
 
+# Relatorio de estado (o que pode fazer + estado real do sistema)
+Write-Step "Gerando relatorio de estado..." "INFO"
+npx tsx scripts/gerar-relatorio-estado.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+
 Write-Step "Todos os PDFs regenerados!" "OK"
 Pop-Location

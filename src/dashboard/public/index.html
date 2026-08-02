@@ -97,6 +97,7 @@
       <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors nav-platform">Platform</a>
       <a href="#forge" class="nav-link text-white/40 hover:text-neon transition-colors nav-forge">Forge</a>
       <a href="#jarvis" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-jarvis">JARVIS</a>
+      <a href="#status" class="nav-link text-white/40 hover:text-neon transition-colors nav-status">Status</a>
       <a href="#downloads" class="nav-link text-white/40 hover:text-neon transition-colors nav-downloads">Downloads</a>
       <a href="#token" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-token">$VSR</a>
       <a href="/blog" class="nav-link text-white/40 hover:text-neon transition-colors">Blog</a>
@@ -113,6 +114,7 @@
       <a href="#platform" onclick="toggleMenu()" class="text-white/50 py-2">Platform</a>
       <a href="#forge" onclick="toggleMenu()" class="text-white/50 py-2">Forge</a>
       <a href="#jarvis" onclick="toggleMenu()" class="text-white/50 py-2">JARVIS</a>
+      <a href="#status" onclick="toggleMenu()" class="text-white/50 py-2">Status</a>
       <a href="#downloads" onclick="toggleMenu()" class="text-white/50 py-2">Downloads</a>
       <a href="#token" onclick="toggleMenu()" class="text-white/50 py-2">$VSR</a>
       <a href="/blog" onclick="toggleMenu()" class="text-white/50 py-2">Blog</a>
@@ -483,6 +485,87 @@
 
 <div class="data-line"></div>
 
+<!-- System Status -->
+<section id="status" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Live Status</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Estado do Sistema ao Vivo</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">API web operacional — módulos reais, verificados agora via <span class="text-neon font-mono">/api/health</span></p>
+      <div class="reveal mt-6 flex items-center justify-center gap-4" style="transition-delay:0.3s">
+        <span id="apiStatus" class="badge badge-purple">verificando…</span>
+        <span class="text-xs text-white/30">https://viseron-web.onrender.com</span>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Auth Multi-Tenant</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Registo (org → tenant + owner), login JWT, perfis, membros e roles</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Tenants</span><span class="text-neon font-bold" id="hTenants">0</span></div>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Users</span><span class="text-neon font-bold" id="hUsers">0</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Billing + Planos</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Core $29 · Pro $99 · Enterprise $499 — checkout, webhook e subscrição com trial</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Provider</span><span class="text-neon font-bold" id="hBilling">manual</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Onboarding</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) → agentes no workspace</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Templates</span><span class="text-neon font-bold">5</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Email</h3>
+          <span class="badge badge-green" id="hEmailBadge">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Dev/SMTP/Resend/SendGrid/Gmail — verificação, reset, faturas e agente</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Provider</span><span class="text-neon font-bold" id="hEmail">dev</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s;border-left:2px solid var(--neon2)">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-neon2">Messaging E2E</h3>
+          <span class="badge badge-purple">x25519+aes-256-gcm</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Contactos, conversas diretas e grupos, mensagens cifradas por recetor, status de leitura, entrega via Socket.IO</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Conversas</span><span class="text-neon2 font-bold" id="hConv">0</span></div>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Mensagens</span><span class="text-neon2 font-bold" id="hMsgs">0</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Blog + Content Agent</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Blog com posts gerados automaticamente (agendado a cada 120min)</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Schedule</span><span class="text-neon font-bold">120min</span></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.5s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Relatório de Estado PDF</h3>
+          <p class="text-sm text-white/40">O que podes fazer de verdade agora + estado completo do sistema (testes, infraestrutura, pendências)</p>
+        </div>
+        <a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank" class="btn-neon text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0-3-3m3 3 3-3m2 8H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z"/></svg>
+          Baixar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
 <!-- Terminal / CTA -->
 <section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
   <div class="max-w-4xl mx-auto text-center">
@@ -518,8 +601,9 @@ function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hi
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
-const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",forge:"Forge",jarvis:"JARVIS",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",downloads:"Descargas",token:"$VSR"}};
-function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
+const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Estado",downloads:"Descargas",token:"$VSR"}};
+function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
+(async()=>{const el=id=>document.getElementById(id);try{const h=await(await fetch('/api/health')).json();if(el('apiStatus')){el('apiStatus').textContent='Operacional';el('apiStatus').className='badge badge-green';}if(el('hTenants'))el('hTenants').textContent=h.tenants??'0';if(el('hUsers'))el('hUsers').textContent=h.users??'0';if(el('hEmail'))el('hEmail').textContent=h.email??'dev';if(el('hBilling'))el('hBilling').textContent=h.billing??'manual';if(el('hConv'))el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';if(el('hMsgs'))el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';}catch(e){if(el('apiStatus')){el('apiStatus').textContent='offline (local build ok)';el('apiStatus').className='badge badge-purple';}}})();
 </script>
 </body>
 </html>

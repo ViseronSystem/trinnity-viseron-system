@@ -67,6 +67,7 @@
     "roadmap": "tsx scripts/gerar-roadmap-milionario.ts",
     "docs:100": "tsx scripts/gerar-100-melhorias.ts",
     "report:update": "tsx scripts/gerar-relatorio-update.ts",
+    "report:state": "tsx scripts/gerar-relatorio-estado.ts",
     "gmail:setup": "tsx scripts/setup-gmail.ts",
     "demo:email": "tsx scripts/demo-email.ts",
     "demo:messaging": "tsx scripts/demo-messaging.ts",

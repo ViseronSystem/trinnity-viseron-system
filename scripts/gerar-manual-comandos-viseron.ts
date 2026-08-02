@@ -33,6 +33,7 @@ const descMap: Record<string, string> = {
   "update:auto": "Self-update: pull + install + PDFs + build + testes + deploy",
   "docs:100": "Gerar data/Viseron_100_Melhorias_Integracao.pdf",
   "report:update": "Gerar relatório de update PDF",
+  "report:state": "Gerar relatório de estado PDF (o que podes fazer + estado real)",
   "gmail:setup": "Setup Gmail API (OAuth consent → refresh token)",
   "backup": "Executar backup diário",
   "backup:schedule": "Agendar backup automático (Task Scheduler)",
