@@ -49,9 +49,9 @@ cd mobile && npx expo start
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |
 | `npm run build:ios` | Build IPA for Apple Store |
-| `npm run test` | Run core + web tests (39 total) |
+| `npm run test` | Run core + web tests (67 total) |
 | `npm run test:core` | Run core tests |
-| `npm run test:web` | Run web layer tests (auth/billing/onboarding) |
+| `npm run test:web` | Run web layer tests (auth/billing/onboarding/email/messaging) |
 | `npm run demo` | Demo operacional real (HTTP 9/9 endpoints) |
 | `npm run lint` | TypeScript check |
 | `npm run backup` | Run daily backup |
@@ -71,6 +71,8 @@ cd mobile && npx expo start
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatório) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
+| `npm run demo:messaging` | Demo de mensageria E2E (contactos/conversas/grupos/leitura) |
+| `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
 
 ## Domínio novo
 
@@ -92,6 +94,16 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/billing/subscription` | Estado da subscrição/trial |
 | `GET /api/onboarding/templates` | 5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) |
 | `POST /api/onboarding/apply` | Materializa agentes no workspace do tenant |
+| `GET /api/messaging/status` | Estado da mensageria + crypto (x25519/aes-256-gcm) |
+| `POST /api/messaging/key` | Gerar/obter chave pública X25519 do utilizador |
+| `GET /api/messaging/contacts` | Listar contactos |
+| `POST /api/messaging/contacts` | Adicionar contacto por email |
+| `GET /api/messaging/conversations` | Listar conversas + unread |
+| `POST /api/messaging/conversations` | Criar conversa direta |
+| `POST /api/messaging/groups` | Criar grupo |
+| `GET /api/messaging/conversations/:id/messages` | Ler mensagens (desencriptadas para o membro) |
+| `POST /api/messaging/conversations/:id/messages` | Enviar mensagem E2E (cifrada por recetor) |
+| `POST /api/messaging/conversations/:id/read` | Marcar conversa como lida |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

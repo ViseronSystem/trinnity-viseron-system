@@ -167,6 +167,109 @@ async function runWebTests() {
 
     const loginNova = await axios.post(`${BASE}/api/auth/login`, { email: "teste@viseron.ai", password: "novaPassword123" });
     assert(loginNova.data.ok === true && loginNova.data.token, "Login com password reposta → OK");
+
+    // ── Messaging (E2E x25519 + aes-256-gcm) ────────────────
+    const msgStatus = await axios.get(`${BASE}/api/messaging/status`);
+    assert(msgStatus.data.ok === true && msgStatus.data.crypto === "x25519 + aes-256-gcm", "GET /api/messaging/status → E2E ativo");
+
+    try {
+      await axios.get(`${BASE}/api/messaging/contacts`);
+      assert(false, "Messaging sem token rejeitado");
+    } catch (e: any) {
+      assert(e.response?.status === 401, "Messaging sem token → 401");
+    }
+
+    const aliceKey = await axios.post(`${BASE}/api/messaging/key`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(aliceKey.data.ok === true && aliceKey.data.publicKey.length > 20, "POST /api/messaging/key → chave X25519");
+
+    const bobReg = await axios.post(`${BASE}/api/auth/register`, {
+      name: "Bob Teste",
+      email: "bob@viseron.ai",
+      password: "password123",
+      org: "Bob Corp",
+    });
+    assert(bobReg.status === 201 && bobReg.data.token, "Registo 2º utilizador (bob)");
+    const bobId = bobReg.data.user.id;
+
+    const addContact = await axios.post(
+      `${BASE}/api/messaging/contacts`,
+      { email: "bob@viseron.ai" },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(addContact.data.ok === true && addContact.data.contact.userId === bobId, "POST /messaging/contacts adiciona por email");
+
+    try {
+      await axios.post(`${BASE}/api/messaging/contacts`, { email: "nao@existe.ai" }, { headers: { Authorization: `Bearer ${regToken}` } });
+      assert(false, "Contacto inexistente rejeitado");
+    } catch (e: any) {
+      assert(e.response?.status === 404, "Contacto inexistente → 404");
+    }
+
+    const conv = await axios.post(
+      `${BASE}/api/messaging/conversations`,
+      { userId: bobId },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(conv.data.ok === true && conv.data.conversation.type === "direct", "POST /messaging/conversations cria conversa direta");
+
+    const sent = await axios.post(
+      `${BASE}/api/messaging/conversations/${conv.data.conversation.id}/messages`,
+      { text: "Olá Bob! Segredo do Viseron 5000." },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(sent.data.ok === true && sent.data.message.deliveredTo === 2, "POST messages envia E2E (2 payloads)");
+
+    const bobKey = await axios.post(`${BASE}/api/messaging/key`, {}, { headers: { Authorization: `Bearer ${bobReg.data.token}` } });
+    assert(bobKey.data.ok === true && bobKey.data.publicKey, "Bob obtém chave X25519");
+
+    const bobMsgs = await axios.get(
+      `${BASE}/api/messaging/conversations/${conv.data.conversation.id}/messages`,
+      { headers: { Authorization: `Bearer ${bobReg.data.token}` } }
+    );
+    const bobMsg = bobMsgs.data.messages.find((m: any) => m.id === sent.data.message.id);
+    assert(bobMsg && bobMsg.encrypted === false && bobMsg.text === "Olá Bob! Segredo do Viseron 5000.", "Bob desencripta mensagem E2E corretamente");
+
+    const aliceMsgs = await axios.get(
+      `${BASE}/api/messaging/conversations/${conv.data.conversation.id}/messages`,
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    const aliceMsg = aliceMsgs.data.messages.find((m: any) => m.id === sent.data.message.id);
+    assert(aliceMsg && aliceMsg.text === "Olá Bob! Segredo do Viseron 5000.", "Alice (remetente) lê a própria mensagem");
+
+    try {
+      await axios.post(
+        `${BASE}/api/messaging/conversations/conv_inexistente/messages`,
+        { text: "x" },
+        { headers: { Authorization: `Bearer ${regToken}` } }
+      );
+      assert(false, "Mensagem em conversa inexistente rejeitada");
+    } catch (e: any) {
+      assert(e.response?.status === 404, "Conversa inexistente → 404");
+    }
+
+    const read = await axios.post(
+      `${BASE}/api/messaging/conversations/${conv.data.conversation.id}/read`,
+      {},
+      { headers: { Authorization: `Bearer ${bobReg.data.token}` } }
+    );
+    assert(read.data.ok === true, "Bob marca mensagens como lidas");
+
+    const aliceConvs = await axios.get(`${BASE}/api/messaging/conversations`, { headers: { Authorization: `Bearer ${regToken}` } });
+    const aliceConv = aliceConvs.data.conversations.find((c: any) => c.id === conv.data.conversation.id);
+    assert(aliceConv && aliceConv.unread === 0, "Alice vê conversa com unread 0 após leitura do Bob");
+
+    const group = await axios.post(
+      `${BASE}/api/messaging/groups`,
+      { name: "Squad Viseron", members: [bobId] },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(group.data.ok === true && group.data.conversation.type === "group" && group.data.conversation.members.length === 2, "POST /messaging/groups cria grupo");
+
+    const msgFile = path.join(tmpDir, "messaging.json");
+    assert(fs.existsSync(msgFile), "messaging.json gravado no disco");
+    const stored = JSON.parse(fs.readFileSync(msgFile, "utf8"));
+    const storedMsg = stored.messages.find((m: any) => m.id === sent.data.message.id);
+    assert(storedMsg && storedMsg.payloads.length === 2 && !storedMsg.payloads.some((p: any) => p.ct.includes("Segredo")), "Mensagem persistida cifrada (sem plaintext em disco)");
   } finally {
     server.stop();
   }

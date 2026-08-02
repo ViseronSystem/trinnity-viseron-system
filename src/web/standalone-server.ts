@@ -18,6 +18,8 @@ import { createOnboardingRouter } from "./onboarding/routes";
 import { getDatabase } from "./db";
 import { createEmailService, EmailService } from "./email/service";
 import { createEmailRouter } from "./email/routes";
+import { MessageStore } from "./messaging/store";
+import { createMessagingRouter } from "./messaging/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -33,6 +35,7 @@ export class ViseronWebServer {
   private metrics: IMetrics;
   private billing: StripeBilling;
   private email: EmailService;
+  private messaging: MessageStore;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -54,6 +57,7 @@ export class ViseronWebServer {
     this.metrics = new MetricsCollector();
     this.billing = new StripeBilling();
     this.email = createEmailService(this.dataDir);
+    this.messaging = new MessageStore(path.join(this.dataDir, "messaging.json"));
     this.db = getDatabase();
 
     this.setupMiddleware();
@@ -91,6 +95,7 @@ export class ViseronWebServer {
         db: this.db.enabled ? "postgres" : "json-fallback",
         billing: this.billing.enabled ? "stripe" : "manual",
         email: this.email.transport.enabled ? this.email.transport.provider : "off",
+        messaging: this.messaging.count(),
         tenants: this.accounts.count().tenants,
         users: this.accounts.count().users,
       });
@@ -144,6 +149,7 @@ export class ViseronWebServer {
     this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics, this.email));
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
     this.app.use("/api", createEmailRouter(this.accounts, this.email, this.logger, this.metrics));
+    this.app.use("/api", createMessagingRouter(this.accounts, this.messaging, this.io, this.logger, this.metrics));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
@@ -193,6 +199,9 @@ export class ViseronWebServer {
     this.io.on("connection", (socket) => {
       console.log(`[Web] Client connected: ${socket.id}`);
       socket.emit("system:info", { coreName: "Viseron Web", mode: "standalone", blog: this.blog.count() });
+      socket.on("messaging:join", (userId: string) => {
+        if (userId && typeof userId === "string") socket.join(`user:${userId}`);
+      });
     });
   }
 
@@ -207,6 +216,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Billing: http://localhost:${this.port}/api/billing/*`);
         console.log(`[Viseron Web] Onboarding: http://localhost:${this.port}/api/onboarding/*`);
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
+        console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();
