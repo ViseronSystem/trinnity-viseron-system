@@ -20,6 +20,7 @@ import { createEmailService, EmailService } from "./email/service";
 import { createEmailRouter } from "./email/routes";
 import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
+import { createJarvisRouter } from "./jarvis/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -150,6 +151,16 @@ export class ViseronWebServer {
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
     this.app.use("/api", createEmailRouter(this.accounts, this.email, this.logger, this.metrics));
     this.app.use("/api", createMessagingRouter(this.accounts, this.messaging, this.io, this.logger, this.metrics));
+    this.app.use("/api", createJarvisRouter({
+      dataDir: this.dataDir,
+      accounts: this.accounts,
+      billing: this.billing,
+      email: this.email,
+      messaging: this.messaging,
+      blog: this.blog,
+      logger: this.logger,
+      metrics: this.metrics,
+    }));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
@@ -217,6 +228,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Onboarding: http://localhost:${this.port}/api/onboarding/*`);
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
+        console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();

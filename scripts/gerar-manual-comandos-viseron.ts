@@ -34,6 +34,8 @@ const descMap: Record<string, string> = {
   "docs:100": "Gerar data/Viseron_100_Melhorias_Integracao.pdf",
   "report:update": "Gerar relatório de update PDF",
   "report:state": "Gerar relatório de estado PDF (o que podes fazer + estado real)",
+  "audit:arkom": "Auditoria operacional ARKOM/AIOX (scan/diagnóstico/fix/verdicto → Viseron_Audit_ARKOM.pdf)",
+  "demo:jarvis": "Demo do JARVIS (conversa + autonomia real sobre o sistema)",
   "gmail:setup": "Setup Gmail API (OAuth consent → refresh token)",
   "backup": "Executar backup diário",
   "backup:schedule": "Agendar backup automático (Task Scheduler)",
@@ -219,6 +221,8 @@ const apiEndpoints = [
   ["POST /api/content/generate", "Gerar post de conteúdo"],
   ["POST /api/content/trigger", "Disparar geração de conteúdo"],
   ["GET /api/content/schedule", "Estado do agendamento de conteúdo"],
+  ["GET /api/jarvis/status", "Estado do JARVIS (provider, capacidades, autonomia)"],
+  ["POST /api/jarvis/chat", "Conversar com o JARVIS (sessão + execução real de operações, rate-limited 30/min)"],
 ];
 
 const doc = new PDFDocument({

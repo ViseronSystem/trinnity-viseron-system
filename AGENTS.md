@@ -69,6 +69,8 @@ cd mobile && npx expo start
 | `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
 | `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
 | `npm run report:state` | Gera data/Viseron_Relatorio_Estado.pdf (o que podes fazer + estado real do sistema) |
+| `npm run audit:arkom` | Auditoria operacional ARKOM/AIOX (scan/diagnóstico/fix/verdicto → data/Viseron_Audit_ARKOM.pdf) |
+| `npm run demo:jarvis` | Demo do JARVIS (conversa + autonomia real sobre o sistema) |
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
@@ -105,6 +107,8 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/messaging/conversations/:id/messages` | Ler mensagens (desencriptadas para o membro) |
 | `POST /api/messaging/conversations/:id/messages` | Enviar mensagem E2E (cifrada por recetor) |
 | `POST /api/messaging/conversations/:id/read` | Marcar conversa como lida |
+| `GET /api/jarvis/status` | Estado do JARVIS (provider, capacidades, autonomia) |
+| `POST /api/jarvis/chat` | Conversar com o JARVIS (sessão + execução real, rate-limited 30/min) |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

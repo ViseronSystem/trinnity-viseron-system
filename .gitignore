@@ -31,3 +31,11 @@ skills/vendor/
 backups/*.zip
 backups/*.7z
 data/blog/posts.json
+
+# Runtime state (gerado pelos demos/tests; backup via npm run backup)
+data/accounts.json
+data/messaging.json
+data/jarvis-sessions.json
+data/email-tokens.json
+data/email-codes.json
+data/workspace.json

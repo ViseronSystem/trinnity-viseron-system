@@ -270,6 +270,29 @@ async function runWebTests() {
     const stored = JSON.parse(fs.readFileSync(msgFile, "utf8"));
     const storedMsg = stored.messages.find((m: any) => m.id === sent.data.message.id);
     assert(storedMsg && storedMsg.payloads.length === 2 && !storedMsg.payloads.some((p: any) => p.ct.includes("Segredo")), "Mensagem persistida cifrada (sem plaintext em disco)");
+
+    // ── JARVIS (conversa + autonomia real) ───────────────────
+    const jarvisStatus = await axios.get(`${BASE}/api/jarvis/status`);
+    assert(jarvisStatus.data.ok === true && typeof jarvisStatus.data.ready === "boolean", "GET /api/jarvis/status responde");
+
+    const jarvisWho = await axios.post(`${BASE}/api/jarvis/chat`, { message: "Quem és?" });
+    assert(jarvisWho.data.ok === true && jarvisWho.data.reply.includes("JARVIS"), "JARVIS responde a quem és");
+    assert(jarvisWho.data.sessionId && jarvisWho.data.sessionId.length > 0, "JARVIS cria sessionId");
+
+    const jarvisPlans = await axios.post(`${BASE}/api/jarvis/chat`, { sessionId: jarvisWho.data.sessionId, message: "Quais são os teus planos?" });
+    assert(jarvisPlans.data.ok === true && /29|Pro|Enterprise/i.test(jarvisPlans.data.reply), "JARVIS lista planos reais");
+
+    const jarvisState = await axios.post(`${BASE}/api/jarvis/chat`, { sessionId: jarvisWho.data.sessionId, message: "Estado do sistema" });
+    assert(jarvisState.data.ok === true && jarvisState.data.reply.length > 20, "JARVIS reporta estado do sistema");
+
+    const jarvisSess = await axios.post(`${BASE}/api/jarvis/chat`, { sessionId: jarvisWho.data.sessionId, message: "Quem és?" });
+    assert(jarvisSess.data.ok === true && /JARVIS/.test(jarvisSess.data.reply), "JARVIS mantém memória de sessão");
+
+    const jarvisRate = await axios.post(`${BASE}/api/jarvis/chat`, { message: "teste".repeat(4000) });
+    assert(jarvisRate.data.ok === true, "JARVIS aceita mensagem longa sem erro");
+
+    const jarvisFile = path.join(tmpDir, "jarvis-sessions.json");
+    assert(fs.existsSync(jarvisFile), "jarvis-sessions.json gravado no disco");
   } finally {
     server.stop();
   }
