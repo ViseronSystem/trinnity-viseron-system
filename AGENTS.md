@@ -69,6 +69,7 @@ cd mobile && npx expo start
 | `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
 | `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
 | `npm run report:state` | Gera data/Viseron_Relatorio_Estado.pdf (o que podes fazer + estado real do sistema) |
+| `npm run docs:revenue` | Gera data/Viseron_Pipeline_Receita.pdf (passo a passo Stripe/Gmail/domínio + modelo de receita) |
 | `npm run audit:arkom` | Auditoria operacional ARKOM/AIOX (scan/diagnóstico/fix/verdicto → data/Viseron_Audit_ARKOM.pdf) |
 | `npm run demo:jarvis` | Demo do JARVIS (conversa + autonomia real sobre o sistema) |
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
@@ -109,6 +110,7 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `POST /api/messaging/conversations/:id/read` | Marcar conversa como lida |
 | `GET /api/jarvis/status` | Estado do JARVIS (provider, capacidades, autonomia) |
 | `POST /api/jarvis/chat` | Conversar com o JARVIS (sessão + execução real, rate-limited 30/min) |
+| `GET /api/revenue/readiness` | Go-live de receita real: Stripe, webhook, Gmail, email provider, domínio, Postgres |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

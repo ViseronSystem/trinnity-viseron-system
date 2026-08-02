@@ -45,5 +45,9 @@ npx tsx scripts/gerar-relatorio-estado.ts 2>&1 | ForEach-Object { Write-Host "  
 Write-Step "Gerando auditoria ARKOM/AIOX..." "INFO"
 npx tsx scripts/audit-arkom.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
 
+# Plano de receita real
+Write-Step "Gerando plano de receita..." "INFO"
+npx tsx scripts/gerar-pipeline-receita.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+
 Write-Step "Todos os PDFs regenerados!" "OK"
 Pop-Location

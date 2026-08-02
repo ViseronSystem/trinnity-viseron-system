@@ -566,6 +566,85 @@
 
 <div class="data-line"></div>
 
+<!-- Go-Live / Receita -->
+<section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Go-Live</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Pipeline de Receita Real</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">O que falta para o TVS cobrar dinheiro real — verificado agora via <span class="text-neon font-mono">/api/revenue/readiness</span></p>
+      <div class="reveal mt-6 flex items-center justify-center gap-4" style="transition-delay:0.3s">
+        <span id="revStatus" class="badge badge-purple">verificando…</span>
+        <span class="text-xs text-white/30">Core $29 · Pro $99 · Enterprise $499 /mês</span>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="revGrid">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Stripe (cobranças)</h3>
+          <span class="badge badge-purple" id="req-stripe">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Chave secreta de produção para checkout de subscrições</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-stripe">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Stripe Webhook</h3>
+          <span class="badge badge-purple" id="req-stripe_webhook">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Endpoint assinado para upgrade automático do plano</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-stripe_webhook">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Gmail OAuth</h3>
+          <span class="badge badge-purple" id="req-gmail">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Agente de atendimento envia emails reais (verify/reset/faturas)</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-gmail">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Email Provider</h3>
+          <span class="badge badge-purple" id="req-email_provider">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Transporte SMTP/Resend/SendGrid/Gmail em produção</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-email_provider">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Domínio próprio</h3>
+          <span class="badge badge-purple" id="req-domain">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">www.trinnityviseronsystem.io com HTTPS para converter vendas</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-domain">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Base de dados</h3>
+          <span class="badge badge-purple" id="req-database">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Postgres para contas e faturas persistidas de forma robusta</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-database">…</span></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.5s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Plano de Receita Real — PDF</h3>
+          <p class="text-sm text-white/40">Passo a passo para ativar Stripe + Gmail + domínio e o modelo de receita (LTV, MRR, metas)</p>
+        </div>
+        <a href="/pitch/Viseron_Pipeline_Receita.pdf" target="_blank" class="btn-neon text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0-3-3m3 3 3-3m2 8H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z"/></svg>
+          Baixar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
 <!-- Terminal / CTA -->
 <section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
   <div class="max-w-4xl mx-auto text-center">
@@ -605,6 +684,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Estado",downloads:"Descargas",token:"$VSR"}};
 function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
 (async()=>{const el=id=>document.getElementById(id);try{const h=await(await fetch('/api/health')).json();if(el('apiStatus')){el('apiStatus').textContent='Operacional';el('apiStatus').className='badge badge-green';}if(el('hTenants'))el('hTenants').textContent=h.tenants??'0';if(el('hUsers'))el('hUsers').textContent=h.users??'0';if(el('hEmail'))el('hEmail').textContent=h.email??'dev';if(el('hBilling'))el('hBilling').textContent=h.billing??'manual';if(el('hConv'))el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';if(el('hMsgs'))el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';}catch(e){if(el('apiStatus')){el('apiStatus').textContent='offline (local build ok)';el('apiStatus').className='badge badge-purple';}}})();
+(async()=>{const el=id=>document.getElementById(id);try{const r=await(await fetch('/api/revenue/readiness')).json();if(el('revStatus')){el('revStatus').textContent=r.ok?'Pronto para faturar':'Go-live pendente ('+r.missing.length+' requisitos)';el('revStatus').className=r.ok?'badge badge-green':'badge badge-purple';}r.requirements.forEach(q=>{const b=el('req-'+q.key);const v=el('val-'+q.key);if(b){b.textContent=q.ready?'Pronto':'Pendente';b.className=q.ready?'badge badge-green':'badge badge-purple';}if(v)v.textContent=q.value;});}catch(e){if(el('revStatus')){el('revStatus').textContent='readiness offline';el('revStatus').className='badge badge-purple';}}})();
 </script>
 </body>
 </html>

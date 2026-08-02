@@ -21,6 +21,7 @@ import { createEmailRouter } from "./email/routes";
 import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
 import { createJarvisRouter } from "./jarvis/routes";
+import { createRevenueRouter } from "./revenue/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -161,6 +162,7 @@ export class ViseronWebServer {
       logger: this.logger,
       metrics: this.metrics,
     }));
+    this.app.use("/api", createRevenueRouter(this.metrics));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
