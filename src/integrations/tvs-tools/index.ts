@@ -25,7 +25,7 @@ export class TVSToolsIntegration {
 
   async initialize(): Promise<number> {
     console.log(`\n══════════════════════════════════════════════`);
-    console.log(`   TVS TOOLS INTEGRATION — 7 GitHub Tools`);
+    console.log(`   TVS TOOLS INTEGRATION — 8 GitHub Tools`);
     console.log(`══════════════════════════════════════════════\n`);
 
     await this.registerYtDlp();
@@ -35,6 +35,7 @@ export class TVSToolsIntegration {
     await this.registerPlausible();
     await this.registerAppFlowy();
     await this.registerPenpot();
+    await this.registerCudaCyclone();
 
     console.log(`\n[TVS Tools] ${this.tools.length} ferramentas registradas como comandos Viseron\n`);
     return this.tools.length;
@@ -431,6 +432,91 @@ export class TVSToolsIntegration {
     );
     this.tools.push("tvs_penpot — Design Tool Open-Source + MCP");
     console.log(`  [TVS] ✓ tvs_penpot — Penpot (Design + MCP)`);
+  }
+
+  // ===================================================================
+  // 8. CUDACYCLONE — GPU Bitcoin Puzzle Solver (CUDA)
+  // ===================================================================
+  private async registerCudaCyclone() {
+    this.toolManager.createQuickTool("tvs_cudacyclone", "CUDACyclone — GPU Puzzle Solver", "AUTOMATION",
+      "Solver de 'Satoshi puzzles' (busca de chave privada em intervalo) com aceleracao CUDA em GPU NVIDIA. Baseado em VanitySearch/Bitcrack. Comandos: status, build, run, benchmark. Requer NVIDIA GPU + CUDA toolkit (Linux/WSL2)",
+      async (input) => {
+        const action = input.acao || input.action || "help";
+        const binary = path.resolve("../CUDACyclone/CUDACyclone");
+        const hasBinary = fs.existsSync(binary);
+
+        if (action === "status" || action === "info") {
+          return {
+            comando: "cudacyclone status",
+            binario: binary,
+            compilado: hasBinary,
+            requisitos: [
+              "GPU NVIDIA com suporte CUDA (compute 7.5+)",
+              "CUDA toolkit instalado (apt install cuda-toolkit)",
+              "Linux ou Windows via WSL2",
+            ],
+            instalacao: "git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone && cd ../CUDACyclone && make",
+            docs: "https://github.com/Dookoo2/CUDACyclone",
+          };
+        }
+
+        if (action === "build" || action === "instalar") {
+          const cmd = `git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone 2>&1 && cd ../CUDACyclone && make 2>&1`;
+          const result = run(cmd);
+          return { comando: "cudacyclone build", resultado: result.slice(0, 500), binario: binary };
+        }
+
+        if (action === "run" || action === "buscar" || action === "bruteforce") {
+          if (!hasBinary) {
+            return {
+              comando: "cudacyclone run",
+              erro: "Binario nao encontrado. Compile primeiro (action=build) numa maquina com NVIDIA GPU + CUDA.",
+              instrucoes: [
+                "git clone https://github.com/Dookoo2/CUDACyclone.git ../CUDACyclone",
+                "cd ../CUDACyclone && make",
+                `./CUDACyclone --range ${input.range || "2000000000:3FFFFFFFFF"} --address ${input.address || input.bitcoin_address || "1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2"} --grid ${input.grid || "512,256"}`,
+              ],
+            };
+          }
+          const range = input.range || "2000000000:3FFFFFFFFF";
+          const address = input.address || input.hash160 || "1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2";
+          const grid = input.grid || "512,256";
+          const slices = input.slices || "";
+          const target = input.address ? `--address ${address}` : `--target-hash160 ${address}`;
+          const slicesArg = slices ? ` --slices ${slices}` : "";
+          const timeout = Math.min(parseInt(input.timeout || "600", 10), 3600);
+          const cmd = `${binary} --range ${range} ${target} --grid ${grid}${slicesArg} 2>&1`;
+          const result = run(cmd.length > 400 ? cmd.slice(0, 400) : cmd);
+          return {
+            comando: "cudacyclone run",
+            range, grid,
+            resultado: result.slice(0, 500),
+            dica: "Tune recomendado RTX 4090: --grid 128,128 --slices 16",
+          };
+        }
+
+        if (action === "benchmark" || action === "bench") {
+          return {
+            comando: "cudacyclone benchmark",
+            velocidades: {
+              "RTX 4060": "1238 Mkeys/s (--grid 512,512)",
+              "RTX 4090": "6214 Mkeys/s (--grid 128,1024)",
+              "RTX 5090": "8408 Mkeys/s (--grid 128,256)",
+              "RTX 3070 mobile": "1150 Mkeys/s (--grid 256,256)",
+            },
+          };
+        }
+
+        return {
+          comando: "cudacyclone",
+          ajuda: "Use: action=status, action=build, action=run, action=benchmark",
+          exemplo: "action=run range='2000000000:3FFFFFFFFF' address='1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2' grid='512,256'",
+          repositorio: "https://github.com/Dookoo2/CUDACyclone",
+        };
+      }
+    );
+    this.tools.push("tvs_cudacyclone — GPU Bitcoin Puzzle Solver (CUDA)");
+    console.log(`  [TVS] ✓ tvs_cudacyclone — CUDACyclone (GPU Bitcoin puzzle solver)`);
   }
 
   getStats() {

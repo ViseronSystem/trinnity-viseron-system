@@ -162,6 +162,20 @@ const tools = [
       ["git clone https://github.com/penpot/penpot-mcp.git", "Clonar repositorio MCP"],
     ],
   },
+  {
+    id: "tvs_cudacyclone", name: "CUDACyclone — GPU Bitcoin Puzzle Solver", repo: "github.com/Dookoo2/CUDACyclone",
+    desc: "Solver de 'Satoshi puzzles' (busca de chave privada em intervalo) com aceleracao CUDA em GPU NVIDIA. Baseado em VanitySearch/Bitcrack. 6.5Gkeys/s (RTX 4090). Requer NVIDIA GPU + CUDA toolkit (Linux/WSL2).",
+    install: "git clone https://github.com/Dookoo2/CUDACyclone.git && make (com CUDA toolkit instalado)",
+    cmds: [
+      ["tvs_cudacyclone acao=status", "Verificar binario, requisitos e instalacao"],
+      ["tvs_cudacyclone acao=build", "Clonar e compilar com make (GPU NVIDIA + CUDA)"],
+      ["tvs_cudacyclone acao=run range='2000000000:3FFFFFFFFF' address='1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2' grid='512,256'", "Buscar chave privada no intervalo"],
+      ["tvs_cudacyclone acao=run range='...' target-hash160='...' grid='128,128' slices='16'", "Buscar por hash160 (sem precisar de endereco)"],
+      ["tvs_cudacyclone acao=benchmark", "Velocidades por GPU (RTX 4060/4090/5090/3070)"],
+      ["./CUDACyclone --range 2000000000:3FFFFFFFFF --address 1HBtApAFA9B2YZw3G2YKSMCtb3dVnjuNe2 --grid 512,256", "Comando direto (RTX 4060 ~1238 Mkeys/s)"],
+      ["./CUDACyclone --range 200000000000:3fffffffffff --address 1F3JRMWudBaj48EhwcHDdpeuy2jwACNxjP --grid 128,128 --slices 16", "Tune otimizado RTX 4090 (~6.1 Gkeys/s)"],
+    ],
+  },
 ];
 
 const apiEndpoints = [
@@ -201,7 +215,7 @@ const doc = new PDFDocument({
   info: {
     Title: "Manual de Comandos - Trinnity Viseron System",
     Author: "TVS v5.0 - Tools Integration",
-    Subject: "Comandos Viseron + 7 GitHub Tools",
+    Subject: "Comandos Viseron + 8 GitHub Tools",
   },
 });
 
@@ -216,9 +230,9 @@ doc.fontSize(44).text("COMANDOS", { align: "center" });
 doc.moveDown(1);
 doc.fontSize(18).font("Helvetica").text("Trinnity Viseron System v5.0", { align: "center" });
 doc.moveDown(0.5);
-doc.fontSize(12).fillColor("#aaaaaa").text("Comandos Viseron + 7 GitHub Tools Integradas", { align: "center" });
+doc.fontSize(12).fillColor("#aaaaaa").text("Comandos Viseron + 8 GitHub Tools Integradas", { align: "center" });
 doc.moveDown(0.3);
-doc.fontSize(11).text("yt-dlp | Ollama | Fooocus | Whisper | Plausible | AppFlowy | Penpot", { align: "center" });
+doc.fontSize(11).text("yt-dlp | Ollama | Fooocus | Whisper | Plausible | AppFlowy | Penpot | CUDACyclone", { align: "center" });
 doc.moveDown(2);
 doc.fontSize(10).fillColor("#888888").text("Gerado: " + new Date().toLocaleString("pt-BR"), { align: "center" });
 doc.text("Trinnity Hurtado — Reina (Coroa)  |  Pedro Costa — Capitan (Hierro)", { align: "center" });
@@ -237,8 +251,9 @@ const toc = [
   "6. tvs_plausible — Web Analytics",
   "7. tvs_appflowy — Workspace AI",
   "8. tvs_penpot — Design Tool + MCP",
-  "9. API TVS Completa (auth/billing/onboarding/email)",
-  "10. Como emitir comandos via Diretivas",
+  "9. tvs_cudacyclone — GPU Bitcoin Puzzle Solver (CUDA)",
+  "10. API TVS Completa (auth/billing/onboarding/email)",
+  "11. Como emitir comandos via Diretivas",
 ];
 toc.forEach((t, i) => {
   doc.fillColor(i % 2 === 0 ? "#333" : "#555").fontSize(10).text("  " + t);
@@ -292,8 +307,8 @@ tools.forEach((tool, idx) => {
 
 doc.addPage();
 
-// ==================== 9. API TVS ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("9. API TVS COMPLETA", { underline: true });
+// ==================== 10. API TVS ====================
+doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("10. API TVS COMPLETA", { underline: true });
 doc.moveDown(0.5);
 doc.fillColor("#333").fontSize(11).font("Helvetica");
 doc.text("Endpoints REST para controlar o TVS remotamente:", { align: "justify" });
@@ -313,8 +328,8 @@ apiEndpoints.forEach(([ep, desc]) => {
 
 doc.moveDown(1.5);
 
-// ==================== 10. DIRETIVAS ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("10. COMO EMITIR COMANDOS VIA DIRETIVAS", { underline: true });
+// ==================== 11. DIRETIVAS ====================
+doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("11. COMO EMITIR COMANDOS VIA DIRETIVAS", { underline: true });
 doc.moveDown(0.5);
 doc.fillColor("#333").fontSize(11).font("Helvetica");
 doc.text("Toda ferramenta no TVS e acessivel via diretivas. O fluxo e:", { align: "justify" });
@@ -361,7 +376,7 @@ doc.moveDown(2);
 doc.rect(0, doc.page.height - 40, doc.page.width, 40).fill("#0a0a2e");
 doc.fillColor("#888888").fontSize(8).font("Helvetica");
 doc.text("Trinnity Viseron System v5.0 — Manual de Comandos", 45, doc.page.height - 30, { align: "center" });
-doc.text("7 GitHub Tools | Comandos Viseron Proprios | API REST | Mentes Bilionarias", 45, doc.page.height - 18, { align: "center" });
+doc.text("8 GitHub Tools | Comandos Viseron Proprios | API REST | Mentes Bilionarias", 45, doc.page.height - 18, { align: "center" });
 
 doc.end();
 
