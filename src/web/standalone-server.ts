@@ -12,7 +12,7 @@ import { createAuthRouter } from "./auth/routes";
 import { createLogger, ILogger } from "./monitoring/logger";
 import { MetricsCollector, IMetrics } from "./monitoring/metrics";
 import { requestLogger } from "./monitoring/middleware";
-import { StripeBilling } from "./billing/stripe";
+import { BillingProvider, createBilling } from "./billing";
 import { createBillingRouter } from "./billing/routes";
 import { createOnboardingRouter } from "./onboarding/routes";
 import { getDatabase } from "./db";
@@ -35,7 +35,7 @@ export class ViseronWebServer {
   private accounts: AccountStore;
   private logger: ILogger;
   private metrics: IMetrics;
-  private billing: StripeBilling;
+  private billing: BillingProvider;
   private email: EmailService;
   private messaging: MessageStore;
   private db: ReturnType<typeof getDatabase>;
@@ -57,7 +57,7 @@ export class ViseronWebServer {
     this.accounts = new AccountStore(path.join(this.dataDir, "accounts.json"));
     this.logger = createLogger();
     this.metrics = new MetricsCollector();
-    this.billing = new StripeBilling();
+    this.billing = createBilling();
     this.email = createEmailService(this.dataDir);
     this.messaging = new MessageStore(path.join(this.dataDir, "messaging.json"));
     this.db = getDatabase();
@@ -95,7 +95,7 @@ export class ViseronWebServer {
         mode: "web-standalone",
         version: "5.0.0",
         db: this.db.enabled ? "postgres" : "json-fallback",
-        billing: this.billing.enabled ? "stripe" : "manual",
+        billing: this.billing.enabled ? this.billing.name : "manual",
         email: this.email.transport.enabled ? this.email.transport.provider : "off",
         messaging: this.messaging.count(),
         tenants: this.accounts.count().tenants,

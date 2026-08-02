@@ -1,12 +1,8 @@
 import { getPlan, Plan } from "./plans";
+import { BillingProvider, CheckoutInput, CheckoutSession, WebhookEvent } from "./types";
 
-export interface CheckoutSession {
-  url: string | null;
-  mode: string;
-  provider: "stripe" | "manual";
-}
-
-export class StripeBilling {
+export class StripeBilling implements BillingProvider {
+  name = "stripe";
   enabled: boolean;
   private stripe: any;
 
@@ -27,13 +23,7 @@ export class StripeBilling {
     }
   }
 
-  async createCheckoutSession(input: {
-    plan: string;
-    customerEmail: string;
-    tenantId: string;
-    successUrl: string;
-    cancelUrl: string;
-  }): Promise<CheckoutSession> {
+  async createCheckoutSession(input: CheckoutInput): Promise<CheckoutSession> {
     const plan: Plan | undefined = getPlan(input.plan);
     if (!plan) throw new Error("Plano inválido");
 
@@ -56,10 +46,10 @@ export class StripeBilling {
       success_url: input.successUrl,
       cancel_url: input.cancelUrl,
     });
-    return { url: session.url, mode: "subscription", provider: "stripe" };
+    return { url: session.url, mode: "subscription", provider: "stripe", sessionId: session.id };
   }
 
-  async handleWebhook(rawBody: Buffer, signature: string): Promise<{ type: string; tenantId?: string; plan?: string } | null> {
+  async handleWebhook(rawBody: Buffer, signature: string): Promise<WebhookEvent | null> {
     if (!this.enabled) {
       // Sem chave Stripe: aceita eventos de dev ignorando a assinatura.
       try {

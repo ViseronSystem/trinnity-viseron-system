@@ -80,6 +80,8 @@
     "deploy:domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
     "domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
     "go-live:stripe": "tsx scripts/go-live-stripe.ts",
+    "cofre": "tsx scripts/gerar-cofre-credenciais.ts",
+    "demo:avirato": "tsx scripts/demo-avirato.ts",
     "update:auto": "powershell -ExecutionPolicy Bypass -File scripts/self-update.ps1"
   },
   "dependencies": {

@@ -299,8 +299,8 @@ async function runWebTests() {
     assert(rev.data.ok === true || rev.data.ok === false, "GET /api/revenue/readiness responde");
     assert(Array.isArray(rev.data.requirements) && rev.data.requirements.length === 6, "readiness reporta 6 requisitos (stripe/webhook/gmail/email/domain/db)");
     assert(rev.data.plans && rev.data.plans.length === 3 && rev.data.plans[0].monthlyPrice === 29, "readiness inclui planos reais");
-    const stripeReq = rev.data.requirements.find((r: any) => r.key === "stripe");
-    assert(stripeReq && typeof stripeReq.ready === "boolean" && stripeReq.value.length > 0, "readiness: requisito stripe com estado");
+    const processorReq = rev.data.requirements.find((r: any) => r.key === "processor");
+    assert(processorReq && typeof processorReq.ready === "boolean" && processorReq.value.length > 0, "readiness: requisito processador (stripe/avirato) com estado");
     const domainReq = rev.data.requirements.find((r: any) => r.key === "domain");
     assert(domainReq && typeof domainReq.ready === "boolean", "readiness: requisito domínio presente");
   } finally {

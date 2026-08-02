@@ -24,27 +24,33 @@ export interface RevenueReadiness {
 export function getRevenueReadiness(): RevenueReadiness {
   const stripeKey = process.env.STRIPE_SECRET_KEY || "";
   const stripeWebhook = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const aviratoKey = process.env.AVIRATO_API_KEY || "";
+  const aviratoWebcode = process.env.AVIRATO_WEBCODE || "";
+  const aviratoSecret = process.env.AVIRATO_CLIENT_SECRET || "";
   const gmail = gmailConfigured();
   const emailProvider = process.env.EMAIL_PROVIDER || "dev";
   const dbUrl = process.env.DATABASE_URL || "";
   const publicUrl = process.env.TVS_PUBLIC_URL || "";
 
+  const processorReady = !!(stripeKey || (aviratoKey && aviratoWebcode));
+  const processorLabel = aviratoKey ? "Avirato Payments" : "Stripe";
+
   const requirements: RevenueRequirement[] = [
     {
-      key: "stripe",
-      label: "Stripe (cobranças reais)",
-      description: "Chave secreta de produção para checkout de subscrições e faturação",
-      ready: !!stripeKey,
-      value: stripeKey ? "configurado" : "modo manual/dev",
-      action: "Criar conta em stripe.com → 'Developers → API keys' → definir STRIPE_SECRET_KEY (sk_live_...)",
+      key: "processor",
+      label: `${processorLabel} (cobranças reais)`,
+      description: "Checkout de subscrições e faturação em produção",
+      ready: processorReady,
+      value: stripeKey ? "Stripe configurado" : aviratoKey ? (aviratoWebcode ? "Avirato configurado" : "Avirato: falta AVIRATO_WEBCODE") : "modo manual/dev",
+      action: aviratoKey ? "Definir AVIRATO_WEBCODE no .env (ver painel Avirato → Integrations → API Keys)" : "Criar conta em stripe.com → 'Developers → API keys' → definir STRIPE_SECRET_KEY (sk_live_...)",
     },
     {
-      key: "stripe_webhook",
-      label: "Stripe Webhook",
+      key: "processor_webhook",
+      label: "Webhook de pagamento",
       description: "Endpoint /api/billing/webhook assinado para upgrade automático do plano",
-      ready: !!stripeWebhook,
-      value: stripeWebhook ? "configurado" : "sem STRIPE_WEBHOOK_SECRET",
-      action: "No dashboard Stripe: Developers → Webhooks → apontar para https://viseron-web.onrender.com/api/billing/webhook e definir STRIPE_WEBHOOK_SECRET",
+      ready: !!stripeWebhook || !!aviratoSecret,
+      value: stripeWebhook ? "Stripe webhook configurado" : aviratoSecret ? "Avirato webhook (HMAC) configurado" : "sem segredo de webhook",
+      action: "Integrations → Webhook Configuration na Avirato (ou Developers → Webhooks no Stripe) → URL https://viseron-web.onrender.com/api/billing/webhook e definir o client secret",
     },
     {
       key: "gmail",
@@ -82,7 +88,7 @@ export function getRevenueReadiness(): RevenueReadiness {
 
   const missing = requirements.filter((r) => !r.ready).map((r) => r.key);
   const revenueModes: string[] = [];
-  if (stripeKey) revenueModes.push("stripe");
+  if (processorReady) revenueModes.push(aviratoKey ? "avirato" : "stripe");
   else revenueModes.push("manual-trial");
   if (gmail) revenueModes.push("email-real");
   else revenueModes.push("email-dev");

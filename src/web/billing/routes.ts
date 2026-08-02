@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { PLANS } from "./plans";
-import { StripeBilling } from "./stripe";
+import { BillingProvider } from "./types";
 import { AccountStore } from "../auth/store";
 import { AuthedRequest, requireAuth } from "../auth/middleware";
 import { ILogger } from "../monitoring/logger";
@@ -9,7 +9,7 @@ import { EmailService } from "../email/service";
 
 export function createBillingRouter(
   store: AccountStore,
-  billing: StripeBilling,
+  billing: BillingProvider,
   logger: ILogger,
   metrics: IMetrics,
   email?: EmailService
@@ -58,14 +58,14 @@ export function createBillingRouter(
   router.post("/billing/webhook", async (req, res) => {
     try {
       const rawBody = (req as any).rawBody as Buffer | undefined;
-      const signature = String(req.headers["stripe-signature"] || "");
+      const signature = String(req.headers["stripe-signature"] || req.headers["x-avirato-signature"] || "");
       const event = await billing.handleWebhook(rawBody || Buffer.from("{}"), signature);
       if (!event) return res.status(400).json({ error: "Evento inválido" });
       metrics.inc("billing_webhooks_total", { type: event.type });
       if (event.type === "checkout.session.completed") {
         const plan = event.plan || "pro";
         store.updateTenantPlan(event.tenantId || "", plan as any);
-        logger.info(`Pagamento confirmado: tenant ${event.tenantId} → plano ${plan}`);
+        logger.info(`Pagamento confirmado: tenant ${event.tenantId} → plano ${plan} (${billing.name})`);
         if (email?.transport.enabled) {
           const owner = store.listUsers(event.tenantId || "").find((u) => u.role === "owner");
           if (owner) {
@@ -79,7 +79,7 @@ export function createBillingRouter(
       }
       res.json({ ok: true, received: true });
     } catch (e: any) {
-      logger.error(`Webhook Stripe: ${e.message}`);
+      logger.error(`Webhook ${billing.name}: ${e.message}`);
       res.status(500).json({ error: e.message });
     }
   });

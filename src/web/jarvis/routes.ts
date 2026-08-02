@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AccountStore } from "../auth/store";
-import { StripeBilling } from "../billing/stripe";
+import { BillingProvider } from "../billing/types";
 import { EmailService } from "../email/service";
 import { MessageStore } from "../messaging/store";
 import { BlogStorage } from "../blog-storage";
@@ -12,7 +12,7 @@ import { IMetrics } from "../monitoring/metrics";
 export function createJarvisRouter(ctx: {
   dataDir: string;
   accounts: AccountStore;
-  billing: StripeBilling;
+  billing: BillingProvider;
   email: EmailService;
   messaging: MessageStore;
   blog: BlogStorage;

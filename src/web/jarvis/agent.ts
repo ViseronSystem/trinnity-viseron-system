@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { AccountStore } from "../auth/store";
-import { StripeBilling } from "../billing/stripe";
+import { BillingProvider } from "../billing/types";
 import { EmailService } from "../email/service";
 import { MessageStore } from "../messaging/store";
 import { BlogStorage } from "../blog-storage";
@@ -62,7 +62,7 @@ export class JarvisAgent {
   private providerFactory: ProviderFactory;
   private sessionsFile: string;
   private accounts: AccountStore;
-  private billing: StripeBilling;
+  private billing: BillingProvider;
   private email: EmailService;
   private messaging: MessageStore;
   private blog: BlogStorage;
@@ -72,7 +72,7 @@ export class JarvisAgent {
     logger: ILogger;
     metrics: IMetrics;
     accounts: AccountStore;
-    billing: StripeBilling;
+    billing: BillingProvider;
     email: EmailService;
     messaging: MessageStore;
     blog: BlogStorage;
@@ -285,7 +285,7 @@ export class JarvisAgent {
       return {
         tool: "system_status",
         ok: true,
-        detail: `v5.0 · tenants=${counts.tenants} · users=${counts.users} · blog=${blogCount.total} (${blogCount.published} publicados) · conversas=${msg.conversations} · mensagens=${msg.messages} · email=${this.email.transport.provider} · billing=${this.billing.enabled ? "stripe" : "manual"}`,
+        detail: `v5.0 · tenants=${counts.tenants} · users=${counts.users} · blog=${blogCount.total} (${blogCount.published} publicados) · conversas=${msg.conversations} · mensagens=${msg.messages} · email=${this.email.transport.provider} · billing=${this.billing.enabled ? this.billing.name : "manual"}`,
       };
     } catch (e: any) {
       return { tool: "system_status", ok: false, detail: e.message };
