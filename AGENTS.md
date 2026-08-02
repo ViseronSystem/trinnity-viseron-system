@@ -63,15 +63,19 @@ cd mobile && npx expo start
 | `npm run deploy` | Deploy to GitHub + Vercel |
 | `npm run deploy:github` | Deploy to GitHub only |
 | `npm run deploy:vercel` | Deploy to Vercel only |
-| `npm run deploy:domain` | Configura domínio novo (www.trinnityviseronsystem.io) no .env |
-| `npm run deploy:domain:check` | Valida DNS/HTTPS do domínio novo |
+| `npm run deploy:domain` | Configura domínio novo no .env |
+| `npm run deploy:domain:check` | Valida DNS/HTTPS do domínio |
+| `npm run domain:check` | Diagnóstico do domínio trinnityviseron.com (NS/DNS/HTTPS + passo único para ativar) |
 | `npm run update:auto` | Self-update: pull + install + PDFs + build + testes + deploy |
 | `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
 | `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
 | `npm run report:state` | Gera data/Viseron_Relatorio_Estado.pdf (o que podes fazer + estado real do sistema) |
-| `npm run docs:revenue` | Gera data/Viseron_Pipeline_Receita.pdf (passo a passo Stripe/Gmail/domínio + modelo de receita) |
+| `npm run docs:revenue` | Gera data/Viseron_Pipeline_Receita.pdf (passo a passo cobranças reais + modelo de receita) |
 | `npm run audit:arkom` | Auditoria operacional ARKOM/AIOX (scan/diagnóstico/fix/verdicto → data/Viseron_Audit_ARKOM.pdf) |
 | `npm run demo:jarvis` | Demo do JARVIS (conversa + autonomia real sobre o sistema) |
+| `npm run go-live:stripe` | Cria os 3 planos no Stripe (se preferires Stripe em vez de Avirato) |
+| `npm run demo:avirato` | Testa checkout Avirato real (cria sessão de pagamento, ex: `-- core`) |
+| `npm run cofre` | Gera data/Viseron_Cofre_Credenciais.pdf (todas as chaves/tokens/logins — CONFIDENCIAL, gitignored) |
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
@@ -93,8 +97,8 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `PATCH /api/auth/profile` | Atualizar nome/perfil |
 | `GET /api/auth/users` | Listar membros (owner/admin) |
 | `GET /api/billing/plans` | Planos Core $29 / Pro $99 / Enterprise $499 |
-| `POST /api/billing/checkout` | Criar sessão de checkout (Stripe ou manual) |
-| `POST /api/billing/webhook` | Webhook de pagamento → upgrade do plano |
+| `POST /api/billing/checkout` | Criar sessão de checkout (Avirato Payments primário, Stripe opcional, manual dev) |
+| `POST /api/billing/webhook` | Webhook de pagamento → upgrade do plano (Avirato HMAC ou Stripe) |
 | `GET /api/billing/subscription` | Estado da subscrição/trial |
 | `GET /api/onboarding/templates` | 5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) |
 | `POST /api/onboarding/apply` | Materializa agentes no workspace do tenant |
@@ -114,7 +118,7 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 
-Variáveis de ambiente: `DATABASE_URL` (Postgres opcional), `STRIPE_SECRET_KEY`, `TVS_JWT_SECRET`.
+Variáveis de ambiente: `AVIRATO_API_KEY`+`AVIRATO_WEBCODE`+`AVIRATO_CLIENT_SECRET` (cobranças — primário), `DATABASE_URL` (Postgres opcional), `STRIPE_SECRET_KEY` (alternativo), `GMAIL_CLIENT_ID/SECRET/REFRESH_TOKEN`, `TVS_JWT_SECRET`.
 
 ## AI Providers
 
