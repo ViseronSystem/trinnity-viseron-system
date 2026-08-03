@@ -199,6 +199,118 @@ export class TVSDashboardServer {
       }
     });
 
+    // ============ CODE Platform API (operar + criar VISERON) ============
+    // Blueprints de agentes disponíveis para criação
+    this.app.get("/api/code/blueprints", (_req, res) => {
+      try {
+        const names = this.tvsCore.agentFactory.getBlueprintNames();
+        const blueprints = names.map((n) => this.tvsCore.agentFactory.getBlueprint(n))
+          .filter(Boolean)
+          .map((b: any) => ({
+            name: b.name,
+            role: b.role,
+            description: b.description,
+            capabilities: b.capabilities,
+            blueprint: b.name !== b.role ? b.name : undefined,
+          }));
+        res.json({ total: blueprints.length, blueprints });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    // Criar um novo agente VISERON (custom ou a partir de blueprint)
+    this.app.post("/api/code/create-agent", (req, res) => {
+      try {
+        const { blueprint, name, role, description, capabilities, systemPrompt, temperature, maxTokens } = req.body || {};
+        let agent;
+        if (blueprint) {
+          agent = this.tvsCore.agentFactory.spawnFromBlueprint(blueprint);
+          if (!agent) return res.status(404).json({ error: `Blueprint '${blueprint}' não existe` });
+        } else {
+          if (!name || !role) return res.status(400).json({ error: "name e role são obrigatórios" });
+          const caps = Array.isArray(capabilities) ? capabilities : String(capabilities || "").split(",").map((c: string) => c.trim()).filter(Boolean);
+          agent = this.tvsCore.agentFactory.spawnCustom({
+            name,
+            role,
+            description: description || `${role} criado pela CODE Platform`,
+            capabilities: caps.length ? caps : ["general"],
+            systemPrompt: systemPrompt || `Eres ${name}, ${role} dentro de Trinnity Viseron System. Analiza cada tarea según tu rol y entrega respuestas prácticas y accionables.`,
+            temperature: temperature ?? 0.7,
+            maxTokens: maxTokens ?? 2048,
+          });
+        }
+        res.json({
+          ok: true,
+          agent: {
+            id: agent.id,
+            name: agent.name,
+            role: agent.role,
+            description: agent.description,
+            capabilities: agent.capabilities,
+            status: agent.status,
+          },
+        });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    // Listar agentes registados
+    this.app.get("/api/code/agents", (_req, res) => {
+      const list = this.tvsCore.agentManager.list().map((a) => ({
+        id: a.id,
+        name: a.name,
+        role: a.role,
+        status: a.status,
+        capabilities: a.capabilities || [],
+      }));
+      res.json({ total: list.length, agents: list });
+    });
+
+    // Executar um agente com uma tarefa
+    this.app.post("/api/code/run-agent", async (req, res) => {
+      try {
+        const { agentId, task } = req.body || {};
+        if (!agentId || !task) return res.status(400).json({ error: "agentId e task são obrigatórios" });
+        const agent = this.tvsCore.agentManager.getAgent(agentId);
+        if (!agent) return res.status(404).json({ error: `Agente '${agentId}' não encontrado` });
+        if (agent.status !== "ACTIVE") return res.status(409).json({ error: `Agente está em estado '${agent.status}'` });
+        const result = await agent.execute(task);
+        res.json({ ok: result.success, result });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
+    // Estado consolidado da plataforma CODE
+    this.app.get("/api/code/system", (_req, res) => {
+      try {
+        const agents = this.tvsCore.agentManager.list();
+        const stats = this.tvsCore.agentManager.getStats();
+        const blueprints = this.tvsCore.agentFactory.getBlueprintNames();
+        const squads = this.tvsCore.squadManager.getSquads().map((s) => ({
+          name: s.name,
+          leader: s.leader.name,
+          membersCount: s.members.length,
+        }));
+        res.json({
+          status: "ONLINE",
+          core: this.tvsCore.name,
+          version: this.tvsCore.version,
+          intelligence: this.tvsCore.getIntelligenceLevel(),
+          agents: { total: stats.total, active: stats.active, paused: stats.paused, list: agents.slice(0, 200).map((a) => ({ id: a.id, name: a.name, role: a.role, status: a.status })) },
+          squads,
+          blueprintsCount: blueprints.length,
+          blueprints: blueprints.slice(0, 50),
+          spawned: this.tvsCore.agentFactory.getTotalSpawned(),
+          battalion: (this.tvsCore.battalionRegistry as any).count ? this.tvsCore.battalionRegistry.count() : "n/a",
+        });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
     // Páginas reais (não cai no fallback)
     this.app.get("/dashboard", (_req, res) => {
       res.sendFile(path.join(publicPath, "dashboard.html"));

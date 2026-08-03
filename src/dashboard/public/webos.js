@@ -316,6 +316,137 @@
     { id: 'agents', icon: '🤖', titleKey: 'agents', handler: (body) => { body.innerHTML = '<div style="margin-bottom:8px;font-size:11px;color:rgba(255,255,255,0.4)" id="agent-count">' + (agentsCache.length || 0) + ' agents</div><div id="agent-list"></div>'; function render() { const list = document.getElementById('agent-list'); if (!list) return; list.innerHTML = ''; const ags = agentsCache.slice(0, 50); ags.forEach(a => { list.innerHTML += '<div class=\'agent-card\'><div class=\'status-dot\'></div><div><div class=\'name\'>' + a.name + '</div><div class=\'role\'>' + (a.role || a.id || '') + '</div></div></div>'; }); } render(); setTimeout(render, 500); } },
     { id: 'voice', icon: '🎤', titleKey: 'voice', handler: (body) => { body.innerHTML = '<div style="text-align:center;padding:20px"><div style="font-size:40px;margin-bottom:12px">🎤</div><p style="font-size:14px;font-weight:600;margin-bottom:4px">JARVIS Voice</p><p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:12px" data-i18n="welcome_desc">Voice commands. Select speaker in taskbar.</p><div style="display:flex;gap:8px;justify-content:center"><button onclick="if(window.__voiceWidgetToggle)window.__voiceWidgetToggle()" style="padding:8px 20px;border-radius:6px;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);color:#00f0ff;cursor:pointer;font-size:12px">Open Voice Panel</button></div></div>'; } },
     { id: 'token', icon: '💰', titleKey: 'token', handler: (body) => { body.innerHTML = '<div style="padding:10px"><div style="font-size:28px;font-weight:700;color:#00f0ff;margin-bottom:4px">300M $VSR</div><div style="font-size:20px;color:#bf5af2;margin-bottom:16px">1B $TRIN</div><div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6">Trinnity: 90M (30%)<br>Pedro: 75M (25%)<br>Legion: 90M (30%)<br>Reserve: 45M (15%)</div></div>'; } },
+    { id: 'code', icon: '⌨️', titleKey: 'CODE', handler: (body) => {
+      body.style.background = '#0a0a0e';
+      body.innerHTML = `<div style="display:flex;flex-direction:column;height:100%">
+        <div style="display:flex;gap:8px;padding:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <button class="code-tab" data-tab="console" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(0,240,255,0.2);background:rgba(0,240,255,0.1);color:#00f0ff;font-size:11px;cursor:pointer;font-weight:600">▷ Console</button>
+          <button class="code-tab" data-tab="create" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">＋ Criar VISERON</button>
+          <button class="code-tab" data-tab="agents" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">🤖 Agentes</button>
+        </div>
+        <div id="code-console" style="flex:1;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:#00f0ff;padding:10px;line-height:1.6"></div>
+        <div id="code-create" style="flex:1;display:none;overflow-y:auto;padding:10px"></div>
+        <div id="code-agents" style="flex:1;display:none;overflow-y:auto;padding:10px"></div>
+        <div style="display:flex;gap:6px;padding:8px;border-top:1px solid rgba(255,255,255,0.06)">
+          <input id="code-input" placeholder="Comando... (help)" style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 10px;color:#00f0ff;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none">
+          <button id="code-run" style="padding:6px 14px;border-radius:6px;background:rgba(0,240,255,0.12);border:1px solid rgba(0,240,255,0.25);color:#00f0ff;font-size:12px;cursor:pointer;font-weight:700">RUN</button>
+        </div>
+      </div>`;
+      const consoleEl = document.getElementById('code-console');
+      const createEl = document.getElementById('code-create');
+      const agentsEl = document.getElementById('code-agents');
+      const input = document.getElementById('code-input');
+      const base = getApiBase();
+      const tabs = body.querySelectorAll('.code-tab');
+      const log = (html) => { if (consoleEl) { consoleEl.innerHTML += html + '<br>'; consoleEl.scrollTop = consoleEl.scrollHeight; } };
+      const clear = () => { if (consoleEl) consoleEl.innerHTML = ''; };
+      tabs.forEach(tab => tab.onclick = () => {
+        tabs.forEach(t => { t.style.background = 'transparent'; t.style.color = 'rgba(255,255,255,0.5)'; });
+        tab.style.background = 'rgba(0,240,255,0.1)'; tab.style.color = '#00f0ff';
+        consoleEl.style.display = tab.dataset.tab === 'console' ? 'block' : 'none';
+        createEl.style.display = tab.dataset.tab === 'create' ? 'block' : 'none';
+        agentsEl.style.display = tab.dataset.tab === 'agents' ? 'block' : 'none';
+        if (tab.dataset.tab === 'agents') renderAgents();
+      });
+      const renderAgents = async () => {
+        if (!agentsEl) return;
+        agentsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:12px">Carregando agentes...</div>';
+        try {
+          const r = await fetch(base + '/api/code/agents');
+          const d = await r.json();
+          if (!d.agents || !d.agents.length) { agentsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:12px">Nenhum agente registado ainda.</div>'; return; }
+          agentsEl.innerHTML = d.agents.map(a => `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:6px;margin:3px 0">
+            <span style="width:6px;height:6px;border-radius:50%;background:${a.status === 'ACTIVE' ? '#00ff87' : '#ff2d55'}"></span>
+            <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e4e4f0">${a.name}</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">${a.role}</div></div>
+            <button data-run="${a.id}" style="padding:4px 10px;border-radius:4px;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);color:#00f0ff;font-size:10px;cursor:pointer">▶ Executar</button>
+          </div>`).join('');
+          agentsEl.querySelectorAll('[data-run]').forEach(btn => btn.onclick = () => {
+            const id = btn.dataset.run;
+            tabs.forEach(t => { t.style.background = 'transparent'; t.style.color = 'rgba(255,255,255,0.5)'; });
+            consoleEl.style.display = 'block'; createEl.style.display = 'none'; agentsEl.style.display = 'none';
+            input.value = 'run ' + id + ' Análise o estado atual do sistema VISERON e gere um relatório conciso.';
+            input.focus();
+          });
+        } catch (e) { agentsEl.innerHTML = '<div style="color:#ff2d55;font-size:12px">Erro a carregar agentes</div>'; }
+      };
+      const renderCreate = async () => {
+        if (!createEl) return;
+        let html = '<div style="color:rgba(255,255,255,0.4);font-size:11px;margin-bottom:8px">Criar uma nova mente VISERON. Escolhe um blueprint ou configura à mão:</div>';
+        try {
+          const r = await fetch(base + '/api/code/blueprints');
+          const d = await r.json();
+          const bps = d.blueprints || [];
+          html += '<select id="code-bp" style="width:100%;padding:8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e4e4f0;font-size:12px;margin-bottom:10px;outline:none">';
+          html += '<option value="">— Blueprint (opcional) —</option>';
+          bps.forEach(b => { html += '<option value="' + b.blueprint + '">' + b.name + ' — ' + b.role + '</option>'; });
+          html += '</select>';
+        } catch (e) {}
+        html += '<input id="code-name" placeholder="Nome (ex: NovaMente)" style="width:100%;padding:8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e4e4f0;font-size:12px;margin-bottom:8px;outline:none">';
+        html += '<input id="code-role" placeholder="Rol (ex: Engenheiro de IA)" style="width:100%;padding:8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e4e4f0;font-size:12px;margin-bottom:8px;outline:none">';
+        html += '<input id="code-caps" placeholder="Capacidades (vírgulas)" style="width:100%;padding:8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e4e4f0;font-size:12px;margin-bottom:8px;outline:none">';
+        html += '<textarea id="code-prompt" placeholder="System prompt (personalidade/missão)" rows="4" style="width:100%;padding:8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#e4e4f0;font-size:12px;margin-bottom:10px;outline:none;resize:vertical;font-family:inherit"></textarea>';
+        html += '<button id="code-create-btn" style="width:100%;padding:9px;border-radius:6px;background:rgba(191,90,242,0.15);border:1px solid rgba(191,90,242,0.3);color:#bf5af2;font-size:13px;cursor:pointer;font-weight:700">⚡ Criar Mente VISERON</button>';
+        html += '<div id="code-create-msg" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.4)"></div>';
+        createEl.innerHTML = html;
+        document.getElementById('code-create-btn').onclick = async () => {
+          const msg = document.getElementById('code-create-msg');
+          msg.textContent = 'A criar...';
+          const bp = document.getElementById('code-bp').value;
+          const body2 = bp ? { blueprint: bp } : {
+            name: document.getElementById('code-name').value.trim(),
+            role: document.getElementById('code-role').value.trim(),
+            capabilities: document.getElementById('code-caps').value.trim(),
+            systemPrompt: document.getElementById('code-prompt').value.trim(),
+          };
+          try {
+            const r = await fetch(base + '/api/code/create-agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body2) });
+            const d = await r.json();
+            if (d.ok) { msg.style.color = '#00ff87'; msg.textContent = '✓ Mente criada: ' + d.agent.name + ' (' + d.agent.role + ') — id: ' + d.agent.id; input.value = 'run ' + d.agent.id + ' Apresenta-te e descreve a tua missão.'; }
+            else { msg.style.color = '#ff2d55'; msg.textContent = '✗ ' + (d.error || 'erro'); }
+          } catch (e) { msg.style.color = '#ff2d55'; msg.textContent = '✗ Erro de ligação'; }
+        };
+      };
+      const execCommand = async (cmd) => {
+        log('<span style="color:rgba(255,255,255,0.3)">$ ' + cmd.replace(/</g,'&lt;') + '</span>');
+        const lower = cmd.toLowerCase().trim();
+        const parts = cmd.trim().split(/\s+/);
+        if (lower === 'help' || lower === '?') {
+          log('Comandos: <span style="color:#fff">status · agents · blueprints · create &lt;nome&gt;|&lt;rol&gt; · run &lt;agentId&gt; &lt;tarefa&gt; · clear</span>');
+        } else if (lower === 'clear') { clear(); }
+        else if (lower === 'status') {
+          try { const r = await fetch(base + '/api/code/system'); const d = await r.json(); log('Core: ' + d.core + ' v' + d.version + ' — <span style="color:#00ff87">' + d.status + '</span>'); log('Agentes: ' + d.agents.total + ' (ativos: ' + d.agents.active + ') · Squads: ' + (d.squads||[]).length + ' · Blueprints: ' + d.blueprintsCount); if (d.intelligence) log('Inteligência: ' + JSON.stringify(d.intelligence)); }
+          catch (e) { log('<span style="color:#ff2d55">ERRO</span>'); }
+        }
+        else if (lower === 'agents') {
+          try { const r = await fetch(base + '/api/code/agents'); const d = await r.json(); log('Agentes registados (' + d.total + '):'); (d.agents||[]).forEach(a => log('  · ' + a.id + ' <span style="color:#fff">' + a.name + '</span> — ' + a.role + ' [' + a.status + ']')); }
+          catch (e) { log('<span style="color:#ff2d55">ERRO</span>'); }
+        }
+        else if (lower === 'blueprints') {
+          try { const r = await fetch(base + '/api/code/blueprints'); const d = await r.json(); log('Blueprints (' + d.total + '):'); (d.blueprints||[]).forEach(b => log('  · ' + b.blueprint + ' — <span style="color:#fff">' + b.name + '</span> (' + b.role + ')')); }
+          catch (e) { log('<span style="color:#ff2d55">ERRO</span>'); }
+        }
+        else if (parts[0].toLowerCase() === 'create' && parts.length >= 3) {
+          const name = parts[1]; const role = parts.slice(2).join(' ');
+          try { const r = await fetch(base + '/api/code/create-agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, role }) }); const d = await r.json(); if (d.ok) log('<span style="color:#00ff87">✓ Mente criada:</span> ' + d.agent.name + ' (' + d.agent.role + ') — ' + d.agent.id); else log('<span style="color:#ff2d55">✗ ' + (d.error||'erro') + '</span>'); }
+          catch (e) { log('<span style="color:#ff2d55">ERRO</span>'); }
+        }
+        else if (parts[0].toLowerCase() === 'run' && parts.length >= 2) {
+          const agentId = parts[1]; const task = parts.slice(2).join(' ') || 'Analisa o estado do sistema e sugere melhorias.';
+          log('▶ A executar ' + agentId + '...');
+          try { const r = await fetch(base + '/api/code/run-agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agentId, task }) }); const d = await r.json(); if (d.ok && d.result) log('<span style="color:#bf5af2">[' + d.result.agentName + ']</span> ' + d.result.output + (d.result.executionTimeMs ? ' <span style="color:rgba(255,255,255,0.3)">(' + d.result.executionTimeMs + 'ms)</span>' : '')); else log('<span style="color:#ff2d55">✗ ' + (d.error || 'falhou') + '</span>'); }
+          catch (e) { log('<span style="color:#ff2d55">✗ Erro de ligação</span>'); }
+        }
+        else if (lower === 'create') { log('Uso: <span style="color:#fff">create &lt;Nome&gt; &lt;Rol&gt;</span> — ex: create NovaMente Engenheiro'); }
+        else { log('<span style="color:#ff2d55">Comando desconhecido.</span> Usa <span style="color:#fff">help</span>'); }
+      };
+      const runBtn = document.getElementById('code-run');
+      runBtn.onclick = () => { const v = input.value.trim(); if (v) { execCommand(v); input.value = ''; } };
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { runBtn.click(); } });
+      renderCreate();
+      log('Trinnity VISERON CODE Platform v5.0 — <span style="color:#fff">help</span> para comandos.');
+      log('Cria mentes VISERON, executa agentes e opera o sistema em tempo real.');
+      input.focus();
+    } },
     { id: 'automation', icon: '⚙️', titleKey: 'Automation', handler: (body) => {
       body.style.background = '#0a0a0e';
       let html = '<div class="wf-header" style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:11px;color:rgba(255,255,255,0.4);display:flex;justify-content:space-between;align-items:center"><span>n8n Workflow Engine</span><span id="wf-status" style="color:#00ff87">● Local</span></div><div id="wf-list" style="padding:6px;overflow-y:auto;flex:1">Loading...</div>';
