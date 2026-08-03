@@ -1,4 +1,5 @@
 import * as crypto from "crypto";
+import axios from "axios";
 import { ViseronWebServer } from "../src/web/standalone-server";
 
 const PORT = parseInt(process.env.DEMO_PORT || "32124", 10);
@@ -57,9 +58,16 @@ async function main() {
   const co = await call("POST", "/api/billing/checkout", { plan: "pro" }, regToken);
   console.log(`6. POST /billing/checkout     → ${co.status} provider=${co.data.provider} url=${co.data.url}`);
 
-  const wh = await call("POST", "/api/billing/webhook", {
-    type: "checkout.session.completed",
-    data: { object: { metadata: { tenantId: reg.data.tenant.id, plan: "pro" } } },
+  const whBody = {
+    event_code: "AUTHORISATION",
+    data: { paymentStatus: "AUTHORISED", customReference: `plan:${reg.data.tenant.id}:pro` },
+  };
+  const whRaw = JSON.stringify(whBody);
+  const clientSecret = process.env.AVIRATO_CLIENT_SECRET || "";
+  const ts = Math.floor(Date.now() / 1000);
+  const hmac = crypto.createHmac("sha256", clientSecret).update(`${ts}.${whRaw}`).digest("hex");
+  const wh = await axios.post(BASE + "/api/billing/webhook", whRaw, {
+    headers: { "Content-Type": "application/json", "x-avirato-signature": clientSecret ? `t=${ts},v1=${hmac}` : "" },
   });
   console.log(`7. POST /billing/webhook      → ${wh.status} (upgrade tenant)`);
 
