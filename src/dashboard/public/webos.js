@@ -323,10 +323,12 @@
           <button class="code-tab" data-tab="console" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(0,240,255,0.2);background:rgba(0,240,255,0.1);color:#00f0ff;font-size:11px;cursor:pointer;font-weight:600">▷ Console</button>
           <button class="code-tab" data-tab="create" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">＋ Criar VISERON</button>
           <button class="code-tab" data-tab="agents" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">🤖 Agentes</button>
+          <button class="code-tab" data-tab="apps" style="padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">📚 Apps LLM</button>
         </div>
         <div id="code-console" style="flex:1;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:#00f0ff;padding:10px;line-height:1.6"></div>
         <div id="code-create" style="flex:1;display:none;overflow-y:auto;padding:10px"></div>
         <div id="code-agents" style="flex:1;display:none;overflow-y:auto;padding:10px"></div>
+        <div id="code-apps" style="flex:1;display:none;overflow-y:auto;padding:10px"></div>
         <div style="display:flex;gap:6px;padding:8px;border-top:1px solid rgba(255,255,255,0.06)">
           <input id="code-input" placeholder="Comando... (help)" style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 10px;color:#00f0ff;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none">
           <button id="code-run" style="padding:6px 14px;border-radius:6px;background:rgba(0,240,255,0.12);border:1px solid rgba(0,240,255,0.25);color:#00f0ff;font-size:12px;cursor:pointer;font-weight:700">RUN</button>
@@ -335,6 +337,7 @@
       const consoleEl = document.getElementById('code-console');
       const createEl = document.getElementById('code-create');
       const agentsEl = document.getElementById('code-agents');
+      const appsEl = document.getElementById('code-apps');
       const input = document.getElementById('code-input');
       const base = getApiBase();
       const tabs = body.querySelectorAll('.code-tab');
@@ -346,7 +349,9 @@
         consoleEl.style.display = tab.dataset.tab === 'console' ? 'block' : 'none';
         createEl.style.display = tab.dataset.tab === 'create' ? 'block' : 'none';
         agentsEl.style.display = tab.dataset.tab === 'agents' ? 'block' : 'none';
+        appsEl.style.display = tab.dataset.tab === 'apps' ? 'block' : 'none';
         if (tab.dataset.tab === 'agents') renderAgents();
+        if (tab.dataset.tab === 'apps') renderApps();
       });
       const renderAgents = async () => {
         if (!agentsEl) return;
@@ -368,6 +373,49 @@
             input.focus();
           });
         } catch (e) { agentsEl.innerHTML = '<div style="color:#ff2d55;font-size:12px">Erro a carregar agentes</div>'; }
+      };
+      const renderApps = async () => {
+        if (!appsEl) return;
+        const apps = [
+          { id: 'deep-research', icon: '🔎', name: 'Deep Research', desc: 'Investigação profunda com relatório final e fontes.' },
+          { id: 'rag-local', icon: '📚', name: 'Local RAG', desc: 'Pergunta aos teus documentos com IA 100% local.' },
+          { id: 'mixture-of-agents', icon: '⚗️', name: 'Mixture of Agents', desc: 'Vários modelos respondem, o agregador escolhe a melhor.' },
+          { id: 'multi-agent-team', icon: '👥', name: 'Multi-Agent Team', desc: 'Equipa de especialistas que planifica e executa projetos.' },
+          { id: 'self-evolving', icon: '🧬', name: 'Self-Evolving', desc: 'O agente reescreve os próprios prompts para melhorar.' },
+          { id: 'always-on-briefing', icon: '📡', name: 'Always-On Briefing', desc: 'Vigia fontes e envia brief diário por email.' },
+          { id: 'voice-rag', icon: '🎙️', name: 'Voice RAG', desc: 'Pergunta aos documentos falando.' },
+          { id: 'generative-ui', icon: '🖼️', name: 'Generative UI', desc: 'Gera interfaces interativas por linguagem natural.' },
+        ];
+        let html = '<div style="color:rgba(255,255,255,0.4);font-size:11px;margin-bottom:8px">Catálogo de Apps LLM (inspirado em awesome-llm-apps). Cria uma mente com o blueprint e executa-a:</div>';
+        apps.forEach(a => {
+          html += `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:6px;margin:3px 0">
+            <span style="font-size:16px">${a.icon}</span>
+            <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e4e4f0">${a.name}</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">${a.desc}</div></div>
+            <button data-app="${a.id}" data-name="${a.name}" data-desc="${a.desc}" style="padding:4px 10px;border-radius:4px;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);color:#00f0ff;font-size:10px;cursor:pointer">⚡ Criar</button>
+          </div>`;
+        });
+        html += '<div id="code-app-msg" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.4)"></div>';
+        appsEl.innerHTML = html;
+        appsEl.querySelectorAll('[data-app]').forEach(btn => btn.onclick = async () => {
+          const msg = document.getElementById('code-app-msg');
+          msg.style.color = 'rgba(255,255,255,0.4)';
+          msg.textContent = 'A criar mente ' + btn.dataset.name + '...';
+          try {
+            const r = await fetch(base + '/api/code/create-agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: btn.dataset.name, role: btn.dataset.desc, capabilities: btn.dataset.app.replace(/-/g, '_') + ', llm_app, ai_agent', systemPrompt: 'Eres ' + btn.dataset.name + ', un agente LLM especializado en ' + btn.dataset.desc + '. Inspirado en awesome-llm-apps, operando dentro de Trinnity Viseron System bajo el mando de Pedro (tvs_creator) y Trinnity (tvs_architect). Analiza cada tarea con rigor y entrega resultados prácticos y accionables. Responde en español.' }) });
+            const d = await r.json();
+            if (d.ok) {
+              msg.style.color = '#00ff87';
+              msg.textContent = '✓ Mente criada: ' + d.agent.name + ' (' + d.agent.id + ')';
+              tabs.forEach(t => { t.style.background = 'transparent'; t.style.color = 'rgba(255,255,255,0.5)'; });
+              consoleEl.style.display = 'block'; createEl.style.display = 'none'; agentsEl.style.display = 'none'; appsEl.style.display = 'none';
+              input.value = 'run ' + d.agent.id + ' Demonstra as tuas capacidades com um exemplo prático.';
+              input.focus();
+            } else {
+              msg.style.color = '#ff2d55';
+              msg.textContent = '✗ ' + (d.error || 'erro');
+            }
+          } catch (e) { msg.style.color = '#ff2d55'; msg.textContent = '✗ Erro de ligação'; }
+        });
       };
       const renderCreate = async () => {
         if (!createEl) return;

@@ -84,7 +84,9 @@ if (Test-Path "packages") {
 # Backup mobile src
 Write-Log "Backup mobile source..."
 if (Test-Path "mobile\src") {
-    Copy-Item -Path "mobile\src\*" -Destination (Join-Path -Path $BackupDir -ChildPath "mobile\src") -Recurse -Force
+    $mobileSrcDest = Join-Path -Path $BackupDir -ChildPath "mobile\src"
+    New-Item -ItemType Directory -Path $mobileSrcDest -Force | Out-Null
+    Copy-Item -Path "mobile\src\*" -Destination $mobileSrcDest -Recurse -Force
 }
 if (Test-Path "mobile\App.tsx") {
     Copy-Item -Path "mobile\App.tsx" -Destination (Join-Path -Path $BackupDir -ChildPath "mobile\App.tsx") -Force

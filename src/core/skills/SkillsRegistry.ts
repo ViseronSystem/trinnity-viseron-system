@@ -52,6 +52,11 @@ export const SKILL_SOURCES: SkillSource[] = [
     repoUrl: "https://github.com/coreyhaines31/marketingskills.git",
     license: "MIT",
   },
+  {
+    name: "awesome-llm-apps",
+    repoUrl: "https://github.com/Shubhamsaboo/awesome-llm-apps.git",
+    license: "Apache-2.0",
+  },
 ];
 
 function parseFrontmatter(content: string): Record<string, string> {

@@ -311,6 +311,41 @@ export class TVSDashboardServer {
       }
     });
 
+    // Estado da monitorização AIOX (aprendizado + memória de Pedro/Trinnity)
+    this.app.get("/api/code/aiox", (_req, res) => {
+      try {
+        const mem = this.tvsCore.memoryEngine.getStats();
+        const pedroBrain = this.tvsCore.memoryEngine.getLongTerm("pedro_brain_state") || {};
+        const trinnityBrain = this.tvsCore.memoryEngine.getLongTerm("trinnity_brain_state") || {};
+        const lastLearning = (global as any).__TVS_LAST_LEARNING || 0;
+        const intelligenceLevel = this.tvsCore.getIntelligenceLevel();
+        res.json({
+          status: "AIOX MONITORING ONLINE",
+          aioxExperience: {
+            knowledgeLevel: typeof intelligenceLevel === "number" ? intelligenceLevel : (mem.knowledge?.totalDocuments ? Math.min(100, 50 + mem.knowledge.totalDocuments * 0.1) : 50),
+            totalDocuments: mem.knowledge?.totalDocuments ?? 0,
+            stmItems: mem.shortTerm?.totalItems ?? 0,
+            ltmItems: mem.longTerm?.totalItems ?? 0,
+            lastLearningCycle: lastLearning ? new Date(lastLearning).toISOString() : null,
+            lastLearningMsAgo: lastLearning ? Math.round((Date.now() - lastLearning) / 1000) : null,
+          },
+          commanders: {
+            pedro: { name: "Pedro Costa", clearance: "tvs_creator", brain: pedroBrain },
+            trinnity: { name: "Trinnity Hurtado", clearance: "tvs_architect", brain: trinnityBrain },
+          },
+          squads: this.tvsCore.squadManager.getSquads().map((s) => ({
+            name: s.name,
+            leader: s.leader.name,
+            permissions: (s as any).permissions || [],
+            membersCount: s.members.length,
+          })),
+          intelligenceLevel,
+        });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+
     // Páginas reais (não cai no fallback)
     this.app.get("/dashboard", (_req, res) => {
       res.sendFile(path.join(publicPath, "dashboard.html"));
