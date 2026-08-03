@@ -26,6 +26,8 @@ database/memory/ltm.json
 
 # Colecciones de skills vendered (instalables via npm run skills:install)
 skills/vendor/
+# Catálogo próprio de apps LLM (autoría TVS) — versionado
+!skills/vendor/awesome-llm-apps/
 
 # Backup archives are excluded; individual backup metadata stays
 backups/*.zip
