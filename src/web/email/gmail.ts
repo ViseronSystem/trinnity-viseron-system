@@ -19,12 +19,11 @@ export function gmailConfigured(): boolean {
 
 export function gmailAuthUrl(redirectUri: string): string {
   const c = gmailConfig();
-  const scope = encodeURIComponent("https://www.googleapis.com/auth/gmail.send");
   const params = new URLSearchParams({
     client_id: c.clientId,
     redirect_uri: redirectUri,
     response_type: "code",
-    scope,
+    scope: "https://www.googleapis.com/auth/gmail.send",
     access_type: "offline",
     prompt: "consent",
   });

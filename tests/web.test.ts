@@ -41,6 +41,7 @@ async function runWebTests() {
   assert(!verifyPassword("errada", hashed), "Password: verificação incorreta rejeitada");
 
   // ── Integration: servidor real ─────────────────────────────
+  process.env.EMAIL_PROVIDER = "dev";
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "tvs-web-test-"));
   const server = new ViseronWebServer({ dataDir: tmpDir, port: PORT });
   await server.start();
