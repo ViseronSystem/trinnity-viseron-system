@@ -79,6 +79,8 @@
     "deploy:domain": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -GenEnv",
     "deploy:domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
     "domain:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio.ps1 -Validate",
+    "domain:novo": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio-novo.ps1",
+    "domain:novo:check": "powershell -ExecutionPolicy Bypass -File scripts/setup-dominio-novo.ps1 -Validate",
     "go-live:stripe": "tsx scripts/go-live-stripe.ts",
     "cofre": "tsx scripts/gerar-cofre-credenciais.ts",
     "audit:completa": "tsx scripts/gerar-auditoria-completa.ts",

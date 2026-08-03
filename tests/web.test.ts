@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as crypto from "crypto";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -97,12 +98,22 @@ async function runWebTests() {
     assert(plans.data.plans.length === 3 && plans.data.plans[0].monthlyPrice === 29, "GET /billing/plans → 3 planos");
 
     const checkout = await axios.post(`${BASE}/api/billing/checkout`, { plan: "pro" }, { headers: { Authorization: `Bearer ${regToken}` } });
-    assert(checkout.data.ok === true && checkout.data.url.includes("plan=pro"), "POST /billing/checkout cria sessão");
+    const aviratoConfigured = !!(process.env.AVIRATO_API_KEY && process.env.AVIRATO_WEBCODE);
+    assert(checkout.data.ok === true && (aviratoConfigured ? checkout.data.url.startsWith("http") : checkout.data.url.includes("plan=pro")), "POST /billing/checkout cria sessão");
 
-    const webhook = await axios.post(`${BASE}/api/billing/webhook`, {
+    const aviratoSecret = process.env.AVIRATO_CLIENT_SECRET;
+    const webhookHeaders: Record<string, string> = {};
+    let webhookBody: any = {
       type: "checkout.session.completed",
       data: { object: { metadata: { tenantId: reg.data.tenant.id, plan: "pro" } } },
-    });
+    };
+    if (aviratoSecret) {
+      const ts = Math.floor(Date.now() / 1000);
+      const raw = JSON.stringify({ event_code: "AUTHORISATION", data: { paymentStatus: "AUTHORISED", customReference: `tvs:${reg.data.tenant.id}:pro` } });
+      webhookHeaders["x-avirato-signature"] = `t=${ts},v1=${crypto.createHmac("sha256", aviratoSecret).update(`${ts}.${raw}`).digest("hex")}`;
+      webhookBody = JSON.parse(raw);
+    }
+    const webhook = await axios.post(`${BASE}/api/billing/webhook`, webhookBody, { headers: webhookHeaders });
     assert(webhook.data.ok === true, "POST /billing/webhook recebido");
 
     const sub = await axios.get(`${BASE}/api/billing/subscription`, { headers: { Authorization: `Bearer ${regToken}` } });
