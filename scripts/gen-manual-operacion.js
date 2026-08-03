@@ -326,9 +326,35 @@ drawBox(cx - 70, 110, 26, "#000000", "🛟 Backups diários", "backups/ + agenda
 drawBox(cx + 80, 110, 26, "#000000", "🔑 .env (secrets)", "Só manual / cofre");
 y += 40;
 
-// ============ 12. COMANDOS ============
-section(12, "TABELA DE COMANDOS RÁPIDOS");
-table(
+// ============ 12. CODE PLATFORM ============
+section(12, "PLATAFORMA CODE — OPERAR E CRIAR VISERON");
+text("A CODE Platform transforma o sistema numa consola de operação real: criar mentes VISERON, executar agentes com IA local e monitorizar o AIOX. Tudo a partir do navegador.", 9.5);
+ensure(40);
+sub("12.1 — Aceder à plataforma CODE");
+bullet("Abrir o WebOS: http://localhost:3000/dashboard.html e clicar no ícone ⌨️ CODE.");
+bullet("A app tem 4 separadores: Console (comandos), Criar VISERON (blueprints), Agentes e Apps LLM.");
+sub("12.2 — Comandos do console");
+codeBlock("help                    # lista de comandos");
+codeBlock("status                  # estado do sistema em tempo real");
+codeBlock("agents                  # lista todas as mentes registadas");
+codeBlock("blueprints              # 7 blueprints prontos (BizAnalyst, DataMind, etc.)");
+codeBlock("create NovaMente Rol    # cria uma mente VISERON nova");
+codeBlock("run <id> <tarefa>       # executa um agente com IA local (Ollama)");
+sub("12.3 — Apps LLM (catálogo awesome-llm-apps)");
+bullet("O separador Apps LLM oferece 8 aplicações prontas inspiradas no repositório awesome-llm-apps: Deep Research, Local RAG, Mixture of Agents, Multi-Agent Team, Self-Evolving, Always-On Briefing, Voice RAG e Generative UI.");
+bullet("Cada app cria uma mente especializada que pode ser executada de imediato com um clique.");
+bullet("As skills ficam em skills/vendor/awesome-llm-apps/ e podem ser consultadas em GET /api/skills.");
+sub("12.4 — Autoria e donos do sistema");
+bullet("Pedro Costa — Comandante Supremo & Criador (clearance tvs_creator, autoridade absoluta).");
+bullet("Trinnity Hurtado — Rainha & Arquiteta Chefe (clearance tvs_architect, soberania técnica).");
+bullet("Todos os squads executivos e de arquitetura são liderados por eles; a autoria fica registada em data/Viseron_Autoria_e_Propriedade.md.");
+sub("12.5 — Monitorização AIOX");
+bullet("GET /api/code/aiox mostra o nível de conhecimento AIOX, o estado do cérebro de Pedro/Trinnity e as métricas de memória.");
+bullet("O AutoLearningEngine corre um ciclo de aprendizagem a cada 30 min e atualiza automaticamente o conhecimento do sistema.");
+bullet("Para auditoria completa com squads AIOX-1..5: npm run audit:arkom.");
+
+// ============ 13. COMANDOS ============
+section(13, "TABELA DE COMANDOS RÁPIDOS");table(
   ["O que fazer", "Comando"],
   [
     ["Iniciar o sistema", "npm start"],
@@ -354,6 +380,10 @@ table(
     ["Gerar as 5.000 mentes", "npx tsx scripts/generateMinds.ts"],
     ["Ver relatório PDF", "http://localhost:3001/report/pdf"],
     ["Ver WebOS", "http://localhost:3000/dashboard.html"],
+    ["Plataforma CODE (criar/operar VISERON)", "http://localhost:3000/dashboard.html → ⌨️ CODE"],
+    ["Estado AIOX (monitorização)", "GET /api/code/aiox"],
+    ["Instalar skills (catálogos)", "npm run skills:install"],
+    ["Auditoria ARKOM/AIOX", "npm run audit:arkom"],
   ],
   [280, 225]
 );

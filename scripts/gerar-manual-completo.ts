@@ -135,7 +135,8 @@ async function generateManual(outputPath: string) {
     ["16.", "Modelo de Assinatura - Por que Pagar?"],
     ["17.", "Planos e Precos"],
     ["18.", "Squads AIOX, Pedro & Trinnity"],
-    ["19.", "Glossario de Comandos Rapidos"],
+    ["19.", "Plataforma CODE & Apps LLM"],
+    ["20.", "Glossario de Comandos Rapidos"],
   ];
 
   let ty = 130;
@@ -726,8 +727,56 @@ async function generateManual(outputPath: string) {
 
   np();
 
-  // ========== 19. GLOSSARIO ==========
-  drawHeader("19. Glossario de Comandos Rapidos");
+  // ========== 19. PLATAFORMA CODE & APPS LLM ==========
+  drawHeader("19. Plataforma CODE & Apps LLM");
+  doc.fontSize(9.5).fillColor(C.subtitle).font("Helvetica").text("Consola de operacao real para criar mentes VISERON, executar agentes com IA local e monitorizar o AIOX.", LM, doc.y, { width: W });
+  ypad(8);
+
+  textAt(" 19.1 O que e a CODE Platform", LM, doc.y, 10.5, C.white, "Helvetica-Bold");
+  ypad(14);
+  doc.fontSize(9).fillColor(C.text).font("Helvetica").text("A CODE Platform e a consola de operacao do sistema, acessivel no WebOS (http://localhost:3000/dashboard.html) pelo icone CODE. Permite operar todo o sistema diretamente do navegador: criar agentes, executar tarefas com IA local, gerir squads e acompanhar a monitorizacao AIOX.", LM, doc.y, { width: W });
+  ypad(10);
+
+  textAt(" 19.2 Comandos do Console CODE", LM, doc.y, 10.5, C.white, "Helvetica-Bold");
+  ypad(14);
+  makeTable(["Comando", "Descricao"], [
+    ["status", "Estado do sistema em tempo real (agentes, squads, blueprints)"],
+    ["agents", "Lista todas as mentes registadas"],
+    ["blueprints", "7 blueprints prontos (BizAnalyst, DataMind, FullStackForge, AIForge, DevOpsShield, MarketMind, ProjectCore)"],
+    ["create <Nome> <Rol>", "Cria uma mente VISERON nova"],
+    ["run <id> <tarefa>", "Executa um agente com IA local (Ollama qwen2.5:3b)"],
+    ["help / clear", "Lista de comandos / limpa o console"],
+  ], [36, 64]);
+  ypad(10);
+
+  textAt(" 19.3 Catalogo Apps LLM (awesome-llm-apps)", LM, doc.y, 10.5, C.white, "Helvetica-Bold");
+  ypad(14);
+  doc.fontSize(9).fillColor(C.text).font("Helvetica").text("O sistema incorpora 8 aplicacoes LLM portadas do repositorio awesome-llm-apps (Apache-2.0) como skills de TVS em skills/vendor/awesome-llm-apps/. Cada app cria uma mente especializada com um clique:", LM, doc.y, { width: W });
+  ypad(8);
+  makeTable(["App LLM", "Funcao"], [
+    ["Deep Research", "Investigacao profunda com relatorio final e fontes"],
+    ["Local RAG", "Perguntar aos teus documentos com IA 100% local"],
+    ["Mixture of Agents", "Varios modelos respondem, agregador escolhe a melhor"],
+    ["Multi-Agent Team", "Equipa de especialistas que planifica e executa projetos"],
+    ["Self-Evolving", "O agente reescreve os proprios prompts para melhorar"],
+    ["Always-On Briefing", "Vigia fontes e envia brief diario por email (Gmail)"],
+    ["Voice RAG", "Perguntar aos documentos por voz"],
+    ["Generative UI", "Gera interfaces interativas por linguagem natural"],
+  ], [30, 70]);
+  ypad(10);
+
+  textAt(" 19.4 Autoria: Pedro & Trinnity", LM, doc.y, 10.5, C.white, "Helvetica-Bold");
+  ypad(14);
+  doc.fontSize(9).fillColor(C.text).font("Helvetica").text("Pedro Costa (Comandante Supremo, clearance tvs_creator) e Trinnity Hurtado (Rainha & Arquiteta Chefe, clearance tvs_architect) sao os unicos autores e donos do sistema. Todos os squads executivos e de arquitetura sao liderados por eles. A autoria fica registada em data/Viseron_Autoria_e_Propriedade.md.", LM, doc.y, { width: W });
+  ypad(8);
+
+  textAt(" 19.5 Monitorizacao AIOX", LM, doc.y, 10.5, C.white, "Helvetica-Bold");
+  ypad(14);
+  doc.fontSize(9).fillColor(C.text).font("Helvetica").text("O endpoint GET /api/code/aiox expoe o nivel de conhecimento AIOX, o estado dos cerebros de Pedro/Trinnity, memoria (STM/LTM) e o ultimo ciclo de aprendizagem. O AutoLearningEngine corre um ciclo a cada 30 minutos e o AIOX Core Squad de 7 agentes governa o nucleo operativo.", LM, doc.y, { width: W });
+  ypad(10);
+
+  // ========== 20. GLOSSARIO ==========
+  drawHeader("20. Glossario de Comandos Rapidos");
   doc.fontSize(9.5).fillColor(C.subtitle).font("Helvetica").text("Resumo executivo dos comandos mais importantes.", LM, doc.y, { width: W });
   ypad(8);
 
@@ -754,6 +803,11 @@ async function generateManual(outputPath: string) {
     ["TESTES", "npm run test:hyper", "Testes hyperlearning"],
     ["RELATORIOS", "http://localhost:3000", "Dashboard web"],
     ["RELATORIOS", "http://localhost:3001/report/pdf", "PDF do sistema"],
+    ["CODE", "http://localhost:3000/dashboard.html", "Plataforma CODE (criar/operar VISERON)"],
+    ["CODE", "GET /api/code/aiox", "Monitorizacao AIOX (nivel conhecimento, cerebros)"],
+    ["CODE", "GET /api/code/system", "Estado consolidado da plataforma CODE"],
+    ["CODE", "npm run skills:install", "Instalar catalogos de skills"],
+    ["AIOX", "npm run audit:arkom", "Auditoria com squads AIOX-1..5 (GO/NO-GO)"],
   ], [14, 28, 58]);
 
   ypad(12);
