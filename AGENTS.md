@@ -66,6 +66,8 @@ cd mobile && npx expo start
 | `npm run deploy:domain` | Configura domínio novo no .env |
 | `npm run deploy:domain:check` | Valida DNS/HTTPS do domínio |
 | `npm run domain:check` | Diagnóstico do domínio trinnityviseron.com (NS/DNS/HTTPS + passo único para ativar) |
+| `npm run domain:novo` | Go-live do domínio novo trinnityviseronsystem.io (registo + NS + Vercel + Render) |
+| `npm run domain:novo:check` | Valida estado do trinnityviseronsystem.io (registo/DNS/HTTPS) |
 | `npm run update:auto` | Self-update: pull + install + PDFs + build + testes + deploy |
 | `npm run docs:100` | Gera data/Viseron_100_Melhorias_Integracao.pdf |
 | `npm run report:update` | Gera data/Viseron_Update_Report_<data>.pdf |
