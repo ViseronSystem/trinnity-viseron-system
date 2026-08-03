@@ -157,37 +157,57 @@ export class JarvisAgent {
       this.metrics.inc("jarvis_tool_total", { tool: toolResult.tool });
     }
 
-    const provider = this.detectBestProvider();
     const history = session.messages.slice(-6).map((m) => `${m.role}: ${m.content}`).join("\n");
     const systemPrompt = this.buildSystemPrompt();
     const prompt = this.buildPrompt(message, intent, toolResult, history);
 
-    let aiText: string | null = null;
-    let providerUsed = provider;
-    let modelUsed = "tvs-fallback";
-    try {
-      const result = await this.providerFactory.generate(provider as any, {
-        prompt,
-        systemPrompt,
-        temperature: 0.7,
-        maxTokens: 500,
-      });
-      if (result?.text && !this.isMockOrError(result.text)) {
-        aiText = result.text;
-        providerUsed = result.provider;
-        modelUsed = result.modelName;
-      }
-    } catch {
-      aiText = null;
-    }
-
-    const reply = aiText || this.templateReply(intent, toolResult, message);
+    const ai = await this.generateRealAI(prompt, systemPrompt);
+    const reply = ai.text || this.templateReply(intent, toolResult, message);
 
     this.pushMessage(sessionId, { role: "assistant", content: reply, ts: new Date().toISOString() });
-    this.metrics.inc("jarvis_replies_total", { provider: aiText ? providerUsed : "rule" });
-    this.logger.info(`[JARVIS] ${sessionId} intent=${intent} provider=${aiText ? providerUsed : "rule"} "${message.slice(0, 60)}"`);
+    this.metrics.inc("jarvis_replies_total", { provider: ai.text ? ai.provider : "rule" });
+    this.logger.info(`[JARVIS] ${sessionId} intent=${intent} provider=${ai.text ? ai.provider : "rule"} "${message.slice(0, 60)}"`);
 
-    return { sessionId, reply, provider: aiText ? providerUsed : "rule", model: modelUsed, actions, intent };
+    return { sessionId, reply, provider: ai.text ? ai.provider : "rule", model: ai.text ? ai.model : "tvs-fallback", actions, intent };
+  }
+
+  // Tenta IA real em cadeia: cloud → Ollama local → OmniRoute.
+  // Só aceita texto não-simulado; se nenhum provider estiver disponível, devolve fallback nulo.
+  private async generateRealAI(prompt: string, systemPrompt: string): Promise<{ text: string | null; provider: string; model: string }> {
+    const candidates: { id: string; key: string; model: string }[] = [
+      { id: "openai", key: "OPENAI_API_KEY", model: "gpt-4o-mini" },
+      { id: "claude", key: "ANTHROPIC_API_KEY", model: "claude-3-5-haiku-latest" },
+      { id: "gemini", key: "GEMINI_API_KEY", model: "gemini-1.5-flash" },
+      { id: "grok", key: "XAI_API_KEY", model: "grok-3" },
+      { id: "ollama", key: "", model: "qwen2.5:3b" },
+      { id: "omniroute", key: "", model: "auto" },
+    ];
+
+    for (const cand of candidates) {
+      const provider = this.providerFactory.getProvider(cand.id as any);
+      if (!provider) continue;
+      if (cand.key && !process.env[cand.key]) continue;
+
+      try {
+        if (cand.id === "ollama" || cand.id === "omniroute") {
+          const avail = await provider.isAvailable();
+          if (!avail) continue;
+        }
+        const result = await provider.generateResponse({
+          prompt,
+          systemPrompt,
+          temperature: 0.7,
+          maxTokens: 600,
+          modelName: cand.model,
+        });
+        if (result?.text && !this.isMockOrError(result.text)) {
+          return { text: result.text, provider: result.provider, model: result.modelName || cand.model };
+        }
+      } catch {
+        // continua para o próximo provider
+      }
+    }
+    return { text: null, provider: "rule", model: "tvs-fallback" };
   }
 
   private buildSystemPrompt(): string {
@@ -217,21 +237,10 @@ export class JarvisAgent {
       text.startsWith("[Ollama Mock Response]") ||
       text.startsWith("[Gemini Error Fallback]") ||
       text.startsWith("[Gemini Google Connector Ready]") ||
+      text.startsWith("[Grok xAI Connector Ready]") ||
+      text.startsWith("[Grok Error Fallback]") ||
       text.toLowerCase().includes("all ai providers failed")
     );
-  }
-
-  private detectBestProvider(): string {
-    const envVars = [
-      { key: "OPENAI_API_KEY", provider: "openai" },
-      { key: "ANTHROPIC_API_KEY", provider: "claude" },
-      { key: "GEMINI_API_KEY", provider: "gemini" },
-      { key: "XAI_API_KEY", provider: "grok" },
-    ];
-    for (const ev of envVars) {
-      if (process.env[ev.key]) return ev.provider;
-    }
-    return "ollama";
   }
 
   private detectIntent(message: string): string {

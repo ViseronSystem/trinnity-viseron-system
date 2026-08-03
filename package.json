@@ -84,6 +84,7 @@
     "go-live:stripe": "tsx scripts/go-live-stripe.ts",
     "cofre": "tsx scripts/gerar-cofre-credenciais.ts",
     "audit:completa": "tsx scripts/gerar-auditoria-completa.ts",
+    "models:pull": "ollama pull qwen2.5:3b && ollama pull qwen2.5:1.5b",
     "demo:avirato": "tsx scripts/demo-avirato.ts",
     "update:auto": "powershell -ExecutionPolicy Bypass -File scripts/self-update.ps1"
   },

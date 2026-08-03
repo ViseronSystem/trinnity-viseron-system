@@ -1,4 +1,5 @@
 import { AppScaffolder } from "../scaffolder/AppScaffolder";
+import * as crypto from "crypto";
 import { cryptoSiteTemplate } from "./templates/cryptoSite";
 
 export type AppType = 'website' | 'dashboard' | 'ecommerce' | 'social' | 'saas' | 'crypto' | 'defi' | 'nft' | 'mobile';
@@ -158,7 +159,7 @@ export class WebAppGenerator {
       },
       {
         path: '.env',
-        content: `PORT=${port}\nNODE_ENV=development\n${blueprint.authentication ? 'JWT_SECRET=change-this-secret-key\n' : ''}${blueprint.database === 'mongodb' ? 'MONGODB_URI=mongodb://localhost:27017/' + blueprint.name.toLowerCase().replace(/\s+/g, '-') + '\n' : ''}${blueprint.database === 'postgresql' ? 'DATABASE_URL=postgresql://localhost:5432/' + blueprint.name.toLowerCase().replace(/\s+/g, '-') + '\n' : ''}`
+        content: `PORT=${port}\nNODE_ENV=development\n${blueprint.authentication ? 'JWT_SECRET=' + crypto.randomBytes(24).toString('hex') + '\n' : ''}${blueprint.database === 'mongodb' ? 'MONGODB_URI=mongodb://localhost:27017/' + blueprint.name.toLowerCase().replace(/\s+/g, '-') + '\n' : ''}${blueprint.database === 'postgresql' ? 'DATABASE_URL=postgresql://localhost:5432/' + blueprint.name.toLowerCase().replace(/\s+/g, '-') + '\n' : ''}`
       }
     ];
 
@@ -483,13 +484,14 @@ app.listen(PORT, () => {
     if (blueprint.authentication) {
       files.push({
         path: 'server/routes/auth.ts',
-        content: `import { Router } from 'express';
+        content: `import crypto from 'crypto';
+import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 export const authRouter = Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
 interface User {
   id: string;

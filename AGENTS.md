@@ -75,6 +75,7 @@ cd mobile && npx expo start
 | `npm run docs:revenue` | Gera data/Viseron_Pipeline_Receita.pdf (passo a passo cobranças reais + modelo de receita) |
 | `npm run audit:arkom` | Auditoria operacional ARKOM/AIOX (scan/diagnóstico/fix/verdicto → data/Viseron_Audit_ARKOM.pdf) |
 | `npm run demo:jarvis` | Demo do JARVIS (conversa + autonomia real sobre o sistema) |
+| `npm run models:pull` | Baixa os modelos IA locais (qwen2.5:3b + 1.5b via Ollama) para IA real sem chave |
 | `npm run go-live:stripe` | Cria os 3 planos no Stripe (se preferires Stripe em vez de Avirato) |
 | `npm run demo:avirato` | Testa checkout Avirato real (cria sessão de pagamento, ex: `-- core`) |
 | `npm run cofre` | Gera data/Viseron_Cofre_Credenciais.pdf (todas as chaves/tokens/logins — CONFIDENCIAL, gitignored) |
@@ -117,6 +118,7 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/jarvis/status` | Estado do JARVIS (provider, capacidades, autonomia) |
 | `POST /api/jarvis/chat` | Conversar com o JARVIS (sessão + execução real, rate-limited 30/min) |
 | `GET /api/revenue/readiness` | Go-live de receita real: Stripe, webhook, Gmail, email provider, domínio, Postgres |
+| `GET /api/ai/status` | Estado da IA real: providers disponíveis (OpenAI/Claude/Gemini/Grok/Ollama/OmniRoute) + modelo ativo |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

@@ -143,10 +143,6 @@ export class ContentAgent {
         return;
       }
 
-      const providerToUse = this.detectBestProvider();
-
-      console.log(`[ContentAgent] Generating: ${topic.title} via ${providerToUse}`);
-
       const request: LLMRequest = {
         prompt: topic.prompt,
         systemPrompt: "You are Viseron, an advanced multi-agent AI system. Write engaging, professional blog posts. Return only valid JSON with fields: content (full markdown article), excerpt (2 sentence summary), contentHtml (simple HTML version).",
@@ -154,21 +150,13 @@ export class ContentAgent {
         maxTokens: 2000,
       };
 
-      let result: LLMResponse | undefined;
-      try {
-        result = await this.providerFactory.generate(providerToUse as ModelProvider, request);
-      } catch {
-        result = await this.providerFactory.generate("ollama" as ModelProvider, request);
-      }
-
-      if (!result || !result.text) {
+      const result = await this.generateRealAI(request);
+      if (!result) {
         console.log(`[ContentAgent] No content generated for: ${topic.title}`);
         return;
       }
 
-      if (result.text.startsWith("[Ollama Mock Response]") ||
-          result.text.startsWith("[Gemini Error Fallback]") ||
-          result.text.startsWith("[Gemini Google Connector Ready]")) {
+      if (this.isMockOrError(result.text)) {
         console.log(`[ContentAgent] Skipping mock/error response (no AI provider available): ${topic.title}`);
         return;
       }
@@ -205,7 +193,6 @@ export class ContentAgent {
   async generateCustomPost(title: string, prompt: string, tags: string[] = []): Promise<void> {
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").substring(0, 80);
 
-    const providerToUse = this.detectBestProvider();
     const request: LLMRequest = {
       prompt,
       systemPrompt: "You are Viseron, an advanced multi-agent AI system. Write engaging, professional blog posts. Return only valid JSON with fields: content (full markdown), excerpt (summary), contentHtml (HTML version).",
@@ -214,11 +201,9 @@ export class ContentAgent {
     };
 
     try {
-      const result = await this.providerFactory.generate(providerToUse as ModelProvider, request);
-      if (!result || !result.text) return;
-      if (result.text.startsWith("[Ollama Mock Response]") ||
-          result.text.startsWith("[Gemini Error Fallback]") ||
-          result.text.startsWith("[Gemini Google Connector Ready]")) {
+      const result = await this.generateRealAI(request);
+      if (!result) return;
+      if (this.isMockOrError(result.text)) {
         console.log(`[ContentAgent] Skipping mock/error response for custom post: ${title}`);
         return;
       }
@@ -238,16 +223,45 @@ export class ContentAgent {
     }
   }
 
-  private detectBestProvider(): string {
-    const envVars = [
-      { key: "OPENAI_API_KEY", provider: "openai" },
-      { key: "ANTHROPIC_API_KEY", provider: "claude" },
-      { key: "GEMINI_API_KEY", provider: "gemini" },
-      { key: "XAI_API_KEY", provider: "grok" },
+  // Tenta IA real em cadeia (cloud → Ollama → OmniRoute); só aceita respostas não-simuladas.
+  private async generateRealAI(request: LLMRequest): Promise<LLMResponse | undefined> {
+    const candidates: { id: string; key: string; model: string }[] = [
+      { id: "openai", key: "OPENAI_API_KEY", model: "gpt-4o-mini" },
+      { id: "claude", key: "ANTHROPIC_API_KEY", model: "claude-3-5-haiku-latest" },
+      { id: "gemini", key: "GEMINI_API_KEY", model: "gemini-1.5-flash" },
+      { id: "grok", key: "XAI_API_KEY", model: "grok-3" },
+      { id: "ollama", key: "", model: "qwen2.5:3b" },
+      { id: "omniroute", key: "", model: "auto" },
     ];
-    for (const ev of envVars) {
-      if (process.env[ev.key]) return ev.provider;
+
+    for (const cand of candidates) {
+      const provider = this.providerFactory.getProvider(cand.id as ModelProvider);
+      if (!provider) continue;
+      if (cand.key && !process.env[cand.key]) continue;
+      try {
+        if (cand.id === "ollama" || cand.id === "omniroute") {
+          const avail = await provider.isAvailable();
+          if (!avail) continue;
+        }
+        const result = await provider.generateResponse({ ...request, modelName: cand.model });
+        if (result?.text && !this.isMockOrError(result.text)) {
+          return result;
+        }
+      } catch {
+        // tenta o próximo provider
+      }
     }
-    return "ollama";
+    return undefined;
+  }
+
+  private isMockOrError(text: string): boolean {
+    return (
+      text.startsWith("[Ollama Mock Response]") ||
+      text.startsWith("[Gemini Error Fallback]") ||
+      text.startsWith("[Gemini Google Connector Ready]") ||
+      text.startsWith("[Grok xAI Connector Ready]") ||
+      text.startsWith("[Grok Error Fallback]") ||
+      text.toLowerCase().includes("all ai providers failed")
+    );
   }
 }

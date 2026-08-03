@@ -1,3 +1,4 @@
+import * as crypto from "crypto";
 import { ViseronWebServer } from "../src/web/standalone-server";
 
 const PORT = parseInt(process.env.DEMO_PORT || "32124", 10);
@@ -22,6 +23,7 @@ async function main() {
   await server.start();
 
   const stamp = Date.now().toString(36);
+  const demoPassword = process.env.TVS_DEMO_PASSWORD || `Demo${crypto.randomBytes(8).toString("base64url")}!`;
   const org = `Trinnity Demo ${stamp.slice(-4)}`;
   console.log("\n═══════════════════════════════════════════════");
   console.log("TVS v5.0 — DEMO OPERACIONAL REAL (HTTP)");
@@ -34,7 +36,7 @@ async function main() {
   const reg = await call("POST", "/api/auth/register", {
     name: "Pedro Costa",
     email: `pedro.${stamp}@trinnityviseronsystem.io`,
-    password: "ViseronSuper2026!",
+    password: demoPassword,
     org,
   });
   const regToken = reg.data.token;
@@ -45,7 +47,7 @@ async function main() {
 
   const login = await call("POST", "/api/auth/login", {
     email: `pedro.${stamp}@trinnityviseronsystem.io`,
-    password: "ViseronSuper2026!",
+    password: demoPassword,
   });
   console.log(`4. POST /auth/login           → ${login.status} token ok=${!!login.data.token}`);
 
