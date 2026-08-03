@@ -199,6 +199,32 @@ export class TVSDashboardServer {
       }
     });
 
+    // Páginas reais (não cai no fallback)
+    this.app.get("/dashboard", (_req, res) => {
+      res.sendFile(path.join(publicPath, "dashboard.html"));
+    });
+
+    // PDFs de data/ via /pitch/*.pdf
+    const dataPdfDir = path.resolve(process.cwd(), "data");
+    this.app.get("/pitch/:file", (req, res) => {
+      const file = path.basename(req.params.file);
+      if (!file.endsWith(".pdf")) return res.status(404).json({ error: "Not found" });
+      res.sendFile(path.join(dataPdfDir, file), (err) => {
+        if (err && !res.headersSent) res.status(404).json({ error: "PDF não encontrado" });
+      });
+    });
+
+    // PDFs de docs/ via /docs/*.pdf
+    const docsPdfDir = path.resolve(process.cwd(), "docs");
+    this.app.get("/docs/{*path}", (req, res) => {
+      const segments = (req.params as any).path || [];
+      const rel = (Array.isArray(segments) ? segments.join("/") : String(segments)) || "";
+      if (!rel.endsWith(".pdf") || rel.includes("..")) return res.status(404).json({ error: "Not found" });
+      res.sendFile(path.join(docsPdfDir, rel), (err) => {
+        if (err && !res.headersSent) res.status(404).json({ error: "PDF não encontrado" });
+      });
+    });
+
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
       if (req.method === 'GET' && !req.path.startsWith('/api/')) {

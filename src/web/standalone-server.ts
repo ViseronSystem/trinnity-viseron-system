@@ -116,6 +116,18 @@ export class ViseronWebServer {
       });
     });
 
+    // PDFs de docs/ via /docs/*.pdf
+    this.app.get("/docs/{*path}", (req, res) => {
+      const segments = (req.params as any).path || [];
+      const rel = (Array.isArray(segments) ? segments.join("/") : String(segments)) || "";
+      if (!rel.endsWith(".pdf") || rel.includes("..")) {
+        return res.status(404).json({ error: "Not found" });
+      }
+      res.sendFile(path.join(path.resolve(process.cwd(), "docs"), rel), (err) => {
+        if (err) res.status(404).json({ error: "PDF não encontrado" });
+      });
+    });
+
     this.app.post("/api/waitlist", (req, res) => {
       const email = String(req.body?.email || "").trim().toLowerCase();
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

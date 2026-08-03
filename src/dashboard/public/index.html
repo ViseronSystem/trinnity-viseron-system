@@ -676,7 +676,7 @@
 <script src="voice-widget.js"></script>
 <script src="jarvis-chat.js"></script>
 <script>
-(function initThree(){const c=document.getElementById('three-bg');const s=new THREE.Scene();const a=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));const g=new THREE.Group();s.add(g);const k1=new THREE.TorusKnotGeometry(1.2,0.3,128,16);const m1=new THREE.Mesh(k1,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.12}));m1.position.set(-2.5,0.5,-3);m1.scale.set(0.6,0.6,0.6);g.add(m1);const k2=new THREE.IcosahedronGeometry(1,0);const m2=new THREE.Mesh(k2,new THREE.MeshBasicMaterial({color:0xbf5af2,wireframe:true,transparent:true,opacity:0.08}));m2.position.set(2.8,-0.8,-4);m2.scale.set(0.5,0.5,0.5);g.add(m2);const k3=new THREE.TorusGeometry(1,0.2,32,64);const m3=new THREE.Mesh(k3,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.06}));m3.position.set(0,1.5,-5);m3.scale.set(0.7,0.7,0.7);g.add(m3);const p=new THREE.BufferGeometry();const pos=new Float32Array(800*3);for(let i=0;i<800*3;i++)pos[i]=(Math.random()-0.5)*20;p.setAttribute('position',new THREE.BufferAttribute(pos,3));const pt=new THREE.PointsMaterial({color:0x00f0ff,size:0.02,transparent:true,opacity:0.3});const ps=new THREE.Points(p,pt);ps.position.z=-5;g.add(ps);a.position.z=5;let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2});function an(){requestAnimationFrame(an);m1.rotation.x+=0.003;m1.rotation.y+=0.006;m2.rotation.x+=0.005;m2.rotation.y-=0.004;m3.rotation.x+=0.002;m3.rotation.z+=0.003;ps.rotation.y+=0.0005;g.rotation.x+=(my*0.02-g.rotation.x)*0.02;g.rotation.y+=(mx*0.02-g.rotation.y)*0.02;r.render(s,a)}an();window.addEventListener('resize',()=>{a.aspect=window.innerWidth/window.innerHeight;a.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)})})();
+(function initThree(){try{const c=document.getElementById('three-bg');const s=new THREE.Scene();const a=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));const g=new THREE.Group();s.add(g);const k1=new THREE.TorusKnotGeometry(1.2,0.3,128,16);const m1=new THREE.Mesh(k1,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.12}));m1.position.set(-2.5,0.5,-3);m1.scale.set(0.6,0.6,0.6);g.add(m1);const k2=new THREE.IcosahedronGeometry(1,0);const m2=new THREE.Mesh(k2,new THREE.MeshBasicMaterial({color:0xbf5af2,wireframe:true,transparent:true,opacity:0.08}));m2.position.set(2.8,-0.8,-4);m2.scale.set(0.5,0.5,0.5);g.add(m2);const k3=new THREE.TorusGeometry(1,0.2,32,64);const m3=new THREE.Mesh(k3,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.06}));m3.position.set(0,1.5,-5);m3.scale.set(0.7,0.7,0.7);g.add(m3);const p=new THREE.BufferGeometry();const pos=new Float32Array(800*3);for(let i=0;i<800*3;i++)pos[i]=(Math.random()-0.5)*20;p.setAttribute('position',new THREE.BufferAttribute(pos,3));const pt=new THREE.PointsMaterial({color:0x00f0ff,size:0.02,transparent:true,opacity:0.3});const ps=new THREE.Points(p,pt);ps.position.z=-5;g.add(ps);a.position.z=5;let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2});function an(){requestAnimationFrame(an);m1.rotation.x+=0.003;m1.rotation.y+=0.006;m2.rotation.x+=0.005;m2.rotation.y-=0.004;m3.rotation.x+=0.002;m3.rotation.z+=0.003;ps.rotation.y+=0.0005;g.rotation.x+=(my*0.02-g.rotation.x)*0.02;g.rotation.y+=(mx*0.02-g.rotation.y)*0.02;r.render(s,a)}an();window.addEventListener('resize',()=>{a.aspect=window.innerWidth/window.innerHeight;a.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)})})();}catch(e){console.warn('[3D] init ignorado:',e)}}());
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hidden')}
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
@@ -685,6 +685,302 @@ const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:
 function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
 (async()=>{const el=id=>document.getElementById(id);try{const h=await(await fetch('/api/health')).json();if(el('apiStatus')){el('apiStatus').textContent='Operacional';el('apiStatus').className='badge badge-green';}if(el('hTenants'))el('hTenants').textContent=h.tenants??'0';if(el('hUsers'))el('hUsers').textContent=h.users??'0';if(el('hEmail'))el('hEmail').textContent=h.email??'dev';if(el('hBilling'))el('hBilling').textContent=h.billing??'manual';if(el('hConv'))el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';if(el('hMsgs'))el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';}catch(e){if(el('apiStatus')){el('apiStatus').textContent='offline (local build ok)';el('apiStatus').className='badge badge-purple';}}})();
 (async()=>{const el=id=>document.getElementById(id);try{const r=await(await fetch('/api/revenue/readiness')).json();if(el('revStatus')){el('revStatus').textContent=r.ok?'Pronto para faturar':'Go-live pendente ('+r.missing.length+' requisitos)';el('revStatus').className=r.ok?'badge badge-green':'badge badge-purple';}r.requirements.forEach(q=>{const b=el('req-'+q.key);const v=el('val-'+q.key);if(b){b.textContent=q.ready?'Pronto':'Pendente';b.className=q.ready?'badge badge-green':'badge badge-purple';}if(v)v.textContent=q.value;});}catch(e){if(el('revStatus')){el('revStatus').textContent='readiness offline';el('revStatus').className='badge badge-purple';}}})();
+</script>
+<script>
+(function(){
+  var CURRENT = localStorage.getItem('tvs-lang') || 'pt';
+  var I18N = {
+    pt: {},
+    en: {
+      "Plataforma": "Platform", "Forge": "Forge", "Status": "Status", "Downloads": "Downloads", "Planos": "Plans",
+      "Blog": "Blog", "Dashboard": "Dashboard", "Ver Planos": "View Plans", "Explorar Plataforma": "Explore Platform",
+      "v5.0 — Trinnity Viseron System": "v5.0 — Trinnity Viseron System",
+      "Trinnity Viseron System — Sistema Operacional Multi-Agente de Superinteligência. 5000+ mentes, 290+ provedores de IA,": "Trinnity Viseron System — Multi-Agent Operating System of Superintelligence. 5000+ minds, 290+ AI providers,",
+      "auto-evolução genética, aprendizado hiper-exponencial.": "genetic self-evolution, hyper-exponential learning.",
+      "Autoria de Trinnity & Viseron.": "Authored by Trinnity & Viseron.",
+      "Mentes": "Minds", "Providers IA": "AI Providers", "Setores": "Sectors",
+      "Arquitetura Trinnity Viseron": "Trinnity Viseron Architecture",
+      "18 módulos de core, 6 integrações, 9 agentes operacionais, dezenas de ferramentas": "18 core modules, 6 integrations, 9 operational agents, dozens of tools",
+      "Trinnity Core": "Trinnity Core",
+      "Núcleo do sistema operacional multi-agente com 18 subsistemas integrados": "Core of the multi-agent operating system with 18 integrated subsystems",
+      "OmniRoute Gateway": "OmniRoute Gateway",
+      "290+ provedores de IA, 500+ modelos, auto-fallback, compressão RTK, MCP/A2A": "290+ AI providers, 500+ models, auto-fallback, RTK compression, MCP/A2A",
+      "SuperIntelligence": "SuperIntelligence",
+      "Síntese ensemble multi-provedor com 5000 mentes históricas e futuristas": "Multi-provider ensemble synthesis with 5000 historical and futuristic minds",
+      "Auto-Evolução Genética": "Genetic Self-Evolution",
+      "Agentes evoluem automaticamente com aprendizado hiper-exponencial (x6 a cada 30min)": "Agents evolve automatically with hyper-exponential learning (x6 every 30min)",
+      "Command Chain": "Command Chain",
+      "Cadeia de comando hierárquica com linhagens Corona e Hierro, diretivas de dupla assinatura": "Hierarchical command chain with Corona and Hierro lineages, dual-signature directives",
+      "Call System": "Call System",
+      "Chamadas de voz IA com Twilio, OpenAI Realtime API, ElevenLabs TTS, transcrição e análise": "AI voice calls with Twilio, OpenAI Realtime API, ElevenLabs TTS, transcription and analysis",
+      "TVS Forge": "TVS Forge",
+      "Sua plataforma Git completa — a alternativa open source ao GitHub, construída com a superinteligência TVS": "Your complete Git platform — the open source alternative to GitHub, built with TVS superintelligence",
+      "📂 Git Hosting": "📂 Git Hosting",
+      "Repositórios públicos e privados ilimitados com protocolo Git completo via HTTP": "Unlimited public and private repositories with complete Git protocol over HTTP",
+      "🔀 Pull Requests": "🔀 Pull Requests",
+      "Code review com branching, forking, merge e resolução de conflitos": "Code review with branching, forking, merging and conflict resolution",
+      "⚠ Issues": "⚠ Issues",
+      "Rastreamento de issues, labels, assignees, milestones e comentários": "Issue tracking, labels, assignees, milestones and comments",
+      "🚀 API REST": "🚀 REST API",
+      "API completa para automação de repositórios, CI/CD e integração com TVS": "Complete API for repository automation, CI/CD and TVS integration",
+      "Open Source": "Open Source",
+      "Planos Trinnity Viseron": "Trinnity Viseron Plans",
+      "Da automação pessoal à superinteligência corporativa": "From personal automation to corporate superintelligence",
+      "TVS Core": "TVS Core", "TVS Pro": "TVS Pro", "TVS Enterprise": "TVS Enterprise",
+      "/mês — Individual": "/month — Individual", "/mês — Profissional": "/month — Professional", "/mês — Corporativo": "/month — Corporate",
+      "1 instância local": "1 local instance", "Até 100 agentes": "Up to 100 agents", "OmniRoute gateway": "OmniRoute gateway",
+      "Dashboard web": "Web dashboard", "Suporte comunidade": "Community support",
+      "Mais Popular": "Most Popular", "Começar": "Get Started", "Contato": "Contact",
+      "Até 500 agentes": "Up to 500 agents", "Auto-evolução genética": "Genetic self-evolution",
+      "Síntese superinteligência": "Superintelligence synthesis", "Call System + JARVIS": "Call System + JARVIS",
+      "Suporte prioritário": "Priority support", "Agentes ilimitados": "Unlimited agents", "Deploy on-premise": "On-premise deploy",
+      "SLA 99.9%": "SLA 99.9%", "Suporte dedicado 24/7": "Dedicated 24/7 support", "Treinamento equipe": "Team training",
+      "Assistente Pessoal IA": "Personal AI Assistant",
+      "9 agentes especializados em 2 bridges — voz, WhatsApp, casa inteligente, câmeras, código, pesquisa, memória": "9 specialized agents across 2 bridges — voice, WhatsApp, smart home, cameras, code, research, memory",
+      "Clique no microfone no canto inferior direito para falar com o JARVIS": "Click the microphone in the bottom-right corner to talk to JARVIS",
+      "ASNO Bridge": "ASNO Bridge", "OpenJarvis Bridge": "OpenJarvis Bridge",
+      "JarvisVoz": "JarvisVoice", "Assistente de voz estilo JARVIS com comandos naturais": "JARVIS-style voice assistant with natural commands",
+      "JarvisWhatsApp": "JarvisWhatsApp", "Assistente via WhatsApp com controle residencial e análise de mídia": "WhatsApp assistant with home control and media analysis",
+      "HomeController": "HomeController", "Controlador Home Assistant + SmartThings: luzes, clima, mídia, sensores": "Home Assistant + SmartThings controller: lights, climate, media, sensors",
+      "CameraAnalyzer": "CameraAnalyzer", "Análise de câmeras IP com visão computacional e detecção de objetos": "IP camera analysis with computer vision and object detection",
+      "OpenJarvis": "OpenJarvis", "IA pessoal em dispositivo local (Stanford OpenJarvis)": "Personal AI on local device (Stanford OpenJarvis)",
+      "MorningDigest": "MorningDigest", "Resumo diário com email, calendário, notícias e TTS": "Daily digest with email, calendar, news and TTS",
+      "DeepResearch": "DeepResearch", "Pesquisa multi-hop web + documentos locais com citações": "Multi-hop web research + local documents with citations",
+      "CodeAssistant": "CodeAssistant", "Assistente de código com execução Python e acesso shell": "Code assistant with Python execution and shell access",
+      "OperativeAgent": "OperativeAgent", "Agente autônomo persistente com memória e tarefas agendadas": "Persistent autonomous agent with memory and scheduled tasks",
+      "8 Skills Operacionais": "8 Operational Skills",
+      "Executáveis TVS": "TVS Executables", "3 formatos — escolha o seu": "3 formats — pick yours",
+      "CLI Executable": "CLI Executable", "Standalone .exe para Windows": "Standalone .exe for Windows",
+      "50 MB — Não precisa de Node.js": "50 MB — No Node.js required", "Pronto": "Ready",
+      "Desktop App": "Desktop App", "Electron — Portable + Installer": "Electron — Portable + Installer",
+      "74 MB Portable / 82 MB Setup": "74 MB Portable / 82 MB Setup", "Em build": "In build", "Acompanhar build": "Track build",
+      "Mobile App": "Mobile App", "APK Android via EAS Cloud": "Android APK via EAS Cloud", "Expo React Native": "Expo React Native",
+      "Documentação": "Documentation", "Manual completo em PDF (19 seções, arquitetura, comandos, integrações, planos)": "Complete PDF manual (19 sections, architecture, commands, integrations, plans)",
+      "PDF Manual": "PDF Manual", "Comandos Rápidos": "Quick Commands", "GitHub →": "GitHub →",
+      "$VSR — Trinnity Viseron Crown": "$VSR — Trinnity Viseron Crown",
+      "Token de governança do ecossistema Trinnity Viseron — 300,000,000 VSR": "Governance token of the Trinnity Viseron ecosystem — 300,000,000 VSR",
+      "Supply Total": "Total Supply", "VSR — Trinnity Viseron Crown Token": "VSR — Trinnity Viseron Crown Token",
+      "Distribuição": "Distribution",
+      "👑 Trinnity (Corona)": "👑 Trinnity (Corona)", "⚔️ Pedro (Hierro)": "⚔️ Pedro (Hierro)",
+      "🤖 Legion (Agent Pool)": "🤖 Legion (Agent Pool)", "🏦 Strategic Reserve": "🏦 Strategic Reserve",
+      "Regras Tokenômicas": "Tokenomics Rules",
+      "• Cada missão tem budget VSR — agente para quando acaba": "• Each mission has a VSR budget — agent pauses when it runs out",
+      "• Comissão: 0.5% por transação (80% queimado → escassez programada)": "• Commission: 0.5% per transaction (80% burned → programmed scarcity)",
+      "• VSR necessário para emissão de diretivas e spawning de agentes": "• VSR required to issue directives and spawn agents",
+      "• Governança: 1 VSR = 1 voto na evolução do sistema": "• Governance: 1 VSR = 1 vote on system evolution",
+      "Estado do Sistema ao Vivo": "Live System Status",
+      "API web operacional — módulos reais, verificados agora via": "Web API operational — real modules, verified now via",
+      "Auth Multi-Tenant": "Multi-Tenant Auth", "Live": "Live",
+      "Registo (org → tenant + owner), login JWT, perfis, membros e roles": "Registration (org → tenant + owner), JWT login, profiles, members and roles",
+      "Tenants": "Tenants", "Users": "Users",
+      "Billing + Planos": "Billing + Plans", "Provider": "Provider",
+      "Core $29 · Pro $99 · Enterprise $499 — checkout, webhook e subscrição com trial": "Core $29 · Pro $99 · Enterprise $499 — checkout, webhook and trial subscription",
+      "Onboarding": "Onboarding",
+      "5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) → agentes no workspace": "5 templates (content, support, code, AIOX Squad, Arkom) → agents in workspace",
+      "Templates": "Templates",
+      "Email": "Email", "Dev/SMTP/Resend/SendGrid/Gmail — verificação, reset, faturas e agente": "Dev/SMTP/Resend/SendGrid/Gmail — verification, reset, invoices and agent",
+      "Messaging E2E": "E2E Messaging",
+      "Contactos, conversas diretas e grupos, mensagens cifradas por recetor, status de leitura, entrega via Socket.IO": "Contacts, direct conversations and groups, per-recipient encrypted messages, read status, delivery via Socket.IO",
+      "Conversas": "Conversations", "Mensagens": "Messages",
+      "Blog + Content Agent": "Blog + Content Agent",
+      "Blog com posts gerados automaticamente (agendado a cada 120min)": "Blog with auto-generated posts (scheduled every 120min)",
+      "Schedule": "Schedule", "120min": "120min",
+      "Relatório de Estado PDF": "State Report PDF",
+      "O que podes fazer de verdade agora + estado completo do sistema (testes, infraestrutura, pendências)": "What you can really do now + complete system state (tests, infrastructure, pending items)",
+      "Baixar PDF": "Download PDF",
+      "Pipeline de Receita Real": "Real Revenue Pipeline",
+      "O que falta para o TVS cobrar dinheiro real — verificado agora via": "What TVS still needs to charge real money — verified now via",
+      "Core $29 · Pro $99 · Enterprise $499 /mês": "Core $29 · Pro $99 · Enterprise $499 /month",
+      "Stripe (cobranças)": "Stripe (billing)", "Chave secreta de produção para checkout de subscrições": "Production secret key for subscription checkout",
+      "Stripe Webhook": "Stripe Webhook", "Endpoint assinado para upgrade automático do plano": "Signed endpoint for automatic plan upgrade",
+      "Gmail OAuth": "Gmail OAuth", "Agente de atendimento envia emails reais (verify/reset/faturas)": "Support agent sends real emails (verify/reset/invoices)",
+      "Email Provider": "Email Provider", "Transporte SMTP/Resend/SendGrid/Gmail em produção": "SMTP/Resend/SendGrid/Gmail transport in production",
+      "Domínio próprio": "Own domain", "www.trinnityviseronsystem.io com HTTPS para converter vendas": "www.trinnityviseronsystem.io with HTTPS to convert sales",
+      "Base de dados": "Database", "Postgres para contas e faturas persistidas de forma robusta": "Postgres for robustly persisted accounts and invoices",
+      "Estado": "Status", "Pronto": "Ready", "Pendente": "Pending",
+      "Plano de Receita Real — PDF": "Real Revenue Plan — PDF",
+      "Passo a passo para ativar Stripe + Gmail + domínio e o modelo de receita (LTV, MRR, metas)": "Step by step to activate Stripe + Gmail + domain and the revenue model (LTV, MRR, goals)",
+      "Multi Agent AI Operating System": "Multi Agent AI Operating System",
+      "5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência": "5000+ minds · 290+ providers · 25 sectors · 300M $VSR · Self-evolution · Superintelligence",
+      "GitHub": "GitHub",
+      "— Multi Agent AI Operating System v5.0": "— Multi Agent AI Operating System v5.0",
+      "© 2026 — Autoria de Trinnity & Viseron": "© 2026 — Authored by Trinnity & Viseron",
+      "Operacional": "Operational", "offline (local build ok)": "offline (local build ok)",
+      "verificando…": "checking…", "Pronto para faturar": "Ready to bill",
+      "Go-live pendente": "Go-live pending", "requisitos": "requirements", "readiness offline": "readiness offline"
+    },
+    es: {
+      "Plataforma": "Plataforma", "Forge": "Forge", "Status": "Estado", "Downloads": "Descargas", "Planos": "Planes",
+      "Blog": "Blog", "Dashboard": "Dashboard", "Ver Planos": "Ver Planes", "Explorar Plataforma": "Explorar Plataforma",
+      "v5.0 — Trinnity Viseron System": "v5.0 — Trinnity Viseron System",
+      "Trinnity Viseron System — Sistema Operacional Multi-Agente de Superinteligência. 5000+ mentes, 290+ provedores de IA,": "Trinnity Viseron System — Sistema Operativo Multi-Agente de Superinteligencia. 5000+ mentes, 290+ proveedores de IA,",
+      "auto-evolução genética, aprendizado hiper-exponencial.": "auto-evolución genética, aprendizaje hiper-exponencial.",
+      "Autoria de Trinnity & Viseron.": "Autoría de Trinnity & Viseron.",
+      "Mentes": "Mentes", "Providers IA": "Proveedores IA", "Setores": "Sectores",
+      "Arquitetura Trinnity Viseron": "Arquitectura Trinnity Viseron",
+      "18 módulos de core, 6 integrações, 9 agentes operacionais, dezenas de ferramentas": "18 módulos core, 6 integraciones, 9 agentes operativos, decenas de herramientas",
+      "Trinnity Core": "Trinnity Core",
+      "Núcleo do sistema operacional multi-agente com 18 subsistemas integrados": "Núcleo del sistema operativo multi-agente con 18 subsistemas integrados",
+      "OmniRoute Gateway": "OmniRoute Gateway",
+      "290+ provedores de IA, 500+ modelos, auto-fallback, compressão RTK, MCP/A2A": "290+ proveedores de IA, 500+ modelos, auto-fallback, compresión RTK, MCP/A2A",
+      "SuperIntelligence": "SuperIntelligence",
+      "Síntese ensemble multi-provedor com 5000 mentes históricas e futuristas": "Síntesis ensemble multi-proveedor con 5000 mentes históricas y futuristas",
+      "Auto-Evolução Genética": "Auto-Evolución Genética",
+      "Agentes evoluem automaticamente com aprendizado hiper-exponencial (x6 a cada 30min)": "Los agentes evolucionan automáticamente con aprendizaje hiper-exponencial (x6 cada 30min)",
+      "Command Chain": "Command Chain",
+      "Cadeia de comando hierárquica com linhagens Corona e Hierro, diretivas de dupla assinatura": "Cadena de mando jerárquica con linajes Corona y Hierro, directivas de doble firma",
+      "Call System": "Call System",
+      "Chamadas de voz IA com Twilio, OpenAI Realtime API, ElevenLabs TTS, transcrição e análise": "Llamadas de voz IA con Twilio, OpenAI Realtime API, ElevenLabs TTS, transcripción y análisis",
+      "TVS Forge": "TVS Forge",
+      "Sua plataforma Git completa — a alternativa open source ao GitHub, construída com a superinteligência TVS": "Tu plataforma Git completa — la alternativa open source a GitHub, construida con la superinteligencia TVS",
+      "📂 Git Hosting": "📂 Git Hosting",
+      "Repositórios públicos e privados ilimitados com protocolo Git completo via HTTP": "Repositorios públicos y privados ilimitados con protocolo Git completo por HTTP",
+      "🔀 Pull Requests": "🔀 Pull Requests",
+      "Code review com branching, forking, merge e resolução de conflitos": "Code review con branching, forking, merge y resolución de conflictos",
+      "⚠ Issues": "⚠ Issues",
+      "Rastreamento de issues, labels, assignees, milestones e comentários": "Seguimiento de issues, etiquetas, asignados, hitos y comentarios",
+      "🚀 API REST": "🚀 API REST",
+      "API completa para automação de repositórios, CI/CD e integração com TVS": "API completa para automatización de repositorios, CI/CD e integración con TVS",
+      "Open Source": "Open Source",
+      "Planos Trinnity Viseron": "Planes Trinnity Viseron",
+      "Da automação pessoal à superinteligência corporativa": "De la automatización personal a la superinteligencia corporativa",
+      "TVS Core": "TVS Core", "TVS Pro": "TVS Pro", "TVS Enterprise": "TVS Enterprise",
+      "/mês — Individual": "/mes — Individual", "/mês — Profissional": "/mes — Profesional", "/mês — Corporativo": "/mes — Corporativo",
+      "1 instância local": "1 instancia local", "Até 100 agentes": "Hasta 100 agentes", "OmniRoute gateway": "OmniRoute gateway",
+      "Dashboard web": "Dashboard web", "Suporte comunidade": "Soporte comunidad",
+      "Mais Popular": "Más Popular", "Começar": "Empezar", "Contato": "Contacto",
+      "Até 500 agentes": "Hasta 500 agentes", "Auto-evolução genética": "Auto-evolución genética",
+      "Síntese superinteligência": "Síntesis superinteligencia", "Call System + JARVIS": "Call System + JARVIS",
+      "Suporte prioritário": "Soporte prioritario", "Agentes ilimitados": "Agentes ilimitados", "Deploy on-premise": "Despliegue on-premise",
+      "SLA 99.9%": "SLA 99.9%", "Suporte dedicado 24/7": "Soporte dedicado 24/7", "Treinamento equipe": "Formación de equipo",
+      "Assistente Pessoal IA": "Asistente Personal IA",
+      "9 agentes especializados em 2 bridges — voz, WhatsApp, casa inteligente, câmeras, código, pesquisa, memória": "9 agentes especializados en 2 bridges — voz, WhatsApp, casa inteligente, cámaras, código, investigación, memoria",
+      "Clique no microfone no canto inferior direito para falar com o JARVIS": "Haz clic en el micrófono de la esquina inferior derecha para hablar con JARVIS",
+      "ASNO Bridge": "ASNO Bridge", "OpenJarvis Bridge": "OpenJarvis Bridge",
+      "JarvisVoz": "JarvisVoz", "Assistente de voz estilo JARVIS com comandos naturais": "Asistente de voz estilo JARVIS con comandos naturales",
+      "JarvisWhatsApp": "JarvisWhatsApp", "Assistente via WhatsApp com controle residencial e análise de mídia": "Asistente por WhatsApp con control del hogar y análisis de medios",
+      "HomeController": "HomeController", "Controlador Home Assistant + SmartThings: luzes, clima, mídia, sensores": "Controlador Home Assistant + SmartThings: luces, clima, medios, sensores",
+      "CameraAnalyzer": "CameraAnalyzer", "Análise de câmeras IP com visão computacional e detecção de objetos": "Análisis de cámaras IP con visión por computador y detección de objetos",
+      "OpenJarvis": "OpenJarvis", "IA pessoal em dispositivo local (Stanford OpenJarvis)": "IA personal en dispositivo local (Stanford OpenJarvis)",
+      "MorningDigest": "MorningDigest", "Resumo diário com email, calendário, notícias e TTS": "Resumen diario con email, calendario, noticias y TTS",
+      "DeepResearch": "DeepResearch", "Pesquisa multi-hop web + documentos locais com citações": "Investigación multi-hop web + documentos locales con citas",
+      "CodeAssistant": "CodeAssistant", "Assistente de código com execução Python e acesso shell": "Asistente de código con ejecución Python y acceso shell",
+      "OperativeAgent": "OperativeAgent", "Agente autônomo persistente com memória e tarefas agendadas": "Agente autónomo persistente con memoria y tareas programadas",
+      "8 Skills Operacionais": "8 Skills Operativas",
+      "Executáveis TVS": "Ejecutables TVS", "3 formatos — escolha o seu": "3 formatos — elige el tuyo",
+      "CLI Executable": "CLI Executable", "Standalone .exe para Windows": "Standalone .exe para Windows",
+      "50 MB — Não precisa de Node.js": "50 MB — No necesita Node.js", "Pronto": "Listo",
+      "Desktop App": "Desktop App", "Electron — Portable + Installer": "Electron — Portable + Installer",
+      "74 MB Portable / 82 MB Setup": "74 MB Portable / 82 MB Setup", "Em build": "En build", "Acompanhar build": "Seguir build",
+      "Mobile App": "Mobile App", "APK Android via EAS Cloud": "APK Android vía EAS Cloud", "Expo React Native": "Expo React Native",
+      "Documentação": "Documentación", "Manual completo em PDF (19 seções, arquitetura, comandos, integrações, planos)": "Manual completo en PDF (19 secciones, arquitectura, comandos, integraciones, planes)",
+      "PDF Manual": "PDF Manual", "Comandos Rápidos": "Comandos Rápidos", "GitHub →": "GitHub →",
+      "$VSR — Trinnity Viseron Crown": "$VSR — Trinnity Viseron Crown",
+      "Token de governança do ecossistema Trinnity Viseron — 300,000,000 VSR": "Token de gobernanza del ecosistema Trinnity Viseron — 300,000,000 VSR",
+      "Supply Total": "Suministro Total", "VSR — Trinnity Viseron Crown Token": "VSR — Trinnity Viseron Crown Token",
+      "Distribuição": "Distribución",
+      "👑 Trinnity (Corona)": "👑 Trinnity (Corona)", "⚔️ Pedro (Hierro)": "⚔️ Pedro (Hierro)",
+      "🤖 Legion (Agent Pool)": "🤖 Legion (Agent Pool)", "🏦 Strategic Reserve": "🏦 Strategic Reserve",
+      "Regras Tokenômicas": "Reglas Tokenómicas",
+      "• Cada missão tem budget VSR — agente para quando acaba": "• Cada misión tiene presupuesto VSR — el agente pausa cuando se agota",
+      "• Comissão: 0.5% por transação (80% queimado → escassez programada)": "• Comisión: 0.5% por transacción (80% quemado → escasez programada)",
+      "• VSR necessário para emissão de diretivas e spawning de agentes": "• VSR necesario para emitir directivas y hacer spawn de agentes",
+      "• Governança: 1 VSR = 1 voto na evolução do sistema": "• Gobernanza: 1 VSR = 1 voto en la evolución del sistema",
+      "Estado do Sistema ao Vivo": "Estado del Sistema en Vivo",
+      "API web operacional — módulos reais, verificados agora via": "API web operativa — módulos reales, verificados ahora vía",
+      "Auth Multi-Tenant": "Auth Multi-Tenant", "Live": "Live",
+      "Registo (org → tenant + owner), login JWT, perfis, membros e roles": "Registro (org → tenant + owner), login JWT, perfiles, miembros y roles",
+      "Tenants": "Tenants", "Users": "Usuarios",
+      "Billing + Planos": "Billing + Planos", "Provider": "Proveedor",
+      "Core $29 · Pro $99 · Enterprise $499 — checkout, webhook e subscrição com trial": "Core $29 · Pro $99 · Enterprise $499 — checkout, webhook y suscripción con trial",
+      "Onboarding": "Onboarding",
+      "5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) → agentes no workspace": "5 plantillas (contenido, atención, código, Squad AIOX, Arkom) → agentes en workspace",
+      "Templates": "Plantillas",
+      "Email": "Email", "Dev/SMTP/Resend/SendGrid/Gmail — verificação, reset, faturas e agente": "Dev/SMTP/Resend/SendGrid/Gmail — verificación, reset, facturas y agente",
+      "Messaging E2E": "Mensajería E2E",
+      "Contactos, conversas diretas e grupos, mensagens cifradas por recetor, status de leitura, entrega via Socket.IO": "Contactos, conversaciones directas y grupos, mensajes cifrados por receptor, estado de lectura, entrega vía Socket.IO",
+      "Conversas": "Conversaciones", "Mensagens": "Mensajes",
+      "Blog + Content Agent": "Blog + Content Agent",
+      "Blog com posts gerados automaticamente (agendado a cada 120min)": "Blog con posts generados automáticamente (programado cada 120min)",
+      "Schedule": "Horario", "120min": "120min",
+      "Relatório de Estado PDF": "Informe de Estado PDF",
+      "O que podes fazer de verdade agora + estado completo do sistema (testes, infraestrutura, pendências)": "Lo que puedes hacer de verdad ahora + estado completo del sistema (tests, infraestructura, pendientes)",
+      "Baixar PDF": "Descargar PDF",
+      "Pipeline de Receita Real": "Pipeline de Ingresos Real",
+      "O que falta para o TVS cobrar dinheiro real — verificado agora via": "Lo que falta para que TVS cobre dinero real — verificado ahora vía",
+      "Core $29 · Pro $99 · Enterprise $499 /mês": "Core $29 · Pro $99 · Enterprise $499 /mes",
+      "Stripe (cobranças)": "Stripe (cobros)", "Chave secreta de produção para checkout de subscrições": "Clave secreta de producción para checkout de suscripciones",
+      "Stripe Webhook": "Stripe Webhook", "Endpoint assinado para upgrade automático do plano": "Endpoint firmado para upgrade automático del plan",
+      "Gmail OAuth": "Gmail OAuth", "Agente de atendimento envia emails reais (verify/reset/faturas)": "Agente de atención envía emails reales (verify/reset/facturas)",
+      "Email Provider": "Email Provider", "Transporte SMTP/Resend/SendGrid/Gmail em produção": "Transporte SMTP/Resend/SendGrid/Gmail en producción",
+      "Domínio próprio": "Dominio propio", "www.trinnityviseronsystem.io com HTTPS para converter vendas": "www.trinnityviseronsystem.io con HTTPS para convertir ventas",
+      "Base de dados": "Base de datos", "Postgres para contas e faturas persistidas de forma robusta": "Postgres para cuentas y facturas persistidas de forma robusta",
+      "Estado": "Estado", "Pronto": "Listo", "Pendente": "Pendiente",
+      "Plano de Receita Real — PDF": "Plan de Ingresos Real — PDF",
+      "Passo a passo para ativar Stripe + Gmail + domínio e o modelo de receita (LTV, MRR, metas)": "Paso a paso para activar Stripe + Gmail + dominio y el modelo de ingresos (LTV, MRR, metas)",
+      "Multi Agent AI Operating System": "Sistema Operativo Multi-Agente de IA",
+      "5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência": "5000+ mentes · 290+ proveedores · 25 sectores · 300M $VSR · Auto-evolución · Superinteligencia",
+      "GitHub": "GitHub",
+      "— Multi Agent AI Operating System v5.0": "— Sistema Operativo Multi-Agente de IA v5.0",
+      "© 2026 — Autoria de Trinnity & Viseron": "© 2026 — Autoría de Trinnity & Viseron",
+      "Operacional": "Operativo", "offline (local build ok)": "offline (build local ok)",
+      "verificando…": "comprobando…", "Pronto para faturar": "Listo para facturar",
+      "Go-live pendente": "Go-live pendiente", "requisitos": "requisitos", "readiness offline": "readiness offline"
+    }
+  };
+  var ORIG = {};
+  function snapshot(){
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) {
+      var n = w.currentNode;
+      var t = (n.nodeValue||'').trim();
+      if (t && !ORIG[t]) ORIG[t] = n.nodeValue;
+    }
+  }
+  function applyLang(l){
+    if (I18N[l] === undefined) l = 'pt';
+    CURRENT = l;
+    try { localStorage.setItem('tvs-lang', l); } catch(e){}
+    document.documentElement.lang = l === 'pt' ? 'pt' : l;
+    if (!Object.keys(ORIG).length) snapshot();
+    var dict = I18N[l] || {};
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) {
+      var n = w.currentNode;
+      var t = (n.nodeValue||'').trim();
+      if (t && dict[t] !== undefined) n.nodeValue = dict[t];
+      else if (l === 'pt' && t && ORIG[t]) n.nodeValue = ORIG[t];
+    }
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.style.borderColor = b.getAttribute('onclick').indexOf("'"+l+"'")>=0 ? '#00f0ff' : 'transparent';
+    });
+  }
+  window.setPageLang = function(l){ applyLang(l); };
+  window.toggleMenu = window.toggleMenu || function(){ var m=document.getElementById('mobileMenu'); if(m) m.classList.toggle('hidden'); };
+  function boot(){
+    if (!window.setPageLang) window.setPageLang = function(l){ applyLang(l); };
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var t=document.querySelector(a.getAttribute('href'));
+        if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
+    var el=function(id){return document.getElementById(id);};
+    fetch('/api/health').then(function(r){return r.json();}).then(function(h){
+      if(el('apiStatus')){ el('apiStatus').textContent='Operacional'; el('apiStatus').className='badge badge-green'; }
+      if(el('hTenants')) el('hTenants').textContent=h.tenants??'0';
+      if(el('hUsers')) el('hUsers').textContent=h.users??'0';
+      if(el('hEmail')) el('hEmail').textContent=h.email??'dev';
+      if(el('hBilling')) el('hBilling').textContent=h.billing??'manual';
+      if(el('hConv')) el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';
+      if(el('hMsgs')) el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';
+    }).catch(function(){
+      if(el('apiStatus')){ el('apiStatus').textContent='offline (local build ok)'; el('apiStatus').className='badge badge-purple'; }
+    }).finally(function(){ applyLang(CURRENT); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
 </script>
 </body>
 </html>
