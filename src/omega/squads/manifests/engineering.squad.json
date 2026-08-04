@@ -1,0 +1,28 @@
+{
+  "id": "squad_engineering",
+  "name": "Engineering Squad",
+  "description": "Cria, mantém, testa e opera o software do sistema, incluindo operações GitHub.",
+  "domain": "software",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_code", "description": "Produzir código de qualidade", "metric": "merge_rate" },
+    { "id": "obj_test", "description": "Manter cobertura de testes", "metric": "coverage_pct", "target": 80 },
+    { "id": "obj_build", "description": "Build sempre verde", "metric": "build_success_rate", "target": 100 }
+  ],
+  "tools": [
+    { "id": "github", "name": "GitHub", "description": "repos, branches, commits, PRs" },
+    { "id": "docker", "name": "Docker", "description": "build e execução de containers" },
+    { "id": "npm", "name": "npm", "description": "install, build, test, lint" }
+  ],
+  "workflows": [
+    { "id": "wf_build", "name": "Build & Test", "steps": ["install", "build", "test", "report"] },
+    { "id": "wf_release", "name": "Release", "steps": ["tag", "build", "publish", "notify"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": true },
+  "permissions": [
+    { "resource": "repos", "actions": ["read", "write"] },
+    { "resource": "builds", "actions": ["run"] },
+    { "resource": "deployments", "actions": ["read"] }
+  ],
+  "agents": ["agent_cto", "agent_developer", "agent_devops"]
+}

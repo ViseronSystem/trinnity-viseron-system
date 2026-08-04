@@ -4,6 +4,7 @@ import { AgentRuntime } from "./agent-runtime/AgentRuntime";
 import { KnowledgeGraph } from "./memory-engine/KnowledgeGraph";
 import { AIRouter } from "./ai-router/AIRouter";
 import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "./autonomy";
+import { SquadRegistry } from "./squads";
 import { AgentManager } from "../core/AgentManager";
 import { MemoryEngine } from "../core/memory/MemoryEngine";
 import { ProviderFactory } from "../core/providers/ProviderFactory";
@@ -26,9 +27,11 @@ export interface OmegaPlatformStatus {
   graph: ReturnType<KnowledgeGraph["getStats"]>;
   router: { providers: string[]; default: string };
   autonomy: ReturnType<AutonomyLayer["status"]>;
+  squads: ReturnType<SquadRegistry["status"]>;
 }
 
 const SPECS_DIR = path.join(__dirname, "agent-runtime", "specs");
+const SQUADS_DIR = path.join(__dirname, "squads", "manifests");
 
 export class OmegaPlatform {
   public readonly kernel: Kernel;
@@ -36,6 +39,7 @@ export class OmegaPlatform {
   public readonly graph: KnowledgeGraph;
   public readonly router: AIRouter;
   public readonly autonomy: AutonomyLayer;
+  public readonly squads: SquadRegistry;
 
   private readonly agentManager?: AgentManager;
 
@@ -56,6 +60,8 @@ export class OmegaPlatform {
       evolution: options.evolution,
       learning: options.learning,
     });
+    this.squads = new SquadRegistry();
+    this.squads.loadFromDir(SQUADS_DIR);
 
     if (options.agentManager) {
       this.kernel.attachAgentRegistry({
@@ -104,6 +110,7 @@ export class OmegaPlatform {
         default: "ollama",
       },
       autonomy: this.autonomy.status(),
+      squads: this.squads.status(),
     };
   }
 }

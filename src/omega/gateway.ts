@@ -141,5 +141,27 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── AIOX SQUADS ──
+  router.get("/squads", (_req, res) => {
+    res.json(omega.squads.status());
+  });
+
+  router.get("/squads/:id", (req, res) => {
+    const squad = omega.squads.getSquad(req.params.id);
+    if (!squad) return res.status(404).json({ error: `Squad "${req.params.id}" not loaded` });
+    res.json({ ...squad, members: omega.squads.getSquadMembers(omega.agents, req.params.id) });
+  });
+
+  router.post("/squads/:id/run", async (req, res) => {
+    try {
+      const { task, context } = req.body ?? {};
+      if (!task) return res.status(400).json({ error: "task required" });
+      const result = await omega.squads.runSquad(omega.agents, req.params.id, task, context);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return router;
 }

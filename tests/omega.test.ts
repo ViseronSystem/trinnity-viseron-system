@@ -5,6 +5,7 @@ import { TaskQueue } from "../src/omega/kernel/TaskQueue";
 import { Permissions } from "../src/omega/kernel/Permissions";
 import { Kernel } from "../src/omega/kernel/Kernel";
 import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "../src/omega/autonomy";
+import { SquadRegistry } from "../src/omega/squads";
 import { AgentRuntime } from "../src/omega/agent-runtime/AgentRuntime";
 import { parseAgentSpec, validateAgentSpecs, AgentSpecSchema } from "../src/omega/agent-runtime/AgentSpec";
 import { KnowledgeGraph } from "../src/omega/memory-engine/KnowledgeGraph";
@@ -328,6 +329,34 @@ async function runOmegaTests() {
 
     const internalPlanning = await bareLayer.runCycle("planning");
     assert(internalPlanning.engine === "internal-planner" && internalPlanning.generatedTasks >= 1, "Autonomy: planning local sem engine");
+  }
+
+  // ── 11. AIOX Squads ──
+  {
+    const manifestsDir = path.join(process.cwd(), "src", "omega", "squads", "manifests");
+    const registry = new SquadRegistry();
+    const result = registry.loadFromDir(manifestsDir);
+    assert(result.valid === 5 && result.files === 5, `Squads: carrega 5 manifestos (valid=${result.valid}, files=${result.files})`);
+
+    const eng = registry.getSquad("squad_engineering");
+    assert(eng?.domain === "software" && eng.agents.length === 3, "Squads: Engineering com 3 agentes e domínio");
+
+    const security = registry.getSquad("squad_security");
+    assert((security?.workflows[0]?.steps.length ?? 0) >= 3 && (security?.permissions.length ?? 0) >= 1, "Squads: Security com workflows e permissões");
+
+    const status = registry.status();
+    assert(status.loaded === 5 && status.active === 5, "Squads: status com 5 ativas");
+
+    const runtime = new AgentRuntime({ providerFactory: new OfflineProviderFactory() });
+    runtime.loadSpecsFromDir(path.join(process.cwd(), "src", "omega", "agent-runtime", "specs"));
+    const members = registry.getSquadMembers(runtime, "squad_engineering");
+    assert(members.present.length === 3 && members.missing.length === 0, "Squads: membros resolvidos no runtime");
+
+    const run = await registry.runSquad(runtime, "squad_security", "Auditar as operações do sistema.");
+    assert(run.succeeded === 1 && run.results[0]?.success === true && (run.results[0]?.output ?? "").length > 0, "Squads: runSquad executa membros (offline)");
+
+    const missing = registry.getSquadMembers(runtime, "squad_nao_existe");
+    assert(missing.present.length === 0 && missing.missing.length === 0, "Squads: squad inexistente devolve vazio");
   }
 
   console.log(`\n==========================================`);
