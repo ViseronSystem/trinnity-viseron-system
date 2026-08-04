@@ -119,6 +119,19 @@
   </div>
 
   <div class="panel">
+    <h2>Autonomy Layer</h2>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:10px 0 12px 0">
+      <div><span style="color:var(--neon)">Planning</span><br><span class="stat" id="a_planning">—</span></div>
+      <div><span style="color:var(--neon)">Evolution</span><br><span class="stat" id="a_evolution">—</span></div>
+      <div><span style="color:var(--neon)">Learning</span><br><span class="stat" id="a_learning">—</span></div>
+      <div><span style="color:var(--neon)">Enabled</span><br><span class="stat" id="a_enabled">—</span></div>
+    </div>
+    <button class="btn" onclick="runAutonomy('planning')">Autonomy: Planning Cycle</button>
+    <button class="btn" onclick="runAutonomy('evolution')">Autonomy: Evolution</button>
+    <span class="sub" id="a_last" style="margin-left:10px"></span>
+  </div>
+
+  <div class="panel">
     <h2>Live Activity</h2>
     <div class="logs" id="logs">
       <div>[kernel] waiting for live events…</div>
@@ -173,6 +186,14 @@
       document.getElementById("k_minds").textContent = k.agents.total;
       document.getElementById("k_minds_sub").textContent = "ecossistema total";
 
+      const au = omega.autonomy || {};
+      document.getElementById("a_enabled").textContent = au.enabled ? "ON" : "OFF";
+      document.getElementById("a_planning").textContent = au.planning ? ("level " + au.planning.autonomyLevel + " · " + au.planning.pendingTasks + " pending") : "—";
+      document.getElementById("a_evolution").textContent = au.evolution ? (au.evolution.totalAgents + " agents · wisdom " + Math.round(au.evolution.averageWisdom)) : "—";
+      document.getElementById("a_learning").textContent = au.learning ? ("cycle " + au.learning.cycleCount + " · intel " + au.learning.intelligenceLevel) : "—";
+      const lr = au.lastRuns || {};
+      document.getElementById("a_last").textContent = lr.planning ? ("last planning: " + new Date(lr.planning).toLocaleTimeString()) : "";
+
       const agents = omega.runtime.specs || [];
       const tbody = document.getElementById("agentRows");
       tbody.innerHTML = "";
@@ -210,6 +231,16 @@
       log("task enqueued: " + res.id + " [" + res.priority + "]");
       setTimeout(refresh, 1200);
     } catch (e) { log("runDemo failed: " + e.message); }
+  }
+  async function runAutonomy(kind) {
+    try {
+      const res = await j("/api/omega/autonomy/cycle", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind })
+      });
+      log("autonomy " + kind + " → engine: " + (res.engine || "-") + " (" + new Date().toLocaleTimeString() + ")", true);
+      setTimeout(refresh, 800);
+    } catch (e) { log("autonomy failed: " + e.message); }
   }
   refresh();
   setInterval(refresh, 15000);

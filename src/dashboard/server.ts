@@ -20,6 +20,7 @@ export class TVSDashboardServer {
   private tvsCore: ViseronCore;
   private voiceBridge: VoiceBridge;
   private omega?: OmegaPlatform;
+  private omegaRouter!: express.Router;
 
   constructor(tvsCore: ViseronCore, port?: number, omega?: OmegaPlatform) {
     this.tvsCore = tvsCore;
@@ -382,9 +383,10 @@ export class TVSDashboardServer {
     });
 
     // TVS OMEGA PLATFORM — API Gateway (Command Center feeds)
-    if (this.omega) {
-      this.app.use("/api/omega", createOmegaGateway(this.omega));
-    }
+    // Registado ANTES do catch-all SPA para que o express faça match primeiro.
+    // As rotas reais são injetadas em mountOmega() (a plataforma só é criada depois do servidor).
+    this.omegaRouter = express.Router();
+    this.app.use("/api/omega", this.omegaRouter);
 
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
@@ -423,7 +425,7 @@ export class TVSDashboardServer {
   public mountOmega(omega: OmegaPlatform): void {
     this.omega = omega;
     if (this.omega) {
-      this.app.use("/api/omega", createOmegaGateway(this.omega));
+      this.omegaRouter.stack = createOmegaGateway(this.omega).stack;
     }
   }
 

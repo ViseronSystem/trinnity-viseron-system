@@ -193,6 +193,9 @@ const omegaPlatform = (() => {
       memoryEngine: (tvs as any).memoryEngine,
       providerFactory: (tvs as any).providerFactory,
       modelRouter: (tvs as any).modelRouter,
+      planner: (tvs as any).autonomousPlanner,
+      evolution: (tvs as any).autoEvolutionEngine,
+      learning: (tvs as any).hyperLearningEngine,
     });
     const loaded = omega.loadCoreAgents();
     (global as any).__TVS_OMEGA = omega;

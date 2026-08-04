@@ -108,5 +108,38 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json({ roles: omega.kernel.permissions.listRoles() });
   });
 
+  // ── AUTONOMY LAYER ──
+  router.get("/autonomy", (_req, res) => {
+    res.json(omega.autonomy.status());
+  });
+
+  router.post("/autonomy/cycle", async (req, res) => {
+    try {
+      const { kind } = req.body ?? {};
+      if (!["planning", "evolution", "learning"].includes(kind)) {
+        return res.status(400).json({ error: "kind must be planning | evolution | learning" });
+      }
+      const result = await omega.autonomy.runCycle(kind);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  router.get("/autonomy/tasks", (_req, res) => {
+    res.json({ tasks: omega.autonomy.getTasks() });
+  });
+
+  router.post("/autonomy/tasks", async (req, res) => {
+    try {
+      const { title, description, priority, category } = req.body ?? {};
+      if (!title) return res.status(400).json({ error: "title required" });
+      const task = await omega.autonomy.submitTask(title, description, priority, category);
+      res.status(201).json(task);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return router;
 }

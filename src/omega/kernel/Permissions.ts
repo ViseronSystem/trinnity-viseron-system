@@ -1,4 +1,4 @@
-export type PermissionRole = "root" | "commander" | "queen" | "admin" | "operator" | "agent" | "viewer";
+export type PermissionRole = "root" | "commander" | "queen" | "admin" | "operator" | "agent" | "viewer" | "autonomy";
 
 export interface PermissionGrant {
   role: PermissionRole;
@@ -42,6 +42,10 @@ const DEFAULT_GRANTS: PermissionGrant[] = [
   {
     role: "viewer",
     permissions: ["agents.read", "tasks.read", "events.read", "kernel.read"],
+  },
+  {
+    role: "autonomy",
+    permissions: ["tasks.*", "memory.*", "agents.read", "events.*", "ai.*", "kernel.read"],
   },
 ];
 

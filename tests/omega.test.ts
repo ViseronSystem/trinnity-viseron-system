@@ -4,6 +4,7 @@ import { EventBus } from "../src/omega/kernel/EventBus";
 import { TaskQueue } from "../src/omega/kernel/TaskQueue";
 import { Permissions } from "../src/omega/kernel/Permissions";
 import { Kernel } from "../src/omega/kernel/Kernel";
+import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "../src/omega/autonomy";
 import { AgentRuntime } from "../src/omega/agent-runtime/AgentRuntime";
 import { parseAgentSpec, validateAgentSpecs, AgentSpecSchema } from "../src/omega/agent-runtime/AgentSpec";
 import { KnowledgeGraph } from "../src/omega/memory-engine/KnowledgeGraph";
@@ -266,6 +267,67 @@ async function runOmegaTests() {
     assert(platform2.graph.getEntity("d1") !== undefined, "OmegaPlatform: recordDecision cria entidade + relação");
     assert(platform2.graph.getNeighbors("d1").length === 1, "OmegaPlatform: relação persistida no graph");
     fs.rmSync(graphFile, { force: true });
+
+    const autonomyStatus = platform.status();
+    assert(typeof autonomyStatus.autonomy?.enabled === "boolean", "OmegaPlatform: status expõe autonomy");
+  }
+
+  // ── 10. AutonomyLayer ──
+  {
+    const stubPlanner: PlannerEngineAdapter = {
+      getAutonomyLevel: () => 5,
+      getCycleCount: () => 3,
+      getTasks: (_status?: string) => [],
+      addTask: (t: any) => ({ id: "at_1", title: t.title, description: t.description, priority: t.priority ?? "MEDIUM", category: t.category ?? "maintenance", status: "PENDING", createdAt: Date.now() }),
+      executeNextTask: async () => 1,
+      start: () => {},
+      stop: () => {},
+    };
+    const stubEvolution: EvolutionEngineAdapter = {
+      evolveAll: async () => [{ agentId: "agent_ceo", cycle: 1, wisdomScore: 42 }],
+      getStats: () => ({ totalCycles: 1, totalAgents: 10, averageWisdom: 42, totalCapabilities: 3 }),
+      startContinuousEvolution: () => {},
+      stopContinuousEvolution: () => {},
+    };
+    const stubLearning: LearningEngineAdapter = {
+      executeCycle: async () => {},
+      getIntelligenceLevel: () => 300,
+      getCycleCount: () => 1,
+      getStats: () => ({ cycleCount: 1, intelligenceLevel: 300, multiplier: 6 }),
+      start: () => {},
+      stop: () => {},
+    };
+
+    const kernel = new Kernel();
+    const layer = new AutonomyLayer(kernel, { planner: stubPlanner, evolution: stubEvolution, learning: stubLearning });
+    const events: string[] = [];
+    kernel.events.subscribe("omega:autonomy:cycle", (e: any) => { events.push(e.kind); });
+
+    const planning = await layer.runCycle("planning");
+    assert(planning.engine === "core-planner" && planning.executedTasks === 1, "Autonomy: planning via core planner");
+
+    const evolution = await layer.runCycle("evolution");
+    assert(evolution.records === 1 && evolution.agents.includes("agent_ceo"), "Autonomy: evolução via core engine");
+
+    const learning = await layer.runCycle("learning");
+    assert(learning.cycle === 1 && learning.intelligenceLevel === 300, "Autonomy: aprendizagem via core engine");
+
+    assert(events.length === 3 && events.includes("learning"), "Autonomy: eventos por ciclo no bus");
+    assert(layer.status().lastRuns.planning > 0 && layer.status().lastRuns.evolution > 0 && layer.status().lastRuns.learning > 0, "Autonomy: lastRuns atualizados");
+    assert(layer.status().enabled === true && layer.status().learning?.cycleCount === 1, "Autonomy: status agrega os 3 motores");
+
+    const bareKernel = new Kernel();
+    const bareLayer = new AutonomyLayer(bareKernel);
+    const task = await bareLayer.submitTask("Autotarefa", "descrição");
+    assert(task.id.startsWith("task_") && task.type === "autonomy" && task.state === "FAILED" && (task.error ?? "").length > 0, "Autonomy: submitTask sem planner cria task kernel");
+    assert(bareKernel.permissions.can("autonomy", "tasks.create") === true, "Autonomy: role 'autonomy' pode criar tasks");
+    assert(bareKernel.permissions.listRoles().length === 8, "Autonomy: RBAC com 8 roles");
+
+    const noPlannerStatus = bareLayer.status();
+    assert(noPlannerStatus.enabled === false && noPlannerStatus.planning === null, "Autonomy: status vazio sem engines");
+
+    const internalPlanning = await bareLayer.runCycle("planning");
+    assert(internalPlanning.engine === "internal-planner" && internalPlanning.generatedTasks >= 1, "Autonomy: planning local sem engine");
   }
 
   console.log(`\n==========================================`);

@@ -3,6 +3,7 @@ import { Kernel } from "./kernel/Kernel";
 import { AgentRuntime } from "./agent-runtime/AgentRuntime";
 import { KnowledgeGraph } from "./memory-engine/KnowledgeGraph";
 import { AIRouter } from "./ai-router/AIRouter";
+import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "./autonomy";
 import { AgentManager } from "../core/AgentManager";
 import { MemoryEngine } from "../core/memory/MemoryEngine";
 import { ProviderFactory } from "../core/providers/ProviderFactory";
@@ -14,6 +15,9 @@ export interface OmegaOptions {
   providerFactory?: ProviderFactory;
   modelRouter?: ModelRouter;
   graphFilePath?: string;
+  planner?: PlannerEngineAdapter;
+  evolution?: EvolutionEngineAdapter;
+  learning?: LearningEngineAdapter;
 }
 
 export interface OmegaPlatformStatus {
@@ -21,6 +25,7 @@ export interface OmegaPlatformStatus {
   runtime: ReturnType<AgentRuntime["status"]>;
   graph: ReturnType<KnowledgeGraph["getStats"]>;
   router: { providers: string[]; default: string };
+  autonomy: ReturnType<AutonomyLayer["status"]>;
 }
 
 const SPECS_DIR = path.join(__dirname, "agent-runtime", "specs");
@@ -30,6 +35,7 @@ export class OmegaPlatform {
   public readonly agents: AgentRuntime;
   public readonly graph: KnowledgeGraph;
   public readonly router: AIRouter;
+  public readonly autonomy: AutonomyLayer;
 
   private readonly agentManager?: AgentManager;
 
@@ -44,6 +50,11 @@ export class OmegaPlatform {
       providerFactory: options.providerFactory,
       modelRouter: options.modelRouter,
       registerHook: (agent) => this.agentManager?.register(agent),
+    });
+    this.autonomy = new AutonomyLayer(this.kernel, {
+      planner: options.planner,
+      evolution: options.evolution,
+      learning: options.learning,
     });
 
     if (options.agentManager) {
@@ -92,6 +103,7 @@ export class OmegaPlatform {
         providers: ["ollama", "omniroute", "openai", "claude", "gemini", "grok"],
         default: "ollama",
       },
+      autonomy: this.autonomy.status(),
     };
   }
 }
