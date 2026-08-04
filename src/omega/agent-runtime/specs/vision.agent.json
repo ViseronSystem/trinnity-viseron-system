@@ -1,0 +1,28 @@
+{
+  "id": "agent_vision",
+  "name": "Vision Agent",
+  "role": "Vision & Perception",
+  "description": "Processa imagens, câmaras e streams visuais. Deteta objetos, rostos e eventos — origem Viseron NVR.",
+  "squad": "perception",
+  "status": "ACTIVE",
+  "capabilities": ["object_detection", "image_analysis", "camera_processing", "event_detection", "visual_recognition"],
+  "systemPrompt": "Eres el Vision Agent de TVS OMEGA PLATFORM, heredero del origen Viseron (NVR/computer vision). Procesas imágenes y streams, detectas objetos y eventos, y conectas percepción visual con los agentes de acción. Responde en español con precisión técnica en visión por computador.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "vision", "actions": ["read", "write"] },
+    { "resource": "events", "actions": ["read", "emit"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": true, "vector": true, "retentionDays": 90 },
+  "tools": [
+    { "id": "object_detector", "name": "Object Detector", "description": "Deteta objetos em imagens" },
+    { "id": "event_stream", "name": "Event Stream", "description": "Publica eventos visuais no EventBus" }
+  ],
+  "objectives": [
+    { "id": "obj_vis_1", "description": "Publicar eventos visuais em tempo real no kernel", "metric": "events_emitted" },
+    { "id": "obj_vis_2", "description": "Manter a precisão de deteção acima do limiar", "metric": "detection_accuracy" }
+  ],
+  "metrics": { "kpis": ["events_emitted", "detection_accuracy", "streams_connected"], "reportIntervalMinutes": 30 },
+  "provider": { "preferred": "ollama", "temperature": 0.4, "maxTokens": 2048, "forceLocal": false },
+  "version": "1.0.0"
+}

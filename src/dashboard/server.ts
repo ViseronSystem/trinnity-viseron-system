@@ -6,6 +6,8 @@ import { Server } from "socket.io";
 import { ViseronCore } from "../core/ViseronCore";
 import { VoiceBridge } from "../voice/VoiceBridge";
 import { skillsRegistry } from "../core/skills";
+import { OmegaPlatform } from "../omega";
+import { createOmegaGateway } from "../omega/gateway";
 
 /**
  * TVSDashboardServer - Servidor Web de Monitoreo en Tiempo Real para TVS v2.0
@@ -17,10 +19,12 @@ export class TVSDashboardServer {
   private port: number;
   private tvsCore: ViseronCore;
   private voiceBridge: VoiceBridge;
+  private omega?: OmegaPlatform;
 
-  constructor(tvsCore: ViseronCore, port?: number) {
+  constructor(tvsCore: ViseronCore, port?: number, omega?: OmegaPlatform) {
     this.tvsCore = tvsCore;
     this.port = port || parseInt(process.env.PORT || "3000", 10);
+    this.omega = omega;
     this.app = express();
     this.server = http.createServer(this.app);
     this.io = new Server(this.server, {
@@ -351,6 +355,11 @@ export class TVSDashboardServer {
       res.sendFile(path.join(publicPath, "dashboard.html"));
     });
 
+    // TVS OMEGA COMMAND CENTER
+    this.app.get("/command-center", (_req, res) => {
+      res.sendFile(path.join(publicPath, "command-center.html"));
+    });
+
     // PDFs de data/ via /pitch/*.pdf
     const dataPdfDir = path.resolve(process.cwd(), "data");
     this.app.get("/pitch/:file", (req, res) => {
@@ -371,6 +380,11 @@ export class TVSDashboardServer {
         if (err && !res.headersSent) res.status(404).json({ error: "PDF não encontrado" });
       });
     });
+
+    // TVS OMEGA PLATFORM — API Gateway (Command Center feeds)
+    if (this.omega) {
+      this.app.use("/api/omega", createOmegaGateway(this.omega));
+    }
 
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
@@ -404,6 +418,13 @@ export class TVSDashboardServer {
         socket.broadcast.emit("voice:transcript", data);
       });
     });
+  }
+
+  public mountOmega(omega: OmegaPlatform): void {
+    this.omega = omega;
+    if (this.omega) {
+      this.app.use("/api/omega", createOmegaGateway(this.omega));
+    }
   }
 
   public start(): Promise<void> {

@@ -1,0 +1,28 @@
+{
+  "id": "agent_developer",
+  "name": "Developer Agent",
+  "role": "Developer",
+  "description": "Gera código limpo e eficiente em TypeScript, Node.js, React e afins, com foco em qualidade e boas práticas.",
+  "squad": "engineering",
+  "status": "ACTIVE",
+  "capabilities": ["code_generation", "frontend", "backend", "api_design", "refactoring", "testing"],
+  "systemPrompt": "Eres el Developer Agent de TVS OMEGA PLATFORM. Generas código de producción limpio, bien estructurado y testado en TypeScript/Node/React. Siempre consideras seguridad y rendimiento. Responde en español con código real y listo para usar.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "code", "actions": ["read", "write", "generate"] },
+    { "resource": "memory", "actions": ["read", "write"] },
+    { "resource": "ai", "actions": ["use"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": false, "vector": true, "retentionDays": 90 },
+  "tools": [
+    { "id": "code_generator", "name": "Code Generator", "description": "Gera artefactos de código" },
+    { "id": "git", "name": "Git", "description": "Gestão de versões", "permissions": ["code.commit"] }
+  ],
+  "objectives": [
+    { "id": "obj_dev_1", "description": "Entregar código testado e sem erros críticos", "metric": "code_quality_score" },
+    { "id": "obj_dev_2", "description": "Completar tarefas de desenvolvimento com sucesso", "metric": "task_completion_rate" }
+  ],
+  "metrics": { "kpis": ["task_completion_rate", "code_quality_score", "tests_passed"], "reportIntervalMinutes": 30 },
+  "provider": { "preferred": "ollama", "temperature": 0.4, "maxTokens": 4096, "forceLocal": false },
+  "version": "1.0.0"
+}

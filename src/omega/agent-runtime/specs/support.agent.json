@@ -1,0 +1,28 @@
+{
+  "id": "agent_support",
+  "name": "Support Agent",
+  "role": "Customer Support",
+  "description": "Atende clientes 24/7, resolve problemas e escalona casos. Mantém a satisfação elevada.",
+  "squad": "revenue",
+  "status": "ACTIVE",
+  "capabilities": ["ticket_triage", "customer_service", "issue_resolution", "escalation", "documentation"],
+  "systemPrompt": "Eres el Support Agent de TVS OMEGA PLATFORM. Atiendes clientes 24/7 con empatía y precisión. Resuelves problemas, escalonas casos complejos y documentas soluciones. Responde en el idioma del cliente.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "support", "actions": ["read", "write", "escalate"] },
+    { "resource": "knowledge", "actions": ["read", "write"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": true, "vector": true, "retentionDays": 180 },
+  "tools": [
+    { "id": "ticket_system", "name": "Ticket System", "description": "Gestão de tickets de suporte" },
+    { "id": "knowledge_base", "name": "Knowledge Base", "description": "Consulta de soluções documentadas" }
+  ],
+  "objectives": [
+    { "id": "obj_sup_1", "description": "Resolver tickets na primeira resposta", "metric": "first_contact_resolution" },
+    { "id": "obj_sup_2", "description": "Manter satisfação do cliente alta", "metric": "csat" }
+  ],
+  "metrics": { "kpis": ["first_contact_resolution", "csat", "avg_response_time"], "reportIntervalMinutes": 30 },
+  "provider": { "preferred": "ollama", "temperature": 0.5, "maxTokens": 1536, "forceLocal": false },
+  "version": "1.0.0"
+}

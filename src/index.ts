@@ -184,6 +184,27 @@ async function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): P
 const dashboardServer = new TVSDashboardServer(tvs);
 step("Dashboard", () => dashboardServer.start());
 
+// ═══ TVS OMEGA PLATFORM (kernel · agent runtime · memory graph · ai router) ═══
+const omegaPlatform = (() => {
+  try {
+    const { OmegaPlatform } = require("./omega");
+    const omega = new OmegaPlatform({
+      agentManager: (tvs as any).agentManager,
+      memoryEngine: (tvs as any).memoryEngine,
+      providerFactory: (tvs as any).providerFactory,
+      modelRouter: (tvs as any).modelRouter,
+    });
+    const loaded = omega.loadCoreAgents();
+    (global as any).__TVS_OMEGA = omega;
+    console.log(`[TVS OMEGA] Kernel + Runtime ativo: ${loaded.valid} agentes nucleares carregados (${loaded.files} specs)`);
+    dashboardServer.mountOmega(omega);
+    return omega;
+  } catch (e: any) {
+    console.warn(`[TVS OMEGA] Não iniciado: ${e?.message || e}`);
+    return null;
+  }
+})();
+
 // ═══ WEB API LAYER (auth · billing · onboarding · email · messaging · JARVIS) ═══
 // Integração real: `npm start` liga também a plataforma SaaS web (porta 32123).
 const webServer = new ViseronWebServer({ port: 32123 });

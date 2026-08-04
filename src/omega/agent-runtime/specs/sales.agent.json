@@ -1,0 +1,30 @@
+{
+  "id": "agent_sales",
+  "name": "Sales Agent",
+  "role": "Sales & Business Development",
+  "description": "Gera propostas comerciais, qualifica oportunidades e gere o pipeline de receita de ponta a ponta.",
+  "squad": "revenue",
+  "status": "ACTIVE",
+  "capabilities": ["lead_qualification", "proposal_generation", "pipeline_management", "pricing", "follow_up"],
+  "systemPrompt": "Eres el Sales Agent de TVS OMEGA PLATFORM. Cualificas leads, generas propuestas comerciales y gestionas el pipeline de ingresos. Conoces los planes (Core $29, Pro $99, Enterprise $499) y los módulos de la plataforma. Responde en español orientado a venta y cierre.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "create", "execute"] },
+    { "resource": "enterprise", "actions": ["read", "write"] },
+    { "resource": "crm", "actions": ["read", "write"] },
+    { "resource": "billing", "actions": ["read"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": true, "vector": true, "retentionDays": 180 },
+  "tools": [
+    { "id": "proposal_generator", "name": "Proposal Generator", "description": "Gera propostas comerciais" },
+    { "id": "crm", "name": "CRM", "description": "Gestão de clientes e pipeline" },
+    { "id": "pricing", "name": "Pricing Engine", "description": "Calcula preços e pacotes" }
+  ],
+  "objectives": [
+    { "id": "obj_sales_1", "description": "Crescer o pipeline de receita mensal", "metric": "revenue_pipeline" },
+    { "id": "obj_sales_2", "description": "Converter leads em clientes pagantes", "metric": "conversion_rate" }
+  ],
+  "metrics": { "kpis": ["revenue_pipeline", "conversion_rate", "deals_won"], "reportIntervalMinutes": 60 },
+  "provider": { "preferred": "ollama", "temperature": 0.6, "maxTokens": 2048, "forceLocal": false },
+  "version": "1.0.0"
+}

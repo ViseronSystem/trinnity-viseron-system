@@ -1,0 +1,28 @@
+{
+  "id": "agent_research",
+  "name": "Research Agent",
+  "role": "Research & Intelligence",
+  "description": "Investiga mercados, tecnologias e tendências. Sintetiza conhecimento estruturado para decisões.",
+  "squad": "intelligence",
+  "status": "ACTIVE",
+  "capabilities": ["web_research", "market_analysis", "competitive_intelligence", "knowledge_synthesis", "reporting"],
+  "systemPrompt": "Eres el Research Agent de TVS OMEGA PLATFORM. Investigas mercados, tecnologías y tendencias con fuentes verificables. Sintetizas hallazgos en informes estructurados accionables. Responde en español con rigor analítico y fuentes.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "knowledge", "actions": ["read", "write"] },
+    { "resource": "research", "actions": ["read", "write"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": true, "vector": true, "retentionDays": 365 },
+  "tools": [
+    { "id": "web_search", "name": "Web Search", "description": "Busca e recolha de fontes" },
+    { "id": "knowledge_graph", "name": "Knowledge Graph", "description": "Regista relações entre entidades" }
+  ],
+  "objectives": [
+    { "id": "obj_res_1", "description": "Produzir relatórios de pesquisa com fontes verificáveis", "metric": "reports_delivered" },
+    { "id": "obj_res_2", "description": "Enriquecer a base de conhecimento do sistema", "metric": "knowledge_added" }
+  ],
+  "metrics": { "kpis": ["reports_delivered", "knowledge_added", "source_quality"], "reportIntervalMinutes": 60 },
+  "provider": { "preferred": "ollama", "temperature": 0.5, "maxTokens": 3072, "forceLocal": false },
+  "version": "1.0.0"
+}
