@@ -162,10 +162,12 @@ export class N8NBridge {
   private tryStartN8n(): Promise<boolean> {
     return new Promise((resolve) => {
       try {
-        const npxPath = process.platform === "win32" ? "npx.cmd" : "npx";
-        this.n8nProcess = spawn(npxPath, ["n8n", "start", `--port=${this.port}`], {
+        const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
+        const cmd = `${npxBin} n8n start --port=${this.port}`;
+        this.n8nProcess = spawn(cmd, {
           stdio: "pipe",
           detached: false,
+          shell: true,
           env: {
             ...process.env,
             N8N_BASIC_AUTH_ACTIVE: "true",

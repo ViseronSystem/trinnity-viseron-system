@@ -17,6 +17,7 @@
     "build:ios": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target ios",
     "build:all": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target all",
     "build:eas-android": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target eas-android",
+    "build:apk-installer": "powershell -ExecutionPolicy Bypass -File scripts/build-apk-installer.ps1",
     "build:eas-ios": "powershell -ExecutionPolicy Bypass -File scripts/build-all.ps1 -Target eas-ios",
     "mobile:start": "cd mobile && npx expo start",
     "mobile:android": "cd mobile && npx expo run:android",

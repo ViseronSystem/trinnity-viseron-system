@@ -120,6 +120,11 @@ export class AutonomousPlanner {
   public start(): void {
     console.log(`[AutonomousPlanner] Iniciando planificación autónoma (cada 30 minutos)...`);
 
+    if (this.cronJob) {
+      this.cronJob.stop();
+      this.cronJob = null;
+    }
+
     // Ejecución inicial
     this.executePlanningCycle();
 
@@ -305,6 +310,16 @@ export class AutonomousPlanner {
     if (exists) return newTask;
 
     this.tasks.push(newTask);
+
+    // Podar tareas antiguas completadas/fallidas para no crecer sin límite
+    if (this.tasks.length > 500) {
+      const terminal = this.tasks.filter(t => t.status === 'COMPLETED' || t.status === 'FAILED');
+      const removeCount = this.tasks.length - 500;
+      const toRemove = terminal.slice(0, removeCount);
+      const removeIds = new Set(toRemove.map(t => t.id));
+      this.tasks = this.tasks.filter(t => !removeIds.has(t.id));
+    }
+
     console.log(`[AutonomousPlanner] Tarea autónoma creada: [${task.priority}] ${task.title}`);
     return newTask;
   }

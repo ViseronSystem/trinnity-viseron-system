@@ -20,13 +20,33 @@
     "files": [
       "main.js",
       "preload.js",
-      "../dist/**/*",
-      "../node_modules/**/*",
-      "../data/**/*",
-      "../config/**/*",
       "package.json"
     ],
     "extraResources": [
+      {
+        "from": "../dist",
+        "to": "dist"
+      },
+      {
+        "from": "../data",
+        "to": "data"
+      },
+      {
+        "from": "../skills",
+        "to": "skills"
+      },
+      {
+        "from": "../config",
+        "to": "config"
+      },
+      {
+        "from": "./staging/node_modules",
+        "to": "node_modules"
+      },
+      {
+        "from": "../.env",
+        "to": ".env"
+      },
       {
         "from": "../node_modules/omniroute",
         "to": "omniroute"

@@ -21,7 +21,7 @@ export class OmniRouteProvider implements ILLMProvider {
   async isAvailable(): Promise<boolean> {
     try {
       const res = await axios.get(`${this.baseUrl}/api/health`, { timeout: 3000 });
-      return res.status === 200;
+      return res.status >= 200 && res.status < 500;
     } catch {
       return false;
     }

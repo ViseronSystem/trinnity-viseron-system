@@ -217,7 +217,6 @@ export class ViseronCore {
   async evolveAgents(): Promise<void> {
     const records = await this.autoEvolutionEngine.evolveAll();
     console.log(`[TVS Evolution] ${records.length} agents evolved this cycle`);
-    await this.autoEvolutionEngine.crossPollinate();
   }
 
   start(): void {

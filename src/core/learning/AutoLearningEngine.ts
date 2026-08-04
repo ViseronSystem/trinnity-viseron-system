@@ -21,6 +21,7 @@ export class AutoLearningEngine {
   private cronJob: ScheduledTask | null = null;
   private cycleCount: number = 0;
   private knowledgeBase: number = 50;
+  private isRunning: boolean = false;
 
   constructor(memoryEngine: MemoryEngine, squadManager: SquadManager) {
     this.memoryEngine = memoryEngine;
@@ -32,6 +33,10 @@ export class AutoLearningEngine {
    */
   public startLearningCycle(): void {
     console.log(`[AutoLearningEngine] Iniciando Ciclo de Auto-Aprendizaje Continuo (Frecuencia: Cada 30 Minutos)...`);
+
+    if (this.cronJob) {
+      this.stopLearningCycle();
+    }
 
     // Ejecución inicial inmediata para warm-up
     this.executeLearningCycle();
@@ -57,6 +62,16 @@ export class AutoLearningEngine {
    * Ejecuta el ciclo completo de aprendizaje basado en métricas reales del sistema.
    */
   public async executeLearningCycle(): Promise<void> {
+    if (this.isRunning) return;
+    this.isRunning = true;
+    try {
+      await this.runLearningCycle();
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  private async runLearningCycle(): Promise<void> {
     this.cycleCount++;
     (global as any).__TVS_LAST_LEARNING = Date.now();
     const timestamp = Date.now();

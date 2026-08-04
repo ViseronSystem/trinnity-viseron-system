@@ -67,6 +67,7 @@ export class AIProviderBridge {
   private providerConfigs: Map<AIProviderId, AIProviderConfig>;
   private memory: MemoryEngine;
   private requestLog: AIBridgeResponse[] = [];
+  private static readonly MAX_REQUEST_LOG = 500;
 
   static readonly ALL_PROVIDERS: AIProviderConfig[] = [
     { id: "openai", name: "OpenAI", isLocal: false, priority: 1,
@@ -266,6 +267,9 @@ export class AIProviderBridge {
       };
 
       this.requestLog.push(bridgeResponse);
+      if (this.requestLog.length > AIProviderBridge.MAX_REQUEST_LOG) {
+        this.requestLog = this.requestLog.slice(-AIProviderBridge.MAX_REQUEST_LOG);
+      }
       this.memory.addKnowledge(`AI Request: ${request.prompt.slice(0, 50)}...`, "AI_REQUESTS",
         `[${providerId}] ${response.text.slice(0, 200)}...`, ["ai", providerId, taskType]);
 

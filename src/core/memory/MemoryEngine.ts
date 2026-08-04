@@ -23,6 +23,9 @@ const DEFAULT_CONFIG: MemoryConfig = {
   kbMinScoreForMatch: 0.2
 };
 
+const MAX_LTM_ITEMS = 20_000;
+const MAX_KB_DOCS = 2_000;
+
 /**
  * MemoryEngine v3.0 - Motor de Memoria Multicapa Mejorado para Trinnity Viseron System (Hyper-Brain)
  * Mejoras:
@@ -173,9 +176,26 @@ export class MemoryEngine extends EventEmitter {
     // Actualizar índice full-text
     this.indexLTM(item);
 
+    this.evictLTM();
     this.scheduleSave();
     this.emitEvent('ltm:set', { key, tags });
     return item;
+  }
+
+  /**
+   * Evicción FIFO por actualización: mantiene la LTM dentro del límite de memoria
+   * para evitar el crecimiento infinito (causa raíz del Out of Memory).
+   */
+  private evictLTM(): void {
+    if (this.longTermStore.size <= MAX_LTM_ITEMS) return;
+    const sorted = Array.from(this.longTermStore.values())
+      .sort((a, b) => (a.updatedAt || 0) - (b.updatedAt || 0));
+    const toRemove = sorted.slice(0, this.longTermStore.size - MAX_LTM_ITEMS);
+    for (const item of toRemove) {
+      this.deindexLTM(item);
+      this.longTermStore.delete(item.key);
+    }
+    this.emitEvent('ltm:evicted', { count: toRemove.length, reason: 'capacity' });
   }
 
   public getLongTerm(key: string): any | undefined {
@@ -281,8 +301,20 @@ export class MemoryEngine extends EventEmitter {
 
     this.knowledgeStore.set(doc.id, doc);
     this.indexKB(doc);
+    this.evictKB();
     this.emitEvent('kb:added', { docId: doc.id, title, category });
     return doc;
+  }
+
+  private evictKB(): void {
+    if (this.knowledgeStore.size <= MAX_KB_DOCS) return;
+    const ids = Array.from(this.knowledgeStore.keys());
+    const toRemove = ids.slice(0, this.knowledgeStore.size - MAX_KB_DOCS);
+    for (const id of toRemove) {
+      const doc = this.knowledgeStore.get(id);
+      if (doc) this.deindexKB(doc);
+      this.knowledgeStore.delete(id);
+    }
   }
 
   public removeKnowledge(docId: string): boolean {
@@ -614,44 +646,45 @@ export class MemoryEngine extends EventEmitter {
   }
 
   /**
-   * Guarda LTM a disco con respaldo opcional.
+   * Guarda LTM a disco de forma asíncrona (no bloquea el event loop
+   * aunque haya decenas de miles de registros).
    */
-  private saveLongTermMemory(): void {
+  private async saveLongTermMemory(): Promise<void> {
     try {
       const file = path.join(this.storagePath, 'ltm.json');
       const data = Array.from(this.longTermStore.values());
 
       // Backup del archivo anterior si existe
       if (this.config.ltmBackupEnabled && fs.existsSync(file)) {
-        this.createBackup(file);
+        await this.createBackup(file);
       }
 
-      fs.writeJsonSync(file, data, { spaces: 2 });
+      await fs.writeJson(file, data, { spaces: 2 });
       this.lastLTMSave = Date.now();
     } catch (err) {
       console.error('[MemoryEngine] Error al guardar Long Term Memory:', err);
     }
   }
 
-  private createBackup(file: string): void {
+  private async createBackup(file: string): Promise<void> {
     try {
       const backupDir = path.join(this.storagePath, 'backups');
-      fs.ensureDirSync(backupDir);
+      await fs.ensureDir(backupDir);
 
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const backupFile = path.join(backupDir, `ltm_backup_${timestamp}.json`);
-      fs.copyFileSync(file, backupFile);
+      await fs.copy(file, backupFile);
       this.backupCount++;
 
       // Limitar número de backups
-      const backups = fs.readdirSync(backupDir)
+      const backups = (await fs.readdir(backupDir))
         .filter(f => f.startsWith('ltm_backup_'))
         .sort()
         .reverse();
 
       while (backups.length > this.config.ltmMaxBackupFiles) {
         const old = backups.pop()!;
-        fs.removeSync(path.join(backupDir, old));
+        await fs.remove(path.join(backupDir, old));
       }
     } catch (err) {
       console.warn('[MemoryEngine] Error al crear backup LTM:', err);

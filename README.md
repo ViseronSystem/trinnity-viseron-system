@@ -7,6 +7,55 @@ Autonomia · Evolução contínua · Integrações em produção.
 
 ---
 
+## Missão
+
+Construir a primeira empresa autônoma impulsionada por inteligência artificial, capaz de operar, desenvolver, vender, aprender e evoluir de forma contínua, reduzindo a dependência humana ao mínimo e transformando a IA em uma organização viva.
+
+**TVS não é um chatbot. TVS não é um assistente. TVS não é um único modelo de IA.**
+
+TVS é uma infraestrutura de inteligência autônoma distribuída — um **Sistema Operacional de IA** composto por milhares de agentes especializados que colaboram como uma organização real. Cada agente possui:
+
+- memória persistente · objetivos próprios · capacidades específicas
+- contexto contínuo · hierarquia de decisão · autonomia operacional
+- capacidade de aprendizagem · comunicação entre agentes · recuperação automática
+
+Os agentes podem ser criados, substituídos, fundidos ou eliminados dinamicamente sem parar o sistema. A plataforma nunca depende de um único modelo de IA.
+
+### Núcleo Cognitivo
+
+TVS integra múltiplos motores de inteligência simultaneamente: **Ollama Local, OpenAI, Anthropic, Gemini, Grok, DeepSeek, Mistral, Llama, Qwen, OmniRoute (300+ provedores), modelos privados e modelos treinados internamente**. Cada tarefa é enviada automaticamente ao modelo com a melhor relação entre qualidade, velocidade e custo.
+
+### Sistema Autônomo
+
+TVS executa continuamente ciclos de evolução sem intervenção humana:
+
+| Ciclo | Função |
+|-------|--------|
+| **HyperLearning** | Aprende de cada interação, projeto, cliente e erro |
+| **AutoEvolution** | Reescreve componentes, melhora arquiteturas e otimiza processos |
+| **AutoLearning** | Gera novo conhecimento e atualiza a memória global |
+| **AutoPilot** | Planifica, prioriza, executa e supervisiona operações completas |
+| **Self Healing** | Detecta erros, reconstrói processos e mantém a continuidade do sistema |
+| **Continuous Optimization** | Mede desempenho, identifica gargalos e melhora a plataforma automaticamente |
+
+### Capacidades Empresariais
+
+TVS atua como uma empresa autônoma: captar clientes, analisar mercados, gerar oportunidades, redigir propostas, enviar e-mails, gerir CRM, fazer follow-up comercial, programar reuniões, preparar apresentações, criar sites, desenvolver apps web/mobile, construir APIs, gerar documentação, desenhar arquiteturas, administrar servidores, desenhar cloud, supervisionar produção, gerar contratos, emitir faturas, controlar receita/despesas, produzir relatórios financeiros e coordenar equipes humanas + agentes IA.
+
+### Plataforma Universal
+
+Uma única plataforma. Múltiplas interfaces: **Web, Desktop, Mobile, CLI, REST API, MCP, Integrações empresariais, Automação, Cloud e Edge Computing**.
+
+### Organização Autônoma
+
+CEO IA → Direção Estratégica → Ventas · Marketing · Finanças · Engenharia · Operações · Legal · Atendimento · Investigação · Infraestrutura · Segurança · Desenvolvimento. Cada departamento é composto por agentes especializados que cooperam via memória compartilhada e objetivos comuns.
+
+### Objetivo de Negócio
+
+Plataforma SaaS empresarial com receita recorrente via licenças Enterprise, agentes personalizados, automação empresarial, desenvolvimento de software sob demanda, IA como serviço, consultoria automatizada, marketplace de agentes/apps, API comercial, franquias tecnológicas e white-label — uma companhia capaz de escalar globalmente com milhares de clientes e milhões de processos simultâneos.
+
+---
+
 ## O que é
 
 O TVS não é um chatbot nem um modelo único: é uma **plataforma de agentes de IA autônomos** com memória persistente, hierarquia de comando e auto-recuperação. Ele planeja, executa, aprende e evolui sem supervisão humana.
@@ -22,9 +71,12 @@ O TVS não é um chatbot nem um modelo único: é uma **plataforma de agentes de
 
 | Área | Estado |
 |------|--------|
-| Testes | ✅ 14/14 passando (`npm test`) |
+| Testes | ✅ 14/14 core + 66/66 web passando (`npm test`) |
 | TypeScript | ✅ sem erros (`npm run lint`) |
 | Build | ✅ `npm run build` |
+| Runtime | ✅ Dashboard `:3000` · PDF `:3001` · OmniRoute `:20128` |
+| Memória | ✅ LTM limitada a 20k registros (OOM corrigido) |
+| Autonomia | ✅ 4 ciclos: HyperLearning, AutoEvolution, AutoLearning, AutoPilot |
 | Deploy | ✅ GitHub, Vercel, Render, Railway, Docker |
 | Receita | 🟡 Em desenvolvimento (ver roadmap) |
 

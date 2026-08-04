@@ -143,16 +143,21 @@ export class TVSApiClient {
     }
   }
 
-  private async fetchJson<T>(path: string, options?: RequestInit): Promise<T | null> {
+  private async fetchJson<T>(path: string, options?: RequestInit, timeoutMs = 5000): Promise<T | null> {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
       const res = await fetch(`${this.baseUrl}${path}`, {
         ...options,
         headers: { 'Content-Type': 'application/json', ...options?.headers },
+        signal: controller.signal,
       });
       if (!res.ok) return null;
       return await res.json();
     } catch {
       return null;
+    } finally {
+      clearTimeout(timer);
     }
   }
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trinnity Viseron System - Instalar APK no Telemovel</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; background: #0a0a2e; color: #e6e6f2; line-height: 1.6; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { text-align: center; margin-bottom: 40px; }
+  .logo { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, #00f5ff, #7b2ff7); display: inline-flex; align-items: center; justify-content: center; font-weight: 900; color: #0a0a2e; font-size: 28px; margin-bottom: 16px; }
+  h1 { font-size: 28px; font-weight: 800; background: linear-gradient(90deg, #00f5ff, #7b2ff7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color: #7a7aaa; margin-top: 8px; font-size: 14px; }
+  .badge { display: inline-block; background: rgba(0,255,136,0.12); color: #00ff88; border: 1px solid rgba(0,255,136,0.35); padding: 4px 14px; border-radius: 999px; font-size: 12px; margin-top: 12px; }
+  .card { background: #12123a; border: 1px solid #1a1a4e; border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+  .step { display: flex; gap: 16px; }
+  .num { flex: 0 0 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #00f5ff, #7b2ff7); color: #0a0a2e; font-weight: 800; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+  h2 { color: #00f5ff; font-size: 17px; font-weight: 700; margin: 2px 0 10px; }
+  p, li { color: #9a9ac0; font-size: 14px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  code { background: #0a0a2e; border: 1px solid #1a1a4e; color: #00ff88; padding: 2px 8px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 13px; }
+  .tip { background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.25); border-radius: 10px; padding: 14px 16px; margin-top: 14px; font-size: 13px; color: #8ab8d0; }
+  .btn { display: inline-block; background: #00f5ff; color: #0a0a2e; font-weight: 700; padding: 12px 22px; border-radius: 10px; text-decoration: none; font-size: 14px; margin-top: 8px; }
+  .btn.ghost { background: transparent; border: 1px solid #00f5ff; color: #00f5ff; margin-left: 8px; }
+  footer { text-align: center; color: #4a4a7a; font-size: 12px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">TV</div>
+    <h1>Trinnity Viseron System v5.0.0</h1>
+    <p class="sub">Multi-Agent AI Operating System — APK Android</p>
+    <span class="badge">APK pronto no teu PC</span>
+  </header>
+
+  <div class="card">
+    <p>O instalador colocou o ficheiro <code>TrinnityViseron.apk</code> no teu PC. Segue estes passos para instalar no telemóvel (Android).</p>
+  </div>
+
+  <div class="card step">
+    <div class="num">1</div>
+    <div>
+      <h2>Transfere o APK para o telemóvel</h2>
+      <ul>
+        <li><strong>Cabo USB</strong> — liga o telemóvel ao PC e copia o ficheiro para a pasta <em>Downloads</em>.</li>
+        <li><strong>Email</strong> — envia o ficheiro como anexo para o teu email e abre no telemóvel.</li>
+        <li><strong>Google Drive / WhatsApp</strong> — carrega o ficheiro e baixa no telemóvel.</li>
+        <li>A pasta do APK está em: <code>%LOCALAPPDATA%\Programs\TrinnityViseron</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card step">
+    <div class="num">2</div>
+    <div>
+      <h2>Ativa "Fontes desconhecidas" (se pedir)</h2>
+      <p>Definições → Segurança → <strong>Instalar apps desconhecidas</strong> → permite a app do teu navegador/gestor de ficheiros.</p>
+    </div>
+  </div>
+
+  <div class="card step">
+    <div class="num">3</div>
+    <div>
+      <h2>Instala e abre</h2>
+      <p>Toque no ficheiro <code>TrinnityViseron.apk</code> → <strong>Instalar</strong> → <strong>Abrir</strong>. A app chama-se <strong>Trinnity Viseron System</strong>.</p>
+    </div>
+  </div>
+
+  <div class="card step">
+    <div class="num">4</div>
+    <div>
+      <h2>Liga a app ao teu servidor TVS</h2>
+      <p>No ecrã <strong>Definições</strong> da app, coloca o IP da máquina onde o TVS está a correr (o telemóvel não usa <code>localhost</code>).</p>
+      <div class="tip">
+        <strong>Como descobrir o IP no Windows:</strong> abre o Prompt de Comandos e corre <code>ipconfig</code>. Procura o endereço IPv4 da tua ligação (ex: <code>192.168.1.100</code>) e usa-o assim: <code>http://192.168.1.100:3000</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card step">
+    <div class="num">5</div>
+    <div>
+      <h2>Problemas comuns</h2>
+      <ul>
+        <li><strong>"App não instalada"</strong> — apaga a versão antiga antes de instalar.</li>
+        <li><strong>Não liga ao servidor</strong> — confirma que o TVS está a correr (<code>npm start</code>) e que o PC e o telemóvel estão na mesma rede.</li>
+        <li><strong>Firewall</strong> — permite o Node.js na firewall do Windows para a porta 3000.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center">
+    <p style="margin-bottom:8px">Precisas do ficheiro outra vez? Baixa direto do site:</p>
+    <a class="btn" href="https://www.trinnityviseronsystem.io/downloads/TrinnityViseron.apk" target="_blank">Baixar APK v5.0.0</a>
+    <a class="btn ghost" href="https://www.trinnityviseronsystem.io" target="_blank">Abrir site TVS</a>
+  </div>
+
+  <footer>Trinnity Viseron System © 2026 · Pedro Costa (Commander) · Trinnity Hurtado (Queen)</footer>
+</div>
+</body>
+</html>

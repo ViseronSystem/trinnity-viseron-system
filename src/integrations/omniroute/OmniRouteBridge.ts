@@ -18,6 +18,11 @@ export class OmniRouteBridge {
   private process: ChildProcess | null = null;
   private config: OmniRouteConfig;
   private aiBridge: AIProviderBridge;
+  private restartTimer: NodeJS.Timeout | null = null;
+  private healthTimer: NodeJS.Timeout | null = null;
+  private restartAttempts = 0;
+  private stopped = false;
+  private readonly MAX_RESTART_ATTEMPTS = 10;
 
   static readonly OMNIROUTE_PROVIDERS: AIProviderConfig[] = [
     {
@@ -61,6 +66,8 @@ export class OmniRouteBridge {
       await this.startProcess();
     }
 
+    this.startHealthCheck();
+
     await this.registerWithBridge();
 
     console.log(`  [OmniRoute] Bridge initialized`);
@@ -96,20 +103,28 @@ export class OmniRouteBridge {
 
     console.log(`  [OmniRoute] Starting OmniRoute server...`);
 
-    const omnirouteCmd = process.platform === "win32" ? "npx.cmd" : "npx";
-    const args = ["omniroute", "--port", String(this.config.port)];
+    const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
+    const cmd = `${npxBin} omniroute --port ${this.config.port} --no-open`;
 
-    if (process.env.OMNIROUTE_DATA_DIR) {
-      args.push("--data-dir", process.env.OMNIROUTE_DATA_DIR);
+    try {
+      this.process = spawn(cmd, {
+        stdio: ["ignore", "pipe", "pipe"],
+        shell: true,
+        env: {
+          ...process.env,
+          PORT: String(this.config.port),
+          OMNIROUTE_DATA_DIR: this.config.dataDir,
+        },
+      });
+    } catch (err: any) {
+      console.warn(`  [OmniRoute] Failed to spawn server: ${err.message} (will use on-demand mode)`);
+      this.process = null;
+      return;
     }
 
-    this.process = spawn(omnirouteCmd, args, {
-      stdio: ["ignore", "pipe", "pipe"],
-      env: {
-        ...process.env,
-        PORT: String(this.config.port),
-        OMNIROUTE_DATA_DIR: this.config.dataDir,
-      },
+    this.process.on("error", (err: Error) => {
+      console.warn(`  [OmniRoute] Server process error: ${err.message} (will use on-demand mode)`);
+      this.process = null;
     });
 
     this.process.stdout?.on("data", (data: Buffer) => {
@@ -127,12 +142,55 @@ export class OmniRouteBridge {
     this.process.on("exit", (code) => {
       console.log(`  [OmniRoute] Process exited with code ${code}`);
       this.process = null;
+      if (!this.stopped && this.config.autoStart) {
+        this.scheduleRestart();
+      }
     });
 
     const ready = await this.waitForReady(30000);
     if (ready) {
+      this.restartAttempts = 0;
       console.log(`  [OmniRoute] Server ready at ${this.config.baseUrl}`);
     }
+  }
+
+  private scheduleRestart(): void {
+    if (this.restartTimer) return;
+    if (this.restartAttempts >= this.MAX_RESTART_ATTEMPTS) {
+      console.warn(`  [OmniRoute] Restart limit reached (${this.MAX_RESTART_ATTEMPTS}). Manual intervention required.`);
+      return;
+    }
+    this.restartAttempts += 1;
+    const delay = Math.min(1000 * Math.pow(2, this.restartAttempts - 1), 60000);
+    console.log(`  [OmniRoute] Scheduling restart in ${delay / 1000}s (attempt ${this.restartAttempts}/${this.MAX_RESTART_ATTEMPTS})...`);
+    this.restartTimer = setTimeout(async () => {
+      this.restartTimer = null;
+      if (this.stopped) return;
+      try {
+        await this.startProcess();
+      } catch (err: any) {
+        console.warn(`  [OmniRoute] Restart failed: ${err.message}`);
+      }
+    }, delay);
+  }
+
+  private startHealthCheck(): void {
+    if (this.healthTimer) return;
+    this.healthTimer = setInterval(async () => {
+      if (this.stopped) return;
+      try {
+        const available = await this.provider.isAvailable();
+        if (!available && !this.process && !this.restartTimer) {
+          console.log(`  [OmniRoute] Health check: server down, restarting...`);
+          try {
+            await this.startProcess();
+          } catch (err: any) {
+            console.warn(`  [OmniRoute] Health-check restart failed: ${err.message}`);
+          }
+        }
+      } catch {}
+    }, 15000);
+    this.healthTimer.unref?.();
   }
 
   private async waitForReady(timeoutMs: number): Promise<boolean> {
@@ -149,6 +207,15 @@ export class OmniRouteBridge {
   }
 
   stop(): void {
+    this.stopped = true;
+    if (this.restartTimer) {
+      clearTimeout(this.restartTimer);
+      this.restartTimer = null;
+    }
+    if (this.healthTimer) {
+      clearInterval(this.healthTimer);
+      this.healthTimer = null;
+    }
     if (this.process) {
       if (process.platform === "win32") {
         spawn("taskkill", ["/pid", String(this.process.pid), "/f", "/t"]);

@@ -32,6 +32,7 @@ export class SuperMind {
   private agentManager: AgentManager;
   private domains: KnowledgeDomain[] = [];
   private wisdomCache: WisdomSynthesis[] = [];
+  private static readonly MAX_WISDOM_CACHE = 200;
 
   static readonly ERAS = [
     { name: "Renaissance Foundation", years: "1500-1700", weight: 0.3 },
@@ -369,6 +370,9 @@ export class SuperMind {
       timestamp: Date.now()
     };
     this.wisdomCache.push(synthesis);
+    if (this.wisdomCache.length > SuperMind.MAX_WISDOM_CACHE) {
+      this.wisdomCache = this.wisdomCache.slice(-SuperMind.MAX_WISDOM_CACHE);
+    }
     const eraTags = eraList.map(e => `era:${e}`);
     this.memoryEngine.setLongTerm(
       `supermind_synthesis_${synthesis.id}`,
@@ -421,6 +425,9 @@ export class SuperMind {
       timestamp: Date.now()
     };
     this.wisdomCache.push(synthesis);
+    if (this.wisdomCache.length > SuperMind.MAX_WISDOM_CACHE) {
+      this.wisdomCache = this.wisdomCache.slice(-SuperMind.MAX_WISDOM_CACHE);
+    }
     this.memoryEngine.setLongTerm(
       `supermind_evolved_${synthesis.id}`,
       synthesis,

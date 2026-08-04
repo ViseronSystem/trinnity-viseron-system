@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-31T19:33:26.848Z",
+  "timestamp": "2026-08-04T19:03:15.488Z",
   "totalAgents": 5366,
   "issues": [],
   "fixes": [],
@@ -237,11 +237,17 @@
           "issues": [],
           "structure": {
             "public": {
-              "files": 5,
-              "dirs": 1,
+              "files": 6,
+              "dirs": 2,
               "issues": [],
               "structure": {
                 "blog": {
+                  "files": 2,
+                  "dirs": 0,
+                  "issues": [],
+                  "structure": {}
+                },
+                "downloads": {
                   "files": 2,
                   "dirs": 0,
                   "issues": [],
@@ -365,16 +371,98 @@
         },
         "web": {
           "files": 4,
-          "dirs": 0,
+          "dirs": 10,
           "issues": [],
-          "structure": {}
+          "structure": {
+            "arkom": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [
+                {
+                  "file": "src\\web\\arkom\\engine.ts",
+                  "type": "TODO/FIXME",
+                  "severity": "low"
+                }
+              ],
+              "structure": {}
+            },
+            "auth": {
+              "files": 6,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "billing": {
+              "files": 6,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "db": {
+              "files": 1,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "email": {
+              "files": 7,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "jarvis": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "messaging": {
+              "files": 4,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "monitoring": {
+              "files": 3,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "onboarding": {
+              "files": 2,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            },
+            "revenue": {
+              "files": 3,
+              "dirs": 0,
+              "issues": [],
+              "structure": {}
+            }
+          }
         }
       }
     },
     "scripts": {
-      "files": 22,
+      "files": 49,
       "dirs": 0,
       "issues": [
+        {
+          "file": "scripts\\demo-email.ts",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\demo-messaging.ts",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\deploy-all.ps1",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
         {
           "file": "scripts\\full-audit.mjs",
           "type": "TODO/FIXME",
@@ -384,6 +472,31 @@
           "file": "scripts\\generateMinds.ts",
           "type": "Large file",
           "severity": "medium"
+        },
+        {
+          "file": "scripts\\gerar-manual-comandos-viseron.ts",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\gerar-pitch-startup.ts",
+          "type": "Large file",
+          "severity": "medium"
+        },
+        {
+          "file": "scripts\\gerar-relatorio-estado.ts",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\gerar-todos-pdfs.ps1",
+          "type": "TODO/FIXME",
+          "severity": "low"
+        },
+        {
+          "file": "scripts\\self-update.ps1",
+          "type": "TODO/FIXME",
+          "severity": "low"
         }
       ],
       "structure": {}

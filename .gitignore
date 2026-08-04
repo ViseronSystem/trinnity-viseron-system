@@ -10,6 +10,8 @@ logs/
 .build/
 electron/dist-electron/
 electron/node_modules/
+electron/staging/
+data/server.log.err
 mobile/android/
 mobile/ios/
 mobile/node_modules/
@@ -43,5 +45,7 @@ data/email-codes.json
 data/workspace.json
 
 data/Viseron_Cofre_Credenciais.pdf
-
 data/Viseron_Auditoria_Completa.pdf
+
+# Suite AEOS (Cofre de Acesso e artefatos gerados) — confidencial
+data/AEOS_*.pdf

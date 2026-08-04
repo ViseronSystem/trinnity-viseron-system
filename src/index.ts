@@ -8,6 +8,7 @@ import { SuperIntegration } from "./integrations/SuperIntegration";
 import { OmniRouteHub } from "./integrations/omniroute/OmniRouteHub";
 import { N8NBridge } from "./integrations/n8n/N8NBridge";
 import { TVSTerminal } from "./terminal/TerminalInterface";
+import { ViseronWebServer } from "./web/standalone-server";
 
 (global as any).__TVS_START_TIME = Date.now();
 
@@ -182,6 +183,15 @@ async function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): P
 
 const dashboardServer = new TVSDashboardServer(tvs);
 step("Dashboard", () => dashboardServer.start());
+
+// ═══ WEB API LAYER (auth · billing · onboarding · email · messaging · JARVIS) ═══
+// Integração real: `npm start` liga também a plataforma SaaS web (porta 32123).
+const webServer = new ViseronWebServer({ port: 32123 });
+step("WebServer API", async () => {
+  await webServer.start();
+  webServer.getContentAgent().start(120);
+  (global as any).__TVS_WEB_SERVER = webServer;
+});
 
 const terminal = new TVSTerminal(tvs, dashboardServer);
 step("Terminal", () => terminal.start());

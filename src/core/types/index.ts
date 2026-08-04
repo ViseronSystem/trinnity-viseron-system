@@ -140,7 +140,7 @@ export interface MemoryConfig {
   kbMinScoreForMatch: number;
 }
 
-export type MemoryEventType = 'stm:added' | 'stm:cleared' | 'stm:evicted' | 'ltm:set' | 'ltm:deleted' | 'kb:added' | 'vector:stored' | 'consolidation:run';
+export type MemoryEventType = 'stm:added' | 'stm:cleared' | 'stm:evicted' | 'ltm:set' | 'ltm:deleted' | 'ltm:evicted' | 'kb:added' | 'vector:stored' | 'consolidation:run';
 
 export interface MemoryEvent {
   type: MemoryEventType;

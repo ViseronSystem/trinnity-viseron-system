@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { tvsApi, TVSStats, Agent, StatusInfo, BattalionInfo, DirectiveInfo, setServerUrl } from '../services/api';
+
+const SERVER_URL_STORAGE_KEY = 'tvsServerUrl';
 
 interface TVSContextType {
   connected: boolean;
@@ -37,26 +40,29 @@ export function TVSProvider({ children }: { children: ReactNode }) {
   const [serverUrl, setServerUrlState] = useState(tvsApi.baseUrl);
 
   const fetchAll = useCallback(async () => {
-    const health = await tvsApi.health();
-    setConnected(health);
-    if (health) {
-      const [s, a, st, b, d] = await Promise.all([
-        tvsApi.getStats(),
-        tvsApi.getAgents(),
-        tvsApi.getStatus(),
-        tvsApi.getBattalion(),
-        tvsApi.getDirectives(),
-      ]);
-      setStats(s);
-      setAgents(a);
-      setStatus(st);
-      setBattalion(b);
-      setDirectives(d);
-      setError(null);
-    } else {
-      setError('Servidor TVS não encontrado');
+    try {
+      const health = await tvsApi.health();
+      setConnected(health);
+      if (health) {
+        const [s, a, st, b, d] = await Promise.all([
+          tvsApi.getStats(),
+          tvsApi.getAgents(),
+          tvsApi.getStatus(),
+          tvsApi.getBattalion(),
+          tvsApi.getDirectives(),
+        ]);
+        setStats(s);
+        setAgents(a);
+        setStatus(st);
+        setBattalion(b);
+        setDirectives(d);
+        setError(null);
+      } else {
+        setError('Servidor TVS não encontrado');
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -64,10 +70,13 @@ export function TVSProvider({ children }: { children: ReactNode }) {
     await fetchAll();
   }, [fetchAll]);
 
-  const setServer = useCallback((url: string) => {
+  const setServer = useCallback(async (url: string) => {
     const normalized = url.replace(/\/+$/, '');
     setServerUrl(normalized);
     setServerUrlState(normalized);
+    try {
+      await AsyncStorage.setItem(SERVER_URL_STORAGE_KEY, normalized);
+    } catch {}
     tvsApi.disconnectSocket();
     setLoading(true);
     fetchAll();
@@ -95,17 +104,27 @@ export function TVSProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    fetchAll();
-    const socket = tvsApi.connectSocket();
-    socket.on('system:info', (data: any) => {
-      if (data?.agents) setAgents(data.agents);
-      if (data?.coreName) setConnected(true);
-    });
-    socket.on('voice:response', (data: any) => {
-      if (data?.response) {
-        console.log('[Voice Response]', data.response);
-      }
-    });
+    let cancelled = false;
+    (async () => {
+      try {
+        const saved = await AsyncStorage.getItem(SERVER_URL_STORAGE_KEY);
+        if (!cancelled && saved) {
+          setServerUrl(saved);
+          setServerUrlState(saved);
+        }
+      } catch {}
+      if (!cancelled) fetchAll();
+      const socket = tvsApi.connectSocket();
+      socket.on('system:info', (data: any) => {
+        if (data?.agents) setAgents(data.agents);
+        if (data?.coreName) setConnected(true);
+      });
+      socket.on('voice:response', (data: any) => {
+        if (data?.response) {
+          console.log('[Voice Response]', data.response);
+        }
+      });
+    })();
     const interval = setInterval(() => {
       tvsApi.health().then(h => {
         if (h && !connected) {
@@ -115,6 +134,7 @@ export function TVSProvider({ children }: { children: ReactNode }) {
       });
     }, 10000);
     return () => {
+      cancelled = true;
       clearInterval(interval);
       tvsApi.disconnectSocket();
     };

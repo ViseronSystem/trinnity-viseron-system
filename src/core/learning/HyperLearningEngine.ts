@@ -6,6 +6,8 @@ import { SuperMind } from "../supermind/SuperMind";
 import * as fs from "fs-extra";
 import * as path from "path";
 
+const MAX_HISTORY = 200;
+
 export class HyperLearningEngine {
   private memoryEngine: MemoryEngine;
   private agentManager: AgentManager;
@@ -14,6 +16,7 @@ export class HyperLearningEngine {
   private cronJob: ReturnType<typeof cron.schedule> | null = null;
   private cycleCount: number = 0;
   private intelligenceLevel: number = 1000;
+  private isRunning: boolean = false;
   private history: Array<{ cycle: number; level: number; insights: string[]; timestamp: number }> = [];
 
   constructor(memoryEngine: MemoryEngine, agentManager: AgentManager, bridge: AIProviderBridge, superMind: SuperMind) {
@@ -24,6 +27,9 @@ export class HyperLearningEngine {
   }
 
   start(intervalMinutes: number = 30): void {
+    if (this.cronJob) {
+      this.stop();
+    }
     this.executeCycle();
     this.cronJob = cron.schedule(`2-59/${intervalMinutes} * * * *`, () => {
       this.executeCycle();
@@ -38,9 +44,20 @@ export class HyperLearningEngine {
   }
 
   async executeCycle(): Promise<void> {
+    if (this.isRunning) return;
+    this.isRunning = true;
+    try {
+      await this.runCycle();
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  private async runCycle(): Promise<void> {
     this.cycleCount++;
     (global as any).__TVS_LAST_HYPER = Date.now();
     const start = Date.now();
+    const multiplier = Math.min(Math.pow(1.05, Math.max(0, this.cycleCount - 1)), 20);
     this.intelligenceLevel = Math.min(this.intelligenceLevel * 1.05, 1_000_000); // +5% each cycle (capped)
 
     const insights: string[] = [];
@@ -73,7 +90,7 @@ export class HyperLearningEngine {
       const report = {
         cycle: this.cycleCount,
         intelligenceLevel: Math.round(this.intelligenceLevel),
-        levelMultiplier: Math.pow(1.05, this.cycleCount - 1),
+        levelMultiplier: multiplier,
         activeAgents: agentCount,
         knowledgeDocuments: knowledgeCount,
         insights,
@@ -87,6 +104,9 @@ export class HyperLearningEngine {
         insights: insights.slice(0, 5),
         timestamp: Date.now()
       });
+      if (this.history.length > MAX_HISTORY) {
+        this.history = this.history.slice(-MAX_HISTORY);
+      }
 
       const reportsDir = (() => {
         const candidates = [
@@ -105,7 +125,7 @@ export class HyperLearningEngine {
       this.memoryEngine.addKnowledge(
         `HyperLearning Cycle #${this.cycleCount}`,
         "HYPER_LEARNING",
-        `Intelligence: ${this.intelligenceLevel.toFixed(0)} (${(Math.pow(1.05, this.cycleCount - 1) * 1000).toFixed(0)}x base). Agents: ${agentCount}. Insights: ${insights.length}`,
+        `Intelligence: ${this.intelligenceLevel.toFixed(0)} (${(multiplier * 1000).toFixed(0)}x base). Agents: ${agentCount}. Insights: ${insights.length}`,
         ["hyperlearning", `cycle_${this.cycleCount}`, "evolution"]
       );
 
@@ -131,7 +151,7 @@ export class HyperLearningEngine {
     return {
       cycleCount: this.cycleCount,
       intelligenceLevel: this.intelligenceLevel,
-      multiplier: Math.pow(1.05, Math.max(0, this.cycleCount - 1))
+      multiplier: Math.min(Math.pow(1.05, Math.max(0, this.cycleCount - 1)), 20)
     };
   }
 }

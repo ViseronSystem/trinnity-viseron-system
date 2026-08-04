@@ -16,6 +16,9 @@ export interface EvolutionRecord {
 
 const KNOWLEDGE_GAIN_MIN = 0.01;
 const KNOWLEDGE_GAIN_MAX = 0.05;
+const MAX_AGENTS_PER_CYCLE = 300;
+const MAX_POLLINATION_POOL = 120;
+const MAX_EVOLUTION_HISTORY = 2_000;
 const ALL_POSSIBLE_CAPABILITIES = [
   "quantum_cognition", "neural_optimization", "self_healing", "predictive_analysis",
   "semantic_reasoning", "adaptive_learning", "swarm_intelligence", "temporal_planning",
@@ -33,6 +36,7 @@ export class AutoEvolutionEngine {
   private evolutionCycle: number = 0;
   private evolutionHistory: EvolutionRecord[] = [];
   private evolutionTimer: ReturnType<typeof setInterval> | null = null;
+  private isEvolving: boolean = false;
 
   constructor(agentManager: AgentManager, memoryEngine: MemoryEngine, superMind: SuperMind) {
     this.agentManager = agentManager;
@@ -41,10 +45,21 @@ export class AutoEvolutionEngine {
   }
 
   async evolveAll(): Promise<EvolutionRecord[]> {
+    if (this.isEvolving) return [];
+    this.isEvolving = true;
+    try {
+      return await this.runEvolution();
+    } finally {
+      this.isEvolving = false;
+    }
+  }
+
+  private async runEvolution(): Promise<EvolutionRecord[]> {
     this.evolutionCycle++;
     (global as any).__TVS_LAST_EVOLUTION = Date.now();
     const records: EvolutionRecord[] = [];
-    const agents = this.agentManager.list('ACTIVE');
+    const allAgents = this.agentManager.list('ACTIVE');
+    const agents = this.sampleAgents(allAgents, MAX_AGENTS_PER_CYCLE);
 
     for (const agent of agents) {
       try {
@@ -57,15 +72,28 @@ export class AutoEvolutionEngine {
 
     await this.crossPollinate();
     this.evolutionHistory.push(...records);
+    if (this.evolutionHistory.length > MAX_EVOLUTION_HISTORY) {
+      this.evolutionHistory = this.evolutionHistory.slice(-MAX_EVOLUTION_HISTORY);
+    }
 
     this.memoryEngine.addKnowledge(
       `Evolution Cycle #${this.evolutionCycle}`,
       "AUTO_EVOLUTION",
-      `Evolved ${records.length} agents with total wisdom gain of ${records.reduce((s, r) => s + r.knowledgeGained, 0).toFixed(2)}%. New capabilities: ${records.reduce((s, r) => s + r.newCapabilities.length, 0)} total.`,
+      `Evolved ${records.length} agents (sampled from ${allAgents.length}) with total wisdom gain of ${records.reduce((s, r) => s + r.knowledgeGained, 0).toFixed(2)}%. New capabilities: ${records.reduce((s, r) => s + r.newCapabilities.length, 0)} total.`,
       ["evolution", `cycle_${this.evolutionCycle}`, "auto_evolution"]
     );
 
     return records;
+  }
+
+  private sampleAgents(agents: IAgent[], max: number): IAgent[] {
+    if (agents.length <= max) return agents;
+    const shuffled = [...agents];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, max);
   }
 
   async evolveAgent(agent: IAgent): Promise<EvolutionRecord> {
@@ -128,9 +156,10 @@ export class AutoEvolutionEngine {
   }
 
   async crossPollinate(): Promise<void> {
-    const agents = this.agentManager.list('ACTIVE');
-    if (agents.length < 2) return;
+    const allAgents = this.agentManager.list('ACTIVE');
+    if (allAgents.length < 2) return;
 
+    const agents = this.sampleAgents(allAgents, MAX_POLLINATION_POOL);
     const pairs: Array<[IAgent, IAgent]> = [];
 
     for (let i = 0; i < agents.length; i++) {

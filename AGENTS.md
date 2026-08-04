@@ -49,6 +49,7 @@ cd mobile && npx expo start
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |
 | `npm run build:ios` | Build IPA for Apple Store |
+| `npm run build:apk-installer` | Windows installer (Setup.exe) that delivers the APK + shortcuts + instructions |
 | `npm run test` | Run core + web tests (67 total) |
 | `npm run test:core` | Run core tests |
 | `npm run test:web` | Run web layer tests (auth/billing/onboarding/email/messaging) |

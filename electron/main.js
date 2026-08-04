@@ -11,16 +11,27 @@ const TVS_PORT = process.env.TVS_PORT || 3000;
 const OMNIROUTE_PORT = process.env.OMNIROUTE_PORT || 20128;
 
 function startTVSBackend() {
-  const serverPath = path.join(__dirname, "..", "dist", "src", "index.js");
+  const resources = process.resourcesPath || __dirname;
+  const serverPath = path.join(resources, "dist", "src", "index.js");
   if (require("fs").existsSync(serverPath)) {
     tvsProcess = fork(serverPath, [], {
       stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, NODE_ENV: "production", PORT: String(TVS_PORT) },
+      cwd: resources,
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: "1", NODE_ENV: "production", PORT: String(TVS_PORT) },
     });
     tvsProcess.stdout?.on("data", (d) => console.log("[TVS]", d.toString().trim()));
     tvsProcess.stderr?.on("data", (d) => console.error("[TVS]", d.toString().trim()));
     tvsProcess.on("exit", (code) => console.log("[TVS] Process exited:", code));
   }
+}
+
+function loadDashboard(retries = 30) {
+  mainWindow.loadURL(`http://localhost:${TVS_PORT}`).catch(() => {});
+  mainWindow.webContents.once("did-fail-load", () => {
+    if (retries > 0) {
+      setTimeout(() => loadDashboard(retries - 1), 2000);
+    }
+  });
 }
 
 function createWindow() {
@@ -37,8 +48,9 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadURL(`http://localhost:${TVS_PORT}`);
   mainWindow.setTitle("TVS Viseron - Multi Agent AI Operating System");
+
+  loadDashboard();
 
   mainWindow.on("closed", () => { mainWindow = null; });
 }

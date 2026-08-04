@@ -121,6 +121,7 @@ export class CommandChain {
     };
 
     this.directives.push(directive);
+    this.pruneDirectives();
     return directive;
   }
 
@@ -139,11 +140,21 @@ export class CommandChain {
     };
 
     this.directives.push(directive);
+    this.pruneDirectives();
     return directive;
   }
 
   getActiveDirectives(): CommandDirective[] {
     return this.directives.filter(d => d.status === 'active' || d.status === 'in_progress');
+  }
+
+  private pruneDirectives(): void {
+    if (this.directives.length <= 500) return;
+    const completed = this.directives.filter(d => d.status === 'completed');
+    const toRemove = this.directives.length - 500;
+    const removeIds = new Set(completed.slice(0, toRemove).map(d => d.id));
+    if (removeIds.size === 0) return;
+    this.directives = this.directives.filter(d => !removeIds.has(d.id));
   }
 
   completeDirective(id: string): void {

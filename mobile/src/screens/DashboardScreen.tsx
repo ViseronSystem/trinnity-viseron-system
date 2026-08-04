@@ -31,9 +31,14 @@ export default function DashboardScreen({ navigation }: any) {
       <View style={styles.center}>
         <Ionicons name="cloud-offline-outline" size={64} color="#ff4444" />
         <Text style={styles.offlineText}>TVS Server Offline</Text>
+        <Text style={styles.offlineHint}>Verifique se o servidor TVS está ligado e se o IP está correto.</Text>
         <TouchableOpacity style={styles.retryButton} onPress={refresh}>
           <Ionicons name="refresh" size={18} color="#00f5ff" />
           <Text style={styles.retryText}> Tentar novamente</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingsButton} onPress={() => navigation?.navigate?.('Settings')}>
+          <Ionicons name="settings" size={18} color="#ffd700" />
+          <Text style={styles.settingsText}> Configurar Servidor</Text>
         </TouchableOpacity>
       </View>
     );
@@ -150,8 +155,11 @@ const styles = StyleSheet.create({
   center: { flex: 1, backgroundColor: '#0a0a2e', justifyContent: 'center', alignItems: 'center', padding: 32 },
   loadingText: { color: '#00f5ff', marginTop: 16, fontSize: 16 },
   offlineText: { color: '#ff4444', fontSize: 24, fontWeight: 'bold', marginTop: 16 },
+  offlineHint: { color: '#6a6a9a', fontSize: 13, marginTop: 8, textAlign: 'center' },
   retryButton: { marginTop: 24, backgroundColor: '#1a1a4e', paddingHorizontal: 32, paddingVertical: 12, borderRadius: 8, flexDirection: 'row', alignItems: 'center' },
   retryText: { color: '#00f5ff', fontSize: 16 },
+  settingsButton: { marginTop: 12, backgroundColor: '#12123a', paddingHorizontal: 32, paddingVertical: 12, borderRadius: 8, flexDirection: 'row', alignItems: 'center' },
+  settingsText: { color: '#ffd700', fontSize: 16 },
   tabs: { flexDirection: 'row', backgroundColor: '#12123a', borderRadius: 10, padding: 4, marginBottom: 16 },
   tab: { flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: 'center' },
   tabActive: { backgroundColor: '#1a1a5e' },

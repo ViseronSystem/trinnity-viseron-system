@@ -16,6 +16,7 @@ export class QdrantVectorStore {
   private vectorSize: number;
   private fallbackStore: Map<string, VectorEmbedding> = new Map();
   private static warnedOnce = false;
+  private static readonly MAX_FALLBACK_VECTORS = 10_000;
 
   constructor(config?: Partial<QdrantConfig>) {
     this.host = config?.host || process.env.QDRANT_HOST || "http://localhost:6333";
@@ -60,7 +61,11 @@ export class QdrantVectorStore {
       });
       return true;
     } catch (err) {
-      // Fallback local
+      // Fallback local con límite de capacidad para no crecer sin fin
+      if (this.fallbackStore.size >= QdrantVectorStore.MAX_FALLBACK_VECTORS) {
+        const oldest = this.fallbackStore.keys().next().value;
+        if (oldest) this.fallbackStore.delete(oldest);
+      }
       this.fallbackStore.set(id, { id, vector: paddedVector, payload });
       return true;
     }
