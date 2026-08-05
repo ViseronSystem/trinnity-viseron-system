@@ -159,6 +159,12 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/apps/:slug` | Metadados + árvore de ficheiros de uma app |
 | `GET /api/apps/:slug/source` | Conteúdo de todos os ficheiros da app (JSON) |
 | `GET /api/apps/status` | Total de apps geradas |
+| `POST /api/business/agents` | Criar agente de atendimento para uma empresa (JWT: `name`, `description`, `greeting`, `knowledge[]`) |
+| `GET /api/business/agents` | Listar agentes da minha empresa |
+| `GET /api/business/agents/:id` | Detalhe do agente + histórico de mensagens |
+| `POST /api/business/agents/:id/messages` | Cliente fala com o agente → resposta IA com contexto da empresa (knowledge base) |
+| `DELETE /api/business/agents/:id` | Remover agente |
+| `GET /api/business/status` | Total de agentes de empresas |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

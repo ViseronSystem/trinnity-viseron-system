@@ -30,6 +30,8 @@ import { SiteStore } from "./sites/store";
 import { createSitesRouter } from "./sites/routes";
 import { AppScaffoldStore } from "./apps/store";
 import { createAppsRouter } from "./apps/routes";
+import { BusinessAgentStore } from "./business/store";
+import { createBusinessRouter } from "./business/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -50,6 +52,7 @@ export class ViseronWebServer {
   private callLearning: CallLearning;
   private sites: SiteStore;
   private apps: AppScaffoldStore;
+  private business: BusinessAgentStore;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -83,6 +86,7 @@ export class ViseronWebServer {
     this.callLearning = new CallLearning(this.dataDir);
     this.sites = new SiteStore(this.dataDir);
     this.apps = new AppScaffoldStore(this.dataDir);
+    this.business = new BusinessAgentStore(this.dataDir);
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -210,6 +214,7 @@ export class ViseronWebServer {
     this.app.use("/api", createCallsRouter(this.calls, this.callLearning, this.logger));
     this.app.use("/api", createSitesRouter(this.sites, this.logger));
     this.app.use("/api", createAppsRouter(this.apps, this.logger));
+    this.app.use("/api", createBusinessRouter(this.business, this.logger));
     this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
 
     const blogRouter = createBlogRouter(this.blog);
