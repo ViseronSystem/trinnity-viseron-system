@@ -88,13 +88,21 @@ export class ViseronWebServer {
   }
 
   private setupRoutes(): void {
-    this.app.get("/api/health", (_req, res) => {
+    this.app.get("/api/health", async (_req, res) => {
+      let usage = 0;
+      if (this.db.enabled) {
+        try {
+          const r = await this.db.pool!.query("SELECT count(*)::int AS n FROM usage_events");
+          usage = r.rows[0]?.n ?? 0;
+        } catch { usage = -1; }
+      }
       res.json({
         status: "OK",
         timestamp: Date.now(),
         mode: "web-standalone",
         version: "5.0.0",
         db: this.db.enabled ? "postgres" : "json-fallback",
+        usage_events: usage,
         billing: this.billing.enabled ? this.billing.name : "manual",
         email: this.email.transport.enabled ? this.email.transport.provider : "off",
         messaging: this.messaging.count(),

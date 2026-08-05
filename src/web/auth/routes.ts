@@ -7,6 +7,7 @@ import { RateLimiter } from "./rate-limiter";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 import { EmailService } from "../email/service";
+import { getDatabase } from "../db";
 
 function slugify(name: string): string {
   const slug = name
@@ -50,6 +51,7 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
       metrics.inc("auth_registrations_total", { plan: tenant.plan });
       metrics.inc("tenants_total");
       logger.info(`Registo: ${email} → tenant ${tenant.slug}`);
+      getDatabase().recordUsage(tenant.id, "auth.register", { email }).catch(() => {});
       const token = issueToken(user.id, tenant.id, user.role, user.email);
       if (mail?.transport.enabled) {
         mail
@@ -81,6 +83,7 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
       const tenant = store.getTenantById(user.tenantId);
       metrics.inc("auth_logins_total");
       logger.info(`Login: ${email}`);
+      getDatabase().recordUsage(user.tenantId, "auth.login", { email }).catch(() => {});
       const token = issueToken(user.id, user.tenantId, user.role, user.email);
       res.json({
         ok: true,
