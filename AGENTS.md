@@ -150,6 +150,10 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/calls/logs` | Histórico de chamadas (`data/calls/calls.jsonl`) |
 | `GET /api/calls/learned` | Conhecimento aprendido das chamadas (`data/knowledge/call-learned.jsonl`) |
 | `GET /api/calls/status` | Estado: totais inbound/outbound + itens aprendidos + Twilio configurado |
+| `POST /api/sites/generate` | Agente criador de sites: `{name, description}` → site HTML completo (conteúdo gerado por IA local) |
+| `GET /api/sites/list` | Sites gerados (metadados) |
+| `GET /api/sites/:slug` | Preview de um site gerado (HTML) |
+| `GET /api/sites/status` | Total de sites gerados |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

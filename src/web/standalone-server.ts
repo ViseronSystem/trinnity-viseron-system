@@ -26,6 +26,8 @@ import { createRevenueRouter } from "./revenue/routes";
 import { CallLogStore } from "./calls/store";
 import { CallLearning } from "./calls/learning";
 import { createCallsRouter } from "./calls/routes";
+import { SiteStore } from "./sites/store";
+import { createSitesRouter } from "./sites/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -44,6 +46,7 @@ export class ViseronWebServer {
   private messaging: MessageStore;
   private calls: CallLogStore;
   private callLearning: CallLearning;
+  private sites: SiteStore;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -75,6 +78,7 @@ export class ViseronWebServer {
     this.messaging = new MessageStore(path.join(this.dataDir, "messaging.json"));
     this.calls = new CallLogStore(this.dataDir);
     this.callLearning = new CallLearning(this.dataDir);
+    this.sites = new SiteStore(this.dataDir);
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -200,6 +204,8 @@ export class ViseronWebServer {
     }));
     this.app.use("/api", createRevenueRouter(this.metrics));
     this.app.use("/api", createCallsRouter(this.calls, this.callLearning, this.logger));
+    this.app.use("/api", createSitesRouter(this.sites, this.logger));
+    this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
