@@ -143,6 +143,13 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `POST /api/jarvis/chat` | Conversar com o JARVIS (sessão + execução real, rate-limited 30/min) |
 | `GET /api/revenue/readiness` | Go-live de receita real: Stripe, webhook, Gmail, email provider, domínio, Postgres |
 | `GET /api/ai/status` | Estado da IA real: providers disponíveis (OpenAI/Claude/Gemini/Grok/Ollama/OmniRoute) + modelo ativo |
+| `POST /api/calls/twilio/inbound` | Webhook Twilio de chamada recebida → responde TwiML (Gather de voz) |
+| `POST /api/calls/twilio/gather` | Webhook Twilio do resultado de voz → grava transcrição + analisa com IA local + aprende + responde TwiML (loop) |
+| `POST /api/calls/twilio/status` | Webhook Twilio de estado de chamada (completar/hangup/duração) |
+| `POST /api/calls/outbound` | Dispara chamada outbound via Twilio REST (`{to}`) |
+| `GET /api/calls/logs` | Histórico de chamadas (`data/calls/calls.jsonl`) |
+| `GET /api/calls/learned` | Conhecimento aprendido das chamadas (`data/knowledge/call-learned.jsonl`) |
+| `GET /api/calls/status` | Estado: totais inbound/outbound + itens aprendidos + Twilio configurado |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 

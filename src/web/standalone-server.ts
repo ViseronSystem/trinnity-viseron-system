@@ -23,6 +23,9 @@ import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
 import { createJarvisRouter } from "./jarvis/routes";
 import { createRevenueRouter } from "./revenue/routes";
+import { CallLogStore } from "./calls/store";
+import { CallLearning } from "./calls/learning";
+import { createCallsRouter } from "./calls/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -39,6 +42,8 @@ export class ViseronWebServer {
   private billing: BillingProvider;
   private email: EmailService;
   private messaging: MessageStore;
+  private calls: CallLogStore;
+  private callLearning: CallLearning;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -68,6 +73,8 @@ export class ViseronWebServer {
     this.billing = createBilling();
     this.email = createEmailService(this.dataDir);
     this.messaging = new MessageStore(path.join(this.dataDir, "messaging.json"));
+    this.calls = new CallLogStore(this.dataDir);
+    this.callLearning = new CallLearning(this.dataDir);
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -80,6 +87,7 @@ export class ViseronWebServer {
         (req as any).rawBody = buf;
       },
     }));
+    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(requestLogger(this.logger, this.metrics));
     this.app.use((req, res, next) => {
       const host = (req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
@@ -191,6 +199,7 @@ export class ViseronWebServer {
       metrics: this.metrics,
     }));
     this.app.use("/api", createRevenueRouter(this.metrics));
+    this.app.use("/api", createCallsRouter(this.calls, this.callLearning, this.logger));
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);

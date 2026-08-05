@@ -1,4 +1,6 @@
 import { Server as SocketIOServer } from "socket.io";
+import fs from "fs";
+import path from "path";
 import { ViseronCore } from "../core/ViseronCore";
 
 type Lang = "pt" | "en" | "es";
@@ -76,9 +78,50 @@ export class VoiceBridge {
   private tvs: ViseronCore;
   private io?: SocketIOServer;
   private conversationHistory: { role: string; text: string; lang?: string }[] = [];
+  private historyFile?: string;
+  private historyDir: string;
 
-  constructor(tvs: ViseronCore) {
+  constructor(tvs: ViseronCore, options?: { historyDir?: string }) {
     this.tvs = tvs;
+    this.historyDir = options?.historyDir || path.join(process.cwd(), "data", "voice");
+    if (!fs.existsSync(this.historyDir)) fs.mkdirSync(this.historyDir, { recursive: true });
+    this.historyFile = path.join(this.historyDir, "history.jsonl");
+  }
+
+  private persist(entry: { role: string; text: string; lang?: string; timestamp?: number }): void {
+    try {
+      if (!this.historyFile) return;
+      fs.appendFileSync(this.historyFile, JSON.stringify({ ...entry, timestamp: entry.timestamp || Date.now() }) + "\n", "utf8");
+    } catch {}
+  }
+
+  private analyzeAndLearn(text: string, speaker: string, lang?: string): void {
+    const model = process.env.OLLAMA_MODEL || "qwen2.5:3b";
+    const host = process.env.OLLAMA_HOST || "http://localhost:11434";
+    const prompt = `Given this voice command to the Trinnity Viseron superintelligence, return STRICT JSON only: {"summary":"...","sentiment":"positive|neutral|negative","intents":["..."],"actionItems":["..."]}\n\nVoice command: ${text}`;
+    fetch(`${host}/api/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model, prompt, stream: false, options: { temperature: 0.3 } }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: any) => {
+        if (!data?.response) return;
+        let parsed: any = null;
+        try { parsed = JSON.parse(data.response); } catch {
+          const m = data.response.match(/\{[\s\S]*\}/);
+          if (m) { try { parsed = JSON.parse(m[0]); } catch {} }
+        }
+        if (!parsed) return;
+        const learnedDir = path.join(this.historyDir, "..", "knowledge");
+        if (!fs.existsSync(learnedDir)) fs.mkdirSync(learnedDir, { recursive: true });
+        fs.appendFileSync(
+          path.join(learnedDir, "voice-learned.jsonl"),
+          JSON.stringify({ learnedAt: new Date().toISOString(), speaker, lang, text, analysis: parsed }) + "\n",
+          "utf8"
+        );
+      })
+      .catch(() => {});
   }
 
   attachSocketIO(io: SocketIOServer): void {
@@ -98,6 +141,7 @@ export class VoiceBridge {
 
       socket.on("voice:transcript", (data: { text: string; speaker: string; lang?: string }) => {
         this.conversationHistory.push({ role: data.speaker, text: data.text, lang: data.lang });
+        this.persist({ role: data.speaker, text: data.text, lang: data.lang });
         io.emit("voice:transcript", data);
       });
 
@@ -116,6 +160,8 @@ export class VoiceBridge {
     const l = this.lang(cmd);
     const lower = text.toLowerCase();
     this.conversationHistory.push({ role: speaker, text, lang: l });
+    this.persist({ role: speaker, text, lang: l });
+    this.analyzeAndLearn(text, speaker, l);
 
     if (lower.includes("status") || lower.includes("estado") || lower.includes("sistema") || lower.includes("system") || lower.includes("online")) {
       const stats = this.tvs.getIntelligenceLevel();
