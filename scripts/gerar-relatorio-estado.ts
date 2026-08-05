@@ -169,7 +169,7 @@ async function main() {
   const infra: Array<[string, string, boolean]> = [
     ["API produção", "https://viseron-web.onrender.com — /api/health online", !!health],
     ["GitHub", "https://github.com/ViseronSystem/trinnity-viseron-system", true],
-    ["Domínio www.trinnityviseronsystem.io", "Ainda NÃO registado (Cloudflare/Namecheap/GoDaddy)", false],
+    ["Domínio www.trinnityviseronsystem.io", "NO AR — Cloudflare DNS + Vercel (site) + Render (API), HTTPS 200", true],
     ["Gmail API", "OAuth pendente — npm run gmail:setup", false],
     ["Stripe", "Sem chave real — modo manual/desenvolvimento", false],
     ["Hostalia FTP", "Credenciais placeholder — landing via Vercel/Render", false],

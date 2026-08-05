@@ -44,8 +44,12 @@ export class SecurityCenter {
   }
 
   private persist(): void {
-    fs.mkdirSync(path.dirname(this.auditFile), { recursive: true });
-    fs.writeFileSync(this.auditFile, JSON.stringify(this.audit, null, 2), "utf-8");
+    try {
+      fs.mkdirSync(path.dirname(this.auditFile), { recursive: true });
+      fs.writeFileSync(this.auditFile, JSON.stringify(this.audit, null, 2), "utf-8");
+    } catch (err) {
+      console.error(`[TVS-OS] Falha a persistir audit: ${(err as Error).message}`);
+    }
   }
 
   public logAudit(actor: string, action: string, result: "granted" | "denied" = "granted", detail?: string): AuditEntry {

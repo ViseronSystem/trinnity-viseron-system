@@ -1,6 +1,6 @@
 # ============================================================================
 # TVS - GO-LIVE DO NOVO DOMINIO: trinnityviseronsystem.io
-# O dominio NAO ESTA REGISTADO ainda. Este script:
+# O dominio JA esta registado (Cloudflare + Vercel + Render no ar). Este script:
 #   1. Verifica se ja esta registado/disponivel
 #   2. Mostra o estado DNS/HTTPS atual
 #   3. Da o passo a passo de registo + nameservers + vercel
@@ -31,10 +31,26 @@ try {
     }
 } catch {
     if ($_.Exception.Response.StatusCode.value__ -eq 404) {
-        Write-Host "   $Domain -> DISPONIVEL PARA REGISTO (ainda nao registado)" -ForegroundColor Yellow
+        Write-Host "   $Domain -> sem registo aparente (RDAP 404)" -ForegroundColor Yellow
     } else {
-        Write-Host "   $Domain -> nao foi possivel verificar" -ForegroundColor Red
+        Write-Host "   $Domain -> RDAP indisponivel, validando por DNS/HTTPS..." -ForegroundColor Yellow
     }
+}
+if (-not $registered) {
+    try {
+        $ns = Resolve-DnsName -Type NS -Name $Domain -ErrorAction Stop | Where-Object { $_.NameHost }
+        if ($ns) {
+            $registered = $true
+            Write-Host "   -> CONFIRMADO REGISTADO (DNS autoritativo resolve)" -ForegroundColor Green
+        }
+    } catch {}
+}
+if (-not $registered) {
+    try {
+        $r = Invoke-WebRequest -Uri "https://$WWW" -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+        $registered = $true
+        Write-Host "   -> CONFIRMADO REGISTADO (HTTPS responde HTTP $($r.StatusCode))" -ForegroundColor Green
+    } catch {}
 }
 
 Write-Host "`n[1] Nameservers:" -ForegroundColor Yellow

@@ -75,12 +75,13 @@ export class ProcessManager {
   }
 
   private async executeAsync(proc: TVSProcess, task: string, context?: Record<string, any>): Promise<void> {
+    let timer: NodeJS.Timeout | undefined;
     try {
       const res = await Promise.race([
         this.runtime!.execute(proc.agentId, task, context),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error(`processo ${proc.pid} excedeu ${this.timeoutMs}ms`)), this.timeoutMs),
-        ),
+        new Promise<never>((_, reject) => {
+          timer = setTimeout(() => reject(new Error(`processo ${proc.pid} excedeu ${this.timeoutMs}ms`)), this.timeoutMs);
+        }),
       ]);
       proc.status = res?.success === false ? "FAILED" : "COMPLETED";
       proc.output = res?.output ?? JSON.stringify(res) ?? "ok";
@@ -89,6 +90,7 @@ export class ProcessManager {
       proc.status = e?.message?.includes("excedeu") ? "TIMEOUT" : "FAILED";
       proc.error = e?.message ?? String(e);
     } finally {
+      if (timer) clearTimeout(timer);
       proc.finishedAt = Date.now();
       proc.durationMs = proc.finishedAt - proc.startedAt;
       this.trim();

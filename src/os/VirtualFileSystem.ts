@@ -35,8 +35,12 @@ export class VirtualFileSystem {
   }
 
   private ensureRoots(): void {
-    for (const root of OS_ROOTS) {
-      fs.mkdirSync(path.join(this.baseDir, root), { recursive: true });
+    try {
+      for (const root of OS_ROOTS) {
+        fs.mkdirSync(path.join(this.baseDir, root), { recursive: true });
+      }
+    } catch (err) {
+      console.error(`[TVS-FS] Falha a criar raízes em ${this.baseDir}: ${(err as Error).message}`);
     }
   }
 

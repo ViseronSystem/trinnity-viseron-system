@@ -48,8 +48,12 @@ export class AppStore {
   }
 
   private persist(): void {
-    fs.mkdirSync(path.dirname(this.dataFile), { recursive: true });
-    fs.writeFileSync(this.dataFile, JSON.stringify(Array.from(this.installed), null, 2), "utf-8");
+    try {
+      fs.mkdirSync(path.dirname(this.dataFile), { recursive: true });
+      fs.writeFileSync(this.dataFile, JSON.stringify(Array.from(this.installed), null, 2), "utf-8");
+    } catch (err) {
+      console.error(`[TVS-OS] Falha a persistir app store: ${(err as Error).message}`);
+    }
   }
 
   public catalog(): TVSApp[] {

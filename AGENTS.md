@@ -111,7 +111,7 @@ API TVS OS em `/api/os` (processes/spawn/kill, fs/list/read/write, store/install
 
 ## Domínio novo
 
-Sítio: **www.trinnityviseronsystem.io** (registo em Cloudflare/Namecheap/GoDaddy).
+Sítio: **www.trinnityviseronsystem.io** — **NO AR** (registo ativo, zona Cloudflare, site na Vercel, API no Render, HTTPS 200).
 Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz push ao GitHub.
 
 ## API Web (Phase 0)
