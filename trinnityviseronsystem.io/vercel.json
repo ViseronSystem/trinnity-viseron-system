@@ -1,25 +1,18 @@
 {
   "version": 2,
-  "builds": [
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api/(.*)", "dest": "https://viseron-web.onrender.com/api/$1" },
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://viseron-web.onrender.com/api/:path*" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    }
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Cache-Control": "no-cache, must-revalidate"
+      }
+    },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
