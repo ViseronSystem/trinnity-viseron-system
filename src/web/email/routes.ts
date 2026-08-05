@@ -25,7 +25,7 @@ export function createEmailRouter(
 
   router.post("/email/test", requireAuth, async (req: AuthedRequest, res) => {
     try {
-      const user = store.getUserById(req.user!.sub);
+      const user = await store.getUserById(req.user!.sub);
       if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
       const result = await email.send({
         to: user.email,
@@ -43,7 +43,7 @@ export function createEmailRouter(
 
   router.post("/email/verify/send", requireAuth, async (req: AuthedRequest, res) => {
     try {
-      const user = store.getUserById(req.user!.sub);
+      const user = await store.getUserById(req.user!.sub);
       if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
       const { result, code } = await email.sendVerification(user.email, user.name);
       metrics.inc("email_verification_sent_total");
@@ -57,7 +57,7 @@ export function createEmailRouter(
 
   router.post("/email/verify/confirm", requireAuth, async (req: AuthedRequest, res) => {
     try {
-      const user = store.getUserById(req.user!.sub);
+      const user = await store.getUserById(req.user!.sub);
       if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
       const code = String(req.body?.code || "").trim();
       const token = email.tokens.consume(user.email, "verify", code);
@@ -71,8 +71,8 @@ export function createEmailRouter(
     }
   });
 
-  router.get("/email/verified", requireAuth, (req: AuthedRequest, res) => {
-    const user = store.getUserById(req.user!.sub);
+  router.get("/email/verified", requireAuth, async (req: AuthedRequest, res) => {
+    const user = await store.getUserById(req.user!.sub);
     if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
     res.json({ verified: email.tokens.isVerified(user.email) });
   });
@@ -80,7 +80,7 @@ export function createEmailRouter(
   router.post("/email/reset/send", async (req, res) => {
     try {
       const emailAddress = String(req.body?.email || "").trim().toLowerCase();
-      const user = store.findUserByEmail(emailAddress);
+      const user = await store.findUserByEmail(emailAddress);
       if (!user) return res.json({ ok: true, message: "Se o email existir, receberás um código." });
       const { result, code } = await email.sendReset(user.email, user.name);
       metrics.inc("email_reset_sent_total");
@@ -97,12 +97,12 @@ export function createEmailRouter(
       const emailAddress = String(req.body?.email || "").trim().toLowerCase();
       const code = String(req.body?.code || "").trim();
       const password = String(req.body?.password || "");
-      const user = store.findUserByEmail(emailAddress);
+      const user = await store.findUserByEmail(emailAddress);
       if (!user) return res.status(400).json({ error: "Utilizador não encontrado" });
       if (password.length < 8) return res.status(400).json({ error: "Password deve ter pelo menos 8 caracteres" });
       const token = email.tokens.consume(emailAddress, "reset", code);
       if (!token) return res.status(400).json({ error: "Código inválido ou expirado" });
-      store.updateUser(user.id, { passwordHash: hashPassword(password) });
+      await store.updateUser(user.id, { passwordHash: hashPassword(password) });
       metrics.inc("email_reset_completed_total");
       logger.info(`Password reposta: ${emailAddress}`);
       res.json({ ok: true, message: "Password atualizada com sucesso." });

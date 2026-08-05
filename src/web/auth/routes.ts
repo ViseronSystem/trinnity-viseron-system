@@ -29,7 +29,7 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
     signToken({ sub: userId, tenantId, role, email }, authSecret());
 
   // POST /api/auth/register  { name, email, password, org }
-  router.post("/auth/register", registerLimiter.middleware, (req, res) => {
+  router.post("/auth/register", registerLimiter.middleware, async (req, res) => {
     try {
       const name = String(req.body?.name || "").trim();
       const email = String(req.body?.email || "").trim().toLowerCase();
@@ -40,8 +40,8 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "Email inválido" });
       if (password.length < 8) return res.status(400).json({ error: "Password deve ter pelo menos 8 caracteres" });
 
-      const tenant = store.createTenant(org, slugify(org));
-      const user = store.createUser({
+      const tenant = await store.createTenant(org, slugify(org));
+      const user = await store.createUser({
         tenantId: tenant.id,
         name,
         email,
@@ -71,16 +71,16 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
   });
 
   // POST /api/auth/login  { email, password }
-  router.post("/auth/login", loginLimiter.middleware, (req, res) => {
+  router.post("/auth/login", loginLimiter.middleware, async (req, res) => {
     try {
       const email = String(req.body?.email || "").trim().toLowerCase();
       const password = String(req.body?.password || "");
-      const user = store.findUserByEmail(email);
+      const user = await store.findUserByEmail(email);
       if (!user || !verifyPassword(password, user.passwordHash)) {
         metrics.inc("auth_login_failures_total");
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
-      const tenant = store.getTenantById(user.tenantId);
+      const tenant = await store.getTenantById(user.tenantId);
       metrics.inc("auth_logins_total");
       logger.info(`Login: ${email}`);
       getDatabase().recordUsage(user.tenantId, "auth.login", { email }).catch(() => {});
@@ -97,10 +97,10 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
   });
 
   // GET /api/auth/me
-  router.get("/auth/me", requireAuth, (req: AuthedRequest, res) => {
-    const user = store.getUserById(req.user!.sub);
+  router.get("/auth/me", requireAuth, async (req: AuthedRequest, res) => {
+    const user = await store.getUserById(req.user!.sub);
     if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
-    const tenant = store.getTenantById(user.tenantId);
+    const tenant = await store.getTenantById(user.tenantId);
     res.json({
       user: { id: user.id, name: user.name, email: user.email, role: user.role, createdAt: user.createdAt },
       tenant: tenant ? { id: tenant.id, slug: tenant.slug, name: tenant.name, plan: tenant.plan, trialEndsAt: tenant.trialEndsAt } : null,
@@ -108,25 +108,25 @@ export function createAuthRouter(store: AccountStore, logger: ILogger, metrics: 
   });
 
   // PATCH /api/auth/profile  { name } | { role } (owner/admin only for role)
-  router.patch("/auth/profile", requireAuth, (req: AuthedRequest, res) => {
-    const user = store.getUserById(req.user!.sub);
+  router.patch("/auth/profile", requireAuth, async (req: AuthedRequest, res) => {
+    const user = await store.getUserById(req.user!.sub);
     if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
     const name = String(req.body?.name || "").trim();
     if (name.length >= 2) {
-      store.updateUser(user.id, { name });
+      await store.updateUser(user.id, { name });
     }
     const targetRole = req.body?.role as string | undefined;
     if (targetRole && req.user!.role === "owner") {
       const allowed = ["owner", "admin", "member"];
-      if (allowed.includes(targetRole)) store.updateUser(user.id, { role: targetRole as any });
+      if (allowed.includes(targetRole)) await store.updateUser(user.id, { role: targetRole as any });
     }
-    const updated = store.getUserById(user.id)!;
+    const updated = (await store.getUserById(user.id))!;
     res.json({ ok: true, user: { id: updated.id, name: updated.name, email: updated.email, role: updated.role } });
   });
 
   // GET /api/auth/users  (owner/admin) — listar membros do tenant
-  router.get("/auth/users", requireAuth, requireRole("owner", "admin"), (req: AuthedRequest, res) => {
-    const users = store.listUsers(req.user!.tenantId).map((u) => ({
+  router.get("/auth/users", requireAuth, requireRole("owner", "admin"), async (req: AuthedRequest, res) => {
+    const users = (await store.listUsers(req.user!.tenantId)).map((u) => ({
       id: u.id,
       name: u.name,
       email: u.email,

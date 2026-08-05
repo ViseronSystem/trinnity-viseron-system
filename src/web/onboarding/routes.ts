@@ -20,13 +20,13 @@ export function createOnboardingRouter(
   });
 
   // POST /api/onboarding/apply { templateId } — materializa o workspace do tenant
-  router.post("/onboarding/apply", requireAuth, (req: AuthedRequest, res) => {
+  router.post("/onboarding/apply", requireAuth, async (req: AuthedRequest, res) => {
     try {
       const templateId = String(req.body?.templateId || "");
       const template = getTemplate(templateId);
       if (!template) return res.status(400).json({ error: "Template desconhecido" });
 
-      const tenant = store.getTenantById(req.user!.tenantId);
+      const tenant = await store.getTenantById(req.user!.tenantId);
       if (!tenant) return res.status(404).json({ error: "Tenant não encontrado" });
 
       const tenantDir = path.join(dataDir, "tenants", tenant.slug);
@@ -58,8 +58,8 @@ export function createOnboardingRouter(
   });
 
   // GET /api/onboarding/workspace — estado atual do tenant
-  router.get("/onboarding/workspace", requireAuth, (req: AuthedRequest, res) => {
-    const tenant = store.getTenantById(req.user!.tenantId);
+  router.get("/onboarding/workspace", requireAuth, async (req: AuthedRequest, res) => {
+    const tenant = await store.getTenantById(req.user!.tenantId);
     if (!tenant) return res.status(404).json({ error: "Tenant não encontrado" });
     const workspaceFile = path.join(dataDir, "tenants", tenant.slug, "workspace.json");
     if (!fs.existsSync(workspaceFile)) return res.json({ ok: true, applied: false });

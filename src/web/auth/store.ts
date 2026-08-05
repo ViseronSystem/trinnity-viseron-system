@@ -71,20 +71,20 @@ export class AccountStore {
   }
 
   // ── Tenants ────────────────────────────────────────────────
-  listTenants(): Tenant[] {
+  async listTenants(): Promise<Tenant[]> {
     return [...this.data.tenants];
   }
 
-  getTenantById(id: string): Tenant | undefined {
+  async getTenantById(id: string): Promise<Tenant | undefined> {
     return this.data.tenants.find((t) => t.id === id);
   }
 
-  getTenantBySlug(slug: string): Tenant | undefined {
+  async getTenantBySlug(slug: string): Promise<Tenant | undefined> {
     return this.data.tenants.find((t) => t.slug === slug);
   }
 
-  createTenant(name: string, slug: string, plan: Tenant["plan"] = "free", trialDays = 14): Tenant {
-    const existing = this.getTenantBySlug(slug);
+  async createTenant(name: string, slug: string, plan: Tenant["plan"] = "free", trialDays = 14): Promise<Tenant> {
+    const existing = await this.getTenantBySlug(slug);
     if (existing) throw new Error("Organização já existe");
     const now = new Date();
     const tenant: Tenant = {
@@ -100,30 +100,30 @@ export class AccountStore {
     return tenant;
   }
 
-  updateTenantPlan(tenantId: string, plan: Tenant["plan"]): void {
-    const tenant = this.getTenantById(tenantId);
+  async updateTenantPlan(tenantId: string, plan: Tenant["plan"]): Promise<void> {
+    const tenant = await this.getTenantById(tenantId);
     if (!tenant) throw new Error("Tenant não encontrado");
     tenant.plan = plan;
     this.persist();
   }
 
   // ── Users ──────────────────────────────────────────────────
-  listUsers(tenantId?: string): UserRecord[] {
+  async listUsers(tenantId?: string): Promise<UserRecord[]> {
     return tenantId ? this.data.users.filter((u) => u.tenantId === tenantId) : [...this.data.users];
   }
 
-  getUserById(id: string): UserRecord | undefined {
+  async getUserById(id: string): Promise<UserRecord | undefined> {
     return this.data.users.find((u) => u.id === id);
   }
 
-  findUserByEmail(email: string): UserRecord | undefined {
+  async findUserByEmail(email: string): Promise<UserRecord | undefined> {
     const normalized = email.trim().toLowerCase();
     return this.data.users.find((u) => u.email === normalized);
   }
 
-  createUser(input: { tenantId: string; name: string; email: string; passwordHash: string; role: Role }): UserRecord {
+  async createUser(input: { tenantId: string; name: string; email: string; passwordHash: string; role: Role }): Promise<UserRecord> {
     const normalized = input.email.trim().toLowerCase();
-    if (this.findUserByEmail(normalized)) throw new Error("Email já registado");
+    if (await this.findUserByEmail(normalized)) throw new Error("Email já registado");
     const user: UserRecord = {
       id: `usr_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
       tenantId: input.tenantId,
@@ -138,8 +138,8 @@ export class AccountStore {
     return user;
   }
 
-  updateUser(id: string, patch: Partial<Pick<UserRecord, "name" | "role" | "passwordHash">>): UserRecord | undefined {
-    const user = this.getUserById(id);
+  async updateUser(id: string, patch: Partial<Pick<UserRecord, "name" | "role" | "passwordHash">>): Promise<UserRecord | undefined> {
+    const user = await this.getUserById(id);
     if (!user) return undefined;
     if (patch.name !== undefined) user.name = patch.name.trim();
     if (patch.role !== undefined) user.role = patch.role;
@@ -148,7 +148,7 @@ export class AccountStore {
     return user;
   }
 
-  count(): { tenants: number; users: number } {
+  async count(): Promise<{ tenants: number; users: number }> {
     return { tenants: this.data.tenants.length, users: this.data.users.length };
   }
 }

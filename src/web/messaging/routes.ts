@@ -43,10 +43,10 @@ export function createMessagingRouter(
     res.json({ ok: true, contacts });
   });
 
-  router.post("/messaging/contacts", requireAuth, (req: AuthedRequest, res) => {
+  router.post("/messaging/contacts", requireAuth, async (req: AuthedRequest, res) => {
     const email = String(req.body?.email || "").trim().toLowerCase();
     if (!email) return res.status(400).json({ error: "Email é obrigatório" });
-    const target = store.findUserByEmail(email);
+    const target = await store.findUserByEmail(email);
     if (!target) return res.status(404).json({ error: "Utilizador não encontrado" });
     if (target.id === req.user!.sub) return res.status(400).json({ error: "Não podes adicionar-te a ti próprio" });
     const key = messaging.ensureKeyPair(target.id);
@@ -79,10 +79,10 @@ export function createMessagingRouter(
     res.json({ ok: true, conversations });
   });
 
-  router.post("/messaging/conversations", requireAuth, (req: AuthedRequest, res) => {
+  router.post("/messaging/conversations", requireAuth, async (req: AuthedRequest, res) => {
     const peerId = String(req.body?.userId || "");
     if (!peerId) return res.status(400).json({ error: "userId é obrigatório" });
-    const peer = store.getUserById(peerId);
+    const peer = await store.getUserById(peerId);
     if (!peer) return res.status(404).json({ error: "Utilizador não encontrado" });
     if (peer.id === req.user!.sub) return res.status(400).json({ error: "Conversa consigo próprio não é suportada" });
     const conversation = messaging.createConversation({
@@ -95,13 +95,13 @@ export function createMessagingRouter(
     res.json({ ok: true, conversation });
   });
 
-  router.post("/messaging/groups", requireAuth, (req: AuthedRequest, res) => {
+  router.post("/messaging/groups", requireAuth, async (req: AuthedRequest, res) => {
     const name = String(req.body?.name || "").trim();
     const membersRaw = Array.isArray(req.body?.members) ? req.body.members : [];
     const members = [...new Set([req.user!.sub, ...membersRaw.filter((m: string) => typeof m === "string")])];
     if (members.length < 2) return res.status(400).json({ error: "Um grupo precisa de pelo menos 2 membros" });
     for (const member of members) {
-      if (!store.getUserById(member)) return res.status(400).json({ error: `Utilizador desconhecido: ${member}` });
+      if (!(await store.getUserById(member))) return res.status(400).json({ error: `Utilizador desconhecido: ${member}` });
     }
     if (!name) return res.status(400).json({ error: "Nome do grupo é obrigatório" });
     const conversation = messaging.createConversation({ type: "group", members, name });
@@ -145,7 +145,7 @@ export function createMessagingRouter(
     res.json({ ok: true, messages });
   });
 
-  router.post("/messaging/conversations/:id/messages", requireAuth, (req: AuthedRequest, res) => {
+  router.post("/messaging/conversations/:id/messages", requireAuth, async (req: AuthedRequest, res) => {
     const conversation = messaging.getConversation(String(req.params.id));
     if (!conversation) return res.status(404).json({ error: "Conversa não encontrada" });
     if (!isMember(req, conversation.id)) return res.status(403).json({ error: "Sem acesso a esta conversa" });
@@ -153,7 +153,7 @@ export function createMessagingRouter(
     if (!text) return res.status(400).json({ error: "Mensagem vazia" });
     if (text.length > 10000) return res.status(400).json({ error: "Mensagem demasiado longa (máx 10000)" });
 
-    const sender = store.getUserById(req.user!.sub);
+    const sender = await store.getUserById(req.user!.sub);
     if (!sender) return res.status(404).json({ error: "Utilizador não encontrado" });
     const senderKey = messaging.ensureKeyPair(sender.id);
     const now = new Date().toISOString();

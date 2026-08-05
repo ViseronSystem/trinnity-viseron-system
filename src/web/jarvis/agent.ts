@@ -264,7 +264,7 @@ export class JarvisAgent {
   private async executeIntent(intent: string, input: JarvisChatInput): Promise<JarvisAction | null> {
     switch (intent) {
       case "system_status":
-        return this.toolSystemStatus();
+        return await this.toolSystemStatus();
       case "list_plans":
         return this.toolListPlans();
       case "checkout":
@@ -286,9 +286,9 @@ export class JarvisAgent {
     }
   }
 
-  private toolSystemStatus(): JarvisAction {
+  private async toolSystemStatus(): Promise<JarvisAction> {
     try {
-      const counts = this.accounts.count();
+      const counts = await this.accounts.count();
       const msg = this.messaging.count();
       const blogCount = this.blog.count();
       return {

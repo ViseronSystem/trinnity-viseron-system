@@ -8,6 +8,7 @@ import { BlogStorage } from "./blog-storage";
 import { createBlogRouter } from "./blog-routes";
 import { ContentAgent } from "./content-agent";
 import { AccountStore } from "./auth/store";
+import { PostgresAccountStore } from "./auth/pg-store";
 import { createAuthRouter } from "./auth/routes";
 import { createLogger, ILogger } from "./monitoring/logger";
 import { MetricsCollector, IMetrics } from "./monitoring/metrics";
@@ -42,7 +43,7 @@ export class ViseronWebServer {
   private dataDir: string;
   private port: number;
 
-  constructor(options?: { dataDir?: string; port?: number }) {
+  constructor(options?: { dataDir?: string; port?: number; disablePostgresAccounts?: boolean }) {
     this.app = express();
     this.server = http.createServer(this.app);
     this.io = new Server(this.server, {
@@ -54,13 +55,19 @@ export class ViseronWebServer {
     this.port = options?.port ?? parseInt(process.env.PORT || "3000", 10);
     this.blog = new BlogStorage();
     this.contentAgent = new ContentAgent(this.blog);
-    this.accounts = new AccountStore(path.join(this.dataDir, "accounts.json"));
+    this.db = getDatabase();
+    const jsonAccountsPath = path.join(this.dataDir, "accounts.json");
+    if (this.db.enabled && this.db.pool && !options?.disablePostgresAccounts) {
+      this.accounts = new PostgresAccountStore(this.db.pool);
+      (this.accounts as PostgresAccountStore).seedFromJson(jsonAccountsPath).catch(() => {});
+    } else {
+      this.accounts = new AccountStore(jsonAccountsPath);
+    }
     this.logger = createLogger();
     this.metrics = new MetricsCollector();
     this.billing = createBilling();
     this.email = createEmailService(this.dataDir);
     this.messaging = new MessageStore(path.join(this.dataDir, "messaging.json"));
-    this.db = getDatabase();
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -106,8 +113,8 @@ export class ViseronWebServer {
         billing: this.billing.enabled ? this.billing.name : "manual",
         email: this.email.transport.enabled ? this.email.transport.provider : "off",
         messaging: this.messaging.count(),
-        tenants: this.accounts.count().tenants,
-        users: this.accounts.count().users,
+        tenants: (await this.accounts.count()).tenants,
+        users: (await this.accounts.count()).users,
       });
     });
 
@@ -155,15 +162,16 @@ export class ViseronWebServer {
       }
     });
 
-    this.app.get("/api/system/status", (_req, res) => {
+    this.app.get("/api/system/status", async (_req, res) => {
+      const counts = await this.accounts.count();
       res.json({
         version: "5.0.0",
         name: "Viseron Web",
         mode: "standalone",
         blog: this.blog.count(),
         uptime: process.uptime(),
-        tenants: this.accounts.count().tenants,
-        users: this.accounts.count().users,
+        tenants: counts.tenants,
+        users: counts.users,
       });
     });
 

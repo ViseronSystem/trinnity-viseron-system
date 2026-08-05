@@ -43,7 +43,7 @@ async function runWebTests() {
   // ── Integration: servidor real ─────────────────────────────
   process.env.EMAIL_PROVIDER = "dev";
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "tvs-web-test-"));
-  const server = new ViseronWebServer({ dataDir: tmpDir, port: PORT });
+  const server = new ViseronWebServer({ dataDir: tmpDir, port: PORT, disablePostgresAccounts: true });
   await server.start();
 
   try {

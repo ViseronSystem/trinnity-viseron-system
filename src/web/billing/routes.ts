@@ -20,8 +20,8 @@ export function createBillingRouter(
     res.json({ ok: true, plans: PLANS });
   });
 
-  router.get("/billing/subscription", requireAuth, (req: AuthedRequest, res) => {
-    const tenant = store.getTenantById(req.user!.tenantId);
+  router.get("/billing/subscription", requireAuth, async (req: AuthedRequest, res) => {
+    const tenant = await store.getTenantById(req.user!.tenantId);
     if (!tenant) return res.status(404).json({ error: "Tenant não encontrado" });
     const plan = PLANS.find((p) => p.id === tenant.plan);
     res.json({
@@ -37,7 +37,7 @@ export function createBillingRouter(
     try {
       const plan = String(req.body?.plan || "");
       if (!plan) return res.status(400).json({ error: "Plano é obrigatório" });
-      const user = store.getUserById(req.user!.sub);
+      const user = await store.getUserById(req.user!.sub);
       if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
       const base = req.headers.origin || `http://localhost:${process.env.PORT || "3000"}`;
       const session = await billing.createCheckoutSession({
@@ -64,10 +64,10 @@ export function createBillingRouter(
       metrics.inc("billing_webhooks_total", { type: event.type });
       if (event.type === "checkout.session.completed") {
         const plan = event.plan || "pro";
-        store.updateTenantPlan(event.tenantId || "", plan as any);
+        await store.updateTenantPlan(event.tenantId || "", plan as any);
         logger.info(`Pagamento confirmado: tenant ${event.tenantId} → plano ${plan} (${billing.name})`);
         if (email?.transport.enabled) {
-          const owner = store.listUsers(event.tenantId || "").find((u) => u.role === "owner");
+          const owner = (await store.listUsers(event.tenantId || "")).find((u) => u.role === "owner");
           if (owner) {
             const planInfo = PLANS.find((p) => p.id === plan);
             const amount = planInfo ? `${planInfo.monthlyPrice}€/mês` : plan;
