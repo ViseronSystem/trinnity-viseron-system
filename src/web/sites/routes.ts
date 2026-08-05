@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import path from "path";
-import { SiteStore, slugify } from "./store";
+import { SiteStore } from "./store";
 import { createSite } from "./generator";
 
 export function createSitesRouter(store: SiteStore, logger?: { info?: (message: string, meta?: Record<string, unknown>) => void }): Router {
@@ -31,6 +31,10 @@ export function createSitesRouter(store: SiteStore, logger?: { info?: (message: 
     res.json({ ok: true, sites: store.list() });
   });
 
+  router.get("/sites/status", (_req: Request, res: Response) => {
+    res.json({ ok: true, total: store.count() });
+  });
+
   router.get("/sites/:slug", (req: Request, res: Response) => {
     const site = store.get(String(req.params.slug || ""));
     if (!site) {
@@ -46,5 +50,3 @@ export function createSitesRouter(store: SiteStore, logger?: { info?: (message: 
 
   return router;
 }
-
-export { slugify };

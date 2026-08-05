@@ -154,6 +154,11 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/sites/list` | Sites gerados (metadados) |
 | `GET /api/sites/:slug` | Preview de um site gerado (HTML) |
 | `GET /api/sites/status` | Total de sites gerados |
+| `POST /api/apps/generate` | Agente criador de APKs: `{name, description}` → scaffold Expo completo (App.tsx + app.json + package.json, conteúdo por IA local) |
+| `GET /api/apps/list` | Apps geradas (metadados) |
+| `GET /api/apps/:slug` | Metadados + árvore de ficheiros de uma app |
+| `GET /api/apps/:slug/source` | Conteúdo de todos os ficheiros da app (JSON) |
+| `GET /api/apps/status` | Total de apps geradas |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 
