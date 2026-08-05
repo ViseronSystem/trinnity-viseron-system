@@ -8,6 +8,7 @@ import { VoiceBridge } from "../voice/VoiceBridge";
 import { skillsRegistry } from "../core/skills";
 import { OmegaPlatform } from "../omega";
 import { createOmegaGateway } from "../omega/gateway";
+import { createOsGateway } from "../os/gateway";
 
 /**
  * TVSDashboardServer - Servidor Web de Monitoreo en Tiempo Real para TVS v2.0
@@ -21,6 +22,7 @@ export class TVSDashboardServer {
   private voiceBridge: VoiceBridge;
   private omega?: OmegaPlatform;
   private omegaRouter!: express.Router;
+  private osRouter!: express.Router;
 
   constructor(tvsCore: ViseronCore, port?: number, omega?: OmegaPlatform) {
     this.tvsCore = tvsCore;
@@ -388,6 +390,15 @@ export class TVSDashboardServer {
     this.omegaRouter = express.Router();
     this.app.use("/api/omega", this.omegaRouter);
 
+    // TVS OS — API (/api/os) · Process Manager · Virtual FS · App Store · Package Manager · Security
+    this.osRouter = express.Router();
+    this.app.use("/api/os", this.osRouter);
+
+    // TVS Desktop — página do sistema operativo
+    this.app.get("/os", (_req, res) => {
+      res.sendFile(path.join(publicPath, "desktop.html"));
+    });
+
     // Fallback index.html (compatible con Express v5)
     this.app.use((req, res) => {
       if (req.method === 'GET' && !req.path.startsWith('/api/')) {
@@ -426,6 +437,7 @@ export class TVSDashboardServer {
     this.omega = omega;
     if (this.omega) {
       this.omegaRouter.stack = createOmegaGateway(this.omega).stack;
+      this.osRouter.stack = createOsGateway(this.omega.os).stack;
     }
   }
 

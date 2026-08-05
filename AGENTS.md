@@ -92,6 +92,22 @@ cd mobile && npx expo start
 | `npm run demo:messaging` | Demo de mensageria E2E (contactos/conversas/grupos/leitura) |
 | `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
 
+## TVS OS — AI-Native Operating System v1
+
+TVS OS é a camada de sistema operativo sobre o kernel: Process Manager, Virtual FS, App Store, Package Manager, Security Center e TVS Desktop (web).
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm run tvs` | Estado geral do TVS OS (kernel, agentes, watchdog, processos) |
+| `npm run tvs:list` | Apps instalados |
+| `npm run tvs:install <id>` | Instalar app/agente/squad/módulo |
+| `npm run tvs:uninstall <id>` | Desinstalar |
+| `npm run tvs:update` | Recarregar specs/manifests |
+| `npm run tvs:doctor` | Diagnóstico de saúde (pkg doctor) |
+| `npm run test:os` | Testes do TVS OS (25) |
+
+API TVS OS em `/api/os` (processes/spawn/kill, fs/list/read/write, store/install/uninstall, pkg/install/uninstall/update/doctor/list, security/authorize). TVS Desktop em `/os`. Código: `src/os/`. Estado persistido em `data/tvs-os/`.
+
 ## Domínio novo
 
 Sítio: **www.trinnityviseronsystem.io** (registo em Cloudflare/Namecheap/GoDaddy).

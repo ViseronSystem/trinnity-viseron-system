@@ -9,6 +9,7 @@ import { FactoryEngine, SolutionEngineAdapter, ScaffolderAdapter } from "./facto
 import { EnterpriseHub } from "./enterprise";
 import { SelfHealWatchdog } from "./selfheal";
 import { heartbeats } from "./selfheal";
+import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
 import { MemoryEngine } from "../core/memory/MemoryEngine";
 import { ProviderFactory } from "../core/providers/ProviderFactory";
@@ -53,6 +54,7 @@ export class OmegaPlatform {
   public readonly factory: FactoryEngine;
   public readonly enterprise: EnterpriseHub;
   public readonly watchdog: SelfHealWatchdog;
+  public readonly os: TVSOs;
 
   private readonly agentManager?: AgentManager;
 
@@ -113,6 +115,15 @@ export class OmegaPlatform {
     this.watchdog.register({ id: "squads", label: "SquadRegistry (5 squads AIOX)", reset: () => heartbeats.reset("squads") });
     this.watchdog.register({ id: "enterprise", label: "Enterprise Hub (6 módulos)", reset: () => heartbeats.reset("enterprise") });
     this.watchdog.register({ id: "factory", label: "Factory (pipeline de 4 stages)", reset: () => heartbeats.reset("factory") });
+
+    this.os = new TVSOs({
+      kernel: this.kernel,
+      runtime: this.agents,
+      enterprise: this.enterprise,
+      squads: this.squads,
+      watchdog: this.watchdog,
+    });
+    this.os.boot();
   }
 
   public loadCoreAgents(): { valid: number; invalid: number; files: number } {
