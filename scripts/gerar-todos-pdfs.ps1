@@ -49,5 +49,9 @@ npx tsx scripts/audit-arkom.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
 Write-Step "Gerando plano de receita..." "INFO"
 npx tsx scripts/gerar-pipeline-receita.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
 
+# Plano estrategico + roadmap tecnico (D7: o que falta + comandos para voltar a cada etapa)
+Write-Step "Gerando plano estrategico + roadmap tecnico..." "INFO"
+npx tsx scripts/gerar-plano-estrategico.ts 2>&1 | ForEach-Object { Write-Host "   $_" }
+
 Write-Step "Todos os PDFs regenerados!" "OK"
 Pop-Location

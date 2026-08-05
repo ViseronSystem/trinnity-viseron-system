@@ -87,6 +87,7 @@ cd mobile && npx expo start
 | `npm run go-live:stripe` | Cria os 3 planos no Stripe (se preferires Stripe em vez de Avirato) |
 | `npm run demo:avirato` | Testa checkout Avirato real (cria sessão de pagamento, ex: `-- core`) |
 | `npm run cofre` | Gera data/Viseron_Cofre_Credenciais.pdf (todas as chaves/tokens/logins — CONFIDENCIAL, gitignored) |
+| `npm run plan:strategic` | Gera data/Viseron_Plano_Estrategico_<data>.pdf + data/Viseron_Roadmap_Tecnico_<data>.pdf (o que falta implementar + comandos para voltar a cada etapa) |
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
