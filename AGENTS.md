@@ -95,6 +95,7 @@ cd mobile && npx expo start
 | `npm run composio:status` | Estado da ligação ao Composio (consumo MCP de ferramentas externas) |
 | `npm run composio:connect` | Liga ao Composio e regista as ferramentas no ToolManager |
 | `npm run contas:pdf` | Gera data/Viseron_Contas_Conectadas.pdf + snapshot JSON das apps ligadas |
+| `npm run expansion:pdf` | Gera data/Viseron_Registo_Expansao.pdf (trilingue) + conhecimento das 31+ apps do mercado |
 | `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
 
 ## TVS OS — AI-Native Operating System v1
@@ -191,6 +192,12 @@ O TVS liga-se a **https://connect.composio.dev/mcp** como cliente MCP (`@modelco
 - Comandos: `npm run composio:status` e `npm run composio:connect`.
 - `GET /api/jarvis/memory` (JWT): memória persistente do JARVIS — operações executadas, totais por tool, últimos 25 registos (ficheiro `data/knowledge/jarvis-memory.jsonl`).
 - `npm run contas:pdf` → gera `data/Viseron_Contas_Conectadas.pdf` + snapshot `data/tvs-os/composio-accounts.json` com o estado REAL de todas as apps (ativas/pendentes/adiadas). Regenerar a cada mudança de ligações.
+
+## Expansão de mercado (31+ apps)
+
+Registo de conhecimento: `data/knowledge/expansion-apps.json` + PDF trilingue `data/Viseron_Registo_Expansao.pdf` (`npm run expansion:pdf`). Estado real (2026-08): **19 iniciadas** (links OAuth gerados — clicar em 10 min), **1 ativa** (yelp), **11 a confirmar** (nomes não resolvidos no catálogo: webscraper, whop, winston_ai, wit_ai, wix_mcp, wolfram_alpha, woodpecker, workday, world_news_api, ziprecruiter, zyte — verificar no dashboard Composio).
+
+App iniciadas: `waiverfile, wati, webscraping_ai, webvizio, whautomate, whoisfreaks, wisepops, wix, wiza, workable, worksnaps, writer, xata, zep, zeplin, zerobounce, zixflow, zulip, zylvie`. Cada app ligada dá autonomia real ao JARVIS (executar tool) e conhecimento de "100 anos" aos agentes AIOX. Slugs do Composio usam **underscore** (ex. `webscraping_ai`, `wit_ai`, `wix_mcp`).
 
 ## Trilingue (ES · PT · EN)
 

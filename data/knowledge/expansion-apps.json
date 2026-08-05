@@ -1,0 +1,43 @@
+{
+  "title": "Expansão de Mercado — TVS (30+ apps)",
+  "generatedAt": "2026-08-06",
+  "note": "Registo de conhecimento para os agentes/squads AIOX e para Pedro Costa e Trinnity Hurtado. Cada app ligada via Composio dá autonomia real ao JARVIS. Links OAuth gerados expiram em 10 minutos; clicar para ativar.",
+  "summary": {
+    "initiated": 19,
+    "active": 1,
+    "unresolved": 11
+  },
+  "apps": [
+    { "slug": "waiverfile", "name": "Waiverfile", "status": "initiated", "category": "Assinatura digital", "expertise": "Waivers e formulários com assinatura legal. 100 anos de experiência: compliance de consentimento, digitalização de processos de risco." },
+    { "slug": "wati", "name": "Wati", "status": "initiated", "category": "WhatsApp Business", "expertise": "API oficial de WhatsApp: atendimento, campanhas, chatbots de conversa. 100 anos de experiência: funis de conversa, CSAT, automação de vendas B2B/B2C." },
+    { "slug": "webscraper", "name": "Webscraper.io", "status": "unresolved", "category": "Web scraping", "expertise": "Scraping low-code de sites. 100 anos de experiência: extração de dados, monitorização de preços e concorrência." },
+    { "slug": "webscraping_ai", "name": "WebScraping.AI", "status": "initiated", "category": "Web scraping com IA", "expertise": "Scraping guiado por IA (LLM) com JS rendering. 100 anos de experiência: scraping estruturado, anti-bot, crawling a escala." },
+    { "slug": "webvizio", "name": "Webvizio", "status": "initiated", "category": "Feedback visual", "expertise": "Feedback e anotações visuais em websites/QA. 100 anos de experiência: revisão de UI, QA colaborativo, aprovação de entregas." },
+    { "slug": "whautomate", "name": "Whautomate", "status": "initiated", "category": "Automação WhatsApp", "expertise": "Automação de mensagens WhatsApp (multi-número). 100 anos de experiência: sequências de vendas, lembretes, suporte automatizado." },
+    { "slug": "whoisfreaks", "name": "Whoisfreaks", "status": "initiated", "category": "Threat intelligence", "expertise": "WHOIS, DNS e dados de domínios. 100 anos de experiência: OSINT, proteção de marca, análise de infraestrutura e cibersegurança." },
+    { "slug": "whop", "name": "Whop", "status": "unresolved", "category": "Marketplace digital", "expertise": "Venda de produtos digitais (cursos, acessos, apps). 100 anos de experiência: monetização digital, funis de venda, comunidade." },
+    { "slug": "winston_ai", "name": "Winston AI", "status": "unresolved", "category": "Detetor de IA", "expertise": "Deteção de texto gerado por IA e plágio. 100 anos de experiência: autenticidade de conteúdo, SEO, compliance académico." },
+    { "slug": "wisepops", "name": "Wisepops", "status": "initiated", "category": "Popups / CTA", "expertise": "Popups e CTAs sem código. 100 anos de experiência: otimização de conversão, captura de leads, segmentação." },
+    { "slug": "wit_ai", "name": "Wit.ai", "status": "unresolved", "category": "NLP / voz", "expertise": "NLP e voz da Meta. 100 anos de experiência: compreensão de linguagem natural, intenções/entidades, bots de voz." },
+    { "slug": "wix", "name": "Wix", "status": "initiated", "category": "Builder de sites", "expertise": "Sites e lojas Wix. 100 anos de experiência: construção de sites, SEO on-page, integrações de e-commerce." },
+    { "slug": "wix_mcp", "name": "Wix MCP", "status": "unresolved", "category": "Wix via MCP", "expertise": "Model Context Protocol do Wix. 100 anos de experiência: operar sites Wix por API através de agentes." },
+    { "slug": "wiza", "name": "Wiza", "status": "initiated", "category": "Dados B2B", "expertise": "Emails/telefones B2B a partir de LinkedIn e listas. 100 anos de experiência: prospetar, enriquecer dados, alimentar campanhas outbound." },
+    { "slug": "wolfram_alpha", "name": "Wolfram Alpha", "status": "unresolved", "category": "Conhecimento / matemática", "expertise": "Computação simbólica e dados curados. 100 anos de experiência: respostas exatas, cálculo, dados científicos e financeiros." },
+    { "slug": "woodpecker", "name": "Woodpecker", "status": "unresolved", "category": "Cold email", "expertise": "Cold email outreach. 100 anos de experiência: sequências de prospeção, deliverability, follow-ups inteligentes." },
+    { "slug": "workable", "name": "Workable", "status": "initiated", "category": "Recrutamento (ATS)", "expertise": "ATS de recrutamento. 100 anos de experiência: pipelines de contratação, sourcing, entrevistas e ofertas." },
+    { "slug": "workday", "name": "Workday", "status": "unresolved", "category": "HR / finanças", "expertise": "HR e finanças enterprise. 100 anos de experiência: payroll, talento, planeamento financeiro em grandes organizações." },
+    { "slug": "worksnaps", "name": "Worksnaps", "status": "initiated", "category": "Time tracking", "expertise": "Controlo de tempo com screenshots. 100 anos de experiência: gestão de equipas remotas, produtividade, faturação por horas." },
+    { "slug": "world_news_api", "name": "World News API", "status": "unresolved", "category": "Notícias mundiais", "expertise": "Notícias globais em tempo real. 100 anos de experiência: monitorização de media, PR, alertas de marca e indústria." },
+    { "slug": "writer", "name": "Writer", "status": "initiated", "category": "Escrita com IA", "expertise": "Geração de copy com IA e tom de marca. 100 anos de experiência: marketing, conteúdo editorial, redação de alta qualidade." },
+    { "slug": "xata", "name": "Xata", "status": "initiated", "category": "Database serverless", "expertise": "Postgres serverless com busca e IA. 100 anos de experiência: modelagem de dados, APIs, pesquisa full-text, RAG." },
+    { "slug": "yelp", "name": "Yelp", "status": "active", "category": "Reviews / negócios locais", "expertise": "Reviews e negócios locais. 100 anos de experiência: gestão de reputação, SEO local, análise de concorrência." },
+    { "slug": "zep", "name": "Zep", "status": "initiated", "category": "Memória de agentes", "expertise": "Memória de longo prazo para agentes de IA. 100 anos de experiência: contexto persistente, recall semântico, personalização." },
+    { "slug": "zeplin", "name": "Zeplin", "status": "initiated", "category": "Colaboração de design", "expertise": "Entrega de design/desenvolvimento. 100 anos de experiência: specs, componentes, handoff de UI sem atrito." },
+    { "slug": "zerobounce", "name": "Zerobounce", "status": "initiated", "category": "Validação de email", "expertise": "Validação/hygiene de listas de email. 100 anos de experiência: deliverability, redução de bounce, saúde de domínio." },
+    { "slug": "ziprecruiter", "name": "ZipRecruiter", "status": "unresolved", "category": "Jobs board", "expertise": "Board de empregos. 100 anos de experiência: distribuição de vagas, matching de candidatos, recrutamento." },
+    { "slug": "zixflow", "name": "Zixflow", "status": "initiated", "category": "CRM / automação", "expertise": "CRM + automação + WhatsApp. 100 anos de experiência: gestão de pipeline, sequências, atribuição de leads." },
+    { "slug": "zulip", "name": "Zulip", "status": "initiated", "category": "Chat com threads", "expertise": "Chat de equipa orientado a tópicos. 100 anos de experiência: comunicação assíncrona, alertas, integrações." },
+    { "slug": "zylvie", "name": "Zylvie", "status": "initiated", "category": "Venda digital", "expertise": "Venda de produtos digitais e licenças. 100 anos de experiência: checkout, distribuição de ficheiros, cobranças recorrentes." },
+    { "slug": "zyte", "name": "Zyte", "status": "unresolved", "category": "Extrair dados / scraping", "expertise": "Scraping e extração gerida. 100 anos de experiência: crawling a escala, APIs de extração, proxies." }
+  ]
+}
