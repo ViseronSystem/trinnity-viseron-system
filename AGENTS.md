@@ -51,6 +51,7 @@ cd mobile && npx expo start
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Dev mode with hot reload |
+| `npm run restart` | Reinício à prova de congelamento: mata servidor + órfãos (OmniRoute/n8n) e verifica health/os/revenue |
 | `npm run build` | Compile TypeScript to dist/ |
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |

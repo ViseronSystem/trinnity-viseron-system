@@ -5,6 +5,15 @@ import { OmniRouteProvider } from "./OmniRouteProvider";
 import { AIProviderBridge, AIProviderConfig } from "../../core/bridge/AIProviderBridge";
 import { ILLMProvider } from "../../core/providers/BaseProvider";
 
+// Anti-órfãos: quando o processo pai morrer (mesmo por SIGKILL/força),
+// todo o processo-filho OmniRoute é morto — a porta nunca fica presa.
+const childKillers: Array<() => void> = [];
+process.on("exit", () => {
+  for (const kill of childKillers) {
+    try { kill(); } catch {}
+  }
+});
+
 export interface OmniRouteConfig {
   port: number;
   dataDir: string;
@@ -22,6 +31,7 @@ export class OmniRouteBridge {
   private healthTimer: NodeJS.Timeout | null = null;
   private restartAttempts = 0;
   private stopped = false;
+  private portInUse = false;
   private readonly MAX_RESTART_ATTEMPTS = 10;
 
   static readonly OMNIROUTE_PROVIDERS: AIProviderConfig[] = [
@@ -52,6 +62,17 @@ export class OmniRouteBridge {
     };
     this.provider = new OmniRouteProvider(this.config.baseUrl);
     this.aiBridge = aiBridge;
+    childKillers.push(() => {
+      const child = this.process;
+      if (!child || !child.pid) return;
+      try {
+        if (process.platform === "win32") {
+          spawn("taskkill", ["/pid", String(child.pid), "/f", "/t"], { stdio: "ignore" });
+        } else {
+          child.kill("SIGKILL");
+        }
+      } catch {}
+    });
   }
 
   async initialize(): Promise<number> {
@@ -92,6 +113,18 @@ export class OmniRouteBridge {
 
   async startProcess(): Promise<void> {
     if (this.process) return;
+
+    if (this.portInUse) {
+      try {
+        const available = await this.provider.isAvailable();
+        if (available) {
+          console.log(`  [OmniRoute] Porta ${this.config.port} em uso — a reutilizar servidor existente (sem crash-loop)`);
+          return;
+        }
+      } catch {}
+      console.warn(`  [OmniRoute] Porta ${this.config.port} ocupada por outro processo; a manter modo on-demand`);
+      return;
+    }
 
     try {
       const isAvailable = await this.provider.isAvailable();
@@ -135,14 +168,19 @@ export class OmniRouteBridge {
     this.process.stderr?.on("data", (data: Buffer) => {
       const msg = data.toString().trim();
       if (msg && !msg.includes("ExperimentalWarning")) {
-        console.error(`  [OmniRoute:err] ${msg}`);
+        if (/EADDRINUSE|address already in use|already in use|port .* in use/i.test(msg)) {
+          this.portInUse = true;
+          console.warn(`  [OmniRoute] Porta ${this.config.port} já em uso — a reutilizar servidor existente (sem crash-loop)`);
+        } else {
+          console.error(`  [OmniRoute:err] ${msg}`);
+        }
       }
     });
 
     this.process.on("exit", (code) => {
       console.log(`  [OmniRoute] Process exited with code ${code}`);
       this.process = null;
-      if (!this.stopped && this.config.autoStart) {
+      if (!this.stopped && this.config.autoStart && !this.portInUse) {
         this.scheduleRestart();
       }
     });
@@ -180,7 +218,7 @@ export class OmniRouteBridge {
       if (this.stopped) return;
       try {
         const available = await this.provider.isAvailable();
-        if (!available && !this.process && !this.restartTimer) {
+        if (!available && !this.process && !this.restartTimer && !this.portInUse) {
           console.log(`  [OmniRoute] Health check: server down, restarting...`);
           try {
             await this.startProcess();
