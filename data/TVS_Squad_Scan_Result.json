@@ -1,0 +1,587 @@
+{
+  "timestamp": "2026-08-05T18:53:22.002Z",
+  "system": {
+    "name": "trinnity-viseron-system",
+    "version": "5.0.0",
+    "node": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "memory_gb": 8.2,
+    "uptime_h": 27.8,
+    "cwd": "C:\\Trinnity-Viseron-System"
+  },
+  "squads": [
+    {
+      "id": "squad_business",
+      "name": "Business Squad",
+      "domain": "business",
+      "status": "ACTIVE",
+      "agents": [
+        "agent_sales",
+        "agent_finance"
+      ],
+      "objectives": 2,
+      "tools": 2,
+      "online": true
+    },
+    {
+      "id": "squad_engineering",
+      "name": "Engineering Squad",
+      "domain": "software",
+      "status": "ACTIVE",
+      "agents": [
+        "agent_cto",
+        "agent_developer",
+        "agent_devops"
+      ],
+      "objectives": 3,
+      "tools": 3,
+      "online": true
+    },
+    {
+      "id": "squad_operations",
+      "name": "Operations Squad",
+      "domain": "operations",
+      "status": "ACTIVE",
+      "agents": [
+        "agent_ceo",
+        "agent_support"
+      ],
+      "objectives": 2,
+      "tools": 3,
+      "online": true
+    },
+    {
+      "id": "squad_research",
+      "name": "Research Squad",
+      "domain": "intelligence",
+      "status": "ACTIVE",
+      "agents": [
+        "agent_research",
+        "agent_vision"
+      ],
+      "objectives": 2,
+      "tools": 2,
+      "online": true
+    },
+    {
+      "id": "squad_security",
+      "name": "Security Squad",
+      "domain": "security",
+      "status": "ACTIVE",
+      "agents": [
+        "agent_security"
+      ],
+      "objectives": 2,
+      "tools": 2,
+      "online": true
+    },
+    {
+      "id": "squad_aiox_eng",
+      "name": "Engineering Squad",
+      "domain": "engineering",
+      "status": "ACTIVE",
+      "agents": [
+        "Architect Prime",
+        "Dev Master",
+        "DevOps Agent",
+        "QA Sentinel"
+      ],
+      "objectives": 3,
+      "tools": 5,
+      "online": true
+    },
+    {
+      "id": "squad_aiox_res",
+      "name": "Research Squad",
+      "domain": "research",
+      "status": "ACTIVE",
+      "agents": [
+        "ResearchBot",
+        "HyperLearner",
+        "EvoEngine"
+      ],
+      "objectives": 2,
+      "tools": 3,
+      "online": true
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent_ceo",
+      "name": "CEO Agent",
+      "role": "CEO & Strategic Leader",
+      "status": "ACTIVE",
+      "capabilities": [
+        "strategy",
+        "vision",
+        "delegation",
+        "business_planning",
+        "kpi_management",
+        "governance"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_cto",
+      "name": "CTO Agent",
+      "role": "Chief Architect & Technical Leader",
+      "status": "ACTIVE",
+      "capabilities": [
+        "architecture",
+        "system_design",
+        "tech_leadership",
+        "ai_orchestration",
+        "code_review"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_developer",
+      "name": "Developer Agent",
+      "role": "Developer",
+      "status": "ACTIVE",
+      "capabilities": [
+        "code_generation",
+        "frontend",
+        "backend",
+        "api_design",
+        "refactoring",
+        "testing"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_devops",
+      "name": "DevOps Agent",
+      "role": "DevOps Engineer",
+      "status": "ACTIVE",
+      "capabilities": [
+        "ci_cd",
+        "deployment",
+        "monitoring",
+        "infrastructure",
+        "automation",
+        "docker"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_finance",
+      "name": "Finance Agent",
+      "role": "Finance & Treasury",
+      "status": "ACTIVE",
+      "capabilities": [
+        "revenue_tracking",
+        "cost_analysis",
+        "cashflow",
+        "invoicing",
+        "forecasting",
+        "tokenomics"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_research",
+      "name": "Research Agent",
+      "role": "Research & Intelligence",
+      "status": "ACTIVE",
+      "capabilities": [
+        "web_research",
+        "market_analysis",
+        "competitive_intelligence",
+        "knowledge_synthesis",
+        "reporting"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_sales",
+      "name": "Sales Agent",
+      "role": "Sales & Business Development",
+      "status": "ACTIVE",
+      "capabilities": [
+        "lead_qualification",
+        "proposal_generation",
+        "pipeline_management",
+        "pricing",
+        "follow_up"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_security",
+      "name": "Security Agent",
+      "role": "Security",
+      "status": "ACTIVE",
+      "capabilities": [
+        "vulnerability_scan",
+        "code_audit",
+        "threat_detection",
+        "hardening",
+        "compliance"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_support",
+      "name": "Support Agent",
+      "role": "Customer Support",
+      "status": "ACTIVE",
+      "capabilities": [
+        "ticket_triage",
+        "customer_service",
+        "issue_resolution",
+        "escalation",
+        "documentation"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_vision",
+      "name": "Vision Agent",
+      "role": "Vision & Perception",
+      "status": "ACTIVE",
+      "capabilities": [
+        "object_detection",
+        "image_analysis",
+        "camera_processing",
+        "event_detection",
+        "visual_recognition"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_architect_01",
+      "name": "Architect Prime",
+      "role": "Architect",
+      "status": "ACTIVE",
+      "capabilities": [
+        "system_design",
+        "cloud_architecture",
+        "solution_design"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_developer_01",
+      "name": "Dev Master",
+      "role": "Developer",
+      "status": "ACTIVE",
+      "capabilities": [
+        "typescript",
+        "node",
+        "docker",
+        "fullstack"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_security_01",
+      "name": "CyberSentinel",
+      "role": "Security",
+      "status": "ACTIVE",
+      "capabilities": [
+        "audit",
+        "compliance",
+        "security_review"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_jarvis_01",
+      "name": "JARVIS",
+      "role": "Assistant",
+      "status": "ACTIVE",
+      "capabilities": [
+        "chat",
+        "autonomy",
+        "system_control"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_sales_01",
+      "name": "Sales Agent",
+      "role": "Sales",
+      "status": "ACTIVE",
+      "capabilities": [
+        "crm",
+        "pipeline",
+        "proposals"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_finance_01",
+      "name": "Finance Agent",
+      "role": "Finance",
+      "status": "ACTIVE",
+      "capabilities": [
+        "billing",
+        "revenue",
+        "reports"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_ops_01",
+      "name": "OpsBot",
+      "role": "Operations",
+      "status": "ACTIVE",
+      "capabilities": [
+        "deploy",
+        "monitoring",
+        "alerting"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_watchdog_01",
+      "name": "WatchDog",
+      "role": "Watchdog",
+      "status": "ACTIVE",
+      "capabilities": [
+        "selfheal",
+        "restart",
+        "incident_log"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_research_01",
+      "name": "ResearchBot",
+      "role": "Research",
+      "status": "ACTIVE",
+      "capabilities": [
+        "market_analysis",
+        "learning",
+        "evolution"
+      ],
+      "online": true
+    },
+    {
+      "id": "agent_hyper_01",
+      "name": "HyperLearner",
+      "role": "Learning",
+      "status": "ACTIVE",
+      "capabilities": [
+        "hyperlearning",
+        "autoevolution",
+        "autolearning"
+      ],
+      "online": true
+    }
+  ],
+  "providers": [
+    {
+      "name": "Ollama (Local)",
+      "type": "local",
+      "available": true,
+      "configured": true,
+      "details": "http://localhost:11434"
+    },
+    {
+      "name": "OmniRoute (290+ providers)",
+      "type": "gateway",
+      "available": true,
+      "configured": true,
+      "details": "Port 20128"
+    },
+    {
+      "name": "OpenAI",
+      "type": "cloud",
+      "available": false,
+      "configured": false,
+      "details": "Não configurado"
+    },
+    {
+      "name": "Anthropic (Claude)",
+      "type": "cloud",
+      "available": false,
+      "configured": false,
+      "details": "Não configurado"
+    },
+    {
+      "name": "Google Gemini",
+      "type": "cloud",
+      "available": false,
+      "configured": false,
+      "details": "Não configurado"
+    },
+    {
+      "name": "xAI (Grok)",
+      "type": "cloud",
+      "available": false,
+      "configured": false,
+      "details": "Não configurado"
+    }
+  ],
+  "api": {
+    "endpoints": [
+      {
+        "path": "/api/health",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/auth/register",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/auth/login",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/auth/me",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/billing/plans",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/billing/checkout",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/billing/webhook",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/billing/subscription",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/onboarding/templates",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/onboarding/apply",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/messaging/conversations",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/messaging/conversations/:id/messages",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/jarvis/chat",
+        "method": "POST",
+        "status": "active"
+      },
+      {
+        "path": "/api/jarvis/status",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/revenue/readiness",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/ai/status",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/omega/kernel",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/omega/squads",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/os/processes",
+        "method": "GET",
+        "status": "active"
+      },
+      {
+        "path": "/api/metrics",
+        "method": "GET",
+        "status": "active"
+      }
+    ],
+    "port": 3000,
+    "authEnabled": true,
+    "billingEnabled": true,
+    "messagingEnabled": true,
+    "jarvisEnabled": true
+  },
+  "database": {
+    "type": "Neon Postgres (eu-central-1)",
+    "connected": true,
+    "url_masked": "postgresql://neondb_owner:***@ep-wild-math-ag7ie1z2.c-2.eu-c...",
+    "tables": [
+      "tenants",
+      "users",
+      "sessions",
+      "plans",
+      "subscriptions",
+      "invoices",
+      "usage_events",
+      "conversations",
+      "messages",
+      "message_keys"
+    ],
+    "region": "eu-central-1 (AWS)"
+  },
+  "infrastructure": {
+    "cloudflare": true,
+    "render": true,
+    "vercel": true,
+    "github": true,
+    "docker": true,
+    "twilio": true,
+    "gmail": true,
+    "avirato": true,
+    "stripe": false,
+    "neon": true
+  },
+  "files": {
+    "totalFiles": 198,
+    "srcFiles": 164,
+    "testFiles": 5,
+    "scriptFiles": 29,
+    "pdfFiles": 48,
+    "keyFiles": [
+      "package.json",
+      "tsconfig.json",
+      ".env",
+      "Dockerfile",
+      "docker-compose.yml",
+      "src/index.ts",
+      "src/core/ViseronCore.ts",
+      "src/omega/index.ts",
+      "src/web/standalone-server.ts",
+      "src/omega/squads/SquadRegistry.ts"
+    ]
+  },
+  "tests": {
+    "coreTests": 14,
+    "webTests": 66,
+    "totalTests": 212,
+    "buildOk": true,
+    "lintOk": true
+  },
+  "score": 100,
+  "verdict": "🚀 SUPERINTELIGÊNCIA OPERACIONAL — Sistema em plena capacidade!"
+}
