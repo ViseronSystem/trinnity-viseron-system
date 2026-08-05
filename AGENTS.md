@@ -92,6 +92,9 @@ cd mobile && npx expo start
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
 | `npm run demo:messaging` | Demo de mensageria E2E (contactos/conversas/grupos/leitura) |
+| `npm run composio:status` | Estado da ligação ao Composio (consumo MCP de ferramentas externas) |
+| `npm run composio:connect` | Liga ao Composio e regista as ferramentas no ToolManager |
+| `npm run contas:pdf` | Gera data/Viseron_Contas_Conectadas.pdf + snapshot JSON das apps ligadas |
 | `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
 
 ## TVS OS — AI-Native Operating System v1
@@ -166,12 +169,43 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `POST /api/business/agents/:id/messages` | Cliente fala com o agente → resposta IA com contexto da empresa (knowledge base) |
 | `DELETE /api/business/agents/:id` | Remover agente |
 | `GET /api/business/status` | Total de agentes de empresas |
+| `GET /api/composio/status` | Estado do Composio (MCP): configurado, ligado, nº de ferramentas, último erro |
+| `GET /api/composio/tools` | Lista as ferramentas Composio disponíveis (Gmail/Slack/GitHub/...) |
+| `POST /api/composio/connect` | Liga ao Composio (JWT) e carrega a lista de ferramentas |
+| `POST /api/composio/tools/:name` | Executa uma ferramenta Composio (JWT) — body `{ "arguments": {...} }` |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 
 Variáveis de ambiente: `AVIRATO_API_KEY`+`AVIRATO_WEBCODE`+`AVIRATO_CLIENT_SECRET` (cobranças — primário), `DATABASE_URL` (Postgres opcional), `STRIPE_SECRET_KEY` (alternativo), `GMAIL_CLIENT_ID/SECRET/REFRESH_TOKEN`, `TVS_JWT_SECRET`.
 
 > Estado receita (2026-08): **6/6 pronto** — Avirato live, webhook HMAC, Gmail real, email provider gmail, `TVS_PUBLIC_URL` configurado, **Postgres Neon** (`DATABASE_URL`) com 10 tabelas migradas e `usage_events` a gravar registos/logins. `GET /api/revenue/readiness` → `ok=true`. Reinício sem freeze: `npm run restart`.
+
+## Composio (consumo MCP)
+
+O TVS liga-se a **https://connect.composio.dev/mcp** como cliente MCP (`@modelcontextprotocol/client`) e expõe as ferramentas externas (Gmail, Slack, GitHub, Calendário, Notion, ...) aos agentes e ao JARVIS.
+
+- `.env`: `COMPOSIO_API_KEY=<chave>` (obrigatória; sem ela o status mostra `configured: false`). A chave é a **consumer API key** do Composio (começa por `ck_`), obtida em https://dashboard.composio.dev → sidebar **AI Clients**. O handshake MCP envia o header `x-consumer-api-key`.
+- O Composio Connect expõe **7 meta-tools** (`COMPOSIO_SEARCH_TOOLS`, `COMPOSIO_GET_TOOL_SCHEMAS`, `COMPOSIO_MULTI_EXECUTE_TOOL`, `COMPOSIO_MANAGE_CONNECTIONS`, `COMPOSIO_WAIT_FOR_CONNECTIONS`, `COMPOSIO_REMOTE_WORKBENCH`, `COMPOSIO_REMOTE_BASH_TOOL`) que orquestram apps (descobrir → autorizar OAuth → executar).
+- Núcleo: `src/core/composio/ComposioBridge.ts` → `ViseronCore.composioBridge`; `connectComposio()` liga e regista as ferramentas no `ToolManager` (IDs `composio_<nome>`).
+- Web: `GET /api/composio/status` e `/api/composio/tools` (público); `POST /api/composio/connect` e `/api/composio/tools/:name` (JWT).
+- Comandos: `npm run composio:status` e `npm run composio:connect`.
+- `GET /api/jarvis/memory` (JWT): memória persistente do JARVIS — operações executadas, totais por tool, últimos 25 registos (ficheiro `data/knowledge/jarvis-memory.jsonl`).
+- `npm run contas:pdf` → gera `data/Viseron_Contas_Conectadas.pdf` + snapshot `data/tvs-os/composio-accounts.json` com o estado REAL de todas as apps (ativas/pendentes/adiadas). Regenerar a cada mudança de ligações.
+
+## Trilingue (ES · PT · EN)
+
+Regra global: **todo o conteúdo e respostas devem existir nos 3 idiomas** — Inglês, Espanhol e Português. O JARVIS responde SEMPRE no idioma em que o utilizador escreve (deteta `es`/`pt`/`en`; por omissão **espanhol**, idioma de Pedro Costa e Trinnity Hurtado). Para os comandantes, a primeira língua é o espanhol; tudo o que for produzido tem de conter os 3 idiomas (PDFs, site, APK, respostas).
+
+## Memória e auto-aprendizagem (nunca esquece)
+
+- Cada operação que o JARVIS executa (intents, tools, apps Composio, emails, posts) é gravada em `data/knowledge/jarvis-memory.jsonl` com timestamp.
+- O JARVIS lembra-se do que fez: pergunta "¿qué has hecho?" / "o que já fizeste?" / "what have you done?" → intent `memory_recall`.
+- Esta memória é a base de auditoria contínua do **squad AIOX** (com Pedro Costa e Trinnity Hurtado) e de auto-aprendizagem (aprender com cada operação).
+- Regenerar relatórios/PDFs a cada atualização e incluir sempre o que mudou.
+
+## Deploy a cada atualização
+
+Cada atualização feita deve: (1) commit + push ao **GitHub** (`npm run deploy:github`), (2) deploy do **site** (`npm run deploy:vercel`), (3) rebuild do **APK** (`npm run build:android`). O `npm run update:auto` faz pull + install + PDFs + build + testes + deploy automaticamente.
 
 ## AI Providers
 

@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-08-05T22:37:35.692Z",
+  "generatedAtPt": "06/08/2026, 00:37:35",
+  "apps": [
+    {
+      "slug": "gmail",
+      "name": "gmail",
+      "status": "active",
+      "purpose": "Email profissional: prospeção, atendimento, faturas, campanhas"
+    },
+    {
+      "slug": "googlecalendar",
+      "name": "googlecalendar",
+      "status": "active",
+      "purpose": "Agenda: reuniões, demos, eventos e lembretes"
+    },
+    {
+      "slug": "googledrive",
+      "name": "googledrive",
+      "status": "active",
+      "purpose": "Ficheiros: armazenamento, partilha e backup de documentos"
+    },
+    {
+      "slug": "googlesheets",
+      "name": "googlesheets",
+      "status": "active",
+      "purpose": "Métricas: relatórios, KPIs e controlo financeiro em folhas"
+    },
+    {
+      "slug": "googledocs",
+      "name": "googledocs",
+      "status": "active",
+      "purpose": "Documentos: contratos, manuais e propostas"
+    },
+    {
+      "slug": "slack",
+      "name": "slack",
+      "status": "active",
+      "purpose": "Equipa: alertas, canais e automação de comunicação"
+    },
+    {
+      "slug": "github",
+      "name": "github",
+      "status": "active",
+      "purpose": "Código: repositórios, deploys, issues e PRs"
+    },
+    {
+      "slug": "notion",
+      "name": "notion",
+      "status": "active",
+      "purpose": "Conhecimento: wikis, bases de dados, roadmap e planeamento"
+    },
+    {
+      "slug": "linear",
+      "name": "linear",
+      "status": "active",
+      "purpose": "Produto: issues, sprints e planeamento de features"
+    },
+    {
+      "slug": "hubspot",
+      "name": "hubspot",
+      "status": "pending",
+      "purpose": "CRM: contactos, pipeline de vendas e marketing"
+    },
+    {
+      "slug": "asana",
+      "name": "asana",
+      "status": "active",
+      "purpose": "Projetos: tarefas e gestão de projetos"
+    },
+    {
+      "slug": "trello",
+      "name": "trello",
+      "status": "active",
+      "purpose": "Kanban: quadros visuais de tarefas"
+    },
+    {
+      "slug": "discord",
+      "name": "discord",
+      "status": "pending",
+      "purpose": "Comunidade: servidores e canais da comunidade"
+    },
+    {
+      "slug": "telegram",
+      "name": "telegram",
+      "status": "deferred",
+      "purpose": "Mensagens diretas: alertas e comandos (adiada por decisão)"
+    },
+    {
+      "slug": "whatsapp",
+      "name": "whatsapp",
+      "status": "deferred",
+      "purpose": "Clientes: atendimento e campanhas no WhatsApp (adiada por decisão)"
+    },
+    {
+      "slug": "zoom",
+      "name": "zoom",
+      "status": "pending",
+      "purpose": "Reuniões: vídeo-chamadas e webinars"
+    },
+    {
+      "slug": "calendly",
+      "name": "calendly",
+      "status": "active",
+      "purpose": "Agendamento: link para marcar demos e reuniões"
+    },
+    {
+      "slug": "jira",
+      "name": "jira",
+      "status": "pending",
+      "purpose": "Ágil: issues e boards de desenvolvimento"
+    },
+    {
+      "slug": "figma",
+      "name": "figma",
+      "status": "pending",
+      "purpose": "Design: protótipos e mockups de UI"
+    },
+    {
+      "slug": "dropbox",
+      "name": "dropbox",
+      "status": "pending",
+      "purpose": "Ficheiros: cloud storage e partilha"
+    }
+  ],
+  "summary": {
+    "active": 12,
+    "pending": 8
+  }
+}

@@ -306,6 +306,10 @@ async function runWebTests() {
     const jarvisFile = path.join(tmpDir, "jarvis-sessions.json");
     assert(fs.existsSync(jarvisFile), "jarvis-sessions.json gravado no disco");
 
+    const jarvisComp = await axios.post(`${BASE}/api/jarvis/chat`, { message: "Estado do composio" });
+    assert(jarvisComp.data.ok === true && jarvisComp.data.intent === "composio_status", "JARVIS detecta intent composio_status");
+    assert(jarvisComp.data.actions.length > 0 && jarvisComp.data.actions[0].tool === "composio_status", "JARVIS executa tool composio_status");
+
     // ── Revenue readiness (go-live de receita real) ──────────
     const rev = await axios.get(`${BASE}/api/revenue/readiness`);
     assert(rev.data.ok === true || rev.data.ok === false, "GET /api/revenue/readiness responde");
@@ -315,6 +319,29 @@ async function runWebTests() {
     assert(processorReq && typeof processorReq.ready === "boolean" && processorReq.value.length > 0, "readiness: requisito processador (stripe/avirato) com estado");
     const domainReq = rev.data.requirements.find((r: any) => r.key === "domain");
     assert(domainReq && typeof domainReq.ready === "boolean", "readiness: requisito domínio presente");
+
+    // ── Composio (consumo MCP de ferramentas externas) ──────
+    const compStatus = await axios.get(`${BASE}/api/composio/status`);
+    assert(compStatus.data.ok === true && typeof compStatus.data.configured === "boolean", "GET /api/composio/status responde");
+    assert(compStatus.data.endpoint.includes("composio.dev"), "status expõe endpoint Composio");
+    assert(typeof compStatus.data.connected === "boolean" && typeof compStatus.data.tools === "number", "status expõe connected/tools");
+
+    const compTools = await axios.get(`${BASE}/api/composio/tools`);
+    assert(compTools.data.ok === true && Array.isArray(compTools.data.tools), "GET /api/composio/tools devolve lista");
+
+    try {
+      await axios.post(`${BASE}/api/composio/connect`, {});
+      assert(false, "POST /composio/connect sem token rejeitado");
+    } catch (e: any) {
+      assert(e.response?.status === 401, "POST /composio/connect sem token → 401");
+    }
+
+    try {
+      await axios.post(`${BASE}/api/composio/tools/GMAIL_CREATE_MESSAGE`, {});
+      assert(false, "Execução de ferramenta sem token rejeitada");
+    } catch (e: any) {
+      assert(e.response?.status === 401, "Execução de ferramenta sem token → 401");
+    }
   } finally {
     server.stop();
   }

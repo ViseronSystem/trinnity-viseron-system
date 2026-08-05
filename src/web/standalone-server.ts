@@ -32,6 +32,8 @@ import { AppScaffoldStore } from "./apps/store";
 import { createAppsRouter } from "./apps/routes";
 import { BusinessAgentStore } from "./business/store";
 import { createBusinessRouter } from "./business/routes";
+import { ComposioBridge } from "../core/composio/ComposioBridge";
+import { createComposioRouter } from "./composio/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -53,6 +55,7 @@ export class ViseronWebServer {
   private sites: SiteStore;
   private apps: AppScaffoldStore;
   private business: BusinessAgentStore;
+  private composio: ComposioBridge;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -87,6 +90,7 @@ export class ViseronWebServer {
     this.sites = new SiteStore(this.dataDir);
     this.apps = new AppScaffoldStore(this.dataDir);
     this.business = new BusinessAgentStore(this.dataDir);
+    this.composio = new ComposioBridge();
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -207,6 +211,7 @@ export class ViseronWebServer {
       email: this.email,
       messaging: this.messaging,
       blog: this.blog,
+      composio: this.composio,
       logger: this.logger,
       metrics: this.metrics,
     }));
@@ -215,6 +220,7 @@ export class ViseronWebServer {
     this.app.use("/api", createSitesRouter(this.sites, this.logger));
     this.app.use("/api", createAppsRouter(this.apps, this.logger));
     this.app.use("/api", createBusinessRouter(this.business, this.logger));
+    this.app.use("/api", createComposioRouter(this.composio));
     this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
 
     const blogRouter = createBlogRouter(this.blog);
@@ -284,6 +290,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
+        console.log(`[Viseron Web] Composio: http://localhost:${this.port}/api/composio/status (${this.composio.configured ? "chave configurada" : "sem COMPOSIO_API_KEY"})`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();

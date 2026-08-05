@@ -27,6 +27,7 @@ import { HyperLearningEngine } from "./learning/HyperLearningEngine";
 import { ReportServer } from "./reporting/ReportServer";
 import { BattalionRegistry, battalionRegistry, LineageTracker, DirectiveEngine } from "./standard";
 import { VoiceBridge } from "../voice/VoiceBridge";
+import { ComposioBridge } from "./composio/ComposioBridge";
 
 export class ViseronCore {
   public name: string = "Trinnity Viseron System v5.0 Multiversal";
@@ -86,6 +87,9 @@ export class ViseronCore {
 
   // JARVIS Voice Bridge
   public voiceBridge: VoiceBridge;
+
+  // Composio (consumo MCP)
+  public composioBridge: ComposioBridge;
 
   constructor() {
     this.archetypes = getAllArchetypes();
@@ -167,6 +171,23 @@ export class ViseronCore {
 
     // JARVIS Voice Bridge
     this.voiceBridge = new VoiceBridge(this);
+
+    // Composio (consumo MCP) - ferramentas externas (Gmail/Slack/GitHub/...) para os agentes
+    this.composioBridge = new ComposioBridge();
+  }
+
+  /**
+   * Liga ao Composio (MCP) e regista as ferramentas no ToolManager.
+   * Os agentes passam a poder executar ferramentas externas via `composio_<nome>`.
+   */
+  async connectComposio(): Promise<{ ok: boolean; tools: number }> {
+    const ok = await this.composioBridge.connect();
+    let tools = 0;
+    if (ok) {
+      tools = this.composioBridge.registerTools(this.toolManager);
+      console.log(`[TVS Composio] ${tools} ferramentas registadas no ToolManager`);
+    }
+    return { ok, tools };
   }
 
   private registerBattalionAgents(): void {

@@ -5,7 +5,9 @@ import { EmailService } from "../email/service";
 import { MessageStore } from "../messaging/store";
 import { BlogStorage } from "../blog-storage";
 import { RateLimiter } from "../auth/rate-limiter";
+import { requireAuth } from "../auth/middleware";
 import { JarvisAgent } from "./agent";
+import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 
@@ -16,6 +18,7 @@ export function createJarvisRouter(ctx: {
   email: EmailService;
   messaging: MessageStore;
   blog: BlogStorage;
+  composio: ComposioBridge;
   logger: ILogger;
   metrics: IMetrics;
 }): Router {
@@ -43,8 +46,13 @@ export function createJarvisRouter(ctx: {
         "email_status",
         "messaging_status",
         "audit_info",
+        "composio_status",
+        "composio_connect",
+        "composio_execute",
+        "memory_recall",
+        "trilingual",
       ],
-      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email)",
+      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email, ligar apps via Composio e executar posts/mensagens/emails nas apps ligadas) · trilingue es/pt/en · memória persistente (nunca esquece, auditável pelo squad AIOX)",
     });
   });
 
@@ -61,6 +69,15 @@ export function createJarvisRouter(ctx: {
     } catch (e: any) {
       ctx.logger.error(`[JARVIS] Erro no chat: ${e.message}`);
       res.status(500).json({ error: "Falha ao processar a mensagem." });
+    }
+  });
+
+  router.get("/jarvis/memory", requireAuth, (_req, res) => {
+    try {
+      const m = agent.recentOperations(25);
+      res.json({ ok: true, file: "data/knowledge/jarvis-memory.jsonl", total: m.total, byTool: m.byTool, recent: m.recent });
+    } catch (e: any) {
+      res.status(500).json({ error: (e as Error).message });
     }
   });
 
