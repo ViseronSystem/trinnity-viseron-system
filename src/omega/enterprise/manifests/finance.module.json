@@ -1,0 +1,22 @@
+{
+  "id": "module_finance",
+  "name": "Finance Module",
+  "domain": "finance",
+  "description": "Planeamento financeiro, MRR, faturas, custos e projeções de receita.",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_fin_mrr", "description": "Crescer receita recorrente mensal", "metric": "mrr_growth_pct", "target": 10 },
+    { "id": "obj_fin_health", "description": "Manter saúde financeira e runway", "metric": "runway_months", "target": 12 }
+  ],
+  "kpis": ["mrr", "arr", "churn_rate", "runway_months", "gross_margin"],
+  "workflows": [
+    { "id": "wf_review", "name": "Finance Review", "steps": ["collect", "analyze", "report"] },
+    { "id": "wf_forecast", "name": "Forecast", "steps": ["history", "model", "project", "report"] }
+  ],
+  "tools": [
+    { "id": "billing", "name": "Billing", "description": "planos, checkout, faturas" },
+    { "id": "reporting", "name": "Reporting", "description": "relatórios financeiros" }
+  ],
+  "agents": ["agent_finance"],
+  "reportIntervalMinutes": 60
+}

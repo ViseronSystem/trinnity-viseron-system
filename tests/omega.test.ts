@@ -6,6 +6,8 @@ import { Permissions } from "../src/omega/kernel/Permissions";
 import { Kernel } from "../src/omega/kernel/Kernel";
 import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "../src/omega/autonomy";
 import { SquadRegistry } from "../src/omega/squads";
+import { FactoryEngine } from "../src/omega/factory";
+import { EnterpriseHub } from "../src/omega/enterprise";
 import { AgentRuntime } from "../src/omega/agent-runtime/AgentRuntime";
 import { parseAgentSpec, validateAgentSpecs, AgentSpecSchema } from "../src/omega/agent-runtime/AgentSpec";
 import { KnowledgeGraph } from "../src/omega/memory-engine/KnowledgeGraph";
@@ -355,8 +357,144 @@ async function runOmegaTests() {
     const run = await registry.runSquad(runtime, "squad_security", "Auditar as operações do sistema.");
     assert(run.succeeded === 1 && run.results[0]?.success === true && (run.results[0]?.output ?? "").length > 0, "Squads: runSquad executa membros (offline)");
 
+    const hangingRuntime2 = {
+      getAgent: () => ({ id: "agent_hang", name: "Hang", role: "r", execute: () => new Promise<any>(() => { /* nunca resolve */ }) }),
+    } as any;
+    const registry2 = new SquadRegistry({ agentTimeoutMs: 150 });
+    registry2.loadSquads([{ id: "squad_t", name: "T", description: "teste", domain: "ops", status: "ACTIVE", agents: ["agent_hang"], objectives: [], tools: [], workflows: [], memory: {}, permissions: [] }]);
+    const t1 = Date.now();
+    const hangRun = await registry2.runSquad(hangingRuntime2, "squad_t", "x");
+    assert(Date.now() - t1 < 5000, "Squads: agente pendurado não bloqueia (timeout)");
+    assert(hangRun.failed === 1 && (hangRun.results[0]?.error ?? "").includes("excedeu"), "Squads: erro de timeout registado");
+
     const missing = registry.getSquadMembers(runtime, "squad_nao_existe");
     assert(missing.present.length === 0 && missing.missing.length === 0, "Squads: squad inexistente devolve vazio");
+  }
+
+  // ── 12. Factory (Unit 8) ──
+  {
+    const bareKernel = new Kernel();
+    const factory = new FactoryEngine(bareKernel);
+
+    const run = await factory.runPipeline({
+      name: "Visera SaaS",
+      industry: "saas",
+      description: "Plataforma de automação comercial com agentes de IA.",
+      goals: ["Gerar receita recorrente", "Automatizar vendas"],
+      painPoints: ["Processo manual de vendas"],
+      template: "express-api",
+      deployTo: ["vercel", "render"],
+    });
+
+    assert(run.status === "APPROVED", "Factory: pipeline termina APPROVED");
+    assert(run.diagnosis.length > 10 && run.techStack.length >= 1, "Factory: análise gerada (diagnóstico + stack)");
+    assert(run.stages.length === 4, "Factory: 4 stages (ANALYZE/DESIGN/BUILD/DEPLOY)");
+    assert(run.stages[0].status === "COMPLETED", "Factory: stage ANALYZE completado");
+    assert(run.stages[1].status === "COMPLETED", "Factory: stage DESIGN completado");
+    assert(run.stages[3].artifacts.length >= 1, "Factory: stage DEPLOY com artefactos");
+    assert(run.deploySteps.some((s) => s.includes("VERCEL")) && run.deploySteps.some((s) => s.includes("RENDER")), "Factory: plano de deploy inclui Vercel + Render");
+    assert(factory.getRun(run.id)?.id === run.id, "Factory: run persistida e recuperável");
+    assert(factory.status().runs === 1 && factory.status().approved === 1, "Factory: status contabiliza runs");
+
+    const invalid = await factory.runPipeline({
+      name: "X",
+      industry: "x",
+      description: "curto",
+      goals: [],
+      painPoints: [],
+      template: "express-api",
+      deployTo: ["local"],
+    });
+    assert(invalid.status === "APPROVED", "Factory: aceita ordem mínima");
+
+    const adapter = {
+      analyze: async () => ({ diagnosis: "adapter", proposedSolution: "adapter", architecture: "adapter", techStack: ["x"], implementationPlan: "adapter", risks: [] }),
+    };
+    const factory2 = new FactoryEngine(new Kernel(), { solutionEngine: adapter });
+    const run2 = await factory2.runPipeline({ name: "ABC", industry: "i", description: "descrição longa suficiente", goals: [], painPoints: [], template: "dashboard", deployTo: ["local"] });
+    assert(run2.stages[0].notes[0].includes("Motor de soluções reais"), "Factory: usa engine adapter quando ligado");
+
+    const hangingEngine = {
+      analyze: () => new Promise<any>(() => { /* nunca resolve — simula modelo de IA pendurado */ }),
+    };
+    const factory3 = new FactoryEngine(new Kernel(), { solutionEngine: hangingEngine, stageTimeoutMs: 150 });
+    const start = Date.now();
+    const run3 = await factory3.runPipeline({ name: "Hang", industry: "i", description: "descrição longa suficiente", goals: [], painPoints: [], template: "express-api", deployTo: ["local"] });
+    assert(Date.now() - start < 5000, "Factory: timeout rápido não bloqueia o pipeline");
+    assert(run3.status === "APPROVED", "Factory: pipeline completa mesmo com engine pendurado");
+    assert(run3.diagnosis.length > 10, "Factory: fallback heurístico aplicado quando engine não responde");
+    assert(run3.stages[0].notes.some((n) => n.includes("Fallback")), "Factory: nota de fallback registada");
+  }
+
+  // ── 13. Enterprise modules (Unit 9) ──
+  {
+    const manifestsDir = path.join(process.cwd(), "src", "omega", "enterprise", "manifests");
+    const hub = new EnterpriseHub(new Kernel());
+    const result = hub.loadFromDir(manifestsDir);
+    assert(result.valid === 6 && result.files === 6, `Enterprise: carrega 6 módulos (valid=${result.valid}, files=${result.files})`);
+
+    const sales = hub.getModule("module_sales");
+    assert(sales?.domain === "sales" && sales.agents.length === 1, "Enterprise: módulo sales com agente");
+    assert((sales?.kpis.includes("revenue_pipeline") ?? false), "Enterprise: módulo expõe KPIs");
+
+    const status = hub.status();
+    assert(status.loaded === 6 && status.active === 6, "Enterprise: status com 6 módulos ativos");
+
+    const runtime = new AgentRuntime({ providerFactory: new OfflineProviderFactory() });
+    runtime.loadSpecsFromDir(path.join(process.cwd(), "src", "omega", "agent-runtime", "specs"));
+    hub.attachRuntime(runtime);
+
+    const members = hub.getModuleAgents("module_finance");
+    assert(members.present.length === 1, "Enterprise: finance resolve agente no runtime");
+
+    const action = await hub.runAction({ moduleId: "module_support", task: "Resolver incidente do cliente." });
+    assert(action.succeeded === 1 && action.results[0]?.success === true && (action.results[0]?.output ?? "").length > 0, "Enterprise: runAction executa (offline)");
+
+    const ev = { fired: false };
+    hub.kernel.events.subscribe("omega:enterprise:complete", () => { ev.fired = true; });
+    await hub.runAction({ moduleId: "module_sales", task: "Gerar proposta." });
+    assert(ev.fired === true, "Enterprise: evento omega:enterprise:complete emitido no bus");
+
+    const hangingRuntime = {
+      getAgent: () => ({ id: "agent_hang", name: "Hang", role: "r", execute: () => new Promise<any>(() => { /* nunca resolve */ }) }),
+    } as any;
+    const hub2 = new EnterpriseHub(new Kernel(), undefined, { agentTimeoutMs: 150 });
+    hub2.loadFromDir(manifestsDir);
+    hub2.attachRuntime(hangingRuntime);
+    const t0 = Date.now();
+    const hangAction = await hub2.runAction({ moduleId: "module_sales", task: "x" });
+    assert(Date.now() - t0 < 5000, "Enterprise: agente pendurado não bloqueia (timeout)");
+    assert(hangAction.failed === 1 && (hangAction.results[0]?.error ?? "").includes("excedeu"), "Enterprise: erro de timeout registado");
+  }
+
+  // ── 14. Self-Heal Watchdog (destrava após 3 min de bloqueio) ──
+  {
+    const { SelfHealWatchdog, heartbeats } = require(path.join(process.cwd(), "src", "omega", "selfheal"));
+    const { Kernel } = require(path.join(process.cwd(), "src", "omega", "kernel", "Kernel"));
+
+    const watchdog = new SelfHealWatchdog({ staleMs: 180000, tickMs: 500, enabled: true });
+    let resetCalls = 0;
+    watchdog.register({
+      id: "test_component",
+      label: "Teste",
+      reset: () => { resetCalls++; },
+    });
+
+    heartbeats.begin("test_component");
+    assert(heartbeats.isStale("test_component", 180000) === false, "Watchdog: operação recém-iniciada não é stale");
+
+    (heartbeats as any).states.get("test_component").lastPulse = Date.now() - 200000;
+    assert(heartbeats.isStale("test_component", 180000) === true, "Watchdog: operação presa há >3min é stale");
+
+    heartbeats.end("test_component");
+    assert(heartbeats.isStale("test_component", 180000) === false, "Watchdog: sem operações ativas não é stale");
+
+    const incidents = await watchdog.healNow("test_component");
+    assert(incidents.length === 1, "Watchdog: healNow destrava componente");
+    assert(incidents[0].action === "reset-forcado", "Watchdog: ação de reset registada");
+    assert(resetCalls === 1, "Watchdog: reset do componente executado");
+    assert(heartbeats.isStale("test_component", 180000) === false, "Watchdog: após reset, componente saudável");
+    assert(watchdog.status().incidents.length === 1, "Watchdog: incidente no histórico de status");
   }
 
   console.log(`\n==========================================`);

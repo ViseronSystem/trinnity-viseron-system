@@ -8,6 +8,21 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json(omega.status());
   });
 
+  // ── SELF-HEAL WATCHDOG ──
+  router.get("/watchdog", (_req, res) => {
+    res.json(omega.watchdog.status());
+  });
+
+  router.post("/watchdog/heal", async (req, res) => {
+    try {
+      const { component } = req.body ?? {};
+      const incidents = await omega.watchdog.healNow(component || undefined);
+      res.json({ healed: incidents.length, incidents });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   router.get("/agents", (_req, res) => {
     res.json(omega.agents.status());
   });
@@ -157,6 +172,65 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
       const { task, context } = req.body ?? {};
       if (!task) return res.status(400).json({ error: "task required" });
       const result = await omega.squads.runSquad(omega.agents, req.params.id, task, context);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ── FACTORY ──
+  router.get("/factory", (_req, res) => {
+    res.json(omega.factory.status());
+  });
+
+  router.get("/factory/runs", (_req, res) => {
+    res.json(omega.factory.listRuns());
+  });
+
+  router.get("/factory/runs/:id", (req, res) => {
+    const run = omega.factory.getRun(req.params.id);
+    if (!run) return res.status(404).json({ error: `Factory run "${req.params.id}" not found` });
+    res.json(run);
+  });
+
+  router.post("/factory/pipeline", async (req, res) => {
+    try {
+      const body = req.body ?? {};
+      if (!body.name || !body.description) return res.status(400).json({ error: "name + description required" });
+      const result = await omega.factory.runPipeline({
+        name: body.name,
+        industry: body.industry ?? "tecnologia",
+        description: body.description,
+        goals: body.goals ?? [],
+        painPoints: body.painPoints ?? [],
+        budget: body.budget,
+        timeline: body.timeline,
+        template: body.template ?? "express-api",
+        deployTo: body.deployTo ?? ["local"],
+        outputDir: body.outputDir,
+      });
+      res.status(201).json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ── ENTERPRISE ──
+  router.get("/enterprise", (_req, res) => {
+    res.json(omega.enterprise.status());
+  });
+
+  router.get("/enterprise/:id", (req, res) => {
+    const mod = omega.enterprise.getModule(req.params.id);
+    if (!mod) return res.status(404).json({ error: `Module "${req.params.id}" not loaded` });
+    res.json({ ...mod, members: omega.enterprise.getModuleAgents(req.params.id) });
+  });
+
+  router.post("/enterprise/:id/action", async (req, res) => {
+    try {
+      const { task, workflowId, context } = req.body ?? {};
+      if (!task) return res.status(400).json({ error: "task required" });
+      const result = await omega.enterprise.runAction({ moduleId: req.params.id, workflowId, task, context });
       res.json(result);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

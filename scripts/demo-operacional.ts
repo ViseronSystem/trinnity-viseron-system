@@ -6,6 +6,8 @@ const PORT = parseInt(process.env.DEMO_PORT || "32124", 10);
 const BASE = `http://localhost:${PORT}`;
 
 async function call(method: string, path: string, body?: any, token?: string) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 30000);
   const res = await fetch(BASE + path, {
     method,
     headers: {
@@ -13,7 +15,8 @@ async function call(method: string, path: string, body?: any, token?: string) {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
-  });
+    signal: controller.signal,
+  }).finally(() => clearTimeout(timer));
   let data: any = null;
   try { data = await res.json(); } catch { /* noop */ }
   return { status: res.status, data };

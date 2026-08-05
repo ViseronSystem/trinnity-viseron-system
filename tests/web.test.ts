@@ -7,7 +7,7 @@ import { ViseronWebServer } from "../src/web/standalone-server";
 import { signToken, verifyToken } from "../src/web/auth/jwt";
 import { hashPassword, verifyPassword } from "../src/web/auth/password";
 
-const PORT = 32123;
+const PORT = 32125;
 const BASE = `http://localhost:${PORT}`;
 
 async function runWebTests() {

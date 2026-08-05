@@ -59,7 +59,7 @@ export class OllamaProvider implements ILLMProvider {
           temperature: request.temperature || 0.7,
           num_predict: request.maxTokens || 2048
         }
-      });
+      }, { timeout: 150000 });
 
       return {
         provider: this.providerId,

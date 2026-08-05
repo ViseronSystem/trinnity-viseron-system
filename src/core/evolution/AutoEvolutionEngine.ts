@@ -61,7 +61,13 @@ export class AutoEvolutionEngine {
     const allAgents = this.agentManager.list('ACTIVE');
     const agents = this.sampleAgents(allAgents, MAX_AGENTS_PER_CYCLE);
 
+    const budgetStart = Date.now();
+    const EVOLUTION_BUDGET_MS = 25000;
     for (const agent of agents) {
+      if (Date.now() - budgetStart > EVOLUTION_BUDGET_MS) {
+        console.warn(`[AutoEvolutionEngine] Orçamento de ${EVOLUTION_BUDGET_MS}ms excedido — ciclo #${this.evolutionCycle} truncado (anti-congelamento)`);
+        break;
+      }
       try {
         const record = await this.evolveAgent(agent);
         records.push(record);
@@ -287,6 +293,7 @@ export class AutoEvolutionEngine {
     this.evolutionTimer = setInterval(() => {
       this.evolveAll();
     }, intervalMs);
+    this.evolutionTimer.unref();
   }
 
   stopContinuousEvolution(): void {

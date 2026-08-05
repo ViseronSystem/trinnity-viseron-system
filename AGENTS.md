@@ -4,6 +4,12 @@ Project: Trinnity Viseron System v5.0
 
 Mission: Build an autonomous multi-agent AI superintelligence with 5000+ minds.
 
+Copyright & Authority:
+- Os direitos autorais do projeto pertencem a Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).
+- Pedro e Trinnity mandam em tudo: decisões finais, direção, prioridades e go-lives.
+- Nenhuma decisão de arquitetura, domínio, receita ou publicidade é tomada sem a aprovação deles.
+- O sistema e todos os seus artefactos devem manter e expor esta autoria (footer do site, APK, PDFs, créditos).
+
 Rules:
 1. Protect the core
 2. Test before deployment

@@ -75,14 +75,24 @@ n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}
 (global as any).__N8N_BRIDGE = n8nBridge;
 
 // ═══ EXECUTOR SEGURO ═══
-// Cada passo da inicialização é isolado: se falhar, loga e segue para o próximo.
-async function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise<T | undefined> {
-  try {
-    return await fn();
-  } catch (err: any) {
-    console.error(`[TVS] ⚠ ${label}: ${err?.message || err}`);
-    return fallback;
-  }
+// Cada passo da inicialização é isolado: se falhar ou exceder o tempo, loga e segue.
+// Timeout duro em CADA passo — o arranque nunca pode durar minutos/horas (anti-congelamento).
+const STEP_TIMEOUT_MS = parseInt(process.env.TVS_STEP_TIMEOUT_MS || "25000", 10);
+
+function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise<T | undefined> {
+  return new Promise<T | undefined>((resolve) => {
+    let done = false;
+    const timer = setTimeout(() => {
+      if (done) return;
+      done = true;
+      console.error(`[TVS] ⚠ ${label}: EXCEDEU ${STEP_TIMEOUT_MS}ms — saltado (sistema segue)`);
+      resolve(fallback);
+    }, STEP_TIMEOUT_MS);
+    Promise.resolve()
+      .then(() => fn())
+      .then((v) => { if (!done) { done = true; clearTimeout(timer); resolve(v as T); } })
+      .catch((err: any) => { if (!done) { done = true; clearTimeout(timer); console.error(`[TVS] ⚠ ${label}: ${err?.message || err}`); resolve(fallback); } });
+  });
 }
 
 (async () => {
@@ -196,6 +206,19 @@ const omegaPlatform = (() => {
       planner: (tvs as any).autonomousPlanner,
       evolution: (tvs as any).autoEvolutionEngine,
       learning: (tvs as any).hyperLearningEngine,
+      solutionEngine: {
+        analyze: (problem: any) => (tvs as any).businessSolutionEngine.solve(problem).then((sol: any) => ({
+          diagnosis: sol.diagnosis,
+          proposedSolution: sol.proposedSolution,
+          architecture: sol.architecture,
+          techStack: sol.techStack,
+          implementationPlan: sol.implementationPlan,
+          risks: sol.risks,
+        })),
+      },
+      scaffolder: {
+        scaffold: (spec: any) => (tvs as any).appScaffolder.scaffold(spec),
+      },
     });
     const loaded = omega.loadCoreAgents();
     (global as any).__TVS_OMEGA = omega;

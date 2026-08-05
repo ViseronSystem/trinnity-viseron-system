@@ -2,6 +2,19 @@ import * as fs from "fs";
 import * as path from "path";
 import { SquadSpec, parseSquadSpec } from "./SquadSpec";
 import { AgentRuntime } from "../agent-runtime/AgentRuntime";
+import { heartbeats } from "../selfheal";
+
+const AGENT_TIMEOUT_MS = 180000;
+
+function withTimeout<T>(promise: Promise<T>, ms: number, agentId: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`agente ${agentId} excedeu ${ms}ms (modelo de IA sem resposta)`)), ms);
+    promise.then(
+      (v) => { clearTimeout(timer); resolve(v); },
+      (e) => { clearTimeout(timer); reject(e); },
+    );
+  });
+}
 
 export interface SquadRegistryStatus {
   loaded: number;
@@ -22,6 +35,11 @@ export interface SquadRunResult {
 export class SquadRegistry {
   private squads = new Map<string, SquadSpec>();
   private failures: string[] = [];
+  private agentTimeoutMs: number;
+
+  constructor(options: { agentTimeoutMs?: number } = {}) {
+    this.agentTimeoutMs = options.agentTimeoutMs ?? AGENT_TIMEOUT_MS;
+  }
 
   public loadSquads(raw: unknown[]): { valid: number; invalid: number } {
     let valid = 0;
@@ -82,21 +100,26 @@ export class SquadRegistry {
     const start = Date.now();
     const results: SquadRunResult["results"] = [];
     let failed = 0;
-    for (const agentId of squad.agents) {
-      const agent = runtime.getAgent(agentId);
-      if (!agent) {
-        failed++;
-        results.push({ agentId, error: "agent not loaded" });
-        continue;
+    heartbeats.begin("squads");
+    try {
+      for (const agentId of squad.agents) {
+        const agent = runtime.getAgent(agentId);
+        if (!agent) {
+          failed++;
+          results.push({ agentId, error: "agent not loaded" });
+          continue;
+        }
+        try {
+          const res = await withTimeout(agent.execute(task, context), this.agentTimeoutMs, agentId);
+          results.push({ agentId, name: agent.name, role: agent.role, success: res.success, output: res.output });
+          if (!res.success) failed++;
+        } catch (e: any) {
+          failed++;
+          results.push({ agentId, error: e.message });
+        }
       }
-      try {
-        const res = await agent.execute(task, context);
-        results.push({ agentId, name: agent.name, role: agent.role, success: res.success, output: res.output });
-        if (!res.success) failed++;
-      } catch (e: any) {
-        failed++;
-        results.push({ agentId, error: e.message });
-      }
+    } finally {
+      heartbeats.end("squads");
     }
     return { squad: squadId, task, results, failed, succeeded: results.length - failed, executionTimeMs: Date.now() - start };
   }

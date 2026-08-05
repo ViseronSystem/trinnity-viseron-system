@@ -4,6 +4,7 @@ import { AgentSpec, AgentSpecSchema, parseAgentSpec, validateAgentSpecs, specToS
 import { SmartAgent } from "../../core/agents/SmartAgent";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ModelRouter } from "../../core/model-router/ModelRouter";
+import { heartbeats } from "../selfheal";
 
 export interface AgentRuntimeStatus {
   loaded: number;
@@ -79,7 +80,12 @@ export class AgentRuntime {
   public async execute(id: string, task: string, context?: Record<string, any>): Promise<any> {
     const agent = this.agents.get(id);
     if (!agent) throw new Error(`[AgentRuntime] Agent "${id}" not loaded`);
-    return agent.execute(task, context);
+    heartbeats.begin("runtime");
+    try {
+      return await agent.execute(task, context);
+    } finally {
+      heartbeats.end("runtime");
+    }
   }
 
   public validate(raw: unknown): { ok: boolean; errors: string[] } {

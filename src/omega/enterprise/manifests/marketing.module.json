@@ -1,0 +1,22 @@
+{
+  "id": "module_marketing",
+  "name": "Marketing Module",
+  "domain": "marketing",
+  "description": "Estratégia de go-to-market, conteúdo, campanhas e crescimento de marca.",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_mkt_leads", "description": "Gerar leads qualificados", "metric": "leads_monthly", "target": 20 },
+    { "id": "obj_mkt_brand", "description": "Crescer presença e autoridade da marca", "metric": "brand_reach", "target": 25 }
+  ],
+  "kpis": ["leads_monthly", "cac", "brand_reach", "email_open_rate"],
+  "workflows": [
+    { "id": "wf_gtm", "name": "Go-To-Market", "steps": ["research", "position", "campaign", "measure"] },
+    { "id": "wf_content", "name": "Content Engine", "steps": ["ideate", "draft", "review", "publish"] }
+  ],
+  "tools": [
+    { "id": "content_generator", "name": "Content Generator", "description": "gera conteúdo de marca" },
+    { "id": "campaigns", "name": "Campaigns", "description": "gestão de campanhas" }
+  ],
+  "agents": ["agent_vision", "agent_research"],
+  "reportIntervalMinutes": 60
+}

@@ -1,0 +1,22 @@
+{
+  "id": "module_sales",
+  "name": "Sales Module",
+  "domain": "sales",
+  "description": "Pipeline de receita de ponta a ponta: prospeção, qualificação, propostas e fecho.",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_sales_growth", "description": "Crescer pipeline de receita mensal", "metric": "revenue_pipeline", "target": 10 },
+    { "id": "obj_sales_win", "description": "Aumentar taxa de conversão de propostas", "metric": "conversion_rate", "target": 30 }
+  ],
+  "kpis": ["revenue_pipeline", "conversion_rate", "deals_won", "avg_deal_size"],
+  "workflows": [
+    { "id": "wf_prospect", "name": "Prospection", "steps": ["target", "research", "outreach", "qualify"] },
+    { "id": "wf_close", "name": "Closing", "steps": ["proposal", "negotiate", "sign", "onboard"] }
+  ],
+  "tools": [
+    { "id": "proposal_generator", "name": "Proposal Generator", "description": "Gera propostas comerciais" },
+    { "id": "pricing", "name": "Pricing Engine", "description": "Calcula preços e pacotes" }
+  ],
+  "agents": ["agent_sales"],
+  "reportIntervalMinutes": 60
+}
