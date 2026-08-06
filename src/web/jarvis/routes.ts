@@ -8,6 +8,7 @@ import { RateLimiter } from "../auth/rate-limiter";
 import { requireAuth } from "../auth/middleware";
 import { JarvisAgent } from "./agent";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
+import { AgencyDeps } from "../agency/routes";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 
@@ -19,6 +20,7 @@ export function createJarvisRouter(ctx: {
   messaging: MessageStore;
   blog: BlogStorage;
   composio: ComposioBridge;
+  agency: AgencyDeps;
   logger: ILogger;
   metrics: IMetrics;
 }): Router {
@@ -50,9 +52,15 @@ export function createJarvisRouter(ctx: {
         "composio_connect",
         "composio_execute",
         "memory_recall",
+        "agency_status",
+        "agency_lead_add",
+        "agency_report",
+        "agency_creative",
+        "agency_nurture",
+        "agency_projection",
         "trilingual",
       ],
-      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email, ligar apps via Composio e executar posts/mensagens/emails nas apps ligadas) · trilingue es/pt/en · memória persistente (nunca esquece, auditável pelo squad AIOX)",
+      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email, ligar apps via Composio e executar posts/mensagens/emails nas apps ligadas) · Agency OS: regista leads e responde, gera reportes e criativos, corre nurturing, projeta MRR/ARR · trilingue es/pt/en · memória persistente (nunca esquece, auditável pelo squad AIOX)",
     });
   });
 

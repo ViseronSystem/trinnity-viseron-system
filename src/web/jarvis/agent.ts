@@ -8,6 +8,8 @@ import { BlogStorage } from "../blog-storage";
 import { PLANS } from "../billing/plans";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
+import { AgencyDeps } from "../agency/routes";
+import { capacityIndicators, projectionTable, AGENCY_PACKAGES, LEGACY_FEE, NEW_FEE } from "../../core/agency/finance";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 
@@ -112,6 +114,7 @@ export class JarvisAgent {
   private messaging: MessageStore;
   private blog: BlogStorage;
   private composio: ComposioBridge;
+  private agency: AgencyDeps;
 
   constructor(ctx: {
     dataDir: string;
@@ -123,6 +126,7 @@ export class JarvisAgent {
     messaging: MessageStore;
     blog: BlogStorage;
     composio: ComposioBridge;
+    agency: AgencyDeps;
   }) {
     this.dataDir = ctx.dataDir;
     this.logger = ctx.logger;
@@ -133,6 +137,7 @@ export class JarvisAgent {
     this.messaging = ctx.messaging;
     this.blog = ctx.blog;
     this.composio = ctx.composio;
+    this.agency = ctx.agency;
     this.providerFactory = new ProviderFactory();
     this.sessionsFile = path.join(this.dataDir, "jarvis-sessions.json");
     this.memoryFile = path.join(this.dataDir, "knowledge", "jarvis-memory.jsonl");
@@ -351,6 +356,12 @@ export class JarvisAgent {
     if (new RegExp(Object.keys(APP_ALIASES).join("|")).test(m) && /(app|conta|liga|conectar|status|estado)/.test(m)) return "composio_connect";
     if (ACTION_VERBS.test(m) && (new RegExp(Object.keys(APP_ALIASES).join("|")).test(m) || MEDIUM_WORDS.test(m)) && !TVS_INTERNAL.test(m)) return "composio_execute";
     if (/(mem[oó]ria|memoria|o que j[áa] fizeste|o que fiz|j[áa] realizaste|qu[eé] has hecho|qu[eé] hiciste|remember|what have you done|recuerda|lembra)/i.test(m)) return "memory_recall";
+    if (/(ag[éeê]ncia|agency).*(estado|status|clientes|clients|receita|revenue|mrr)|(estado|status).*(ag[éeê]ncia|agency)/i.test(m)) return "agency_status";
+    if (/(nuevo lead|novo lead|nuevo cliente|novo cliente|add lead|nuevo contacto|novo contacto|registrar lead|registar lead)/i.test(m)) return "agency_lead_add";
+    if (/(reporte|relat[oó]rio|relatorio|report).*(ads|agencia|agency|cliente|m[eé]tricas)|(gerar|genera).*(reporte|relat[oó]rio)/i.test(m)) return "agency_report";
+    if (/(creativ|creativos|copy de anuncios|anuncios|guion|guiones|script).*(genera|gera|criar|crea|haz)/i.test(m)) return "agency_creative";
+    if (/(nurtur|seguimiento|follow[- ]?up|nutrir)/i.test(m)) return "agency_nurture";
+    if (/(proyecci[óo]n|proje[cç][aã]o|projec|mrr|arr|cu[aá]nto ganar|quanto ganhar)/i.test(m)) return "agency_projection";
     if (/(status|estado|health|sa[úu]de|funcionando|uptime|online)/.test(m)) return "system_status";
     if (/(plano|planos|pre[cç]o|precos|billing|assinatura|subscribe|pro|enterprise|core)/.test(m)) return "list_plans";
     if (/(comprar|assinar|checkout|contratar|subscrever|buy|sign up for pro)/.test(m)) return "checkout";
@@ -391,6 +402,18 @@ export class JarvisAgent {
         return await this.toolComposioExecute(input);
       case "memory_recall":
         return this.toolMemoryRecall();
+      case "agency_status":
+        return this.toolAgencyStatus();
+      case "agency_lead_add":
+        return await this.toolAgencyLeadAdd(input);
+      case "agency_report":
+        return this.toolAgencyReport();
+      case "agency_creative":
+        return await this.toolAgencyCreative(input);
+      case "agency_nurture":
+        return this.toolAgencyNurture();
+      case "agency_projection":
+        return this.toolAgencyProjection();
       case "audit_info":
         return this.toolAuditInfo();
       case "waitlist_info":
@@ -676,6 +699,110 @@ export class JarvisAgent {
     };
   }
 
+  /** Agency OS: estado completo da agência (clientes, leads, capacidade, projeção). */
+  private toolAgencyStatus(): JarvisAction {
+    try {
+      const store = this.agency.store;
+      const clients = store.listClients();
+      const leads = store.listLeads();
+      const active = clients.filter((c) => c.status === "active").length;
+      const report = this.agency.reporting.generate(store);
+      const cap = capacityIndicators(active);
+      const proj = projectionTable(active, LEGACY_FEE, NEW_FEE)[0];
+      const detail = [
+        `Agência: ${clients.length} clientes (${active} ativos) · MRR £${proj.mrr} (média £${proj.avgFee}/cliente)`,
+        `Leads: ${leads.length} (novos ${leads.filter((l) => l.status === "new").length} · nurturing ${leads.filter((l) => l.status === "nurturing").length} · ganhos ${leads.filter((l) => l.status === "won").length})`,
+        `Capacidade: ${cap.clientsPerDayComfortable} clientes/dia · ${cap.clientsPerCycle}/ciclo · ${cap.minutesPerClient} min/cliente com IA (vs ${cap.minutesWithoutAI} sem IA)`,
+        report.summary,
+      ].join("\n");
+      return { tool: "agency_status", ok: true, detail };
+    } catch (e: any) {
+      return { tool: "agency_status", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
+  /** Agency OS: regista um lead novo e responde automaticamente (agente de respostas). */
+  private async toolAgencyLeadAdd(input: JarvisChatInput): Promise<JarvisAction> {
+    try {
+      const store = this.agency.store;
+      const email = (input.message || "").match(/[\w.+-]+@[\w-]+\.[\w.]+/);
+      if (!email) {
+        return { tool: "agency_lead_add", ok: false, detail: "Diz-me o email do lead (ex.: 'novo lead de joão@empresa.com — venda de SaaS') para eu registar e responder automaticamente." };
+      }
+      const name = (input.message || "").match(/(?:de|del|from|da)\s+([A-Za-zÀ-ÿ\u00C0-\u024F][\w.-]*)/i)?.[1] || "Cliente";
+      const lang = this.detectLanguage(input.message || "");
+      const now = new Date().toISOString();
+      const lead = store.addLead({
+        id: `lead_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`,
+        name,
+        email: email[0].toLowerCase(),
+        company: "",
+        source: "jarvis",
+        status: "new",
+        lang,
+        firstContact: now,
+        lastContact: now,
+        followUpAt: "",
+        notes: (input.message || "").slice(0, 600),
+      });
+      const { reply } = await this.agency.leadResponse.respond(store, lead, (input.message || "").slice(0, 600));
+      return { tool: "agency_lead_add", ok: true, detail: `Lead ${lead.name} <${lead.email}> registado. Resposta automática enviada: ${reply}` };
+    } catch (e: any) {
+      return { tool: "agency_lead_add", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
+  /** Agency OS: gera o reporte quinzenal base (Reporting Agent). */
+  private toolAgencyReport(): JarvisAction {
+    try {
+      const report = this.agency.reporting.generate(this.agency.store);
+      return { tool: "agency_report", ok: true, detail: report.summary };
+    } catch (e: any) {
+      return { tool: "agency_report", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
+  /** Agency OS: gera variantes de criativos/ads para um nicho (Creatives Agent). */
+  private async toolAgencyCreative(input: JarvisChatInput): Promise<JarvisAction> {
+    try {
+      const message = input.message || "";
+      const m = message.toLowerCase();
+      const lang = this.detectLanguage(message);
+      const niche = message.match(/(?:para|para el|for|de)\s+([a-zà-ÿ\s-]{3,40})/i)?.[1]?.trim().slice(0, 80) || (m.includes("saas") ? "SaaS" : "marketing digital");
+      const platform = m.includes("meta") || m.includes("facebook") || m.includes("instagram") ? "meta" : "google";
+      const job = await this.agency.creatives.generate(this.agency.store, niche, platform as any, lang);
+      const lines = job.variants.map((v, i) => `${i + 1}. ${v.headline} — CTA: ${v.cta}`).join("\n");
+      return { tool: "agency_creative", ok: true, detail: `Criativos gerados para "${job.niche}" (${platform}):\n${lines}` };
+    } catch (e: any) {
+      return { tool: "agency_creative", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
+  /** Agency OS: corre o agente de nurturing (follow-ups automáticos a leads parados). */
+  private toolAgencyNurture(): JarvisAction {
+    try {
+      const created = this.agency.nurturing.run(this.agency.store);
+      const detail = created.length
+        ? `Nurturing executado: ${created.length} follow-up(s) criado(s) para ${created.map((a) => a.leadEmail).join(", ")}.`
+        : "Nurturing executado: nenhum lead precisa de follow-up agora (agenda: 2 dias para novos, 7 para responded).";
+      return { tool: "agency_nurture", ok: true, detail };
+    } catch (e: any) {
+      return { tool: "agency_nurture", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
+  /** Agency OS: projeção financeira MRR/ARR (50 → 100 clientes). */
+  private toolAgencyProjection(): JarvisAction {
+    try {
+      const active = this.agency.store.listClients("active").length;
+      const proj = projectionTable(active, LEGACY_FEE, NEW_FEE);
+      const rows = proj.map((p) => `${p.totalClients} clientes → £${p.mrr.toLocaleString()} MRR (média £${p.avgFee}) · £${p.arr.toLocaleString()}/ano`).join("\n");
+      return { tool: "agency_projection", ok: true, detail: `Projeção (atuais ${active} ativos a £${LEGACY_FEE}; novos a £${NEW_FEE}/mês):\n${rows}` };
+    } catch (e: any) {
+      return { tool: "agency_projection", ok: false, detail: `Erro: ${e.message}` };
+    }
+  }
+
   private templateReply(intent: string, toolResult: JarvisAction | null, message: string, lang: "es" | "pt" | "en"): string {
     const detail = toolResult ? toolResult.detail : "";
     const T: Record<string, Record<string, string>> = {
@@ -726,6 +853,16 @@ export class JarvisAgent {
       },
       waitlist_info: { es: detail, pt: detail, en: detail },
       memory_recall: { es: detail, pt: detail, en: detail },
+      agency_status: {
+        es: `Estado de la agencia (Agency OS):\n${detail}`,
+        pt: `Estado da agência (Agency OS):\n${detail}`,
+        en: `Agency status (Agency OS):\n${detail}`,
+      },
+      agency_lead_add: { es: detail, pt: detail, en: detail },
+      agency_report: { es: detail, pt: detail, en: detail },
+      agency_creative: { es: detail, pt: detail, en: detail },
+      agency_nurture: { es: detail, pt: detail, en: detail },
+      agency_projection: { es: detail, pt: detail, en: detail },
       who_are_you: {
         es: "Soy JARVIS, asistente del Trinnity Viseron System (TVS) — un sistema operativo multi-agente con 5000+ mentes. Autonomía real: consulto el estado, los planes, el blog, la mensajería, creo checkouts y ejecuto acciones en apps conectadas (Gmail, Slack, GitHub, Notion...) via Composio. ¿Cómo puedo ayudarte?",
         pt: "Sou o JARVIS, assistente do Trinnity Viseron System (TVS) — um sistema operativo multi-agente com 5000+ mentes. Tenho autonomia para consultar o estado do sistema, planos, blog, mensageria, criar sessões de checkout e ligar apps (Gmail, Slack, GitHub, Notion...) via Composio. Como posso ajudar-te?",

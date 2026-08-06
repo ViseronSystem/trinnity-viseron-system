@@ -32,6 +32,7 @@ import { AppScaffoldStore } from "./apps/store";
 import { createAppsRouter } from "./apps/routes";
 import { BusinessAgentStore } from "./business/store";
 import { createBusinessRouter } from "./business/routes";
+import { AgencyDeps, createAgencyDeps, createAgencyRouter } from "./agency/routes";
 import { ComposioBridge } from "../core/composio/ComposioBridge";
 import { createComposioRouter } from "./composio/routes";
 
@@ -55,6 +56,7 @@ export class ViseronWebServer {
   private sites: SiteStore;
   private apps: AppScaffoldStore;
   private business: BusinessAgentStore;
+  private agency: AgencyDeps;
   private composio: ComposioBridge;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
@@ -90,6 +92,7 @@ export class ViseronWebServer {
     this.sites = new SiteStore(this.dataDir);
     this.apps = new AppScaffoldStore(this.dataDir);
     this.business = new BusinessAgentStore(this.dataDir);
+    this.agency = createAgencyDeps(this.dataDir);
     this.composio = new ComposioBridge();
 
     this.setupMiddleware();
@@ -212,6 +215,7 @@ export class ViseronWebServer {
       messaging: this.messaging,
       blog: this.blog,
       composio: this.composio,
+      agency: this.agency,
       logger: this.logger,
       metrics: this.metrics,
     }));
@@ -220,6 +224,7 @@ export class ViseronWebServer {
     this.app.use("/api", createSitesRouter(this.sites, this.logger));
     this.app.use("/api", createAppsRouter(this.apps, this.logger));
     this.app.use("/api", createBusinessRouter(this.business, this.logger));
+    this.app.use("/api", createAgencyRouter(this.agency, this.logger));
     this.app.use("/api", createComposioRouter(this.composio));
     this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
 
@@ -290,7 +295,8 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
-        console.log(`[Viseron Web] Composio: http://localhost:${this.port}/api/composio/status (${this.composio.configured ? "chave configurada" : "sem COMPOSIO_API_KEY"})`);
+        console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);
+        console.log(`[Viseron Web] Agency OS: http://localhost:${this.port}/api/agency/* (clientes, leads, report, creativos, projeção)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
         console.log(`==========================================\n`);
         resolve();

@@ -342,6 +342,88 @@ async function runWebTests() {
     } catch (e: any) {
       assert(e.response?.status === 401, "Execução de ferramenta sem token → 401");
     }
+
+    // ── Agency OS (agência × VISERON) ─────────────────────────
+    const agencyStatus = await axios.get(`${BASE}/api/agency/status`);
+    assert(agencyStatus.data.ok === true && typeof agencyStatus.data.clients === "object", "GET /api/agency/status responde");
+    assert(agencyStatus.data.capacity && agencyStatus.data.capacity.minutesPerClient === 50, "status expõe capacidade com IA (50 min/cliente)");
+    assert(Array.isArray(agencyStatus.data.projection) && agencyStatus.data.projection.length === 5, "status expõe projeção MRR (5 pontos)");
+
+    const agencyClients = await axios.get(`${BASE}/api/agency/clients`);
+    assert(agencyClients.data.ok === true && Array.isArray(agencyClients.data.clients), "GET /api/agency/clients responde");
+
+    const agencyClient = await axios.post(
+      `${BASE}/api/agency/clients`,
+      { name: "Cliente Teste", niche: "SaaS", plan: "bundle", fee: 1500 },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyClient.data.ok === true && agencyClient.data.client.id.startsWith("cli_"), "POST /api/agency/clients cria cliente");
+    assert(agencyClient.data.client.fee === 1500, "cliente criado com fee £1,500");
+
+    const agencyClientPatch = await axios.patch(
+      `${BASE}/api/agency/clients/${agencyClient.data.client.id}`,
+      { status: "paused", fee: 1200 },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyClientPatch.data.ok === true && agencyClientPatch.data.client.status === "paused" && agencyClientPatch.data.client.fee === 1200, "PATCH /api/agency/clients/:id atualiza");
+
+    try {
+      await axios.post(`${BASE}/api/agency/clients`, { name: "Sem Token" });
+      assert(false, "Criação de cliente sem token rejeitada");
+    } catch (e: any) {
+      assert(e.response?.status === 401, "Criação de cliente sem token → 401");
+    }
+
+    const agencyLead = await axios.post(
+      `${BASE}/api/agency/leads`,
+      { name: "Novo Lead", email: "lead@teste.com", lang: "en", message: "Quero mais vendas com Google Ads" },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyLead.data.ok === true && agencyLead.data.lead.id.startsWith("lead_"), "POST /api/agency/leads cria lead");
+    assert(typeof agencyLead.data.response.reply === "string" && agencyLead.data.response.reply.length > 10, "Lead recebe resposta automática do agente");
+
+    const agencyLeads = await axios.get(`${BASE}/api/agency/leads`);
+    assert(agencyLeads.data.ok === true && Array.isArray(agencyLeads.data.leads), "GET /api/agency/leads responde");
+
+    const agencyMetric = await axios.post(
+      `${BASE}/api/agency/metrics`,
+      { clientId: agencyClient.data.client.id, platform: "google", spend: 1000, conversions: 10 },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyMetric.data.ok === true && agencyMetric.data.metrics.spend === 1000, "POST /api/agency/metrics regista métricas");
+
+    const agencyReport = await axios.post(
+      `${BASE}/api/agency/report/generate`,
+      {},
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyReport.data.ok === true && typeof agencyReport.data.report.summary === "string", "POST /api/agency/report/generate gera reporte");
+    assert(agencyReport.data.report.summary.includes("£"), "reporte inclui gastos em £");
+
+    const agencyCreative = await axios.post(
+      `${BASE}/api/agency/creatives/generate`,
+      { niche: "SaaS", platform: "google", lang: "en" },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(agencyCreative.data.ok === true && agencyCreative.data.creative.variants.length === 3, "POST /api/agency/creatives/generate cria 3 variantes");
+
+    const agencyNurture = await axios.post(`${BASE}/api/agency/nurture/run`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(agencyNurture.data.ok === true && typeof agencyNurture.data.created.length === "number", "POST /api/agency/nurture/run corre nurturing");
+
+    const agencyProjection = await axios.get(`${BASE}/api/agency/projection`);
+    assert(agencyProjection.data.ok === true && Array.isArray(agencyProjection.data.packages) && agencyProjection.data.packages.length === 4, "GET /api/agency/projection expõe 4 pacotes £");
+    assert(agencyProjection.data.projection[0].arr === agencyProjection.data.projection[0].mrr * 12, "projeção ARR = MRR × 12");
+
+    const agencyCapacity = await axios.get(`${BASE}/api/agency/capacity`);
+    assert(agencyCapacity.data.ok === true && agencyCapacity.data.clientsPerCycle === 90, "GET /api/agency/capacity expõe capacidade (90/ciclo)");
+
+    // JARVIS × Agency OS
+    const jarvisAgency = await axios.post(`${BASE}/api/jarvis/chat`, { message: "Estado da agência" });
+    assert(jarvisAgency.data.ok === true && jarvisAgency.data.intent === "agency_status", "JARVIS detecta intent agency_status");
+    assert(jarvisAgency.data.actions[0].tool === "agency_status" && /MRR/i.test(jarvisAgency.data.actions[0].detail), "JARVIS reporta estado da agência com MRR");
+
+    const jarvisProj = await axios.post(`${BASE}/api/jarvis/chat`, { message: "Proyección de ingresos de la agencia" });
+    assert(jarvisProj.data.ok === true && jarvisProj.data.intent === "agency_projection", "JARVIS detecta intent agency_projection");
   } finally {
     server.stop();
   }

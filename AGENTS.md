@@ -96,6 +96,8 @@ cd mobile && npx expo start
 | `npm run composio:connect` | Liga ao Composio e regista as ferramentas no ToolManager |
 | `npm run contas:pdf` | Gera data/Viseron_Contas_Conectadas.pdf + snapshot JSON das apps ligadas |
 | `npm run expansion:pdf` | Gera data/Viseron_Registo_Expansao.pdf (trilingue) + conhecimento das 31+ apps do mercado |
+| `npm run agency:demo` | Semeia dados reais da agência (10 clientes, leads, métricas, criativos) em data/agency/agency.json |
+| `npm run plano:agencia` | Gera data/Viseron_Agencia_Mercado_Receita.pdf — agência (Estructura del Equipo) × VISERON × entrada no mercado × projeção MRR/ARR |
 | `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
 
 ## TVS OS — AI-Native Operating System v1
@@ -170,6 +172,25 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `POST /api/business/agents/:id/messages` | Cliente fala com o agente → resposta IA com contexto da empresa (knowledge base) |
 | `DELETE /api/business/agents/:id` | Remover agente |
 | `GET /api/business/status` | Total de agentes de empresas |
+| `GET /api/agency/status` | Estado da agência: clientes, leads, capacidade (50 min/cliente com IA), reporte e projeção MRR |
+| `GET /api/agency/clients` | Listar clientes da agência (filter `?status=active`) |
+| `POST /api/agency/clients` | Criar cliente (JWT): `name, niche, plan (bundle/solo_ads/solo_creativos/landing), fee £, owner (pedro/trafico/premi)` |
+| `PATCH /api/agency/clients/:id` | Atualizar cliente (JWT) |
+| `DELETE /api/agency/clients/:id` | Remover cliente (JWT) |
+| `GET /api/agency/leads` | Listar leads (filter `?status=`) |
+| `POST /api/agency/leads` | Criar lead (JWT) → agente Respuesta a Leads responde automaticamente no idioma do lead |
+| `POST /api/agency/leads/:id/respond` | Forçar resposta do agente a um lead (JWT) |
+| `PATCH /api/agency/leads/:id` | Atualizar status/notas do lead (JWT) |
+| `GET /api/agency/metrics` | Registos de métricas Google/Meta Ads |
+| `POST /api/agency/metrics` | Registrar métricas (JWT): `clientId, platform, spend, conversions, period` |
+| `POST /api/agency/report/generate` | Agente Reporting: reporte quinzenal base (spend/conversões/CPA por plataforma e cliente) |
+| `GET /api/agency/creatives` | Criativos gerados |
+| `POST /api/agency/creatives/generate` | Agente Creativos (JWT): `niche, platform, lang` → 3 variantes (headline/copy/CTA/script) |
+| `GET /api/agency/nurture` | Follow-ups de nurturing |
+| `POST /api/agency/nurture/run` | Agente Nurturing (JWT): cria follow-ups a leads parados (2d novos, 7d responded) |
+| `POST /api/agency/nurture/:id/sent` | Marcar follow-up enviado (JWT) |
+| `GET /api/agency/projection` | Pacotes £ (Londres 2026) + projeção MRR/ARR (50→100 clientes) |
+| `GET /api/agency/capacity` | Capacidade operativa: 9 clientes/dia · 90/ciclo · 50 min/cliente com IA |
 | `GET /api/composio/status` | Estado do Composio (MCP): configurado, ligado, nº de ferramentas, último erro |
 | `GET /api/composio/tools` | Lista as ferramentas Composio disponíveis (Gmail/Slack/GitHub/...) |
 | `POST /api/composio/connect` | Liga ao Composio (JWT) e carrega a lista de ferramentas |
@@ -180,6 +201,16 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 Variáveis de ambiente: `AVIRATO_API_KEY`+`AVIRATO_WEBCODE`+`AVIRATO_CLIENT_SECRET` (cobranças — primário), `DATABASE_URL` (Postgres opcional), `STRIPE_SECRET_KEY` (alternativo), `GMAIL_CLIENT_ID/SECRET/REFRESH_TOKEN`, `TVS_JWT_SECRET`.
 
 > Estado receita (2026-08): **6/6 pronto** — Avirato live, webhook HMAC, Gmail real, email provider gmail, `TVS_PUBLIC_URL` configurado, **Postgres Neon** (`DATABASE_URL`) com 10 tabelas migradas e `usage_events` a gravar registos/logins. `GET /api/revenue/readiness` → `ok=true`. Reinício sem freeze: `npm run restart`.
+
+## Agency OS (agência × VISERON)
+
+Implementação da "Estructura del Equipo" da agência de marketing digital (documento Pedro · Premi · Tráfico Pago, Londres 2026) como módulo do TVS.
+
+- **Stack de 4 agentes de IA reais** (`src/web/agency/agents.ts`): Reporting (reporte quinzenal base), Respuesta a Leads (responde em tempo real no idioma do lead), Creativos (3 variantes headline/copy/CTA/script por nicho), Nurturing (follow-ups a leads parados: 2d novos, 7d responded). IA local Ollama com fallback trilingue.
+- **Dados vivos** em `data/agency/agency.json` (clientes, leads, métricas, creativos, nurturing, ciclo de 2 semanas). Store: `src/core/agency/store.ts`. Financeiro (pacotes £, capacidade, projeção MRR/ARR): `src/core/agency/finance.ts`.
+- **API** `/api/agency/*` (ver tabela acima) + **JARVIS**: "estado de la agencia", "nuevo lead de X", "genera creativos para SaaS", "corre el reporte", "proyección de ingresos".
+- `npm run agency:demo` semeia 10 clientes + leads + 64 métricas + criativos; `npm run plano:agencia` → `data/Viseron_Agencia_Mercado_Receita.pdf` (trilingue: agência × VISERON × entrada no mercado × projeção MRR/ARR).
+- Projeção (Londres 2026): 50 clientes a £1.000/mês + novos a £1.500/mês → £50k→£125k MRR sem contratar mais gente; gatilho de contratação aos 90-100 clientes.
 
 ## Composio (consumo MCP)
 

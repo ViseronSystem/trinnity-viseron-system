@@ -108,7 +108,9 @@
     "composio:connect-apps": "tsx scripts/composio.ts connect-apps",
     "composio:list-apps": "tsx scripts/composio.ts list-apps",
     "contas:pdf": "tsx scripts/gerar-relatorio-contas.ts",
-    "expansion:pdf": "tsx scripts/gerar-registo-expansao.ts"
+    "expansion:pdf": "tsx scripts/gerar-registo-expansao.ts",
+    "plano:agencia": "tsx scripts/gerar-plano-agencia-viseron.ts",
+    "agency:demo": "tsx scripts/demo-agency.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",
