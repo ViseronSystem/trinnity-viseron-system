@@ -277,6 +277,10 @@ Regra global: **todo o conteúdo e respostas devem existir nos 3 idiomas** — I
 - Esta memória é a base de auditoria contínua do **squad AIOX** (com Pedro Costa e Trinnity Hurtado) e de auto-aprendizagem (aprender com cada operação).
 - Regenerar relatórios/PDFs a cada atualização e incluir sempre o que mudou.
 
+## Plugin local do opencode (`.opencode/plugin/tvs.ts`)
+
+Auto-descoberto (declarado em `opencode.json`): (1) `shell.env` expõe as variáveis TVS não-secretas (`.env`) aos comandos bash — segredos (`*KEY`, `*SECRET`, `*TOKEN`, `*AUTH`…) nunca são expostos; (2) `event` regista sessões/ferramentas em `data/knowledge/opencode-events.jsonl` para a memória do JARVIS. Após alterar o plugin, reiniciar o opencode.
+
 ## Deploy a cada atualização
 
 Cada atualização feita deve: (1) commit + push ao **GitHub** (`npm run deploy:github`), (2) deploy do **site** (`npm run deploy:vercel`), (3) rebuild do **APK** (`npm run build:android`). O `npm run update:auto` faz pull + install + PDFs + build + testes + deploy automaticamente.
