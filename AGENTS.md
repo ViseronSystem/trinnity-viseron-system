@@ -99,6 +99,12 @@ cd mobile && npx expo start
 | `npm run agency:demo` | Semeia dados reais da agência (10 clientes, leads, métricas, criativos) em data/agency/agency.json |
 | `npm run plano:agencia` | Gera data/Viseron_Agencia_Mercado_Receita.pdf — agência (Estructura del Equipo) × VISERON × entrada no mercado × projeção MRR/ARR |
 | `npm run cudacyclone` | GPU puzzle solver vendido em tools/CUDACyclone (GPL). Subcomandos: status, build, run, benchmark |
+| `npm run app:create -- "Nome" "Descrição"` | App Factory: gera app com IA local, materializa projeto Expo em mobile/apps/<slug>/ e compila APK real em data/apps/<slug>.apk |
+| `npm run app:build -- <slug>` | Reconstrói o APK de uma app já gerada |
+| `npm run app:derecho` | Gera o APK "Derecho Internacional" (planos do Vademécum 2016-2026) orquestrado pelo Squad AIOX (AIOX-1..5 + ARKOM) |
+| `npm run rcs:status` | Estado do canal RCS: modo (mock/live), marca, logo, Twilio, messaging service, stats |
+| `npm run rcs:send -- <nº> "mensagem"` | Envia RCS de marca com o logo da TVS (fallback SMS/MMS automático; sem messaging service → mock) |
+| `npm run rcs:list` | Histórico de broadcasts RCS (`data/rcs/broadcasts.json`) |
 
 ## TVS OS — AI-Native Operating System v1
 
@@ -195,6 +201,11 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `GET /api/composio/tools` | Lista as ferramentas Composio disponíveis (Gmail/Slack/GitHub/...) |
 | `POST /api/composio/connect` | Liga ao Composio (JWT) e carrega a lista de ferramentas |
 | `POST /api/composio/tools/:name` | Executa uma ferramenta Composio (JWT) — body `{ "arguments": {...} }` |
+| `GET /api/rcs/status` | Estado do canal RCS: modo (mock/live), marca, logo, Twilio, messaging service, stats + checklist go-live |
+| `GET /api/rcs/logo` | Logo oficial da TVS (PNG — `mobile/assets/icon.png`) usado como media das mensagens RCS |
+| `GET /api/rcs/broadcasts` | Histórico de broadcasts (JWT) |
+| `POST /api/rcs/send` | Envia RCS de marca (JWT) — `{ "to": "+351..." | [números], "message"?, "label"? }` → RCS com logo + fallback SMS/MMS |
+| `POST /api/rcs/status` | Webhook de estado do Twilio (MessageSid → delivered/read/failed, sem auth) |
 | `GET /api/health` | Health + db + billing + contagens |
 | `GET /api/metrics` | Métricas de uso |
 
@@ -211,6 +222,17 @@ Implementação da "Estructura del Equipo" da agência de marketing digital (doc
 - **API** `/api/agency/*` (ver tabela acima) + **JARVIS**: "estado de la agencia", "nuevo lead de X", "genera creativos para SaaS", "corre el reporte", "proyección de ingresos".
 - `npm run agency:demo` semeia 10 clientes + leads + 64 métricas + criativos; `npm run plano:agencia` → `data/Viseron_Agencia_Mercado_Receita.pdf` (trilingue: agência × VISERON × entrada no mercado × projeção MRR/ARR).
 - Projeção (Londres 2026): 50 clientes a £1.000/mês + novos a £1.500/mês → £50k→£125k MRR sem contratar mais gente; gatilho de contratação aos 90-100 clientes.
+
+## RCS — mensagens de marca (Twilio)
+
+Canal de aquisição/conversão: envia mensagens **RCS de marca** (nome + logo da TVS) para qualquer número, com fallback automático para SMS/MMS via Twilio Programmable Messaging.
+
+- **Núcleo**: `src/core/rcs/RcsEngine.ts` → envia via `Messages.json` com `MessagingServiceSid` + `MediaUrl` (logo) ou `ContentSid` (template rico, se `TWILIO_RCS_CONTENT_SID` definido). Grava tudo em `data/rcs/broadcasts.json` (200 últimos broadcasts).
+- **Modo**: `live` quando `TWILIO_RCS_SERVICE_SID` existe no `.env`; senão **mock** (simula entregas e regista) para validar o fluxo com o logo. RCS real exige no console Twilio: criar o **RCS Sender** (agente), submeter a marca (nome `RCS_BRAND_NAME` + logo) à aprovação da Google e anexá-la a um Messaging Service.
+- **Logo**: `GET /api/rcs/logo` serve `mobile/assets/icon.png` (media público da mensagem). URL do media = `TVS_PUBLIC_URL`/`RENDER_WEB_URL`.
+- **API** `/api/rcs/*` (ver tabela acima) + **JARVIS**: "envía un RCS a +351...", "manda um SMS com o logo da TVS para..." → intent `rcs_broadcast` (extrai números, envia com logo, resume modo/entregas).
+- **Comandos**: `npm run rcs:status` · `npm run rcs:send -- <nº> "mensagem"` · `npm run rcs:list`.
+- Variáveis: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_RCS_SERVICE_SID` (obrigatório live), `TWILIO_RCS_CONTENT_SID` (opcional), `RCS_BRAND_NAME` (default `VISERON`).
 
 ## Composio (consumo MCP)
 

@@ -1,6 +1,5 @@
-import PDFDocument from "pdfkit";
-import fs from "fs";
 import path from "path";
+import { createTheme } from "./pdf-theme";
 import { getRevenueReadiness } from "../src/web/revenue/readiness";
 
 // TVS — PLANO DE RECEITA REAL
@@ -88,86 +87,61 @@ const REVENUE_MODEL: Array<[string, string]> = [
 ];
 
 function main() {
-  const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
   const outFile = path.resolve("data", "Viseron_Pipeline_Receita.pdf");
-  if (!fs.existsSync(path.dirname(outFile))) fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  doc.pipe(fs.createWriteStream(outFile));
-
-  const W = doc.page.width;
-  const PH = doc.page.height;
-  const drawFooter = () => {
-    doc.page.margins.bottom = 8;
-    doc.fontSize(8).fillColor("#888888").text(`TVS v5.0 · Plano de Receita Real · ${new Date().toLocaleString("pt-PT")} · p.${doc.bufferedPageRange().count + 1}`, 50, PH - 28, { width: W - 100 });
-    doc.page.margins.bottom = 50;
-  };
-  const heading = (n: string, t: string) => {
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text(`${n}. ${t}`, 50, doc.y);
-    doc.fillColor("#22d3ee").rect(50, doc.y + 2, 28, 2).fill();
-    doc.moveDown();
-  };
-
   const readiness = getRevenueReadiness();
 
+  const t = createTheme({
+    title: "Trinnity Viseron System — Plano de Receita",
+    subject: "Passo a passo para o TVS cobrar dinheiro real + modelo de receita",
+  });
+
   // Capa
-  doc.fillColor("#0f172a").rect(0, 0, W, PH).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM · RECEITA REAL", W / 2, 150, { align: "center", width: W - 100 });
-  doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(32).text("PLANO DE RECEITA", W / 2, 190, { align: "center", width: W - 100 });
-  doc.fillColor(readiness.ok ? "#22c55e" : "#eab308").font("Helvetica-Bold").fontSize(18).text(readiness.ok ? "PRONTO PARA FATURAR" : "GO-LIVE PENDENTE", W / 2, 260, { align: "center", width: W - 100 });
-  doc.fillColor("#94a3b8").font("Helvetica").fontSize(12).text(`${readiness.requirements.filter(r => r.ready).length}/${readiness.requirements.length} requisitos prontos · ${new Date().toLocaleString("pt-PT")}`, W / 2, 310, { align: "center", width: W - 100 });
-  doc.fillColor("#22d3ee").fontSize(12).text("www.trinnityviseronsystem.io · Core $29 · Pro $99 · Enterprise $499", W / 2, 350, { align: "center", width: W - 100 });
-  doc.addPage();
-  drawFooter();
+  t.cover({
+    title: "PLANO DE RECEITA",
+    subtitle: `${readiness.ok ? "PRONTO PARA FATURAR" : "GO-LIVE PENDENTE"} · ${readiness.requirements.filter(r => r.ready).length}/${readiness.requirements.length} requisitos prontos · ${new Date().toLocaleString("pt-PT")}`,
+    badges: ["Core $29", "Pro $99", "Enterprise $499"],
+    date: new Date().toLocaleString("pt-PT"),
+    version: "5.0",
+    url: "www.trinnityviseronsystem.io",
+  });
 
   // 1. Estado atual (readiness)
-  heading("1", "Estado atual dos requisitos (ao vivo)");
+  t.section("1", "Estado atual dos requisitos (ao vivo)");
   for (const r of readiness.requirements) {
-    if (doc.y > PH - 90) { doc.addPage(); drawFooter(); }
-    doc.fillColor(r.ready ? "#22c55e" : "#ef4444").font("Helvetica-Bold").fontSize(11).text(`${r.ready ? "✓" : "○"} ${r.label}`);
-    doc.fillColor("#64748b").font("Helvetica").fontSize(9.5).text(`   ${r.value} — ${r.description}`, 60, doc.y, { width: W - 110 });
-    doc.moveDown(0.5);
+    t.bullet(r.ready ? "✓" : "○", `${r.label} — ${r.value} — ${r.description}`, r.ready ? "#22c55e" : "#ef4444");
   }
-  doc.moveDown(0.5);
   if (readiness.missing.length) {
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(12).text("Em falta:");
-    doc.fillColor("#ef4444").font("Helvetica").fontSize(10).text(`   ${readiness.missing.join(" · ")}`);
+    t.sub("Em falta:");
+    t.para(`   ${readiness.missing.join(" · ")}`, 10, "#ef4444");
   }
 
   // 2. Passo a passo
-  heading("2", "Passo a passo para faturar");
+  t.section("2", "Passo a passo para faturar");
   for (const s of STEPS) {
-    if (doc.y > PH - 180) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(13).text(s.t);
-    doc.fillColor("#64748b").font("Helvetica").fontSize(10).text(s.d, 55, doc.y, { width: W - 105 });
-    doc.moveDown(0.4);
+    t.sub(s.t);
+    t.para(s.d, 10, "#64748b");
     for (const a of s.a) {
-      if (doc.y > PH - 60) { doc.addPage(); drawFooter(); }
-      doc.fillColor("#1e293b").font("Helvetica").fontSize(9.5).text(`   ▸ ${a}`, 55, doc.y, { width: W - 105 });
-      doc.moveDown(0.2);
+      t.bullet("▸", a);
     }
-    doc.moveDown(0.6);
   }
 
   // 3. Modelo de receita
-  heading("3", "Modelo de receita");
+  t.section("3", "Modelo de receita");
   for (const [k, v] of REVENUE_MODEL) {
-    if (doc.y > PH - 60) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(10).text(`${k}: `, 50, doc.y);
-    doc.fillColor("#1e293b").font("Helvetica").fontSize(10).text(v, 50 + k.length * 4.5, doc.y, { width: W - 100 - k.length * 4.5 });
-    doc.moveDown(0.6);
+    t.kv(k + ":", v);
   }
 
   // 4. Próximo passo operacional
-  heading("4", "Próximo passo imediato");
+  t.section("4", "Próximo passo imediato");
   const next = readiness.requirements.find((r) => !r.ready && r.key === "stripe") || readiness.requirements.find((r) => !r.ready);
   if (next) {
-    doc.fillColor("#1e293b").font("Helvetica").fontSize(10.5);
-    doc.text(`Começar por: ${next.label}`);
-    doc.text(`Ação: ${next.action}`);
+    t.para(`Começar por: ${next.label}`);
+    t.para(`Ação: ${next.action}`);
   } else {
-    doc.fillColor("#22c55e").font("Helvetica-Bold").fontSize(11).text("Tudo pronto — ativar o modo cobrança e ligar o webhook!");
+    t.bullet("✓", "Tudo pronto — ativar o modo cobrança e ligar o webhook!", "#22c55e");
   }
 
-  doc.end();
+  t.finish(outFile);
   console.log(`✅ Plano de receita gerado: ${outFile}`);
 }
 

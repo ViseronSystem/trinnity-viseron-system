@@ -30,11 +30,11 @@
   th { text-align:left; color:var(--dim); font-weight:600; padding:6px 8px; border-bottom:1px solid var(--line); }
   td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
   .st { padding:2px 8px; border-radius:99px; font-size:10.5px; font-weight:700; }
-  .st.RUNNING,.st.granted { background:rgba(34,211,138,.15); color:var(--ok); }
+  .st.RUNNING,.st.granted,.st.paid { background:rgba(34,211,138,.15); color:var(--ok); }
   .st.COMPLETED,.st.ok { background:rgba(0,240,255,.12); color:var(--neon); }
   .st.FAILED,.st.denied { background:rgba(255,77,94,.15); color:var(--crit); }
-  .st.TIMEOUT,.st.warn { background:rgba(255,176,32,.15); color:var(--warn); }
-  .st.KILLED { background:rgba(138,138,168,.2); color:var(--dim); }
+  .st.TIMEOUT,.st.warn,.st.pending { background:rgba(255,176,32,.15); color:var(--warn); }
+  .st.KILLED,.st.expired { background:rgba(138,138,168,.2); color:var(--dim); }
   input, select { background:var(--panel2); color:var(--text); border:1px solid var(--line); border-radius:7px; padding:7px 10px; font-size:13px; }
   button.act { background:var(--panel2); border:1px solid var(--line); color:var(--text); border-radius:7px; padding:6px 12px; cursor:pointer; font-size:12px; }
   button.act:hover { border-color:var(--neon); color:var(--neon); }
@@ -45,6 +45,7 @@
   pre { background:#070712; border:1px solid var(--line); border-radius:8px; padding:10px; font-family:'JetBrains Mono'; font-size:11.5px; overflow:auto; max-height:240px; white-space:pre-wrap; }
   .bar { height:6px; background:var(--line); border-radius:99px; overflow:hidden; }
   .bar > div { height:100%; background:linear-gradient(90deg,var(--neon),var(--neon2)); }
+  code { font-family:'JetBrains Mono'; color:var(--neon); background:rgba(0,240,255,.08); padding:1px 5px; border-radius:4px; font-size:12px; }
   #toast { position:fixed; bottom:18px; right:18px; background:var(--panel2); border:1px solid var(--neon); color:var(--text); padding:10px 16px; border-radius:10px; font-size:12.5px; opacity:0; transition:opacity .25s; z-index:99; }
   #toast.show { opacity:1; }
 </style>
@@ -55,12 +56,16 @@
   <div class="row" style="margin:0">
     <span class="badge ok" id="health">health</span>
     <span class="muted mono" id="uptime"></span>
+    <span class="badge warn" id="loginState" style="cursor:pointer" onclick="toggleLogin()">login</span>
     <a href="/" class="act" style="text-decoration:none;padding:6px 12px;border:1px solid var(--line);border-radius:7px;color:var(--dim)">← Site</a>
   </div>
 </header>
 
 <div class="dock" id="dock">
   <button data-view="monitor" class="active">System Monitor</button>
+  <button data-view="wallet">Crypto Wallet</button>
+  <button data-view="revenue">Revenue</button>
+  <button data-view="apps">App Factory</button>
   <button data-view="processes">Process Manager</button>
   <button data-view="files">File Explorer</button>
   <button data-view="store">App Store</button>
@@ -75,13 +80,54 @@
 const $ = (sel) => document.querySelector(sel);
 const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TOKEN = () => localStorage.getItem('tvs_token') || '';
+const authHeaders = (opts) => {
+  const h = Object.assign({}, opts?.headers || {});
+  const t = TOKEN();
+  if (t) h['Authorization'] = 'Bearer ' + t;
+  return h;
+};
 const api = async (path, opts) => {
-  const r = await fetch('/api/os' + path, opts ?? {});
+  const r = await fetch('/api/os' + path, Object.assign({}, opts, { headers: authHeaders(opts) }));
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || r.status);
+  return d;
+};
+const web = async (path, opts) => {
+  const r = await fetch('/api' + path, Object.assign({}, opts, { headers: authHeaders(opts) }));
   const d = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(d.error || r.status);
   return d;
 };
 const ST = (s) => `<span class="st ${esc(s)}">${esc(s)}</span>`;
+
+function renderLoginState() {
+  $('#loginState').textContent = TOKEN() ? 'sessão ativa' : 'sem login';
+  $('#loginState').className = 'badge ' + (TOKEN() ? 'ok' : 'warn');
+}
+function toggleLogin() {
+  if (TOKEN()) {
+    localStorage.removeItem('tvs_token');
+    renderLoginState();
+    toast('sessão terminada');
+    return;
+  }
+  const email = prompt('Email (utilizador da plataforma):');
+  if (!email) return;
+  const pass = prompt('Password:');
+  if (!pass) return;
+  login(email, pass);
+}
+async function login(email, password) {
+  try {
+    const r = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'login falhou');
+    localStorage.setItem('tvs_token', d.token);
+    renderLoginState();
+    toast('bem-vindo ' + (d.user?.name || ''));
+  } catch (e) { toast('login: ' + e.message); }
+}
 
 async function loadStatus() {
   try {
@@ -241,22 +287,145 @@ async function refreshSecurity() {
   } catch (e) { $('#secOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
 }
 
+// ── CRYPTO WALLET ─────────────────────────────────────────────────────
+function viewWallet() {
+  return `<section class="card full"><h3>TVS Crypto Wallet — pagamentos reais</h3>
+    <div class="kv" id="walStatus"><div>Estado</div><b>carregar…</b></div>
+    <div class="row" style="margin-top:12px">
+      <select id="walPlan"><option value="core">Core · $29</option><option value="pro">Pro · $99</option><option value="enterprise">Enterprise · $499</option></select>
+      <select id="walCur"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
+      <button class="act" onclick="createCryptoInvoice()">Criar fatura</button>
+      <button class="act" onclick="checkPayments()">Verificar pagamentos</button>
+      <button class="act" onclick="refreshWallet()">↻</button>
+    </div>
+    <div id="walOut"><pre>carregar…</pre></div>
+  </section>`;
+}
+async function refreshWallet() {
+  try {
+    const st = await web('/crypto/status');
+    $('#walStatus').innerHTML = `<div>Exchange</div><b>${esc(st.exchange)}</b><div>Modo</div><b>${esc(st.mode)}</b>`
+      + `<div>Recebido (crypto)</div><b>$${(st.totals?.paidUsd ?? 0).toFixed(2)} · ${st.totals?.paidCount ?? 0} pagos</b>`
+      + `<div>Pendentes</div><b>$${(st.totals?.pendingUsd ?? 0).toFixed(2)} · ${st.totals?.pendingCount ?? 0} faturas</b>`;
+    let balances = '<tr><td colspan="4" class="muted">faz login (badge acima) para ver saldos reais</td></tr>';
+    let invoices = '<tr><td colspan="6" class="muted">faz login para ver faturas</td></tr>';
+    if (TOKEN()) {
+      try {
+        const b = await web('/crypto/balances');
+        balances = (b.balances && b.balances.length)
+          ? b.balances.map(x => `<tr><td><b>${esc(x.asset)}</b></td><td class="mono">${x.free}</td><td class="mono">${x.locked}</td><td class="mono">$${x.usd.toFixed(2)}</td></tr>`).join('')
+            + `<tr><td colspan="3" class="muted">Total</td><td class="mono"><b>$${b.usdTotal.toFixed(2)}</b></td></tr>`
+          : '<tr><td colspan="4" class="muted">sem saldos</td></tr>';
+      } catch (e) { balances = `<tr><td colspan="4" class="muted">${esc(e.message)}</td></tr>`; }
+      try {
+        const inv = await web('/crypto/invoices');
+        invoices = (inv.invoices && inv.invoices.length)
+          ? inv.invoices.map(i => `<tr><td class="mono">${esc(i.id)}</td><td>${esc(i.planName)}</td><td class="mono">${i.currency} ${i.amount}</td><td>${ST(i.status)}</td><td class="mono" style="max-width:150px;overflow:hidden;text-overflow:ellipsis">${esc(i.address)}</td><td>${i.status==='pending'?`<button class="act" onclick="confirmInvoice('${esc(i.id)}')">confirmar</button>`:''}</td></tr>`).join('')
+          : '<tr><td colspan="6" class="muted">sem faturas — cria uma acima</td></tr>';
+      } catch (e) { invoices = `<tr><td colspan="6" class="muted">${esc(e.message)}</td></tr>`; }
+    }
+    $('#walOut').innerHTML = `
+      <h4 style="margin:12px 0 6px">Saldos (exchange)</h4>
+      <table><thead><tr><th>Ativo</th><th>Disponível</th><th>Bloqueado</th><th>USD</th></tr></thead><tbody>${balances}</tbody></table>
+      <h4 style="margin:16px 0 6px">Faturas — pagamentos dos planos em BTC/ETH/USDT</h4>
+      <table><thead><tr><th>Fatura</th><th>Plano</th><th>Montante</th><th>Estado</th><th>Endereço</th><th></th></tr></thead><tbody>${invoices}</tbody></table>
+      <p class="muted" style="margin-top:10px">Modo teste (mock): "confirmar" simula o depósito e faz o upgrade automático. Com chaves reais no .env (<code>CRYPTO_EXCHANGE=binance</code> etc.), a verificação automática corre a cada 60s e cobra os planos em cripto.</p>`;
+  } catch (e) { $('#walOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+}
+async function createCryptoInvoice() {
+  try {
+    const r = await web('/billing/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan: $('#walPlan').value, method:'crypto', currency: $('#walCur').value }) });
+    toast('fatura ' + r.invoice.id + ' · ' + r.invoice.currency + ' ' + r.invoice.amount + ' → ' + r.invoice.address);
+    refreshWallet();
+  } catch (e) { toast('erro: ' + e.message); }
+}
+async function confirmInvoice(id) {
+  try { const r = await web('/crypto/invoices/' + id + '/confirm', { method:'POST' }); toast(r.paid ? 'PAGO ✓ upgrade automático do plano' : (r.error || 'ainda pendente')); refreshWallet(); }
+  catch (e) { toast(e.message); }
+}
+async function checkPayments() {
+  try { const r = await web('/crypto/check', { method:'POST' }); toast('verificação: ' + (r.paid?.length || 0) + ' pagos · ' + r.expired + ' expirados'); refreshWallet(); }
+  catch (e) { toast(e.message); }
+}
+
+// ── REVENUE ───────────────────────────────────────────────────────────
+function viewRevenue() {
+  return `<section class="card full"><h3>Revenue Dashboard — monetização automática</h3><div id="revOut"><pre>carregar…</pre></div></section>`;
+}
+async function refreshRevenue() {
+  try {
+    const d = await web('/revenue/dashboard');
+    const planCards = (d.plans || []).map(p => `<tr><td><b>${esc(p.name)}</b></td><td class="mono">${p.subscribers}</td><td class="mono">$${p.mrr.toFixed(0)}/mês</td></tr>`).join('')
+      || '<tr><td colspan="3" class="muted">sem assinantes</td></tr>';
+    $('#revOut').innerHTML = `
+      <div class="kv">
+        <div>MRR (subscrições)</div><b>$${(d.mrrCards ?? 0).toFixed(2)}</b>
+        <div>ARR</div><b>$${(d.arrCards ?? 0).toFixed(2)}</b>
+        <div>Tenants</div><b>${d.tenants ?? 0}</b>
+        <div>Crypto recebido</div><b>$${(d.crypto?.paidUsd ?? 0).toFixed(2)} (${d.crypto?.paidCount ?? 0} pagos)</b>
+        <div>Agência ativa</div><b>${d.agency?.activeClients ?? 0} clientes</b>
+        <div>Modos de receita</div><b>${(d.revenueModes || []).join(' · ')}</b>
+      </div>
+      <h4 style="margin:14px 0 6px">Assinantes por plano</h4>
+      <table><thead><tr><th>Plano</th><th>Subscritores</th><th>MRR</th></tr></thead><tbody>${planCards}</tbody></table>
+      <h4 style="margin:14px 0 6px">Projeção agência (Londres 2026)</h4>
+      <table><thead><tr><th>Clientes</th><th>Novos</th><th>MRR</th><th>ARR</th></tr></thead><tbody>
+        ${d.agency?.projection ? `<tr><td>${d.agency.projection.totalClients}</td><td>${d.agency.projection.newClients}</td><td class="mono">£${d.agency.projection.mrr.toLocaleString()}</td><td class="mono">£${d.agency.projection.arr.toLocaleString()}</td></tr>` : '<tr><td colspan="4" class="muted">sem projeção</td></tr>'}
+      </tbody></table>`;
+  } catch (e) { $('#revOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+}
+
+// ── APP FACTORY ───────────────────────────────────────────────────────
+function viewApps() {
+  return `<section class="card full"><h3>App Factory — cria apps reais com IA</h3>
+    <div class="row">
+      <input id="appName" placeholder="Nome da app…" style="flex:1" />
+      <input id="appDesc" placeholder="Descrição (o que faz)…" style="flex:1.5" />
+      <button class="act" onclick="genApp()">Gerar app (IA)</button>
+      <button class="act" onclick="refreshApps()">↻</button>
+    </div>
+    <div id="appsOut"><pre>carregar…</pre></div></section>`;
+}
+async function genApp() {
+  const name = $('#appName').value.trim(), desc = $('#appDesc').value.trim();
+  if (!name || !desc) { toast('Nome e descrição obrigatórios'); return; }
+  try {
+    const r = await web('/apps/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name, description: desc }) });
+    toast('app ' + r.meta.slug + ' gerada');
+    $('#appName').value = ''; $('#appDesc').value = '';
+    refreshApps();
+  } catch (e) { toast('erro: ' + e.message); }
+}
+async function refreshApps() {
+  try {
+    const d = await web('/apps/status');
+    const list = await web('/apps/list');
+    const rows = list.apps.length
+      ? list.apps.map(a => `<tr><td><b>${esc(a.name)}</b><div class="muted mono">${esc(a.slug)}</div></td><td>${esc(a.tagline)}</td><td class="mono">${esc((a.createdAt || '').slice(0, 10))}</td><td>${a.apkBuilt ? `<a href="/api/apps/${esc(a.slug)}/apk" class="act" style="text-decoration:none">⬇ APK</a>` : '<span class="muted">sem APK</span>'}</td></tr>`).join('')
+      : '<tr><td colspan="4" class="muted">nenhuma app gerada ainda — cria uma acima</td></tr>';
+    $('#appsOut').innerHTML = `<p class="muted">${d.total} apps geradas · ${d.apkBuilt} com APK compilado</p>
+      <table><thead><tr><th>App</th><th>Tagline</th><th>Data</th><th>APK</th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="muted" style="margin-top:10px">Para compilar o APK real no servidor: <code>npm run app:create -- "Nome" "Descrição"</code> (gera + compila) ou <code>npm run app:build -- &lt;slug&gt;</code> (reconstruir). O APK fica em <code>/api/apps/&lt;slug&gt;/apk</code>.</p>`;
+  } catch (e) { $('#appsOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+}
+
 async function runDoctor() {
   try { const d = await api('/pkg/doctor'); $('#doctorPre').textContent = JSON.stringify(d, null, 2); } catch (e) { $('#doctorPre').textContent = e.message; }
 }
 
-const VIEWS = { monitor: loadStatus, processes: refreshProcesses, files: lsDir, store: refreshStore, agents: refreshAgents, security: refreshSecurity };
+const VIEWS = { monitor: loadStatus, processes: refreshProcesses, files: lsDir, store: refreshStore, agents: refreshAgents, security: refreshSecurity, wallet: refreshWallet, revenue: refreshRevenue, apps: refreshApps };
 
 document.querySelectorAll('.dock button').forEach(btn => btn.addEventListener('click', async () => {
   document.querySelectorAll('.dock button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const view = btn.dataset.view;
-  $('#main').innerHTML = ({ monitor: viewMonitor, processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity })[view] ? '' : 'carregar…';
+  $('#main').innerHTML = ({ monitor: viewMonitor, processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity, wallet: viewWallet, revenue: viewRevenue, apps: viewApps })[view] ? '' : 'carregar…';
   if (view === 'monitor') { const d = await loadStatus(); $('#main').innerHTML = viewMonitor(d ?? {processes:{},kernel:null}); if (d) runDoctor(); }
-  else { $('#main').innerHTML = ({ processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity })[view](); VIEWS[view](); }
+  else { $('#main').innerHTML = ({ processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity, wallet: viewWallet, revenue: viewRevenue, apps: viewApps })[view](); VIEWS[view](); }
 }));
 
 (async () => {
+  renderLoginState();
   const d = await loadStatus();
   $('#main').innerHTML = viewMonitor(d ?? {processes:{},kernel:null});
   if (d) runDoctor();

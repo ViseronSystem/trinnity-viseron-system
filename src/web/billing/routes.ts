@@ -6,13 +6,15 @@ import { AuthedRequest, requireAuth } from "../auth/middleware";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 import { EmailService } from "../email/service";
+import { CryptoPayments } from "../../core/crypto/payments";
 
 export function createBillingRouter(
   store: AccountStore,
   billing: BillingProvider,
   logger: ILogger,
   metrics: IMetrics,
-  email?: EmailService
+  email?: EmailService,
+  crypto?: CryptoPayments
 ): Router {
   const router = Router();
 
@@ -39,6 +41,27 @@ export function createBillingRouter(
       if (!plan) return res.status(400).json({ error: "Plano é obrigatório" });
       const user = await store.getUserById(req.user!.sub);
       if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
+
+      // Pagamento em cripto (BTC/ETH/USDT) — fatura real na exchange.
+      const method = String(req.body?.method || "card").toLowerCase();
+      if (method === "crypto") {
+        if (!crypto) return res.status(400).json({ error: "Pagamento cripto não disponível" });
+        const currency = String(req.body?.currency || "USDT").toUpperCase() as "BTC" | "ETH" | "USDT";
+        if (!["BTC", "ETH", "USDT"].includes(currency)) return res.status(400).json({ error: "Moeda inválida (BTC|ETH|USDT)" });
+        const planInfo = PLANS.find((p) => p.id === plan);
+        if (!planInfo) return res.status(400).json({ error: "Plano inválido (core|pro|enterprise)" });
+        const invoice = await crypto.createInvoice({
+          plan: planInfo.id,
+          planName: planInfo.name,
+          amountUsd: planInfo.monthlyPrice,
+          currency,
+          tenantId: user.tenantId,
+        });
+        metrics.inc("billing_checkout_total", { plan, method: "crypto" });
+        logger.info(`Checkout crypto: ${user.email} → ${plan} ${currency} (${invoice.id})`);
+        return res.json({ ok: true, provider: "crypto", mode: crypto.status().mode, invoice });
+      }
+
       const base = req.headers.origin || `http://localhost:${process.env.PORT || "3000"}`;
       const session = await billing.createCheckoutSession({
         plan,

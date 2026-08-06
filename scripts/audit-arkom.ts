@@ -1,6 +1,5 @@
-import PDFDocument from "pdfkit";
-import fs from "fs";
 import path from "path";
+import { createTheme } from "./pdf-theme";
 import { ArkomEngine } from "../src/web/arkom/engine";
 
 // TVS — AUDITORIA OPERACIONAL ARKOM / AIOX
@@ -30,61 +29,50 @@ async function main() {
   for (const a of report.actions) console.log(`   ${a.ok ? "✓" : "✗"} ${a.tool}: ${a.detail}`);
 
   // ── PDF ────────────────────────────────────────────────────
-  const doc = new PDFDocument({ size: "A4", margin: 50 });
   const outFile = path.join(DATA_DIR, "Viseron_Audit_ARKOM.pdf");
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-  doc.pipe(fs.createWriteStream(outFile));
+  const timestamp = new Date(report.timestamp).toLocaleString("pt-PT");
 
-  const W = doc.page.width;
-  const PH = doc.page.height;
-  const drawFooter = () => {
-    doc.page.margins.bottom = 8;
-    doc.fontSize(8).fillColor("#888888").text(`TVS v5.0 · Auditoria ARKOM/AIOX · ${new Date(report.timestamp).toLocaleString("pt-PT")}`, 50, PH - 28, { width: W - 100 });
-    doc.page.margins.bottom = 50;
-  };
+  const t = createTheme({
+    title: "Trinnity Viseron System — Auditoria ARKOM / AIOX",
+    subject: `Squads AIOX-1..5 + ARKOM · ${timestamp}`,
+  });
 
-  doc.fillColor("#0f172a").rect(0, 0, W, PH).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM · ARKOM / AIOX", W / 2, 170, { align: "center", width: W - 100 });
-  doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(32).text("AUDITORIA OPERACIONAL", W / 2, 210, { align: "center", width: W - 100 });
-  doc.fillColor(report.verdict === "GO" ? "#00ff87" : "#ff2d55").font("Helvetica-Bold").fontSize(20).text(report.verdict, W / 2, 280, { align: "center", width: W - 100 });
-  doc.fillColor("#94a3b8").font("Helvetica").fontSize(12).text(`Squads AIOX-1..5 + ARKOM · ${new Date(report.timestamp).toLocaleString("pt-PT")}`, W / 2, 330, { align: "center", width: W - 100 });
-  doc.addPage();
-  drawFooter();
+  t.cover({
+    title: "AUDITORIA OPERACIONAL",
+    subtitle: `${report.verdict} · Squads AIOX-1..5 + ARKOM · ${timestamp}`,
+    badges: [`${report.counts.findings} achados`, `${report.counts.high} high · ${report.counts.medium} medium`, "ARKOM Observer/Guardian/Executor"],
+    date: timestamp,
+    version: "5.0",
+    url: "www.trinnityviseronsystem.io",
+  });
 
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text("1. Verdicto e resumo", 50, 60);
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(11);
-  doc.text(`Verdicto: ${report.verdict}${report.verdict === "GO" ? " — pode avançar para deploy" : " — bloqueado: resolver blockers primeiro"}`);
-  doc.text(`Achados: ${report.counts.findings} total · ${report.counts.high} high · ${report.counts.medium} medium · ${report.counts.low} low · ${report.counts.info} info`);
-  doc.text(`Blocker: ${report.blockers}`);
-  doc.moveDown(0.6);
+  // 1. Verdicto e resumo
+  t.section("1", "Verdicto e resumo");
+  t.kv("Verdicto:", `${report.verdict}${report.verdict === "GO" ? " — pode avançar para deploy" : " — bloqueado: resolver blockers primeiro"}`);
+  t.kv("Achados:", `${report.counts.findings} total · ${report.counts.high} high · ${report.counts.medium} medium · ${report.counts.low} low · ${report.counts.info} info`);
+  t.kv("Blocker:", String(report.blockers));
   for (const s of report.summary) {
-    doc.fillColor("#475569").font("Helvetica").fontSize(9.5).text(s);
+    t.bullet("▸", s);
   }
-  doc.moveDown(1);
 
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text("2. Achados da auditoria", 50, doc.y);
-  doc.moveDown(0.3);
+  // 2. Achados da auditoria
+  t.section("2", "Achados da auditoria");
   for (const f of report.findings) {
-    if (doc.y > PH - 100) { doc.addPage(); drawFooter(); }
-    const color = f.severity === "blocker" ? "#ef4444" : f.severity === "high" ? "#f97316" : f.severity === "medium" ? "#eab308" : f.severity === "low" ? "#94a3b8" : "#22d3ee";
-    doc.fillColor(color).font("Helvetica-Bold").fontSize(9).text(`[${f.severity.toUpperCase()}]`, 50, doc.y);
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(10).text(` ${f.title}  (${f.squad})`, 100, doc.y);
-    doc.fillColor("#64748b").font("Helvetica").fontSize(9.5).text(f.detail, 60, doc.y, { width: W - 120 });
+    const color = f.severity === "blocker" ? "#ef4444" : f.severity === "high" ? "#f97316" : f.severity === "medium" ? "#eab308" : f.severity === "low" ? "#64748b" : "#22d3ee";
+    t.bullet(`[${f.severity.toUpperCase()}]`, `${f.title}  (${f.squad})`, color);
+    t.para(f.detail, 9.5, "#64748b");
     if (f.fix !== "—") {
-      doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(9).text("Fix: ", 60, doc.y);
-      doc.fillColor("#1e293b").font("Helvetica").fontSize(9).text(f.fix, 90, doc.y, { width: W - 150 });
+      t.kv("Fix:", f.fix);
     }
-    doc.moveDown(0.5);
   }
 
-  doc.moveDown(0.5);
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text("3. Ações executadas", 50, doc.y);
+  // 3. Ações executadas
+  t.section("3", "Ações executadas");
   for (const a of report.actions) {
-    if (doc.y > PH - 60) { doc.addPage(); drawFooter(); }
-    doc.fillColor(a.ok ? "#22c55e" : "#ef4444").font("Helvetica-Bold").fontSize(9.5).text(`${a.ok ? "✓" : "✗"} ${a.tool} — ${a.detail}`);
+    t.bullet(a.ok ? "✓" : "✗", `${a.tool} — ${a.detail}`, a.ok ? "#22c55e" : "#ef4444");
   }
 
-  doc.end();
+  t.finish(outFile);
   console.log(`\n✅ Auditoria ARKOM gerada: ${outFile}`);
 }
 

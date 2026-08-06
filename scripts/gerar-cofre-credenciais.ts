@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import PDFDocument from "pdfkit";
+import { createTheme } from "./pdf-theme";
 
 // TVS - COFRE DE CREDENCIAIS (v2 — completo)
 // Gera data/Viseron_Cofre_Credenciais.pdf com TUDO o que tem login/senha/chave:
@@ -93,54 +93,33 @@ function main() {
 
   for (const p of platforms) p.keys.forEach((k) => used.push(k));
 
-  const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
-  const W = doc.page.width;
-  const H = doc.page.height;
-  const chunks: Buffer[] = [];
+  const today = new Date().toLocaleDateString("pt-PT");
+  const t = createTheme({ title: "TVS — Cofre de Credenciais", subject: "CONFIDENCIAL — todas as senhas, chaves, emails, API keys e tokens" });
 
-  doc.on("data", (c: Buffer) => chunks.push(c));
-  doc.on("end", () => {
-    const out = path.resolve("data/Viseron_Cofre_Credenciais.pdf");
-    fs.writeFileSync(out, Buffer.concat(chunks));
-    console.log(`Cofre gerado: ${out}`);
-    console.log("ATENÇÃO: ficheiro confidencial. Guarda-o em local seguro (não partilhar).");
+  t.cover({
+    title: "COFRE DE CREDENCIAIS",
+    subtitle: "Todas as senhas, chaves, emails, API keys e tokens do sistema",
+    badges: ["CONFIDENCIAL", "TVS v5.0", "Não partilhar"],
+    date: today,
+    version: "5.0",
   });
-
-  const drawFooter = () => {
-    doc.fontSize(8).fillColor("#888888").text(`TVS v5.0 — Cofre de Credenciais (completo) · ${new Date().toLocaleString("pt-PT")} · CONFIDENCIAL · p.${doc.bufferedPageRange().count + 1}`, 50, H - 28, { width: W - 100 });
-  };
-
-  // Capa
-  doc.fillColor("#050510").rect(0, 0, W, H).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM", W / 2, 140, { align: "center", width: W - 100 });
-  doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(30).text("COFRE DE CREDENCIAIS", W / 2, 180, { align: "center", width: W - 100 });
-  doc.fillColor("#94a3b8").font("Helvetica").fontSize(12).text("Todas as senhas, chaves, emails, API keys e tokens do sistema", W / 2, 245, { align: "center", width: W - 100 });
-  doc.fillColor("#ef4444").font("Helvetica-Bold").fontSize(12).text("CONFIDENCIAL — não partilhar · guardar em local seguro", W / 2, 285, { align: "center", width: W - 100 });
-  doc.addPage();
-  drawFooter();
+  t.para("CONFIDENCIAL — não partilhar · guardar em local seguro", 11, "#f87171");
 
   // Identidade / contas
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(14).text("CONTAS E EMAILS", 50, doc.y);
-  doc.moveDown(0.4);
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(9.5).text(`GitHub (repo): https://github.com/ViseronSystem/trinnity-viseron-system · utilizador git: ${git("user.name")} · email git: ${git("user.email")}`, 56, doc.y, { width: W - 112 });
-  doc.moveDown(0.4);
+  t.section("1", "CONTAS E EMAILS");
+  t.para(`GitHub (repo): https://github.com/ViseronSystem/trinnity-viseron-system · utilizador git: ${git("user.name")} · email git: ${git("user.email")}`, 9.5);
   const users = accounts.users || [];
   if (users.length === 0) {
-    doc.fillColor("#64748b").font("Helvetica-Oblique").fontSize(9.5).text("Contas registadas no sistema (accounts.json): nenhuma ainda (regista-te em /api/auth/register para criar a primeira).", 56, doc.y, { width: W - 112 });
+    t.para("Contas registadas no sistema (accounts.json): nenhuma ainda (regista-te em /api/auth/register para criar a primeira).", 9.5, "#64748b");
   } else {
-    doc.fillColor("#1e293b").font("Helvetica").fontSize(9.5).text("Contas registadas no sistema (accounts.json):", 56, doc.y, { width: W - 112 });
-    doc.moveDown(0.2);
+    t.para("Contas registadas no sistema (accounts.json):", 9.5);
     for (const u of users) {
-      doc.fillColor("#334155").font("Helvetica").fontSize(9).text(`  • ${u.name || "?"} — ${u.email || "?"} (tenant ${u.tenantId || "?"}, role ${u.role || "?"})`, 60, doc.y, { width: W - 120 });
-      doc.moveDown(0.1);
+      t.bullet("▸", `${u.name || "?"} — ${u.email || "?"} (tenant ${u.tenantId || "?"}, role ${u.role || "?"})`, "#334155");
     }
   }
-  doc.moveDown(0.6);
   if ((emailTokens.tokens || []).length > 0) {
-    doc.fillColor("#334155").font("Helvetica").fontSize(9).text(`Email tokens armazenados: ${emailTokens.tokens.length} (Gmail OAuth)`);
-    doc.moveDown(0.4);
+    t.para(`Email tokens armazenados: ${emailTokens.tokens.length} (Gmail OAuth)`, 9.5, "#334155");
   }
-  doc.moveDown(1);
 
   // A criar ainda
   const pending: string[] = [];
@@ -151,48 +130,32 @@ function main() {
   if (!env["GMAIL_REFRESH_TOKEN"]) pending.push("GMAIL_REFRESH_TOKEN");
   if (!env["DATABASE_URL"]) pending.push("DATABASE_URL (Postgres — Neon/Supabase)");
   if (pending.length) {
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(14).text("A CRIAR AINDA", 50, doc.y);
-    doc.fillColor("#ef4444").font("Helvetica").fontSize(10).text(`  ${pending.join("\n  ")}`, 50, doc.y + 6, { width: W - 100 });
-    doc.moveDown(1.2);
+    t.section("2", "A CRIAR AINDA");
+    for (const p of pending) t.bullet("▸", p, "#ef4444");
   }
 
   // Chaves por plataforma
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(14).text("CHAVES E TOKENS POR PLATAFORMA", 50, doc.y);
-  doc.moveDown(0.6);
-
+  t.section("3", "CHAVES E TOKENS POR PLATAFORMA");
   for (const p of platforms) {
-    if (doc.y > H - 170) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#050510").rect(50, doc.y - 4, W - 100, 24).fill();
-    doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(12).text(p.name, 56, doc.y - 1);
-    doc.moveDown(1);
-    doc.fillColor("#475569").font("Helvetica").fontSize(9.5).text(`Login: ${p.url} · conta: ${p.loginNote}`, 56, doc.y, { width: W - 112 });
-    doc.moveDown(0.3);
+    t.sub(p.name);
+    t.para(`Login: ${p.url} · conta: ${p.loginNote}`, 9.5, "#475569");
     for (const k of p.keys) {
-      const v = env[k] || "(EM FALTA)";
-      if (doc.y > H - 70) { doc.addPage(); drawFooter(); }
-      doc.fillColor("#334155").font("Helvetica-Bold").fontSize(9).text(`${k} =`, 60, doc.y);
-      doc.fillColor("#7f1d1d").font("Courier").fontSize(9).text(v, 60 + k.length * 5.2 + 4, doc.y, { width: W - 124 - k.length * 5.2 });
-      doc.moveDown(0.15);
+      t.kv(k, env[k] || "(EM FALTA)");
     }
-    doc.fillColor("#64748b").font("Helvetica-Oblique").fontSize(9).text(`Nota: ${p.note}`, 60, doc.y, { width: W - 120 });
-    doc.moveDown(1.2);
+    t.para(`Nota: ${p.note}`, 9, "#64748b");
   }
 
   // Resto das variáveis (todas as que não foram listadas acima)
   const rest = allKeys.filter((k) => !used.includes(k));
   if (rest.length) {
-    if (doc.y > H - 120) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(14).text("OUTRAS VARIÁVEIS (configuração do sistema)", 50, doc.y);
-    doc.moveDown(0.4);
-    for (const k of rest) {
-      if (doc.y > H - 70) { doc.addPage(); drawFooter(); }
-      doc.fillColor("#334155").font("Helvetica-Bold").fontSize(9).text(`${k} =`, 56, doc.y);
-      doc.fillColor("#475569").font("Courier").fontSize(9).text(env[k] || "", 56 + k.length * 5.2 + 4, doc.y, { width: W - 120 - k.length * 5.2 });
-      doc.moveDown(0.15);
-    }
+    t.section("4", "OUTRAS VARIÁVEIS (configuração do sistema)");
+    for (const k of rest) t.kv(k, env[k] || "");
   }
 
-  doc.end();
+  const out = path.resolve("data/Viseron_Cofre_Credenciais.pdf");
+  t.finish(out);
+  console.log(`Cofre gerado: ${out}`);
+  console.log("ATENÇÃO: ficheiro confidencial. Guarda-o em local seguro (não partilhar).");
 }
 
 main();

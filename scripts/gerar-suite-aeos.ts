@@ -13,9 +13,9 @@
  * Uso: npx tsx scripts/gerar-suite-aeos.ts
  * Saída: data/AEOS_<topic>_<LANG>.pdf
  */
-import PDFDocument from "pdfkit";
 import * as fs from "fs";
 import * as path from "path";
+import { createTheme } from "./pdf-theme";
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(ROOT, "data");
@@ -67,67 +67,59 @@ interface DocOpts {
   blocks: Block[];
 }
 
-function renderPDF(file: string, opts: DocOpts): void {
-  const doc = new PDFDocument({ size: "A4", margin: 56, bufferPages: true });
-  const ws = fs.createWriteStream(file);
-  doc.pipe(ws);
+function renderPDF(file: string, opts: DocOpts): Promise<void> {
+  const t = createTheme({ title: opts.title, subject: `AEOS Suite — ${opts.langName}` });
+  t.cover({
+    title: opts.title,
+    subtitle: opts.subtitle,
+    badges: [opts.langName, "AEOS Suite", "TVS v5.0"],
+    date: new Date().toLocaleDateString("pt-PT"),
+    version: "5.0",
+    url: "www.trinnityviseronsystem.io",
+  });
 
-  const F = 9.5;
-  const GRAY = "#334155";
-  const ACCENT = "#4f46e5";
+  const headNum = (h: string): string | null => {
+    const m = h.match(/^(\d+)\.\s+(.*)$/);
+    return m ? m[1] : null;
+  };
+  const headText = (h: string): string => {
+    const m = h.match(/^(\d+)\.\s+(.*)$/);
+    return m ? m[2] : h;
+  };
 
-  doc.font("Helvetica-Bold").fontSize(20).fillColor(ACCENT).text(opts.title, { align: "center" });
-  doc.moveDown(0.3);
-  doc.font("Helvetica").fontSize(10.5).fillColor(GRAY).text(opts.subtitle, { align: "center" });
-  doc.moveDown(0.4);
-  doc.strokeColor("#cbd5e1").lineWidth(1).moveTo(56, doc.y).lineTo(doc.page.width - 56, doc.y).stroke();
-  doc.moveDown(0.6);
+  const renderCode = (text: string) => {
+    const lines = text.split("\n");
+    const isTree = lines.some((l) => /[├└│]/.test(l));
+    if (isTree) {
+      for (const ln of lines) t.para(ln, 9, "#334155");
+      return;
+    }
+    for (const ln of lines) {
+      if (ln.length <= 64) t.code(ln);
+      else t.para(ln, 9.5, "#0f172a");
+    }
+  };
 
   for (const b of opts.blocks) {
-    if (b.t === "page") { doc.addPage(); continue; }
-    if (b.t === "h1") {
-      doc.moveDown(0.5);
-      doc.font("Helvetica-Bold").fontSize(14).fillColor(ACCENT).text(b.x);
-      doc.moveDown(0.25);
-    } else if (b.t === "h2") {
-      doc.moveDown(0.3);
-      doc.font("Helvetica-Bold").fontSize(11.5).fillColor("#0f172a").text(b.x);
-      doc.moveDown(0.15);
+    if (b.t === "page") { t.doc.addPage(); continue; }
+    if (b.t === "h1" || b.t === "h2") {
+      const n = headNum(b.x);
+      if (n) t.section(n, headText(b.x));
+      else t.sub(b.x);
     } else if (b.t === "p") {
-      doc.font("Helvetica").fontSize(F).fillColor("#0f172a").text(b.x, { lineGap: 2 });
-      doc.moveDown(0.2);
+      t.para(b.x, 10.5);
     } else if (b.t === "li") {
-      doc.font("Helvetica").fontSize(F).fillColor("#0f172a").text("•  " + b.x, { lineGap: 2 });
-      doc.moveDown(0.12);
+      t.bullet("▸", b.x);
     } else if (b.t === "code") {
-      const y0 = doc.y;
-      const lines = b.x.split("\n");
-      doc.font("Helvetica").fontSize(8.5).fillColor("#0f172a").text(b.x, { lineGap: 2 });
-      const y1 = doc.y;
-      doc.font("Helvetica").fontSize(8.5).fillColor("#94a3b8")
-        .text(lines.map((_, i) => i).join(" "), 62, y0, { columns: 1 });
-      void y1;
+      renderCode(b.x);
     } else if (b.t === "kv") {
-      const y0 = doc.y;
-      doc.font("Helvetica-Bold").fontSize(F).fillColor("#0f172a").text(b.k + ":  ", 56, y0, { continued: true });
-      doc.font("Helvetica").fillColor("#0f172a").text(b.v);
-      doc.moveDown(0.08);
+      t.kv(b.k, b.v);
     }
   }
 
-  // footer
-  const n = doc.bufferedPageRange().count;
-  for (let i = 0; i < n; i++) {
-    doc.switchToPage(i);
-    const H = doc.page.height;
-    doc.font("Helvetica").fontSize(7.5).fillColor("#94a3b8")
-      .text(`Trinnity Viseron System · v5.0 · AEOS Suite · ${opts.langName} · Página ${i + 1}/${n}`, 56, H - 40, { align: "center", width: doc.page.width - 112 });
-    doc.font("Helvetica-Oblique").fontSize(7).fillColor("#94a3b8")
-      .text("Orquestrado por Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · Squads AIOX", 56, H - 26, { align: "center", width: doc.page.width - 112 });
-  }
-
-  doc.end();
-  return new Promise((res) => ws.on("finish", () => { console.log("  [PDF] " + path.basename(file)); res(null); }));
+  t.finish(file);
+  console.log("  [PDF] " + path.basename(file));
+  return Promise.resolve();
 }
 
 /* ============================== CONTEÚDO ============================== */
@@ -605,8 +597,9 @@ async function main() {
   for (const topic of topics) {
     for (const lang of LANGS) {
       const file = path.join(OUT, `AEOS_${topic.id}_${lang}.pdf`);
+      const tTitle = topic.title[lang];
       await renderPDF(file, {
-        title: topic.title[lang],
+        title: typeof tTitle === "string" ? tTitle : (tTitle as any).title,
         subtitle: `Trinnity Viseron System v5.0 — Autonomous Enterprise Operating System (AEOS) · ${LANG_NAME[lang]}`,
         langName: LANG_NAME[lang],
         blocks: topic.blocks[lang],

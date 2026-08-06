@@ -1,6 +1,5 @@
-import PDFDocument from "pdfkit";
-import fs from "fs";
 import path from "path";
+import { createTheme } from "./pdf-theme";
 
 // TVS — LISTA DAS 100 MELHORIAS/INTEGRAÇÕES DE IA PARA TRAZER PARA DENTRO DA VISERON
 // Cada item: o que é, o que faz, e como vira um "clone nosso" com autonomia TVS.
@@ -172,49 +171,39 @@ const CATS: Category[] = [
 ];
 
 async function main() {
-  const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
   const outFile = path.resolve("data", "Viseron_100_Melhorias_Integracao.pdf");
-  if (!fs.existsSync(path.dirname(outFile))) fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  doc.pipe(fs.createWriteStream(outFile));
 
-  const W = doc.page.width;
-  const PH = doc.page.height;
-  const drawFooter = () => {
-    doc.page.margins.bottom = 8;
-    doc.fontSize(8).fillColor("#94a3b8").text(`TVS v5.0 · 100 melhorias · página ${doc.page.number}`, W - 50, PH - 28, { align: "right", width: W - 100 });
-    doc.page.margins.bottom = 50;
-  };
+  const t = createTheme({
+    title: "Trinnity Viseron System — 100 Melhorias e Integrações de IA",
+    subject: "Para trazer para dentro da Viseron — como clones nossos, com autonomia total",
+  });
 
   // Capa
-  doc.fillColor("#0f172a").rect(0, 0, W, PH).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM · PLANO DE EXPANSÃO", W / 2, 170, { align: "center", width: W - 100 });
-  doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(34).text("100 MELHORIAS E INTEGRAÇÕES DE IA", W / 2, 210, { align: "center", width: W - 100 });
-  doc.fillColor("#94a3b8").font("Helvetica").fontSize(14).text("Para trazer para dentro da Viseron — como clones nossos, com autonomia total", W / 2, 280, { align: "center", width: W - 100 });
-  doc.fillColor("#22d3ee").fontSize(12).text("www.trinnityviseronsystem.io", W / 2, 330, { align: "center", width: W - 100 });
-  doc.addPage();
-  drawFooter();
+  t.cover({
+    title: "100 MELHORIAS E\nINTEGRAÇÕES DE IA",
+    subtitle: "Para trazer para dentro da Viseron — como clones nossos, com autonomia total",
+    badges: ["100 itens", "10 categorias", "Autonomia TVS"],
+    date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
+    version: "5.0",
+    url: "www.trinnityviseronsystem.io",
+  });
 
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(16).text("100 itens em 10 categorias", 50, 60);
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(10).text("Cada integração é planeada como um módulo nativo do TVS (clone nosso com autonomia), não como dependência externa. Isto garante que não perdemos nada se o fornecedor mudar.", 50, 90, { width: W - 100 });
-  doc.moveDown(2);
+  t.sub("100 itens em 10 categorias");
+  t.para("Cada integração é planeada como um módulo nativo do TVS (clone nosso com autonomia), não como dependência externa. Isto garante que não perdemos nada se o fornecedor mudar.");
 
+  let catNum = 0;
   for (const cat of CATS) {
-    if (doc.y > PH - 120) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(14).text(`${cat.icon} ${cat.title}`, 50, doc.y + 8);
-    doc.moveDown(0.4);
+    catNum++;
+    t.section(String(catNum), `${cat.icon} ${cat.title}`);
     let n = 0;
     for (const item of cat.items) {
       n++;
-      if (doc.y > PH - 90) { doc.addPage(); drawFooter(); }
-      doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(10).text(`${n}. ${item.name}`, 50, doc.y + 2, { continued: true });
-      doc.fillColor("#64748b").font("Helvetica").fontSize(9).text(`  ${item.what}`, { width: W - 100 });
-      doc.fillColor("#0891b2").font("Helvetica").fontSize(8.5).text(`   → ${item.clone}`, 50, doc.y + 1, { width: W - 100 });
-      doc.moveDown(0.5);
+      t.bullet("▸", `${n}. ${item.name} — ${item.what}`);
+      t.para(`→ ${item.clone}`, 9, "#0891b2");
     }
-    doc.moveDown(0.5);
   }
 
-  doc.end();
+  t.finish(outFile);
   console.log(`✅ PDF gerado: ${outFile}`);
 }
 

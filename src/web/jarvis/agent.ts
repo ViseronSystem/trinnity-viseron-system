@@ -9,6 +9,7 @@ import { PLANS } from "../billing/plans";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { AgencyDeps } from "../agency/routes";
+import { RcsEngine } from "../../core/rcs/RcsEngine";
 import { capacityIndicators, projectionTable, AGENCY_PACKAGES, LEGACY_FEE, NEW_FEE } from "../../core/agency/finance";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
@@ -115,6 +116,7 @@ export class JarvisAgent {
   private blog: BlogStorage;
   private composio: ComposioBridge;
   private agency: AgencyDeps;
+  private rcs?: RcsEngine;
 
   constructor(ctx: {
     dataDir: string;
@@ -127,6 +129,7 @@ export class JarvisAgent {
     blog: BlogStorage;
     composio: ComposioBridge;
     agency: AgencyDeps;
+    rcs?: RcsEngine;
   }) {
     this.dataDir = ctx.dataDir;
     this.logger = ctx.logger;
@@ -138,6 +141,7 @@ export class JarvisAgent {
     this.blog = ctx.blog;
     this.composio = ctx.composio;
     this.agency = ctx.agency;
+    this.rcs = ctx.rcs;
     this.providerFactory = new ProviderFactory();
     this.sessionsFile = path.join(this.dataDir, "jarvis-sessions.json");
     this.memoryFile = path.join(this.dataDir, "knowledge", "jarvis-memory.jsonl");
@@ -319,6 +323,7 @@ export class JarvisAgent {
       "Facts: TVS v5.0. Plans: Core $29/mo, Pro $99/mo, Enterprise $499/mo. Modules live: Auth, Billing, Onboarding, Email, Messaging E2E (X25519+AES-256-GCM), Blog + Content Agent.",
       "Composio: TVS can connect to 1000+ apps (Gmail, Slack, GitHub, Notion...) via OAuth. When a connection link is generated, share it as a clickable Markdown link. The link expires in 10 minutes. After the user approves, poll with COMPOSIO_WAIT_FOR_CONNECTIONS.",
       "Composio autonomy: when the user asks to post/send/create/comment/schedule in a connected app, you ACTUALLY execute the real tool (search tool, build args, execute) and then summarize what happened. Example: 'publica no slack que lançámos a 5.1'.",
+      "RCS: when the user asks to send a branded message/RCS/SMS with the VISERON logo to phone numbers (e.g. 'envía un RCS a +351...'), ACTUALLY send it and summarize the result (mode live or mock).",
       "Web API: https://viseron-web.onrender.com. GitHub: github.com/ViseronSystem/trinnity-viseron-system.",
       "If a tool ran, summarize its result naturally. Never invent numbers: use only the tool data given.",
     ].join("\n");
@@ -362,6 +367,7 @@ export class JarvisAgent {
     if (/(creativ|creativos|copy de anuncios|anuncios|guion|guiones|script).*(genera|gera|criar|crea|haz)/i.test(m)) return "agency_creative";
     if (/(nurtur|seguimiento|follow[- ]?up|nutrir)/i.test(m)) return "agency_nurture";
     if (/(proyecci[óo]n|proje[cç][aã]o|projec|mrr|arr|cu[aá]nto ganar|quanto ganhar)/i.test(m)) return "agency_projection";
+    if (/(rcs|r\.c\.s|mensaje de marca|mensagem de marca|branded message|sms con logo|sms com logo|mandar.*whatsapp|enviar.*whatsapp)/i.test(m)) return "rcs_broadcast";
     if (/(status|estado|health|sa[úu]de|funcionando|uptime|online)/.test(m)) return "system_status";
     if (/(plano|planos|pre[cç]o|precos|billing|assinatura|subscribe|pro|enterprise|core)/.test(m)) return "list_plans";
     if (/(comprar|assinar|checkout|contratar|subscrever|buy|sign up for pro)/.test(m)) return "checkout";
@@ -414,6 +420,8 @@ export class JarvisAgent {
         return this.toolAgencyNurture();
       case "agency_projection":
         return this.toolAgencyProjection();
+      case "rcs_broadcast":
+        return await this.toolRcsBroadcast(input);
       case "audit_info":
         return this.toolAuditInfo();
       case "waitlist_info":
@@ -803,6 +811,39 @@ export class JarvisAgent {
     }
   }
 
+  /** RCS: envia mensagem de marca com o logo da TVS para um ou vários números. */
+  private async toolRcsBroadcast(input: JarvisChatInput): Promise<JarvisAction> {
+    if (!this.rcs) {
+      return { tool: "rcs_broadcast", ok: false, detail: "Módulo RCS não disponível neste ambiente." };
+    }
+    try {
+      const message = input.message || "";
+      const nums = message.match(/\+?\d{10,15}/g) || [];
+      if (!nums.length) {
+        const status = this.rcs.status();
+        return {
+          tool: "rcs_broadcast",
+          ok: true,
+          detail: `Não vejo números na tua mensagem. Diz 'envía un RCS a +351912345678 con el logo de VISERON'. Estado RCS: modo ${status.mode} · marca ${status.brandName} · logo ${status.logoExists ? "disponível ✓" : "em falta"} · RCS real ${status.configured ? "ativo ✓" : "não configurado (twilio: " + status.twilioConfigured + ", messaging service: " + status.serviceSidConfigured + ")"}.`,
+        };
+      }
+      const quoted = message.match(/"([^"]+)"/);
+      const result = await this.rcs.sendBroadcast({ to: nums, message: quoted ? quoted[1] : undefined });
+      const r = result.broadcast.results;
+      const first = result.broadcast.messages[0];
+      const detail = [
+        `RCS ${result.ok ? "enviado ✓" : "com falhas"} (modo ${result.broadcast.mode}) para ${result.broadcast.recipients} número(s)`,
+        `entregues=${r.sent} · falhados=${r.failed} · em fila=${r.queued}`,
+        `logo: ${result.broadcast.mediaUrl}`,
+        first ? `1º: ${first.to} → ${first.status} (${first.channel})` : "",
+        result.broadcast.mode === "mock" ? "Dica: define TWILIO_RCS_SERVICE_SID no .env para RCS real (sender aprovado pela Google)." : "",
+      ].filter(Boolean).join(" · ");
+      return { tool: "rcs_broadcast", ok: result.ok, detail };
+    } catch (e: any) {
+      return { tool: "rcs_broadcast", ok: false, detail: `Erro no RCS: ${e.message}` };
+    }
+  }
+
   private templateReply(intent: string, toolResult: JarvisAction | null, message: string, lang: "es" | "pt" | "en"): string {
     const detail = toolResult ? toolResult.detail : "";
     const T: Record<string, Record<string, string>> = {
@@ -886,7 +927,7 @@ export class JarvisAgent {
     };
     const tpl = T[intent] || T.default;
     const t = tpl[lang] || tpl.es || detail;
-    if (intent === "composio_connect" || intent === "composio_execute" || intent === "composio_status") {
+    if (intent === "composio_connect" || intent === "composio_execute" || intent === "composio_status" || intent === "rcs_broadcast") {
       return toolResult ? detail : t;
     }
     return t;

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinnity Viseron System — Sistema Operacional Multi-Agente de Superinteligência</title>
+  <meta name="description" content="Trinnity Viseron System (TVS) v5.0 — AI-Native Operating System com TVS OS e OMEGA Platform. 5396 mentes em operação, 290+ provedores de IA, auto-evolução e receita live. Autoria: Pedro Costa (Comandante) e Trinnity Hurtado (Rainha)." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050510'/%3E%3Cpath d='M16 5l3.5 7.5 7.5 3.5-7.5 3.5L16 27l-3.5-7.5L5 16l7.5-3.5z' fill='none' stroke='%2300f0ff' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23bf5af2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --neon: #00f0ff;
+      --neon2: #bf5af2;
+      --neon3: #ff2d55;
+      --bg: #050510;
+      --card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --text: #e4e4f0;
+      --text2: rgba(228,228,240,0.5);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden; }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif; }
+    .scanline { position:fixed; inset:0; z-index:9999; pointer-events:none; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,240,255,0.015) 2px,rgba(0,240,255,0.015) 4px); }
+    #three-bg { position:fixed; inset:0; z-index:0; }
+    .neon-glow { text-shadow:0 0 10px var(--neon),0 0 30px var(--neon),0 0 60px var(--neon); }
+    .neon-glow2 { text-shadow:0 0 10px var(--neon2),0 0 30px var(--neon2); }
+    .cyber-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:12px; transition:all 0.4s cubic-bezier(0.16,1,0.3,1); position:relative; overflow:hidden; }
+    .cyber-card::before { content:''; position:absolute; inset:0; border-radius:12px; background:linear-gradient(135deg,rgba(0,240,255,0.05),transparent,rgba(191,90,242,0.05)); opacity:0; transition:opacity 0.4s; }
+    .cyber-card:hover { border-color:rgba(0,240,255,0.2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 20px rgba(0,240,255,0.05); }
+    .cyber-card:hover::before { opacity:1; }
+    .hologram::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(from 0deg,transparent,rgba(0,240,255,0.03),transparent,rgba(191,90,242,0.03),transparent); animation:hologram-rotate 8s linear infinite; pointer-events:none; }
+    @keyframes hologram-rotate { to { transform:rotate(360deg); } }
+    .text-neon { color:var(--neon); }
+    .text-neon2 { color:var(--neon2); }
+    .grid-overlay { background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px); background-size:40px 40px; }
+    .reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in-view { opacity:1; transform:translateY(0); }
+    .lang-btn { background:none; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:2px 6px; font-size:14px; cursor:pointer; transition:all 0.2s; line-height:1; }
+    .lang-btn:hover { border-color:rgba(0,240,255,0.3); background:rgba(0,240,255,0.1); }
+    .btn-neon { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:100px; font-weight:600; font-size:14px; background:rgba(0,240,255,0.08); border:1px solid rgba(0,240,255,0.2); color:var(--neon); transition:all 0.3s; cursor:pointer; text-decoration:none; }
+    .btn-neon:hover { background:rgba(0,240,255,0.15); box-shadow:0 0 30px rgba(0,240,255,0.15); transform:translateY(-2px); }
+    .btn-neon-solid { background:var(--neon); color:var(--bg); border-color:var(--neon); }
+    .btn-neon-solid:hover { background:#00d4e6; box-shadow:0 0 40px rgba(0,240,255,0.3); }
+    .btn-purple { background:rgba(191,90,242,0.15); border-color:rgba(191,90,242,0.3); color:var(--neon2); }
+    .btn-purple:hover { background:rgba(191,90,242,0.25); box-shadow:0 0 30px rgba(191,90,242,0.15); }
+    .data-line { height:1px; background:linear-gradient(90deg,transparent,rgba(0,240,255,0.2),transparent); margin:80px auto; max-width:600px; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--neon); border-radius:2px; }
+    .glitch { position:relative; display:inline-block; }
+    .glitch::before,.glitch::after { content:attr(data-text); position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; pointer-events:none; }
+    .glitch:hover::before { animation:glitch1 0.4s ease; color:var(--neon); clip-path:inset(10% 0 70% 0); }
+    .glitch:hover::after { animation:glitch2 0.4s ease; color:var(--neon2); clip-path:inset(70% 0 10% 0); }
+    @keyframes glitch1 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(-2px,1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
+    @keyframes glitch2 { 0%{transform:translate(0);opacity:0.8} 50%{transform:translate(2px,-1px);opacity:0.4} 100%{transform:translate(0);opacity:0} }
+    .brand-gradient { background:linear-gradient(90deg,var(--neon),var(--neon2),#ff2d55,var(--neon)); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:brand-flow 6s linear infinite; }
+    @keyframes brand-flow { to { background-position:300% 0; } }
+    .hero-title-glow { text-shadow:0 0 20px rgba(0,240,255,0.25),0 0 60px rgba(0,240,255,0.12); }
+    .card-glow:hover { box-shadow:0 0 0 1px rgba(0,240,255,0.15),0 20px 60px rgba(0,0,0,0.6),0 0 40px rgba(0,240,255,0.08); }
+    .grid-fade { -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%); mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%); }
+    .terminal-line { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text2); }
+    .terminal-line .prompt { color:var(--neon); }
+    .terminal-line .cmd { color:#fff; }
+    .terminal-line .out { color:var(--text2); }
+    .badge { display:inline-block; padding:2px 10px; border-radius:100px; font-size:11px; font-weight:600; }
+    .badge-green { background:rgba(0,255,135,0.15); color:#00ff87; border:1px solid rgba(0,255,135,0.2); }
+    .badge-neon { background:rgba(0,240,255,0.1); color:var(--neon); border:1px solid rgba(0,240,255,0.15); }
+    .badge-purple { background:rgba(191,90,242,0.1); color:var(--neon2); border:1px solid rgba(191,90,242,0.15); }
+    @media (max-width:640px) { .scanline { display:none; } }
+    .download-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--text); transition:all 0.3s; text-decoration:none; }
+    .download-btn:hover { background:rgba(0,240,255,0.08); border-color:rgba(0,240,255,0.2); color:var(--neon); transform:translateY(-2px); }
+    .terminal-window { background:rgba(0,0,0,0.55); border:1px solid rgba(0,240,255,0.12); border-radius:12px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; padding:18px 20px; text-align:left; overflow-x:auto; }
+    .terminal-window .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+    .pulse-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#00ff87; box-shadow:0 0 8px #00ff87; animation:pulse 1.6s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  </style>
+</head>
+<body>
+<div class="scanline"></div>
+<canvas id="three-bg"></canvas>
+
+<!-- Nav -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:transparent;">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 text-lg font-bold tracking-tight font-['Space_Grotesk']">
+      <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon/20 to-neon2/20 border border-neon/30 flex items-center justify-center text-sm font-black" style="box-shadow:0 0 20px rgba(0,240,255,0.15);">
+        <span class="brand-gradient">T</span>
+      </span>
+      <span class="hidden sm:inline"><span class="text-neon neon-glow">Trinnity</span><span class="text-white/40"> Viseron</span></span>
+      <span class="sm:hidden text-neon neon-glow">TVS</span>
+    </a>
+    <div class="hidden md:flex items-center gap-4 text-sm">
+      <button onclick="setPageLang('pt')" class="lang-btn" title="Português">🇧🇷</button>
+      <button onclick="setPageLang('en')" class="lang-btn" title="English">🇺🇸</button>
+      <button onclick="setPageLang('es')" class="lang-btn" title="Español">🇪🇸</button>
+      <a href="#os" class="nav-link text-white/40 hover:text-neon transition-colors nav-os">TVS OS</a>
+      <a href="#omega" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-omega">OMEGA</a>
+      <a href="#command" class="nav-link text-white/40 hover:text-neon transition-colors nav-command">Comando</a>
+      <a href="#status" class="nav-link text-white/40 hover:text-neon transition-colors nav-status">Status</a>
+      <a href="#downloads" class="nav-link text-white/40 hover:text-neon transition-colors nav-downloads">Downloads</a>
+      <a href="/blog" class="nav-link text-white/40 hover:text-neon transition-colors">Blog</a>
+      <a href="/dashboard" class="nav-link text-white/40 hover:text-neon2 transition-colors">Dashboard</a>
+      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon text-xs px-4 py-1.5">GitHub</a>
+      <a href="#pricing" class="btn-neon btn-neon-solid text-xs px-4 py-1.5">Planos</a>
+    </div>
+    <button id="menuBtn" onclick="toggleMenu()" class="md:hidden text-white p-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+    <div class="flex flex-col gap-3 text-sm">
+      <a href="#os" onclick="toggleMenu()" class="text-white/50 py-2">TVS OS</a>
+      <a href="#omega" onclick="toggleMenu()" class="text-white/50 py-2">OMEGA</a>
+      <a href="#command" onclick="toggleMenu()" class="text-white/50 py-2">Comando</a>
+      <a href="#status" onclick="toggleMenu()" class="text-white/50 py-2">Status</a>
+      <a href="#downloads" onclick="toggleMenu()" class="text-white/50 py-2">Downloads</a>
+      <a href="/blog" onclick="toggleMenu()" class="text-white/50 py-2">Blog</a>
+      <a href="/dashboard" onclick="toggleMenu()" class="text-white/50 py-2">Dashboard</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-overlay" style="z-index:1;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(0,240,255,0.06),transparent 60%)"></div>
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24">
+    <div class="reveal">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon/20 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase">v5.0 — AI-Native Operating System · TVS OS v1.0</span>
+    </div>
+    <h1 class="reveal text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mt-6 hero-title-glow" style="transition-delay:0.1s">
+      <span class="block glitch" data-text="Trinnity">Trinnity</span>
+      <span class="block glitch brand-gradient" data-text="Viseron System">Viseron System</span>
+    </h1>
+    <p class="reveal text-lg sm:text-xl text-white/40 max-w-3xl mx-auto mt-6 leading-relaxed font-light" style="transition-delay:0.2s">
+      Sistema Operacional Multi-Agente de Superinteligência. <span class="text-neon">5396 mentes em operação</span> —<br>
+      TVS OS + OMEGA Platform, 290+ provedores de IA, auto-evolução e cobrança real.
+      <span class="text-neon">Autoria: Pedro Costa (Comandante) &amp; Trinnity Hurtado (Rainha).</span>
+    </p>
+    <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s">
+      <a href="#os" class="btn-neon btn-neon-solid">Conhecer o TVS OS</a>
+      <a href="#downloads" class="btn-neon">Downloads</a>
+      <a href="#pricing" class="btn-neon btn-purple">Ver Planos</a>
+    </div>
+    <div class="reveal mt-16 flex flex-wrap justify-center gap-4 sm:gap-8" style="transition-delay:0.4s">
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon">5396</p><p class="text-xs text-white/40 mt-0.5">Mentes ativas</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon">290+</p><p class="text-xs text-white/40 mt-0.5">Providers IA</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon2">212</p><p class="text-xs text-white/40 mt-0.5">Testes verdes</p></div>
+      <div class="text-center cyber-card px-5 py-3 min-w-[90px]"><p class="text-xl sm:text-2xl font-bold text-neon2">6/6</p><p class="text-xs text-white/40 mt-0.5">Receita live</p></div>
+    </div>
+  </div>
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/20">
+    <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- TVS OS -->
+<section id="os" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// TVS OS</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">O Sistema Operativo de IA</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Camada de SO sobre o kernel: processos, ficheiros virtuais, app store, pacotes e segurança — com desktop web</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5m-13.5-6a3 3 0 0 0 0 6m13.5-6a3 3 0 0 0 0 6m-3-6V8.25m0 0l3 3m-3-3l-3 3"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Process Manager</h3>
+        <p class="text-sm text-white/40">Spawn de agentes com timeout, estado RUNNING/COMPLETED/FAILED e histórico de 200 processos</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Virtual File System</h3>
+        <p class="text-sm text-white/40">8 raízes virtuais (home, apps, agents, processos, memória, modelos, workspace, system)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">App Store</h3>
+        <p class="text-sm text-white/40">Catálogo de 21 apps (agentes, squads, módulos, skills) com instalar/desinstalar</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Package Manager</h3>
+        <p class="text-sm text-white/40">Instala/desinstala/atualiza pacotes e manifestos, com diagnóstico de saúde (doctor)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s">
+        <div class="w-10 h-10 rounded-lg bg-neon/10 border border-neon/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Security Center</h3>
+        <p class="text-sm text-white/40">Permissões por role e trilho de auditoria (500 entradas) em cada autorização</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s;border-left:2px solid var(--neon2)">
+        <div class="w-10 h-10 rounded-lg bg-neon2/10 border border-neon2/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-neon2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">TVS Desktop</h3>
+        <p class="text-sm text-white/40">Página /os — desktop do sistema operativo no navegador, ligado à API /api/os</p>
+      </div>
+    </div>
+    <div class="reveal mt-10 grid md:grid-cols-2 gap-6 items-center" style="transition-delay:0.5s">
+      <div class="terminal-window">
+        <div class="flex items-center mb-3">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+          <span class="ml-3 text-white/30 text-xs">tvs — estado do sistema operativo</span>
+        </div>
+        <p class="terminal-line"><span class="prompt">$</span> <span class="cmd">npm run tvs</span></p>
+        <p class="terminal-line mt-1"><span class="out">TVS OS Core v1 v1.0.0 — TVS Kernel v1.0.0</span></p>
+        <p class="terminal-line"><span class="out">├─ Agentes runtime: 10 · catálogo: 21 apps · processos: 0 running</span></p>
+        <p class="terminal-line"><span class="out">├─ Watchdog: <span style="color:#00ff87">ATIVO</span> (5 alvos)</span></p>
+        <p class="terminal-line"><span class="out">└─ tvs status | list | install &lt;id&gt; | uninstall &lt;id&gt; | update | doctor</span></p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold mb-3">Gerir o sistema como um SO</h3>
+        <p class="text-sm text-white/40 mb-4 leading-relaxed">O TVS OS é o sistema operativo real da superinteligência: lanças processos, lês ficheiros virtuais, instalas apps e pacotes, e toda a ação é auditada — tudo via API <span class="text-neon font-mono text-xs">/api/os/*</span> ou CLI <span class="text-neon font-mono text-xs">tvs</span>.</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="badge badge-neon">processes/spawn</span>
+          <span class="badge badge-neon">fs/read-write</span>
+          <span class="badge badge-purple">store/install</span>
+          <span class="badge badge-purple">pkg/doctor</span>
+          <span class="badge badge-neon">security/authorize</span>
+        </div>
+        <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon text-sm">Ver código no GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- OMEGA Platform -->
+<section id="omega" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// OMEGA Platform</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Arquitetura OMEGA</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">A espinha dorsal da superinteligência — kernel, runtime, memória, roteamento, autonomia e auto-cura</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">Kernel + EventBus</h3>
+        <p class="text-sm text-white/40">Núcleo com bus de eventos, permissões por role e attach de agentes/memória/router</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">Agent Runtime</h3>
+        <p class="text-sm text-white/40">10 agentes nucleares carregados de specs com fallback offline e eventos por tarefa</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">Knowledge Graph</h3>
+        <p class="text-sm text-white/40">Memória de grafo persistida em ficheiro — entidades, relações e decisões</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">AI Router</h3>
+        <p class="text-sm text-white/40">Roteamento por critérios entre ollama, omniroute, openai, claude, gemini e grok</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">Autonomy Layer</h3>
+        <p class="text-sm text-white/40">Planeamento, evolução e aprendizagem ligados ao planner/engines do core</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">AIOX Squads</h3>
+        <p class="text-sm text-white/40">5 manifestos de squad (engineering, security, operations, business, research)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.7s">
+        <h3 class="text-lg font-semibold mb-2 text-neon">Factory Engine</h3>
+        <p class="text-sm text-white/40">Pipeline de 4 stages para gerar soluções e scaffolds a partir de specs</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.8s">
+        <h3 class="text-lg font-semibold mb-2 text-neon2">Enterprise Hub</h3>
+        <p class="text-sm text-white/40">6 módulos empresariais (sales, support, finance, marketing, ops, product)</p>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.9s;border-left:2px solid var(--neon)">
+        <h3 class="text-lg font-semibold mb-2 text-neon">Self-Heal Watchdog</h3>
+        <p class="text-sm text-white/40">5 alvos vigiados — destrava componentes presos e regista incidentes automaticamente</p>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-10" style="transition-delay:0.6s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Gateway /api/omega</h3>
+          <p class="text-sm text-white/40">Command Center + endpoints de kernel, runtime, memória, autonomia, squads, factory, enterprise e watchdog</p>
+        </div>
+        <span class="badge badge-green">Operacional</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Command -->
+<section id="command" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Command</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Quem Comanda o Sistema</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Decisões finais, direção e prioridades — só eles mandam no TVS</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div class="reveal cyber-card p-8 text-center hologram" style="transition-delay:0.1s;border-left:2px solid var(--neon)">
+        <div class="text-4xl mb-4">⚔️</div>
+        <h3 class="text-xl font-bold mb-1">Pedro Costa</h3>
+        <p class="text-xs text-neon font-semibold tracking-widest uppercase mb-4">Comandante Supremo · TVS Creator</p>
+        <p class="text-sm text-white/40 mb-4">Autoridade absoluta na criação, acesso ilimitado e decisões de go-live</p>
+        <span class="badge badge-neon">clearance: tvs_creator</span>
+      </div>
+      <div class="reveal cyber-card p-8 text-center hologram" style="transition-delay:0.2s;border-left:2px solid var(--neon2)">
+        <div class="text-4xl mb-4">👑</div>
+        <h3 class="text-xl font-bold mb-1">Trinnity Hurtado</h3>
+        <p class="text-xs text-neon2 font-semibold tracking-widest uppercase mb-4">Rainha &amp; Arquiteta Chefe · TVS Architect</p>
+        <p class="text-sm text-white/40 mb-4">Soberania técnica e arquitetura de IA — os 5000+ minds seguem a sua visão</p>
+        <span class="badge badge-purple">clearance: tvs_architect</span>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.3s">
+      <p class="text-sm text-white/40 text-center">Nenhuma decisão de arquitetura, domínio, receita ou publicidade é tomada sem a aprovação deles. A autoria do sistema e dos seus artefactos é deles.</p>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Pricing -->
+<section id="pricing" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// Pricing</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Planos Trinnity Viseron</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Da automação pessoal à superinteligência corporativa — cobrança real via Avirato</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.1s">
+        <div class="text-3xl mb-3 text-white/30">⚡</div>
+        <h3 class="text-2xl font-bold mb-2">TVS Core</h3>
+        <p class="text-5xl font-black text-neon mb-1">$29</p>
+        <p class="text-xs text-white/30 mb-6">/mês — Individual</p>
+        <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> 1 instância local</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Até 100 agentes</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> OmniRoute gateway</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Dashboard web + TVS Desktop</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Suporte comunidade</li>
+        </ul>
+        <span class="badge badge-neon text-xs">Open Source</span>
+      </div>
+      <div class="reveal cyber-card p-8 text-center border-neon/30" style="transition-delay:0.2s">
+        <div class="text-3xl mb-3 text-neon">🚀</div>
+        <span class="badge badge-neon text-xs mb-3">Mais Popular</span>
+        <h3 class="text-2xl font-bold mb-2">TVS Pro</h3>
+        <p class="text-5xl font-black text-neon mb-1">$99</p>
+        <p class="text-xs text-white/30 mb-6">/mês — Profissional</p>
+        <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Até 500 agentes</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Auto-evolução genética</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Síntese superinteligência</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> JARVIS + Messaging E2E</li>
+          <li class="flex items-start gap-2"><span class="text-neon mt-0.5">▸</span> Suporte prioritário</li>
+        </ul>
+        <a href="/api/auth/register" class="btn-neon btn-neon-solid text-sm">Começar</a>
+      </div>
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.3s">
+        <div class="text-3xl mb-3 text-neon2">🏢</div>
+        <h3 class="text-2xl font-bold mb-2">TVS Enterprise</h3>
+        <p class="text-5xl font-black text-neon2 mb-1">$499</p>
+        <p class="text-xs text-white/30 mb-6">/mês — Corporativo</p>
+        <ul class="text-sm text-left space-y-3 mb-8 text-white/50">
+          <li class="flex items-start gap-2"><span class="text-neon2 mt-0.5">▸</span> Agentes ilimitados</li>
+          <li class="flex items-start gap-2"><span class="text-neon2 mt-0.5">▸</span> Deploy on-premise</li>
+          <li class="flex items-start gap-2"><span class="text-neon2 mt-0.5">▸</span> SLA 99.9%</li>
+          <li class="flex items-start gap-2"><span class="text-neon2 mt-0.5">▸</span> Suporte dedicado 24/7</li>
+          <li class="flex items-start gap-2"><span class="text-neon2 mt-0.5">▸</span> Treinamento equipe</li>
+        </ul>
+        <a href="/api/auth/register" class="btn-neon btn-purple text-sm">Contato</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Downloads -->
+<section id="downloads" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Downloads</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Executáveis TVS</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">O mesmo sistema em todas as plataformas</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.1s">
+        <div class="text-4xl mb-4">🖥️</div>
+        <h3 class="text-xl font-semibold mb-2">Windows Installer</h3>
+        <p class="text-sm text-white/40 mb-1">Setup.exe com o APK + atalhos</p>
+        <p class="text-xs text-white/20 mb-4">v5.0.0</p>
+        <span class="badge badge-green mb-4">Pronto</span>
+        <div><span class="text-xs text-white/20">npm run build:apk-installer</span></div>
+      </div>
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.2s">
+        <div class="text-4xl mb-4">📱</div>
+        <h3 class="text-xl font-semibold mb-2">Android APK</h3>
+        <p class="text-sm text-white/40 mb-1">App móvel com voz, agentes e estado</p>
+        <p class="text-xs text-white/20 mb-4">Expo React Native · Google Play</p>
+        <span class="badge badge-green mb-4">Pronto</span>
+        <div><span class="text-xs text-white/20">npm run build:android</span></div>
+      </div>
+      <div class="reveal cyber-card p-8 text-center" style="transition-delay:0.3s">
+        <div class="text-4xl mb-4">🍎</div>
+        <h3 class="text-xl font-semibold mb-2">iOS IPA</h3>
+        <p class="text-sm text-white/40 mb-1">App para Apple Store</p>
+        <p class="text-xs text-white/20 mb-4">macOS + EAS</p>
+        <span class="badge badge-purple mb-4">Em build</span>
+        <div><span class="text-xs text-white/20">npm run build:ios</span></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.4s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Documentação</h3>
+          <p class="text-sm text-white/40">Manual completo em PDF (19 seções, arquitetura, comandos, integrações, planos)</p>
+        </div>
+        <a href="/docs/pdfs/manuals/TVS_Manual_Completo.pdf" target="_blank" class="btn-neon text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0-3-3m3 3 3-3m2 8H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z"/></svg>
+          PDF Manual
+        </a>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-4" style="transition-delay:0.4s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Comandos Rápidos</h3>
+          <p class="text-sm text-white/40">npm run build:apk-installer · npm run build:android · npm run build:ios · npm run tvs</p>
+        </div>
+        <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon text-sm">GitHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- System Status -->
+<section id="status" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Live Status</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Estado do Sistema ao Vivo</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">API web operacional — módulos reais, verificados agora via <span class="text-neon font-mono">/api/health</span></p>
+      <div class="reveal mt-6 flex items-center justify-center gap-4" style="transition-delay:0.3s">
+        <span id="apiStatus" class="badge badge-purple">verificando…</span>
+        <span class="text-xs text-white/30">www.trinnityviseronsystem.io</span>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Auth Multi-Tenant</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Registo (org → tenant + owner), login JWT, perfis, membros e roles</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Tenants</span><span class="text-neon font-bold" id="hTenants">0</span></div>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Users</span><span class="text-neon font-bold" id="hUsers">0</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Billing + Planos</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Core $29 · Pro $99 · Enterprise $499 — checkout Avirato, webhook e subscrição com trial</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Provider</span><span class="text-neon font-bold" id="hBilling">manual</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Onboarding</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">5 templates (conteúdo, atendimento, código, Squad AIOX, Arkom) → agentes no workspace</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Templates</span><span class="text-neon font-bold">5</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Email</h3>
+          <span class="badge badge-green" id="hEmailBadge">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Gmail real — verificação, reset, faturas e agente de atendimento</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Provider</span><span class="text-neon font-bold" id="hEmail">dev</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s;border-left:2px solid var(--neon2)">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-neon2">Messaging E2E</h3>
+          <span class="badge badge-purple">x25519+aes-256-gcm</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Contactos, conversas diretas e grupos, mensagens cifradas por recetor, status de leitura</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Conversas</span><span class="text-neon2 font-bold" id="hConv">0</span></div>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Mensagens</span><span class="text-neon2 font-bold" id="hMsgs">0</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">JARVIS</h3>
+          <span class="badge badge-green">Live</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Conversa + autonomia real sobre o sistema (sessão + execução, rate-limited 30/min)</p>
+        <div class="flex gap-4 text-sm"><span class="text-white/30">Endpoint</span><span class="text-neon font-bold">/api/jarvis/chat</span></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.5s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Relatório de Estado PDF</h3>
+          <p class="text-sm text-white/40">O que podes fazer de verdade agora + estado completo do sistema (testes, infraestrutura, pendências)</p>
+        </div>
+        <a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank" class="btn-neon text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0-3-3m3 3 3-3m2 8H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z"/></svg>
+          Baixar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Go-Live / Receita -->
+<section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// Revenue</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Cobrança Real</h2>
+      <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Verificado agora via <span class="text-neon font-mono">/api/revenue/readiness</span></p>
+      <div class="reveal mt-6 flex items-center justify-center gap-4" style="transition-delay:0.3s">
+        <span id="revStatus" class="badge badge-purple">verificando…</span>
+        <span class="text-xs text-white/30">Core $29 · Pro $99 · Enterprise $499 /mês</span>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="revGrid">
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.1s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Avirato (cobranças)</h3>
+          <span class="badge badge-purple" id="req-stripe">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Checkout live de subscrições com webhook HMAC</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-stripe">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.2s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Webhook Pagamentos</h3>
+          <span class="badge badge-purple" id="req-stripe_webhook">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Endpoint assinado para upgrade automático do plano</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-stripe_webhook">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.3s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Gmail OAuth</h3>
+          <span class="badge badge-purple" id="req-gmail">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Agente de atendimento envia emails reais (verify/reset/faturas)</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-gmail">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.4s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Email Provider</h3>
+          <span class="badge badge-purple" id="req-email_provider">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Transporte Gmail em produção</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-email_provider">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.5s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Domínio próprio</h3>
+          <span class="badge badge-purple" id="req-domain">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">www.trinnityviseronsystem.io com HTTPS para converter vendas</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-domain">…</span></div>
+      </div>
+      <div class="reveal cyber-card p-6 hologram" style="transition-delay:0.6s">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold">Base de dados</h3>
+          <span class="badge badge-purple" id="req-database">…</span>
+        </div>
+        <p class="text-sm text-white/40 mb-4">Postgres para contas e faturas persistidas de forma robusta</p>
+        <div class="text-sm"><span class="text-white/30">Estado</span> <span class="text-neon font-bold" id="val-database">…</span></div>
+      </div>
+    </div>
+    <div class="reveal cyber-card p-6 mt-6" style="transition-delay:0.5s">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h3 class="font-semibold mb-1">Plano de Receita Real — PDF</h3>
+          <p class="text-sm text-white/40">Passo a passo para ativar cobranças + Gmail + domínio e o modelo de receita (LTV, MRR, metas)</p>
+        </div>
+        <a href="/pitch/Viseron_Pipeline_Receita.pdf" target="_blank" class="btn-neon text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0-3-3m3 3 3-3m2 8H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z"/></svg>
+          Baixar PDF
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- Terminal / CTA -->
+<section class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-4xl mx-auto text-center">
+    <span class="reveal text-neon2 text-xs font-semibold tracking-[0.2em] uppercase">// TVS</span>
+    <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">AI-Native Operating System</h2>
+    <p class="reveal text-white/40 max-w-xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">5396 mentes · TVS OS v1.0 · OMEGA Platform · 290+ providers · Receita live · Auto-evolução</p>
+    <div class="reveal mt-10 flex flex-wrap justify-center gap-4" style="transition-delay:0.3s">
+      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon btn-neon-solid text-base px-8 py-4">
+        GitHub
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="#pricing" class="btn-neon btn-purple text-base px-8 py-4">Ver Planos</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-white/5 py-10 px-6 relative" style="z-index:1;">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
+    <p><span class="text-white/40 font-semibold">Trinnity Viseron System</span> — AI-Native Operating System v5.0</p>
+    <div class="flex gap-5">
+      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" class="hover:text-neon transition-colors">GitHub</a>
+      <a href="/dashboard" class="hover:text-neon2 transition-colors">Dashboard</a>
+      <a href="/blog" class="hover:text-neon transition-colors">Blog</a>
+    </div>
+    <p>&copy; 2026 · Autoria: Pedro Costa (Comandante) &amp; Trinnity Hurtado (Rainha)</p>
+  </div>
+</footer>
+
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="voice-widget.js"></script>
+<script src="jarvis-chat.js"></script>
+<script>
+document.querySelectorAll('.reveal').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0)el.classList.add('in-view')});try{(function initThree(){const c=document.getElementById('three-bg');const s=new THREE.Scene();const a=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));const g=new THREE.Group();s.add(g);const k1=new THREE.TorusKnotGeometry(1.2,0.3,128,16);const m1=new THREE.Mesh(k1,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.12}));m1.position.set(-2.5,0.5,-3);m1.scale.set(0.6,0.6,0.6);g.add(m1);const k2=new THREE.IcosahedronGeometry(1,0);const m2=new THREE.Mesh(k2,new THREE.MeshBasicMaterial({color:0xbf5af2,wireframe:true,transparent:true,opacity:0.08}));m2.position.set(2.8,-0.8,-4);m2.scale.set(0.5,0.5,0.5);g.add(m2);const k3=new THREE.TorusGeometry(1,0.2,32,64);const m3=new THREE.Mesh(k3,new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.06}));m3.position.set(0,1.5,-5);m3.scale.set(0.7,0.7,0.7);g.add(m3);const p=new THREE.BufferGeometry();const pos=new Float32Array(800*3);for(let i=0;i<800*3;i++)pos[i]=(Math.random()-0.5)*20;p.setAttribute('position',new THREE.BufferAttribute(pos,3));const pt=new THREE.PointsMaterial({color:0x00f0ff,size:0.02,transparent:true,opacity:0.3});const ps=new THREE.Points(p,pt);ps.position.z=-5;g.add(ps);a.position.z=5;let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-0.5)*2;my=(e.clientY/window.innerHeight-0.5)*2});function an(){requestAnimationFrame(an);m1.rotation.x+=0.003;m1.rotation.y+=0.006;m2.rotation.x+=0.005;m2.rotation.y-=0.004;m3.rotation.x+=0.002;m3.rotation.z+=0.003;ps.rotation.y+=0.0005;g.rotation.x+=(my*0.02-g.rotation.x)*0.02;g.rotation.y+=(mx*0.02-g.rotation.y)*0.02;r.render(s,a)}an();window.addEventListener('resize',()=>{a.aspect=window.innerWidth/window.innerHeight;a.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight)});})();}catch(e){}
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hidden')}
+const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
+const revealEls=document.querySelectorAll('.reveal');try{const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));setTimeout(()=>{revealEls.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0)el.classList.add('in-view')})},1200);}catch(e){revealEls.forEach(el=>el.classList.add('in-view'))}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
+const LANG_MENU={pt:{os:"TVS OS",omega:"OMEGA",command:"Comando",status:"Status",downloads:"Downloads",pricing:"Planos"},en:{os:"TVS OS",omega:"OMEGA",command:"Command",status:"Status",downloads:"Downloads",pricing:"Plans"},es:{os:"TVS OS",omega:"OMEGA",command:"Comando",status:"Estado",downloads:"Descargas",pricing:"Planes"}};
+function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-os')&&(document.querySelector('.nav-os').textContent=d.os);document.querySelector('.nav-omega')&&(document.querySelector('.nav-omega').textContent=d.omega);document.querySelector('.nav-command')&&(document.querySelector('.nav-command').textContent=d.command);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-pricing')&&(document.querySelector('.nav-pricing').textContent=d.pricing)}
+(async()=>{const el=id=>document.getElementById(id);try{const h=await(await fetch('/api/health',{signal:AbortSignal.timeout(15000)})).json();if(el('apiStatus')){el('apiStatus').textContent='Operacional';el('apiStatus').className='badge badge-green';}if(el('hTenants'))el('hTenants').textContent=h.tenants??'0';if(el('hUsers'))el('hUsers').textContent=h.users??'0';if(el('hEmail'))el('hEmail').textContent=h.email??'dev';if(el('hBilling'))el('hBilling').textContent=h.billing??'manual';if(el('hConv'))el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';if(el('hMsgs'))el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';}catch(e){if(el('apiStatus')){el('apiStatus').textContent='offline (local build ok)';el('apiStatus').className='badge badge-purple';}}})();
+(async()=>{const el=id=>document.getElementById(id);try{const r=await(await fetch('/api/revenue/readiness',{signal:AbortSignal.timeout(15000)})).json();if(el('revStatus')){el('revStatus').textContent=r.ok?'Pronto para faturar':'Go-live pendente ('+r.missing.length+' requisitos)';el('revStatus').className=r.ok?'badge badge-green':'badge badge-purple';}r.requirements.forEach(q=>{const b=el('req-'+q.key);const v=el('val-'+q.key);if(b){b.textContent=q.ready?'Pronto':'Pendente';b.className=q.ready?'badge badge-green':'badge badge-purple';}if(v)v.textContent=q.value;});}catch(e){if(el('revStatus')){el('revStatus').textContent='readiness offline';el('revStatus').className='badge badge-purple';}}})();
+</script>
+</body>
+</html>

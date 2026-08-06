@@ -28,11 +28,35 @@ export function createAppsRouter(store: AppScaffoldStore, logger?: { info?: (mes
   });
 
   router.get("/apps/list", (_req: Request, res: Response) => {
-    res.json({ ok: true, apps: store.list() });
+    const apps = store.list().map((a) => ({
+      ...a,
+      apkBuilt: fs.existsSync(path.join(store.appDir(a.slug) + ".apk")),
+    }));
+    res.json({ ok: true, apps });
   });
 
   router.get("/apps/status", (_req: Request, res: Response) => {
-    res.json({ ok: true, total: store.count() });
+    const apps = store.list();
+    const built = apps.filter((a) => fs.existsSync(path.join(store.appDir(a.slug) + ".apk"))).length;
+    res.json({ ok: true, total: apps.length, apkBuilt: built });
+  });
+
+  // Download do APK real compilado (data/apps/<slug>.apk)
+  router.get("/apps/:slug/apk", (req: Request, res: Response) => {
+    const slug = String(req.params.slug || "");
+    const meta = store.get(slug);
+    if (!meta) {
+      res.status(404).json({ ok: false, error: "app not found" });
+      return;
+    }
+    const apk = path.join(store.appDir(slug) + ".apk");
+    if (!fs.existsSync(apk)) {
+      res.status(404).json({ ok: false, error: "APK não compilado ainda. Usa: npm run app:create -- \"Nome\" \"Descrição\" (ou app:build)" });
+      return;
+    }
+    res.setHeader("Content-Type", "application/vnd.android.package-archive");
+    res.setHeader("Content-Disposition", `attachment; filename="${slug}.apk"`);
+    res.sendFile(apk);
   });
 
   router.get("/apps/:slug", (req: Request, res: Response) => {

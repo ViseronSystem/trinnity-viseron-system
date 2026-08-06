@@ -424,6 +424,54 @@ async function runWebTests() {
 
     const jarvisProj = await axios.post(`${BASE}/api/jarvis/chat`, { message: "Proyección de ingresos de la agencia" });
     assert(jarvisProj.data.ok === true && jarvisProj.data.intent === "agency_projection", "JARVIS detecta intent agency_projection");
+
+    // ── Crypto (modo mock) ────────────────────────────────────────────
+    const cryptoStatus = await axios.get(`${BASE}/api/crypto/status`);
+    assert(cryptoStatus.data.ok === true && cryptoStatus.data.mode === "mock" && typeof cryptoStatus.data.exchange === "string", "GET /api/crypto/status (modo mock)");
+
+    try {
+      await axios.get(`${BASE}/api/crypto/balances`);
+      assert(false, "crypto balances sem token rejeitado");
+    } catch (e: any) {
+      assert(e.response?.status === 401, "crypto balances sem token → 401");
+    }
+
+    const cryptoPrices = await axios.get(`${BASE}/api/crypto/prices`);
+    assert(cryptoPrices.data.ok === true && cryptoPrices.data.prices.length === 3, "GET /api/crypto/prices → BTC/ETH/USDT");
+
+    const cryptoBalances = await axios.get(`${BASE}/api/crypto/balances`, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(cryptoBalances.data.ok === true && Array.isArray(cryptoBalances.data.balances) && cryptoBalances.data.balances.length > 0, "crypto balances com token (mock)");
+
+    const cryptoCheckout = await axios.post(
+      `${BASE}/api/billing/checkout`,
+      { plan: "enterprise", method: "crypto", currency: "USDT" },
+      { headers: { Authorization: `Bearer ${regToken}` } }
+    );
+    assert(cryptoCheckout.data.ok === true && cryptoCheckout.data.provider === "crypto" && cryptoCheckout.data.invoice.status === "pending", "checkout crypto cria fatura pendente");
+    assert(cryptoCheckout.data.invoice.currency === "USDT" && cryptoCheckout.data.invoice.amountUsd === 499, "fatura crypto = plano enterprise ($499)");
+
+    const cryptoInvoices = await axios.get(`${BASE}/api/crypto/invoices`, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(cryptoInvoices.data.ok === true && cryptoInvoices.data.invoices.length >= 1, "GET /api/crypto/invoices lista faturas do tenant");
+
+    const invoiceId = cryptoCheckout.data.invoice.id;
+    const confirm = await axios.post(`${BASE}/api/crypto/invoices/${invoiceId}/confirm`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(confirm.data.ok === true && confirm.data.paid === true, "confirmar fatura (mock) → PAGA");
+
+    const subAfter = await axios.get(`${BASE}/api/billing/subscription`, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(subAfter.data.plan === "enterprise", "pagamento crypto faz upgrade automático do plano → enterprise");
+
+    const check = await axios.post(`${BASE}/api/crypto/check`, {}, { headers: { Authorization: `Bearer ${regToken}` } });
+    assert(check.data.ok === true && typeof check.data.expired === "number", "POST /api/crypto/check (monetização automática)");
+
+    const revenueDashboard = await axios.get(`${BASE}/api/revenue/dashboard`);
+    assert(revenueDashboard.data.ok === true && typeof revenueDashboard.data.mrrCards === "number" && revenueDashboard.data.crypto.paidCount >= 1, "GET /api/revenue/dashboard agrega receita (crypto pago)");
+
+    // ── TVS OS (agora no standalone) ──────────────────────────────────
+    const osStatus = await axios.get(`${BASE}/api/os/status`);
+    assert(osStatus.data.name === "TVS OS Core v1" && typeof osStatus.data.processes === "object", "GET /api/os/status (TVS OS montado no standalone)");
+
+    const osPage = await axios.get(`${BASE}/os`);
+    assert(osPage.status === 200 && osPage.data.includes("TVS Desktop"), "GET /os serve o TVS Desktop");
   } finally {
     server.stop();
   }

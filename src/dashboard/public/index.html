@@ -103,6 +103,7 @@
       <a href="/blog" class="nav-link text-white/40 hover:text-neon transition-colors">Blog</a>
       <a href="/dashboard" class="nav-link text-white/40 hover:text-neon2 transition-colors">Dashboard</a>
       <a href="/os" class="nav-link text-white/40 hover:text-neon transition-colors">TVS OS</a>
+      <a href="javascript:void(0)" onclick="openOSLogin()" class="btn-neon btn-neon-solid text-xs px-4 py-1.5">Entrar no OS</a>
       <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="btn-neon text-xs px-4 py-1.5">GitHub</a>
       <a href="#pricing" class="btn-neon btn-neon-solid text-xs px-4 py-1.5">Planos</a>
     </div>
@@ -120,9 +121,27 @@
       <a href="#token" onclick="toggleMenu()" class="text-white/50 py-2">$VSR</a>
       <a href="/blog" onclick="toggleMenu()" class="text-white/50 py-2">Blog</a>
       <a href="/dashboard" onclick="toggleMenu()" class="text-white/50 py-2">Dashboard</a>
+      <a href="/os" onclick="toggleMenu()" class="text-white/50 py-2">TVS OS</a>
+      <a href="javascript:void(0)" onclick="openOSLogin()" class="text-neon py-2">Entrar no OS</a>
     </div>
   </div>
 </nav>
+
+<!-- OS Login Modal -->
+<div id="osLoginModal" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(2,4,14,.85);backdrop-filter:blur(10px);align-items:center;justify-content:center;">
+  <div class="cyber-card" style="max-width:380px;width:92%;padding:28px;border-color:rgba(0,240,255,.3);">
+    <h3 class="text-lg font-bold text-white mb-1">Entrar no <span class="text-neon">TVS OS</span></h3>
+    <p class="text-xs text-white/40 mb-5">Acede ao sistema operativo com a tua conta da plataforma.</p>
+    <input id="osLoginEmail" type="email" placeholder="Email" style="width:100%;margin-bottom:10px;padding:10px 12px;border:1px solid rgba(0,240,255,.25);border-radius:8px;background:rgba(8,10,24,.9);color:#fff;" />
+    <input id="osLoginPass" type="password" placeholder="Password" style="width:100%;margin-bottom:16px;padding:10px 12px;border:1px solid rgba(0,240,255,.25);border-radius:8px;background:rgba(8,10,24,.9);color:#fff;" />
+    <div id="osLoginError" class="text-xs text-red-400 mb-3" style="display:none"></div>
+    <div class="flex gap-3">
+      <button onclick="osLoginSubmit()" class="btn-neon btn-neon-solid flex-1">Entrar</button>
+      <button onclick="closeOSLogin()" class="btn-neon flex-1">Cancelar</button>
+    </div>
+    <p class="text-[11px] text-white/30 mt-4">Não tens conta? <a href="#pricing" onclick="closeOSLogin()" class="text-neon">Vê os planos</a> ou usa o modo de exploração em <a href="/os" class="text-neon">TVS OS</a>.</p>
+  </div>
+</div>
 
 <!-- Hero -->
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-overlay" style="z-index:1;">
@@ -140,8 +159,8 @@
       auto-evolução genética, aprendizado hiper-exponencial. <span class="text-neon">Autoria de Trinnity &amp; Viseron.</span>
     </p>
     <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s">
-      <a href="#platform" class="btn-neon btn-neon-solid">Explorar Plataforma</a>
-      <a href="#downloads" class="btn-neon">Downloads</a>
+      <a href="javascript:void(0)" onclick="openOSLogin()" class="btn-neon btn-neon-solid">Entrar no TVS OS →</a>
+      <a href="#platform" class="btn-neon">Explorar Plataforma</a>
       <a href="#pricing" class="btn-neon btn-purple">Ver Planos</a>
     </div>
     <div class="reveal mt-16 flex flex-wrap justify-center gap-4 sm:gap-8" style="transition-delay:0.4s">
@@ -979,6 +998,25 @@ function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelecto
   }
   window.setPageLang = function(l){ applyLang(l); };
   window.toggleMenu = window.toggleMenu || function(){ var m=document.getElementById('mobileMenu'); if(m) m.classList.toggle('hidden'); };
+  window.openOSLogin = function(){
+    var m=document.getElementById('osLoginModal');
+    if(m){ m.style.display='flex'; var e=document.getElementById('osLoginError'); if(e) e.style.display='none'; }
+  };
+  window.closeOSLogin = function(){ var m=document.getElementById('osLoginModal'); if(m) m.style.display='none'; };
+  window.osLoginSubmit = function(){
+    var email=document.getElementById('osLoginEmail').value.trim();
+    var pass=document.getElementById('osLoginPass').value;
+    var err=document.getElementById('osLoginError');
+    if(!email||!pass){ if(err){err.style.display='block';err.textContent='Preenche email e password.';} return; }
+    fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pass})})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d.token){ if(err){err.style.display='block';err.textContent=d.error||'Login falhou.';} return; }
+        try{ localStorage.setItem('tvs_token',d.token); }catch(e){}
+        window.location.href='/os';
+      })
+      .catch(function(){ if(err){err.style.display='block';err.textContent='Falha de rede.';} });
+  };
   function boot(){
     if (!window.setPageLang) window.setPageLang = function(l){ applyLang(l); };
     document.querySelectorAll('a[href^="#"]').forEach(function(a){

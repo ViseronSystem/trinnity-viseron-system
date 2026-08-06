@@ -1,8 +1,8 @@
 import "dotenv/config";
-import PDFDocument from "pdfkit";
 import fs from "fs";
 import path from "path";
 import { ComposioBridge } from "../src/core/composio/ComposioBridge";
+import { createTheme } from "./pdf-theme";
 
 // TVS — RELATÓRIO DE CONTAS LIGADAS (Composio)
 // Lista o estado real das apps ligadas ao TVS via Composio (ativas/pendentes),
@@ -67,70 +67,29 @@ function main() {
       };
       fs.writeFileSync(snapshotFile, JSON.stringify(snapshot, null, 2), "utf8");
 
-      const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
-      doc.pipe(fs.createWriteStream(outFile));
-
-      const W = doc.page.width;
-      const PH = doc.page.height;
-      const drawFooter = () => {
-        doc.page.margins.bottom = 8;
-        doc.fontSize(8).fillColor("#888888").text(`TVS v5.0 · Contas Ligadas · ${timestamp} · p.${doc.bufferedPageRange().count + 1}`, 50, PH - 28, { width: W - 100 });
-        doc.page.margins.bottom = 50;
-      };
-      const heading = (t: string) => {
-        doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text(t, 50, doc.y);
-        doc.fillColor("#22d3ee").rect(50, doc.y + 2, 28, 2).fill();
-        doc.moveDown();
-      };
-
-      // Capa
-      doc.fillColor("#0f172a").rect(0, 0, W, PH).fill();
-      doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM · GESTÃO DE CONTAS", W / 2, 150, { align: "center", width: W - 100 });
-      doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(30).text("CONTAS CONECTADAS", W / 2, 190, { align: "center", width: W - 100 });
-      doc.fillColor("#22c55e").font("Helvetica-Bold").fontSize(16).text(`${conns.active.length} ATIVAS · ${conns.pending.length} PENDENTES · 20 APPS`, W / 2, 265, { align: "center", width: W - 100 });
-      doc.fillColor("#94a3b8").font("Helvetica").fontSize(12).text(`${timestamp} · dados reais via Composio (${conns.live ? "live" : "offline — liga o .env"})`, W / 2, 305, { align: "center", width: W - 100 });
-      doc.fillColor("#22d3ee").fontSize(11).text("O Viseron (JARVIS) gere e organiza estas contas por ti", W / 2, 345, { align: "center", width: W - 100 });
-      doc.fillColor("#64748b").fontSize(9).text("Trinnity Hurtado — Rainha  |  Pedro Costa — Comandante", W / 2, 380, { align: "center", width: W - 100 });
-      doc.addPage();
-      drawFooter();
+      const t = createTheme({ title: "Contas Conectadas — Composio", subject: "TVS v5.0 — Gestão de contas ligadas" });
+      t.cover({
+        title: "CONTAS CONECTADAS",
+        subtitle: `${conns.active.length} ATIVAS · ${conns.pending.length} PENDENTES · 20 APPS — dados reais via Composio (${conns.live ? "live" : "offline — liga o .env"}). O Viseron (JARVIS) gere e organiza estas contas por ti.`,
+        badges: ["Composio", "20 Apps", "Gestão de Contas"],
+        date: timestamp,
+        version: "5.0",
+      });
 
       // Resumo
-      heading("Resumo");
-      doc.fillColor("#334155").font("Helvetica").fontSize(11);
-      doc.text(`Apps ligadas ao TVS: ${conns.active.length} ativas · ${conns.pending.length} a aguardar autorização OAuth. Telegram e WhatsApp ficaram fora por decisão (a gerir depois via Viseron).`);
-      doc.moveDown(0.5);
-      doc.text(`Snapshot de gestão: ${snapshotFile}`, 50, doc.y, { link: `file:///${snapshotFile.replace(/\\/g, "/")}`, underline: true, color: "#2563eb" });
-      doc.moveDown(1.5);
+      t.section("1", "Resumo");
+      t.para(`Apps ligadas ao TVS: ${conns.active.length} ativas · ${conns.pending.length} a aguardar autorização OAuth. Telegram e WhatsApp ficaram fora por decisão (a gerir depois via Viseron).`);
+      t.kv("Snapshot de gestão", snapshotFile);
 
-      // Tabela de apps
-      heading("Apps e estado real");
-      doc.fontSize(10);
-      const colSlug = 50;
-      const colStatus = 195;
-      const colPurpose = 280;
-      const colW = W - 50 - colSlug;
-      doc.fillColor("#0f172a").font("Helvetica-Bold");
-      doc.text("APP", colSlug, doc.y, { width: 130 });
-      doc.text("ESTADO", colStatus, doc.y, { width: 75 });
-      doc.text("O QUE O VISERON FAZ", colPurpose, doc.y, { width: colW - colPurpose + 50 });
-      doc.moveDown(0.4);
-
+      // Apps e estado real
+      t.section("2", "Apps e estado real");
       for (const app of snapshot.apps) {
-        const statusColor = app.status === "active" ? "#16a34a" : app.status === "deferred" ? "#64748b" : "#ca8a04";
         const statusLabel = app.status === "active" ? "ATIVA" : app.status === "deferred" ? "ADIADA" : "PENDENTE";
-        const y = doc.y;
-        if (y > PH - 70) { doc.addPage(); drawFooter(); }
-        doc.fillColor("#0f172a").font("Helvetica-Bold").text(app.slug, colSlug, y, { width: 130 });
-        doc.fillColor(statusColor).font("Helvetica-Bold").text(statusLabel, colStatus, y, { width: 75 });
-        doc.fillColor("#334155").font("Helvetica").text(app.purpose, colPurpose, y, { width: colW - colPurpose + 50 });
-        doc.moveDown(0.5);
-        doc.strokeColor("#e2e8f0").moveTo(50, doc.y).lineTo(W - 50, doc.y).stroke();
-        doc.moveDown(0.3);
+        t.kv(app.slug, `${statusLabel} — ${app.purpose}`);
       }
 
-      doc.moveDown(1.2);
-      heading("O que o Viseron faz com elas");
-      doc.fillColor("#334155").font("Helvetica").fontSize(11);
+      // O que o Viseron faz com elas
+      t.section("3", "O que o Viseron faz com elas");
       const capabilities = [
         "Estado em tempo real: 'Estado do composio' (GET /api/composio/status).",
         "Ligar novas contas: 'liga o gmail e o slack' (links OAuth gerados pelo JARVIS).",
@@ -138,10 +97,9 @@ function main() {
         "Canais ativos para autonomia: Gmail (email/prospeção), Calendário (demos), Slack/Discord (alertas), Notion/Drive/Docs (conteúdo), GitHub (código).",
         "Este PDF é regenerável a qualquer momento: npm run contas:pdf.",
       ];
-      for (const c of capabilities) doc.text(`• ${c}`, 60, doc.y, { width: W - 110 });
-      doc.moveDown(1.5);
-      drawFooter();
-      doc.end();
+      for (const c of capabilities) t.bullet("▸", c);
+
+      t.finish(outFile);
       console.log(`✔ Viseron_Contas_Conectadas.pdf gerado (${conns.active.length} ativas) + snapshot ${snapshotFile}`);
     })
     .catch((e: any) => {

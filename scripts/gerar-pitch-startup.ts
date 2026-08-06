@@ -1,10 +1,10 @@
-import PDFDocument from "pdfkit";
+import { createTheme } from "./pdf-theme";
 import * as fs from "fs";
 import * as path from "path";
 
 // ═══════════════════════════════════════════════════════════════════
-// GERA 3 PDFs (PT / ES / EN) com tema claro profissional.
-// Design system: texto escuro sobre fundo claro, sem sobreposições.
+// GERA 3 PDFs (PT / ES / EN) com o tema futurista (pdf-theme).
+// Cover + tipografia viva + fluxo de texto seguro (sem sobreposições).
 // ═══════════════════════════════════════════════════════════════════
 
 type Lang = "pt" | "es" | "en";
@@ -583,285 +583,15 @@ const T: Record<Lang, any> = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// DESIGN SYSTEM — TEMA CLARO PROFISSIONAL
+// THEME ENGINE — helpers de conteúdo (fluxo de texto, sem overlap)
 // ═══════════════════════════════════════════════════════════════════
-const COLOR = {
-  ink: "#10183a",
-  body: "#2b3560",
-  muted: "#5b6575",
-};
-
-const EXTRA = {
-  primary: "#0b8fa3",
-  primaryDark: "#086f80",
-  secondary: "#6d3fc4",
-  accent: "#c2185b",
-  gold: "#8a6d1f",
-  card: "#f5f7fa",
-  cardAlt: "#eef3f7",
-  border: "#d7dee8",
-  borderDark: "#c3cddb",
-  tableHead: "#10183a",
-  tableAlt: "#f5f7fa",
-  white: "#ffffff",
-  bg: "#ffffff",
-};
-
-const PW = 595.28;
-const PH = 841.89;
-const ML = 55;
-const MR = 55;
-const CW = PW - ML - MR;
-const BOTTOM_LIMIT = 745;
-
-let doc: any;
-let pageNum = 0;
-
-// ─── Footer (página numerada, discreta) ───
-function footer(pageWord: string) {
-  pageNum++;
-  const savedY = doc.y;
-  const savedBottom = doc.page.margins.bottom;
-  doc.page.margins.bottom = 8;
-  doc.save();
-  doc.moveTo(ML, PH - 40).lineTo(PW - MR, PH - 40).strokeColor(EXTRA.border).lineWidth(0.7).stroke();
-  doc.fontSize(8).font("Helvetica").fillColor(COLOR.muted);
-  doc.text("Trinnity Viseron System — Startup Pitch v5.0", ML, PH - 32, { width: 250, lineBreak: false });
-  doc.text(`${pageWord} ${pageNum}`, ML + CW - 50, PH - 32, { width: 50, align: "right", lineBreak: false });
-  doc.restore();
-  doc.page.margins.bottom = savedBottom;
-  doc.y = savedY;
+function metricKVs(th: any, tr: any, keys: string[]) {
+  keys.forEach((k) => th.kv(tr[k][0], tr[k][1]));
 }
 
-function ensureSpace(needed: number) {
-  if (doc.y + needed > BOTTOM_LIMIT) doc.addPage();
-}
-
-// ─── Cover ───
-function coverPage(t: any) {
-  const grd = doc.linearGradient(0, 0, PW, PH);
-  grd.stop(0, "#0a1230").stop(0.55, "#0d1b3e").stop(1, "#070d24");
-  doc.rect(0, 0, PW, PH).fill(grd);
-
-  doc.save();
-  for (let gy = 40; gy < PH; gy += 22) {
-    for (let gx = 40; gx < PW; gx += 22) {
-      doc.circle(gx, gy, 0.6).fill(EXTRA.primaryDark).fillOpacity(0.28);
-    }
-  }
-  doc.restore();
-
-  doc.save();
-  doc.lineWidth(1).strokeColor(EXTRA.primary).opacity(0.5);
-  doc.rect(26, 26, PW - 52, PH - 52).stroke();
-  doc.opacity(0.18);
-  doc.lineWidth(0.7);
-  doc.rect(32, 32, PW - 64, PH - 64).stroke();
-  doc.restore();
-
-  doc.fillColor(EXTRA.primary).fontSize(9).font("Helvetica-Bold").opacity(0.9);
-  doc.text(t.conf, ML, 110, { align: "center", width: CW });
-
-  doc.fillColor(COLOR.white).fontSize(46).font("Helvetica-Bold").opacity(1);
-  doc.text("TRINNITY VISERON", ML, 148, { align: "center", width: CW });
-  doc.fillColor("#35e0f0").fontSize(42).font("Helvetica-Bold");
-  doc.text("SYSTEM", ML, 202, { align: "center", width: CW });
-
-  doc.fillColor("#aab4d6").fontSize(14).font("Helvetica");
-  doc.text(t.subtitle, ML, 258, { align: "center", width: CW });
-  doc.fillColor("#ffd97a").fontSize(11).font("Helvetica");
-  doc.text(t.tagline, ML, 282, { align: "center", width: CW });
-
-  doc.save();
-  doc.lineWidth(0.8).strokeColor(EXTRA.primary).opacity(0.7);
-  doc.moveTo(180, 316).lineTo(PW - 180, 316).stroke();
-  doc.restore();
-
-  doc.fontSize(10.5).font("Helvetica");
-  t.featL.forEach((f: string, i: number) => {
-    doc.fillColor("#4df0a8").text("✓", ML + 30, 348 + i * 24, { width: 16, lineBreak: false });
-    doc.fillColor("#d7dcf2").text(f, ML + 50, 348 + i * 24, { width: 220, lineBreak: false });
-  });
-  t.featR.forEach((f: string, i: number) => {
-    doc.fillColor("#4df0a8").text("✓", ML + CW - 250, 348 + i * 24, { width: 16, lineBreak: false });
-    doc.fillColor("#d7dcf2").text(f, ML + CW - 230, 348 + i * 24, { width: 200, lineBreak: false });
-  });
-
-  doc.fillColor("#9aa4c8").fontSize(10).font("Helvetica");
-  doc.text(t.prep, ML, 560, { align: "center", width: CW });
-  doc.fillColor("#d9aaff").fontSize(12).font("Helvetica-Bold");
-  doc.text("Pedro Costa  ·  Trinnity Hurtado", ML, 586, { align: "center", width: CW });
-  doc.fillColor("#8b96ba").fontSize(9).font("Helvetica");
-  doc.text(t.foundersRole, ML, 606, { align: "center", width: CW });
-
-  doc.addPage();
-}
-
-// ─── Section header ───
-function section(title: string, number?: string) {
-  if (doc.y > 620) doc.addPage();
-  footer("Page");
-  ensureSpace(60);
-  doc.moveDown(0.4);
-
-  const y0 = doc.y;
-  const prefix = number ? `${number}` : "";
-  if (prefix) {
-    doc.roundedRect(ML, y0 - 2, 34, 34, 8).fill(EXTRA.primary);
-    doc.fillColor(COLOR.white).fontSize(16).font("Helvetica-Bold");
-    doc.text(prefix, ML, y0 + 8, { width: 34, align: "center", lineBreak: false });
-  }
-  const textX = prefix ? ML + 46 : ML;
-  doc.fillColor(COLOR.ink).fontSize(23).font("Helvetica-Bold");
-  doc.text(title, textX, y0, { width: CW - 46 });
-
-  doc.moveDown(0.5);
-  doc.save();
-  doc.lineWidth(2.2).strokeColor(EXTRA.primary);
-  doc.moveTo(ML, doc.y).lineTo(ML + 90, doc.y).stroke();
-  doc.restore();
-  doc.moveDown(1.1);
-}
-
-function sub(title: string) {
-  if (doc.y > 690) doc.addPage();
-  doc.moveDown(0.2);
-  doc.fillColor(EXTRA.secondary).fontSize(14).font("Helvetica-Bold");
-  doc.text(title, { width: CW });
-  doc.moveDown(0.55);
-}
-
-function body(text: string) {
-  if (doc.y > 700) doc.addPage();
-  doc.fontSize(10.5).font("Helvetica").fillColor(COLOR.body);
-  doc.text(text, { align: "justify", width: CW, lineGap: 4 });
-  doc.moveDown(0.6);
-}
-
-function bullet(text: string, marker: string = "▪", markerColor: string = EXTRA.primary, indent: number = 0) {
-  const y0 = doc.y;
-  const mw = 16;
-  const x = ML + indent;
-  const tx = x + mw;
-  const w = CW - indent - mw;
-  const h = doc.fontSize(10).font("Helvetica").heightOfString(text, { width: w });
-  if (y0 + h > BOTTOM_LIMIT) doc.addPage();
-  doc.fontSize(9).font("Helvetica-Bold").fillColor(markerColor);
-  doc.text(marker, x, y0, { width: mw, lineBreak: false });
-  doc.fontSize(10).font("Helvetica").fillColor(COLOR.body);
-  doc.text(text, tx, y0, { width: w, lineGap: 2 });
-  doc.moveDown(0.45);
-}
-
-function card(title: string, items: string[], accent: string = EXTRA.primary) {
-  const y0 = doc.y;
-  const cardW = (CW - 14) / 2;
-  const boxH = items.length * 15 + 52;
-  if (y0 + boxH > BOTTOM_LIMIT) { doc.addPage(); return card(title, items, accent); }
-  doc.roundedRect(ML, y0, cardW, boxH, 10).fill(EXTRA.card).strokeColor(EXTRA.border).lineWidth(0.8).stroke();
-  doc.rect(ML, y0 + 10, 3, boxH - 20).fill(accent);
-  doc.fillColor(accent).fontSize(12).font("Helvetica-Bold");
-  doc.text(title, ML + 14, y0 + 14, { width: cardW - 28 });
-  doc.fillColor(COLOR.body).fontSize(9.5).font("Helvetica");
-  items.forEach((it, i) => {
-    doc.text(`•  ${it}`, ML + 14, y0 + 34 + i * 15, { width: cardW - 28, lineBreak: false });
-  });
-  doc.y = y0 + boxH;
-  doc.moveDown(0.9);
-}
-
-function cardRight(title: string, items: string[], accent: string = EXTRA.secondary) {
-  const y0 = doc.y;
-  const cardW = (CW - 14) / 2;
-  const boxH = items.length * 15 + 52;
-  if (y0 + boxH > BOTTOM_LIMIT) { doc.addPage(); return cardRight(title, items, accent); }
-  doc.roundedRect(ML + cardW + 14, y0, cardW, boxH, 10).fill(EXTRA.cardAlt).strokeColor(EXTRA.border).lineWidth(0.8).stroke();
-  doc.rect(ML + cardW + 14, y0 + 10, 3, boxH - 20).fill(accent);
-  doc.fillColor(accent).fontSize(12).font("Helvetica-Bold");
-  doc.text(title, ML + cardW + 28, y0 + 14, { width: cardW - 28 });
-  doc.fillColor(COLOR.body).fontSize(9.5).font("Helvetica");
-  items.forEach((it, i) => {
-    doc.text(`•  ${it}`, ML + cardW + 28, y0 + 34 + i * 15, { width: cardW - 28, lineBreak: false });
-  });
-  doc.y = y0 + boxH;
-  doc.moveDown(0.9);
-}
-
-function metricBoxes(metrics: Array<[string, string]>) {
-  const rows = Math.ceil(metrics.length / 4);
-  for (let r = 0; r < rows; r++) {
-    const y0 = doc.y;
-    const boxH = 54;
-    if (y0 + boxH + (rows > 1 ? 20 : 0) > BOTTOM_LIMIT) doc.addPage();
-    const start = r * 4;
-    const cols = metrics.slice(start, start + 4);
-    const colW = CW / 4;
-    cols.forEach(([val, label], ci) => {
-      const x = ML + ci * colW;
-      doc.roundedRect(x, y0, colW - 8, boxH, 8).fill(EXTRA.card).strokeColor(EXTRA.border).lineWidth(0.8).stroke();
-      doc.fillColor(EXTRA.primaryDark).fontSize(15).font("Helvetica-Bold");
-      doc.text(val, x + 4, y0 + 8, { width: colW - 16, align: "center", lineBreak: false });
-      doc.fillColor(COLOR.muted).fontSize(7.5).font("Helvetica");
-      doc.text(label, x + 4, y0 + 30, { width: colW - 16, align: "center", lineBreak: false });
-    });
-    doc.y = y0 + boxH;
-    if (rows > 1) doc.moveDown(0.5);
-  }
-  doc.moveDown(0.7);
-}
-
-function table(headers: string[], rows: Array<Array<string>>, colWidths: number[], opts: { fontSize?: number } = {}) {
-  const fs = opts.fontSize || 9;
-  const headerH = 24;
-
-  if (doc.y + headerH + 22 > BOTTOM_LIMIT) doc.addPage();
-
-  const drawHeader = () => {
-    const hy = doc.y;
-    doc.roundedRect(ML, hy, CW, headerH, 6).fill(EXTRA.tableHead);
-    let hx = ML;
-    doc.fontSize(fs).font("Helvetica-Bold").fillColor(COLOR.white);
-    headers.forEach((h, i) => {
-      doc.text(h, hx + 8, hy + 8, { width: colWidths[i] - 16, lineBreak: false });
-      hx += colWidths[i];
-    });
-    doc.y = hy + headerH;
-  };
-
-  drawHeader();
-
-  rows.forEach((row, ri) => {
-    let maxH = 0;
-    doc.fontSize(fs).font("Helvetica");
-    row.forEach((cell, ci) => {
-      const h = doc.heightOfString(cell, { width: colWidths[ci] - 16 });
-      maxH = Math.max(maxH, h);
-    });
-    const rowH = maxH + 12;
-
-    if (doc.y + rowH > BOTTOM_LIMIT) {
-      doc.addPage();
-      drawHeader();
-    }
-
-    const ry = doc.y;
-    if (ri % 2 === 1) {
-      doc.rect(ML, ry, CW, rowH).fill(EXTRA.tableAlt);
-    }
-    doc.save();
-    doc.lineWidth(0.5).strokeColor(EXTRA.border);
-    doc.moveTo(ML, ry + rowH).lineTo(ML + CW, ry + rowH).stroke();
-    doc.restore();
-
-    let rx = ML;
-    row.forEach((cell, ci) => {
-      doc.fontSize(fs).font("Helvetica").fillColor(COLOR.body);
-      doc.text(cell, rx + 8, ry + 6, { width: colWidths[ci] - 16, lineGap: 1 });
-      rx += colWidths[ci];
-    });
-    doc.y = ry + rowH;
-  });
-  doc.moveDown(0.9);
+function cardGroup(th: any, title: string, items: string[], color?: string) {
+  th.chip(title, color);
+  th.bullets(items.map((it) => ({ icon: "▸", text: it })));
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -869,205 +599,143 @@ function table(headers: string[], rows: Array<Array<string>>, colWidths: number[
 // ═══════════════════════════════════════════════════════════════════
 function buildPDF(lang: Lang) {
   const meta = LANG_META[lang];
-  const t = T[lang];
+  const tr = T[lang];
   const OUTPUT = path.join(__dirname, "..", "data", meta.file);
 
-  doc = new PDFDocument({
-    size: "A4",
-    margins: { top: 50, bottom: 55, left: 55, right: 55 },
-    info: {
-      Title: `Trinnity Viseron System v5.0 — Startup Pitch (${meta.label})`,
-      Author: "Pedro Costa & Trinnity Hurtado",
-      Subject: "Multi-Agent AI Superintelligence — Full System Overview",
-    },
+  const th = createTheme({
+    title: `Trinnity Viseron System v5.0 — Startup Pitch (${meta.label})`,
+    subject: "Multi-Agent AI Superintelligence — Full System Overview",
   });
 
-  const stream = fs.createWriteStream(OUTPUT);
-  doc.pipe(stream);
-  pageNum = 0;
+  // ─── COVER futurista (um por idioma, título com a língua) ───
+  th.cover({
+    title: `TRINNITY VISERON SYSTEM\nSTARTUP PITCH · ${meta.label.toUpperCase()}`,
+    subtitle: `${tr.subtitle} — ${tr.tagline}`,
+    badges: [...tr.featL, ...tr.featR],
+    date: "06/08/2026",
+    version: "5.0",
+    url: "www.trinnityviseronsystem.io",
+  });
 
-  // ─── COVER ───
-  coverPage(t);
+  // ─── 1. SUMÁRIO EXECUTIVO ───
+  th.section("1", tr.sec1);
+  th.para(tr.sec1_body1);
+  th.para(tr.sec1_body2);
+  th.sub(tr.metrics_sub);
+  metricKVs(th, tr, ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8"]);
 
-  // ─── 1. SUMÁRIO ───
-  section(t.sec1, "1");
-  body(t.sec1_body1);
-  body(t.sec1_body2);
-  sub(t.metrics_sub);
-  metricBoxes([t.m1, t.m2, t.m3, t.m4, t.m5, t.m6, t.m7, t.m8]);
+  // ─── 2. O PROBLEMA ───
+  th.section("2", tr.sec2);
+  th.para(tr.sec2_intro);
+  th.sub(tr.sec2_sub1);
+  cardGroup(th, tr.card_chat, tr.card_chat_items);
+  cardGroup(th, tr.card_fw, tr.card_fw_items);
+  th.sub(tr.sec2_sub2);
+  th.para(tr.sec2_body);
 
-  // ─── 2. PROBLEMA ───
-  doc.addPage();
-  section(t.sec2, "2");
-  body(t.sec2_intro);
-  sub(t.sec2_sub1);
-  card(t.card_chat, t.card_chat_items);
-  cardRight(t.card_fw, t.card_fw_items);
-  sub(t.sec2_sub2);
-  body(t.sec2_body);
+  // ─── 3. A SOLUÇÃO ───
+  th.section("3", tr.sec3);
+  th.para(tr.sec3_body);
+  th.sub(tr.sec3_sub1);
+  [tr.row_layer1, tr.row_layer2, tr.row_layer3, tr.row_layer4].forEach((r) => th.kv(r[0], r[1]));
+  th.sub(tr.sec3_sub2);
+  th.bullets([tr.diff1, tr.diff2, tr.diff3, tr.diff4, tr.diff5].map((d) => ({ icon: "▸", text: d })));
 
-  // ─── 3. SOLUÇÃO ───
-  doc.addPage();
-  section(t.sec3, "3");
-  body(t.sec3_body);
-  sub(t.sec3_sub1);
-  table([t.th_layer, t.th_comp], [t.row_layer1, t.row_layer2, t.row_layer3, t.row_layer4], [90, CW - 100], { fontSize: 9 });
-  doc.moveDown(0.3);
-  sub(t.sec3_sub2);
-  bullet(t.diff1);
-  bullet(t.diff2);
-  bullet(t.diff3);
-  bullet(t.diff4);
-  bullet(t.diff5);
+  // ─── 4. PRODUTO — O QUE JÁ FUNCIONA ───
+  th.section("4", tr.sec4);
+  th.para(tr.sec4_body);
+  th.sub(tr.sec4_sub1);
+  [tr.row_cmd1, tr.row_cmd2, tr.row_cmd3, tr.row_cmd4, tr.row_cmd5, tr.row_cmd6]
+    .forEach((r) => th.code(r[0], r[1]));
+  th.sub(tr.sec4_sub2);
+  cardGroup(th, tr.card_auto, tr.card_auto_items);
+  cardGroup(th, tr.card_int, tr.card_int_items);
 
-  // ─── 4. PRODUTO ───
-  doc.addPage();
-  section(t.sec4, "4");
-  body(t.sec4_body);
-  sub(t.sec4_sub1);
-  table([t.th_cmd, t.th_delivers], [t.row_cmd1, t.row_cmd2, t.row_cmd3, t.row_cmd4, t.row_cmd5, t.row_cmd6], [135, CW - 145], { fontSize: 9 });
-  sub(t.sec4_sub2);
-  card(t.card_auto, t.card_auto_items);
-  cardRight(t.card_int, t.card_int_items);
+  // ─── 5. AUTONOMIA & EVOLUÇÃO ───
+  th.section("5", tr.sec5);
+  th.sub(tr.sec5_sub1);
+  [tr.row_cyc1, tr.row_cyc2, tr.row_cyc3, tr.row_cyc4]
+    .forEach((r) => th.bullet("▸", `${r[0]} (${r[1]}) — ${r[2]}`));
+  th.sub(tr.sec5_sub2);
+  th.para(tr.sec5_body);
+  th.sub(tr.sec5_sub3);
+  [tr.row_int1, tr.row_int2, tr.row_int3, tr.row_int4]
+    .forEach((r) => th.bullet("▸", `${r[0]} · ${r[1]} — ${r[2]}`));
 
-  // ─── 5. AUTONOMIA ───
-  doc.addPage();
-  section(t.sec5, "5");
-  sub(t.sec5_sub1);
-  table([t.th_cycle, t.th_freq, t.th_alone], [t.row_cyc1, t.row_cyc2, t.row_cyc3, t.row_cyc4], [110, 75, CW - 195], { fontSize: 9 });
-  sub(t.sec5_sub2);
-  body(t.sec5_body);
-  sub(t.sec5_sub3);
-  table([t.th_cycle2, t.th_intel, t.th_obs], [t.row_int1, t.row_int2, t.row_int3, t.row_int4], [70, 130, CW - 210], { fontSize: 9 });
-
-  // ─── 6. INTEGRAÇÕES ───
-  doc.addPage();
-  section(t.sec6, "6");
-  body(t.sec6_body);
-  sub(t.sec6_sub1);
-  table([t.th_mod, t.th_fn, t.th_mgmt], [t.row_mod1, t.row_mod2, t.row_mod3, t.row_mod4, t.row_mod5, t.row_mod6, t.row_mod7], [110, 220, CW - 340], { fontSize: 9 });
-  sub(t.sec6_sub2);
-  table([t.th_srv, t.th_port, t.th_fn], [t.row_srv1, t.row_srv2, t.row_srv3, t.row_srv4, t.row_srv5, t.row_srv6], [140, 70, CW - 220], { fontSize: 9 });
+  // ─── 6. INTEGRAÇÕES & ECOSSISTEMA ───
+  th.section("6", tr.sec6);
+  th.para(tr.sec6_body);
+  th.sub(tr.sec6_sub1);
+  [tr.row_mod1, tr.row_mod2, tr.row_mod3, tr.row_mod4, tr.row_mod5, tr.row_mod6, tr.row_mod7]
+    .forEach((r) => th.bullet("▸", `${r[0]} — ${r[1]} · ${r[2]}`));
+  th.sub(tr.sec6_sub2);
+  [tr.row_srv1, tr.row_srv2, tr.row_srv3, tr.row_srv4, tr.row_srv5, tr.row_srv6]
+    .forEach((r) => th.bullet("▸", `${r[0]} · porta ${r[1]} — ${r[2]}`));
 
   // ─── 7. MERCADO ───
-  doc.addPage();
-  section(t.sec7, "7");
-  body(t.sec7_body);
-  sub(t.sec7_sub1);
-  card(t.card_pme, t.card_pme_items);
-  cardRight(t.card_ent, t.card_ent_items);
-  sub(t.sec7_sub2);
-  bullet(t.why1);
-  bullet(t.why2);
-  bullet(t.why3);
-  bullet(t.why4);
+  th.section("7", tr.sec7);
+  th.para(tr.sec7_body);
+  th.sub(tr.sec7_sub1);
+  cardGroup(th, tr.card_pme, tr.card_pme_items);
+  cardGroup(th, tr.card_ent, tr.card_ent_items);
+  th.sub(tr.sec7_sub2);
+  th.bullets([tr.why1, tr.why2, tr.why3, tr.why4].map((w) => ({ icon: "▸", text: w })));
 
-  // ─── 8. NEGÓCIO ───
-  doc.addPage();
-  section(t.sec8, "8");
-  sub(t.sec8_sub1);
-  card(t.card_saas, t.card_saas_items);
-  cardRight(t.card_rev, t.card_rev_items);
-  sub(t.sec8_sub2);
-  body(t.sec8_body);
-  sub(t.sec8_sub3);
-  table([t.th_phase, t.th_cust, t.th_mrev, t.th_arev, t.th_drv], [t.row_rev1, t.row_rev2, t.row_rev3], [105, 60, 100, 100, CW - 375], { fontSize: 9 });
+  // ─── 8. MODELO DE NEGÓCIO ───
+  th.section("8", tr.sec8);
+  th.sub(tr.sec8_sub1);
+  cardGroup(th, tr.card_saas, tr.card_saas_items);
+  cardGroup(th, tr.card_rev, tr.card_rev_items);
+  th.sub(tr.sec8_sub2);
+  th.para(tr.sec8_body);
+  th.sub(tr.sec8_sub3);
+  [tr.row_rev1, tr.row_rev2, tr.row_rev3]
+    .forEach((r) => th.bullet("▸", `${r[0]} · ${r[1]} clientes · ${r[2]} · ${r[3]} — ${r[4]}`));
 
-  // ─── 9. CONCORRÊNCIA ───
-  doc.addPage();
-  section(t.sec9, "9");
-  sub(t.sec9_sub1);
-  table([t.th_comp2, t.th_does, t.th_lim], [t.row_comp1, t.row_comp2, t.row_comp3, t.row_comp4, t.row_comp5], [190, 170, CW - 370], { fontSize: 9 });
-  sub(t.sec9_sub2);
-  bullet(t.moat1);
-  bullet(t.moat2);
-  bullet(t.moat3);
-  bullet(t.moat4);
+  // ─── 9. CONCORRÊNCIA & DIFERENCIAIS ───
+  th.section("9", tr.sec9);
+  th.sub(tr.sec9_sub1);
+  [tr.row_comp1, tr.row_comp2, tr.row_comp3, tr.row_comp4, tr.row_comp5]
+    .forEach((r) => th.bullet("▸", `${r[0]} — ${r[1]}; ${r[2]}`));
+  th.sub(tr.sec9_sub2);
+  th.bullets([tr.moat1, tr.moat2, tr.moat3, tr.moat4].map((m) => ({ icon: "▸", text: m })));
 
   // ─── 10. ROADMAP ───
-  doc.addPage();
-  section(t.sec10, "10");
-  sub(t.r501);
-  bullet(t.r501_1);
-  bullet(t.r501_2);
-  bullet(t.r501_3);
-  bullet(t.r501_4);
-  sub(t.r511);
-  bullet(t.r511_1);
-  bullet(t.r511_2);
-  bullet(t.r511_3);
-  bullet(t.r511_4);
-  sub(t.r601);
-  bullet(t.r601_1);
-  bullet(t.r601_2);
-  bullet(t.r601_3);
-  bullet(t.r601_4);
+  th.section("10", tr.sec10);
+  th.sub(tr.r501);
+  th.bullets([tr.r501_1, tr.r501_2, tr.r501_3, tr.r501_4].map((b) => ({ icon: "▸", text: b })));
+  th.sub(tr.r511);
+  th.bullets([tr.r511_1, tr.r511_2, tr.r511_3, tr.r511_4].map((b) => ({ icon: "▸", text: b })));
+  th.sub(tr.r601);
+  th.bullets([tr.r601_1, tr.r601_2, tr.r601_3, tr.r601_4].map((b) => ({ icon: "▸", text: b })));
 
-  // ─── 11. INVESTIMENTO ───
-  doc.addPage();
-  section(t.sec11, "11");
-  body(t.sec11_body);
-  sub(t.sec11_sub1);
-  table([t.th_alloc, t.th_dest], [t.row_f1, t.row_f2, t.row_f3, t.row_f4], [90, CW - 100], { fontSize: 9 });
-  sub(t.sec11_sub2);
-  bullet(t.opp1);
-  bullet(t.opp2);
-  bullet(t.opp3);
-  bullet(t.opp4);
+  // ─── 11. PEDIDO DE INVESTIMENTO ───
+  th.section("11", tr.sec11);
+  th.para(tr.sec11_body);
+  th.sub(tr.sec11_sub1);
+  [tr.row_f1, tr.row_f2, tr.row_f3, tr.row_f4].forEach((r) => th.kv(r[0], r[1]));
+  th.sub(tr.sec11_sub2);
+  th.bullets([tr.opp1, tr.opp2, tr.opp3, tr.opp4].map((o) => ({ icon: "▸", text: o })));
 
   // ─── 12. CONTATO ───
-  doc.addPage();
-  const grd = doc.linearGradient(0, 0, PW, PH);
-  grd.stop(0, "#0a1230").stop(0.55, "#0d1b3e").stop(1, "#070d24");
-  doc.rect(0, 0, PW, PH).fill(grd);
+  th.section("12", tr.sec12);
+  th.title(`${tr.ct_line1} ${tr.ct_line2}`, 22);
+  th.sub(tr.ct_name);
+  th.para(tr.ct_sub, 11, "#64748b");
+  th.rule();
+  th.bullet("▸", tr.ct_pedro);
+  th.bullet("▸", tr.ct_trinnity);
+  th.para(tr.ct_contact, 10.5, "#334155");
+  th.para(tr.ct_gh, 10.5, "#334155");
+  th.para(tr.ct_dash, 10.5, "#334155");
+  th.spacer(1);
+  th.para(tr.ct_cr, 9, "#94a3b8");
 
-  doc.save();
-  doc.lineWidth(1).strokeColor(EXTRA.primary).opacity(0.5);
-  doc.rect(26, 26, PW - 52, PH - 52).stroke();
-  doc.opacity(0.18);
-  doc.lineWidth(0.7);
-  doc.rect(32, 32, PW - 64, PH - 64).stroke();
-  doc.restore();
-
-  doc.fillColor(COLOR.white).fontSize(36).font("Helvetica-Bold");
-  doc.text(t.ct_line1, ML, 190, { align: "center", width: CW });
-  doc.fillColor("#35e0f0").fontSize(40).font("Helvetica-Bold");
-  doc.text(t.ct_line2, ML, 232, { align: "center", width: CW });
-
-  doc.save();
-  doc.lineWidth(0.8).strokeColor(EXTRA.primary).opacity(0.7);
-  doc.moveTo(180, 300).lineTo(PW - 180, 300).stroke();
-  doc.restore();
-
-  doc.fontSize(12).font("Helvetica");
-  const contact = [
-    t.ct_name,
-    t.ct_sub,
-    "",
-    t.ct_pedro,
-    t.ct_trinnity,
-    "",
-    t.ct_contact,
-    t.ct_gh,
-    t.ct_dash,
-  ];
-  contact.forEach((l: string, i: number) => {
-    if (l === "") { doc.y += 8; return; }
-    doc.fillColor("#d7dcf2").text(l, ML, 330 + i * 26, { align: "center", width: CW, lineBreak: false });
-  });
-
-  const savedBottom = doc.page.margins.bottom;
-  doc.page.margins.bottom = 8;
-  doc.fillColor("#8b96ba").fontSize(9).font("Helvetica");
-  doc.text(t.ct_cr, ML, PH - 60, { align: "center", width: CW });
-  doc.page.margins.bottom = savedBottom;
-
-  doc.end();
-
-  stream.on("finish", () => {
+  th.finish(OUTPUT);
+  setTimeout(() => {
     const size = fs.statSync(OUTPUT).size;
     console.log(`✅ ${meta.file} gerado (${meta.label}) — ${(size / 1024).toFixed(1)} KB`);
-  });
+  }, 800);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1075,3 +743,4 @@ function buildPDF(lang: Lang) {
 // ═══════════════════════════════════════════════════════════════════
 const langs: Lang[] = ["pt", "es", "en"];
 langs.forEach((l) => buildPDF(l));
+

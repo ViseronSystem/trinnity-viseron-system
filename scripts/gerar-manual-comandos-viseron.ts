@@ -1,6 +1,5 @@
-import PDFDocument from "pdfkit";
-import * as fs from "fs";
 import * as path from "path";
+import { createTheme } from "./pdf-theme";
 
 const OUTPUT = path.resolve("data/reports/manual-comandos-viseron.pdf");
 
@@ -227,39 +226,37 @@ const apiEndpoints = [
   ["GET /api/revenue/readiness", "Go-live de receita real: Stripe, webhook, Gmail, email provider, domínio, Postgres"],
 ];
 
-const doc = new PDFDocument({
-  size: "A4",
-  margins: { top: 40, bottom: 40, left: 45, right: 45 },
-  info: {
-    Title: "Manual de Comandos - Trinnity Viseron System",
-    Author: "TVS v5.0 - Tools Integration",
-    Subject: "Comandos Viseron + 8 GitHub Tools",
-  },
+const t = createTheme({
+  title: "Manual de Comandos - Trinnity Viseron System",
+  subject: "Comandos Viseron + 8 GitHub Tools",
 });
 
-const stream = fs.createWriteStream(OUTPUT);
-doc.pipe(stream);
+// Bloco de código multi-linha que flui via doc.y (sem sobreposição).
+function codeBlock(lines: string[], desc?: string) {
+  t.ensure(20 * lines.length + (desc ? 14 : 0));
+  t.doc.font("Courier").fontSize(8.5).fillColor("#1e293b");
+  for (const line of lines) {
+    t.doc.text(line, 54, t.doc.y, { width: t.doc.page.width - 108, lineGap: 2 });
+  }
+  if (desc) {
+    t.doc.moveDown(0.3);
+    t.doc.font("Helvetica").fontSize(8.5).fillColor("#64748b").text(desc, 54, t.doc.y, { width: t.doc.page.width - 108 });
+  }
+  t.doc.moveDown(0.6);
+}
 
 // ==================== CAPA ====================
-doc.rect(0, 0, doc.page.width, doc.page.height).fill("#0a0a2e");
-doc.fill("#ffffff");
-doc.fontSize(40).font("Helvetica-Bold").text("MANUAL DE", { align: "center" });
-doc.fontSize(44).text("COMANDOS", { align: "center" });
-doc.moveDown(1);
-doc.fontSize(18).font("Helvetica").text("Trinnity Viseron System v5.0", { align: "center" });
-doc.moveDown(0.5);
-doc.fontSize(12).fillColor("#aaaaaa").text("Comandos Viseron + 8 GitHub Tools Integradas", { align: "center" });
-doc.moveDown(0.3);
-doc.fontSize(11).text("yt-dlp | Ollama | Fooocus | Whisper | Plausible | AppFlowy | Penpot | CUDACyclone", { align: "center" });
-doc.moveDown(2);
-doc.fontSize(10).fillColor("#888888").text("Gerado: " + new Date().toLocaleString("pt-BR"), { align: "center" });
-doc.text("Trinnity Hurtado — Reina (Coroa)  |  Pedro Costa — Capitan (Hierro)", { align: "center" });
-doc.addPage();
+t.cover({
+  title: "MANUAL DE\nCOMANDOS",
+  subtitle: "Trinnity Viseron System v5.0 — Comandos Viseron + 8 GitHub Tools Integradas",
+  badges: ["yt-dlp", "Ollama", "Fooocus", "Whisper", "Plausible", "AppFlowy", "Penpot", "CUDACyclone"],
+  date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
+  version: "5.0",
+  url: "www.trinnityviseronsystem.io",
+});
 
 // ==================== SUMARIO ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("SUMARIO", { underline: true });
-doc.moveDown(1);
-doc.fillColor("#333333").fontSize(11).font("Helvetica");
+t.title("SUMARIO", 18);
 const toc = [
   "1. Comandos Viseron (npm + CLI + API) — lido de package.json",
   "2. tvs_ytdlp — YouTube/Video Downloader",
@@ -273,86 +270,41 @@ const toc = [
   "10. API TVS Completa (auth/billing/onboarding/email)",
   "11. Como emitir comandos via Diretivas",
 ];
-toc.forEach((t, i) => {
-  doc.fillColor(i % 2 === 0 ? "#333" : "#555").fontSize(10).text("  " + t);
-  doc.moveDown(0.2);
-});
-doc.addPage();
+toc.forEach((item, i) => t.bullet(i % 2 === 0 ? "▸" : "▹", item));
 
 // ==================== 1. COMANDOS BASE ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("1. COMANDOS VISERON", { underline: true });
-doc.moveDown(0.5);
-doc.fillColor("#333333").fontSize(11).font("Helvetica");
-doc.text("Comandos npm para operar o Trinnity Viseron System (lidos automaticamente de package.json — novos comandos aparecem aqui a cada regeneração):", { align: "justify" });
-doc.moveDown(0.5);
-
+t.doc.addPage();
+t.section("1", "Comandos Viseron");
+t.para("Comandos npm para operar o Trinnity Viseron System (lidos automaticamente de package.json — novos comandos aparecem aqui a cada regeneração):");
 tvsBuiltIn.forEach(([cmd, desc]) => {
-  if (doc.y > 700) doc.addPage();
-  doc.font("Courier").fontSize(7.5).fillColor("#0a0a2e").text("  " + cmd);
-  doc.font("Helvetica").fontSize(8).fillColor("#555").text("    " + desc);
-  doc.fillColor("#333");
-  doc.moveDown(0.15);
+  if (desc.length > 100) codeBlock([cmd], desc);
+  else t.code(cmd, desc);
 });
 
-doc.moveDown(1);
-
-// ==================== 2-8. FERRAMENTAS ====================
+// ==================== 2-9. FERRAMENTAS ====================
 tools.forEach((tool, idx) => {
-  if (doc.y > 650) doc.addPage();
-  else doc.moveDown(0.5);
-
-  doc.fillColor("#0a0a2e").fontSize(18).font("Helvetica-Bold").text(`${idx + 2}. ${tool.name}`);
-  doc.moveDown(0.3);
-
-  doc.fillColor("#666").fontSize(8).font("Helvetica").text("    Repositorio: " + tool.repo);
-  doc.fillColor("#333").fontSize(10).font("Helvetica").text("    " + tool.desc);
-  doc.moveDown(0.3);
-  doc.fillColor("#888").fontSize(8).font("Helvetica").text("    Instalacao: " + tool.install);
-  doc.moveDown(0.5);
-
-  doc.fillColor("#0a0a2e").fontSize(10).font("Helvetica-Bold").text("    Comandos Viseron:");
-  doc.moveDown(0.2);
-
+  t.doc.addPage();
+  t.section(String(idx + 2), tool.name);
+  t.kv("Repositorio:", tool.repo);
+  t.para(tool.desc, 10, "#334155");
+  t.code(tool.install, "Instalacao");
+  t.sub("Comandos Viseron:");
   tool.cmds.forEach(([cmd, desc]) => {
-    doc.font("Courier").fontSize(7).fillColor("#0a0a2e").text("      " + cmd);
-    doc.font("Helvetica").fontSize(8).fillColor("#555").text("        → " + desc);
-    doc.fillColor("#333");
-    doc.moveDown(0.1);
+    if (cmd.length > 78) codeBlock([cmd], desc);
+    else t.code(cmd, desc);
   });
-
-  doc.moveDown(0.5);
 });
-
-doc.addPage();
 
 // ==================== 10. API TVS ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("10. API TVS COMPLETA", { underline: true });
-doc.moveDown(0.5);
-doc.fillColor("#333").fontSize(11).font("Helvetica");
-doc.text("Endpoints REST para controlar o TVS remotamente:", { align: "justify" });
-doc.moveDown(0.5);
-
-doc.font("Helvetica-Bold").fontSize(9).fillColor("#0a0a2e");
-doc.text("  Endpoint".padEnd(40) + "Descricao");
-doc.fillColor("#ccc").rect(45, doc.y - 2, doc.page.width - 90, 1).fill();
-doc.fillColor("#333");
-doc.moveDown(0.3);
-
-doc.font("Courier").fontSize(8);
-apiEndpoints.forEach(([ep, desc]) => {
-  if (doc.y > 700) doc.addPage();
-  doc.text("  " + ep.padEnd(38) + desc);
-});
-
-doc.moveDown(1.5);
+t.doc.addPage();
+t.section("10", "API TVS Completa");
+t.para("Endpoints REST para controlar o TVS remotamente:");
+apiEndpoints.forEach(([ep, desc]) => t.code(ep, desc));
 
 // ==================== 11. DIRETIVAS ====================
-doc.fillColor("#0a0a2e").fontSize(22).font("Helvetica-Bold").text("11. COMO EMITIR COMANDOS VIA DIRETIVAS", { underline: true });
-doc.moveDown(0.5);
-doc.fillColor("#333").fontSize(11).font("Helvetica");
-doc.text("Toda ferramenta no TVS e acessivel via diretivas. O fluxo e:", { align: "justify" });
-doc.moveDown(0.5);
-
+t.doc.addPage();
+t.section("11", "Como Emitir Comandos Via Diretivas");
+t.para("Toda ferramenta no TVS e acessivel via diretivas. O fluxo e:");
 const steps = [
   "1. Agente decide qual ferramenta usar baseado na missao",
   "2. Agente chama toolManager.executeTool('tvs_ytdlp', { url: '...' })",
@@ -360,50 +312,28 @@ const steps = [
   "4. Resultado retorna ao agente com sucesso/erro + dados",
   "5. Agente consolida resposta e retorna ao usuario",
 ];
+steps.forEach((s) => t.bullet("▸", s));
 
-steps.forEach((s) => {
-  doc.font("Helvetica").fontSize(9).fillColor("#333").text("  " + s);
-  doc.moveDown(0.15);
-});
+t.sub("Exemplo de Diretiva:");
+codeBlock([
+  "POST /api/directive",
+  "{",
+  '  "id": "directive_yt_001",',
+  '  "objective": "Baixar video do YouTube sobre IA",',
+  '  "squad": ["agent_mind_343_elon_musk"],',
+  '  "ratifiedBy": "trinnity-hurtado",',
+  '  "commandedBy": "pedro-costa",',
+  '  "budget": "100 VSR"',
+  "}",
+]);
 
-doc.moveDown(1);
-doc.fillColor("#0a0a2e").fontSize(14).font("Helvetica-Bold").text("Exemplo de Diretiva:");
-doc.moveDown(0.3);
-doc.font("Courier").fontSize(8).fillColor("#333");
-doc.text('  POST /api/directive');
-doc.text('  {');
-doc.text('    "id": "directive_yt_001",');
-doc.text('    "objective": "Baixar video do YouTube sobre IA",');
-doc.text('    "squad": ["agent_mind_343_elon_musk"],');
-doc.text('    "ratifiedBy": "trinnity-hurtado",');
-doc.text('    "commandedBy": "pedro-costa",');
-doc.text('    "budget": "100 VSR"');
-doc.text('  }');
+t.sub("Exemplo de Chat Direto:");
+codeBlock([
+  'Agente: "Elon, baixa o ultimo video do Neuralink"',
+  'Elon: "tvs_ytdlp url=https://youtube.com/... modo=video"',
+  "Resultado: Video baixado em ./data/downloads/",
+]);
 
-doc.moveDown(1);
-doc.fillColor("#0a0a2e").fontSize(14).font("Helvetica-Bold").text("Exemplo de Chat Direto:");
-doc.moveDown(0.3);
-doc.font("Courier").fontSize(8).fillColor("#333");
-doc.text('  Agente: "Elon, baixa o ultimo video do Neuralink"');
-doc.text('  Elon: "tvs_ytdlp url=https://youtube.com/... modo=video"');
-doc.text('  Resultado: Video baixado em ./data/downloads/');
-
-doc.moveDown(2);
-
-// ==================== RODAPE ====================
-doc.rect(0, doc.page.height - 40, doc.page.width, 40).fill("#0a0a2e");
-doc.fillColor("#888888").fontSize(8).font("Helvetica");
-doc.text("Trinnity Viseron System v5.0 — Manual de Comandos", 45, doc.page.height - 30, { align: "center" });
-doc.text("8 GitHub Tools | Comandos Viseron Proprios | API REST | Mentes Bilionarias", 45, doc.page.height - 18, { align: "center" });
-
-doc.end();
-
-stream.on("finish", () => {
-  const size = fs.statSync(OUTPUT).size;
-  console.log(`\n  PDF gerado com sucesso!`);
-  console.log(`  Arquivo: ${OUTPUT}`);
-  console.log(`  Tamanho: ${(size / 1024).toFixed(1)} KB`);
-  console.log(`  Paginas: ~${Math.ceil(size / 1200)}`);
-});
-
-stream.on("error", (err) => console.error("Erro:", err));
+t.finish(OUTPUT);
+console.log(`\n  PDF gerado com sucesso!`);
+console.log(`  Arquivo: ${OUTPUT}`);

@@ -35,6 +35,12 @@ import { createBusinessRouter } from "./business/routes";
 import { AgencyDeps, createAgencyDeps, createAgencyRouter } from "./agency/routes";
 import { ComposioBridge } from "../core/composio/ComposioBridge";
 import { createComposioRouter } from "./composio/routes";
+import { TVSOs } from "../os";
+import { createOsGateway } from "../os/gateway";
+import { CryptoDeps, createCryptoDeps } from "./crypto/deps";
+import { createCryptoRouter } from "./crypto/routes";
+import { RcsEngine } from "../core/rcs/RcsEngine";
+import { createRcsRouter } from "./rcs/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -58,6 +64,10 @@ export class ViseronWebServer {
   private business: BusinessAgentStore;
   private agency: AgencyDeps;
   private composio: ComposioBridge;
+  private crypto: CryptoDeps;
+  private rcs: RcsEngine;
+  private os: TVSOs;
+  private autoMonetizeTimer?: NodeJS.Timeout;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -94,6 +104,10 @@ export class ViseronWebServer {
     this.business = new BusinessAgentStore(this.dataDir);
     this.agency = createAgencyDeps(this.dataDir);
     this.composio = new ComposioBridge();
+    this.crypto = createCryptoDeps(this.dataDir, this.accounts, this.logger);
+    this.rcs = new RcsEngine({ dataDir: this.dataDir });
+    this.os = new TVSOs({ baseDir: path.join(this.dataDir, "tvs-os") });
+    this.os.boot();
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -203,7 +217,7 @@ export class ViseronWebServer {
     });
 
     this.app.use("/api", createAuthRouter(this.accounts, this.logger, this.metrics, this.email));
-    this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics, this.email));
+    this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics, this.email, this.crypto.payments));
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
     this.app.use("/api", createEmailRouter(this.accounts, this.email, this.logger, this.metrics));
     this.app.use("/api", createMessagingRouter(this.accounts, this.messaging, this.io, this.logger, this.metrics));
@@ -216,16 +230,31 @@ export class ViseronWebServer {
       blog: this.blog,
       composio: this.composio,
       agency: this.agency,
+      rcs: this.rcs,
       logger: this.logger,
       metrics: this.metrics,
     }));
-    this.app.use("/api", createRevenueRouter(this.metrics));
+    this.app.use("/api", createRevenueRouter(this.metrics, {
+      accounts: this.accounts,
+      crypto: this.crypto.payments,
+      getAgencyActiveClients: () => this.agency.store.listClients().filter((c) => c.status === "active").length,
+    }));
     this.app.use("/api", createCallsRouter(this.calls, this.callLearning, this.logger));
     this.app.use("/api", createSitesRouter(this.sites, this.logger));
     this.app.use("/api", createAppsRouter(this.apps, this.logger));
     this.app.use("/api", createBusinessRouter(this.business, this.logger));
     this.app.use("/api", createAgencyRouter(this.agency, this.logger));
     this.app.use("/api", createComposioRouter(this.composio));
+    this.app.use("/api", createCryptoRouter(this.crypto.payments));
+    this.app.use("/api", createRcsRouter(this.rcs));
+
+    // TVS OS — API (/api/os) · Process Manager · Virtual FS · App Store · Security
+    this.app.use("/api/os", createOsGateway(this.os));
+
+    // TVS Desktop — página do sistema operativo
+    this.app.get("/os", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "desktop.html"));
+    });
     this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
 
     const blogRouter = createBlogRouter(this.blog);
@@ -289,8 +318,10 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Servidor rodando em http://localhost:${this.port}`);
         console.log(`[Viseron Web] Blog: http://localhost:${this.port}/blog`);
         console.log(`[Viseron Web] Dashboard: http://localhost:${this.port}/dashboard`);
+        console.log(`[Viseron Web] TVS OS: http://localhost:${this.port}/os (${this.os.name} v${this.os.version})`);
         console.log(`[Viseron Web] Auth: http://localhost:${this.port}/api/auth/*`);
         console.log(`[Viseron Web] Billing: http://localhost:${this.port}/api/billing/*`);
+        console.log(`[Viseron Web] Crypto: http://localhost:${this.port}/api/crypto/* (${this.crypto.payments.status().exchange}, modo ${this.crypto.payments.status().mode})`);
         console.log(`[Viseron Web] Onboarding: http://localhost:${this.port}/api/onboarding/*`);
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
@@ -301,6 +332,7 @@ export class ViseronWebServer {
         console.log(`==========================================\n`);
         resolve();
       });
+      this.startAutoMonetize();
       this.db.runMigrations()
         .then((n) => {
           if (n > 0) console.log(`[DB] ${n} migração(ões) aplicada(s)`);
@@ -309,8 +341,25 @@ export class ViseronWebServer {
     });
   }
 
+  // Monetização automática: verifica pagamentos cripto pendentes a cada 60s.
+  private startAutoMonetize(): void {
+    const intervalMs = parseInt(process.env.CRYPTO_POLL_MS || "60000", 10);
+    this.autoMonetizeTimer = setInterval(async () => {
+      try {
+        const paid = await this.crypto.payments.detect();
+        const expired = this.crypto.payments.expireStale();
+        if (paid.length > 0) this.logger.info(`[auto-monetize] ${paid.length} pagamento(s) cripto confirmado(s) + upgrade automático`);
+        if (expired > 0) this.logger.info(`[auto-monetize] ${expired} fatura(s) expirada(s)`);
+      } catch (e: any) {
+        this.logger.error(`[auto-monetize] falha: ${e.message}`);
+      }
+    }, intervalMs);
+    this.autoMonetizeTimer.unref?.();
+  }
+
   stop(): void {
     this.contentAgent.stop();
+    if (this.autoMonetizeTimer) clearInterval(this.autoMonetizeTimer);
     this.server.close();
   }
 

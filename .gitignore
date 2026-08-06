@@ -5,6 +5,8 @@ dist/
 *.log
 generated-crypto-sites/
 generated-apps/
+# APKs gerados pela App Factory (ficheiros grandes; não versionar)
+data/apps/*.apk
 backups/
 logs/
 .build/

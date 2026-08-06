@@ -9,6 +9,7 @@ import { requireAuth } from "../auth/middleware";
 import { JarvisAgent } from "./agent";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { AgencyDeps } from "../agency/routes";
+import { RcsEngine } from "../../core/rcs/RcsEngine";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 
@@ -21,6 +22,7 @@ export function createJarvisRouter(ctx: {
   blog: BlogStorage;
   composio: ComposioBridge;
   agency: AgencyDeps;
+  rcs?: RcsEngine;
   logger: ILogger;
   metrics: IMetrics;
 }): Router {
@@ -58,9 +60,10 @@ export function createJarvisRouter(ctx: {
         "agency_creative",
         "agency_nurture",
         "agency_projection",
+        "rcs_broadcast",
         "trilingual",
       ],
-      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email, ligar apps via Composio e executar posts/mensagens/emails nas apps ligadas) · Agency OS: regista leads e responde, gera reportes e criativos, corre nurturing, projeta MRR/ARR · trilingue es/pt/en · memória persistente (nunca esquece, auditável pelo squad AIOX)",
+      autonomy: "executa operações reais (estado, planos, checkout, conteúdo, mensageria, email, ligar apps via Composio e executar posts/mensagens/emails nas apps ligadas) · RCS: envia mensagens de marca com o logo da TVS para qualquer número (fallback SMS/MMS) · Agency OS: regista leads e responde, gera reportes e criativos, corre nurturing, projeta MRR/ARR · trilingue es/pt/en · memória persistente (nunca esquece, auditável pelo squad AIOX)",
     });
   });
 

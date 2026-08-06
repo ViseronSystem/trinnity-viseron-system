@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import PDFDocument from "pdfkit";
+import { createTheme } from "./pdf-theme";
 
 // TVS - AUDITORIA COMPLETA (v1)
 // Gera data/Viseron_Auditoria_Completa.pdf com:
@@ -21,69 +21,33 @@ function readEnv(): Record<string, string> {
   return out;
 }
 
-function readJson(p: string): any {
-  try {
-    return JSON.parse(fs.readFileSync(path.resolve(p), "utf8"));
-  } catch {
-    return null;
-  }
-}
-
 const env = readEnv();
 
-const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
-const W = doc.page.width;
-const H = doc.page.height;
-const chunks: Buffer[] = [];
-doc.on("data", (c: Buffer) => chunks.push(c));
-doc.on("end", () => {
-  const out = path.resolve("data/Viseron_Auditoria_Completa.pdf");
-  fs.writeFileSync(out, Buffer.concat(chunks));
-  console.log(`Auditoria completa gerada: ${out}`);
-  console.log("ATENÇÃO: contém segredos (parte 2). Confidencial, gitignored.");
+const today = new Date().toLocaleDateString("pt-PT");
+const t = createTheme({ title: "TVS — Auditoria Completa", subject: "CONFIDENCIAL — o que o sistema faz + contas, senhas, chaves e tokens" });
+
+t.cover({
+  title: "AUDITORIA COMPLETA",
+  subtitle: "O que o sistema faz + todas as contas, senhas, chaves e tokens",
+  badges: ["CONFIDENCIAL", "TVS v5.0", "Segredos reais"],
+  date: today,
+  version: "5.0",
 });
+t.para("CONFIDENCIAL — contém segredos reais. Não partilhar.", 11, "#f87171");
 
-const drawFooter = (title: string) => {
-  doc.fontSize(8).fillColor("#888888").text(`${title} · ${new Date().toLocaleString("pt-PT")} · CONFIDENCIAL · p.${doc.bufferedPageRange().count + 1}`, 50, H - 28, { width: W - 100 });
+let sec = 0;
+const section = (title: string) => {
+  sec++;
+  t.section(String(sec), title);
 };
-
-const section = (t: string) => {
-  if (doc.y > H - 90) { doc.addPage(); drawFooter("Trinnity Viseron System — Auditoria Completa"); }
-  doc.fillColor("#050510").rect(50, doc.y - 4, W - 100, 26).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(13).text(t, 56, doc.y - 1);
-  doc.moveDown(1);
-};
-
-const line = (label: string, value: string, width = W - 120) => {
-  doc.fillColor("#334155").font("Helvetica-Bold").fontSize(9).text(`${label} `, 56, doc.y);
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(9).text(value, 56 + doc.widthOfString(`${label} `) + 2, doc.y, { width: width - doc.widthOfString(`${label} `) - 4 });
-  doc.moveDown(0.1);
-};
-
-const kv = (k: string, v: string) => {
-  if (doc.y > H - 60) { doc.addPage(); drawFooter("Trinnity Viseron System — Auditoria Completa"); }
-  doc.fillColor("#334155").font("Helvetica-Bold").fontSize(8.5).text(`${k} =`, 60, doc.y);
-  doc.fillColor("#7f1d1d").font("Courier").fontSize(8.5).text(v, 60 + k.length * 4.8 + 4, doc.y, { width: W - 130 - k.length * 4.8 });
-  doc.moveDown(0.12);
-};
-
-// ── CAPA ──
-doc.fillColor("#050510").rect(0, 0, W, H).fill();
-doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM v5.0", W / 2, 130, { align: "center", width: W - 100 });
-doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(30).text("AUDITORIA COMPLETA", W / 2, 170, { align: "center", width: W - 100 });
-doc.fillColor("#94a3b8").font("Helvetica").fontSize(12).text("O que o sistema faz + todas as contas, senhas, chaves e tokens", W / 2, 240, { align: "center", width: W - 100 });
-doc.fillColor("#ef4444").font("Helvetica-Bold").fontSize(12).text("CONFIDENCIAL — contém segredos reais. Não partilhar.", W / 2, 285, { align: "center", width: W - 100 });
-doc.addPage();
-drawFooter("Trinnity Viseron System — Auditoria Completa");
 
 // ── PARTE 1: O QUE O SISTEMA FAZ ──
-doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(17).text("PARTE 1 — TUDO O QUE O SISTEMA FAZ", 50, doc.y);
-doc.moveDown(0.8);
+t.title("PARTE 1 — TUDO O QUE O SISTEMA FAZ", 17);
 
 section("MISSÃO");
-line("Visão", "Sistema Operacional Multi-Agente de Superinteligência — 5000+ mentes, auto-evolução genética.");
-line("Comando", "Pedro Costa (Supreme Commander) · Trinnity Hurtado (Queen Architect).");
-line("Agentes", "5112 no total: 4742 mentes históricas + 246 arquétipos + 114 batalhão (59 Corona / 57 Hierro) + 10 core.");
+t.kv("Visão", "Sistema Operacional Multi-Agente de Superinteligência — 5000+ mentes, auto-evolução genética.");
+t.kv("Comando", "Pedro Costa (Supreme Commander) · Trinnity Hurtado (Queen Architect).");
+t.kv("Agentes", "5112 no total: 4742 mentes históricas + 246 arquétipos + 114 batalhão (59 Corona / 57 Hierro) + 10 core.");
 
 section("COMANDOS (npm run ...)");
 const scripts: Array<[string, string]> = [
@@ -105,7 +69,7 @@ const scripts: Array<[string, string]> = [
   ["cudacyclone", "GPU puzzle solver (status/build/run/benchmark)"],
   ["build:android / build:ios / build:exe / build:electron", "builds APK, IPA, executável standalone, app desktop"],
 ];
-for (const [k, v] of scripts) line(k, v);
+for (const [k, v] of scripts) t.kv(k, v);
 
 section("API WEB — ENDPOINTS (viseron-web.onrender.com)");
 const endpoints: Array<[string, string]> = [
@@ -127,7 +91,7 @@ const endpoints: Array<[string, string]> = [
   ["Dashboard server (porta 3000)", "/api/agents · /api/synthesize · /api/battalion · /api/directives · /api/voice/* · /api/workflows · /api/skills"],
   ["Report server (porta 3001)", "/report · /report/pdf · /report/comprehensive-pdf · /superintelligence"],
 ];
-for (const [k, v] of endpoints) line(k, v);
+for (const [k, v] of endpoints) t.kv(k, v);
 
 section("MÓDULOS / FEATURES (src/)");
 const modules: Array<[string, string]> = [
@@ -148,39 +112,38 @@ const modules: Array<[string, string]> = [
   ["MCP Server", "servidor MCP (@modelcontextprotocol/server)"],
   ["n8n bridge", "workflow templates executáveis"],
 ];
-for (const [k, v] of modules) line(k, v);
+for (const [k, v] of modules) t.kv(k, v);
 
 section("AI PROVIDERS");
-line("Local (default)", "Ollama (llama3, qwen2, mistral) — sem API key");
-line("Cloud opcionais", "OpenAI (GPT-4o/o1), Claude (Sonnet/Opus 4), Gemini 2.5 (Flash/Pro 1M), Grok 3, Mistral, DeepSeek, Cohere, HuggingFace, Together, Perplexity");
-line("OmniRoute", "290+ providers / 500+ modelos");
+t.kv("Local (default)", "Ollama (llama3, qwen2, mistral) — sem API key");
+t.kv("Cloud opcionais", "OpenAI (GPT-4o/o1), Claude (Sonnet/Opus 4), Gemini 2.5 (Flash/Pro 1M), Grok 3, Mistral, DeepSeek, Cohere, HuggingFace, Together, Perplexity");
+t.kv("OmniRoute", "290+ providers / 500+ modelos");
 
 section("DEPLOYS / INFRA");
-line("GitHub", "github.com/ViseronSystem/trinnity-viseron-system.git (main)");
-line("Render", "viseron-web → https://viseron-web.onrender.com (health /api/health)");
-line("Vercel / Cloudflare", "landing + DNS trinnityviseron.com → viseron-web.onrender.com (NS chad/kay.cloudflare.com)");
-line("Hostalia", "registrador do domínio (FTP ainda placeholder)");
-line("Docker / EXE / Electron", "docker-compose (tvs-core, ollama, qdrant, n8n) · tvs-viseron-win.exe · desktop app");
-line("Mobile", "Expo/React Native — 7 tabs, bundle com.trinnity.viseron, EAS projectId 723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7");
+t.kv("GitHub", "github.com/ViseronSystem/trinnity-viseron-system.git (main)");
+t.kv("Render", "viseron-web → https://viseron-web.onrender.com (health /api/health)");
+t.kv("Vercel / Cloudflare", "landing + DNS trinnityviseron.com → viseron-web.onrender.com (NS chad/kay.cloudflare.com)");
+t.kv("Hostalia", "registrador do domínio (FTP ainda placeholder)");
+t.kv("Docker / EXE / Electron", "docker-compose (tvs-core, ollama, qdrant, n8n) · tvs-viseron-win.exe · desktop app");
+t.kv("Mobile", "Expo/React Native — 7 tabs, bundle com.trinnity.viseron, EAS projectId 723e1dfe-9ccc-41a4-bca2-bd68f4ddcfa7");
 
 section("AUTOMAÇÃO DE FUNDO");
-line("ContentAgent", "gera e publica posts de blog a cada 120 min");
-line("AutoEvolution", "evolução genética a cada 60 min (níveis de inteligência 1050→1102.5%)");
-line("HyperLearning / AutoLearning", "ciclos a cada 30 min");
-line("Backup", "diário 03:00 via Task Scheduler 'TVS-DailyBackup'");
-line("Self-update", "npm run update:auto — pull + build + testes + PDFs + deploy");
-line("GitHub Actions", "CI lint+test+build no push; build APK mobile");
+t.kv("ContentAgent", "gera e publica posts de blog a cada 120 min");
+t.kv("AutoEvolution", "evolução genética a cada 60 min (níveis de inteligência 1050→1102.5%)");
+t.kv("HyperLearning / AutoLearning", "ciclos a cada 30 min");
+t.kv("Backup", "diário 03:00 via Task Scheduler 'TVS-DailyBackup'");
+t.kv("Self-update", "npm run update:auto — pull + build + testes + PDFs + deploy");
+t.kv("GitHub Actions", "CI lint+test+build no push; build APK mobile");
 
 section("TESTES");
-line("core.test.ts", "15 asserts — agents, router, memória, tools, squads, providers, MCP");
-line("web.test.ts", "74 asserts — auth, billing, onboarding, email, messaging E2E, jarvis, readiness");
-line("hyperbrain.test.ts", "10 asserts — líderes, permissões, providers, hyper-learning");
+t.kv("core.test.ts", "15 asserts — agents, router, memória, tools, squads, providers, MCP");
+t.kv("web.test.ts", "74 asserts — auth, billing, onboarding, email, messaging E2E, jarvis, readiness");
+t.kv("hyperbrain.test.ts", "10 asserts — líderes, permissões, providers, hyper-learning");
 
 // ── PARTE 2: CREDENCIAIS ──
-if (doc.y > H - 120) doc.addPage();
-drawFooter("Trinnity Viseron System — Auditoria Completa");
-doc.fillColor("#7f1d1d").font("Helvetica-Bold").fontSize(17).text("PARTE 2 — CONTAS, SENHAS, CHAVES E TOKENS", 50, doc.y);
-doc.moveDown(0.8);
+t.ensure(90);
+t.title("PARTE 2 — CONTAS, SENHAS, CHAVES E TOKENS", 17);
+t.para("CONFIDENCIAL — contém segredos reais. Não partilhar.", 10, "#ef4444");
 
 section("CONTAS E EMAILS (no sistema)");
 const emails: Array<[string, string]> = [
@@ -192,7 +155,7 @@ const emails: Array<[string, string]> = [
   ["pedro.msa9fib1@trinnityviseronsystem.io", "conta demo registada (tenant trinnity-labs)"],
   ["pedro.msa9gtsc@trinnityviseronsystem.io", "conta demo registada (tenant trinnity-demo-gtsc)"],
 ];
-for (const [k, v] of emails) line(k, v);
+for (const [k, v] of emails) t.kv(k, v);
 
 section("SENHAS/LOGINS HARDCODED NO CÓDIGO");
 const hardcoded: Array<[string, string]> = [
@@ -202,7 +165,7 @@ const hardcoded: Array<[string, string]> = [
   ["Testes (tests/web.test.ts, demo-email, demo-messaging)", "password123 / novaPassword123 / errada"],
   ["Android debug keystore (mobile/android/app/debug.keystore)", "chave de assinatura de debug (default, sem segredo)"],
 ];
-for (const [k, v] of hardcoded) line(k, v);
+for (const [k, v] of hardcoded) t.kv(k, v);
 
 section("CHAVES/TOKENS POR PLATAFORMA (do .env)");
 const platforms: Array<[string, string[]]> = [
@@ -213,19 +176,15 @@ const platforms: Array<[string, string[]]> = [
   ["HOSTALIA (registrador — FTP placeholder)", ["HOSTALIA_FTP_HOST", "HOSTALIA_FTP_USER", "HOSTALIA_FTP_PASS", "HOSTALIA_FTP_PATH", "HOSTALIA_FTP_SSL"]],
 ];
 for (const [name, keys] of platforms) {
-  if (doc.y > H - 120) { doc.addPage(); drawFooter("Trinnity Viseron System — Auditoria Completa"); }
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(10.5).text(name, 56, doc.y);
-  doc.moveDown(0.2);
-  for (const k of keys) kv(k, env[k] || "(EM FALTA)");
-  doc.moveDown(0.6);
+  t.sub(name);
+  for (const k of keys) t.kv(k, env[k] || "(EM FALTA)");
 }
 
 section("TODAS AS OUTRAS VARIÁVEIS (.env)");
 const known = new Set(platforms.flatMap((p) => p[1]));
 for (const k of Object.keys(env).sort()) {
-  if (!known.has(k)) kv(k, env[k] || "");
+  if (!known.has(k)) t.kv(k, env[k] || "");
 }
-doc.moveDown(0.4);
 
 section("A CRIAR AINDA");
 const pending = [
@@ -235,6 +194,9 @@ const pending = [
   env["TVS_JWT_SECRET"] ? null : "TVS_JWT_SECRET (substituir o fallback de dev por um segredo forte)",
   env["EMAIL_PROVIDER"] !== "dev" ? null : "EMAIL_PROVIDER (smtp|resend|sendgrid|gmail) para email real",
 ].filter(Boolean) as string[];
-for (const p of pending) doc.fillColor("#ef4444").font("Helvetica").fontSize(9).text(`  • ${p}`, 56, doc.y, { width: W - 112 });
+for (const p of pending) t.bullet("▸", p, "#ef4444");
 
-doc.end();
+const out = path.resolve("data/Viseron_Auditoria_Completa.pdf");
+t.finish(out);
+console.log(`Auditoria completa gerada: ${out}`);
+console.log("ATENÇÃO: contém segredos (parte 2). Confidencial, gitignored.");

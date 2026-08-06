@@ -110,7 +110,14 @@
     "contas:pdf": "tsx scripts/gerar-relatorio-contas.ts",
     "expansion:pdf": "tsx scripts/gerar-registo-expansao.ts",
     "plano:agencia": "tsx scripts/gerar-plano-agencia-viseron.ts",
-    "agency:demo": "tsx scripts/demo-agency.ts"
+    "agency:demo": "tsx scripts/demo-agency.ts",
+    "app:create": "tsx scripts/criar-app.ts",
+    "app:build": "tsx scripts/criar-app.ts --build",
+    "app:derecho": "tsx scripts/criar-app-derecho.ts",
+    "rcs": "tsx scripts/rcs.ts",
+    "rcs:status": "tsx scripts/rcs.ts status",
+    "rcs:send": "tsx scripts/rcs.ts send",
+    "rcs:list": "tsx scripts/rcs.ts list"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",

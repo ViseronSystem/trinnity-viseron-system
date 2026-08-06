@@ -1,6 +1,5 @@
-import PDFDocument from "pdfkit";
-import fs from "fs";
 import path from "path";
+import { createTheme } from "./pdf-theme";
 
 // TVS — RELATÓRIO DE ESTADO
 // Mostra O QUE PODE FAZER DE VERDADE + ESTADO REAL do sistema.
@@ -67,23 +66,7 @@ const CAPABILITIES: Array<[string, string]> = [
 ];
 
 async function main() {
-  const doc = new PDFDocument({ size: "A4", margin: 50, bufferPages: true });
   const outFile = path.resolve("data", "Viseron_Relatorio_Estado.pdf");
-  if (!fs.existsSync(path.dirname(outFile))) fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  doc.pipe(fs.createWriteStream(outFile));
-
-  const W = doc.page.width;
-  const PH = doc.page.height;
-  const drawFooter = () => {
-    doc.page.margins.bottom = 8;
-    doc.fontSize(8).fillColor("#888888").text(`TVS v5.0 · Trinnity Viseron System · Estado em ${new Date().toLocaleString("pt-PT")} · p.${doc.bufferedPageRange().count + 1}`, 50, PH - 28, { width: W - 100 });
-    doc.page.margins.bottom = 50;
-  };
-  const heading = (n: string, t: string) => {
-    doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(18).text(`${n}. ${t}`, 50, doc.y);
-    doc.fillColor("#22d3ee").rect(50, doc.y + 2, 28, 2).fill();
-    doc.moveDown();
-  };
 
   const version = exec("node -p \"require('./package.json').version\"") || "5.0.0";
   const branch = exec("git branch --show-current") || "main";
@@ -100,72 +83,61 @@ async function main() {
   const lintOk = exec("npx tsc --noEmit 2>&1") === "";
   const health = await fetchHealth();
 
+  const live = health ? `ONLINE (${health.email} · ${health.db} · ${health.messaging ? health.messaging.messages + " msgs" : "0 msgs"})` : "offline neste instante (build local OK)";
+
+  const t = createTheme({
+    title: "Trinnity Viseron System — Relatório de Estado",
+    subject: "O que pode fazer de verdade + estado real do sistema",
+  });
+
   // Capa
-  doc.fillColor("#0f172a").rect(0, 0, W, PH).fill();
-  doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text("TRINNITY VISERON SYSTEM · RELATÓRIO DE ESTADO", W / 2, 160, { align: "center", width: W - 100 });
-  doc.fillColor("#ffffff").font("Helvetica-Bold").fontSize(32).text("O QUE PODE FAZER AGORA", W / 2, 200, { align: "center", width: W - 100 });
-  doc.fillColor("#94a3b8").font("Helvetica").fontSize(14).text(`Estado real do sistema em ${new Date().toLocaleString("pt-PT")}`, W / 2, 270, { align: "center", width: W - 100 });
-  doc.fillColor("#22d3ee").fontSize(12).text("www.trinnityviseronsystem.io · v" + version, W / 2, 310, { align: "center", width: W - 100 });
-  doc.addPage();
-  drawFooter();
+  t.cover({
+    title: "O QUE PODE FAZER AGORA",
+    subtitle: `Estado real do sistema em ${new Date().toLocaleString("pt-PT")}`,
+    badges: ["5 Módulos de Negócio", "REST + Socket.IO", "TVS v" + version],
+    date: new Date().toLocaleString("pt-PT"),
+    version,
+    url: "www.trinnityviseronsystem.io",
+  });
 
   // 1. Resumo executivo
-  heading("1", "Resumo executivo");
-  const live = health ? `ONLINE (${health.email} · ${health.db} · ${health.messaging ? health.messaging.messages + " msgs" : "0 msgs"})` : "offline neste instante (build local OK)";
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(11);
-  doc.text(`O Trinnity Viseron System v${version} tem uma API web funcional com 5 módulos de negócio (auth, billing, onboarding, email, mensageria E2E) + blog/content + ferramentas. Tudo é utilizável já, via REST e Socket.IO.`);
-  doc.moveDown();
-  doc.text(`API de produção (Render): ${live}`);
-  doc.text(`Testes: core ${coreLine.trim()} · web ${webLine.trim()}`);
-  doc.text(`TypeScript (lint): ${lintOk ? "OK" : "com erros"}`);
-  doc.text(`Último commit: ${lastCommit}`);
-  doc.moveDown(2);
+  t.section("1", "Resumo executivo");
+  t.para(`O Trinnity Viseron System v${version} tem uma API web funcional com 5 módulos de negócio (auth, billing, onboarding, email, mensageria E2E) + blog/content + ferramentas. Tudo é utilizável já, via REST e Socket.IO.`);
+  t.kv("API de produção (Render):", live);
+  t.kv("Testes:", `core ${coreLine.trim()} · web ${webLine.trim()}`);
+  t.kv("TypeScript (lint):", lintOk ? "OK" : "com erros");
+  t.kv("Último commit:", lastCommit);
 
   // 2. O que pode fazer de verdade
-  heading("2", "O que pode fazer de verdade (agora)");
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(11);
-  doc.text("Módulos operacionais da API web — todos testados (53 testes web):");
-  doc.moveDown(0.5);
+  t.section("2", "O que pode fazer de verdade (agora)");
+  t.para("Módulos operacionais da API web — todos testados (53 testes web):");
   for (const [name, desc] of CAPABILITIES) {
-    if (doc.y > PH - 90) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(11).text(`▸ ${name}`);
-    doc.fillColor("#1e293b").font("Helvetica").fontSize(10).text(desc, 60, doc.y, { width: W - 110 });
-    doc.moveDown(0.6);
+    t.bullet("▸", `${name} — ${desc}`);
   }
-  doc.moveDown(0.5);
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(13).text("Comandos que funcionam já:");
-  doc.moveDown(0.3);
+  t.sub("Comandos que funcionam já:");
   for (const [cmd, desc] of KEY_COMMANDS) {
-    if (doc.y > PH - 70) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#22d3ee").font("Helvetica-Bold").fontSize(9.5).text(`$ ${cmd}`, 60, doc.y);
-    doc.fillColor("#64748b").font("Helvetica").fontSize(9.5).text(`   ${desc}`, 60, doc.y);
-    doc.moveDown(0.4);
+    t.code(cmd, desc);
   }
 
   // 3. Estado real do sistema
-  heading("3", "Estado real do sistema");
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(11);
-  doc.text(`Versão: ${version}`);
-  doc.text(`Branch: ${branch} · commits totais: ${commitCount}`);
-  doc.text(`Último commit: ${lastCommit}`);
-  doc.text(`API produção (Render): ${live}`);
-  doc.text(`DB: ${health?.db || "json-fallback"} · Billing: ${health?.billing || "manual"} · Email: ${health?.email || "dev"}`);
-  doc.text(`Messaging: ${health ? health.messaging.conversations + " conversas · " + health.messaging.messages + " mensagens · " + health.messaging.contacts + " contactos" : "n/a"}`);
-  doc.moveDown();
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(13).text("Testes:");
-  doc.fillColor("#1e293b").font("Helvetica").fontSize(11);
-  doc.text(`Core: ${tCore.ok ? "PASS" : "FALHOU"} — ${coreLine.trim()}`);
-  doc.text(`Web:  ${tWeb.ok ? "PASS" : "FALHOU"} — ${webLine.trim()}`);
-  doc.text(`Lint: ${lintOk ? "PASS (tsc --noEmit)" : "FALHOU"}`);
-  doc.moveDown(0.5);
-  doc.fillColor("#0f172a").font("Helvetica-Bold").fontSize(13).text("Commits recentes:");
+  t.section("3", "Estado real do sistema");
+  t.kv("Versão:", version);
+  t.kv("Branch:", `${branch} · commits totais: ${commitCount}`);
+  t.kv("Último commit:", lastCommit);
+  t.kv("API produção (Render):", live);
+  t.kv("DB:", `${health?.db || "json-fallback"} · Billing: ${health?.billing || "manual"} · Email: ${health?.email || "dev"}`);
+  t.kv("Messaging:", health ? `${health.messaging.conversations} conversas · ${health.messaging.messages} mensagens · ${health.messaging.contacts} contactos` : "n/a");
+  t.sub("Testes:");
+  t.kv("Core:", `${tCore.ok ? "PASS" : "FALHOU"} — ${coreLine.trim()}`);
+  t.kv("Web:", `${tWeb.ok ? "PASS" : "FALHOU"} — ${webLine.trim()}`);
+  t.kv("Lint:", lintOk ? "PASS (tsc --noEmit)" : "FALHOU");
+  t.sub("Commits recentes:");
   for (const c of commits) {
-    if (doc.y > PH - 70) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#475569").font("Helvetica").fontSize(9.5).text(c.length > 100 ? c.slice(0, 100) + "…" : c);
+    t.bullet("▸", c.length > 100 ? c.slice(0, 100) + "…" : c);
   }
 
   // 4. Infraestrutura e deploy
-  heading("4", "Infraestrutura e deploy");
+  t.section("4", "Infraestrutura e deploy");
   const infra: Array<[string, string, boolean]> = [
     ["API produção", "https://viseron-web.onrender.com — /api/health online", !!health],
     ["GitHub", "https://github.com/ViseronSystem/trinnity-viseron-system", true],
@@ -176,15 +148,11 @@ async function main() {
     ["CUDACyclone build", "Bloqueado nesta máquina: sem GPU NVIDIA/CUDA/gcc/WSL", false],
   ];
   for (const [name, desc, ok] of infra) {
-    if (doc.y > PH - 70) { doc.addPage(); drawFooter(); }
-    doc.fillColor(ok ? "#22c55e" : "#ef4444").font("Helvetica-Bold").fontSize(10).text(ok ? "●" : "○", 50, doc.y);
-    doc.fillColor("#1e293b").font("Helvetica-Bold").fontSize(10).text(` ${name}`, 62, doc.y);
-    doc.fillColor("#64748b").font("Helvetica").fontSize(9.5).text(desc, 62, doc.y);
-    doc.moveDown(0.5);
+    t.bullet(ok ? "●" : "○", `${name} — ${desc}`, ok ? "#22c55e" : "#ef4444");
   }
 
   // 5. Próximos passos
-  heading("5", "Próximos passos (prioridade)");
+  t.section("5", "Próximos passos (prioridade)");
   const next: Array<string> = [
     "Registar o domínio www.trinnityviseronsystem.io e apontar DNS para Render/Vercel.",
     "Terminar o setup do Gmail OAuth (npm run gmail:setup) para o agente de atendimento enviar emails reais.",
@@ -194,12 +162,10 @@ async function main() {
     "Publicar os executáveis (exe/Electron/APK) nos Downloads do site.",
   ];
   for (const n of next) {
-    if (doc.y > PH - 60) { doc.addPage(); drawFooter(); }
-    doc.fillColor("#1e293b").font("Helvetica").fontSize(10.5).text(`☐ ${n}`);
-    doc.moveDown(0.4);
+    t.bullet("☐", n);
   }
 
-  doc.end();
+  t.finish(outFile);
   console.log(`✅ Relatório de estado gerado: ${outFile}`);
 }
 
