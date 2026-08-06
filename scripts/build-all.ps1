@@ -1,4 +1,4 @@
-param(
+﻿param(
   [string]$Target = "all"
 )
 
@@ -77,9 +77,9 @@ try {
     }
   }
 
-  Write-Host "`n✅ All builds completed successfully!" -ForegroundColor Green
+  Write-Host "`n[OK] All builds completed successfully!" -ForegroundColor Green
 } catch {
-  Write-Host "`n❌ Build failed: $_" -ForegroundColor Red
+  Write-Host "`n[X] Build failed: $_" -ForegroundColor Red
   exit 1
 } finally {
   Set-Location -LiteralPath $Root
