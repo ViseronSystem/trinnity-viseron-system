@@ -283,8 +283,8 @@ export class JarvisAgent {
       { id: "claude", key: "ANTHROPIC_API_KEY", model: "claude-3-5-haiku-latest" },
       { id: "gemini", key: "GEMINI_API_KEY", model: "gemini-1.5-flash" },
       { id: "grok", key: "XAI_API_KEY", model: "grok-3" },
+      { id: "omniroute", key: "", model: "auto/best-reasoning" },
       { id: "ollama", key: "", model: "qwen2.5:3b" },
-      { id: "omniroute", key: "", model: "auto" },
     ];
 
     for (const cand of candidates) {

@@ -45,6 +45,7 @@ export class OmniRouteProvider implements ILLMProvider {
           ],
           temperature: request.temperature ?? 0.7,
           max_tokens: request.maxTokens ?? 4096,
+          stream: false,
         },
         { timeout: 120000 }
       );
