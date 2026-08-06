@@ -60,7 +60,7 @@ function main(): void {
   const lintOk = exec("npx tsc --noEmit").length === 0;
   const commits = exec("git log --oneline -8").split("\n").filter(Boolean);
   let health: Record<string, any> = {};
-  try { health = JSON.parse(exec("node -e \"fetch('https://viseron-web.onrender.com/api/health').then(r=>r.json()).then(j=>console.log(JSON.stringify(j))).catch(()=>console.log('{}'))\"") || "{}"); } catch {}
+  try { health = JSON.parse(exec("node -e \"Promise.race([fetch('https://viseron-web.onrender.com/api/health'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),10000))]).then(r=>r.json()).then(j=>console.log(JSON.stringify(j))).catch(()=>console.log('{}'))\"", { timeout: 20000 }) || "{}"); } catch {}
 
   const exe = fs.existsSync(".build/tvs-standalone/tvs-viseron-win.exe") ? Math.round(fs.statSync(".build/tvs-standalone/tvs-viseron-win.exe").size / 1e6) : 0;
   const apk = fs.existsSync("src/dashboard/public/downloads/TrinnityViseron.apk") ? Math.round(fs.statSync("src/dashboard/public/downloads/TrinnityViseron.apk").size / 1e6) : 0;

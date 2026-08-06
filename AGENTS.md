@@ -29,6 +29,20 @@ npm run build
 npm start
 ```
 
+## Migração para servidor dedicado
+
+Empacota o sistema (dados + `.env` + scripts + runbook) e migra para um servidor dedicado (Ubuntu 24.04 / Debian 12 / Windows Server).
+
+| Comando | Descrição |
+|---------|-----------|
+| `powershell -File scripts\migration\migrate-pack.ps1` | Gera `migracao/` (data-snapshot.tar.gz + .env + server-setup.sh/.ps1 + android-build.sh + tvs-run.sh + runbook + checksums) |
+| `sudo ./server-setup.sh --domain www.trinnityviseronsystem.io` | Setup Ubuntu/Debian completo: Node 24 · PM2 · Ollama (qwen2.5:3b+1.5b) · clone repo em `/opt/tvs` · restaura dados+env · build · PM2 (tvs+omniroute) · UFW · nginx+HTTPS |
+| `powershell -File .\server-setup.ps1 [-AndroidSDK]` | Setup Windows Server (repo em `C:\tvs`, Task Scheduler no boot, firewall) |
+| `./tvs-run.sh status/restart/stop/start/logs` | Gestão PM2 + saúde no servidor |
+| `./mobile/android-build.sh [slug]` | Build de APK no Linux (JDK17 + Android SDK) |
+
+Documento: `docs/Viseron_Migracao_Servidor_Dedicado.md` (trilingue ES/PT/EN). O pacote `migracao/` contém `.env` (segredos) e está gitignored — nunca versionar.
+
 ## Mobile App (Android APK + iOS IPA)
 
 ```bash

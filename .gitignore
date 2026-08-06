@@ -7,6 +7,8 @@ generated-crypto-sites/
 generated-apps/
 # APKs gerados pela App Factory (ficheiros grandes; não versionar)
 data/apps/*.apk
+# Pacote de migração (contém .env com segredos — NUNCA versionar)
+migracao/
 backups/
 logs/
 .build/
