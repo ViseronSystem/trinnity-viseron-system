@@ -121,16 +121,17 @@ cd mobile && npx expo start
 | `npm run rcs:list` | Histórico de broadcasts RCS (`data/rcs/broadcasts.json`) |
 | `npm run import:telecom` | Importa `45k telecomunicaciones.xlsx` → base de contactos (data/telecom/contacts.json + emails.json + sms.json + stats.json) |
 | `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
-| `npm run game:viseron` | Jogo VISERON Windows (Python): plataformas, transformações Mario→Megaman→Naruto→DBZ→CDZ→NASA |
-| `npm run game:viseron:demo` | Demo autónoma 30s — o VISERON joga sozinho (mostra o que somos) |
-| `npm run game:dos` | Lança o jogo em DOSBox (versão DOS/QBasic em `tools/viseron-game/dos/VISERON.BAS`) |
+| `npm run game:web` | Jogo VISERON no browser (Canvas 2D): `http://localhost:3000/game` (`?demo` p/ modo autónomo) |
+| `npm run game:apk` | Build do APK do jogo (Expo WebView embutido) → `data/apps/viserongame.apk` |
 
-## Jogo VISERON (Windows + DOS)
+## Jogo VISERON (Canvas 2D — iOS/APK/Windows)
 
-Jogo de plataformas do TVS em `tools/viseron-game/` (trilingue ES/PT/EN): o VISERON cresce por **transformações** inspiradas nos grandes — **MARIO** (plataformas), **MEGAMAN** (tiro), **NARUTO** (velocidade), **DRAGON BALL** (power-up KAME), **SAINT SEIYA/CDZ** (armadura cosmos) e **NASA** (espaço, gravidade reduzida). Os power-ups são os módulos do TVS (AIOX/RCS/Agency/Composio/Gmail); coleciona energia (mentes) e lança o TVS ao espaço. Autoria exposta: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
+Jogo de plataformas **real** do TVS em `src/dashboard/public/game/index.html` (trilingue ES/PT/EN): o VISERON cresce por **transformações** inspiradas nos grandes — **MARIO** (plataformas), **MEGAMAN** (tiro), **NARUTO** (velocidade), **DRAGON BALL** (power-up KAME + aura), **SAINT SEIYA/CDZ** (armadura cosmos) e **NASA** (espaço, gravidade reduzida + propulsão). Os power-ups são os módulos do TVS (AIOX/RCS/Agency/Composio/Gmail); coleciona energia (mentes) e lança o TVS ao espaço. Autoria exposta: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
 
-- **Windows nativo** (Python 3, stdlib): `tools/viseron-game/windows/viserongame.py` — controles ← → / espaço / X / ESC. Modo **autónomo** `--demo [s]`: o VISERON joga sozinho (caça energia, evita falhas, dispara, sobe de poder).
-- **DOS real** (QBasic): `tools/viseron-game/dos/VISERON.BAS` + `VISERON.BAT` — roda em MS-DOS 5+/6/7 com `QBASIC.EXE`, ou em DOSBox via `start-dosbox.bat`.
+- **Web/Windows**: `http://localhost:3000/game` e **live** em `https://www.trinnityviseronsystem.io/game` — Canvas 2D + WebAudio sintetizado (zero assets externos), parallax por mundo, partículas, HUD, teclado ← → / espaço / X + touch (4 botões). Modo **autónomo** `?demo`: o VISERON joga sozinho.
+- **APK**: `mobile/apps/viserongame/` — app Expo (`react-native-webview`) com o jogo **embutido offline** (`game-html.ts`) → build `npx expo prebuild` + `gradlew.bat assembleRelease` → `data/apps/viserongame.apk` (60 MB).
+- **iOS**: mesmo app Expo com `bundleIdentifier com.tvs.app.viserongame` (build requer Mac/Xcode — `npm run build:ios`).
+- Legado rejeitado: `tools/viseron-game/` (Python/DOS) fica arquivado; o jogo ativo é o Canvas 2D.
 
 
 ## TVS OS — AI-Native Operating System v1

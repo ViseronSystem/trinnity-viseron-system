@@ -74,6 +74,8 @@
     "game:viseron": "python tools/viseron-game/windows/viserongame.py",
     "game:viseron:demo": "python tools/viseron-game/windows/viserongame.py --demo 30",
     "game:dos": "tools/viseron-game/dos/start-dosbox.bat",
+    "game:web": "node dist/src/web/standalone-server.js",
+    "game:apk": "powershell -ExecutionPolicy Bypass -Command \"if (Test-Path 'mobile/apps/viserongame/android') { Push-Location 'mobile/apps/viserongame/android'; .\\gradlew.bat --no-daemon assembleRelease; Pop-Location } else { Push-Location 'mobile/apps/viserongame'; npx expo prebuild --platform android --no-install; Pop-Location; Push-Location 'mobile/apps/viserongame/android'; .\\gradlew.bat --no-daemon assembleRelease; Pop-Location }; Copy-Item 'mobile/apps/viserongame/android/app/build/outputs/apk/release/app-release.apk' 'data/apps/viserongame.apk' -Force; Write-Host 'APK: data/apps/viserongame.apk'\""
     "audit:full": "node scripts/full-audit.mjs",
     "pitch": "tsx scripts/gerar-pitch-investidores.ts",
     "pitch:startup": "tsx scripts/gerar-pitch-startup.ts",
