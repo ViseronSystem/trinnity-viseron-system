@@ -17,7 +17,7 @@ th.cover({
   subtitle: "O batallón TVS leva as suas 5000+ mentes ao espaço com moeda real",
   badges: [
     "VSR (Viseron Crown) · Governança & utilidade · 300M",
-    "TRIN (Trinnity) · Memecoin interplanetária · 420.69B",
+    "TRIN (Trinnity) · Memecoin interplanetária · 420.69M",
     "Redes: Ethereum · BSC · Solana",
     "Mecânica: burn deflacionário + staking + governança on-chain",
     "© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)",
@@ -63,7 +63,7 @@ th.kv("Papel", "Prueba de Mandato (PoM) — prova de mandato dos agentes AIOX");
 
 th.spacer(4);
 th.sub("$TRIN — TRINNITY (Moeda de Viagem)", "#f43f5e");
-th.kv("Supply total", "420,690,000,000 TRIN (420.69B — otimizado para liquidez)");
+th.kv("Supply total", "420,690,000 TRIN (420.69M — otimizado para liquidez)");
 th.kv("Decimais", "18");
 th.kv("Rede", "Ethereum (ERC-20) + BSC (BEP-20) + Solana (SPL)");
 th.kv("Mecânica", "2% queimado em cada transferência");
@@ -85,7 +85,7 @@ th.bullets([
   "20% Comunidade / Airdrops",
 ]);
 th.spacer(4);
-th.sub("TRIN (420.69B)", "#f43f5e");
+th.sub("TRIN (420.69M)", "#f43f5e");
 th.bullets([
   "10% Team (lock 24 meses)",
   "15% Marketing",

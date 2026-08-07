@@ -5,7 +5,7 @@ Tokens reais do TVS, prontos a deployar em **Ethereum**, **BSC** e **Solana**.
 | Token | Tipo | Supply | Rede principal | Mecanismo |
 |-------|------|--------|----------------|-----------|
 | **VSR** (Viseron Crown) | Governance/Utility | 300,000,000 | Ethereum (Uniswap) + BSC | 1% burn + 1% treasury por transferência, ERC20Votes, anti-whale 3% |
-| **TRIN** (Trinnity) | Interplanetary Memecoin | 420,690,000,000 (420.69B) | Ethereum + BSC + Solana | 2% burn por transferência, anti-bot, lock pré-launch |
+| **TRIN** (Trinnity) | Interplanetary Memecoin | 420,690,000 (420.69M) | Ethereum + BSC + Solana | 2% burn por transferência, anti-bot, lock pré-launch |
 
 © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
 
@@ -60,9 +60,10 @@ Pré-requisito: wallet Solana com SOL + `@solana/spl-token`.
 spl-token create-token --decimals 9 --program-id TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   # VSR mint
 spl-token create-token --decimals 9 --program-id TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   # TRIN mint
 
-# 2. Mint (VSR: 300M, TRIN: 420,690,000,000 — 420.69B)
+# 2. Mint (VSR: 300M, TRIN: 420,690,000 — 420.69M)
+#    ⚠️ O supply base (units) NUNCA pode exceder u64 (~1.8e19). Com 9 decimais: VSR 3e17 ✓, TRIN 4.2e17 ✓.
 spl-token mint <VSR_MINT> 300000000000000000000000000 <dest>
-spl-token mint <TRIN_MINT> 420690000000000000000000000 <dest>
+spl-token mint <TRIN_MINT> 420690000000000000000 <dest>
 
 # 3. Metadata (usar os ficheiros em solana/)
 metaplex token create-metadata --name "Viseron Crown" --symbol VSR --uri ./solana/vsr-metadata.json

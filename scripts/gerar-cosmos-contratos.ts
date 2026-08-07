@@ -42,7 +42,7 @@ const t = createTheme({
 t.cover({
   title: "VISERON COSMOS\nCONTRATOS & TOKENOMICS",
   subtitle: "Contracts & Tokenomics | Contratos y Tokenomía | Contratos e Tokenomics",
-  badges: ["$VSR 300M", "$TRIN 420.69B", "Ethereum", "BSC", "Solana", "Staking", "Governança", "Burn deflacionário"],
+  badges: ["$VSR 300M", "$TRIN 420.69M", "Ethereum", "BSC", "Solana", "Staking", "Governança", "Burn deflacionário"],
   date: "07/08/2026",
   version: "1.1",
   url: "www.trinnityviseronsystem.io/cosmos",
@@ -60,7 +60,7 @@ t.kv("Papel", "Prueba de Mandato (PoM) — voz dos agentes AIOX");
 
 t.spacer(3);
 t.sub("$TRIN — TRINNITY (Moeda de Viagem)", "#f43f5e");
-t.kv("Supply total / Total supply", "420,690,000,000 TRIN (420.69B)");
+t.kv("Supply total / Total supply", "420,690,000 TRIN (420.69M)");
 t.kv("Mecânica", "2% queimado por transferência / 2% burned per transfer");
 t.kv("Anti-bot", "Máx. 0.5% da oferta por transação / 0.5% max per tx");
 t.kv("Lock pré-launch", "Transferências bloqueadas até existir pool / blocked until pool");
@@ -93,7 +93,7 @@ t.code("npx hardhat run scripts/deploy.cjs --network ethereum", "deploy real Eth
 t.section("3", "Solana (SPL)");
 t.code("spl-token create-token --decimals 9", "criar mint VSR / TRIN");
 t.code("spl-token mint <VSR_MINT> 300000000000000000000000000 <dest>", "VSR 300M (9 decimais)");
-t.code("spl-token mint <TRIN_MINT> 420690000000000000000000000 <dest>", "TRIN 420,690,000,000 (420.69B, 9 decimais)");
+t.code("spl-token mint <TRIN_MINT> 420690000000000000000 <dest>", "TRIN 420,690,000 (420.69M, 9 decimais)");
 t.kv("Metadata VSR", "contracts/solana/vsr-metadata.json");
 t.kv("Metadata TRIN", "contracts/solana/trin-metadata.json");
 t.para("Liquidez: Raydium CLMM ou Jupiter. Liquidity via Raydium or Jupiter.", 9.5, "#334155");
@@ -113,7 +113,7 @@ if (tok.tokens) {
     `Community / Airdrops ${d1.community}%`,
   ]);
   t.spacer(3);
-  t.sub("TRIN (420.69B)", "#f43f5e");
+  t.sub("TRIN (420.69M)", "#f43f5e");
   const d2 = trin.distribution || {};
   t.bullets([
     `Team (lock 24m) ${d2.team}%`,

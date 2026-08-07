@@ -14,9 +14,9 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Trinnity is ERC20, ERC20Burnable, Ownable {
-    // 420.690.000.000 TRIN (420,69B) — supply otimizado para gerar liquidez
-    uint256 public constant TOTAL_SUPPLY = 420_690_000_000e18;
-    uint256 public constant MAX_TX = 2_103_450_000e18; // anti-bot: ~0.5% por transação
+    // 420.690.000 TRIN (420,69M) — supply otimizado para gerar liquidez
+    uint256 public constant TOTAL_SUPPLY = 420_690_000e18;
+    uint256 public constant MAX_TX = 2_103_450e18; // anti-bot: ~0.5% por transação
 
     uint256 public constant BURN_RATE = 200; // 2% queimado por transferência
     uint256 public constant RATE_DENOM = 10000;

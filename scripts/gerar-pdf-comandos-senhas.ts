@@ -175,7 +175,7 @@ const cosmosCmds: [string, string][] = [
 ];
 for (const [cmd, desc] of cosmosCmds) t.code(cmd, desc);
 t.sub("Contratos EVM / EVM Contracts");
-t.para("ViseronCrown (VSR 300M) · Trinnity (TRIN 420.69B) · ViseronStaking · ViseronGovernance — solc 0.8.20 · OpenZeppelin 5.0.2 · Ethereum + BSC + Solana. Deploy local verificado: contracts/deployments.json (gitignored).", 9.5, "#0f172a");
+t.para("ViseronCrown (VSR 300M) · Trinnity (TRIN 420.69M) · ViseronStaking · ViseronGovernance — solc 0.8.20 · OpenZeppelin 5.0.2 · Ethereum + BSC + Solana. Deploy local verificado: contracts/deployments.json (gitignored).", 9.5, "#0f172a");
 
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 6 — CREDENCIAIS: TWILIO + CLOUDFLARE

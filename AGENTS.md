@@ -129,7 +129,8 @@ cd mobile && npx expo start
 | `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
 | `npm run game:web` | Jogo VISERON no browser (Canvas 2D): `http://localhost:3000/game` (`?demo` p/ modo autónomo) |
 | `npm run game:apk` | Build do APK do jogo (Expo WebView embutido) → `data/apps/viserongame.apk` |
-| `npm run cosmos:kit` | Gera os 3 PDFs do Cosmos: whitepaper + kit marketing + contratos (trilingues) |
+| `npm run cosmos:kit` | Gera os 3 PDFs do Cosmos + logos oficiais dos tokens (whitepaper + kit marketing + contratos + `img/vsr.png`/`img/trin.png`, trilingues) |
+| `npm run cosmos:logos` | Regenera os logos oficiais PNG 512×512 dos tokens (coroa dourada $VSR, planeta com anel $TRIN) em `src/dashboard/public/cosmos/img/` + `trinnityviseronsystem.io/cosmos/img/` |
 | `npm run cosmos:whitepaper` | Gera `data/Viseron_Cosmos_Whitepaper.pdf` ($VSR/$TRIN) |
 | `npm run cosmos:marketing` | Gera `data/Viseron_Cosmos_Kit_Marketing.pdf` (posts/hashtags/press/Telegram, ES/PT/EN) |
 | `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
@@ -137,6 +138,7 @@ cd mobile && npx expo start
 | `npm run cosmos:solana` | Go-live SPL real na Solana (mainnet por omissão, `--devnet` p/ teste): cria mints VSR+TRIN, minta o supply e revoga mint authority. Exige `contracts/solana-keypair.json` (gitignored) com a chave exportada da Phantom + SOL para rent/fees |
 | `npm run cosmos:wallet` | Gera a wallet oficial com frase secreta (BIP39, padrão Phantom `m/44'/501'/0'/0'`) → `contracts/solana-keypair.json` + `contracts/solana-seed.txt` (gitignored) |
 | `npm run cosmos:wallet:acesso` | Gera `data/Viseron_Cosmos_Wallet_ACESSO.txt` (gitignored, CONFIDENCIAL) com TODOS os acessos da wallet: endereço, frase secreta, chave privada base58 (32+64 bytes) e keypair JSON |
+| `npm run cosmos:wallets -- 50` | **FÁBRICA DE CARTEIRAS**: cria N carteiras Phantom de uma vez (`npm run cosmos:wallets -- 50 --prefix clienteA`) → `contracts/wallets/*-{keypair,seed}.txt` + `data/Viseron_Wallets_Fabrica_<data>.txt` (acesso completo de todas, gitignored) |
 | `npm run cosmos:bot` | Bot Telegram do Cosmos (long polling; precisa `TELEGRAM_BOT_TOKEN` no .env) |
 
 ## Viseron Cosmos ($VSR · $TRIN — tokens reais do TVS)
@@ -144,13 +146,42 @@ cd mobile && npx expo start
 O **Viseron Cosmos** é o braço financeiro do TVS: dois tokens reais que levam as 5000+ mentes ao mercado, inspirado no Dogelon Mars. Autoria: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
 
 - **$VSR** (Viseron Crown, 300M): governança (ERC20Votes, 1 voto/token), 1% burn + 1% treasury por transferência, anti-whale 3%. Prueba de Mandato (PoM) dos agentes AIOX.
-- **$TRIN** (Trinnity, **420,690,000,000 — 420.69B**, otimizado para liquidez): moeda de viagem interplanetária, 2% burn, anti-bot 0.5%, lock pré-launch.
+- **$TRIN** (Trinnity, **420,690,000 — 420.69M**, otimizado para liquidez): moeda de viagem interplanetária, 2% burn, anti-bot 0.5%, lock pré-launch.
 - **Redes**: Ethereum (ERC-20) + BSC (BEP-20) + Solana (SPL). Solc 0.8.20 · OpenZeppelin 5.0.2 · Hardhat.
 - **Contratos**: `contracts/sol/{ViseronCrown,Trinnity,ViseronStaking,ViseronGovernance}.sol`, deploy `contracts/scripts/deploy.cjs`, tokenomics em `contracts/tokenomics.json`, metadata SPL em `contracts/solana/`.
 - **Site interplanetário**: `http://localhost:3000/cosmos` e **live** em `https://www.trinnityviseronsystem.io/cosmos` (trilingue, parallax, staking/governança/roadmap). Servido no `standalone-server.ts`.
 - **Metaverso jogável**: `http://localhost:3000/cosmos/metaverse` e live em `.../cosmos/metaverse` — navega os planetas-módulos do TVS (AIOX/RCS/Agency/Composio/Gmail/JARVIS/VISERON), coleta mentes e ganha $VSR/$TRIN; touch + teclado + modo autónomo.
 - **Go-live real**: deploy dos contratos requer chave privada + gás (nunca versionar) → `npx hardhat run scripts/deploy.cjs --network ethereum` (e BSC) + SPL mint para Solana. Depois liquidez (Uniswap/PancakeSwap/Raydium) + lock ≥12 meses + CMC/CoinGecko/CEX.
 - **Telegram**: bot em `scripts/cosmos-telegram-bot.ts` (`/start /whitepaper /site /airdrop /staking /roadmap /lang`), trilingue.
+
+## Fábrica de Carteiras (rotina semanal — 50+ wallets Phantom)
+
+Para clientes/funcionários com pagamento direto em cripto, criamos carteiras Phantom em lote. **UM comando gera tudo** e o processo fica gravado aqui — nunca mais esquecer.
+
+1. **Comando único** (substitui 50 pelo nº desejado; `--prefix` para identificar o lote):
+   ```bash
+   npm run cosmos:wallets -- 50 --prefix semana1
+   ```
+   Gera N carteiras Solana reais (BIP39 12 palavras, derivação Phantom `m/44'/501'/0'/0'`):
+   - `contracts/wallets/<prefix>_<nnn>-keypair.json` (64-byte secretKey — deploy)
+   - `contracts/wallets/<prefix>_<nnn>-seed.txt` (frase secreta — para o cliente importar na Phantom)
+   - `contracts/wallets/index.json` (índice: id → endereço público + caminhos dos ficheiros)
+   - `data/Viseron_Wallets_Fabrica_<data>.txt` (**acesso completo de TODAS**: endereço + frase + chave privada base58 32/64 + keypair JSON)
+2. **Rotina semanal**: correr o comando, abrir `data/Viseron_Wallets_Fabrica_<data>.txt` no Bloco de Notas, entregar a cada cliente a sua seed (ficheiro `*-seed.txt`) e o endereço público para receber os tokens. Depois de distribuir as frases, apagar o documento de acesso e o `*-seed.txt` dos entregues.
+3. **Segurança** (regras obrigatórias, idênticas à wallet oficial):
+   - `contracts/wallets/` e `data/Viseron_Wallets_Fabrica_*.txt` são **gitignored** — nunca versionar.
+   - Frase secreta/chave privada **NUNCA** aparecem no chat nem no terminal — só nos ficheiros locais.
+   - Uma wallet cuja seed apareceu no chat é considerada comprometida → regenerar (o comando `--prefix` cria novas).
+   - Backup: se sobrescrever ficheiros, guardar sempre uma cópia do conteúdo antigo.
+   - A wallet oficial de deploy é `contracts/solana-keypair.json` (não confundir com `contracts/wallets/`).
+4. **Phantom do cliente**: "Add Wallet → Import Recovery Phrase" com a seed do ficheiro `*-seed.txt`; endereço = `*-keypair.json` público. Tokens custom (VSR/TRIN) só aparecem depois de "Import Tokens" com o mint address.
+
+## Endereços SPL finais (Solana mainnet — confirmados on-chain)
+
+- **VSR**: mint `7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU` · supply 300,000,000 · authority revogada · ATA `9BpFapQZcmS4uLSAeGuq12GSLbT2HGizCJfbNdLcEM9n`
+- **TRIN**: mint `Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx` · supply 420,690,000 (420.69M) · authority revogada · ATA `4VH5D3e2EZ8Jf8TCCPvWz7SDiWFDQaeDCoNEdNLZDFNv`
+- Wallet oficial: `Ak3J4hps9zAJiDzghkPRb1kqkPKDjg89d3jjM8tjcLVj` (saldo real verificado: VSR 300M + TRIN 420.69M + SOL). Mint TRIN antigo `36DgSEod...` **abandonado/queimado** — não usar.
+- **Phantom só mostra tokens importados**: adicionar manualmente por mint address (acima). **Swap TRIN/VSR→SOL falha enquanto não existir pool de liquidez** (passo Raydium pendente, precisa de SOL/USDC).
 
 
 

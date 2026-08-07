@@ -21,7 +21,7 @@ const NET = process.argv.includes("--devnet")
 
 const SUPPLY = {
   VSR: { supply: 300_000_000n, decimals: 9, name: "Viseron Crown", symbol: "VSR" },
-  TRIN: { supply: 420_690_000_000n, decimals: 9, name: "Trinnity", symbol: "TRIN" },
+  TRIN: { supply: 420_690_000n, decimals: 9, name: "Trinnity", symbol: "TRIN" },
 };
 
 function loadKeypair() {
@@ -57,6 +57,12 @@ async function createMint(conn, payer, token, dest) {
   console.log(`  ata owner : ${ownerAta.address.toBase58()}`);
 
   const supply = token.supply * 10n ** BigInt(token.decimals);
+  const U64_MAX = 2n ** 64n - 1n;
+  if (supply > U64_MAX) {
+    console.error(`❌ ${token.symbol}: ${supply} unidades base excedem o máximo u64 da Solana (${U64_MAX}).`);
+    console.error(`   Reduz o supply ou os decimais (ex. TRIN 420.69M com 9 decimais = ${420_690_000n * 10n ** 9n} < u64).`);
+    process.exit(1);
+  }
   console.log(`[${token.symbol}] Mintando ${token.supply.toLocaleString()} ${token.symbol} (${supply} unidades base)...`);
   const sig = await spl.mintTo(conn, payer, mint, ownerAta.address, payer, supply);
   console.log(`  mint tx   : ${sig}`);
@@ -112,7 +118,7 @@ async function main() {
   for (const r of results) {
     console.log(`\n${r.symbol} (${r.name})`);
     console.log(`  Mint : ${r.mint}`);
-    console.log(`  Supply mintado: ${r.supply} ${r.symbol} (9 decimais)`);
+    console.log(`  Supply mintado: ${r.supply} ${r.symbol} (${r.decimals} decimais)`);
   }
   console.log("\nPróximo passo: criar a pool na Raydium (ver runbook).");
 }

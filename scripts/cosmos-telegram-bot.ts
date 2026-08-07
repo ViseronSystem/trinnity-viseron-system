@@ -21,9 +21,9 @@ type Lang = "pt" | "es" | "en";
 const TXT: Record<Lang, any> = {
   pt: {
     welcome:
-      "🚀 Bem-vindo ao **Viseron Cosmos**!\n\nSomos o braço financeiro do Trinnity Viseron System: 5.000+ mentes de IA autónomas rumo às estrelas.\n\n👑 **$VSR** (Viseron Crown) — 300M · governança · 1 token = 1 voto\n🌌 **$TRIN** (Trinnity) — 420.69B · moeda de viagem · burn 2%\n\n🌐 Redes: Ethereum · BSC · Solana\n\nComandos:\n/whitepaper — resumo técnico\n/site — links oficiais\n/airdrop — como ganhar tokens grátis\n/staking — como bloquear VSR e ganhar TRIN\n/roadmap — fases até a mainnet\n/lang — mudar idioma\n\n⚠️ Nunca envies a tua seed phrase a ninguém. Suporte NUNCA pede tokens.",
+      "🚀 Bem-vindo ao **Viseron Cosmos**!\n\nSomos o braço financeiro do Trinnity Viseron System: 5.000+ mentes de IA autónomas rumo às estrelas.\n\n👑 **$VSR** (Viseron Crown) — 300M · governança · 1 token = 1 voto\n🌌 **$TRIN** (Trinnity) — 420.69M · moeda de viagem · burn 2%\n\n🌐 Redes: Ethereum · BSC · Solana\n\nComandos:\n/whitepaper — resumo técnico\n/site — links oficiais\n/airdrop — como ganhar tokens grátis\n/staking — como bloquear VSR e ganhar TRIN\n/roadmap — fases até a mainnet\n/lang — mudar idioma\n\n⚠️ Nunca envies a tua seed phrase a ninguém. Suporte NUNCA pede tokens.",
     whitepaper:
-      "📄 **Whitepaper Viseron Cosmos**\n\n• VSR: 300M, 1% burn por transferência, anti-whale 3%, ERC20Votes (governança).\n• TRIN: 420.69B, 2% burn, anti-bot 0.5%, lock pré-launch.\n• Redes: Ethereum · BSC · Solana.\n• Roadmap: Génesis → Ascensão → Exchange → Cosmos Mainnet.\n\nPDF oficial gerado pelo TVS e disponível no site.",
+      "📄 **Whitepaper Viseron Cosmos**\n\n• VSR: 300M, 1% burn por transferência, anti-whale 3%, ERC20Votes (governança).\n• TRIN: 420.69M, 2% burn, anti-bot 0.5%, lock pré-launch.\n• Redes: Ethereum · BSC · Solana.\n• Roadmap: Génesis → Ascensão → Exchange → Cosmos Mainnet.\n\nPDF oficial gerado pelo TVS e disponível no site.",
     site:
       `🔗 **Links oficiais**\n\n🌐 Site: ${SITE}\n🛒 Swap: Uniswap (ETH) · PancakeSwap (BSC) · Raydium (Solana)\n👑 Governança: via $VSR (ERC20Votes)\n🪙 Staking: bloqueia VSR → ganhas TRIN\n\n⚠️ Confirma sempre os endereços oficiais dos contratos antes de investir.`,
     airdrop:
@@ -35,9 +35,9 @@ const TXT: Record<Lang, any> = {
   },
   es: {
     welcome:
-      "🚀 ¡Bienvenido a **Viseron Cosmos**!\n\nSomos el brazo financiero del Trinnity Viseron System: 5.000+ mentes de IA autónomas rumbo a las estrellas.\n\n👑 **$VSR** (Viseron Crown) — 300M · gobernanza · 1 token = 1 voto\n🌌 **$TRIN** (Trinnity) — 420.69B · moneda de viaje · burn 2%\n\n🌐 Redes: Ethereum · BSC · Solana\n\nComandos:\n/whitepaper — resumen técnico\n/site — enlaces oficiales\n/airdrop — cómo ganar tokens gratis\n/staking — cómo bloquear VSR y ganar TRIN\n/roadmap — fases hasta la mainnet\n/lang — cambiar idioma\n\n⚠️ Nunca envíes tu seed phrase a nadie. El soporte NUNCA pide tokens.",
+      "🚀 ¡Bienvenido a **Viseron Cosmos**!\n\nSomos el brazo financiero del Trinnity Viseron System: 5.000+ mentes de IA autónomas rumbo a las estrellas.\n\n👑 **$VSR** (Viseron Crown) — 300M · gobernanza · 1 token = 1 voto\n🌌 **$TRIN** (Trinnity) — 420.69M · moneda de viaje · burn 2%\n\n🌐 Redes: Ethereum · BSC · Solana\n\nComandos:\n/whitepaper — resumen técnico\n/site — enlaces oficiales\n/airdrop — cómo ganar tokens gratis\n/staking — cómo bloquear VSR y ganar TRIN\n/roadmap — fases hasta la mainnet\n/lang — cambiar idioma\n\n⚠️ Nunca envíes tu seed phrase a nadie. El soporte NUNCA pide tokens.",
     whitepaper:
-      "📄 **Whitepaper Viseron Cosmos**\n\n• VSR: 300M, 1% burn por transferencia, anti-whale 3%, ERC20Votes (gobernanza).\n• TRIN: 420.69B, 2% burn, anti-bot 0.5%, lock pre-lanzamiento.\n• Redes: Ethereum · BSC · Solana.\n• Roadmap: Génesis → Ascensión → Exchange → Cosmos Mainnet.\n\nPDF oficial generado por el TVS y disponible en el sitio.",
+      "📄 **Whitepaper Viseron Cosmos**\n\n• VSR: 300M, 1% burn por transferencia, anti-whale 3%, ERC20Votes (gobernanza).\n• TRIN: 420.69M, 2% burn, anti-bot 0.5%, lock pre-lanzamiento.\n• Redes: Ethereum · BSC · Solana.\n• Roadmap: Génesis → Ascensión → Exchange → Cosmos Mainnet.\n\nPDF oficial generado por el TVS y disponible en el sitio.",
     site:
       `🔗 **Enlaces oficiales**\n\n🌐 Sitio: ${SITE}\n🛒 Swap: Uniswap (ETH) · PancakeSwap (BSC) · Raydium (Solana)\n👑 Gobernanza: vía $VSR (ERC20Votes)\n🪙 Staking: bloquea VSR → ganas TRIN\n\n⚠️ Confirma siempre las direcciones oficiales de los contratos antes de invertir.`,
     airdrop:
@@ -49,9 +49,9 @@ const TXT: Record<Lang, any> = {
   },
   en: {
     welcome:
-      "🚀 Welcome to **Viseron Cosmos**!\n\nWe are the financial arm of the Trinnity Viseron System: 5,000+ autonomous AI minds heading to the stars.\n\n👑 **$VSR** (Viseron Crown) — 300M · governance · 1 token = 1 vote\n🌌 **$TRIN** (Trinnity) — 420.69B · travel coin · 2% burn\n\n🌐 Networks: Ethereum · BSC · Solana\n\nCommands:\n/whitepaper — technical summary\n/site — official links\n/airdrop — how to earn free tokens\n/staking — how to lock VSR and earn TRIN\n/roadmap — phases until mainnet\n/lang — change language\n\n⚠️ Never share your seed phrase. Support NEVER asks for tokens.",
+      "🚀 Welcome to **Viseron Cosmos**!\n\nWe are the financial arm of the Trinnity Viseron System: 5,000+ autonomous AI minds heading to the stars.\n\n👑 **$VSR** (Viseron Crown) — 300M · governance · 1 token = 1 vote\n🌌 **$TRIN** (Trinnity) — 420.69M · travel coin · 2% burn\n\n🌐 Networks: Ethereum · BSC · Solana\n\nCommands:\n/whitepaper — technical summary\n/site — official links\n/airdrop — how to earn free tokens\n/staking — how to lock VSR and earn TRIN\n/roadmap — phases until mainnet\n/lang — change language\n\n⚠️ Never share your seed phrase. Support NEVER asks for tokens.",
     whitepaper:
-      "📄 **Viseron Cosmos Whitepaper**\n\n• VSR: 300M, 1% burn per transfer, 3% anti-whale, ERC20Votes (governance).\n• TRIN: 420.69B, 2% burn, 0.5% anti-bot, pre-launch lock.\n• Networks: Ethereum · BSC · Solana.\n• Roadmap: Genesis → Ascension → Exchange → Cosmos Mainnet.\n\nOfficial PDF generated by TVS, available on the site.",
+      "📄 **Viseron Cosmos Whitepaper**\n\n• VSR: 300M, 1% burn per transfer, 3% anti-whale, ERC20Votes (governance).\n• TRIN: 420.69M, 2% burn, 0.5% anti-bot, pre-launch lock.\n• Networks: Ethereum · BSC · Solana.\n• Roadmap: Genesis → Ascension → Exchange → Cosmos Mainnet.\n\nOfficial PDF generated by TVS, available on the site.",
     site:
       `🔗 **Official links**\n\n🌐 Site: ${SITE}\n🛒 Swap: Uniswap (ETH) · PancakeSwap (BSC) · Raydium (Solana)\n👑 Governance: via $VSR (ERC20Votes)\n🪙 Staking: lock VSR → earn TRIN\n\n⚠️ Always confirm the official contract addresses before investing.`,
     airdrop:

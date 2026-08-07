@@ -62,9 +62,9 @@ t.code("spl-token create-token --decimals 9 --program-id TokenkegQfeZyiNwAJbNbGK
 t.para("Guardar os MINT ADDRESSES que o terminal devolve — são os contratos em Solana.", 9.5, "#0f172a");
 
 t.spacer(2);
-t.sub("1.4 — Mintar o supply (VSR 300M · TRIN 420.69B)", "#22c55e");
+t.sub("1.4 — Mintar o supply (VSR 300M · TRIN 420.69M)", "#22c55e");
 t.code("spl-token mint <VSR_MINT> 300000000000000000000000000 <dest>", "VSR — 300,000,000 tokens (9 decimais → 3e23 unidades base)");
-t.code("spl-token mint <TRIN_MINT> 420690000000000000000000000 <dest>", "TRIN — 420,690,000,000 tokens (420.69B)");
+t.code("spl-token mint <TRIN_MINT> 420690000000000000000 <dest>", "TRIN — 420,690,000 tokens (420.69M · 9 decimais → 4.2e17 base, cabe em u64)");
 t.para("<dest> = o teu endereço Phantom. <VSR_MINT>/<TRIN_MINT> = endereços do passo 1.3.", 9, "#64748b");
 
 t.spacer(2);
@@ -136,7 +136,7 @@ t.section("4", "Checklist final · Final checklist");
 t.bullets([
   "▸ Phantom instalada, seed guardada em papel (2 cópias, offline).",
   "▸ SOL no endereço Phantom (mín. 1-2 SOL + 0.1 reserva).",
-  "▸ Mints VSR e TRIN criados + supply mintado (VSR 300M, TRIN 420.69B).",
+  "▸ Mints VSR e TRIN criados + supply mintado (VSR 300M, TRIN 420.69M).",
   "▸ Metadata publicada (nome VSR/TRIN, símbolo, logo).",
   "▸ Pool Raydium VSR + TRIN criada com preço inicial definido.",
   "▸ Liquidez bloqueada ≥12 meses (Streamflow/Team Finance).",
