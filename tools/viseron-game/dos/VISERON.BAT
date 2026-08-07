@@ -22,5 +22,5 @@ ECHO   Colocalo aqui junto a VISERON.BAS o escribe:
 ECHO       qbasic VISERON.BAS
 GOTO END
 :RUN
-QBASIC VISERON.BAS
+QBASIC /RUN VISERON.BAS
 :END
