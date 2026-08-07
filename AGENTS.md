@@ -17,6 +17,12 @@ Rules:
 4. Use local models (Ollama) when possible
 5. Use cloud models for complex reasoning
 
+**Segurança de carteiras cripto (REGRAS OBRIGATÓRIAS):**
+- Nunca sobrescrever `contracts/solana-keypair.json` nem `contracts/solana-seed.txt` sem fazer backup prévio do conteúdo antigo.
+- Ao gerar wallet nova, dar SEMPRE ao comandante o documento `data/Viseron_Cosmos_Wallet_ACESSO.txt` (frase secreta + chave privada base58 32/64 bytes + keypair JSON) para acesso total/importação na Phantom.
+- Frase secreta, chave privada e seeds NUNCA aparecem no chat nem em commits — só em ficheiros locais gitignored abertos no Bloco de Notas.
+- Uma wallet cuja seed apareceu no chat é considerada comprometida → gerar wallet nova para fundos reais.
+
 Command:
 - Pedro Costa - Commander
 - Trinnity Hurtado - Queen
@@ -129,7 +135,8 @@ cd mobile && npx expo start
 | `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
 | `npm run cosmos:golive` | Gera `data/Viseron_Cosmos_Go_Live_DEX.pdf` (runbook go-live DEX: Phantom/Solana primeiro, depois ETH/BSC — carteira, deploy, liquidez, lock, listagem) |
 | `npm run cosmos:solana` | Go-live SPL real na Solana (mainnet por omissão, `--devnet` p/ teste): cria mints VSR+TRIN, minta o supply e revoga mint authority. Exige `contracts/solana-keypair.json` (gitignored) com a chave exportada da Phantom + SOL para rent/fees |
-| `npm run cosmos:solana:key` | Assistente local que exporta a keypair da Phantom para `contracts/solana-keypair.json` (cola a chave no terminal — fica oculta, nunca passa pelo chat) |
+| `npm run cosmos:wallet` | Gera a wallet oficial com frase secreta (BIP39, padrão Phantom `m/44'/501'/0'/0'`) → `contracts/solana-keypair.json` + `contracts/solana-seed.txt` (gitignored) |
+| `npm run cosmos:wallet:acesso` | Gera `data/Viseron_Cosmos_Wallet_ACESSO.txt` (gitignored, CONFIDENCIAL) com TODOS os acessos da wallet: endereço, frase secreta, chave privada base58 (32+64 bytes) e keypair JSON |
 | `npm run cosmos:bot` | Bot Telegram do Cosmos (long polling; precisa `TELEGRAM_BOT_TOKEN` no .env) |
 
 ## Viseron Cosmos ($VSR · $TRIN — tokens reais do TVS)
