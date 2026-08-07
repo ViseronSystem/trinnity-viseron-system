@@ -276,6 +276,12 @@ export class ViseronWebServer {
       res.sendFile(path.join(PUBLIC_DIR, "viseron.html"));
     });
 
+    // JOGO VISERON — plataformas reais (Canvas 2D · iOS/APK/Windows via WebView)
+    this.app.get("/game", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "game", "index.html"));
+    });
+    this.app.use("/game", express.static(path.join(PUBLIC_DIR, "game")));
+
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
 
@@ -346,6 +352,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
         console.log(`[Viseron Web] VISERON: http://localhost:${this.port}/viseron (Superinteligência de voz · /api/viseron/chat)`);
+        console.log(`[Viseron Web] JOGO VISERON: http://localhost:${this.port}/game (plataformas · Canvas 2D · ?demo p/ autónomo)`);
         console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);
         console.log(`[Viseron Web] Agency OS: http://localhost:${this.port}/api/agency/* (clientes, leads, report, creativos, projeção)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
