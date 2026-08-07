@@ -121,6 +121,17 @@ cd mobile && npx expo start
 | `npm run rcs:list` | Histórico de broadcasts RCS (`data/rcs/broadcasts.json`) |
 | `npm run import:telecom` | Importa `45k telecomunicaciones.xlsx` → base de contactos (data/telecom/contacts.json + emails.json + sms.json + stats.json) |
 | `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
+| `npm run game:viseron` | Jogo VISERON Windows (Python): plataformas, transformações Mario→Megaman→Naruto→DBZ→CDZ→NASA |
+| `npm run game:viseron:demo` | Demo autónoma 30s — o VISERON joga sozinho (mostra o que somos) |
+| `npm run game:dos` | Lança o jogo em DOSBox (versão DOS/QBasic em `tools/viseron-game/dos/VISERON.BAS`) |
+
+## Jogo VISERON (Windows + DOS)
+
+Jogo de plataformas do TVS em `tools/viseron-game/` (trilingue ES/PT/EN): o VISERON cresce por **transformações** inspiradas nos grandes — **MARIO** (plataformas), **MEGAMAN** (tiro), **NARUTO** (velocidade), **DRAGON BALL** (power-up KAME), **SAINT SEIYA/CDZ** (armadura cosmos) e **NASA** (espaço, gravidade reduzida). Os power-ups são os módulos do TVS (AIOX/RCS/Agency/Composio/Gmail); coleciona energia (mentes) e lança o TVS ao espaço. Autoria exposta: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
+
+- **Windows nativo** (Python 3, stdlib): `tools/viseron-game/windows/viserongame.py` — controles ← → / espaço / X / ESC. Modo **autónomo** `--demo [s]`: o VISERON joga sozinho (caça energia, evita falhas, dispara, sobe de poder).
+- **DOS real** (QBasic): `tools/viseron-game/dos/VISERON.BAS` + `VISERON.BAT` — roda em MS-DOS 5+/6/7 com `QBASIC.EXE`, ou em DOSBox via `start-dosbox.bat`.
+
 
 ## TVS OS — AI-Native Operating System v1
 
