@@ -1,0 +1,23 @@
+{
+  "$schema": "https://metaplex.com/schemas/token-metadata.json",
+  "name": "Trinnity",
+  "symbol": "TRIN",
+  "description": "Trinnity (TRIN) - Memecoin interplanetaria do batallon TVS. Missao: levar as 5000+ mentes do Viseron Cosmos as estrelas. Supply 420,69B otimizado para liquidez, 2% queimado por transferencia.",
+  "image": "https://www.trinnityviseronsystem.io/cosmos/img/trin.png",
+  "animation_url": null,
+  "external_url": "https://www.trinnityviseronsystem.io/cosmos",
+  "attributes": [
+    { "trait_type": "Network", "value": "Solana SPL" },
+    { "trait_type": "Decimals", "value": "9" },
+    { "trait_type": "Supply", "value": "420,690,000,000 TRIN (420.69B)" },
+    { "trait_type": "Type", "value": "Interplanetary Memecoin" }
+  ],
+  "properties": {
+    "files": [
+      { "uri": "https://www.trinnityviseronsystem.io/cosmos/img/trin.png", "type": "image/png" }
+    ],
+    "creators": [
+      { "address": "TVS_COMMANDER_PUBKEY", "share": 100 }
+    ]
+  }
+}

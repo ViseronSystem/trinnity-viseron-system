@@ -1,0 +1,23 @@
+{
+  "$schema": "https://metaplex.com/schemas/token-metadata.json",
+  "name": "Viseron Crown",
+  "symbol": "VSR",
+  "description": "Viseron Crown (VSR) - Moeda do batallon TVS, Prueba de Mandato (PoM). Governanca + staking do Viseron Cosmos. Decay deflacionario: 1% queimado por transferencia.",
+  "image": "https://www.trinnityviseronsystem.io/cosmos/img/vsr.png",
+  "animation_url": null,
+  "external_url": "https://www.trinnityviseronsystem.io/cosmos",
+  "attributes": [
+    { "trait_type": "Network", "value": "Solana SPL" },
+    { "trait_type": "Decimals", "value": "9" },
+    { "trait_type": "Supply", "value": "300,000,000 VSR" },
+    { "trait_type": "Type", "value": "Governance / Utility" }
+  ],
+  "properties": {
+    "files": [
+      { "uri": "https://www.trinnityviseronsystem.io/cosmos/img/vsr.png", "type": "image/png" }
+    ],
+    "creators": [
+      { "address": "TVS_COMMANDER_PUBKEY", "share": 100 }
+    ]
+  }
+}

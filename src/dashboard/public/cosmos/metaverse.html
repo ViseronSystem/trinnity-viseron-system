@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Viseron Cosmos — Metaverso ($VSR · $TRIN)</title>
+<meta name="description" content="Metaverso jugable del Viseron Cosmos. Navega los planetas del TVS, colecciona mentes y gana $VSR/$TRIN. © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; background:#050510; overflow:hidden; font-family:'Segoe UI',system-ui,sans-serif; }
+  canvas { display:block; }
+  #hud { position:fixed; top:10px; left:12px; right:12px; display:flex; justify-content:space-between; color:#e2e8f0; font-size:13px; z-index:5; pointer-events:none; text-shadow:0 1px 4px #000; }
+  #hud b { color:#ffd166; }
+  #msg { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:6; color:#e2e8f0; pointer-events:none; }
+  #msg h1 { font-size:clamp(22px,5vw,40px); font-weight:900; background:linear-gradient(90deg,#ffd166,#f43f5e,#7c3aed,#22d3ee); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #msg p { margin-top:8px; color:#94a3b8; font-size:14px; }
+  #msg .btn { display:inline-block; margin-top:16px; background:linear-gradient(90deg,#7c3aed,#f43f5e); color:#fff; border:none; border-radius:999px; padding:12px 26px; font-size:15px; font-weight:800; cursor:pointer; pointer-events:auto; }
+  #msg .btn2 { background:transparent; border:1px solid #334155; color:#cbd5e1; margin-left:10px; }
+  #controls { position:fixed; bottom:16px; left:0; right:0; display:flex; justify-content:center; gap:14px; z-index:5; }
+  #controls button { width:60px; height:60px; border-radius:50%; background:#0f172acc; border:1px solid #334155; color:#ffd166; font-size:22px; font-weight:800; touch-action:none; }
+  #lang { position:fixed; top:10px; left:50%; transform:translateX(-50%); z-index:7; display:flex; gap:4px; }
+  #lang button { background:#0f172acc; color:#94a3b8; border:1px solid #334155; border-radius:6px; padding:3px 9px; font-size:11px; cursor:pointer; }
+  #lang button.on { color:#050510; background:#ffd166; border-color:#ffd166; font-weight:800; }
+  @media(min-width:800px){ #controls button { width:74px; height:74px; } }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div>🪐 <b id="planet">—</b></div>
+  <div>🧠 <b id="minds">0</b> · 👑 <b id="vsr">0</b> VSR · 🌌 <b id="trin">0</b> TRIN</div>
+</div>
+<div id="lang"><button data-l="es" class="on">ES</button><button data-l="pt">PT</button><button data-l="en">EN</button></div>
+<div id="msg">
+  <h1 id="t-title">VISERON COSMOS</h1>
+  <p id="t-sub">Navega los planetas del TVS. Colecciona mentes y gana $VSR/$TRIN.</p>
+  <button class="btn" id="startBtn">🚀 DESPEGAR</button>
+  <button class="btn btn2" id="demoBtn">🤖 AUTÓNOMO</button>
+</div>
+<div id="controls" style="display:none">
+  <button id="leftBtn">←</button>
+  <button id="upBtn">↑</button>
+  <button id="rightBtn">→</button>
+  <button id="boostBtn">⚡</button>
+</div>
+<script>
+(function(){
+  // ── Setup ──
+  const cv=document.getElementById('c'),x=cv.getContext('2d');
+  let W,H,D=1, state='menu', minds=0, vsr=0, trin=0, time=0, particles=[], stars=[];
+  const keys={left:false,right:false,up:false,boost:false};
+  const T={
+    es:{title:"VISERON COSMOS",sub:"Navega los planetas del TVS. Colecciona mentes y gana $VSR/$TRIN.",start:"🚀 DESPEGAR",auto:"🤖 AUTÓNOMO",win:"¡MISIÓN CUMPLIDA!",winSub:"Has recogido todas las mentes del batallón.",lose:"Impacto estelar",loseSub:"Reinicia y vuelve a intentarlo.",again:"🔄 REINICIAR",menu2:"🏠 MENÚ",planet:"planeta"},
+    pt:{title:"VISERON COSMOS",sub:"Navega os planetas do TVS. Coleciona mentes e ganha $VSR/$TRIN.",start:"🚀 DESCOLAR",auto:"🤖 AUTÓNOMO",win:"MISSÃO CUMPRIDA!",winSub:"Recolheste todas as mentes do batalhão.",lose:"Impacto estelar",loseSub:"Reinicia e tenta novamente.",again:"🔄 REINICIAR",menu2:"🏠 MENU",planet:"planeta"},
+    en:{title:"VISERON COSMOS",sub:"Fly the TVS planets. Collect minds and earn $VSR/$TRIN.",start:"🚀 LAUNCH",auto:"🤖 AUTONOMOUS",win:"MISSION ACCOMPLISHED!",winSub:"You collected all the battalion's minds.",lose:"Stellar impact",loseSub:"Restart and try again.",again:"🔄 RESTART",menu2:"🏠 MENU",planet:"planet"}
+  };
+  let lang='es'; const L=()=>T[lang];
+  document.querySelectorAll('#lang button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;localStorage.setItem('cosmos-meta-lang',lang);document.querySelectorAll('#lang button').forEach(x=>x.classList.toggle('on',x.dataset.l===lang));updateMsg();});
+  lang=localStorage.getItem('cosmos-meta-lang')||'es';
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+
+  // ── Planetas (módulos do TVS) ──
+  const planets=[
+    {name:'AIOX',  icon:'🪐', x:0.15, y:0.35, mindsNeed:5,  color:'#7c3aed'},
+    {name:'RCS',   icon:'📡', x:0.40, y:0.18, mindsNeed:8,  color:'#22d3ee'},
+    {name:'AGENCY',icon:'🚀', x:0.70, y:0.30, mindsNeed:12, color:'#f43f5e'},
+    {name:'COMPOSIO',icon:'🔌',x:0.30,y:0.70, mindsNeed:16, color:'#f59e0b'},
+    {name:'GMAIL', icon:'✉️', x:0.62, y:0.75, mindsNeed:20, color:'#34d399'},
+    {name:'JARVIS',icon:'👁️', x:0.85, y:0.62, mindsNeed:24, color:'#ffd166'},
+    {name:'VISERON',icon:'👑',x:0.50,y:0.50, mindsNeed:32, color:'#e879f9'},
+  ];
+  let ship={x:0,y:0,vx:0,vy:0,angle:0,visited:{}};
+
+  // ── Estrelas ──
+  function makeStars(){stars=[];const n=Math.floor((W*H)/5000);for(let i=0;i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.3,s:Math.random()*.5+.1,p:Math.random()*Math.PI*2});}
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;makeStars();}
+  resize();addEventListener('resize',resize);
+
+  // ── Entrada ──
+  addEventListener('keydown',e=>{if(e.key==='ArrowLeft')keys.left=true;if(e.key==='ArrowRight')keys.right=true;if(e.key==='ArrowUp'||e.key===' ')keys.up=true;if(e.key==='x'||e.key==='X')keys.boost=true;});
+  addEventListener('keyup',e=>{if(e.key==='ArrowLeft')keys.left=false;if(e.key==='ArrowRight')keys.right=false;if(e.key==='ArrowUp'||e.key===' ')keys.up=false;if(e.key==='x'||e.key==='X')keys.boost=false;});
+  function bindHold(btn,k){btn.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;});btn.addEventListener('pointerup',()=>keys[k]=false);btn.addEventListener('pointerleave',()=>keys[k]=false);}
+  bindHold(document.getElementById('leftBtn'),'left');
+  bindHold(document.getElementById('rightBtn'),'right');
+  bindHold(document.getElementById('upBtn'),'up');
+  bindHold(document.getElementById('boostBtn'),'boost');
+
+  function spawn(start){state=start?'playing':'playing';minds=0;vsr=0;trin=0;time=0;particles=[];ship.visited={};
+    ship.x=W*0.5;ship.y=H*0.9;ship.vx=0;ship.vy=0;ship.angle=-Math.PI/2;
+    document.getElementById('msg').style.display='none';
+    document.getElementById('controls').style.display='flex';
+  }
+  document.getElementById('startBtn').onclick=()=>spawn(true);
+  document.getElementById('demoBtn').onclick=()=>{auto=true;spawn(true);};
+  let auto=false;
+
+  function end(won){
+    state='end';
+    const m=document.getElementById('msg');
+    document.getElementById('t-title').textContent=won?L().win:(Math.floor(minds/10)>0?L().lose:'');
+    document.getElementById('t-sub').textContent=(won?L().winSub+' ':'')+`👑 ${vsr} VSR · 🌌 ${trin} TRIN`;
+    const btns=m.querySelectorAll('.btn');
+    btns[0].textContent=won?L().again:L().again;btns[0].onclick=()=>spawn(true);
+    btns[1].textContent=L().menu2;btns[1].onclick=()=>{state='menu';auto=false;document.getElementById('controls').style.display='none';updateMsg();};
+    btns[1].style.display=won?'inline-block':'none';
+    m.style.display='block';
+  }
+  function updateMsg(){
+    document.getElementById('t-title').textContent=L().title;
+    document.getElementById('t-sub').textContent=L().sub;
+    document.getElementById('startBtn').textContent=L().start;
+    document.getElementById('demoBtn').textContent=L().auto;
+  }
+
+  // ── Partículas ──
+  function burst(x0,y0,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=Math.random()*120+30;particles.push({x:x0,y:y0,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,color});}}
+  function trail(){particles.push({x:ship.x,y:ship.y,vx:-ship.vx*.1,vy:-ship.vy*.1,life:.6,color:'#22d3ee'});}
+
+  // ── Loop principal ──
+  let autoAngle=0;
+  function frame(dt){
+    time+=dt;
+    // fundo
+    x.fillStyle='#050510';x.fillRect(0,0,W,H);
+    // estrelas parallax
+    stars.forEach(s=>{s.y+=s.s*(state==='playing'?40:6)*dt;s.x+=Math.sin(time*.5+s.p)*.2;s.y%=H+4;if(s.y<-2)s.y=H+2;x.globalAlpha=.4+Math.sin(time*2+s.p)*.35;x.fillStyle='#e2e8f0';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill();});
+    x.globalAlpha=1;
+
+    if(state==='menu'||state==='end'){
+      // planetas decorativos
+      planets.forEach((p,i)=>{const px=p.x*W,py=p.y*H;x.globalAlpha=.5;x.fillStyle=p.color;x.beginPath();x.arc(px,py,26+Math.sin(time*2+i)*4,0,7);x.fill();x.font='22px system-ui';x.fillText(p.icon,px-11,py+8);});
+      x.globalAlpha=1;
+      return;
+    }
+
+    // ── jogador ──
+    const ACC=auto?260:300, BOOST=auto?420:520, DRAG=.985, TURN=3.2;
+    if(auto){
+      // IA simples: procura a mente mais próxima ou o próximo planeta
+      let target=null,bd=1e9;
+      planets.forEach(p=>{if(ship.visited[p.name])return;const d=Math.hypot(p.x*W-ship.x,p.y*H-ship.y);if(d<bd){bd=d;target=p;}});
+      if(!target){end(true);return;}
+      const tx=target.x*W,ty=target.y*H;
+      const want=Math.atan2(ty-ship.y,tx-ship.x);
+      let da=want-ship.angle;while(da>Math.PI)da-=Math.PI*2;while(da<-Math.PI)da+=Math.PI*2;
+      autoAngle=Math.max(-1,Math.min(1,da*2));
+      keys.boost=bd>120?true:(Math.random()<.02);
+      if(!target.reached) keys.up=true;
+      if(bd<90){target.reached=true;keys.up=false;}
+    }
+    ship.angle+=autoAngle*TURN*dt*(auto?1:0);
+    if(keys.left)ship.angle-=TURN*dt;
+    if(keys.right)ship.angle+=TURN*dt;
+    if(keys.up){const sp=(keys.boost?BOOST:ACC);ship.vx+=Math.cos(ship.angle)*sp*dt;ship.vy+=Math.sin(ship.angle)*sp*dt;trail();}
+    if(keys.boost&&Math.random()<.3)trail();
+    ship.vx*=DRAG;ship.vy*=DRAG;
+    ship.x+=ship.vx*dt;ship.y+=ship.vy*dt;
+    ship.x=Math.max(18,Math.min(W-18,ship.x));ship.y=Math.max(18,Math.min(H-18,ship.y));
+
+    // planetas + colisões + coleta
+    planets.forEach((p,i)=>{
+      const px=p.x*W,py=p.y*H,d=Math.hypot(px-ship.x,py-ship.y),rad=26+Math.sin(time*2+i)*4;
+      // halo
+      x.strokeStyle=p.color;x.globalAlpha=.25;x.beginPath();x.arc(px,py,rad+12,0,7);x.stroke();x.globalAlpha=1;
+      x.fillStyle=p.color;x.beginPath();x.arc(px,py,rad,0,7);x.fill();
+      x.font='22px system-ui';x.fillText(p.icon,px-11,py+8);
+      // nome
+      x.font='bold 11px system-ui';x.fillStyle='#94a3b8';x.textAlign='center';x.fillText(p.name,px,py-rad-10);
+      if(!ship.visited[p.name]){
+        // mentes orbitando
+        const nM=Math.min(p.mindsNeed,Math.ceil((p.mindsNeed)/2)+3);
+        for(let j=0;j<nM;j++){const a=time*.7+j*(Math.PI*2/nM);const mx=px+Math.cos(a)*(rad+26);const my=py+Math.sin(a)*(rad+26);const dd=Math.hypot(mx-ship.x,my-ship.y);
+          x.fillStyle='#ffd166';x.beginPath();x.arc(mx,my,4,0,7);x.fill();
+          if(dd<24){minds++;vsr+=10;trin+=5;burst(mx,my,'#ffd166',8);p.got=(p.got||0)+1;}
+        }
+        // planet explored quando coletou tudo
+        if(p.got>=p.mindsNeed){ship.visited[p.name]=true;burst(px,py,p.color,40);vsr+=100;trin+=50;}
+      } else {
+        x.fillStyle='#34d399';x.beginPath();x.arc(px,py,rad*.4,0,7);x.fill();
+      }
+      // colisão com planeta (não explorado)
+      if(!ship.visited[p.name]&&d<rad&&state==='playing'){if(!auto){burst(ship.x,ship.y,'#f43f5e',30);end(false);}else{ship.vx*=-.6;ship.vy*=-.6;}}
+    });
+
+    // nave
+    x.save();x.translate(ship.x,ship.y);x.rotate(ship.angle);
+    x.fillStyle='#e2e8f0';x.beginPath();x.moveTo(16,0);x.lineTo(-12,9);x.lineTo(-6,0);x.lineTo(-12,-9);x.closePath();x.fill();
+    x.fillStyle='#ffd166';x.beginPath();x.moveTo(-6,0);x.lineTo(-14,5);x.lineTo(-14,-5);x.closePath();x.fill();
+    x.restore();
+
+    // partículas
+    particles.forEach(p=>{p.life-=dt*1.2;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life>0){x.globalAlpha=Math.max(0,p.life);x.fillStyle=p.color;x.beginPath();x.arc(p.x,p.y,3,0,7);x.fill();}});
+    particles=particles.filter(p=>p.life>0);
+    x.globalAlpha=1;
+
+    document.getElementById('minds').textContent=minds;
+    document.getElementById('vsr').textContent=vsr;
+    document.getElementById('trin').textContent=trin;
+    const visited=Object.keys(ship.visited).length;
+    document.getElementById('planet').textContent=visited+'/'+planets.length+' '+L().planet;
+
+    if(!auto&&visited===planets.length){end(true);}
+  }
+
+  let last=performance.now();
+  function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;frame(dt);requestAnimationFrame(loop);}
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

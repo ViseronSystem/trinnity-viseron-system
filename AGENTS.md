@@ -123,6 +123,26 @@ cd mobile && npx expo start
 | `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
 | `npm run game:web` | Jogo VISERON no browser (Canvas 2D): `http://localhost:3000/game` (`?demo` p/ modo autónomo) |
 | `npm run game:apk` | Build do APK do jogo (Expo WebView embutido) → `data/apps/viserongame.apk` |
+| `npm run cosmos:kit` | Gera os 3 PDFs do Cosmos: whitepaper + kit marketing + contratos (trilingues) |
+| `npm run cosmos:whitepaper` | Gera `data/Viseron_Cosmos_Whitepaper.pdf` ($VSR/$TRIN) |
+| `npm run cosmos:marketing` | Gera `data/Viseron_Cosmos_Kit_Marketing.pdf` (posts/hashtags/press/Telegram, ES/PT/EN) |
+| `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
+| `npm run cosmos:bot` | Bot Telegram do Cosmos (long polling; precisa `TELEGRAM_BOT_TOKEN` no .env) |
+
+## Viseron Cosmos ($VSR · $TRIN — tokens reais do TVS)
+
+O **Viseron Cosmos** é o braço financeiro do TVS: dois tokens reais que levam as 5000+ mentes ao mercado, inspirado no Dogelon Mars. Autoria: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
+
+- **$VSR** (Viseron Crown, 300M): governança (ERC20Votes, 1 voto/token), 1% burn + 1% treasury por transferência, anti-whale 3%. Prueba de Mandato (PoM) dos agentes AIOX.
+- **$TRIN** (Trinnity, **420,690,000,000 — 420.69B**, otimizado para liquidez): moeda de viagem interplanetária, 2% burn, anti-bot 0.5%, lock pré-launch.
+- **Redes**: Ethereum (ERC-20) + BSC (BEP-20) + Solana (SPL). Solc 0.8.20 · OpenZeppelin 5.0.2 · Hardhat.
+- **Contratos**: `contracts/sol/{ViseronCrown,Trinnity,ViseronStaking,ViseronGovernance}.sol`, deploy `contracts/scripts/deploy.cjs`, tokenomics em `contracts/tokenomics.json`, metadata SPL em `contracts/solana/`.
+- **Site interplanetário**: `http://localhost:3000/cosmos` e **live** em `https://www.trinnityviseronsystem.io/cosmos` (trilingue, parallax, staking/governança/roadmap). Servido no `standalone-server.ts`.
+- **Metaverso jogável**: `http://localhost:3000/cosmos/metaverse` e live em `.../cosmos/metaverse` — navega os planetas-módulos do TVS (AIOX/RCS/Agency/Composio/Gmail/JARVIS/VISERON), coleta mentes e ganha $VSR/$TRIN; touch + teclado + modo autónomo.
+- **Go-live real**: deploy dos contratos requer chave privada + gás (nunca versionar) → `npx hardhat run scripts/deploy.cjs --network ethereum` (e BSC) + SPL mint para Solana. Depois liquidez (Uniswap/PancakeSwap/Raydium) + lock ≥12 meses + CMC/CoinGecko/CEX.
+- **Telegram**: bot em `scripts/cosmos-telegram-bot.ts` (`/start /whitepaper /site /airdrop /staking /roadmap /lang`), trilingue.
+
+
 
 ## Jogo VISERON (Canvas 2D — iOS/APK/Windows)
 

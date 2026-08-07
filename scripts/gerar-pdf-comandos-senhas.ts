@@ -55,16 +55,17 @@ const tocItems: [string, string, string][] = [
   ["2", "Comandos npm — Deploy e Infraestrutura", "Pg 4"],
   ["3", "Comandos npm — PDFs e Relatórios", "Pg 5"],
   ["4", "Comandos npm — Mobile e Electron", "Pg 5"],
-  ["5", "Credenciais — Twilio (SMS + Voice)", "Pg 6"],
-  ["6", "Credenciais — Cloudflare (DNS + R2)", "Pg 6"],
-  ["7", "Credenciais — Render (API Backend)", "Pg 7"],
-  ["8", "Credenciais — Avirato Payments", "Pg 7"],
-  ["9", "Credenciais — Gmail OAuth", "Pg 8"],
-  ["10", "Credenciais — Neon Postgres (DB)", "Pg 8"],
-  ["11", "Credenciais — n8n + JWT + OmniRoute", "Pg 9"],
-  ["12", "URLs e Domínios do Sistema", "Pg 9"],
-  ["13", "Squad AIOX — Agentes e Squads", "Pg 10"],
-  ["14", "Resumo de Estado do Sistema", "Pg 11"],
+  ["5", "Comandos npm — Viseron Cosmos (tokens, jogo, metaverso)", "Pg 6"],
+  ["6", "Credenciais — Twilio (SMS + Voice)", "Pg 6"],
+  ["7", "Credenciais — Cloudflare (DNS + R2)", "Pg 6"],
+  ["8", "Credenciais — Render (API Backend)", "Pg 7"],
+  ["9", "Credenciais — Avirato Payments", "Pg 7"],
+  ["10", "Credenciais — Gmail OAuth", "Pg 8"],
+  ["11", "Credenciais — Neon Postgres (DB)", "Pg 8"],
+  ["12", "Credenciais — n8n + JWT + OmniRoute", "Pg 9"],
+  ["13", "URLs e Domínios do Sistema", "Pg 9"],
+  ["14", "Squad AIOX — Agentes e Squads", "Pg 10"],
+  ["15", "Resumo de Estado do Sistema", "Pg 11"],
 ];
 for (const [num, title, page] of tocItems) t.kv(num, `${title} — ${page}`);
 
@@ -156,17 +157,37 @@ const mobileCmds: [string, string][] = [
 ];
 for (const [cmd, desc] of mobileCmds) t.code(cmd, desc);
 
+t.section("6", "Viseron Cosmos — Tokens, Jogo e Metaverso");
+t.para("Cosmos commands — $VSR/$TRIN tokens, game & metaverse / Comandos Cosmos — tokens, juego y metaverso", 9, "#64748b");
+const cosmosCmds: [string, string][] = [
+  ["npm run game:web", "Jogo VISERON Canvas 2D (/game) / Canvas 2D game"],
+  ["npm run game:apk", "Build APK do jogo / Game APK build (data/apps/viserongame.apk)"],
+  ["npm run cosmos:kit", "Gera whitepaper + kit marketing Cosmos / Cosmos whitepaper + marketing kit"],
+  ["npm run cosmos:whitepaper", "Whitepaper $VSR/$TRIN / Cosmos whitepaper PDF"],
+  ["npm run cosmos:marketing", "Kit marketing trilingue / Trilingual marketing kit PDF"],
+  ["npm run cosmos:bot", "Bot Telegram do Cosmos (TELEGRAM_BOT_TOKEN) / Telegram bot"],
+  ["npx hardhat compile --force", "Compila os 4 contratos (em contracts/) / Compile contracts"],
+  ["npx hardhat run scripts/deploy.cjs --network ethereum", "Deploy real EVM (chave privada no contracts/.env) / Real EVM deploy"],
+  ["spl-token create-token --decimals 9", "Mint Solana SPL (VSR/TRIN) / Solana SPL mint"],
+  ["/cosmos", "Site interplanetário / Interplanetary site"],
+  ["/cosmos/metaverse", "Metaverso jogável / Playable metaverse"],
+  ["/game", "Jogo VISERON / VISERON game"],
+];
+for (const [cmd, desc] of cosmosCmds) t.code(cmd, desc);
+t.sub("Contratos EVM / EVM Contracts");
+t.para("ViseronCrown (VSR 300M) · Trinnity (TRIN 420.69B) · ViseronStaking · ViseronGovernance — solc 0.8.20 · OpenZeppelin 5.0.2 · Ethereum + BSC + Solana. Deploy local verificado: contracts/deployments.json (gitignored).", 9.5, "#0f172a");
+
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 6 — CREDENCIAIS: TWILIO + CLOUDFLARE
 // ═══════════════════════════════════════════════════════════
-t.section("6", "Credenciais — Twilio (SMS + Voice)");
+t.section("7", "Credenciais — Twilio (SMS + Voice)");
 t.para("⚠ CONFIDENCIAL — Não partilhar publicamente", 9.5, "#ef4444");
 t.kv("TWILIO_ACCOUNT_SID", env.TWILIO_ACCOUNT_SID || "—");
 t.kv("TWILIO_AUTH_TOKEN", env.TWILIO_AUTH_TOKEN || "—");
 t.kv("TWILIO_PHONE_NUMBER", env.TWILIO_PHONE_NUMBER || "—");
 t.kv("PUBLIC_HOSTNAME", env.PUBLIC_HOSTNAME || "localhost");
 
-t.section("7", "Credenciais — Cloudflare (DNS + R2 + CDN)");
+t.section("8", "Credenciais — Cloudflare (DNS + R2 + CDN)");
 t.kv("CLOUDFLARE_API_TOKEN", env.CLOUDFLARE_API_TOKEN || "—");
 t.kv("CLOUDFLARE_ACCOUNT_ID", env.CLOUDFLARE_ACCOUNT_ID || "—");
 t.kv("CLOUDFLARE_ZONE_ID", env.CLOUDFLARE_ZONE_ID || "—");
@@ -177,14 +198,14 @@ t.kv("CLOUDFLARE_R2_ENDPOINT", env.CLOUDFLARE_R2_ENDPOINT || "—");
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 7 — CREDENCIAIS: RENDER + AVIRATO
 // ═══════════════════════════════════════════════════════════
-t.section("8", "Credenciais — Render (API Backend)");
+t.section("9", "Credenciais — Render (API Backend)");
 t.kv("RENDER_API_KEY", env.RENDER_API_KEY || "—");
 t.kv("RENDER_API_URL", env.RENDER_API_URL || "https://api.render.com/v1");
 t.kv("RENDER_SERVICE_ID", env.RENDER_SERVICE_ID || "—");
 t.kv("RENDER_WEB_URL", env.RENDER_WEB_URL || "—");
 t.kv("TVS_PUBLIC_URL", env.TVS_PUBLIC_URL || "—");
 
-t.section("9", "Credenciais — Avirato Payments (Cobranças Live)");
+t.section("10", "Credenciais — Avirato Payments (Cobranças Live)");
 t.kv("AVIRATO_API_KEY", env.AVIRATO_API_KEY || "—");
 t.kv("AVIRATO_WEBCODE", env.AVIRATO_WEBCODE || "—");
 t.kv("AVIRATO_CLIENT_SECRET", env.AVIRATO_CLIENT_SECRET || "—");
@@ -195,7 +216,7 @@ t.para("Revenue Readiness: ok=true · 6/6 requisitos verificados · Pronto para 
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 8 — CREDENCIAIS: GMAIL + NEON DB
 // ═══════════════════════════════════════════════════════════
-t.section("10", "Credenciais — Gmail OAuth (Agente de Email)");
+t.section("11", "Credenciais — Gmail OAuth (Agente de Email)");
 t.kv("GMAIL_CLIENT_ID", env.GMAIL_CLIENT_ID || "—");
 t.kv("GMAIL_CLIENT_SECRET", env.GMAIL_CLIENT_SECRET || "—");
 t.kv("GMAIL_USER", env.GMAIL_USER || "—");
@@ -203,7 +224,7 @@ t.kv("GMAIL_REFRESH_TOKEN", env.GMAIL_REFRESH_TOKEN || "—");
 t.kv("EMAIL_PROVIDER", env.EMAIL_PROVIDER || "gmail");
 t.kv("EMAIL_FROM", env.EMAIL_FROM || "—");
 
-t.section("11", "Credenciais — Neon Postgres (Base de Dados)");
+t.section("12", "Credenciais — Neon Postgres (Base de Dados)");
 const dbUrl = env.DATABASE_URL || "—";
 const dbMasked = dbUrl !== "—" ? dbUrl.replace(/:([^:@]+)@/, ":***@") : "—";
 t.kv("DATABASE_URL (masked)", dbMasked);
@@ -217,7 +238,7 @@ for (const tb of tables) t.bullet("▸", tb, "#22d3ee");
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 9 — CREDENCIAIS: n8n + JWT + URLS
 // ═══════════════════════════════════════════════════════════
-t.section("12", "Credenciais — n8n + JWT + OmniRoute");
+t.section("13", "Credenciais — n8n + JWT + OmniRoute");
 t.kv("N8N_BASIC_AUTH_USER", env.N8N_BASIC_AUTH_USER || "—");
 t.kv("N8N_BASIC_AUTH_PASSWORD", env.N8N_BASIC_AUTH_PASSWORD || "—");
 t.kv("TVS_JWT_SECRET (início)", (env.TVS_JWT_SECRET || "—").substring(0, 40) + "…");
@@ -225,7 +246,7 @@ t.kv("OMNIROUTE_PORT", env.OMNIROUTE_PORT || "20128");
 t.kv("PORT (API)", env.PORT || "3000");
 t.kv("REPORT_PORT", env.REPORT_PORT || "3001");
 
-t.section("13", "URLs e Domínios do Sistema");
+t.section("14", "URLs e Domínios do Sistema");
 const urls: [string, string][] = [
   ["Website Principal", "https://www.trinnityviseron.com"],
   ["Website Novo", "https://www.trinnityviseronsystem.io"],
@@ -243,7 +264,7 @@ for (const [label, url] of urls) t.kv(label, url);
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 10 — SQUAD AIOX
 // ═══════════════════════════════════════════════════════════
-t.section("14", "Squad AIOX — Agentes e Squads");
+t.section("15", "Squad AIOX — Agentes e Squads");
 t.para("Os 5 Esquadrões AIOX — 200 anos de experiência combinada · Monitorizados por Pedro Costa & Trinnity Hurtado", 9.5, "#64748b");
 const squadData: [string, string, string[], string][] = [
   ["⚙️ Engineering Squad", "#22d3ee", ["Architect Prime", "Dev Master", "DevOps Agent", "QA Sentinel"], "TypeScript, Cloud, Docker, Testing"],
@@ -269,7 +290,7 @@ for (const [name, desc] of cycles) t.bullet("▸", `${name} — ${desc}`);
 // ═══════════════════════════════════════════════════════════
 // PÁGINA 11 — RESUMO DE ESTADO
 // ═══════════════════════════════════════════════════════════
-t.section("15", "Estado Atual do Sistema");
+t.section("16", "Estado Atual do Sistema");
 t.para("Resumo de Estado / System Status Summary / Resumen de Estado", 9.5, "#64748b");
 const statusItems: [string, string, string][] = [
   ["Squads AIOX", "5/5 ATIVOS", "#22c55e"],

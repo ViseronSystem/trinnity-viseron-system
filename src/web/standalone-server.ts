@@ -282,6 +282,15 @@ export class ViseronWebServer {
     });
     this.app.use("/game", express.static(path.join(PUBLIC_DIR, "game")));
 
+    // VISERON COSMOS — site interplanetário dos tokens $VSR/$TRIN (ES/PT/EN)
+    this.app.get("/cosmos", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "cosmos", "index.html"));
+    });
+    this.app.get("/cosmos/metaverse", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "cosmos", "metaverse.html"));
+    });
+    this.app.use("/cosmos", express.static(path.join(PUBLIC_DIR, "cosmos")));
+
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
 
@@ -353,6 +362,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
         console.log(`[Viseron Web] VISERON: http://localhost:${this.port}/viseron (Superinteligência de voz · /api/viseron/chat)`);
         console.log(`[Viseron Web] JOGO VISERON: http://localhost:${this.port}/game (plataformas · Canvas 2D · ?demo p/ autónomo)`);
+        console.log(`[Viseron Web] VISERON COSMOS: http://localhost:${this.port}/cosmos ($VSR · $TRIN · site interplanetário)`);
         console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);
         console.log(`[Viseron Web] Agency OS: http://localhost:${this.port}/api/agency/* (clientes, leads, report, creativos, projeção)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);

@@ -1,0 +1,17 @@
+{
+  "name": "viseron-cosmos-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:eth": "hardhat run scripts/deploy.cjs --network ethereum",
+    "deploy:bsc": "hardhat run scripts/deploy.cjs --network binance",
+    "deploy:local": "hardhat run scripts/deploy.cjs --network hardhat"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.2",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.10"
+  }
+}

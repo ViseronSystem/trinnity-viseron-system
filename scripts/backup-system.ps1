@@ -69,6 +69,18 @@ if (Test-Path "scripts") {
     Copy-Item -Path "scripts\*" -Destination (Join-Path -Path $BackupDir -ChildPath "scripts") -Recurse -Force
 }
 
+# Backup contracts (tokens VSR/TRIN — contratos, tokenomics, solana metadata)
+Write-Log "Backup contracts (Viseron Cosmos)..."
+if (Test-Path "contracts") {
+    Copy-Item -Path "contracts\*" -Destination (Join-Path -Path $BackupDir -ChildPath "contracts") -Recurse -Force -Exclude "node_modules"
+}
+
+# Backup site Vercel (game + cosmos interplanetario)
+Write-Log "Backup site (trinnityviseronsystem.io)..."
+if (Test-Path "trinnityviseronsystem.io") {
+    Copy-Item -Path "trinnityviseronsystem.io\*" -Destination (Join-Path -Path $BackupDir -ChildPath "site") -Recurse -Force
+}
+
 # Backup agents
 Write-Log "Backup agents..."
 if (Test-Path "agents") {

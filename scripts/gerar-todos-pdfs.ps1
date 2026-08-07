@@ -25,7 +25,11 @@ $Generators = @(
     @{ Name = "100 melhorias de integracao";   Script = "scripts/gerar-100-melhorias.ts" },
     @{ Name = "Manual de comandos Viseron";    Script = "scripts/gerar-manual-comandos-viseron.ts" },
     @{ Name = "Manual Viseron";                Script = "scripts/gerar-manual-viseron.ts" },
-    @{ Name = "Manual completo";               Script = "scripts/gerar-manual-completo.ts" }
+    @{ Name = "Manual completo";               Script = "scripts/gerar-manual-completo.ts" },
+    @{ Name = "Comandos e Senhas (trilingue)"; Script = "scripts/gerar-pdf-comandos-senhas.ts" },
+    @{ Name = "Cosmos Whitepaper";             Script = "scripts/gerar-whitepaper-cosmos.ts" },
+    @{ Name = "Cosmos Kit Marketing (trilingue)"; Script = "scripts/gerar-kit-marketing-cosmos.ts" },
+    @{ Name = "Cosmos Contratos (trilingue)";  Script = "scripts/gerar-cosmos-contratos.ts" }
 )
 
 foreach ($g in $Generators) {
