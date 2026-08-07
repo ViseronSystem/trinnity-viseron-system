@@ -55,3 +55,10 @@ data/Viseron_Auditoria_Completa.pdf
 data/AEOS_*.pdf
 
 data/TVS_Comandos_e_Senhas.pdf
+
+# Base 45k Telecomunicaciones — DADOS PESSOAIS (RGPD). NUNCA versionar.
+# contacts.json (32.4k: DNI/nome/telefone), emails.json, sms.json (E.164)
+45k telecomunicaciones.xlsx
+data/telecom/contacts.json
+data/telecom/emails.json
+data/telecom/sms.json

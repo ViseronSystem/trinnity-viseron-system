@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-08-07T14:14:58.285Z",
+  "source": "45k telecomunicaciones.xlsx",
+  "totalContacts": 32460,
+  "skippedRows": 7,
+  "deduped": 16015,
+  "withName": 32441,
+  "withDni": 30104,
+  "withEmail": 4659,
+  "withPhone": 32448,
+  "uniquePhones": 47417,
+  "operators": {
+    "Yoigo": 7931,
+    "n/d": 6277,
+    "Vodafone Enabler": 4382,
+    "Orange": 1878,
+    "Jazztel": 1798,
+    "Digi Spain Telecom": 1527,
+    "Euskaltel": 1459,
+    "Vodafone": 1329,
+    "Movistar": 1040,
+    "Pepephone 3.0": 946,
+    "Airenetworks": 568,
+    "MASMOVIL": 480,
+    "Auna": 389,
+    "Kpn": 370,
+    "Lemonvil": 364,
+    "Opencable Telecomuni": 315,
+    "Ptv Telecom 4g": 226,
+    "DIGI SPAIN": 212,
+    "EUSKALTEL": 209,
+    "Republica Movil": 115,
+    "Masmovil": 69,
+    "Least Cost Routing T": 52,
+    "Quattre": 42,
+    "Altecom": 38,
+    "MOVISTAR": 37
+  },
+  "metals": {
+    "n/d": 7742,
+    "silver": 7111,
+    "gold": 6181,
+    "bronze": 5312,
+    "platino": 3515,
+    "sin metal": 1141,
+    "cantera": 901,
+    "plomo": 551,
+    "caliza": 6
+  },
+  "provinces": {
+    "BARCELONA": 2084
+  }
+}

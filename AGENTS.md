@@ -119,6 +119,8 @@ cd mobile && npx expo start
 | `npm run rcs:status` | Estado do canal RCS: modo (mock/live), marca, logo, Twilio, messaging service, stats |
 | `npm run rcs:send -- <nº> "mensagem"` | Envia RCS de marca com o logo da TVS (fallback SMS/MMS automático; sem messaging service → mock) |
 | `npm run rcs:list` | Histórico de broadcasts RCS (`data/rcs/broadcasts.json`) |
+| `npm run import:telecom` | Importa `45k telecomunicaciones.xlsx` → base de contactos (data/telecom/contacts.json + emails.json + sms.json + stats.json) |
+| `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
 
 ## TVS OS — AI-Native Operating System v1
 
@@ -247,6 +249,19 @@ Canal de aquisição/conversão: envia mensagens **RCS de marca** (nome + logo d
 - **API** `/api/rcs/*` (ver tabela acima) + **JARVIS**: "envía un RCS a +351...", "manda um SMS com o logo da TVS para..." → intent `rcs_broadcast` (extrai números, envia com logo, resume modo/entregas).
 - **Comandos**: `npm run rcs:status` · `npm run rcs:send -- <nº> "mensagem"` · `npm run rcs:list`.
 - Variáveis: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_RCS_SERVICE_SID` (obrigatório live), `TWILIO_RCS_CONTENT_SID` (opcional), `RCS_BRAND_NAME` (default `VISERON`).
+
+## Base 45k Telecomunicaciones (marketing digital)
+
+Pipeline completo para a base de contactos de telecomunicações (Excel `45k telecomunicaciones.xlsx`, 10 folhas com formatos inconsistentes):
+
+- **Importação** (`npm run import:telecom`): lê o Excel, deduplica por DNI/telefone e produz `data/telecom/`:
+  - `contacts.json` — base completa (32.4k contactos únicos: operador, nível, nome, DNI, telefones, email, CP, província, tarifa).
+  - `emails.json` — contactos com email (para campanha email).
+  - `sms.json` — telefones E.164 únicos (para campanha RCS/SMS).
+  - `stats.json` — estatísticas: totais, operadores, segmentos, províncias.
+- **Campanha** (`npm run telecom:campaign`): gera com IA (OmniRoute → Ollama) as mensagens de apresentação do VISERON por segmento (platino/gold/silver/bronze/cantera/plomo) → `data/telecom/campaign.json` (RCS ≤140 chars + email subject/body com placeholders `{nombre}`/`{operador}`).
+- **Site de soluções**: `POST /api/sites/generate` criou `data/sites/tvs-soluciones-telecom/` (preview `GET /api/sites/tvs-soluciones-telecom`).
+- Envio: canal RCS (`npm run rcs:send`, mock até haver RCS Sender aprovado) + email (Gmail OAuth). Base é dados pessoais (RGPD) — marketing exige base própria/consentimento.
 
 ## Composio (consumo MCP)
 

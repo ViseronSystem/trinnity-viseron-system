@@ -117,7 +117,9 @@
     "rcs": "tsx scripts/rcs.ts",
     "rcs:status": "tsx scripts/rcs.ts status",
     "rcs:send": "tsx scripts/rcs.ts send",
-    "rcs:list": "tsx scripts/rcs.ts list"
+    "rcs:list": "tsx scripts/rcs.ts list",
+    "import:telecom": "tsx scripts/import-telecom.ts",
+    "telecom:campaign": "tsx scripts/campaign-telecom.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.3",
@@ -129,6 +131,7 @@
     "chalk": "^5.3.0",
     "commander": "^15.0.0",
     "dotenv": "^16.6.1",
+    "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "fs-extra": "^11.4.0",
     "node-cron": "^4.6.0",
