@@ -82,6 +82,7 @@
     "cosmos:bot": "tsx scripts/cosmos-telegram-bot.ts",
     "cosmos:kit": "npm run cosmos:whitepaper && npm run cosmos:marketing && npm run cosmos:contracts",
     "cosmos:golive": "tsx scripts/gerar-cosmos-go-live.ts",
+    "cosmos:solana": "node contracts/solana-go-live.mjs",
     "audit:full": "node scripts/full-audit.mjs",
     "pitch": "tsx scripts/gerar-pitch-investidores.ts",
     "pitch:startup": "tsx scripts/gerar-pitch-startup.ts",
