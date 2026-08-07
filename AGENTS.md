@@ -129,6 +129,7 @@ cd mobile && npx expo start
 | `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
 | `npm run cosmos:golive` | Gera `data/Viseron_Cosmos_Go_Live_DEX.pdf` (runbook go-live DEX: Phantom/Solana primeiro, depois ETH/BSC — carteira, deploy, liquidez, lock, listagem) |
 | `npm run cosmos:solana` | Go-live SPL real na Solana (mainnet por omissão, `--devnet` p/ teste): cria mints VSR+TRIN, minta o supply e revoga mint authority. Exige `contracts/solana-keypair.json` (gitignored) com a chave exportada da Phantom + SOL para rent/fees |
+| `npm run cosmos:solana:key` | Assistente local que exporta a keypair da Phantom para `contracts/solana-keypair.json` (cola a chave no terminal — fica oculta, nunca passa pelo chat) |
 | `npm run cosmos:bot` | Bot Telegram do Cosmos (long polling; precisa `TELEGRAM_BOT_TOKEN` no .env) |
 
 ## Viseron Cosmos ($VSR · $TRIN — tokens reais do TVS)
