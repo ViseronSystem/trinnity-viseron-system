@@ -1,1 +1,32 @@
-﻿[]
+[
+  {
+    "id": "rcs_msizxy9y29e8318c",
+    "label": "Broadcast e8318c",
+    "body": "Hola! VISERON te saluda. Oferta de lanzamiento esta semana.",
+    "mediaUrl": "https://viseron-web.onrender.com/api/rcs/logo",
+    "recipients": 1,
+    "sentAt": "2026-08-07T13:44:37.319Z",
+    "mode": "mock",
+    "results": {
+      "sent": 1,
+      "failed": 0,
+      "queued": 0,
+      "byStatus": {
+        "simulated": 1
+      }
+    },
+    "messages": [
+      {
+        "id": "rcsm_msizxy9y5e061be3",
+        "broadcastId": "rcs_msizxy9y29e8318c",
+        "to": "+351911000000",
+        "body": "Hola! VISERON te saluda. Oferta de lanzamiento esta semana.",
+        "mediaUrl": "https://viseron-web.onrender.com/api/rcs/logo",
+        "status": "simulated",
+        "channel": "MOCK",
+        "createdAt": "2026-08-07T13:44:37.318Z",
+        "updatedAt": "2026-08-07T13:44:37.319Z"
+      }
+    ]
+  }
+]
