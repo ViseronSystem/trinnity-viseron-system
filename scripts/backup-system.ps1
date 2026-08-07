@@ -78,7 +78,11 @@ if (Test-Path "contracts") {
 # Backup site Vercel (game + cosmos interplanetario)
 Write-Log "Backup site (trinnityviseronsystem.io)..."
 if (Test-Path "trinnityviseronsystem.io") {
-    Copy-Item -Path "trinnityviseronsystem.io\*" -Destination (Join-Path -Path $BackupDir -ChildPath "site") -Recurse -Force
+    $SiteDest = Join-Path -Path $BackupDir -ChildPath "site"
+    $null = New-Item -ItemType Directory -Path $SiteDest -Force
+    Get-ChildItem -Path "trinnityviseronsystem.io" -Force | ForEach-Object {
+        Copy-Item -Path $_.FullName -Destination $SiteDest -Recurse -Force
+    }
 }
 
 # Backup agents
