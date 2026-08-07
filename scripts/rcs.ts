@@ -25,6 +25,12 @@ async function main(): Promise<void> {
   console.log(`Stats:    ${status.stats.messages} mensagens · ${status.stats.delivered} entregues · ${status.stats.read} lidas · ${status.stats.rcs} RCS · ${status.stats.failed} falhadas`);
   console.log(`Broadcasts: ${status.broadcasts}`);
 
+  const pending = (status.goLiveSteps || []).filter((s: any) => !s.done);
+  if (pending.length) {
+    console.log(`\nGo-live RCS (${pending.length} passos manuais pendentes — ver docs/Viseron_RCS_Live_Activacion.md):`);
+    for (const s of pending) console.log(`  ${s.manual ? "☐" : "☑"} ${s.step}`);
+  }
+
   if (command === "send") {
     const to = process.argv[3];
     const msg = process.argv.slice(4).filter((a) => !a.startsWith("--")).join(" ") || undefined;

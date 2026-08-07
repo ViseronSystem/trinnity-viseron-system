@@ -248,6 +248,7 @@ Canal de aquisição/conversão: envia mensagens **RCS de marca** (nome + logo d
 - **Logo**: `GET /api/rcs/logo` serve `mobile/assets/icon.png` (media público da mensagem). URL do media = `TVS_PUBLIC_URL`/`RENDER_WEB_URL`.
 - **API** `/api/rcs/*` (ver tabela acima) + **JARVIS**: "envía un RCS a +351...", "manda um SMS com o logo da TVS para..." → intent `rcs_broadcast` (extrai números, envia com logo, resume modo/entregas).
 - **Comandos**: `npm run rcs:status` · `npm run rcs:send -- <nº> "mensagem"` · `npm run rcs:list`.
+- **Go-live manual (Twilio console)**: RCS não se ativa por código — criar RCS Sender "Trinnity Viseron" (logo + `#34D399`) e Messaging Service no console, registar a marca na Google (España, 4-6 semanas, taxa Aegis ~$200), aprovar operador e pôr `TWILIO_RCS_SERVICE_SID` no `.env`. Runbook trilingue: `docs/Viseron_RCS_Live_Activacion.md`. `npm run rcs:status` mostra os passos pendentes.
 - Variáveis: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_RCS_SERVICE_SID` (obrigatório live), `TWILIO_RCS_CONTENT_SID` (opcional), `RCS_BRAND_NAME` (default `VISERON`).
 
 ## Base 45k Telecomunicaciones (marketing digital)

@@ -177,6 +177,16 @@ export class RcsEngine {
         "4_brand_logo": Boolean(this.logoFile),
         "5_template_rich": Boolean(this.contentSid) || "optional",
       },
+      goLiveSteps: [
+        { step: "Cuenta de pago + credenciales", done: Boolean(this.sid && this.token) },
+        { step: "Número SMS/MMS para fallback (console: Messaging > Numbers)", done: false, manual: true },
+        { step: "Messaging Service 'TVS-RCS' (console: Develop > Messaging > Services)", done: Boolean(this.serviceSid), manual: true },
+        { step: "RCS Sender 'Trinnity Viseron' creado con logo y color #34D399 (console: Develop > RCS > Senders)", done: false, manual: true },
+        { step: "Registro de marca Google enviado (Compliance registration → Submit)", done: false, manual: true },
+        { step: "Aprobación del operador España (4-6 semanas) + añadir Sender al pool", done: false, manual: true },
+        { step: "Advanced Opt-Out activado (BAJA/STOP/CANCELAR en ES/PT/EN)", done: false, manual: true },
+        { step: "TWILIO_RCS_SERVICE_SID en .env (runbook: docs/Viseron_RCS_Live_Activacion.md)", done: Boolean(this.serviceSid), manual: true },
+      ],
     };
   }
 
