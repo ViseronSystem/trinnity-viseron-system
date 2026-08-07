@@ -22,6 +22,7 @@ import { createEmailRouter } from "./email/routes";
 import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
 import { createJarvisRouter } from "./jarvis/routes";
+import { createViseronRouter } from "./viseron/routes";
 import { createRevenueRouter } from "./revenue/routes";
 import { CallLogStore } from "./calls/store";
 import { CallLearning } from "./calls/learning";
@@ -234,6 +235,19 @@ export class ViseronWebServer {
       logger: this.logger,
       metrics: this.metrics,
     }));
+    this.app.use("/api", createViseronRouter({
+      dataDir: this.dataDir,
+      accounts: this.accounts,
+      billing: this.billing,
+      email: this.email,
+      messaging: this.messaging,
+      blog: this.blog,
+      composio: this.composio,
+      agency: this.agency,
+      rcs: this.rcs,
+      logger: this.logger,
+      metrics: this.metrics,
+    }));
     this.app.use("/api", createRevenueRouter(this.metrics, {
       accounts: this.accounts,
       crypto: this.crypto.payments,
@@ -256,6 +270,11 @@ export class ViseronWebServer {
       res.sendFile(path.join(PUBLIC_DIR, "desktop.html"));
     });
     this.app.use("/sites", express.static(path.join(this.dataDir, "sites")));
+
+    // VISERON — HUD da Superinteligência Autónoma (voz + cérebro + supervisão AIOX)
+    this.app.get("/viseron", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "viseron.html"));
+    });
 
     const blogRouter = createBlogRouter(this.blog);
     this.app.use(blogRouter);
@@ -326,6 +345,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Email: http://localhost:${this.port}/api/email/* (${this.email.transport.provider})`);
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
+        console.log(`[Viseron Web] VISERON: http://localhost:${this.port}/viseron (Superinteligência de voz · /api/viseron/chat)`);
         console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);
         console.log(`[Viseron Web] Agency OS: http://localhost:${this.port}/api/agency/* (clientes, leads, report, creativos, projeção)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);

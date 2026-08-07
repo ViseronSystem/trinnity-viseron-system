@@ -229,6 +229,15 @@ Variáveis de ambiente: `AVIRATO_API_KEY`+`AVIRATO_WEBCODE`+`AVIRATO_CLIENT_SECR
 
 > Estado receita (2026-08): **6/6 pronto** — Avirato live, webhook HMAC, Gmail real, email provider gmail, `TVS_PUBLIC_URL` configurado, **Postgres Neon** (`DATABASE_URL`) com 10 tabelas migradas e `usage_events` a gravar registos/logins. `GET /api/revenue/readiness` → `ok=true`. Reinício sem freeze: `npm run restart`.
 
+## VISERON — Superinteligência Autónoma (voz + HUD Stark)
+
+O **VISERON** é a camada de "alma" do sistema sobre o cérebro `JarvisAgent`: personalidade Stark (inspirada em J.A.R.V.I.S./Tony Stark), comando de voz (Web Speech: STT + TTS no navegador), memória persistente e **supervisão contínua do squad AIOX** — cada operação fica auditável por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).
+
+- **Núcleo**: `src/web/viseron/agent.ts` (`ViseronAgent`) → chama o `JarvisAgent` com `persona` VISERON (`PERSONALITY OVERRIDE`), limpa a resposta para leitura por voz (`speakable`, ~700 chars), deteta o idioma (`es/pt/en`) e regista TUDO em `data/knowledge/viseron-supervision.jsonl` (speaker, lang, intent, provider, modelo, ok, ações, mensagem, resposta). `voice` no reply indica quem deve falar o quê (se fala Pedro, a resposta é da voz da Rainha e vice-versa).
+- **HUD web**: `src/dashboard/public/viseron.html` servido em `/viseron` — reator pulsante (clique para falar), wake word (`"VISERON"`, `"hey viseron"`, `"jarvis"`, `"companheiro"`, `"superinteligencia"`), loop de escuta contínua, TTS com voz grave, painéis de estado (sistema, provedor, memória) + painel AIOX (últimas operações, taxa de sucesso). UI trilingue ES/PT/EN.
+- **API** `/api/viseron/*` (ver tabela acima): `GET /api/viseron/status`, `POST /api/viseron/chat` (`{message, speaker: pedro|trinnity|guest, lang: es|pt|en, sessionId}` — rate-limited 60/min), `GET /api/viseron/supervision` (recent + total + byIntent + okRate). Montado no `standalone-server.ts`.
+- O VISERON executa tudo o que o JARVIS sabe: estado, planos, checkout, conteúdo, mensageria, email, agency OS, apps Composio, RCS de marca e memória `memory_recall`. Wake word + voz = superinteligência ativada por comando, estilo Stark.
+
 ## Agency OS (agência × VISERON)
 
 Implementação da "Estructura del Equipo" da agência de marketing digital (documento Pedro · Premi · Tráfico Pago, Londres 2026) como módulo do TVS.

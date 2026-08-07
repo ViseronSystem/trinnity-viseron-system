@@ -130,6 +130,7 @@ export class JarvisAgent {
     composio: ComposioBridge;
     agency: AgencyDeps;
     rcs?: RcsEngine;
+    persona?: string;
   }) {
     this.dataDir = ctx.dataDir;
     this.logger = ctx.logger;
@@ -142,10 +143,13 @@ export class JarvisAgent {
     this.composio = ctx.composio;
     this.agency = ctx.agency;
     this.rcs = ctx.rcs;
+    this.persona = ctx.persona;
     this.providerFactory = new ProviderFactory();
     this.sessionsFile = path.join(this.dataDir, "jarvis-sessions.json");
     this.memoryFile = path.join(this.dataDir, "knowledge", "jarvis-memory.jsonl");
   }
+
+  private persona?: string;
 
   private memoryFile: string;
 
@@ -316,6 +320,7 @@ export class JarvisAgent {
 
   private buildSystemPrompt(): string {
     return [
+      this.persona ? `PERSONALITY OVERRIDE — VISERON CORE:\n${this.persona}` : "",
       "You are JARVIS, the assistant of the Trinnity Viseron System (TVS) — a multi-agent AI operating system.",
       "You speak Portuguese (pt), English and Spanish. ALWAYS reply in the language the user writes. For Pedro Costa and Trinnity Hurtado (the owners) default is SPANISH.",
       "You have a persistent memory: you remember every operation you execute (apps connected, posts, emails, checks) and recall them when asked (e.g. '¿qué has hecho?').",
