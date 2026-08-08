@@ -233,6 +233,7 @@ const omegaPlatform = (() => {
       },
     });
     const loaded = omega.loadCoreAgents();
+    omega.startAutonomyCycles();
     (global as any).__TVS_OMEGA = omega;
     console.log(`[TVS OMEGA] Kernel + Runtime ativo: ${loaded.valid} agentes nucleares carregados (${loaded.files} specs)`);
     dashboardServer.mountOmega(omega);

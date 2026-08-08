@@ -57,6 +57,7 @@ export class OmegaPlatform {
   public readonly os: TVSOs;
 
   private readonly agentManager?: AgentManager;
+  private autonomyTimer: NodeJS.Timeout | null = null;
 
   constructor(options: OmegaOptions = {}) {
     this.agentManager = options.agentManager;
@@ -168,6 +169,34 @@ export class OmegaPlatform {
     this.enterprise.attachRuntime(this.agents);
     this.watchdog.start();
     return result;
+  }
+
+  /**
+   * Liga o motor de autonomia ao kernel: a cada 2 minutos roda um ciclo de
+   * planeamento OMEGA que ENFILEIRA trabalho no kernel (supervisão) e executa
+   * as tarefas pendentes do planner — as 5000+ mentes nunca ficam a 0 tarefas.
+   */
+  public startAutonomyCycles(intervalMs: number = 2 * 60 * 1000): void {
+    if (this.autonomyTimer) return;
+    const run = async () => {
+      try {
+        const result = await this.autonomy.runCycle("planning");
+        void this.kernel.publish("omega:autonomy:scheduled", { at: Date.now(), result }, "omega-platform");
+      } catch (err: any) {
+        void this.kernel.publish("omega:autonomy:error", { at: Date.now(), error: err?.message || String(err) }, "omega-platform");
+      }
+    };
+    void run();
+    this.autonomyTimer = setInterval(run, intervalMs);
+    this.autonomyTimer.unref?.();
+    console.log(`[TVS OMEGA] Autonomy cycles ligados: kernel recebe trabalho a cada ${Math.round(intervalMs / 60000)}min (5.4k mentes nunca ficam paradas)`);
+  }
+
+  public stopAutonomyCycles(): void {
+    if (this.autonomyTimer) {
+      clearInterval(this.autonomyTimer);
+      this.autonomyTimer = null;
+    }
   }
 
   public async recordDecision(entityId: string, entityType: string, name: string, relations: { target: string; type: string; weight?: number }[], properties?: Record<string, any>): Promise<void> {
