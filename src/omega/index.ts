@@ -15,6 +15,8 @@ import { MemoryEngine } from "../core/memory/MemoryEngine";
 import { ProviderFactory } from "../core/providers/ProviderFactory";
 import { ModelRouter } from "../core/model-router/ModelRouter";
 import { bridgeEventEmitter } from "./kernel/EventBridge";
+import { ArchitectureIntelligence } from "./intelligence/architecture";
+import { CompositeVerifier } from "./verifier/composite";
 
 export interface OmegaOptions {
   agentManager?: AgentManager;
@@ -29,6 +31,8 @@ export interface OmegaOptions {
   learning?: LearningEngineAdapter;
   solutionEngine?: SolutionEngineAdapter;
   scaffolder?: ScaffolderAdapter;
+  architectureGraphPath?: string;
+  compositeVerifier?: CompositeVerifier;
 }
 
 export interface OmegaPlatformStatus {
@@ -41,6 +45,7 @@ export interface OmegaPlatformStatus {
   factory: ReturnType<FactoryEngine["status"]>;
   enterprise: ReturnType<EnterpriseHub["status"]>;
   watchdog: ReturnType<SelfHealWatchdog["status"]>;
+  architecture: { ready: boolean; summary?: ReturnType<ArchitectureIntelligence["summary"]> };
 }
 
 const SPECS_DIR = path.join(__dirname, "agent-runtime", "specs");
@@ -58,6 +63,7 @@ export class OmegaPlatform {
   public readonly enterprise: EnterpriseHub;
   public readonly watchdog: SelfHealWatchdog;
   public readonly os: TVSOs;
+  public readonly architecture: ArchitectureIntelligence;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -196,6 +202,10 @@ export class OmegaPlatform {
       return { status: "PASS", reasons };
     });
 
+    if (options.compositeVerifier) {
+      this.kernel.attachVerifier(options.compositeVerifier);
+    }
+
     if (options.toolManager && typeof options.toolManager.listTools === "function") {
       this.kernel.attachTools({
         listTools: () =>
@@ -246,6 +256,8 @@ export class OmegaPlatform {
       watchdog: this.watchdog,
     });
     this.os.boot();
+
+    this.architecture = new ArchitectureIntelligence({ graphPath: options.architectureGraphPath }).initialize();
 
     // Memória persistente: cada task concluída (ou falhada) é gravada no
     // KnowledgeGraph + memória de longo prazo — nunca se perde no restart.
@@ -349,6 +361,9 @@ export class OmegaPlatform {
       factory: this.factory.status(),
       enterprise: this.enterprise.status(),
       watchdog: this.watchdog.status(),
+      architecture: this.architecture.isReady()
+        ? { ready: true, summary: this.architecture.summary() }
+        : { ready: false },
     };
   }
 }

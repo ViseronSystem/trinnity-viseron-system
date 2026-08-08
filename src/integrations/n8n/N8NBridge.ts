@@ -5,6 +5,7 @@ import { spawn, ChildProcess } from "child_process";
 import * as http from "http";
 import * as path from "path";
 import * as fs from "fs";
+import type { IntegrationBridge } from "../contract";
 
 interface WorkflowStep {
   id: string;
@@ -20,7 +21,8 @@ interface WorkflowTemplate {
   triggers: string[];
 }
 
-export class N8NBridge {
+export class N8NBridge implements IntegrationBridge {
+  public readonly name = "N8N Automation Engine";
   private toolManager: ToolManager;
   private agentManager: AgentManager;
   private memoryEngine: MemoryEngine;
@@ -140,7 +142,7 @@ export class N8NBridge {
     );
   }
 
-  async initialize(): Promise<boolean> {
+  async initialize(): Promise<number> {
     console.log(`[N8NBridge] Initializing automation engine...`);
     console.log(`[N8NBridge] ${this.templates.length} workflow templates loaded`);
     console.log(`[N8NBridge] Local workflow engine active`);
@@ -156,7 +158,7 @@ export class N8NBridge {
       console.log(`[N8NBridge] n8n start failed: ${e.message} - using local engine`);
     }
 
-    return true;
+    return this.templates.length;
   }
 
   private tryStartN8n(): Promise<boolean> {

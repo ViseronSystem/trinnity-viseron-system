@@ -724,6 +724,88 @@ async function runOmegaTests() {
     assert(chunks.length === afterClose, "Bridge: SSE deixa de escrever após close/unsubscribe");
   }
 
+  // ── 20. Composite Verifier (interface Verifier + CompositeVerifier + Kernel.attachVerifier) ──
+  {
+    const { CompositeVerifier, toVerifierFn } = await import("../src/omega/verifier/composite");
+    const { TaskVerifier, resultTruthy, schemaRule } = await import("../src/omega/verifier/TaskVerifier");
+
+    const passVerifier = { name: "pass", verify: async () => ({ status: "PASS" as const, reasons: [] }) };
+    const failVerifier = { name: "fail", verify: async () => ({ status: "FAIL" as const, reasons: ["nope"] }) };
+    const retryVerifier = { name: "retry", verify: async () => ({ status: "RETRY" as const, reasons: ["try again"] }) };
+
+    const composite = new CompositeVerifier([passVerifier]);
+    assert(composite.size === 1 && composite.name === "CompositeVerifier", "CompositeVerifier: cria com lista inicial e name");
+
+    const allPass = await composite.verify({ type: "t" }, { ok: true });
+    assert(allPass.status === "PASS" && allPass.reasons[0] === "all verifiers passed", "CompositeVerifier: todos PASS → PASS");
+
+    composite.add(failVerifier);
+    assert(composite.size === 2, "CompositeVerifier: add() incremental");
+    const withFail = await composite.verify({ type: "t" }, { ok: true });
+    assert(withFail.status === "FAIL" && withFail.reasons[0].includes("[fail]"), "CompositeVerifier: um FAIL → FAIL com origem no nome");
+
+    composite.add(retryVerifier);
+    const withRetry = await composite.verify({ type: "t" }, { ok: true });
+    assert(withRetry.status === "FAIL", "CompositeVerifier: FAIL tem prioridade sobre RETRY");
+
+    const retryOnly = new CompositeVerifier([passVerifier, retryVerifier]).verify({ id: "t", type: "x", title: "t", priority: "normal" }, {});
+    const retryRes = await retryOnly;
+    assert(retryRes.status === "RETRY", "CompositeVerifier: RETRY > PASS");
+
+    const humanOnly = new CompositeVerifier([retryVerifier, { name: "human", verify: async () => ({ status: "HUMAN" as const, reasons: [] }) }]).verify({ id: "t", type: "x", title: "t", priority: "normal" }, {});
+    const humanRes = await humanOnly;
+    assert(humanRes.status === "HUMAN", "CompositeVerifier: HUMAN > RETRY");
+
+    const throwing = new CompositeVerifier([{ name: "boom", verify: async () => { throw new Error("x"); } }]).verify({ id: "t", type: "x", title: "t", priority: "normal" }, {});
+    const throwRes = await throwing;
+    assert(throwRes.status === "FAIL" && throwRes.reasons[0].includes("[boom]"), "CompositeVerifier: verifier que lança erro → FAIL isolado");
+
+    const fn = toVerifierFn(failVerifier);
+    const viaFn = await fn({ id: "t", type: "x", title: "t", priority: "normal" } as any, {}, {});
+    assert(viaFn.status === "FAIL" && Array.isArray(viaFn.reasons), "CompositeVerifier: toVerifierFn adapta para TaskVerifierFn");
+
+    const taskVerifier = new TaskVerifier();
+    taskVerifier.addRules("*", [resultTruthy(), schemaRule(["output"])]);
+    const ruleRes = await taskVerifier.verify({ type: "x" }, { success: true, output: "o" });
+    assert(ruleRes.status === "PASS" && ruleRes.passed === 2, "TaskVerifier: implementa Verifier e valida rules");
+    const ruleFail = await taskVerifier.verify({ type: "x" }, { success: false });
+    assert(ruleFail.status === "FAIL" && ruleFail.failed === 2, "TaskVerifier: rules falham → FAIL");
+
+    const kernel = new Kernel();
+    kernel.attachVerifier(new CompositeVerifier([taskVerifier]));
+    const kTask = await kernel.runTask("e2e", "composite task", {}, "normal", { id: "root", name: "Root", role: "root" });
+    assert(kTask.id.startsWith("task_"), "Kernel: attachVerifier aceita Verifier e converte internamente");
+    assert(kernel.status().tasks.verifier.attached === true, "Kernel: verifierStats.attached reflete attachVerifier");
+  }
+
+  // ── 21. Architecture Intelligence (GraphifyAdapter + RiskAnalyzer + ContextBuilder) ──
+  {
+    const { ArchitectureIntelligence } = await import("../src/omega/intelligence/architecture");
+    const graphPath = path.join(process.cwd(), "graphify-out", "graph.json");
+    const ai = new ArchitectureIntelligence({ graphPath }).initialize();
+    assert(ai.isReady() === true, "ArchitectureIntelligence: carrega graph.json do repositório");
+
+    const summary = ai.summary() as { ready: true; stats: any; risk: any; provenance: any };
+    assert(summary.ready === true && summary.stats.nodes > 1000, "ArchitectureIntelligence: summary expõe stats reais do grafo");
+    assert(summary.provenance.origin === "VISERON" && summary.provenance.kernel === "OMEGA", "ArchitectureIntelligence: provenance registada (VISERON/OMEGA/AIOX/Pedro-Trinnity)");
+    assert(summary.stats.topHubs.length > 0 && summary.stats.topHubs[0].degree >= 10, "ArchitectureIntelligence: top hubs com grau real");
+    assert(summary.risk.highCount + summary.risk.mediumCount + summary.risk.lowCount === summary.risk.items.length, "RiskAnalyzer: contagens batem com itens");
+
+    const q = ai.query("TaskQueue");
+    assert(q.nodes.length > 0 && q.reason.startsWith("subgraph"), "ContextBuilder: query devolve subgrafo relevante, não o grafo inteiro");
+    assert(q.files.length <= 20, "ContextBuilder: limite de ficheiros respeitado");
+
+    const impact = ai.adapter.impact("src_omega_kernel_taskqueue", 1);
+    assert(impact.subject.startsWith("src_omega"), "GraphifyAdapter: impact devolve o subject normalizado");
+    assert(impact.affectedNodes.every((n) => n.hops <= 1), "GraphifyAdapter: impact respeita maxHops");
+
+    const pathRes = ai.adapter.pathBetween("src_omega_kernel_kernel", "src_omega_kernel_taskqueue");
+    assert(pathRes.found === true, "GraphifyAdapter: pathBetween encontra caminho entre módulos do kernel");
+
+    const context = ai.context.forFiles(["src/omega/kernel/Kernel.ts", "src/omega/kernel/TaskQueue.ts"]);
+    assert(context.nodes.length > 0, "ContextBuilder: forFiles devolve cluster em torno dos ficheiros fornecidos");
+  }
+
   console.log(`\n==========================================`);
   console.log(total === passed ? `✅ OMEGA: ${passed}/${total} testes passaram` : `❌ OMEGA: ${passed}/${total} — FALHAS DETETADAS`);
   console.log(`==========================================\n`);

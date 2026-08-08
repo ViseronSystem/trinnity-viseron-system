@@ -4,6 +4,7 @@ import { ToolManager } from "../../core/tools/ToolManager";
 import { SmartAgent, SmartAgentConfig } from "../../core/agents/SmartAgent";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ModelRouter } from "../../core/model-router/ModelRouter";
+import type { IntegrationBridge } from "../contract";
 
 export interface CallSystemConfig {
   twilioAccountSid?: string;
@@ -33,7 +34,7 @@ export interface CallResult {
   error?: string;
 }
 
-export class CallSystemBridge {
+export class CallSystemBridge implements IntegrationBridge {
   public name = "TVS AI Call System";
   private config: CallSystemConfig;
   private agentManager: AgentManager;

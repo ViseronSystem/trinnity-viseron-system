@@ -1,4 +1,5 @@
 import { VerificationStatus } from "../kernel/TaskQueue";
+import { Verifier } from "./composite";
 
 export interface VerificationRule {
   id: string;
@@ -18,7 +19,8 @@ export interface VerificationResult {
 
 const DEFAULT_ON_FAIL: Exclude<VerificationStatus, "PASS"> = "FAIL";
 
-export class TaskVerifier {
+export class TaskVerifier implements Verifier {
+  public readonly name = "TaskVerifier";
   private rules = new Map<string, VerificationRule[]>();
 
   constructor(rules?: Record<string, VerificationRule[]>) {

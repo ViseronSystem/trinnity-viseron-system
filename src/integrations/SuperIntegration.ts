@@ -6,6 +6,8 @@ import { OmniRouteHub } from "./omniroute/OmniRouteHub";
 import { CallSystemBridge } from "./call-system/CallSystemBridge";
 import { OpenJarvisBridge } from "./openjarvis/OpenJarvisBridge";
 import { ASNOBridge } from "./asno/ASNOBridge";
+import type { IntegrationBridge } from "./contract";
+import { initBridge, shutdownBridge } from "./contract";
 
 export interface SuperIntegrationStats {
   totalAgents: number;
@@ -41,67 +43,42 @@ export class SuperIntegration {
     console.log(`   TVS SUPER INTEGRATION - ALL MODULES`);
     console.log(`══════════════════════════════════════════════════════════════\n`);
 
-    const results: Record<string, { status: string; count?: number; error?: string }> = {};
-
-    results.viseronApps = await this.initModule("Viseron Apps", async () => {
-      this.viseronApps = new ViseronAppsIntegrationEngine(
+    const modules: Record<string, () => IntegrationBridge> = {
+      viseronApps: () => new ViseronAppsIntegrationEngine(
         this.tvs.agentManager, this.tvs.providerFactory, this.tvs.modelRouter,
         this.tvs.toolManager, this.tvs.memoryEngine
-      );
-      await this.viseronApps.initialize();
-      return this.viseronApps.getStats().totalIntegrations + this.viseronApps.getStats().totalAgents;
-    });
-
-    results.tvsTools = await this.initModule("TVS GitHub Tools", async () => {
-      this.tvsTools = new TVSToolsIntegration(
+      ),
+      tvsTools: () => new TVSToolsIntegration(
         this.tvs.toolManager, this.tvs.agentManager, this.tvs.memoryEngine
-      );
-      return await this.tvsTools.initialize();
-    });
-
-    results.omniroute = await this.initModule("OmniRoute Gateway (290+ providers)", async () => {
-      this.omnirouteBridge = new OmniRouteBridge(this.tvs.aiBridge, { port: 20128, autoStart: true });
-      return await this.omnirouteBridge.initialize();
-    });
-
-    results.omnirouteHub = await this.initModule("OmniRoute Hub (all pools)", async () => {
-      this.omnirouteHub = new OmniRouteHub(this.tvs.aiBridge, { port: 20128, autoStart: false });
-      return await this.omnirouteHub.initialize();
-    });
-
-    results.callSystem = await this.initModule("AI Call System (Twilio + Voice)", async () => {
-      this.callSystem = new CallSystemBridge(
+      ),
+      omniroute: () => new OmniRouteBridge(this.tvs.aiBridge, { port: 20128, autoStart: true }),
+      omnirouteHub: () => new OmniRouteHub(this.tvs.aiBridge, { port: 20128, autoStart: false }),
+      callSystem: () => new CallSystemBridge(
         this.tvs.agentManager, this.tvs.toolManager,
         this.tvs.providerFactory, this.tvs.modelRouter
-      );
-      return await this.callSystem.initialize();
-    });
-
-    results.openJarvis = await this.initModule("OpenJarvis Personal AI (Stanford)", async () => {
-      this.openJarvis = new OpenJarvisBridge(
+      ),
+      openJarvis: () => new OpenJarvisBridge(
         this.tvs.agentManager, this.tvs.toolManager
-      );
-      return await this.openJarvis.initialize();
-    });
-
-    results.asno = await this.initModule("ASNO AI JARVIS Assistant", async () => {
-      this.asno = new ASNOBridge(
+      ),
+      asno: () => new ASNOBridge(
         this.tvs.agentManager, this.tvs.toolManager
-      );
-      return await this.asno.initialize();
-    });
+      ),
+    };
+
+    const results: Record<string, { status: string; count?: number; error?: string }> = {};
+    const bridgeKeys: Record<string, keyof SuperIntegration> = {
+      viseronApps: "viseronApps", tvsTools: "tvsTools", omniroute: "omnirouteBridge",
+      omnirouteHub: "omnirouteHub", callSystem: "callSystem", openJarvis: "openJarvis", asno: "asno",
+    };
+
+    for (const [key, factory] of Object.entries(modules)) {
+      const bridge = factory();
+      (this as any)[bridgeKeys[key]] = bridge;
+      const r = await initBridge(bridge);
+      results[key] = { status: r.status, count: r.count, error: r.error };
+    }
 
     return this.calculateStats(results);
-  }
-
-  private async initModule(name: string, fn: () => Promise<number>): Promise<{ status: string; count?: number; error?: string }> {
-    try {
-      const count = await fn();
-      return { status: "ok", count };
-    } catch (err: any) {
-      console.error(`  [${name}] ERRO: ${err.message}`);
-      return { status: "error", error: err.message };
-    }
   }
 
   private calculateStats(results: Record<string, any>): SuperIntegrationStats {
@@ -135,10 +112,10 @@ export class SuperIntegration {
   }
 
   async shutdownAll(): Promise<void> {
-    for (const mod of [this.omnirouteBridge, this.omnirouteHub, this.callSystem, this.openJarvis, this.asno]) {
-      if (mod && typeof (mod as any).stop === "function") {
-        try { (mod as any).stop(); } catch {}
-      }
+    for (const bridge of [
+      this.omnirouteBridge, this.omnirouteHub, this.callSystem, this.openJarvis, this.asno,
+    ]) {
+      await shutdownBridge(bridge as IntegrationBridge);
     }
   }
 }

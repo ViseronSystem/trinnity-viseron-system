@@ -1,8 +1,8 @@
 import { Kernel } from "../kernel/Kernel";
 import { heartbeats } from "./Heartbeats";
-import { AgentRuntime } from "../agent-runtime/AgentRuntime";
-import { SquadRegistry } from "../squads";
-import { AutonomyLayer } from "../autonomy";
+import type { AgentRuntime } from "../agent-runtime/AgentRuntime";
+import type { SquadRegistry } from "../squads";
+import type { AutonomyLayer } from "../autonomy";
 
 const DEFAULT_TICK_MS = 30000;
 const DEFAULT_STALE_MS = 180000;

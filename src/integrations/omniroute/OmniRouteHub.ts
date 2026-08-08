@@ -2,6 +2,7 @@ import { OmniRouteBridge, OmniRouteConfig } from "./OmniRouteBridge";
 import { AIProviderBridge, AIProviderConfig } from "../../core/bridge/AIProviderBridge";
 import { ILLMProvider } from "../../core/providers/BaseProvider";
 import { ModelProvider } from "../../core/types";
+import type { IntegrationBridge } from "../contract";
 
 export interface OmniRouteProviderSpec {
   id: string;
@@ -45,7 +46,8 @@ const OMNIROUTE_CATALOG: OmniRouteProviderSpec[] = [
     ] },
 ];
 
-export class OmniRouteHub {
+export class OmniRouteHub implements IntegrationBridge {
+  public readonly name = "OmniRoute Hub (all pools)";
   private bridge: OmniRouteBridge;
   private aiBridge: AIProviderBridge;
 

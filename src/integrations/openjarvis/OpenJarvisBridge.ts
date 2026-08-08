@@ -5,6 +5,7 @@ import { ToolManager } from "../../core/tools/ToolManager";
 import { SmartAgent, SmartAgentConfig } from "../../core/agents/SmartAgent";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ModelRouter } from "../../core/model-router/ModelRouter";
+import type { IntegrationBridge } from "../contract";
 import axios from "axios";
 
 export interface OpenJarvisConfig {
@@ -15,7 +16,7 @@ export interface OpenJarvisConfig {
   agentName: string;
 }
 
-export class OpenJarvisBridge {
+export class OpenJarvisBridge implements IntegrationBridge {
   public name = "OpenJarvis Personal AI (Stanford)";
   private config: OpenJarvisConfig;
   private process: ChildProcess | null = null;

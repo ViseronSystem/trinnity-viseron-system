@@ -4,6 +4,7 @@ import { ModelRouter } from "../../core/model-router/ModelRouter";
 import { ToolManager } from "../../core/tools/ToolManager";
 import { MemoryEngine } from "../../core/memory/MemoryEngine";
 import { SmartAgent } from "../../core/agents/SmartAgent";
+import type { IntegrationBridge } from "../contract";
 
 import {
   createCifraSmartAgent, createCifraMessageRouterAgent,
@@ -23,7 +24,8 @@ export interface ViseronAppIntegration {
   lastSync: number;
 }
 
-export class ViseronAppsIntegrationEngine {
+export class ViseronAppsIntegrationEngine implements IntegrationBridge {
+  public readonly name = "Viseron Apps Integration Engine";
   private agentManager: AgentManager;
   private providerFactory: ProviderFactory;
   private modelRouter: ModelRouter;
@@ -47,7 +49,7 @@ export class ViseronAppsIntegrationEngine {
     this.memoryEngine = memoryEngine;
   }
 
-  async initialize(): Promise<void> {
+  async initialize(): Promise<number> {
     console.log(`\n═══════════════════════════════════════════════`);
     console.log(`   VISERON APPS - INTEGRATION ENGINE`);
     console.log(`   Inyectando inteligencia TVS en apps Viseron`);
@@ -58,6 +60,8 @@ export class ViseronAppsIntegrationEngine {
 
     this.registerKnowledge();
     this.logSummary();
+
+    return this.allAgents.length;
   }
 
   private async initializeCifra(): Promise<void> {

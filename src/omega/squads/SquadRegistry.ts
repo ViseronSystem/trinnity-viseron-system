@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { SquadSpec, parseSquadSpec } from "./SquadSpec";
-import { AgentRuntime } from "../agent-runtime/AgentRuntime";
+import type { AgentRuntime } from "../agent-runtime/AgentRuntime";
 import { heartbeats } from "../selfheal";
 
 const AGENT_TIMEOUT_MS = 180000;

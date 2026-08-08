@@ -4,6 +4,7 @@ import * as fs from "fs-extra";
 import { OmniRouteProvider } from "./OmniRouteProvider";
 import { AIProviderBridge, AIProviderConfig } from "../../core/bridge/AIProviderBridge";
 import { ILLMProvider } from "../../core/providers/BaseProvider";
+import type { IntegrationBridge } from "../contract";
 
 // NOTA (v3): o OmniRoute é agora um SERVIÇO PERSISTENTE independente do TVS.
 // Arranca DETACHED com log próprio e sobrevive aos restarts do TVS — nunca é
@@ -18,7 +19,7 @@ export interface OmniRouteConfig {
   baseUrl: string;
 }
 
-export class OmniRouteBridge {
+export class OmniRouteBridge implements IntegrationBridge {
   public name = "OmniRoute AI Gateway";
   public provider: OmniRouteProvider;
   private process: ChildProcess | null = null;

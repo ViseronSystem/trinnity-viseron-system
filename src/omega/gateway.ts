@@ -168,6 +168,36 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json({ roles: omega.kernel.permissions.listRoles() });
   });
 
+  // ── ARCHITECTURE INTELLIGENCE ──
+  router.get("/architecture", (_req, res) => {
+    if (!omega.architecture.isReady()) return res.status(503).json({ ready: false });
+    res.json(omega.architecture.summary());
+  });
+
+  router.get("/architecture/query", (req, res) => {
+    const term = (req.query.q as string) || "";
+    if (!term) return res.status(400).json({ error: "q required (e.g. ?q=TaskQueue)" });
+    const bundle = omega.architecture.query(term);
+    res.json({ ...bundle, provenance: omega.architecture.provenance });
+  });
+
+  router.get("/architecture/risks", (req, res) => {
+    const subject = (req.query.subject as string) || undefined;
+    res.json(omega.architecture.risks.analyze(subject));
+  });
+
+  router.get("/architecture/path", (req, res) => {
+    const { from, to } = req.query as { from?: string; to?: string };
+    if (!from || !to) return res.status(400).json({ error: "from and to required" });
+    res.json(omega.architecture.adapter.pathBetween(from, to));
+  });
+
+  router.get("/architecture/impact", (req, res) => {
+    const subject = (req.query.subject as string) || "";
+    if (!subject) return res.status(400).json({ error: "subject required" });
+    res.json(omega.architecture.adapter.impact(subject, Number(req.query.hops) || 2));
+  });
+
   // ── AUTONOMY LAYER ──
   router.get("/autonomy", (_req, res) => {
     res.json(omega.autonomy.status());

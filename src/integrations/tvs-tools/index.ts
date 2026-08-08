@@ -4,6 +4,7 @@ import { MemoryEngine } from "../../core/memory/MemoryEngine";
 import { execSync } from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
+import type { IntegrationBridge } from "../contract";
 
 const PYTHON = process.env.TVS_PYTHON || "python";
 const SCRIPTS = process.env.TVS_PYTHON_SCRIPTS || "";
@@ -13,7 +14,7 @@ function run(cmd: string): string {
   catch (e: any) { return `[ERRO] ${e.message}`; }
 }
 
-export class TVSToolsIntegration {
+export class TVSToolsIntegration implements IntegrationBridge {
   public name = "TVS Tools Integration";
   public tools: string[] = [];
 

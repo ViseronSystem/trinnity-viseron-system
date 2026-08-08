@@ -1,6 +1,7 @@
 import { EventBus, EventBusStats, KernelEvent } from "./EventBus";
 import { TaskQueue, TaskQueueStats, KernelTask, TaskPriority, TaskPlanner, TaskVerifierFn } from "./TaskQueue";
 import { Permissions, Actor, PermissionRole } from "./Permissions";
+import { Verifier, toVerifierFn } from "../verifier/composite";
 
 export interface AgentRegistryAdapter {
   getAgents(): { id: string; name: string; role: string; status: string; capabilities: string[] }[];
@@ -85,6 +86,11 @@ export class Kernel {
 
   public setVerifier(verifier: TaskVerifierFn): void {
     this.tasks.setVerifier(verifier);
+  }
+
+  public attachVerifier(verifier: Verifier): void {
+    this.tasks.setVerifier(toVerifierFn(verifier));
+    void this.events.publish("kernel:attached", { component: "verifier", name: verifier.name }, "kernel");
   }
 
   public getTools(): { id: string; name: string; type: string; description: string; enabled: boolean }[] {

@@ -4,6 +4,7 @@ import { ToolManager } from "../../core/tools/ToolManager";
 import { SmartAgent, SmartAgentConfig } from "../../core/agents/SmartAgent";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
 import { ModelRouter } from "../../core/model-router/ModelRouter";
+import type { IntegrationBridge } from "../contract";
 import axios from "axios";
 
 export interface ASNOConfig {
@@ -17,7 +18,7 @@ export interface ASNOConfig {
   defaultVoice: string;
 }
 
-export class ASNOBridge {
+export class ASNOBridge implements IntegrationBridge {
   public name = "ASNO AI - JARVIS Assistant";
   private config: ASNOConfig;
   private agentManager: AgentManager;
