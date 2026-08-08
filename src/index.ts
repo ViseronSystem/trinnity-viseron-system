@@ -236,6 +236,9 @@ const omegaPlatform = (() => {
     (global as any).__TVS_OMEGA = omega;
     console.log(`[TVS OMEGA] Kernel + Runtime ativo: ${loaded.valid} agentes nucleares carregados (${loaded.files} specs)`);
     dashboardServer.mountOmega(omega);
+    // Liga o OMEGA (kernel + runtime + watchdog) à web API 32123 — o /api/os
+    // passa a servir o OS completo, não a casca vazia.
+    webServer.mountOmega(omega);
     return omega;
   } catch (e: any) {
     console.warn(`[TVS OMEGA] Não iniciado: ${e?.message || e}`);

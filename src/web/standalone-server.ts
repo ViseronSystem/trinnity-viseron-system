@@ -43,6 +43,7 @@ import { CryptoDeps, createCryptoDeps } from "./crypto/deps";
 import { createCryptoRouter } from "./crypto/routes";
 import { RcsEngine } from "../core/rcs/RcsEngine";
 import { createRcsRouter } from "./rcs/routes";
+import { createOmegaGateway } from "../omega/gateway";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -69,6 +70,7 @@ export class ViseronWebServer {
   private crypto: CryptoDeps;
   private rcs: RcsEngine;
   private os: TVSOs;
+  private osRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
@@ -114,6 +116,25 @@ export class ViseronWebServer {
     this.setupMiddleware();
     this.setupRoutes();
     this.setupSocket();
+  }
+
+  public mountOmega(omega: any): void {
+    try {
+      if (omega?.os) {
+        this.osRouter.stack = createOsGateway(omega.os).stack;
+        console.log(`[Web] OMEGA ligado à web API: /api/os usa o OS completo (kernel + runtime + watchdog)`);
+      }
+      if (omega && typeof omega.gateway === "function") {
+        const omegaGateway = createOmegaGateway(omega);
+        this.app.use("/api/omega", omegaGateway);
+      }
+    } catch (err) {
+      console.warn(`[Web] mountOmega falhou: ${(err as any)?.message || err}`);
+    }
+  }
+
+  public getOmegaRouter(): express.Router | undefined {
+    return this.osRouter;
   }
 
   private setupMiddleware(): void {
@@ -269,7 +290,11 @@ export class ViseronWebServer {
     this.app.use("/api", createRcsRouter(this.rcs));
 
     // TVS OS — API (/api/os) · Process Manager · Virtual FS · App Store · Security
-    this.app.use("/api/os", createOsGateway(this.os));
+    // O router é guardado para o mountOmega trocar a stack (igual ao dashboard):
+    // quando o OMEGA (kernel+runtime+watchdog) carrega, a mesma rota passa a
+    // servir o OS completo.
+    this.osRouter = createOsGateway(this.os);
+    this.app.use("/api/os", this.osRouter);
 
     // TVS Desktop — página do sistema operativo
     this.app.get("/os", (_req, res) => {
