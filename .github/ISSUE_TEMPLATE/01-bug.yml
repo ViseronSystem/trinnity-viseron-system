@@ -1,0 +1,49 @@
+name: Bug report
+description: Reporta um erro para corrigir
+title: "fix(scope): "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Bug report"
+  - type: textarea
+    id: what
+    attributes:
+      label: O que aconteceu?
+      description: Descreve o comportamento atual e o esperado.
+      placeholder: "Ao fazer X, o sistema faz Y, mas devia fazer Z."
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Passos para reproduzir
+      description: Passos concretos para reproduzir o bug.
+      placeholder: "1. Ir a ...\n2. Clicar em ...\n3. Erro..."
+  - type: input
+    id: issue
+    attributes:
+      label: Issue relacionada
+      description: Se aplicável, a Issue original desta funcionalidade.
+      placeholder: "#123"
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severidade
+      options:
+        - blocker (sistema parado)
+        - high (funcionalidade partida)
+        - medium (comportamento errado)
+        - low (cosmético)
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Logs relevantes (sem segredos/chaves) ou screenshots.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmações
+      options:
+        - label: Sem segredos, chaves ou seeds no conteúdo
+          required: true
