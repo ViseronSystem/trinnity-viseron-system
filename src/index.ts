@@ -1,4 +1,5 @@
 import "dotenv/config";
+import * as path from "path";
 import { ViseronCore } from "./core/ViseronCore";
 import { TVSDashboardServer } from "./dashboard/server";
 import { IAgent, AgentExecutionResult } from "./core/types";
@@ -215,6 +216,8 @@ const omegaPlatform = (() => {
       memoryEngine: (tvs as any).memoryEngine,
       providerFactory: (tvs as any).providerFactory,
       modelRouter: (tvs as any).modelRouter,
+      taskQueuePath: path.join(process.cwd(), "data", "state", "task-queue.json"),
+      toolManager: (tvs as any).toolManager,
       planner: (tvs as any).autonomousPlanner,
       evolution: (tvs as any).autoEvolutionEngine,
       learning: (tvs as any).hyperLearningEngine,

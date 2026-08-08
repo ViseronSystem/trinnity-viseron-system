@@ -124,9 +124,10 @@ export class ViseronWebServer {
         this.osRouter.stack = createOsGateway(omega.os).stack;
         console.log(`[Web] OMEGA ligado à web API: /api/os usa o OS completo (kernel + runtime + watchdog)`);
       }
-      if (omega && typeof omega.gateway === "function") {
+      if (omega && omega.kernel) {
         const omegaGateway = createOmegaGateway(omega);
         this.app.use("/api/omega", omegaGateway);
+        console.log(`[Web] OMEGA ligado à web API: /api/omega (kernel + tasks E2E + verifier)`);
       }
     } catch (err) {
       console.warn(`[Web] mountOmega falhou: ${(err as any)?.message || err}`);

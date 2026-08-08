@@ -1,5 +1,5 @@
 import { EventBus, KernelEvent } from "./EventBus";
-import { TaskQueue, TaskQueueStats, KernelTask, TaskPriority } from "./TaskQueue";
+import { TaskQueue, TaskQueueStats, KernelTask, TaskPriority, TaskPlanner, TaskVerifierFn } from "./TaskQueue";
 import { Permissions, Actor, PermissionRole } from "./Permissions";
 
 export interface AgentRegistryAdapter {
@@ -13,6 +13,11 @@ export interface MemoryAdapter {
   getStats(): any;
 }
 
+export interface ToolAdapter {
+  listTools(): { id: string; name: string; type: string; description: string; enabled: boolean }[];
+  executeTool(toolId: string, input: Record<string, any>): Promise<any>;
+}
+
 export interface AIRouterAdapter {
   route(criteria: any): any;
   resolve(task: string, opts?: any): Promise<{ provider: string; modelName: string; isLocal: boolean; text: string }>;
@@ -24,12 +29,13 @@ export interface KernelStatus {
   uptimeMs: number;
   startedAt: number;
   events: { topics: number; totalSubscribers: number; totalEmitted: number };
-  tasks: TaskQueueStats;
+  tasks: TaskQueueStats & { verifier: { attached: boolean; verified: number; failed: number } };
   agents: { total: number; active: number };
+  tools: { total: number; enabled: number };
   roles: string[];
 }
 
-const KERNEL_VERSION = "1.0.0";
+const KERNEL_VERSION = "1.1.0";
 
 export class Kernel {
   public readonly name = "TVS Kernel";
@@ -42,10 +48,14 @@ export class Kernel {
   private agentRegistry?: AgentRegistryAdapter;
   private memory?: MemoryAdapter;
   private aiRouter?: AIRouterAdapter;
+  private toolsAdapter?: ToolAdapter;
 
-  constructor(options?: { concurrency?: number; permissions?: ConstructorParameters<typeof Permissions>[0] }) {
+  constructor(options?: { concurrency?: number; taskQueuePath?: string; permissions?: ConstructorParameters<typeof Permissions>[0] }) {
     this.events = new EventBus();
-    this.tasks = new TaskQueue(this.events, { concurrency: options?.concurrency ?? 4 });
+    this.tasks = new TaskQueue(this.events, {
+      concurrency: options?.concurrency ?? 4,
+      filePath: options?.taskQueuePath,
+    });
     this.permissions = new Permissions(options?.permissions);
   }
 
@@ -62,6 +72,45 @@ export class Kernel {
   public attachAIRouter(adapter: AIRouterAdapter): void {
     this.aiRouter = adapter;
     void this.events.publish("kernel:attached", { component: "aiRouter" }, "kernel");
+  }
+
+  public attachTools(adapter: ToolAdapter): void {
+    this.toolsAdapter = adapter;
+    void this.events.publish("kernel:attached", { component: "tools" }, "kernel");
+  }
+
+  public setPlanner(planner: TaskPlanner): void {
+    this.tasks.setPlanner(planner);
+  }
+
+  public setVerifier(verifier: TaskVerifierFn): void {
+    this.tasks.setVerifier(verifier);
+  }
+
+  public getTools(): { id: string; name: string; type: string; description: string; enabled: boolean }[] {
+    return this.toolsAdapter?.listTools() ?? [];
+  }
+
+  public async executeTool(toolId: string, input: Record<string, any>, meta?: { taskId?: string }): Promise<any> {
+    if (!this.toolsAdapter) throw new Error("[Kernel] No tool adapter attached");
+    await this.events.publish("tool.called", { toolId, input, taskId: meta?.taskId }, "kernel");
+    let executed: any;
+    try {
+      executed = await this.toolsAdapter.executeTool(toolId, input);
+    } catch (err: any) {
+      executed = { success: false, error: err?.message || String(err), executionTimeMs: 0 };
+    }
+    const call = {
+      toolId,
+      input,
+      taskId: meta?.taskId,
+      success: executed?.success !== false,
+      result: executed?.result ?? executed?.output ?? executed,
+      error: executed?.error,
+      executionTimeMs: executed?.executionTimeMs ?? 0,
+    };
+    await this.events.publish(call.success ? "tool.completed" : "tool.failed", { ...call }, "kernel");
+    return call;
   }
 
   public publish<T = any>(topic: string, payload: T, source?: string): Promise<void> {
@@ -107,14 +156,16 @@ export class Kernel {
 
   public status(): KernelStatus {
     const agents = this.getAgents();
+    const tools = this.getTools();
     return {
       name: this.name,
       version: this.version,
       uptimeMs: Date.now() - this.startedAt,
       startedAt: this.startedAt,
       events: this.events.getStats(),
-      tasks: this.tasks.getStats(),
+      tasks: { ...this.tasks.getStats(), verifier: this.tasks.verifierStats() },
       agents: { total: agents.length, active: agents.filter((a) => a.status === "ACTIVE").length },
+      tools: { total: tools.length, enabled: tools.filter((t) => t.enabled).length },
       roles: this.permissions.listRoles(),
     };
   }

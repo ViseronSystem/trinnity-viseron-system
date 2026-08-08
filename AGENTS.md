@@ -331,6 +331,19 @@ Reposicionamento estratégico do TVS (análise independente 2026-08): de "plataf
 - **Roadmap**: 90 dias (verdade técnica + OMEGA Kernel) → 12-36m (Enterprise Autonomy + 10 clientes + OMEGA Aerospace) → 36-60m (Robotics/Energy/Manufacturing/Science → AI + Physical Infrastructure → TRINNITY AI ECOSYSTEM).
 - **Comando**: `npm run omega:plan` → `data/Viseron_OMEGA_Master_Plan.pdf`. Backlog priorizado (P0-P3) no documento Markdown.
 
+## Execution OS — E2E Task Execution verificado (2026-08)
+
+Implementação do primeiro pilar do OMEGA Kernel: **pipeline de execução de tarefas ponta-a-ponta com verificação real**. Uma tarefa entra, recebe ID, passa por plano → fila → agente → ferramentas → execução → **verificação** → resultado, e é **persistida + gravada na memória** — nada morre no restart.
+
+- **TaskQueue** (`src/omega/kernel/TaskQueue.ts`): 9 estados `CREATED → PLANNING → QUEUED → RUNNING → VERIFYING → COMPLETED` (+ `FAILED → RECOVERING → retry`, `CANCELLED`). Fila **persistente** (opção `filePath`, default `data/state/task-queue.json`) — tasks pendentes/em execução sobrevivem a restart e são retomadas via `RECOVERING`. `cancel()` também cancela tasks em RUNNING.
+- **Verifier** (`src/omega/verifier/TaskVerifier.ts`): engine reutilizável de regras (schema/evidência/invariantes/política) → `PASS | FAIL | RETRY | HUMAN`. Regras built-in: `hasResult`, `resultTruthy`, `outputNonEmpty`, `schemaRule`, `invariantRule`. O verifier por omissão do OMEGA valida `result.success` e suporta `payload.verify.{require,requireTruthy}` por task.
+- **Ferramentas**: `Kernel.attachTools(adapter)` liga o `ToolManager` do core ao kernel; `kernel.executeTool(id, input, {taskId})` emite eventos `tool.called` / `tool.completed` / `tool.failed`. O executor default invoca `payload.tools[]` **de verdade** e passa os resultados no contexto do agente.
+- **Memória**: cada task `task:completed`/`task:failed` é gravada no KnowledgeGraph (`task_<id>` + relação `executed_by` com o agente) e na memória de longo prazo (`memory:updated`).
+- **API OMEGA** (montado também em `:32123` — bug de montagem corrigido no `standalone-server`): `GET /api/omega/tasks` (stats) · `POST /api/omega/tasks` (criar) · `GET /api/omega/tasks/list?status=` · `GET /api/omega/tasks/:id` · `POST /api/omega/tasks/:id/cancel` · `GET /api/omega/tasks/history` · `GET /api/omega/verifier` · `GET /api/omega/tools`.
+- **Métrica**: `Verified Task Completion Rate` — `getStats().verified / total`, exposto em `/api/omega/tasks` e no status do kernel.
+- Testes: `tests/omega.test.ts` secções 15-17 (E2E pipeline, tools/cancel/persistência, TaskVerifier) → 124/124 OMEGA.
+
+
 ## Governança Bíblica (ética obrigatória de TODAS as operações)
 
 O poder do VISERON é governado por ética bíblica: potência sem princípios é destruição; potência com princípios é bênção. **9 princípios sagrados** (sabedoria, verdade, mordomia, justiça, serviço, diligência, humildade, liberalidade, fidelidade) regem cada decisão — o VISERON pode TUDO o que for ético e recusa com educação o que não for.
