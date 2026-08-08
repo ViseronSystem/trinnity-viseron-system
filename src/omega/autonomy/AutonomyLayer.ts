@@ -146,17 +146,41 @@ export class AutonomyLayer {
   }
 
   private async runPlanningCycle(): Promise<any> {
-    if (this.planner) {
-      const executed = await this.planner.executeNextTask();
-      return { engine: "core-planner", executedTasks: executed, cycle: this.planner.getCycleCount(), autonomyLevel: this.planner.getAutonomyLevel() };
-    }
-
     const status = this.kernel.status();
+
+    // SEMPRE garante trabalho: nunca deixa as mentes paradas.
     const queued: any[] = [];
     if (status.agents.total === 0) {
       queued.push(await this.kernel.runTask("autonomy", "Registar agentes nucleares", { description: "Nenhum agente ativo no runtime" }, "high", ACTOR));
+    } else {
+      // Mantém o kernel a executar com os 5410 agentes ativos: uma tarefa real
+      // de manutenção/supervisão por ciclo, prioridade low (não satura).
+      queued.push(await this.kernel.runTask(
+        "autonomy",
+        `Supervisão do ecossistema: ${status.agents.total} mentes ativas, ${status.tasks.total} tarefas processadas`,
+        {
+          description: `Ciclo de manutenção gerado pelo AutonomyLayer para o kernel executar com o squad de agentes.`,
+          agentsTotal: status.agents.total,
+          agentsActive: status.agents.active,
+          tasksTotal: status.tasks.total,
+        },
+        "low",
+        ACTOR
+      ));
     }
-    queued.push(await this.kernel.runTask("autonomy", `Manutenção: ${status.agents.active} agentes ativos, ${status.events.topics} tópicos de eventos`, { description: "Ciclo de manutenção gerado localmente" }, "low", ACTOR));
+
+    // Se houver planner core ligado, executa também as tarefas planeadas.
+    if (this.planner) {
+      const executed = await this.planner.executeNextTask();
+      return {
+        engine: "core-planner",
+        executedTasks: executed,
+        cycle: this.planner.getCycleCount(),
+        autonomyLevel: this.planner.getAutonomyLevel(),
+        kernelTasks: queued.length,
+      };
+    }
+
     return { engine: "internal-planner", generatedTasks: queued.length };
   }
 
