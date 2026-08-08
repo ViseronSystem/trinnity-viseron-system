@@ -1,8 +1,14 @@
 import cron from "node-cron";
 import { MemoryEngine } from "../memory/MemoryEngine";
 import { SquadManager } from "../squads/SquadManager";
+import { loadPersistentState, savePersistentState } from "../state/PersistentState";
 
 type ScheduledTask = ReturnType<typeof cron.schedule>;
+
+interface AutoLearningPersisted {
+  cycleCount: number;
+  knowledgeBase: number;
+}
 
 /**
  * AutoLearningEngine v3.0 - Motor de Auto-Aprendizaje Continuo (Ciclo de 30 Minutos)
@@ -14,6 +20,7 @@ type ScheduledTask = ReturnType<typeof cron.schedule>;
  *  - Genera insights basados en datos reales, no texto fijo
  *  - Evoluciona el nivel de conocimiento basado en actividad real
  *  - Capacidad de auto-mejora: detecta patrones y sugiere optimizaciones
+ *  - Estado persistido: ciclos e nível de conhecimento sobreviven a restarts
  */
 export class AutoLearningEngine {
   private memoryEngine: MemoryEngine;
@@ -26,6 +33,20 @@ export class AutoLearningEngine {
   constructor(memoryEngine: MemoryEngine, squadManager: SquadManager) {
     this.memoryEngine = memoryEngine;
     this.squadManager = squadManager;
+    // RETOMA: nunca recomeça do zero — aprendeu antes de qualquer restart.
+    const persisted = loadPersistentState<AutoLearningPersisted>("auto-learning", { cycleCount: 0, knowledgeBase: 50 });
+    if (persisted.cycleCount > 0) {
+      this.cycleCount = persisted.cycleCount;
+      this.knowledgeBase = persisted.knowledgeBase || this.knowledgeBase;
+      console.log(`[AutoLearningEngine] RESUMIDO do estado persistido: ciclo ${this.cycleCount} · knowledge ${this.knowledgeBase.toFixed(1)}%`);
+    }
+  }
+
+  private persist(): void {
+    savePersistentState<AutoLearningPersisted>("auto-learning", {
+      cycleCount: this.cycleCount,
+      knowledgeBase: this.knowledgeBase,
+    });
   }
 
   /**
@@ -151,6 +172,9 @@ export class AutoLearningEngine {
       console.log(`[AutoLearningEngine] Documentos en Knowledge Base: ${memoryStats.knowledge.totalDocuments}`);
       console.log(`[AutoLearningEngine] Consolidados STM→LTM: ${promotedCount}`);
       console.log(`--------------------------------------------------\n`);
+
+      // Guardar estado: se o sistema morrer/reiniciar, retoma daqui (nunca do zero).
+      this.persist();
 
     } catch (err) {
       console.error(`[AutoLearningEngine] Error en ciclo #${this.cycleCount}:`, err);

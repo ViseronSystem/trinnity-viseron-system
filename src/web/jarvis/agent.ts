@@ -308,7 +308,7 @@ export class JarvisAgent {
           maxTokens: 600,
           modelName: cand.model,
         });
-        if (result?.text && !this.isMockOrError(result.text)) {
+        if (result?.text && !this.isMockOrError(result.text) && this.hasSubstance(result.text)) {
           return { text: result.text, provider: result.provider, model: result.modelName || cand.model };
         }
       } catch {
@@ -359,6 +359,14 @@ export class JarvisAgent {
     );
   }
 
+  /** Rejeita respostas sem conteúdo real (ex. free tier devolve "?" ou vazio). */
+  private hasSubstance(text: string): boolean {
+    const t = text.trim();
+    if (t.length < 15) return false;
+    const letters = t.replace(/[^a-zA-Z\u00C0-\u00FF]/g, "").length;
+    return letters >= 12;
+  }
+
   private detectIntent(message: string): string {
     const m = message.toLowerCase();
     if (/(composio)/.test(m) && /(status|estado|apps|ferramentas|lig)/.test(m)) return "composio_status";
@@ -374,7 +382,7 @@ export class JarvisAgent {
     if (/(proyecci[óo]n|proje[cç][aã]o|projec|mrr|arr|cu[aá]nto ganar|quanto ganhar)/i.test(m)) return "agency_projection";
     if (/(rcs|r\.c\.s|mensaje de marca|mensagem de marca|branded message|sms con logo|sms com logo|mandar.*whatsapp|enviar.*whatsapp)/i.test(m)) return "rcs_broadcast";
     if (/(status|estado|health|sa[úu]de|funcionando|uptime|online)/.test(m)) return "system_status";
-    if (/(plano|planos|pre[cç]o|precos|billing|assinatura|subscribe|pro|enterprise|core)/.test(m)) return "list_plans";
+    if (/(plano|planos|pre[cç]o|precos|billing|assinatura|subscribe|\bpro\b|enterprise|core)/.test(m)) return "list_plans";
     if (/(comprar|assinar|checkout|contratar|subscrever|buy|sign up for pro)/.test(m)) return "checkout";
     if (/(conta|register|registar|registar|signup|sign up|cadastr)/.test(m)) return "register_info";
     if (/(blog|artigos|posts|post|conte[úu]do|content)/.test(m)) return "blog";

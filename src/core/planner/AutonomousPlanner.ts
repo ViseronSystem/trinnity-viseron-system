@@ -5,8 +5,15 @@ import { TVSOrchestrator } from "../orchestrator/Orchestrator";
 import { MemoryEngine } from "../memory/MemoryEngine";
 import { ToolManager } from "../tools/ToolManager";
 import { ModelRouter } from "../model-router/ModelRouter";
+import { loadPersistentState, savePersistentState } from "../state/PersistentState";
 
 type ScheduledTask = ReturnType<typeof cron.schedule>;
+
+interface PlannerPersisted {
+  cycleCount: number;
+  autonomyLevel: number;
+  tasks: AutonomousTask[];
+}
 
 export interface AutonomousTask {
   id: string;
@@ -58,8 +65,25 @@ export class AutonomousPlanner {
     this.toolManager = toolManager;
     this.modelRouter = modelRouter;
 
+    // RETOMA: tarefas pendentes, autonomia e ciclos sobrevivem a restarts.
+    const persisted = loadPersistentState<PlannerPersisted>("autonomous-planner", { cycleCount: 0, autonomyLevel: 0, tasks: [] });
+    if (persisted.cycleCount > 0) {
+      this.cycleCount = persisted.cycleCount;
+      this.autonomyLevel = persisted.autonomyLevel || 0;
+      if (Array.isArray(persisted.tasks)) this.tasks = persisted.tasks;
+      console.log(`[AutonomousPlanner] RESUMIDO: ciclo ${this.cycleCount} · autonomia ${this.autonomyLevel}% · ${this.tasks.filter(t => t.status === 'PENDING').length} tarefas pendentes retomadas`);
+    }
+
     this.autonomousAgent = this.createAutonomousAgent();
     this.agentManager.register(this.autonomousAgent);
+  }
+
+  private persist(): void {
+    savePersistentState<PlannerPersisted>("autonomous-planner", {
+      cycleCount: this.cycleCount,
+      autonomyLevel: this.autonomyLevel,
+      tasks: this.tasks,
+    });
   }
 
   private createAutonomousAgent(): IAgent {
@@ -190,6 +214,9 @@ export class AutonomousPlanner {
       console.log(`[AutonomousPlanner] Tareas completadas: ${this.tasks.filter(t => t.status === 'COMPLETED').length}`);
       console.log(`[AutonomousPlanner] Autonomía actual: ${this.autonomyLevel}%`);
       console.log(`==================================================\n`);
+
+      // Guardar estado: nunca perder tarefas/ciclos num restart.
+      this.persist();
 
     } catch (err) {
       console.error(`[AutonomousPlanner] Error en ciclo #${this.cycleCount}:`, err);

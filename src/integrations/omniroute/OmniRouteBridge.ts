@@ -5,14 +5,11 @@ import { OmniRouteProvider } from "./OmniRouteProvider";
 import { AIProviderBridge, AIProviderConfig } from "../../core/bridge/AIProviderBridge";
 import { ILLMProvider } from "../../core/providers/BaseProvider";
 
-// Anti-órfãos: quando o processo pai morrer (mesmo por SIGKILL/força),
-// todo o processo-filho OmniRoute é morto — a porta nunca fica presa.
-const childKillers: Array<() => void> = [];
-process.on("exit", () => {
-  for (const kill of childKillers) {
-    try { kill(); } catch {}
-  }
-});
+// NOTA (v3): o OmniRoute é agora um SERVIÇO PERSISTENTE independente do TVS.
+// Arranca DETACHED com log próprio e sobrevive aos restarts do TVS — nunca é
+// morto quando o servidor morre. O restart (scripts/restart.ps1) mata só o
+// servidor principal e REUTILIZA o OmniRoute que já está na porta 20128.
+// O arranque standalone fica em scripts/omniroute-standalone.cjs.
 
 export interface OmniRouteConfig {
   port: number;
@@ -62,17 +59,6 @@ export class OmniRouteBridge {
     };
     this.provider = new OmniRouteProvider(this.config.baseUrl);
     this.aiBridge = aiBridge;
-    childKillers.push(() => {
-      const child = this.process;
-      if (!child || !child.pid) return;
-      try {
-        if (process.platform === "win32") {
-          spawn("taskkill", ["/pid", String(child.pid), "/f", "/t"], { stdio: "ignore" });
-        } else {
-          child.kill("SIGKILL");
-        }
-      } catch {}
-    });
   }
 
   async initialize(): Promise<number> {
@@ -138,21 +124,32 @@ export class OmniRouteBridge {
       }
     } catch {}
 
-    console.log(`  [OmniRoute] Starting OmniRoute server...`);
+    console.log(`  [OmniRoute] Starting OmniRoute server (detached, persistent)...`);
 
     const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
     const cmd = `${npxBin} omniroute --port ${this.config.port} --no-open`;
 
+    // Log próprio em data/omniroute.log — sobrevive ao pai (o pipe morre com o TVS).
+    let logFd: number | null = null;
+    try {
+      fs.ensureDirSync(path.join(process.cwd(), "data"));
+      logFd = fs.openSync(path.join(process.cwd(), "data", "omniroute.log"), "a");
+    } catch {}
+
     try {
       this.process = spawn(cmd, {
-        stdio: ["ignore", "pipe", "pipe"],
+        detached: true,
+        stdio: logFd !== null ? ["ignore", logFd, logFd] : ["ignore", "pipe", "pipe"],
         shell: true,
+        windowsHide: true,
         env: {
           ...process.env,
           PORT: String(this.config.port),
           OMNIROUTE_DATA_DIR: this.config.dataDir,
         },
       });
+      // DETACHED: o OmniRoute continua vivo quando o TVS (pai) morre ou reinicia.
+      this.process.unref();
     } catch (err: any) {
       console.warn(`  [OmniRoute] Failed to spawn server: ${err.message} (will use on-demand mode)`);
       this.process = null;
@@ -164,22 +161,24 @@ export class OmniRouteBridge {
       this.process = null;
     });
 
-    this.process.stdout?.on("data", (data: Buffer) => {
-      const msg = data.toString().trim();
-      if (msg) console.log(`  [OmniRoute] ${msg}`);
-    });
+    if (logFd === null) {
+      this.process.stdout?.on("data", (data: Buffer) => {
+        const msg = data.toString().trim();
+        if (msg) console.log(`  [OmniRoute] ${msg}`);
+      });
 
-    this.process.stderr?.on("data", (data: Buffer) => {
-      const msg = data.toString().trim();
-      if (msg && !msg.includes("ExperimentalWarning")) {
-        if (/EADDRINUSE|address already in use|already in use|port .* in use/i.test(msg)) {
-          this.portInUse = true;
-          console.warn(`  [OmniRoute] Porta ${this.config.port} já em uso — a reutilizar servidor existente (sem crash-loop)`);
-        } else {
-          console.error(`  [OmniRoute:err] ${msg}`);
+      this.process.stderr?.on("data", (data: Buffer) => {
+        const msg = data.toString().trim();
+        if (msg && !msg.includes("ExperimentalWarning")) {
+          if (/EADDRINUSE|address already in use|already in use|port .* in use/i.test(msg)) {
+            this.portInUse = true;
+            console.warn(`  [OmniRoute] Porta ${this.config.port} já em uso — a reutilizar servidor existente (sem crash-loop)`);
+          } else {
+            console.error(`  [OmniRoute:err] ${msg}`);
+          }
         }
-      }
-    });
+      });
+    }
 
     this.process.on("exit", (code) => {
       console.log(`  [OmniRoute] Process exited with code ${code}`);
@@ -258,15 +257,10 @@ export class OmniRouteBridge {
       clearInterval(this.healthTimer);
       this.healthTimer = null;
     }
-    if (this.process) {
-      if (process.platform === "win32") {
-        spawn("taskkill", ["/pid", String(this.process.pid), "/f", "/t"]);
-      } else {
-        this.process.kill("SIGTERM");
-      }
-      this.process = null;
-      console.log(`  [OmniRoute] Server stopped`);
-    }
+    // OmniRoute é um SERVIÇO PERSISTENTE: não é morto no stop do TVS.
+    // Continua na porta 20128 e é reutilizado no próximo arranque.
+    this.process = null;
+    console.log(`  [OmniRoute] Serviço mantido vivo (persistente) — reutilizado no próximo boot`);
   }
 
   getStats() {

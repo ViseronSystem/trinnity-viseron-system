@@ -319,6 +319,18 @@ O **VISERON** é a camada de "alma" do sistema sobre o cérebro `JarvisAgent`: p
 - **API** `/api/viseron/*` (ver tabela acima): `GET /api/viseron/status`, `POST /api/viseron/chat` (`{message, speaker: pedro|trinnity|guest, lang: es|pt|en, sessionId}` — rate-limited 60/min), `GET /api/viseron/supervision` (recent + total + byIntent + okRate), `GET /api/viseron/governance` (estado da governança bíblica). Montado no `standalone-server.ts`.
 - O VISERON executa tudo o que o JARVIS sabe: estado, planos, checkout, conteúdo, mensageria, email, agency OS, apps Composio, RCS de marca e memória `memory_recall`. Wake word + voz = superinteligência ativada por comando, estilo Stark.
 
+## TVS OMEGA Master Plan (AI Operating System for Autonomous Organizations)
+
+Reposicionamento estratégico do TVS (análise independente 2026-08): de "plataforma multi-agente" para **AI Operating System for Autonomous Organizations** — transformar objetivos em processos autónomos verificáveis. Documento completo: `docs/TVS_OMEGA_Master_Plan.md` + PDF `data/Viseron_OMEGA_Master_Plan.pdf`.
+
+- **Verdade prática**: o TVS é uma plataforma REAL de orquestração de agentes, mas NÃO é ainda uma superinteligência; a métrica "5.396 mentes" é uma arquitetura de agentes (agent definitions), não 5.396 processos independentes. Maior problema atual: **provar capacidade real** (benchmarks, segurança, casos verificáveis) — o GitHub tem 0 stars/0 forks.
+- **Produto**: TVS Enterprise Autonomy — "reduza 60% do trabalho administrativo" (conectar Gmail/CRM/ERP/Slack/GitHub → TVS aprende, cria agentes, executa e mede ROI). Não vender "5.000 agentes".
+- **Arquitetura OMEGA**: OMEGA Kernel (runtime/event/state/task/memory/tools/safety/audit) → Memory OS → Tool OS → Safety OS (risk scores 0-5 + approval policies) → Verifier OS → World Model (Postgres+vector+graph+event store) → Enterprise OS → Autonomous Company → Science/Engineering/Robotics/Industrial/Space OS.
+- **Regra de escala**: congelar expansão de agentes; aperfeiçoar os **10 agentes nucleares** (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) e escalar 10→100→1.000→10.000 pela capacidade, não por nomes.
+- **Benchmark**: TVS Autonomous Organization Benchmark — 100 tarefas reais (business/engineering/research/operations/finance) com métricas Success Rate, Cost, Latency, Human Interventions, Error Rate, Recovery Rate, ROI (`npm run omega:bench`, a implementar).
+- **Roadmap**: 90 dias (verdade técnica + OMEGA Kernel) → 12-36m (Enterprise Autonomy + 10 clientes + OMEGA Aerospace) → 36-60m (Robotics/Energy/Manufacturing/Science → AI + Physical Infrastructure → TRINNITY AI ECOSYSTEM).
+- **Comando**: `npm run omega:plan` → `data/Viseron_OMEGA_Master_Plan.pdf`. Backlog priorizado (P0-P3) no documento Markdown.
+
 ## Governança Bíblica (ética obrigatória de TODAS as operações)
 
 O poder do VISERON é governado por ética bíblica: potência sem princípios é destruição; potência com princípios é bênção. **9 princípios sagrados** (sabedoria, verdade, mordomia, justiça, serviço, diligência, humildade, liberalidade, fidelidade) regem cada decisão — o VISERON pode TUDO o que for ético e recusa com educação o que não for.

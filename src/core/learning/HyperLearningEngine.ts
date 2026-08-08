@@ -24,6 +24,60 @@ export class HyperLearningEngine {
     this.agentManager = agentManager;
     this.bridge = bridge;
     this.superMind = superMind;
+    // RETOMA do estado persistido (resume, nunca reset): o progresso autónomo
+    // (ciclos + nível de inteligência) sobrevive aos restarts do TVS.
+    this.loadState();
+  }
+
+  private getReportsDir(): string {
+    const candidates = [
+      path.join(process.cwd(), "data", "reports"),
+      path.join(__dirname, "..", "..", "..", "data", "reports")
+    ];
+    return candidates.find((p) => fs.existsSync(p)) || candidates[0];
+  }
+
+  private loadState(): void {
+    try {
+      const reportsDir = this.getReportsDir();
+      const logPath = path.join(reportsDir, "evolution_log.json");
+      let lastCycle = 0;
+      let lastLevel = 1000;
+
+      if (fs.existsSync(logPath)) {
+        const saved = fs.readJsonSync(logPath) as Array<{ cycle: number; level: number; insights: string[]; timestamp: number }>;
+        if (Array.isArray(saved) && saved.length) {
+          this.history = saved;
+          const last = saved[saved.length - 1];
+          if (last && typeof last.cycle === "number") lastCycle = last.cycle;
+          if (last && typeof last.level === "number") lastLevel = last.level;
+        }
+      }
+
+      // Fallback: se o evolution_log foi clobbered mas os relatórios por ciclo
+      // sobreviveram (cycle_N.json), retomar do ciclo mais alto encontrado.
+      try {
+        const files = fs.readdirSync(reportsDir).filter((f) => /^cycle_(\d+)\.json$/.test(f));
+        for (const f of files) {
+          const m = /^cycle_(\d+)\.json$/.exec(f);
+          if (!m) continue;
+          const c = parseInt(m[1], 10);
+          if (c > lastCycle) {
+            const rep = fs.readJsonSync(path.join(reportsDir, f));
+            lastCycle = c;
+            if (typeof rep?.intelligenceLevel === "number") lastLevel = rep.intelligenceLevel;
+          }
+        }
+      } catch {}
+
+      if (lastCycle > 0) {
+        this.cycleCount = lastCycle;
+        this.intelligenceLevel = Math.max(this.intelligenceLevel, lastLevel);
+        console.log(`[HyperLearning] RESUMIDO do estado persistido: ciclo ${this.cycleCount} · inteligência ${this.intelligenceLevel.toFixed(0)} (continua, não reinicia)`);
+      }
+    } catch (err) {
+      console.warn(`[HyperLearning] loadState falhou (a começar do zero): ${(err as any)?.message || err}`);
+    }
   }
 
   start(intervalMinutes: number = 30): void {
@@ -120,6 +174,17 @@ export class HyperLearningEngine {
       await fs.writeJson(reportPath, report, { spaces: 2 });
 
       const logPath = path.join(reportsDir, "evolution_log.json");
+      // APPEND ao histórico persistido (nunca sobrescrever): se o ficheiro já
+      // existir, carrega-o e adiciona o ciclo novo — o progresso entre restarts
+      // nunca é perdido.
+      let persisted: Array<{ cycle: number; level: number; insights: string[]; timestamp: number }> = [];
+      try {
+        if (fs.existsSync(logPath)) {
+          const existing = fs.readJsonSync(logPath);
+          if (Array.isArray(existing)) persisted = existing;
+        }
+      } catch {}
+      this.history = [...persisted, ...this.history.filter((h) => !persisted.some((p) => p.cycle === h.cycle))];
       await fs.writeJson(logPath, this.history, { spaces: 2 });
 
       this.memoryEngine.addKnowledge(

@@ -90,6 +90,7 @@
     "cosmos:governanca": "tsx scripts/gerar-governanca-biblica.ts",
     "atlas:plan": "tsx scripts/gerar-plan-ingles-atlas.ts",
     "fama:instagram": "tsx scripts/gerar-plano-fama-instagram.ts",
+    "omega:plan": "tsx scripts/gerar-omega-master-plan.ts",
     "audit:full": "node scripts/full-audit.mjs",
     "pitch": "tsx scripts/gerar-pitch-investidores.ts",
     "pitch:startup": "tsx scripts/gerar-pitch-startup.ts",
