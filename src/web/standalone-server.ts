@@ -44,6 +44,7 @@ import { createCryptoRouter } from "./crypto/routes";
 import { RcsEngine } from "../core/rcs/RcsEngine";
 import { createRcsRouter } from "./rcs/routes";
 import { createOmegaGateway } from "../omega/gateway";
+import { bridgeSocketIO } from "../omega/kernel/EventBridge";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -72,6 +73,7 @@ export class ViseronWebServer {
   private os: TVSOs;
   private osRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
+  private omegaEventsUnsub?: () => void;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -127,7 +129,12 @@ export class ViseronWebServer {
       if (omega && omega.kernel) {
         const omegaGateway = createOmegaGateway(omega);
         this.app.use("/api/omega", omegaGateway);
-        console.log(`[Web] OMEGA ligado à web API: /api/omega (kernel + tasks E2E + verifier)`);
+        // Reatividade: o kernel bus flui para os clientes via Socket.IO (omega:event)
+        this.omegaEventsUnsub?.();
+        this.omegaEventsUnsub = bridgeSocketIO(this.io, omega.kernel.events, {
+          topics: ["task.*", "tool.*", "memory.*", "omega:.*", "kernel:*", "eventbus.*", "omega:decision"],
+        });
+        console.log(`[Web] OMEGA ligado à web API: /api/omega (kernel + tasks E2E + verifier + event bus)`);
       }
     } catch (err) {
       console.warn(`[Web] mountOmega falhou: ${(err as any)?.message || err}`);

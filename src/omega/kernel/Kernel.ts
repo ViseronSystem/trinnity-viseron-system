@@ -1,4 +1,4 @@
-import { EventBus, KernelEvent } from "./EventBus";
+import { EventBus, EventBusStats, KernelEvent } from "./EventBus";
 import { TaskQueue, TaskQueueStats, KernelTask, TaskPriority, TaskPlanner, TaskVerifierFn } from "./TaskQueue";
 import { Permissions, Actor, PermissionRole } from "./Permissions";
 
@@ -28,7 +28,7 @@ export interface KernelStatus {
   version: string;
   uptimeMs: number;
   startedAt: number;
-  events: { topics: number; totalSubscribers: number; totalEmitted: number };
+  events: EventBusStats;
   tasks: TaskQueueStats & { verifier: { attached: boolean; verified: number; failed: number } };
   agents: { total: number; active: number };
   tools: { total: number; enabled: number };

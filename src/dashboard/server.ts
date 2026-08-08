@@ -9,6 +9,7 @@ import { skillsRegistry } from "../core/skills";
 import { OmegaPlatform } from "../omega";
 import { createOmegaGateway } from "../omega/gateway";
 import { createOsGateway } from "../os/gateway";
+import { bridgeSocketIO } from "../omega/kernel/EventBridge";
 
 /**
  * TVSDashboardServer - Servidor Web de Monitoreo en Tiempo Real para TVS v2.0
@@ -438,6 +439,10 @@ export class TVSDashboardServer {
     if (this.omega) {
       this.omegaRouter.stack = createOmegaGateway(this.omega).stack;
       this.osRouter.stack = createOsGateway(this.omega.os).stack;
+      // Reatividade: o kernel bus flui para o dashboard via Socket.IO (omega:event)
+      bridgeSocketIO(this.io, this.omega.kernel.events, {
+        topics: ["task.*", "tool.*", "memory.*", "omega:.*", "kernel:*", "eventbus.*", "omega:decision"],
+      });
     }
   }
 
