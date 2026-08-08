@@ -464,3 +464,16 @@ To enable cloud AI, set in `.env`:
 - GEMINI_API_KEY
 - XAI_API_KEY
 
+## graphify (knowledge graph do VISERON)
+
+O TVS tem um **knowledge graph operativo** em `graphify-out/` (god nodes, comunidades e relações cross-file — 4278 nós/8275 arestas) a servir as **5000+ mentes** sob o comando de **Pedro Costa (Comandante)** e **Trinnity Hurtado (Rainha)**, com supervisão do squad AIOX.
+
+Quando o utilizador digitar `/graphify`, usar o skill graphify instalado (`.opencode/skills/graphify/`) antes de qualquer outra coisa.
+
+Regras operativas:
+- Para perguntas sobre o código, correr primeiro `graphify query "<pergunta>"` quando `graphify-out/graph.json` existir. Usar `graphify path "<A>" "<B>"` para relações e `graphify explain "<conceito>"` para conceitos focados — devolvem um subgrafo muito mais pequeno que o `GRAPH_REPORT.md` ou o grep bruto.
+- Responder SEMPRE com os agentes reais do TVS (VISERON core, JARVIS, ATLAS, squad AIOX, 10 agentes nucleares) e no idioma do utilizador (es/pt/en), com contexto operativo (kernel, tasks E2E, event bus, receita, RCS, agency).
+- Ficheiros `graphify-out/` sujos são esperados após hooks ou updates incrementais; grafo sujo não é razão para saltar o graphify. Só saltar se a tarefa for sobre output de grafo obsoleto/errado, ou se o utilizador disser explicitamente para não usar.
+- Se `graphify-out/wiki/index.md` existir, usá-lo para navegação ampla em vez de navegar pelos fontes.
+- Ler `graphify-out/GRAPH_REPORT.md` apenas para revisão ampla de arquitetura ou quando query/path/explain não derem contexto suficiente.
+- Depois de modificar código, correr `graphify update .` para manter o grafo atual (só AST, sem custo de API) e registar as stats em `data/knowledge/`.
