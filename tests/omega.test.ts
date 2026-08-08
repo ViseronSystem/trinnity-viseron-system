@@ -1,6 +1,8 @@
 import * as path from "path";
 import * as fs from "fs";
-import { EventBus } from "../src/omega/kernel/EventBus";
+import { EventEmitter } from "events";
+import { EventBus, topicMatches, EVENTBUS_ERROR_TOPIC } from "../src/omega/kernel/EventBus";
+import { bridgeEventEmitter, bridgeSocketIO, openSSEStream } from "../src/omega/kernel/EventBridge";
 import { TaskQueue } from "../src/omega/kernel/TaskQueue";
 import { Permissions } from "../src/omega/kernel/Permissions";
 import { Kernel } from "../src/omega/kernel/Kernel";
@@ -80,7 +82,7 @@ async function runOmegaTests() {
     assert(onceCalled === 1, "EventBus: once dispara apenas uma vez");
 
     const stats = bus.getStats();
-    assert(stats.topics === 2 && stats.totalEmitted === 3, "EventBus: stats (topics/emitted)");
+    assert(stats.topics === 0 && stats.totalEmitted === 5, "EventBus: stats v2 (tópicos ativos + eventos emitidos)");
 
     await assertRejects(() => bus.subscribe("topic inválido!", () => {}), "EventBus: rejeita topic inválido");
   }
@@ -601,6 +603,125 @@ async function runOmegaTests() {
     assert(bad.status === "FAIL" && bad.failed === 1, "TaskVerifier: output vazio FAIL");
     const none = await tv.verify({ type: "y" }, {});
     assert(none.status === "PASS", "TaskVerifier: sem regras → PASS");
+  }
+
+  // ── 18. EventBus v2 (distribuído: wildcards · fonte · retry · isolamento · histórico) ──
+  {
+    assert(topicMatches("task.*", "task.completed") === true, "EventBus: wildcard task.* casa task.completed");
+    assert(topicMatches("task.*", "tool.completed") === false, "EventBus: wildcard task.* NÃO casa tool.completed");
+    assert(topicMatches("memory.*", "memory:event") === true, "EventBus: memory.* casa memory:event (separador ':')");
+    assert(topicMatches("*", "qualquer.coisa.que.seja") === true, "EventBus: '*' casa qualquer tópico");
+
+    const bus = new EventBus({ maxHistory: 50 });
+    const wildcardReceived: string[] = [];
+    const allReceived: string[] = [];
+    bus.subscribe("task.*", (t: any) => { wildcardReceived.push(t.id); });
+    bus.subscribe("*", (t: any, meta) => { allReceived.push(`${meta.topic}:${t?.id ?? "?"}`); });
+    await bus.publish("task.completed", { id: "t1" }, "test");
+    await bus.publish("tool.completed", { id: "tool1" }, "test");
+    await bus.publish("task.failed", { id: "t2" }, "test");
+    assert(wildcardReceived.length === 2 && wildcardReceived.join() === "t1,t2", "EventBus: wildcard recebe 2 task.*");
+    assert(allReceived.length === 3, "EventBus: '*' recebe todos");
+
+    const sourceBus = new EventBus();
+    let fromA = 0;
+    let fromB = 0;
+    sourceBus.subscribe("x", () => { fromA++; }, { source: "a" });
+    sourceBus.subscribe("x", () => { fromB++; }, { source: "b" });
+    await sourceBus.publish("x", {}, "a");
+    await sourceBus.publish("x", {}, "b");
+    await sourceBus.publish("x", {});
+    assert(fromA === 1 && fromB === 1, "EventBus: filtro por source (a→1, b→1, sem fonte→0)");
+
+    const iso = new EventBus();
+    let goodRuns = 0;
+    let errorReports = 0;
+    iso.subscribe("boom", () => { goodRuns++; });
+    iso.subscribe("boom", () => { throw new Error("handler falhou"); });
+    iso.subscribe(EVENTBUS_ERROR_TOPIC, (e: any) => { errorReports++; assert(e?.topic === "boom", "EventBus: erro reporta tópico original"); });
+    await iso.publish("boom", {}, "test");
+    assert(goodRuns === 1, "EventBus: isolamento — handler bom corre apesar do outro falhar");
+    assert(iso.getStats().totalErrors === 1, "EventBus: totalErrors = 1 após handler falhar");
+
+    const retryBus = new EventBus();
+    let attempts = 0;
+    retryBus.subscribe("flaky", () => {
+      attempts++;
+      if (attempts < 3) throw new Error("tenta outra vez");
+    }, { retries: 2 });
+    await retryBus.publish("flaky", {}, "test");
+    assert(attempts === 3 && retryBus.getStats().totalErrors === 0, "EventBus: retry (2) — 3 tentativas, 0 erros finais");
+
+    const onceBus = new EventBus();
+    let onceWildcard = 0;
+    onceBus.once("task.*", () => { onceWildcard++; });
+    await onceBus.publish("task.completed", {}, "test");
+    await onceBus.publish("task.failed", {}, "test");
+    assert(onceWildcard === 1, "EventBus: once com wildcard dispara apenas uma vez");
+
+    const ring = new EventBus({ maxHistory: 5 });
+    for (let i = 0; i < 10; i++) await ring.publish("tick", { i }, "test");
+    const statsRing = ring.getStats();
+    assert(statsRing.historySize === 5 && statsRing.maxHistory === 5, "EventBus: ring buffer limita a maxHistory (5)");
+    assert(ring.history()[0].payload.i === 5, "EventBus: ring buffer descarta os mais antigos (primeiro = i5)");
+    assert(ring.history("tick").length === 5, "EventBus: history(topic) filtra por tópico");
+    let replayed = 0;
+    ring.replay("tick", () => { replayed++; });
+    await new Promise((r) => setTimeout(r, 20));
+    assert(replayed === 5, "EventBus: replay entrega o histórico a novos subscritores");
+    ring.clear();
+    assert(ring.history().length === 0 && ring.getStats().totalSubscribers === 0, "EventBus: clear limpa subscritores + histórico");
+  }
+
+  // ── 19. EventBridge (emitter → bus · bus → Socket.IO · bus → SSE) ──
+  {
+    const emitter = new EventEmitter();
+    const bus = new EventBus();
+    const unsub = bridgeEventEmitter(emitter, bus, { source: "memory-engine" });
+    const stmEvents: string[] = [];
+    const memoryEvents: string[] = [];
+    bus.subscribe("stm:added", (p: any) => { stmEvents.push(p.sessionId); });
+    bus.subscribe("memory:event", () => { memoryEvents.push("evt"); });
+    emitter.emit("stm:added", { sessionId: "s1" });
+    emitter.emit("memory:event", { kind: "x" });
+    await new Promise((r) => setTimeout(r, 20));
+    assert(stmEvents.length === 1 && stmEvents[0] === "s1", "Bridge: EventEmitter → bus (stm:added republicado)");
+    assert(memoryEvents.length === 1, "Bridge: EventEmitter → bus (memory:event republicado)");
+    unsub();
+    emitter.emit("stm:added", { sessionId: "s2" });
+    await new Promise((r) => setTimeout(r, 20));
+    assert(stmEvents.length === 1, "Bridge: unsubscribe do emitter interrompe o fluxo");
+
+    const ioBus = new EventBus();
+    const emitted: any[] = [];
+    const fakeIo = { emit: (event: string, data: any) => { emitted.push({ event, data }); } };
+    const unsubIo = bridgeSocketIO(fakeIo, ioBus, { topics: ["task.*"] });
+    await ioBus.publish("task.completed", { id: "t9" }, "test");
+    await ioBus.publish("tool.completed", { id: "ignored" }, "test");
+    assert(emitted.length === 1 && emitted[0].event === "omega:event", "Bridge: bus → Socket.IO emite só os tópicos pedidos");
+    assert(emitted[0].data.topic === "task.completed" && emitted[0].data.payload.id === "t9", "Bridge: payload com topic/source/ts/payload");
+    unsubIo();
+    await ioBus.publish("task.failed", { id: "t10" }, "test");
+    assert(emitted.length === 1, "Bridge: unsubscribe do Socket.IO interrompe o fluxo");
+
+    const sseBus = new EventBus();
+    const chunks: string[] = [];
+    const resFake: any = {
+      writeHead: () => {},
+      write: (c: string) => { chunks.push(c); },
+      on: (_evt: string, cb: any) => { resFake._close = cb; },
+    };
+    const unsubSse = openSSEStream(resFake, sseBus, { topics: ["task.*"] });
+    await sseBus.publish("task.completed", { id: "sse1" }, "test");
+    assert(chunks.some((c) => c.includes("event: task.completed")), "Bridge: SSE escreve a linha event");
+    assert(chunks.some((c) => c.includes('"id":"sse1"')), "Bridge: SSE escreve o payload JSON");
+    unsubSse();
+    resFake._close?.();
+    await sseBus.publish("task.failed", { id: "sse2" }, "test");
+    const afterClose = chunks.length;
+    await new Promise((r) => setTimeout(r, 20));
+    await sseBus.publish("task.failed", { id: "sse3" }, "test");
+    assert(chunks.length === afterClose, "Bridge: SSE deixa de escrever após close/unsubscribe");
   }
 
   console.log(`\n==========================================`);

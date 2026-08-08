@@ -14,6 +14,7 @@ import { AgentManager } from "../core/AgentManager";
 import { MemoryEngine } from "../core/memory/MemoryEngine";
 import { ProviderFactory } from "../core/providers/ProviderFactory";
 import { ModelRouter } from "../core/model-router/ModelRouter";
+import { bridgeEventEmitter } from "./kernel/EventBridge";
 
 export interface OmegaOptions {
   agentManager?: AgentManager;
@@ -215,6 +216,9 @@ export class OmegaPlatform {
         setLongTerm: (key, value, tags) => options.memoryEngine!.setLongTerm(key, value, tags),
         getStats: () => options.memoryEngine!.getStats(),
       });
+      // Consolidação: eventos de memória (stm/ltm/kb/vector/consolidation) são
+      // republicados no kernel bus — o EventBus passa a ser o backbone reativo.
+      bridgeEventEmitter(options.memoryEngine, this.kernel.events, { source: "memory-engine" });
     }
 
     this.kernel.attachAIRouter({

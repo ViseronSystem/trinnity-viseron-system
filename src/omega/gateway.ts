@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { OmegaPlatform } from "./index";
+import { openSSEStream } from "./kernel/EventBridge";
 
 export function createOmegaGateway(omega: OmegaPlatform): Router {
   const router = Router();
@@ -57,6 +58,19 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
 
   router.get("/kernel/events", (_req, res) => {
     res.json(omega.kernel.events.getStats());
+  });
+
+  // Event bus reativo: stream SSE de eventos em tempo real (topics separados por vírgula)
+  router.get("/events", (req, res) => {
+    const topics = (req.query.topic as string)?.split(",").filter(Boolean);
+    openSSEStream(res, omega.kernel.events, { topics });
+  });
+
+  // Event bus: histórico (replay) de eventos recentes, opcionalmente por tópico
+  router.get("/events/history", (req, res) => {
+    const topic = (req.query.topic as string) || undefined;
+    const events = omega.kernel.events.history(topic);
+    res.json({ total: events.length, events });
   });
 
   router.get("/tasks", (_req, res) => {

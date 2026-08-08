@@ -343,6 +343,18 @@ Implementação do primeiro pilar do OMEGA Kernel: **pipeline de execução de t
 - **Métrica**: `Verified Task Completion Rate` — `getStats().verified / total`, exposto em `/api/omega/tasks` e no status do kernel.
 - Testes: `tests/omega.test.ts` secções 15-17 (E2E pipeline, tools/cancel/persistência, TaskVerifier) → 124/124 OMEGA.
 
+## Event Bus — backbone reativo do kernel (2026-08)
+
+O **EventBus** (`src/omega/kernel/EventBus.ts`) é o backbone distribuído de eventos: tópicos, subscritores e reatividade entre módulos (Issue #16, consolidado a partir do bus base).
+
+- **Wildcards**: `task.*` casa `task.completed`, `task.failed` e sub-tópicos; `*` casa tudo. Separadores `.` e `:` são equivalentes (`memory.*` casa `memory:event`). `topicMatches(pattern, topic)` exportado.
+- **Filtro por fonte**: `bus.subscribe(topic, handler, { source })` só recebe eventos dessa origem; `retries` faz retry do handler antes de reportar erro.
+- **Isolamento**: um handler que falha **não quebra os outros**; o erro é publicado em `eventbus.handler.error` (payload com tópico/fonte originais) e conta em `getStats().totalErrors`.
+- **Histórico ring buffer**: últimos `maxHistory` eventos (default 500) — `bus.history(topic?)` (replay) e `bus.replay(topic, handler)` (novos subscritores recebem o passado). `clear()` limpa subscritores + histórico.
+- **EventBridge** (`src/omega/kernel/EventBridge.ts`): `bridgeEventEmitter(emitter, bus)` consolida o **MemoryEngine** (`stm:*`, `ltm:*`, `kb:added`, `vector:stored`, `consolidation:run`) no kernel bus; `bridgeSocketIO(io, bus, {topics})` emite `omega:event` no Socket.IO (dashboard + `:32123`); `openSSEStream(res, bus, {topics})` expõe stream SSE.
+- **API**: `GET /api/omega/events?topic=task.*,tool.*` (SSE em tempo real) · `GET /api/omega/events/history?topic=` (replay) · `GET /api/omega/kernel/events` (stats). `status().kernel.events` inclui `totalErrors`/`historySize`/`maxHistory`.
+- Testes: `tests/omega.test.ts` secções 18-19 (EventBus v2: wildcards/fonte/retry/isolamento/ring buffer; EventBridge: emitter→bus, bus→Socket.IO, bus→SSE) → 150/150 OMEGA.
+
 
 ## Governança Bíblica (ética obrigatória de TODAS as operações)
 
