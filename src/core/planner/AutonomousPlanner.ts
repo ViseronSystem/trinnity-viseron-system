@@ -72,6 +72,11 @@ export class AutonomousPlanner {
       this.autonomyLevel = persisted.autonomyLevel || 0;
       if (Array.isArray(persisted.tasks)) this.tasks = persisted.tasks;
       console.log(`[AutonomousPlanner] RESUMIDO: ciclo ${this.cycleCount} · autonomia ${this.autonomyLevel}% · ${this.tasks.filter(t => t.status === 'PENDING').length} tarefas pendentes retomadas`);
+    } else {
+      // Primeiro arranque: autonomia de partida 15% para o primeiro ciclo já
+      // produzir tarefas úteis (auditoria, consolidação, reativação).
+      this.autonomyLevel = 15;
+      console.log(`[AutonomousPlanner] PRIMEIRO ARRANQUE: autonomia inicial ${this.autonomyLevel}%`);
     }
 
     this.autonomousAgent = this.createAutonomousAgent();
@@ -142,7 +147,7 @@ export class AutonomousPlanner {
   }
 
   public start(): void {
-    console.log(`[AutonomousPlanner] Iniciando planificación autónoma (cada 30 minutos)...`);
+    console.log(`[AutonomousPlanner] Iniciando planificación autónoma (cada 5 minutos)...`);
 
     if (this.cronJob) {
       this.cronJob.stop();
@@ -152,8 +157,8 @@ export class AutonomousPlanner {
     // Ejecución inicial
     this.executePlanningCycle();
 
-    // Ciclo recurrente cada 30 minutos
-    this.cronJob = cron.schedule("1-59/30 * * * *", () => {
+    // Ciclo recurrente cada 5 minutos (antes 30 — demasiado parado)
+    this.cronJob = cron.schedule("*/5 * * * *", () => {
       this.executePlanningCycle();
     });
   }
@@ -202,11 +207,9 @@ export class AutonomousPlanner {
         timestamp: Date.now()
       }, ['autonomous', 'planning', `cycle_${this.cycleCount}`]);
 
-      // 5. Incrementar autonomía gradualmente
-      if (this.cycleCount % 3 === 0) {
-        this.autonomyLevel = Math.min(100, this.autonomyLevel + 5);
-        console.log(`[AutonomousPlanner] Autonomía incrementada a ${this.autonomyLevel}%`);
-      }
+      // 5. Incrementar autonomía gradualmente (sube +5 por ciclo; nunca queda parado)
+      this.autonomyLevel = Math.min(100, this.autonomyLevel + 5);
+      console.log(`[AutonomousPlanner] Autonomía incrementada a ${this.autonomyLevel}%`);
 
       console.log(`\n==================================================`);
       console.log(`[AutonomousPlanner] Ciclo #${this.cycleCount} completado`);
@@ -248,8 +251,24 @@ export class AutonomousPlanner {
   private generateTasksFromState(state: any): number {
     let count = 0;
 
-    // Generar tareas basadas en estado del sistema y nivel de autonomía
-    if (this.autonomyLevel >= 10 && state.memory.shortTerm.totalItems > 50) {
+    // SEMPRE há trabalho: cada ciclo produz ao menos tarefas úteis reais,
+    // mesmo com autonomia baixa — nada de ficar parado.
+    // 1) Revisión de estado (autonomía >= 1)
+    if (this.autonomyLevel >= 1) {
+      const active = state.agents.active ?? 0;
+      const total = state.agents.total ?? 0;
+      const tools = state.tools.total ?? 0;
+      this.addTask({
+        title: "Auditar estado del sistema",
+        description: `Revisar ${total} agentes (${active} activos) y ${tools} herramientas; generar informe de salud y oportunidades de mejora.`,
+        priority: 'LOW',
+        category: 'optimization'
+      });
+      count++;
+    }
+
+    // 2) Consolidar memoria (STM supera 10 items)
+    if ((state.memory?.shortTerm?.totalItems ?? 0) > 10) {
       this.addTask({
         title: "Consolidar memoria STM",
         description: `Hay ${state.memory.shortTerm.totalItems} items en STM. Consolidar a LTM para preservar conocimiento.`,
@@ -259,7 +278,8 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.autonomyLevel >= 20 && state.agents.active < state.agents.total) {
+    // 3) Reactivar agentes inactivos (autonomía >= 10)
+    if (this.autonomyLevel >= 10 && state.agents.active < state.agents.total) {
       this.addTask({
         title: "Reactivar agentes inactivos",
         description: `Solo ${state.agents.active} de ${state.agents.total} agentes están activos. Evaluar reactivación.`,
@@ -269,7 +289,7 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.autonomyLevel >= 30) {
+    if (this.autonomyLevel >= 20) {
       this.addTask({
         title: "Auto-mejora del sistema",
         description: "Analizar logs y memoria para identificar y aplicar optimizaciones automáticas en el core del sistema.",
@@ -279,7 +299,7 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.autonomyLevel >= 40) {
+    if (this.autonomyLevel >= 30) {
       this.addTask({
         title: "Generar nuevo agente especializado",
         description: `Basado en las necesidades actuales del sistema, crear un nuevo agente con capacidades específicas.`,
@@ -289,7 +309,7 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.autonomyLevel >= 50) {
+    if (this.autonomyLevel >= 40) {
       this.addTask({
         title: "Explorar nuevas integraciones",
         description: "Buscar en la base de conocimiento posibilidades de nuevas herramientas o integraciones para expandir capacidades.",
@@ -299,7 +319,7 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.autonomyLevel >= 60 && state.tools.total < 5) {
+    if (this.autonomyLevel >= 50 && state.tools.total < 5) {
       this.addTask({
         title: "Crear herramientas de automatización",
         description: `Solo hay ${state.tools.total} herramientas registradas. Generar nuevas herramientas para expandir capacidades.`,
@@ -309,7 +329,7 @@ export class AutonomousPlanner {
       count++;
     }
 
-    if (this.cycleCount % 5 === 0 && this.autonomyLevel >= 70) {
+    if (this.cycleCount % 5 === 0 && this.autonomyLevel >= 60) {
       this.addTask({
         title: "Optimización profunda del sistema",
         description: "Ejecutar ciclo de optimización integral: limpiar memoria, reindexar, actualizar perfiles de modelo y compactar almacenamiento.",

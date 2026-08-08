@@ -25,9 +25,7 @@ export type TaskExecutor<TPayload = any, TResult = any> = (task: KernelTask<TPay
 export interface TaskQueueOptions {
   concurrency?: number;
   defaultMaxAttempts?: number;
-}
-
-export interface TaskQueueStats {
+}export interface TaskQueueStats {
   queued: number;
   running: number;
   completed: number;
@@ -40,6 +38,7 @@ export class TaskQueue {
   private queue: KernelTask[] = [];
   private running = 0;
   private executors = new Map<string, TaskExecutor>();
+  private defaultExecutor?: TaskExecutor;
   private completed = 0;
   private failed = 0;
   private cancelled = 0;
@@ -56,6 +55,10 @@ export class TaskQueue {
 
   public registerExecutor<TPayload = any, TResult = any>(taskType: string, executor: TaskExecutor<TPayload, TResult>): void {
     this.executors.set(taskType, executor as TaskExecutor);
+  }
+
+  public setDefaultExecutor<TPayload = any, TResult = any>(executor: TaskExecutor<TPayload, TResult>): void {
+    this.defaultExecutor = executor as TaskExecutor;
   }
 
   public async enqueue<TPayload = any, TResult = any>(
@@ -125,7 +128,7 @@ export class TaskQueue {
   }
 
   private async execute(task: KernelTask): Promise<void> {
-    const executor = this.executors.get(task.type);
+    const executor = this.executors.get(task.type) ?? this.defaultExecutor;
     try {
       if (!executor) {
         throw new Error(`[TaskQueue] No executor registered for task type "${task.type}"`);

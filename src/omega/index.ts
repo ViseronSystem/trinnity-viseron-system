@@ -89,6 +89,43 @@ export class OmegaPlatform {
         getAgents: () => options.agentManager!.list(),
         runAgent: (id, task, ctx) => options.agentManager!.run(id, task, ctx),
       });
+
+      // Executor padrão do kernel: QUALQUER tarefa enfileirada é executada por
+      // uma das 5000+ mentes (o agente nuclear mais indicado pelo payload).
+      // Sem isto, o kernel rejeitava tarefas com "No executor registered" e as
+      // mentes ficavam paradas a 0 execuções.
+      this.kernel.tasks.setDefaultExecutor(async (task) => {
+        const manager = options.agentManager!;
+        const payload = task.payload as any;
+        const targetId = payload?.assignedAgentId || payload?.agentId;
+        const title = task.title || "tarefa autónoma";
+        const description = payload?.description || title;
+
+        const pickTarget = (): string => {
+          if (targetId) return targetId;
+          const byCapability = payload?.capability
+            ? manager.getAgentsByCapability(payload.capability)[0]
+            : undefined;
+          if (byCapability) return byCapability.id;
+          const preferred = manager.getAgentsByRole("CEO Agent")[0] || manager.getAgentsByRole("CEO")[0];
+          if (preferred) return preferred.id;
+          const fallback = manager.list("ACTIVE")[0];
+          if (fallback) return fallback.id;
+          throw new Error("[Kernel] Nenhuma mente ativa para executar a tarefa");
+        };
+
+        const agentId = pickTarget();
+        const result = await manager.run(agentId, description, {
+          kernelTaskId: task.id,
+          ...payload,
+        });
+        return {
+          executedBy: agentId,
+          success: result?.success ?? false,
+          output: result?.output ?? "",
+          error: result?.error,
+        };
+      });
     }
 
     if (options.memoryEngine) {
