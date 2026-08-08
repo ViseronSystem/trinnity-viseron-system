@@ -21,6 +21,8 @@ export interface OmegaOptions {
   providerFactory?: ProviderFactory;
   modelRouter?: ModelRouter;
   graphFilePath?: string;
+  taskQueuePath?: string;
+  toolManager?: any;
   planner?: PlannerEngineAdapter;
   evolution?: EvolutionEngineAdapter;
   learning?: LearningEngineAdapter;
@@ -61,7 +63,9 @@ export class OmegaPlatform {
 
   constructor(options: OmegaOptions = {}) {
     this.agentManager = options.agentManager;
-    this.kernel = new Kernel();
+    this.kernel = new Kernel({
+      taskQueuePath: options.taskQueuePath,
+    });
     this.graph = new KnowledgeGraph({
       filePath: options.graphFilePath ?? path.join(process.cwd(), "database", "memory", "knowledge-graph.json"),
     });
@@ -93,8 +97,8 @@ export class OmegaPlatform {
 
       // Executor padrão do kernel: QUALQUER tarefa enfileirada é executada por
       // uma das 5000+ mentes (o agente nuclear mais indicado pelo payload).
-      // Sem isto, o kernel rejeitava tarefas com "No executor registered" e as
-      // mentes ficavam paradas a 0 execuções.
+      // Se o payload pedir ferramentas, são invocadas de verdade antes do agente
+      // e os resultados entram no contexto — a cadeia E2E passa pelo ToolManager.
       this.kernel.tasks.setDefaultExecutor(async (task) => {
         const manager = options.agentManager!;
         const payload = task.payload as any;
@@ -116,16 +120,92 @@ export class OmegaPlatform {
         };
 
         const agentId = pickTarget();
+        const startedAt = Date.now();
+
+        // Ferramentas reais: invocadas pelo kernel com eventos tool.called/tool.completed
+        const toolCalls: any[] = [];
+        const toolSpecs = Array.isArray(payload?.tools) ? payload.tools : [];
+        for (const spec of toolSpecs) {
+          const toolId = typeof spec === "string" ? spec : spec?.id;
+          const toolInput = typeof spec === "string" ? {} : (spec?.input ?? {});
+          if (!toolId) continue;
+          const call = await this.kernel.executeTool(toolId, toolInput, { taskId: task.id });
+          toolCalls.push(call);
+        }
+        task.tools = toolCalls;
+
         const result = await manager.run(agentId, description, {
           kernelTaskId: task.id,
+          tools: toolCalls,
           ...payload,
         });
+        const latencyMs = Date.now() - startedAt;
         return {
           executedBy: agentId,
           success: result?.success ?? false,
           output: result?.output ?? "",
           error: result?.error,
+          tools: toolCalls,
+          latencyMs,
+          cost: +(latencyMs * 0.00002).toFixed(6),
         };
+      });
+    }
+
+    // Planner por omissão: plano executável com passos de ação/tool reais.
+    this.kernel.tasks.setPlanner((task) => {
+      const payload = (task.payload ?? {}) as any;
+      const steps: any[] = [{ action: "agent", description: task.title }];
+      if (Array.isArray(payload?.tools)) {
+        for (const spec of payload.tools) {
+          const id = typeof spec === "string" ? spec : spec?.id;
+          if (!id) continue;
+          steps.push({ action: "tool", description: `invoke ${id}`, tool: id, input: typeof spec === "string" ? {} : (spec?.input ?? {}) });
+        }
+      }
+      if (payload?.description) steps.push({ action: "report", description: String(payload.description) });
+      return steps;
+    });
+
+    // Verificador por omissão: resultado real (success) + schema opcional via payload.verify
+    this.kernel.tasks.setVerifier(async (task, result) => {
+      const reasons: string[] = [];
+      if (result === null || result === undefined) {
+        return { status: "FAIL", reasons: ["executor returned no result"] };
+      }
+      if (result.success === false) {
+        return { status: "FAIL", reasons: [String(result.error || "executor reported failure")] };
+      }
+      reasons.push("executor reported success");
+      const verifySpec = (task.payload as any)?.verify;
+      if (verifySpec && Array.isArray(verifySpec.require)) {
+        for (const key of verifySpec.require) {
+          if (result[key] === undefined || result[key] === null) {
+            return { status: "FAIL", reasons: [`verify.require: "${key}" missing in result`] };
+          }
+        }
+        reasons.push("payload.verify schema satisfied");
+      }
+      if (verifySpec?.requireTruthy) {
+        const val = result[verifySpec.requireTruthy];
+        if (!val) {
+          return { status: "RETRY", reasons: [`verify.requireTruthy: "${verifySpec.requireTruthy}" falsy → retry`] };
+        }
+      }
+      return { status: "PASS", reasons };
+    });
+
+    if (options.toolManager && typeof options.toolManager.listTools === "function") {
+      this.kernel.attachTools({
+        listTools: () =>
+          options.toolManager!.listTools().map((t: any) => ({
+            id: t.id,
+            name: t.name,
+            type: t.type,
+            description: t.description,
+            enabled: t.enabled !== false,
+          })),
+        executeTool: (toolId, input) => options.toolManager!.executeTool(toolId, input),
       });
     }
 
@@ -162,6 +242,46 @@ export class OmegaPlatform {
       watchdog: this.watchdog,
     });
     this.os.boot();
+
+    // Memória persistente: cada task concluída (ou falhada) é gravada no
+    // KnowledgeGraph + memória de longo prazo — nunca se perde no restart.
+    this.kernel.events.subscribe("task:completed", (task) => this.recordTaskMemory(task));
+    this.kernel.events.subscribe("task:failed", (task) => this.recordTaskMemory(task));
+
+    // Retoma tarefas pendentes recuperadas do ficheiro de persistência.
+    this.kernel.tasks.resume();
+  }
+
+  private recordTaskMemory(task: any): void {
+    try {
+      const executedBy = task?.result?.executedBy;
+      const entityId = `task_${task.id}`;
+      this.graph.upsertEntity(entityId, "task", task?.title || task?.id, {
+        type: task?.type,
+        state: task?.state,
+        attempts: task?.attempts,
+        verification: task?.verification?.status,
+        verified: task?.verification?.status === "PASS",
+        latencyMs: task?.latencyMs,
+        cost: task?.cost,
+        at: task?.completedAt ?? Date.now(),
+      });
+      if (executedBy) {
+        if (!this.graph.getEntity(executedBy)) this.graph.upsertEntity(executedBy, "agent", executedBy);
+        this.graph.addRelation(entityId, executedBy, "executed_by", 1, { taskType: task?.type });
+      }
+      this.graph.save();
+      void this.kernel.recordDecision(`task:${task.id}`, {
+        title: task?.title,
+        type: task?.type,
+        state: task?.state,
+        verification: task?.verification?.status,
+        result: task?.result,
+      }, ["task", task?.type, task?.state]);
+      void this.kernel.publish("memory:updated", { taskId: task?.id, entityId, state: task?.state }, "omega-platform");
+    } catch (err: any) {
+      console.warn(`[TVS OMEGA] memory record failed: ${err?.message || err}`);
+    }
   }
 
   public loadCoreAgents(): { valid: number; invalid: number; files: number } {

@@ -74,6 +74,37 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // E2E task execution: listar / ver / cancelar / histórico
+  router.get("/tasks/list", (req, res) => {
+    const status = (req.query.status as string) || undefined;
+    res.json({ tasks: omega.kernel.tasks.listTasks(status) });
+  });
+
+  router.get("/tasks/history", (_req, res) => {
+    res.json({ tasks: omega.kernel.tasks.history() });
+  });
+
+  router.get("/tasks/:id", (req, res) => {
+    const task = omega.kernel.tasks.getTask(req.params.id);
+    if (!task) return res.status(404).json({ error: `Task "${req.params.id}" not found` });
+    res.json(task);
+  });
+
+  router.post("/tasks/:id/cancel", (req, res) => {
+    const cancelled = omega.kernel.tasks.cancel(req.params.id);
+    if (!cancelled) return res.status(404).json({ error: `Task "${req.params.id}" not cancellable or missing` });
+    res.json({ cancelled: true, taskId: req.params.id });
+  });
+
+  router.get("/verifier", (_req, res) => {
+    res.json({ ...omega.kernel.tasks.verifierStats(), states: ["CREATED", "PLANNING", "QUEUED", "RUNNING", "VERIFYING", "COMPLETED", "FAILED", "RECOVERING", "CANCELLED"] });
+  });
+
+  router.get("/tools", (_req, res) => {
+    const tools = omega.kernel.getTools();
+    res.json({ total: tools.length, tools });
+  });
+
   router.get("/memory/graph", (_req, res) => {
     res.json(omega.graph.getStats());
   });

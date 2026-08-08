@@ -54,7 +54,7 @@ async function runOmegaTests() {
 
   async function waitFor(task: any, timeoutMs = 5000): Promise<void> {
     const start = Date.now();
-    while (task.state === "QUEUED" || task.state === "RUNNING") {
+    while (["CREATED", "PLANNING", "QUEUED", "RUNNING", "VERIFYING", "RECOVERING"].includes(task.state)) {
       if (Date.now() - start > timeoutMs) throw new Error(`Timeout waiting task ${task.id}`);
       await new Promise((r) => setTimeout(r, 25));
     }
@@ -495,6 +495,112 @@ async function runOmegaTests() {
     assert(resetCalls === 1, "Watchdog: reset do componente executado");
     assert(heartbeats.isStale("test_component", 180000) === false, "Watchdog: após reset, componente saudável");
     assert(watchdog.status().incidents.length === 1, "Watchdog: incidente no histórico de status");
+  }
+
+  // ── 15. E2E Task Execution (pipeline verificado) ──
+  {
+    const bus = new EventBus();
+    const queue = new TaskQueue(bus, { concurrency: 2 });
+    queue.setPlanner((task) => {
+      const steps: any[] = [{ action: "agent", description: task.title }];
+      if ((task.payload as any)?.tools) steps.push({ action: "tool", description: "invoke tool", tool: "test_tool" });
+      return steps;
+    });
+    queue.setVerifier(async (task, result) => {
+      if (result?.success === false) return { status: "FAIL", reasons: [result.error || "fail"] };
+      const spec = (task.payload as any)?.verify;
+      if (spec?.requireTruthy && !result[spec.requireTruthy]) return { status: "RETRY", reasons: ["not yet"] };
+      return { status: "PASS", reasons: ["ok"] };
+    });
+
+    queue.registerExecutor("v-ok", async (task) => ({ success: true, output: `out:${task.payload?.x}` }));
+    queue.registerExecutor("v-fail", async () => ({ success: false, error: "nope" }));
+
+    const tOk = await queue.enqueue("v-ok", "Verified ok", { x: 1 }, "high");
+    await waitFor(tOk);
+    assert(tOk.plan?.length === 1 && tOk.plan?.[0]?.action === "agent", "E2E: planner produz plano executável");
+    assert(tOk.state === "COMPLETED" && tOk.verification?.status === "PASS", "E2E: task verificada PASS conclui");
+    assert(typeof tOk.latencyMs === "number" && tOk.latencyMs >= 0, "E2E: latencyMs medido");
+
+    const tFail = await queue.enqueue("v-fail", "Verified fail", {}, "normal");
+    await waitFor(tFail);
+    assert(tFail.state === "FAILED" && tFail.verification?.status === "FAIL", "E2E: verifier FAIL marca FAILED com verification");
+
+    let runCount = 0;
+    queue.registerExecutor("v-retry", async () => {
+      runCount++;
+      return runCount === 1 ? { success: true, output: "" } : { success: true, output: "final" };
+    });
+    const tRetry = await queue.enqueue("v-retry", "Retry once", { verify: { requireTruthy: "output" } }, "normal");
+    await waitFor(tRetry);
+    assert(runCount === 2 && tRetry.state === "COMPLETED" && tRetry.verification?.status === "PASS", "E2E: verifier RETRY → RECOVERING → retry → PASS");
+
+    const stats = queue.getStats();
+    assert(stats.completed === 2 && stats.verified === 2 && stats.recovering === 0, "E2E: stats com verified/recovering");
+  }
+
+  // ── 16. Kernel tools + cancel RUNNING + persistência ──
+  {
+    const kernel = new Kernel();
+    kernel.attachTools({
+      listTools: () => [{ id: "t1", name: "T1", type: "REST_API", description: "x", enabled: true }],
+      executeTool: async (id) => ({ success: true, result: `ran:${id}` }),
+    });
+    const toolEvents: string[] = [];
+    kernel.events.subscribe("tool.called", (e: any) => { toolEvents.push(`called:${e.toolId}`); });
+    kernel.events.subscribe("tool.completed", (e: any) => { toolEvents.push(`done:${e.toolId}`); });
+    kernel.tasks.setVerifier(async (_t, r) => (r?.success === false ? { status: "FAIL", reasons: [] } : { status: "PASS", reasons: [] }));
+    kernel.tasks.registerExecutor("tool-task", async (task) => {
+      const spec = task.payload as any;
+      const exec = await kernel.executeTool(spec.tools[0].id, {});
+      return { success: exec.success !== false, output: String(exec.result), tools: [exec] };
+    });
+
+    assert(kernel.getTools().length === 1 && kernel.status().tools.total === 1, "Kernel: tools expostas no status");
+    assert(kernel.status().tasks.verifier.attached === true && kernel.version === "1.1.0", "Kernel: verifier + versão no status");
+
+    const toolTask = await kernel.tasks.enqueue("tool-task", "Use tool", { tools: [{ id: "t1", input: {} }] });
+    await waitFor(toolTask);
+    assert(toolTask.state === "COMPLETED" && String(toolTask.result?.output).includes("ran:t1"), "Kernel: tool executada pelo executor");
+    assert(toolEvents.includes("called:t1") && toolEvents.includes("done:t1"), "Kernel: eventos tool.called/tool.completed emitidos");
+
+    const busC = new EventBus();
+    const qc = new TaskQueue(busC, { concurrency: 1 });
+    qc.registerExecutor("c-slow", async (task) => { while (!task.cancelRequested) await new Promise((r) => setTimeout(r, 10)); return { success: true }; });
+    const ct = await qc.enqueue("c-slow", "Cancel me");
+    while (qc.getStats().running === 0) await new Promise((r) => setTimeout(r, 5));
+    const cancelled = qc.cancel(ct.id);
+    await waitFor(ct);
+    assert(cancelled === true && ct.state === "CANCELLED", "E2E: cancel de task em RUNNING");
+
+    const tmpFile = path.join(process.cwd(), "database", "memory", "task-queue-e2e-test.json");
+    try {
+      const busP = new EventBus();
+      const q1 = new TaskQueue(busP, { concurrency: 1, filePath: tmpFile });
+      q1.registerExecutor("p-echo", async (t) => `p:${t.payload?.x}`);
+      q1.setVerifier(async () => ({ status: "PASS", reasons: ["ok"] }));
+      const pt = await q1.enqueue("p-echo", "Persist", { x: 9 });
+      await waitFor(pt);
+      assert(pt.state === "COMPLETED", "E2E: persistência — task concluída");
+      const q2 = new TaskQueue(busP, { concurrency: 1, filePath: tmpFile });
+      assert(q2.history().some((t) => t.id === pt.id && t.state === "COMPLETED"), "E2E: persistência — histórico recarregado do disco");
+      assert(q2.getStats().completed === 1, "E2E: persistência — counters restaurados");
+    } finally {
+      fs.rmSync(tmpFile, { force: true });
+    }
+  }
+
+  // ── 17. TaskVerifier (engine reutilizável) ──
+  {
+    const { TaskVerifier, schemaRule, outputNonEmpty } = require(path.join(process.cwd(), "src", "omega", "verifier", "TaskVerifier"));
+    const tv = new TaskVerifier();
+    tv.addRules("x", [schemaRule(["output"]), outputNonEmpty()]);
+    const ok = await tv.verify({ type: "x" }, { output: "hello" });
+    assert(ok.status === "PASS" && ok.passed === 2, "TaskVerifier: schema + output PASS");
+    const bad = await tv.verify({ type: "x" }, { output: "" });
+    assert(bad.status === "FAIL" && bad.failed === 1, "TaskVerifier: output vazio FAIL");
+    const none = await tv.verify({ type: "y" }, {});
+    assert(none.status === "PASS", "TaskVerifier: sem regras → PASS");
   }
 
   console.log(`\n==========================================`);
