@@ -1,0 +1,74 @@
+/* ============================================================
+   TVS SKELETON SYSTEM v1 — never show empty "Loading..."
+   © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
+   Consumo: <link rel="stylesheet" href="/tvs-skeleton.css">
+   ------------------------------------------------------------
+   Princípio: nenhuma tela vazia — sempre esqueletos reutilizáveis
+   com shimmer discreto (opacity + transform, sem layout thrash).
+   ============================================================ */
+
+/* ── Base ─────────────────────────────────────────────────── */
+.tvs-skeleton {
+  position: relative; overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--tvs-radius-sm, 6px);
+}
+.tvs-skeleton::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  transform: translateX(-100%);
+  animation: tvs-shimmer 1.6s infinite;
+}
+@keyframes tvs-shimmer { to { transform: translateX(100%); } }
+
+/* ── Texto ────────────────────────────────────────────────── */
+.tvs-skeleton-text { height: 12px; }
+.tvs-skeleton-text-sm { height: 10px; width: 60%; }
+.tvs-skeleton-text-lg { height: 16px; width: 80%; }
+.tvs-skeleton-text-xl { height: 20px; width: 40%; }
+.tvs-skeleton-text { margin-bottom: var(--tvs-space-2, 8px); }
+
+/* ── Avatar ───────────────────────────────────────────────── */
+.tvs-skeleton-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+.tvs-skeleton-avatar-sm { width: 28px; height: 28px; }
+.tvs-skeleton-avatar-lg { width: 56px; height: 56px; }
+
+/* ── Card ─────────────────────────────────────────────────── */
+.tvs-skeleton-card {
+  display: flex; flex-direction: column; gap: var(--tvs-space-3, 12px);
+  padding: var(--tvs-space-5, 20px);
+  background: var(--tvs-surface, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--tvs-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--tvs-radius-lg, 12px);
+}
+
+/* ── Linha de tabela ──────────────────────────────────────── */
+.tvs-skeleton-table { display: flex; flex-direction: column; gap: 2px; }
+.tvs-skeleton-table-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 60px;
+  gap: var(--tvs-space-3, 12px); align-items: center;
+  padding: var(--tvs-space-3, 12px) 0; border-bottom: 1px solid var(--tvs-border, rgba(255,255,255,0.06));
+}
+.tvs-skeleton-table-header .tvs-skeleton-text { height: 10px; width: 70%; background: rgba(255,255,255,0.04); }
+
+/* ── Chart ────────────────────────────────────────────────── */
+.tvs-skeleton-chart {
+  height: 160px; border-radius: var(--tvs-radius-md, 10px);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.04);
+  background-size: 40px 40px;
+}
+
+/* ── Agent (avatar + nome + status) ───────────────────────── */
+.tvs-skeleton-agent { display: flex; align-items: center; gap: var(--tvs-space-3, 12px); padding: var(--tvs-space-3, 12px); }
+
+/* ── Dashboard composto ───────────────────────────────────── */
+.tvs-skeleton-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: var(--tvs-space-4, 16px); }
+.tvs-skeleton-stat { display: flex; flex-direction: column; gap: var(--tvs-space-2, 8px); padding: var(--tvs-space-4, 16px); }
+
+/* ── Reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tvs-skeleton::after { animation: none; }
+}

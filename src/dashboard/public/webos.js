@@ -36,7 +36,7 @@
   function createWindow(id, opts) {
     if (windows[id]) { focusWindow(id); return; }
     const win = document.createElement('div');
-    win.className = 'os-window';
+    win.className = 'os-window tvs-enter';
     win.id = 'win-' + id;
     win.style.width = (opts.w || 600) + 'px';
     win.style.height = (opts.h || 400) + 'px';
@@ -244,6 +244,7 @@
       </div>
     `;
     document.body.appendChild(os);
+    if (window.__tvsHideShell) window.__tvsHideShell(); // lazy loading (Issue #5): shell -> OS real
 
     initThree();
     initClock();
@@ -274,8 +275,9 @@
   function initThree() {
     const c = document.getElementById('os-three-bg');
     if (!c || typeof THREE === 'undefined') return;
-    try {
-      const s = new THREE.Scene();
+    if (c.dataset.threeInit === '1') return; // evita duplicar o renderer quando o THREE carrega lazy
+    c.dataset.threeInit = '1';
+    try {      const s = new THREE.Scene();
       const a = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const r = new THREE.WebGLRenderer({ canvas: c, alpha: true, antialias: true });
       r.setSize(window.innerWidth, window.innerHeight);
@@ -355,11 +357,11 @@
       });
       const renderAgents = async () => {
         if (!agentsEl) return;
-        agentsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:12px">Carregando agentes...</div>';
+        agentsEl.innerHTML = skeletonAgents();
         try {
           const r = await fetch(base + '/api/code/agents');
           const d = await r.json();
-          if (!d.agents || !d.agents.length) { agentsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:12px">Nenhum agente registado ainda.</div>'; return; }
+          if (!d.agents || !d.agents.length) { agentsEl.innerHTML = '<div class="tvs-empty"><div class="tvs-empty-icon">🤖</div><div class="tvs-empty-title">Nenhum agente</div><div class="tvs-empty-hint">Ainda não há agentes registados.</div></div>'; return; }
           agentsEl.innerHTML = d.agents.map(a => `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:6px;margin:3px 0">
             <span style="width:6px;height:6px;border-radius:50%;background:${a.status === 'ACTIVE' ? '#00ff87' : '#ff2d55'}"></span>
             <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#e4e4f0">${a.name}</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">${a.role}</div></div>
@@ -502,7 +504,7 @@
       async function loadWorkflows() {
         const list = document.getElementById('wf-list');
         if (!list) return;
-        list.innerHTML = '<div style="padding:10px;text-align:center;color:rgba(255,255,255,0.3)">Loading workflows...</div>';
+        list.innerHTML = skeletonTable();
         try {
           const base = getApiBase();
           const res = await fetch(base + '/api/workflows').catch(() => null);
@@ -601,4 +603,33 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', buildOS);
   else buildOS();
+
+  // Re-inicializa o background 3D quando o THREE carrega lazy (Issue #5).
+  window.__tvsWebosThreeReady = function () { if (typeof initThree === 'function') initThree(); };
 })();
+
+/* ── Skeleton helpers (Issue #4) ──────────────────────────── */
+function skeletonAgents() {
+  let h = '';
+  for (let i = 0; i < 6; i++) {
+    h += '<div class="tvs-skeleton-agent"><div class="tvs-skeleton tvs-skeleton-avatar"></div><div style="flex:1"><div class="tvs-skeleton tvs-skeleton-text" style="width:40%"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div></div>';
+  }
+  return h;
+}
+function skeletonTable() {
+  let h = '<div class="tvs-skeleton-table">';
+  h += '<div class="tvs-skeleton-table-row tvs-skeleton-table-header"><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text"></div></div>';
+  for (let i = 0; i < 5; i++) {
+    h += '<div class="tvs-skeleton-table-row"><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>';
+  }
+  return h + '</div>';
+}
+function skeletonDashboard() {
+  let h = '<div class="tvs-skeleton-dashboard">';
+  for (let i = 0; i < 4; i++) {
+    h += '<div class="tvs-skeleton tvs-skeleton-stat"><div class="tvs-skeleton tvs-skeleton-text-xl"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>';
+  }
+  h += '</div><div class="tvs-skeleton tvs-skeleton-chart tvs-mt-4"></div>';
+  return h;
+}
+window.__tvsSkeleton = { agents: skeletonAgents, table: skeletonTable, dashboard: skeletonDashboard };

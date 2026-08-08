@@ -1,0 +1,62 @@
+/* ============================================================
+   TVS MOTION v1 — principles + entrance transitions
+   © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
+   Consumo: <link rel="stylesheet" href="/tvs-motion.css">
+   ------------------------------------------------------------
+   Princípios:
+   1. Motion comunica estado (nunca apenas decoração)
+   2. Rápido (interface administrativa != apresentação)
+   3. Pequeno deslocamento: 6px -> 12px
+   4. opacity + transform (evitar layout thrash)
+   5. prefers-reduced-motion -> experiência praticamente estática
+   ============================================================ */
+
+/* ── Timing tokens (já em tvs-design.css; defaults aqui) ──── */
+:root {
+  --tvs-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tvs-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --tvs-duration-fast: 120ms;
+  --tvs-duration-base: 200ms;
+  --tvs-duration-slow: 300ms;
+}
+
+/* ── Enter: subtil, 6px -> 0, opacity 0 -> 1 ──────────────── */
+.tvs-enter {
+  opacity: 0; transform: translateY(6px);
+  transition: opacity var(--tvs-duration-slow) var(--tvs-ease-out),
+    transform var(--tvs-duration-slow) var(--tvs-ease-out);
+}
+.tvs-enter.in-view { opacity: 1; transform: translateY(0); }
+
+/* Enter com delay limitado (20-40ms por card, NADA de cascata longa) */
+.tvs-enter-d1 { transition-delay: 20ms; }
+.tvs-enter-d2 { transition-delay: 40ms; }
+.tvs-enter-d3 { transition-delay: 60ms; }
+.tvs-enter-d4 { transition-delay: 80ms; }
+.tvs-enter-d5 { transition-delay: 100ms; }
+
+/* ── Hover (elementos interativos) ────────────────────────── */
+.tvs-hover-lift { transition: transform var(--tvs-duration-fast) var(--tvs-ease-standard); }
+.tvs-hover-lift:hover { transform: translateY(-2px); }
+.tvs-hover-lift:active { transform: translateY(0); }
+
+.tvs-hover-glow { transition: box-shadow var(--tvs-duration-fast) var(--tvs-ease-standard); }
+.tvs-hover-glow:hover { box-shadow: var(--tvs-shadow-glow-neon, 0 0 20px rgba(0,240,255,0.12)); }
+
+/* ── Press (feedback tátil) ───────────────────────────────── */
+.tvs-press { transition: transform var(--tvs-duration-fast) var(--tvs-ease-standard); }
+.tvs-press:active { transform: scale(0.97); }
+
+/* ── Loading (comunica estado, não decora) ────────────────── */
+.tvs-fade-in { animation: tvs-fade var(--tvs-duration-base) var(--tvs-ease-out); }
+@keyframes tvs-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Reduced motion: experiência praticamente estática ────── */
+@media (prefers-reduced-motion: reduce) {
+  .tvs-enter, .tvs-hover-lift, .tvs-hover-glow, .tvs-press {
+    transition: none;
+  }
+  .tvs-enter { opacity: 1; transform: none; }
+  .tvs-enter-d1, .tvs-enter-d2, .tvs-enter-d3, .tvs-enter-d4, .tvs-enter-d5 { transition-delay: 0ms; }
+  .tvs-fade-in { animation: none; }
+}
