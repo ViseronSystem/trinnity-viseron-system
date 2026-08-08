@@ -135,6 +135,7 @@ cd mobile && npx expo start
 | `npm run cosmos:marketing` | Gera `data/Viseron_Cosmos_Kit_Marketing.pdf` (posts/hashtags/press/Telegram, ES/PT/EN) |
 | `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
 | `npm run cosmos:golive` | Gera `data/Viseron_Cosmos_Go_Live_DEX.pdf` (runbook go-live DEX: Phantom/Solana primeiro, depois ETH/BSC — carteira, deploy, liquidez, lock, listagem) |
+| `npm run cosmos:ops` | Gera `data/Viseron_Cosmos_Operacoes_Wallet.pdf` (guia prático: ver/importar tokens na Phantom iOS, por que o swap falha sem pool, como criar a pool Raydium no futuro, fábrica de 50 carteiras/semana) |
 | `npm run cosmos:solana` | Go-live SPL real na Solana (mainnet por omissão, `--devnet` p/ teste): cria mints VSR+TRIN, minta o supply e revoga mint authority. Exige `contracts/solana-keypair.json` (gitignored) com a chave exportada da Phantom + SOL para rent/fees |
 | `npm run cosmos:wallet` | Gera a wallet oficial com frase secreta (BIP39, padrão Phantom `m/44'/501'/0'/0'`) → `contracts/solana-keypair.json` + `contracts/solana-seed.txt` (gitignored) |
 | `npm run cosmos:wallet:acesso` | Gera `data/Viseron_Cosmos_Wallet_ACESSO.txt` (gitignored, CONFIDENCIAL) com TODOS os acessos da wallet: endereço, frase secreta, chave privada base58 (32+64 bytes) e keypair JSON |
