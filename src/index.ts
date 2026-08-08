@@ -22,6 +22,18 @@ process.on("unhandledRejection", (reason) => {
   console.error(`[TVS] ⚠ Rejeição não tratada (sistema continua): ${msg}`);
 });
 
+// ═══ WEB SERVER PRIMEIRO (porta 32123 abre em segundos, sem esperar o core) ═══
+// O web server (API, ATLAS, VISERON, dashboard, cosméticos) é autónomo: não
+// depende do ViseronCore. Abre JÁ para que nenhum passo pesado do boot o bloqueie.
+const webServer = new ViseronWebServer({ port: 32123 });
+webServer.start()
+  .then(() => {
+    webServer.getContentAgent().start(120);
+    (global as any).__TVS_WEB_SERVER = webServer;
+    console.log(`[Web] API pronta em http://localhost:32123 (${Math.round(process.uptime())}s de boot)`);
+  })
+  .catch((err: any) => console.error(`[Web] Falha ao iniciar API: ${err?.message || err}`));
+
 const tvs = new ViseronCore();
 tvs.start();
 
@@ -230,15 +242,6 @@ const omegaPlatform = (() => {
     return null;
   }
 })();
-
-// ═══ WEB API LAYER (auth · billing · onboarding · email · messaging · JARVIS) ═══
-// Integração real: `npm start` liga também a plataforma SaaS web (porta 32123).
-const webServer = new ViseronWebServer({ port: 32123 });
-step("WebServer API", async () => {
-  await webServer.start();
-  webServer.getContentAgent().start(120);
-  (global as any).__TVS_WEB_SERVER = webServer;
-});
 
 const terminal = new TVSTerminal(tvs, dashboardServer);
 step("Terminal", () => terminal.start());

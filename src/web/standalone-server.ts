@@ -23,6 +23,7 @@ import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
 import { createJarvisRouter } from "./jarvis/routes";
 import { createViseronRouter } from "./viseron/routes";
+import { createTutorRouter } from "./tutor/routes";
 import { createRevenueRouter } from "./revenue/routes";
 import { CallLogStore } from "./calls/store";
 import { CallLearning } from "./calls/learning";
@@ -248,6 +249,11 @@ export class ViseronWebServer {
       logger: this.logger,
       metrics: this.metrics,
     }));
+    this.app.use("/api", createTutorRouter({
+      dataDir: this.dataDir,
+      logger: this.logger,
+      metrics: this.metrics,
+    }));
     this.app.use("/api", createRevenueRouter(this.metrics, {
       accounts: this.accounts,
       crypto: this.crypto.payments,
@@ -274,6 +280,11 @@ export class ViseronWebServer {
     // VISERON — HUD da Superinteligência Autónoma (voz + cérebro + supervisão AIOX)
     this.app.get("/viseron", (_req, res) => {
       res.sendFile(path.join(PUBLIC_DIR, "viseron.html"));
+    });
+
+    // ATLAS — Tutor de Inglês com voz
+    this.app.get("/atlas", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "atlas.html"));
     });
 
     // JOGO VISERON — plataformas reais (Canvas 2D · iOS/APK/Windows via WebView)
@@ -361,6 +372,7 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Messaging: http://localhost:${this.port}/api/messaging/* (E2E x25519+aes-256-gcm)`);
         console.log(`[Viseron Web] JARVIS: http://localhost:${this.port}/api/jarvis/chat (conversa + autonomia)`);
         console.log(`[Viseron Web] VISERON: http://localhost:${this.port}/viseron (Superinteligência de voz · /api/viseron/chat)`);
+        console.log(`[Viseron Web] ATLAS (Tutor de Inglês): http://localhost:${this.port}/atlas (voz · /api/tutor/chat)`);
         console.log(`[Viseron Web] JOGO VISERON: http://localhost:${this.port}/game (plataformas · Canvas 2D · ?demo p/ autónomo)`);
         console.log(`[Viseron Web] VISERON COSMOS: http://localhost:${this.port}/cosmos ($VSR · $TRIN · site interplanetário)`);
         console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);

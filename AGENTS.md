@@ -35,6 +35,8 @@ npm run build
 npm start
 ```
 
+> **Boot rápido (2026-08)**: o web server (porta 32123) abre **em ~2s** — antes de o core pesado terminar. O ViseronCore, SuperIntegration, OmniRoute e os ciclos de aprendizagem arrancam em background; a API, o ATLAS (`/atlas`), o VISERON (`/viseron`) e o dashboard respondem enquanto o boot continua. Não é preciso esperar os ciclos para usar o sistema. Se parecer "travado" no OmniRoute v16.x: é o `npx omniroute` a arrancar em background — o sistema segue e reutiliza o servidor da porta 20128.
+
 ## Migração para servidor dedicado
 
 Empacota o sistema (dados + `.env` + scripts + runbook) e migra para um servidor dedicado (Ubuntu 24.04 / Debian 12 / Windows Server).
@@ -71,8 +73,7 @@ cd mobile && npx expo start
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Dev mode with hot reload |
-| `npm run restart` | Reinício à prova de congelamento: mata servidor + órfãos (OmniRoute/n8n) e verifica health/os/revenue |
-| `npm run build` | Compile TypeScript to dist/ |
+| `npm run restart` | Reinício à prova de congelamento: mata servidor + órfãos (OmniRoute/n8n) e verifica health/os/revenue || `npm run build` | Compile TypeScript to dist/ |
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |
 | `npm run build:ios` | Build IPA for Apple Store |
@@ -136,6 +137,8 @@ cd mobile && npx expo start
 | `npm run cosmos:contracts` | Gera `data/Viseron_Cosmos_Contratos.pdf` (tokenomics + endereços + deploy) |
 | `npm run cosmos:golive` | Gera `data/Viseron_Cosmos_Go_Live_DEX.pdf` (runbook go-live DEX: Phantom/Solana primeiro, depois ETH/BSC — carteira, deploy, liquidez, lock, listagem) |
 | `npm run cosmos:ops` | Gera `data/Viseron_Cosmos_Operacoes_Wallet.pdf` (guia prático: ver/importar tokens na Phantom iOS, por que o swap falha sem pool, como criar a pool Raydium no futuro, fábrica de 50 carteiras/semana) |
+| `npm run cosmos:governanca` | Gera `data/Viseron_Governanca_Biblica.pdf` (9 princípios bíblicos que governam cada decisão do VISERON, trilingue) |
+| `npm run atlas:plan` | Gera `data/Viseron_Plano_Ingles_ATLAS.pdf` (plano imersivo de 7 dias + método + frases de negócios, trilingue) |
 | `npm run cosmos:solana` | Go-live SPL real na Solana (mainnet por omissão, `--devnet` p/ teste): cria mints VSR+TRIN, minta o supply e revoga mint authority. Exige `contracts/solana-keypair.json` (gitignored) com a chave exportada da Phantom + SOL para rent/fees |
 | `npm run cosmos:wallet` | Gera a wallet oficial com frase secreta (BIP39, padrão Phantom `m/44'/501'/0'/0'`) → `contracts/solana-keypair.json` + `contracts/solana-seed.txt` (gitignored) |
 | `npm run cosmos:wallet:acesso` | Gera `data/Viseron_Cosmos_Wallet_ACESSO.txt` (gitignored, CONFIDENCIAL) com TODOS os acessos da wallet: endereço, frase secreta, chave privada base58 (32+64 bytes) e keypair JSON |
@@ -246,6 +249,10 @@ Cada deploy regenera PDFs automaticamente; cada update gera relatório PDF e faz
 | `POST /api/jarvis/chat` | Conversar com o JARVIS (sessão + execução real, rate-limited 30/min) |
 | `GET /api/revenue/readiness` | Go-live de receita real: Stripe, webhook, Gmail, email provider, domínio, Postgres |
 | `GET /api/ai/status` | Estado da IA real: providers disponíveis (OpenAI/Claude/Gemini/Grok/Ollama/OmniRoute) + modelo ativo |
+| `GET /api/tutor/status` | Estado do ATLAS (tutor de inglês): nome, plano de 7 dias, progresso, voz |
+| `GET /api/tutor/plan` | Plano diário de 7 dias + progresso (`data/tutor-progress.json`) |
+| `POST /api/tutor/chat` | Falar com o ATLAS (`{message, lang: es|pt, mode, sessionId}`) → lição/resposta com voz |
+| `GET /api/viseron/governance` | Estado da governança bíblica (princípios, bloqueios, stats) |
 | `POST /api/calls/twilio/inbound` | Webhook Twilio de chamada recebida → responde TwiML (Gather de voz) |
 | `POST /api/calls/twilio/gather` | Webhook Twilio do resultado de voz → grava transcrição + analisa com IA local + aprende + responde TwiML (loop) |
 | `POST /api/calls/twilio/status` | Webhook Twilio de estado de chamada (completar/hangup/duração) |
@@ -309,8 +316,25 @@ O **VISERON** é a camada de "alma" do sistema sobre o cérebro `JarvisAgent`: p
 
 - **Núcleo**: `src/web/viseron/agent.ts` (`ViseronAgent`) → chama o `JarvisAgent` com `persona` VISERON (`PERSONALITY OVERRIDE`), limpa a resposta para leitura por voz (`speakable`, ~700 chars), deteta o idioma (`es/pt/en`) e regista TUDO em `data/knowledge/viseron-supervision.jsonl` (speaker, lang, intent, provider, modelo, ok, ações, mensagem, resposta). `voice` no reply indica quem deve falar o quê (se fala Pedro, a resposta é da voz da Rainha e vice-versa).
 - **HUD web**: `src/dashboard/public/viseron.html` servido em `/viseron` — reator pulsante (clique para falar), wake word (`"VISERON"`, `"hey viseron"`, `"jarvis"`, `"companheiro"`, `"superinteligencia"`), loop de escuta contínua, TTS com voz grave, painéis de estado (sistema, provedor, memória) + painel AIOX (últimas operações, taxa de sucesso). UI trilingue ES/PT/EN.
-- **API** `/api/viseron/*` (ver tabela acima): `GET /api/viseron/status`, `POST /api/viseron/chat` (`{message, speaker: pedro|trinnity|guest, lang: es|pt|en, sessionId}` — rate-limited 60/min), `GET /api/viseron/supervision` (recent + total + byIntent + okRate). Montado no `standalone-server.ts`.
+- **API** `/api/viseron/*` (ver tabela acima): `GET /api/viseron/status`, `POST /api/viseron/chat` (`{message, speaker: pedro|trinnity|guest, lang: es|pt|en, sessionId}` — rate-limited 60/min), `GET /api/viseron/supervision` (recent + total + byIntent + okRate), `GET /api/viseron/governance` (estado da governança bíblica). Montado no `standalone-server.ts`.
 - O VISERON executa tudo o que o JARVIS sabe: estado, planos, checkout, conteúdo, mensageria, email, agency OS, apps Composio, RCS de marca e memória `memory_recall`. Wake word + voz = superinteligência ativada por comando, estilo Stark.
+
+## Governança Bíblica (ética obrigatória de TODAS as operações)
+
+O poder do VISERON é governado por ética bíblica: potência sem princípios é destruição; potência com princípios é bênção. **9 princípios sagrados** (sabedoria, verdade, mordomia, justiça, serviço, diligência, humildade, liberalidade, fidelidade) regem cada decisão — o VISERON pode TUDO o que for ético e recusa com educação o que não for.
+
+- **Núcleo**: `src/core/governance/bible.ts` — `BIBLE_PRINCIPLES`, `BIBLE_GOVERNANCE_CHECKS` e `assessOperation()` que **BLOQUEIA** operações fraudulentas, mentirosas, com taxas escondidas, que vazem dados/chaves/seed ou que explorem alguém. `governanceStats()` expõe o estado.
+- **Integração**: o `ViseronAgent` importa os princípios (bloco "GOVERNANÇA BÍBLICA" na persona) e expõe `governance()`/`assess()`; rota `GET /api/viseron/governance`. Tudo registado na supervisão AIOX (`data/knowledge/viseron-supervision.jsonl`) — auditável por Pedro e Trinnity.
+- **Comando**: `npm run cosmos:governanca` → `data/Viseron_Governanca_Biblica.pdf` (trilingue). Verdade prática: promessas irrealistas (ex. "fluência em 1 semana", "ser mais rico que Elon Musk") NUNCA são feitas — o sistema diz o que é real e entrega o máximo possível.
+
+## ATLAS — Tutor de Inglês com voz
+
+Professor de inglês pessoal de Pedro e Trinnity (falantes de ES/PT): explica na língua nativa, ENSINA inglês de negócios com método imersivo (input compreensível + fala diária + correção imediata) e fonética simples (ex. business → BÍZ-ness).
+
+- **Núcleo**: `src/web/tutor/agent.ts` (`EnglishTutorAgent`) — persona, plano de 7 dias (`DAILY_PLAN`), modos `lesson/chat/practice/correct/pronounce`, deteção de idioma (es/pt), cadeia de providers (openai→claude→gemini→grok→omniroute→ollama) com validação de conteúdo mínimo (`hasSubstance`) e fallback por regras (`atlas-fallback`) — nunca fica sem resposta útil.
+- **UI voz**: `src/dashboard/public/atlas.html` servido em `/atlas` — Web Speech (STT + TTS), reator, painel do plano, seleção de modo, lang ES/PT.
+- **API** (montado no `standalone-server.ts`): `GET /api/tutor/status` · `GET /api/tutor/plan` · `POST /api/tutor/chat` (`{message, lang: es|pt, mode, sessionId}`). Progresso em `data/tutor-progress.json`.
+- **Comando**: `npm run atlas:plan` → `data/Viseron_Plano_Ingles_ATLAS.pdf` (trilingue). Verdade prática: fluência real = 6–12 meses de prática diária; o salto de 7 dias leva de "não consigo falar" a "consigo manter conversa de negócios".
 
 ## Agency OS (agência × VISERON)
 

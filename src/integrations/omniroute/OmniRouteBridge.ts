@@ -84,7 +84,11 @@ export class OmniRouteBridge {
     fs.ensureDirSync(this.config.dataDir);
 
     if (this.config.autoStart) {
-      await this.startProcess();
+      // Arranque NÃO-bloqueante: o boot do TVS avança já; o OmniRoute fica
+      // pronto em background (o health check volta a tentar se falhar).
+      this.startProcess().catch((err: any) => {
+        console.warn(`  [OmniRoute] Start in background falhou: ${err.message}`);
+      });
     }
 
     this.startHealthCheck();

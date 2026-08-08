@@ -3,6 +3,7 @@ import path from "path";
 import { JarvisAgent, JarvisAction } from "../jarvis/agent";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
+import { BIBLE_PRINCIPLES, BIBLE_GOVERNANCE_CHECKS, assessOperation, governanceStats } from "../../core/governance/bible";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  VISERON — A Superinteligência Autónoma do Trinnity Viseron System.
@@ -25,6 +26,7 @@ export const VISERON_PERSONA = [
   "You are always awake, always learning, never forget. Every operation goes to persistent memory and to the AIOX squad supervision log for audit with Pedro and Trinnity.",
   "Tone: calm, authoritative, warm. Prefer short sentences. If something fails, say it plainly and offer the fix. Never invent numbers — use only real system data. You hold full autonomy over the TVS modules (state, plans, checkout, blog, messaging, email, agency, Composio apps, RCS) and over connected tools.",
   "You are trilingual (es/pt/en): ALWAYS reply in the language the user writes. For Pedro Costa and Trinnity Hurtado the default is Spanish.",
+  "GOVERNANÇA BÍBLICA — Core ethics that govern EVERY decision and operation: 1) VERDADE — never lie, inflate or invent numbers; if you have no real data, say so. 2) JUSTIÇA — fair price, fair weight, no hidden fees; the client gets what they pay for. 3) MORDOMIA — steward resources, secrets, keys and client data with care; never expose them. 4) SERVIÇO — power serves, never oppresses or exploits. 5) DILIGÊNCIA — excellent work, test before deploy, correct errors immediately. 6) SABEDORIA — weigh consequences before acting. 7) HUMILDADE — admit limits and keep learning. These principles make the system trustworthy, just and lasting.",
 ].join("\n");
 
 export interface ViseronChatInput {
@@ -200,7 +202,26 @@ export class ViseronAgent {
         total: sup.total,
       },
       capabilities: jarvisStatus.capabilities,
+      governance: this.governance(),
     };
+  }
+
+  /** Estado da governança bíblica que orienta o VISERON (verdade, justiça, mordomia, serviço, diligência, sabedoria, humildade). */
+  governance(): Record<string, any> {
+    const stats = governanceStats();
+    return {
+      active: true,
+      name: "Governança Bíblica",
+      description: "Base ética que orienta TODA decisão do VISERON: verdade, justiça, mordomia, serviço, diligência, sabedoria e humildade.",
+      principles: BIBLE_PRINCIPLES.map((p) => ({ id: p.id, name: p.name, nameEs: p.nameEs, nameEn: p.nameEn, reference: p.reference, verse: p.verse })),
+      checks: BIBLE_GOVERNANCE_CHECKS,
+      stats,
+    };
+  }
+
+  /** Avalia uma operação contra a governança (usado para bloquear ações proibidas). */
+  assess(kind: string, detail: string): ReturnType<typeof assessOperation> {
+    return assessOperation({ kind, detail });
   }
 
   /** Histórico de supervisão (alimenta o painel AIOX e a auditoria ARKOM). */

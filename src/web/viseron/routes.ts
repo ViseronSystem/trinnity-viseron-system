@@ -56,5 +56,10 @@ export function createViseronRouter(ctx: {
     res.json(viseron.supervision(30));
   });
 
+  // Governança bíblica — princípios que orientam toda decisão do VISERON
+  router.get("/viseron/governance", (_req, res) => {
+    res.json(viseron.governance());
+  });
+
   return router;
 }
