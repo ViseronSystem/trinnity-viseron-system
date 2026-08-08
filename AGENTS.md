@@ -336,6 +336,15 @@ Professor de inglês pessoal de Pedro e Trinnity (falantes de ES/PT): explica na
 - **API** (montado no `standalone-server.ts`): `GET /api/tutor/status` · `GET /api/tutor/plan` · `POST /api/tutor/chat` (`{message, lang: es|pt, mode, sessionId}`). Progresso em `data/tutor-progress.json`.
 - **Comando**: `npm run atlas:plan` → `data/Viseron_Plano_Ingles_ATLAS.pdf` (trilingue). Verdade prática: fluência real = 6–12 meses de prática diária; o salto de 7 dias leva de "não consigo falar" a "consigo manter conversa de negócios".
 
+## Marca Pessoal Instagram (Pedro Costa — CEO do VISERON)
+
+Plano de marca pessoal do Comandante no Instagram: posicioná-lo como **CEO do VISERON**, com autoridade real (demos do sistema) + fé + movimento próprio, aproximando do método do Pedro Bertotto (1M seguidores, Crown Movement) SEM prometer "ficar famoso".
+
+- **Auditoria real (2026-08, dados públicos)**: `@xpedro.costa` 7.180 seg / 7.821 a seguir / 301 posts (bio mistura títulos de nobreza + memes, sem nicho; segue mais contas do que é seguido → algoritmo penaliza); `@xpedro.costa.ofc` 5.419 seg / 496 a seguir / **só 3 posts** (números sem conteúdo). Referência `@pedrobertotto`: 1M seg / 173 posts / 3.568 a seguir — fé + liderança + movimento + eventos premium + ads.
+- **Estratégia**: reposicionar como "CEO que constrói o VISERON — IA governada por 9 princípios bíblicos"; 4 pilares de conteúdo (construção, CEO, fé+liderança, IA para empreendedores); 15 Reels prontos a filmar; 5 conceitos de foto; calendário 30 dias (3 Reels/semana); movimento "Rei do Teu Mercado" (#ReiDoTeuMercado); KPIs honestos (orgânico +3k-8k / 90 dias; 1M só com ads+colabs).
+- **Comando**: `npm run fama:instagram` → `data/Viseron_Plano_Marca_Instagram.pdf` (auditoria + estratégia + 15 Reels + fotos + calendário + regras de ouro). Kit operacional (captions/hashtags/CTAs prontos): `data/instagram/kit-conteudo.md`.
+- **Regra de honra**: nunca comprar seguidores, nunca prometer retorno financeiro; demos do sistema em ambiente local/teste; segredos/chaves nunca aparecem no conteúdo.
+
 ## Agency OS (agência × VISERON)
 
 Implementação da "Estructura del Equipo" da agência de marketing digital (documento Pedro · Premi · Tráfico Pago, Londres 2026) como módulo do TVS.
