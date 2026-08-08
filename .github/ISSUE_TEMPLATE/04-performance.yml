@@ -1,0 +1,41 @@
+name: Performance
+description: Trabalho de desempenho
+title: "perf(scope): "
+labels: ["performance"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Performance"
+  - type: textarea
+    id: symptom
+    attributes:
+      label: Sintoma
+      description: O que é lento/pesado e em que cenário.
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Baseline
+      description: Métrica atual medida (tempo, memória, bytes, frames).
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Target
+      description: Métrica objetivo e budget (ex. First Paint < 1s).
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Abordagem
+      description: Técnicas a aplicar (lazy loading, memo, cache, code-split...).
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmações
+      options:
+        - label: Sem segredos, chaves ou seeds no conteúdo
+          required: true

@@ -1,0 +1,50 @@
+name: Feature request
+description: Nova funcionalidade ou melhoria
+title: "feat(scope): "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Feature request"
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema / oportunidade
+      description: O que se resolve ou melhora e para quem (Pedro/Trinnity/agentes/clientes).
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solução proposta
+      description: Descrição técnica de alto nível do que implementar.
+    validations:
+      required: true
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tarefas
+      description: Checklist de implementação.
+      placeholder: "- [ ] ..."
+  - type: input
+    id: depends
+    attributes:
+      label: Depende de
+      description: Issues que têm de fechar primeiro.
+      placeholder: "#1, #2"
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridade
+      options:
+        - P0 (crítico)
+        - P1 (alta)
+        - P2 (média)
+        - P3 (baixa)
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmações
+      options:
+        - label: Sem segredos, chaves ou seeds no conteúdo
+          required: true

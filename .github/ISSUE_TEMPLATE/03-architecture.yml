@@ -1,0 +1,44 @@
+name: Architecture
+description: Decisão ou mudança de arquitetura
+title: "arch(scope): "
+labels: ["core"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Architecture decision"
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Situação atual e problema de arquitetura a resolver.
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Decisão
+      description: A decisão de arquitetura proposta (ADR).
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Outras opções e por que foram rejeitadas.
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequências
+      description: Impacto em módulos, dependências, desempenho, segurança.
+  - type: input
+    id: issue
+    attributes:
+      label: Issue de implementação
+      placeholder: "#123"
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmações
+      options:
+        - label: Sem segredos, chaves ou seeds no conteúdo
+          required: true
