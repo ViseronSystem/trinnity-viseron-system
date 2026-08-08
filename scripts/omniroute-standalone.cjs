@@ -47,16 +47,17 @@ function isUp() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   const logFd = fs.openSync(LOG_FILE, "a");
   const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
-  const cmd = `${npxBin} omniroute --port ${PORT} --no-open`;
 
-  log(`OmniRoute em baixo — a arrancar DETACHED: ${cmd}`);
+  // Sem shell:true nem string de comando — spawn direto com array de args.
+  // Evita a cadeia PowerShell -> node -> shell -> npx.cmd (processos intermédios).
+  const args = ["omniroute", "--port", String(PORT), "--no-open"];
+  log(`OmniRoute em baixo — a arrancar DETACHED: ${npxBin} ${args.join(" ")}`);
   log(`Log: ${LOG_FILE}`);
 
   try {
-    const child = spawn(cmd, {
+    const child = spawn(npxBin, args, {
       detached: true,
       stdio: ["ignore", logFd, logFd],
-      shell: true,
       windowsHide: true,
       env: {
         ...process.env,
