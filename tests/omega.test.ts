@@ -806,6 +806,63 @@ async function runOmegaTests() {
     assert(context.nodes.length > 0, "ContextBuilder: forFiles devolve cluster em torno dos ficheiros fornecidos");
   }
 
+  // ── 22. AutonomyOS — permission engine L0-L5 ──
+  {
+    const { AutonomyOS, DEFAULT_DOMAIN_POLICIES, AUTONOMY_LEVELS } = await import("../src/omega/autonomy/AutonomyOS");
+    const os = new AutonomyOS();
+
+    assert(AUTONOMY_LEVELS.length === 6, "AutonomyOS: 6 níveis L0-L5 definidos");
+    assert(AUTONOMY_LEVELS[0].name === "observed" && AUTONOMY_LEVELS[5].name === "operational", "AutonomyOS: hierarquia L0 observed → L5 operational");
+
+    const finance = DEFAULT_DOMAIN_POLICIES.find((p) => p.domain === "finance");
+    assert(finance?.autoBelow === 50 && finance.approvalFrom === 500 && finance.denyAbove === 50000, "AutonomyOS: política financeira com thresholds (<€50 auto, ≥€500 aprovação, >€50k negado)");
+
+    const auto = os.assess({ domain: "finance", op: "charge", value: 25 });
+    assert(auto.verdict === "auto" && auto.level === 4, "AutonomyOS: €25 em finance → auto (abaixo de autoBelow €50)");
+
+    const approval = os.assess({ domain: "finance", op: "charge", value: 1500 });
+    assert(approval.verdict === "approval" && approval.reason.includes("approvalFrom"), "AutonomyOS: €1500 em finance → approval (≥€500)");
+
+    const denied = os.assess({ domain: "finance", op: "charge", value: 100000 });
+    assert(denied.verdict === "deny" && denied.reason.includes("denyAbove"), "AutonomyOS: €100k em finance → deny (acima de denyAbove €50k)");
+
+    const opDenied = os.assess({ domain: "finance", op: "card_data_access" });
+    assert(opDenied.verdict === "deny" && opDenied.reason.includes("deny list"), "AutonomyOS: card_data_access → deny na lista negra");
+
+    const opApproval = os.assess({ domain: "finance", op: "refund", value: 10 });
+    assert(opApproval.verdict === "approval" && opApproval.reason.includes("requireApprovalFor"), "AutonomyOS: refund exige aprovação mesmo abaixo do threshold");
+
+    const systemL1 = os.assess({ domain: "system", op: "restart_prod" });
+    assert(systemL1.verdict === "approval", "AutonomyOS: system (L1) restart_prod → approval");
+    const systemDeny = os.assess({ domain: "system", op: "rm_root" });
+    assert(systemDeny.verdict === "deny", "AutonomyOS: system rm_root → deny");
+
+    const researchL5 = os.assess({ domain: "research", op: "market_scan" });
+    assert(researchL5.verdict === "auto" && researchL5.level === 5, "AutonomyOS: research (L5) market_scan → auto");
+
+    const unknownDomain = os.assess({ domain: "data", op: "export_all" });
+    assert(unknownDomain.verdict === "approval", "AutonomyOS: data export_all → approval (requireApprovalFor)");
+
+    const audit = os.getAudit();
+    assert(audit.length >= 9 && audit[0].op === "export_all", "AutonomyOS: auditoria regista decisões (mais recente primeiro)");
+
+    const summary = os.summary();
+    assert(summary.domains === 7 && summary.decisions === audit.length, "AutonomyOS: summary reflete políticas e decisões");
+
+    os.configure({ domain: "data", level: 5 });
+    const reconfigured = os.assess({ domain: "data", op: "read" });
+    assert(reconfigured.verdict === "auto" && reconfigured.level === 5, "AutonomyOS: configure() eleva data para L5");
+
+    const policy = os.getPolicies().find((p) => p.domain === "deploy");
+    assert(policy?.level === 2 && policy.denyFor?.includes("prod_down") === true, "AutonomyOS: deploy L2 com prod_down na lista negra");
+
+    const omega = await import("../src/omega");
+    const platform = new omega.OmegaPlatform({});
+    assert(platform.autonomyOS.getLevels().length === 6, "OmegaPlatform: autonomyOS exposto na plataforma");
+    const assessed = await platform.assessAutonomy({ domain: "finance", op: "charge", value: 10 });
+    assert(assessed.verdict === "auto", "OmegaPlatform: assessAutonomy devolve decisão e publica no bus");
+  }
+
   console.log(`\n==========================================`);
   console.log(total === passed ? `✅ OMEGA: ${passed}/${total} testes passaram` : `❌ OMEGA: ${passed}/${total} — FALHAS DETETADAS`);
   console.log(`==========================================\n`);

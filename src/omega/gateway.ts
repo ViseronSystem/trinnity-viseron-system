@@ -231,6 +231,48 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── AUTONOMY OS (L0-L5 permission engine) ──
+  router.get("/autonomy/os", (_req, res) => {
+    res.json(omega.autonomyOS.summary());
+  });
+
+  router.get("/autonomy/os/levels", (_req, res) => {
+    res.json({ levels: omega.autonomyOS.getLevels() });
+  });
+
+  router.get("/autonomy/os/policies", (_req, res) => {
+    res.json({ policies: omega.autonomyOS.getPolicies() });
+  });
+
+  router.get("/autonomy/os/audit", (req, res) => {
+    const limit = Number(req.query.limit) || 50;
+    res.json({ decisions: omega.autonomyOS.getAudit(limit) });
+  });
+
+  router.post("/autonomy/os/assess", async (req, res) => {
+    try {
+      const { domain, op, value, actor, permission } = req.body ?? {};
+      if (!domain || !op) return res.status(400).json({ error: "domain and op required" });
+      const decision = await omega.assessAutonomy({ domain, op, value, actor, permission });
+      res.json(decision);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  router.post("/autonomy/os/policies", (req, res) => {
+    try {
+      const policy = req.body?.policy;
+      if (!policy?.domain || typeof policy.level !== "number") {
+        return res.status(400).json({ error: "policy.domain and policy.level required" });
+      }
+      omega.autonomyOS.configure(policy);
+      res.json({ ok: true, policy });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ── AIOX SQUADS ──
   router.get("/squads", (_req, res) => {
     res.json(omega.squads.status());

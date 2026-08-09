@@ -9,3 +9,15 @@ export type {
   LearningEngineAdapter,
   AutonomyLayerStatus,
 } from "./AutonomyLayer";
+export { AutonomyOS } from "./AutonomyOS";
+export type {
+  AutonomyLevel,
+  AutonomyBehavior,
+  AutonomyLevelDef,
+  AutonomyDomain,
+  DomainPolicy,
+  AutonomyRequest,
+  AutonomyVerdict,
+  AutonomyDecision,
+} from "./AutonomyOS";
+export { AUTONOMY_LEVELS, DEFAULT_DOMAIN_POLICIES } from "./AutonomyOS";

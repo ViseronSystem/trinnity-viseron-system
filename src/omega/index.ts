@@ -3,7 +3,7 @@ import { Kernel } from "./kernel/Kernel";
 import { AgentRuntime } from "./agent-runtime/AgentRuntime";
 import { KnowledgeGraph } from "./memory-engine/KnowledgeGraph";
 import { AIRouter } from "./ai-router/AIRouter";
-import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter } from "./autonomy";
+import { AutonomyLayer, PlannerEngineAdapter, EvolutionEngineAdapter, LearningEngineAdapter, AutonomyOS, DomainPolicy, AutonomyRequest, AutonomyDecision } from "./autonomy";
 import { SquadRegistry } from "./squads";
 import { FactoryEngine, SolutionEngineAdapter, ScaffolderAdapter } from "./factory";
 import { EnterpriseHub } from "./enterprise";
@@ -33,6 +33,7 @@ export interface OmegaOptions {
   scaffolder?: ScaffolderAdapter;
   architectureGraphPath?: string;
   compositeVerifier?: CompositeVerifier;
+  autonomyPolicies?: DomainPolicy[];
 }
 
 export interface OmegaPlatformStatus {
@@ -64,6 +65,7 @@ export class OmegaPlatform {
   public readonly watchdog: SelfHealWatchdog;
   public readonly os: TVSOs;
   public readonly architecture: ArchitectureIntelligence;
+  public readonly autonomyOS: AutonomyOS;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -259,6 +261,15 @@ export class OmegaPlatform {
 
     this.architecture = new ArchitectureIntelligence({ graphPath: options.architectureGraphPath }).initialize();
 
+    this.autonomyOS = new AutonomyOS(options.autonomyPolicies);
+
+    // Auditoria de autonomia: cada decisão flui para o EventBus (backbone reativo)
+    this.kernel.events.subscribe("autonomy:decided", (d: any) => {
+      void this.recordDecision(`autonomy_${d.at}_${d.op}`, "autonomy", `autonomy ${d.verdict} ${d.op}`, [
+        { target: "autonomy_os", type: "decided_by", weight: 1 },
+      ]);
+    });
+
     // Memória persistente: cada task concluída (ou falhada) é gravada no
     // KnowledgeGraph + memória de longo prazo — nunca se perde no restart.
     this.kernel.events.subscribe("task:completed", (task) => this.recordTaskMemory(task));
@@ -345,6 +356,12 @@ export class OmegaPlatform {
     }
     this.graph.save();
     await this.kernel.publish("omega:decision", { entityId, entityType, name }, "omega-platform");
+  }
+
+  public async assessAutonomy(req: AutonomyRequest): Promise<AutonomyDecision> {
+    const decision = this.autonomyOS.assess(req);
+    await this.kernel.publish("autonomy:decided", decision, "omega-platform");
+    return decision;
   }
 
   public status(): OmegaPlatformStatus {
