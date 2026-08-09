@@ -26,6 +26,18 @@ tvs_stderr.txt
 tvs_stdout.txt
 tvs_demo_*.txt
 tvs_demo_pid.txt
+# Backup do site (deploys locais) — nunca versionar
+VISERON_SITE_BACKUP/
+# Logs de ciclos de autonomia (runtime)
+data/reports/cycle_*.json
+# System of Truth + scan de segredos (artefatos runtime; PDF auditável é versionado)
+data/system-status.json
+data/segredos-scan.json
+# Estado runtime do kernel/task-queue e bases locais
+data/state/task-queue.json
+data/state/tvs-service.json
+database/
+mobile/releases/
 
 # Memória runtime do sistema (demasiado grande para git; backup via npm run backup)
 database/memory/ltm.json

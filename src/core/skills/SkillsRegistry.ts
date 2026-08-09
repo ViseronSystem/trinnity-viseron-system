@@ -57,6 +57,31 @@ export const SKILL_SOURCES: SkillSource[] = [
     repoUrl: "https://github.com/Shubhamsaboo/awesome-llm-apps.git",
     license: "Apache-2.0",
   },
+  {
+    name: "ecc",
+    repoUrl: "https://github.com/affaan-m/ECC.git",
+    license: "MIT",
+  },
+  {
+    name: "loop-engineering",
+    repoUrl: "https://github.com/cobusgreyling/loop-engineering.git",
+    license: "MIT",
+  },
+  {
+    name: "deeptutor",
+    repoUrl: "https://github.com/HKUDS/DeepTutor.git",
+    license: "Apache-2.0",
+  },
+  {
+    name: "comp-crm",
+    repoUrl: "https://github.com/trycompai/crm.git",
+    license: "MIT",
+  },
+  {
+    name: "comp-ai",
+    repoUrl: "https://github.com/trycompai/comp.git",
+    license: "AGPL-3.0",
+  },
 ];
 
 function parseFrontmatter(content: string): Record<string, string> {

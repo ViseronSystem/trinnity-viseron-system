@@ -562,8 +562,8 @@
       <div class="stat-card"><p class="stat-val c-neon">192/192</p><p class="stat-label" data-i18n="stat.omega">OMEGA tests</p></div>
       <div class="stat-card"><p class="stat-val c-neon">20/20</p><p class="stat-label" data-i18n="stat.core">CORE tests</p></div>
       <div class="stat-card"><p class="stat-val c-neon">109/109</p><p class="stat-label" data-i18n="stat.web">WEB tests</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2">1.997</p><p class="stat-label" data-i18n="stat.skills">Skills (10 colecciones)</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2">9</p><p class="stat-label" data-i18n="stat.integ">Integraciones</p></div>
+      <div class="stat-card"><p class="stat-val c-neon2" id="stat-skills">1.997</p><p class="stat-label" data-i18n="stat.skills">Skills (10 colecciones)</p></div>
+      <div class="stat-card"><p class="stat-val c-neon2" id="stat-integ">9</p><p class="stat-label" data-i18n="stat.integ">Integraciones</p></div>
       <div class="stat-card"><p class="stat-val c-green">6/6</p><p class="stat-label" data-i18n="stat.revenue">Ingresos listos</p></div>
     </div>
     <!-- Live API Bar -->
@@ -573,6 +573,7 @@
       <div class="api-item"><strong data-i18n="api.users">Users</strong>: <span id="api-users">—</span></div>
       <div class="api-item"><strong data-i18n="api.billing">Billing</strong>: <span id="api-billing">—</span></div>
       <div class="api-item"><strong>DB</strong>: <span id="api-db">Neon Postgres</span></div>
+      <div class="api-item" style="margin-left:auto;"><span id="sot-badge" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">System of Truth</span></div>
     </div>
   </div>
 </section>
@@ -697,7 +698,7 @@
     <div style="text-align:center;margin-bottom:64px;">
       <p class="section-tag c-neon reveal" data-i18n="squads.tag">// Auditoría AIOX</p>
       <h2 class="section-title reveal reveal-d1" data-i18n="squads.title">¿Estamos realmente mejorando?</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="squads.sub">El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 5 escuadrones con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).</p>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="squads.sub">El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 6 escuadrones core con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).</p>
     </div>
     <div class="squads-grid">
 
@@ -715,8 +716,8 @@
           <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">QA Sentinel</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">321</div><div class="squad-kpi-label" data-i18n="kpi.tests">Tests verdes</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">CLEAN</div><div class="squad-kpi-label" data-i18n="kpi.ts">TypeScript</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);" id="kpi-tests">360</div><div class="squad-kpi-label" data-i18n="kpi.tests">Tests verdes</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);" id="kpi-ts">CLEAN</div><div class="squad-kpi-label" data-i18n="kpi.ts">TypeScript</div></div>
         </div>
       </div>
 
@@ -733,7 +734,7 @@
           <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">CryptoGuard</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon3);">0</div><div class="squad-kpi-label" data-i18n="kpi.vulns">Vulnerabilidades</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon3);" id="kpi-vulns">0</div><div class="squad-kpi-label" data-i18n="kpi.vulns">Vulnerabilidades</div></div>
           <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon3);">AES-256</div><div class="squad-kpi-label" data-i18n="kpi.crypto">Cripto E2E</div></div>
         </div>
       </div>
@@ -806,7 +807,7 @@
           <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">RollbackBot</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;">10</div><div class="squad-kpi-label" data-i18n="kpi.agents">Agentes nucleares</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;" id="kpi-agents">10</div><div class="squad-kpi-label" data-i18n="kpi.agents">Agentes nucleares</div></div>
           <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;">Safe</div><div class="squad-kpi-label" data-i18n="kpi.evol">Evolución segura</div></div>
         </div>
       </div>
@@ -1423,7 +1424,7 @@ const LANG = {
     "page.api":"API Health","page.api.desc":"Estado real de la API: db, billing, email, messaging, tenants y usuarios.","page.openApi":"Ver API",
     "page.map":"Mapa del Sitio (PDF)","page.map.desc":"Todas las páginas, comandos OS, endpoints de API, integraciones y cómo operar el sistema.","page.openMap":"Descargar Mapa",
     "map.title":"Guía completa de operación en PDF","map.desc":"El Mapa del Sitio muestra TODAS las páginas, el control del TVS OS, los comandos npm, los endpoints de la API y las 9 integraciones — para operar el sistema con confianza.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// Auditoría AIOX","squads.title":"¿Estamos realmente mejorando?","squads.sub":"El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 5 escuadrones con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
+    "squads.tag":"// Auditoría AIOX","squads.title":"¿Estamos realmente mejorando?","squads.sub":"El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 6 escuadrones core con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
     "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.",
     "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Least privilege + authorization explícita.",
     "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de ventas, CRM, cobros Avirato (real), propuestas, follow-up y gestión de ingresos recurrentes (MRR).",
@@ -1446,7 +1447,7 @@ const LANG = {
     "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Colecciones","int.sub":"9 repositorios externos integrados como colecciones de skills en el SkillsRegistry. Instalables con npm run skills:install.",
     "int.hRepo":"Repositorio","int.hSkills":"Skills","int.hLic":"Licencia","int.hDesc":"Qué aporta",
     "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiales de Anthropic","int.composio":"Colección de la comunidad (productividad/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memoria, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memoria L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// Estado del Sistema","status.title":"Validación en vivo","status.sub":"Datos reales vía /api/health y /api/revenue/readiness. Sin cifras inventadas.",
+    "status.tag":"// Estado del Sistema","status.title":"Validación en vivo",    "status.sub":"Datos reales vía /api/status (System of Truth), /api/health y /api/revenue/readiness. Sin cifras inventadas.",
     "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Ingresos listos",
     "status.api":"API Core","status.api.desc":"REST API + Socket.IO en producción. Health check, auth, billing, messaging.",
     "status.db":"Postgres Neon","status.db.desc":"10 tablas migradas: tenants, users, usage_events y billing. usage_events registrando actividad.",
@@ -1493,7 +1494,7 @@ const LANG = {
     "page.api":"API Health","page.api.desc":"Estado real da API: db, billing, email, messaging, tenants e utilizadores.","page.openApi":"Ver API",
     "page.map":"Mapa do Site (PDF)","page.map.desc":"Todas as páginas, comandos OS, endpoints de API, integrações e como operar o sistema.","page.openMap":"Descarregar Mapa",
     "map.title":"Guia completo de operação em PDF","map.desc":"O Mapa do Site mostra TODAS as páginas, o controlo do TVS OS, os comandos npm, os endpoints da API e as 9 integrações — para operar o sistema com confiança.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// Auditoria AIOX","squads.title":"Estamos realmente a melhorar?","squads.sub":"O squad AIOX audita código, arquitetura, agentes, memória, segurança e resultados. 5 esquadrões com autonomia completa. Supervisionados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
+    "squads.tag":"// Auditoria AIOX","squads.title":"Estamos realmente a melhorar?","squads.sub":"O squad AIOX audita código, arquitetura, agentes, memória, segurança e resultados. 6 esquadrões core com autonomia completa. Supervisionados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
     "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitetura de software, desenvolvimento TypeScript, deploy e infraestrutura cloud. Constrói e mantém o núcleo do TVS.",
     "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoria contínua, JWT, HMAC, x25519+AES-256-GCM, compliance e proteção de dados. Least privilege + authorization explícita.",
     "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de vendas, CRM, cobranças Avirato (real), propostas, follow-up e gestão de receita recorrente (MRR).",
@@ -1516,7 +1517,7 @@ const LANG = {
     "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Coleções","int.sub":"9 repositórios externos integrados como coleções de skills no SkillsRegistry. Instaláveis com npm run skills:install.",
     "int.hRepo":"Repositório","int.hSkills":"Skills","int.hLic":"Licença","int.hDesc":"O que traz",
     "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiais da Anthropic","int.composio":"Coleção da comunidade (produtividade/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memória, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memória L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// Estado do Sistema","status.title":"Validação ao vivo","status.sub":"Dados reais via /api/health e /api/revenue/readiness. Sem cifras inventadas.",
+    "status.tag":"// Estado do Sistema","status.title":"Validação ao vivo",    "status.sub":"Dados reais via /api/status (System of Truth), /api/health e /api/revenue/readiness. Sem cifras inventadas.",
     "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Receita pronta",
     "status.api":"API Core","status.api.desc":"REST API + Socket.IO em produção. Health check, auth, billing, messaging.",
     "status.db":"Postgres Neon","status.db.desc":"10 tabelas migradas: tenants, users, usage_events e billing. usage_events a registar atividade.",
@@ -1563,7 +1564,7 @@ const LANG = {
     "page.api":"API Health","page.api.desc":"Real API status: db, billing, email, messaging, tenants and users.","page.openApi":"View API",
     "page.map":"Site Map (PDF)","page.map.desc":"All pages, OS commands, API endpoints, integrations and how to operate the system.","page.openMap":"Download Map",
     "map.title":"Complete operation guide in PDF","map.desc":"The Site Map shows ALL pages, TVS OS control, npm commands, API endpoints and the 9 integrations — to operate the system confidently.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// AIOX Audit","squads.title":"Are we really improving?","squads.sub":"The AIOX squad audits code, architecture, agents, memory, security and results. 5 squads with full autonomy. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
+    "squads.tag":"// AIOX Audit","squads.title":"Are we really improving?","squads.sub":"The AIOX squad audits code, architecture, agents, memory, security and results. 6 core squads with full autonomy. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
     "squad.eng.name":"Engineering Squad","squad.eng.desc":"Software architecture, TypeScript development, deployment and cloud infrastructure. Builds and maintains the TVS core.",
     "squad.sec.name":"Security Squad","squad.sec.desc":"Continuous audit, JWT, HMAC, x25519+AES-256-GCM, compliance and data protection. Least privilege + explicit authorization.",
     "squad.biz.name":"Business Squad","squad.biz.desc":"Sales pipeline, CRM, Avirato billing (real), proposals, follow-up and recurring revenue management (MRR).",
@@ -1586,7 +1587,7 @@ const LANG = {
     "int.tag":"// Skills & External Integrations","int.title":"1,997 Skills · 10 Collections","int.sub":"9 external repositories integrated as skill collections in the SkillsRegistry. Installable with npm run skills:install.",
     "int.hRepo":"Repository","int.hSkills":"Skills","int.hLic":"License","int.hDesc":"What it brings",
     "int.graphify":"Operational knowledge graph (query/path/explain)","int.anthropic":"Official Anthropic plugins/skills","int.composio":"Community collection (productivity/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memory, AgentShield","int.super":"Multi-harness skill system","int.crm":"Comp AI CRM — agentic-first CRM","int.comp":"AI-native compliance (SOC2/GDPR/ISO27001)","int.tutor":"Personalized lifelong tutor (L1/L2/L3 memory)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// System Status","status.title":"Live Validation","status.sub":"Real data via /api/health and /api/revenue/readiness. No invented numbers.",
+    "status.tag":"// System Status","status.title":"Live Validation",    "status.sub":"Real data via /api/status (System of Truth), /api/health and /api/revenue/readiness. No invented numbers.",
     "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Indexed skills","valid.revenue":"Revenue ready",
     "status.api":"Core API","status.api.desc":"REST API + Socket.IO in production. Health check, auth, billing, messaging.",
     "status.db":"Neon Postgres","status.db.desc":"10 migrated tables: tenants, users, usage_events and billing. usage_events logging activity.",
@@ -1630,19 +1631,39 @@ function setLang(l) {
 // ═══ RESTAURAR IDIOMA (padrão es) ═══
 try { const saved = localStorage.getItem('tvs-lang'); if(saved && LANG[saved]) setLang(saved); } catch(e){}
 
-// ═══ LIVE API FETCH ═══
+// ═══ LIVE API FETCH (System of Truth: /api/health + /api/status) ═══
 (async function(){
+  const el = id => document.getElementById(id);
+  const setTxt = (id, txt, color) => { const e = el(id); if(e){ e.textContent = txt; if(color) e.style.color = color; } };
   try {
     const h = await (await fetch('/api/health', {signal:AbortSignal.timeout(12000)})).json();
-    const el = id => document.getElementById(id);
-    if(el('api-status-txt')){ el('api-status-txt').textContent='Operacional'; el('api-status-txt').style.color='var(--neon4)'; }
-    if(el('api-tenants')) el('api-tenants').textContent = h.tenants ?? '0';
-    if(el('api-users')) el('api-users').textContent = h.users ?? '0';
-    if(el('api-billing')) el('api-billing').textContent = h.billing ?? 'avirato';
+    setTxt('api-status-txt','Operacional','var(--neon4)');
+    setTxt('api-tenants', h.tenants ?? '0');
+    setTxt('api-users', h.users ?? '0');
+    setTxt('api-billing', h.billing ?? 'avirato');
   } catch(e){
-    const el = document.getElementById('api-status-txt');
-    if(el){ el.textContent='offline (local build ok)'; el.style.color='var(--neon2)'; }
+    setTxt('api-status-txt','offline (local build ok)','var(--neon2)');
   }
+  try {
+    const s = await (await fetch('/api/status', {signal:AbortSignal.timeout(12000)})).json();
+    const lf = s.lastFullCheck;
+    const t = s.tests || lf?.tests || null;
+    if (t) {
+      const tot = t.totals || (t.web && t.omega && t.core);
+      if (tot && tot.total) setTxt('kpi-tests', `${tot.passed ?? tot.total}/${tot.total}`);
+      else if (t.omega && t.omega.total) setTxt('kpi-tests', `${t.omega.passed}/${t.omega.total}`);
+    }
+    const ts = s.typeScript || lf?.typeScript;
+    if (ts) setTxt('kpi-ts', ts.clean ? 'CLEAN' : `${ts.errors ?? 'ERR'} ERR`, ts.clean ? 'var(--neon)' : '#ef4444');
+    const sec = s.security || lf?.security;
+    if (sec) { const hv = (sec.vulnerabilities?.high || 0) + (sec.vulnerabilities?.critical || 0); setTxt('kpi-vulns', String(hv || (sec.total ?? 0)), hv ? '#ef4444' : 'var(--neon3)'); }
+    if ((s.agents || lf?.agents)?.core) setTxt('kpi-agents', String((s.agents || lf?.agents).core));
+    const sk = s.skills || lf?.skills;
+    if (sk?.total) setTxt('stat-skills', sk.total.toLocaleString());
+    if (sk?.collections) setTxt('stat-integ', String(sk.collections));
+    const badge = document.getElementById('sot-badge');
+    if (badge && lf?.at) badge.textContent = 'System of Truth · ' + new Date(lf.at).toLocaleString();
+  } catch(e){ /* /api/status opcional — mantém KPIs estáticos */ }
 })();
 </script>
 </body>

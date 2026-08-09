@@ -331,6 +331,24 @@ Reposicionamento estratégico do TVS (análise independente 2026-08): de "plataf
 - **Roadmap**: 90 dias (verdade técnica + OMEGA Kernel) → 12-36m (Enterprise Autonomy + 10 clientes + OMEGA Aerospace) → 36-60m (Robotics/Energy/Manufacturing/Science → AI + Physical Infrastructure → TRINNITY AI ECOSYSTEM).
 - **Comando**: `npm run omega:plan` → `data/Viseron_OMEGA_Master_Plan.pdf`. Backlog priorizado (P0-P3) no documento Markdown.
 
+## VAEC — Autonomous Evolution & Continuity (política de evolução com gates)
+
+Política operacional de evolução do VISERON: **nenhuma mudança é promovida sem passar os gates obrigatórios** `IMPLEMENT → TEST → SYNC → BUILD → VERIFY → LEARN → PROMOTE`. Se um gate falhar → **ROLLBACK** (restaura o estado anterior e regista). Todo o ciclo é auditável (jornal + EventBus).
+
+- **Núcleo**: `src/omega/evolution/VaecOrchestrator.ts` — máquina de estados `IDLE/IMPLEMENT/TEST/SYNC/BUILD/VERIFY/LEARN/PROMOTE/HOLD/ROLLBACK`, runners injetáveis (testes usam fakes), runners de produção executam comandos reais:
+  - `TEST` → `npm run test` (374/374);
+  - `SYNC` → `git pull --ff-only`;
+  - `BUILD` → `npm run build` (tsc);
+  - `VERIFY` → `npm run status:system` + health live HTTP 200 (opcional);
+  - `ROLLBACK` → `git reset --hard <baseRef>` + rebuild.
+- **Jornal**: `data/state/vaec-journal.jsonl` (persistente — nada se perde no restart); **EventBus**: eventos `vaec:stage` / `vaec:gate` / `vaec:promoted` / `vaec:rollback`.
+- **Integração**: exposto no `OmegaPlatform` (`platform.vaec` + `status().vaec`) e no CLI:
+  - `npm run vaec -- status` — estado atual + histórico;
+  - `npm run vaec -- run --desc "..." [--push]` — ciclo completo com gates (promove só se tudo passar; `--push` faz push ao remoto);
+  - `npm run vaec -- history` — últimos 10 ciclos;
+  - `npm run vaec -- gate <TEST|SYNC|BUILD|VERIFY>` — corre um gate isolado.
+- Testes: `tests/omega.test.ts` secção 21 (promoção, rollback, persistência, eventos, integração na plataforma) → OMEGA 206/206.
+
 ## Execution OS — E2E Task Execution verificado (2026-08)
 
 Implementação do primeiro pilar do OMEGA Kernel: **pipeline de execução de tarefas ponta-a-ponta com verificação real**. Uma tarefa entra, recebe ID, passa por plano → fila → agente → ferramentas → execução → **verificação** → resultado, e é **persistida + gravada na memória** — nada morre no restart.

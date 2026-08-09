@@ -340,7 +340,7 @@ async function runOmegaTests() {
     const manifestsDir = path.join(process.cwd(), "src", "omega", "squads", "manifests");
     const registry = new SquadRegistry();
     const result = registry.loadFromDir(manifestsDir);
-    assert(result.valid === 5 && result.files === 5, `Squads: carrega 5 manifestos (valid=${result.valid}, files=${result.files})`);
+    assert(result.valid === 6 && result.files === 6, `Squads: carrega 6 manifestos (valid=${result.valid}, files=${result.files})`);
 
     const eng = registry.getSquad("squad_engineering");
     assert(eng?.domain === "software" && eng.agents.length === 3, "Squads: Engineering com 3 agentes e domínio");
@@ -349,7 +349,7 @@ async function runOmegaTests() {
     assert((security?.workflows[0]?.steps.length ?? 0) >= 3 && (security?.permissions.length ?? 0) >= 1, "Squads: Security com workflows e permissões");
 
     const status = registry.status();
-    assert(status.loaded === 5 && status.active === 5, "Squads: status com 5 ativas");
+    assert(status.loaded === 6 && status.active === 6, "Squads: status com 6 ativas");
 
     const runtime = new AgentRuntime({ providerFactory: new OfflineProviderFactory() });
     runtime.loadSpecsFromDir(path.join(process.cwd(), "src", "omega", "agent-runtime", "specs"));
@@ -862,6 +862,89 @@ async function runOmegaTests() {
     const assessed = await platform.assessAutonomy({ domain: "finance", op: "charge", value: 10 });
     assert(assessed.verdict === "auto", "OmegaPlatform: assessAutonomy devolve decisão e publica no bus");
   }
+
+  async function section21_VaecOrchestrator() {
+    console.log("\n--- SECÇÃO 21: VAEC Orchestrator (evolução & continuidade) ---");
+    const { VaecOrchestrator } = await import("../src/omega/evolution");
+    const os = require("os");
+    const tmp = path.join(os.tmpdir(), `vaec-test-${Date.now()}.jsonl`);
+    const events = new EventBus();
+    const received: Array<{ topic: string; payload: any }> = [];
+    events.subscribe("vaec:gate", (p) => { received.push({ topic: "vaec:gate", payload: p }); });
+    events.subscribe("vaec:stage", (p) => { received.push({ topic: "vaec:stage", payload: p }); });
+    events.subscribe("vaec:rollback", (p) => { received.push({ topic: "vaec:rollback", payload: p }); });
+    events.subscribe("vaec:promoted", (p) => { received.push({ topic: "vaec:promoted", payload: p }); });
+
+    // 21.1 Ciclo completo com todos os gates a passar → PROMOTED + jornal persistido
+    let rolledBack = 0;
+    const runnerOk = new VaecOrchestrator({
+      rootDir: process.cwd(),
+      events,
+      journalPath: tmp,
+      runners: {
+        implement: async () => ({ ref: "ref_ok", message: "vaec: teste" }),
+        test: async () => ({ stage: "TEST", ok: true, evidence: ["testes 360/360"] }),
+        sync: async () => ({ stage: "SYNC", ok: true, evidence: ["already up to date"] }),
+        build: async () => ({ stage: "BUILD", ok: true, evidence: ["tsc limpo"] }),
+        verify: async () => ({ stage: "VERIFY", ok: true, evidence: ["status:system OK"] }),
+        learn: async () => ({ stage: "LEARN", ok: true, evidence: ["aprendizado registado"] }),
+        promote: async () => ({ pushed: false }),
+        rollback: async () => { rolledBack++; return { stage: "ROLLBACK", ok: true, evidence: ["rollback"] }; },
+      },
+    });
+    const recOk = await runnerOk.runCycle("teste promoção");
+    assert(recOk.outcome === "PROMOTED" && recOk.stages.length === 6, "VAEC: ciclo completo com gates OK → PROMOTED (6 stages)");
+    assert(recOk.stages.filter((s) => !s.ok).length === 0, "VAEC: todos os stages com ok=true");
+    assert(rolledBack === 0, "VAEC: nenhum rollback quando tudo passa");
+    assert(received.some((r) => r.topic === "vaec:promoted"), "VAEC: evento vaec:promoted publicado no bus");
+    assert(received.some((r) => r.topic === "vaec:gate" && r.payload.stage === "VERIFY" && r.payload.ok), "VAEC: eventos vaec:gate publicados por stage");
+
+    // 21.2 Gate TEST falha → ROLLED_BACK, rollback chamado, jornal regista
+    const events2 = new EventBus();
+    const received2: any[] = [];
+    events2.subscribe("vaec:rollback", (p) => { received2.push(p); });
+    let rollbackBase = "";
+    const runnerFail = new VaecOrchestrator({
+      rootDir: process.cwd(),
+      events: events2,
+      journalPath: tmp,
+      runners: {
+        implement: async () => ({ ref: "ref_bad", message: "vaec: quebra" }),
+        test: async () => ({ stage: "TEST", ok: false, evidence: ["3 testes falharam"], error: "testes falharam" }),
+        build: async () => ({ stage: "BUILD", ok: true, evidence: [] }),
+        rollback: async (ctx) => { rollbackBase = ctx.baseRef; return { stage: "ROLLBACK", ok: true, evidence: [`restaurado ${ctx.baseRef}`] }; },
+      },
+    });
+    const recFail = await runnerFail.runCycle("teste rollback");
+    assert(recFail.outcome === "ROLLED_BACK" && recFail.rollbackTo === recFail.baseRef, "VAEC: gate falho → ROLLED_BACK com rollbackTo=baseRef");
+    assert(recFail.stages.some((s) => s.stage === "ROLLBACK" && s.ok), "VAEC: stage ROLLBACK executado e ok");
+    assert(rollbackBase === recFail.baseRef, "VAEC: runner de rollback recebeu baseRef correto");
+    assert(received2.length >= 1 && received2[0].stage === "TEST", "VAEC: evento vaec:rollback com stage da falha");
+
+    // 21.3 Falha no IMPLEMENT → FAILED sem gates
+    const runnerImplFail = new VaecOrchestrator({
+      rootDir: process.cwd(),
+      journalPath: tmp,
+      runners: {
+        implement: async () => { throw new Error("working tree sem mudanças"); },
+      },
+    });
+    const recImpl = await runnerImplFail.runCycle("teste sem mudanças");
+    assert(recImpl.outcome === "FAILED" && recImpl.stages.length === 1 && !recImpl.stages[0].ok, "VAEC: falha no implement → FAILED sem correr gates");
+
+    // 21.4 Persistência: novo orchestrator lê o jornal
+    const reloaded = new VaecOrchestrator({ rootDir: process.cwd(), journalPath: tmp });
+    assert(reloaded.history.length >= 3, `VAEC: jornal persiste histórico (${reloaded.history.length} runs)`);
+    assert(reloaded.status().historySize === reloaded.history.length, "VAEC: status().historySize reflete o jornal");
+
+    // 21.5 VAEC integrado no OmegaPlatform (status expõe orquestrador)
+    const omegaMod = await import("../src/omega");
+    const p2 = new omegaMod.OmegaPlatform({});
+    assert(typeof p2.vaec.status === "function", "OmegaPlatform: vaec (VaecOrchestrator) exposto");
+    assert("vaec" in p2.status() && p2.status().vaec.historySize >= 0, "OmegaPlatform: status().vaec inclui histórico");
+  }
+
+  await section21_VaecOrchestrator();
 
   console.log(`\n==========================================`);
   console.log(total === passed ? `✅ OMEGA: ${passed}/${total} testes passaram` : `❌ OMEGA: ${passed}/${total} — FALHAS DETETADAS`);

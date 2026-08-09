@@ -1,0 +1,27 @@
+{
+  "id": "squad_evolution",
+  "name": "Evolution Squad",
+  "description": "Auto-evolução contínua: auto-learning, hiper-aprendizagem, consolidação de memória e adaptação do sistema às operações.",
+  "domain": "intelligence",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_evolve", "description": "Aprender com cada operação executada", "metric": "learning_cycles", "target": 100 },
+    { "id": "obj_memory", "description": "Consolidar memória de curto para longo prazo", "metric": "consolidations_run", "target": 50 },
+    { "id": "obj_adapt", "description": "Adaptar agentes/skills aos resultados reais", "metric": "adaptations_applied", "target": 10 }
+  ],
+  "tools": [
+    { "id": "auto_learning", "name": "Auto-Learning Engine", "description": "regista e aprende com cada operação" },
+    { "id": "memory_consolidation", "name": "Memory Consolidation", "description": "stm → ltm + vector + knowledge graph" },
+    { "id": "evolution_engine", "name": "Evolution Engine", "description": "ajuste de objetivos, skills e agentes" }
+  ],
+  "workflows": [
+    { "id": "wf_evolve", "name": "Evolution Cycle", "steps": ["observe", "learn", "consolidate", "adapt", "verify"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": true },
+  "permissions": [
+    { "resource": "memory", "actions": ["read", "write"] },
+    { "resource": "skills", "actions": ["read"] },
+    { "resource": "knowledge", "actions": ["read", "write"] }
+  ],
+  "agents": ["agent_research", "agent_cto"]
+}

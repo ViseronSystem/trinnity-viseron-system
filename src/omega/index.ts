@@ -17,6 +17,7 @@ import { ModelRouter } from "../core/model-router/ModelRouter";
 import { bridgeEventEmitter } from "./kernel/EventBridge";
 import { ArchitectureIntelligence } from "./intelligence/architecture";
 import { CompositeVerifier } from "./verifier/composite";
+import { VaecOrchestrator } from "./evolution";
 
 export interface OmegaOptions {
   agentManager?: AgentManager;
@@ -47,6 +48,7 @@ export interface OmegaPlatformStatus {
   enterprise: ReturnType<EnterpriseHub["status"]>;
   watchdog: ReturnType<SelfHealWatchdog["status"]>;
   architecture: { ready: boolean; summary?: ReturnType<ArchitectureIntelligence["summary"]> };
+  vaec: ReturnType<VaecOrchestrator["status"]>;
 }
 
 const SPECS_DIR = path.join(__dirname, "agent-runtime", "specs");
@@ -66,6 +68,7 @@ export class OmegaPlatform {
   public readonly os: TVSOs;
   public readonly architecture: ArchitectureIntelligence;
   public readonly autonomyOS: AutonomyOS;
+  public readonly vaec: VaecOrchestrator;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -246,7 +249,7 @@ export class OmegaPlatform {
     });
     this.watchdog.register({ id: "kernel", label: "Kernel / EventBus", reset: () => heartbeats.reset("kernel") });
     this.watchdog.register({ id: "runtime", label: "Agent Runtime (10 agentes)", reset: () => heartbeats.reset("runtime") });
-    this.watchdog.register({ id: "squads", label: "SquadRegistry (5 squads AIOX)", reset: () => heartbeats.reset("squads") });
+    this.watchdog.register({ id: "squads", label: "SquadRegistry (6 squads)", reset: () => heartbeats.reset("squads") });
     this.watchdog.register({ id: "enterprise", label: "Enterprise Hub (6 módulos)", reset: () => heartbeats.reset("enterprise") });
     this.watchdog.register({ id: "factory", label: "Factory (pipeline de 4 stages)", reset: () => heartbeats.reset("factory") });
 
@@ -262,6 +265,8 @@ export class OmegaPlatform {
     this.architecture = new ArchitectureIntelligence({ graphPath: options.architectureGraphPath }).initialize();
 
     this.autonomyOS = new AutonomyOS(options.autonomyPolicies);
+
+    this.vaec = new VaecOrchestrator({ rootDir: process.cwd(), events: this.kernel.events });
 
     // Auditoria de autonomia: cada decisão flui para o EventBus (backbone reativo)
     this.kernel.events.subscribe("autonomy:decided", (d: any) => {
@@ -381,6 +386,7 @@ export class OmegaPlatform {
       architecture: this.architecture.isReady()
         ? { ready: true, summary: this.architecture.summary() }
         : { ready: false },
+      vaec: this.vaec.status(),
     };
   }
 }

@@ -25,6 +25,7 @@ import { createJarvisRouter } from "./jarvis/routes";
 import { createViseronRouter } from "./viseron/routes";
 import { createTutorRouter } from "./tutor/routes";
 import { createRevenueRouter } from "./revenue/routes";
+import { getRevenueReadiness } from "./revenue/readiness";
 import { CallLogStore } from "./calls/store";
 import { CallLearning } from "./calls/learning";
 import { createCallsRouter } from "./calls/routes";
@@ -187,6 +188,71 @@ export class ViseronWebServer {
         messaging: this.messaging.count(),
         tenants: (await this.accounts.count()).tenants,
         users: (await this.accounts.count()).users,
+      });
+    });
+
+    // ═══ SYSTEM OF TRUTH — /api/status ═══
+    // Fonte única de verdade para o site: só expõe factos LIVE verificados
+    // (estado runtime, integrações configuradas, receita, contagens) e a
+    // última verificação completa (data/system-status.json) quando existir.
+    this.app.get("/api/status", async (_req, res) => {
+      const revenue = getRevenueReadiness();
+      const env = process.env;
+      const has = (k: string) => !!env[k];
+      let lastFull: any = null;
+      try {
+        const f = path.join(DATA_DIR, "system-status.json");
+        if (fs.existsSync(f)) lastFull = JSON.parse(fs.readFileSync(f, "utf8"));
+      } catch { lastFull = null; }
+      const counts = await this.accounts.count();
+      res.json({
+        system: "Trinnity Viseron System",
+        version: "5.0.0",
+        status: "OK",
+        verifiedAt: new Date().toISOString(),
+        uptime: Math.floor(process.uptime()),
+        health: {
+          db: this.db.enabled ? "postgres" : "json-fallback",
+          billing: this.billing.enabled ? this.billing.name : "manual",
+          email: this.email.transport.enabled ? this.email.transport.provider : "off",
+          tenants: counts.tenants,
+          users: counts.users,
+          messaging: this.messaging.count(),
+          blog: this.blog.count(),
+        },
+        revenue: {
+          ok: revenue.ok,
+          revenueModes: revenue.revenueModes,
+          missing: revenue.missing,
+        },
+        integrations: {
+          avirato: has("AVIRATO_API_KEY") && has("AVIRATO_WEBCODE"),
+          stripe: has("STRIPE_SECRET_KEY"),
+          gmail: revenue.revenueModes.includes("email-real"),
+          composio: has("COMPOSIO_API_KEY"),
+          twilioRcs: has("TWILIO_ACCOUNT_SID") && has("TWILIO_AUTH_TOKEN"),
+          telegram: has("TELEGRAM_BOT_TOKEN"),
+          postgres: this.db.enabled,
+          publicUrl: has("TVS_PUBLIC_URL") || has("RENDER_WEB_URL"),
+        },
+        ai: {
+          ollamaLocal: true,
+          cloudProviders: ["openai", "anthropic", "gemini", "grok"].filter(has),
+        },
+        autonomy: {
+          omegaL0toL5: true,
+          verifiedTaskCompletion: lastFull?.tests?.omega ? `${lastFull.tests.omega.passed}/${lastFull.tests.omega.total}` : "ver em npm run status:system",
+        },
+        lastFullCheck: lastFull
+          ? {
+              at: lastFull.verifiedAt,
+              tests: lastFull.tests,
+              typeScript: lastFull.typeScript,
+              security: lastFull.security,
+              skills: lastFull.skills,
+              agents: lastFull.agents,
+            }
+          : null,
       });
     });
 
