@@ -477,3 +477,38 @@ Regras operativas:
 - Se `graphify-out/wiki/index.md` existir, usá-lo para navegação ampla em vez de navegar pelos fontes.
 - Ler `graphify-out/GRAPH_REPORT.md` apenas para revisão ampla de arquitetura ou quando query/path/explain não derem contexto suficiente.
 - Depois de modificar código, correr `graphify update .` para manter o grafo atual (só AST, sem custo de API) e registar as stats em `data/knowledge/`.
+
+## Ecossistema de Integrações (skills + repositórios do TVS)
+
+O TVS integra **9 repositórios/skills externos** (2026-08) que alimentam as 5000+ mentes. As coleções de skills vivem em `skills/vendor/` (gitignored, instaláveis por `npm run skills:install`) e são indexadas pelo `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10 coleções**. Estado completo: `npm run integrations:status`.
+
+| Repositório | Skills | Licença | O que traz |
+|---|---|---|---|
+| `Graphify-Labs/graphify` | — | MIT | Knowledge graph operativo (`.opencode/skills/graphify` + `graphify-out/`) |
+| `anthropics/claude-plugins-official` | 31 | Apache-2.0 | Plugins/skills oficiais da Anthropic |
+| `ComposioHQ/awesome-claude-skills` | 864 | Apache-2.0 | Coleção da comunidade (produtividade/marketing/dev) |
+| `affaan-m/ECC` | 897 | MIT | Harness OS: 67 agents, hooks, memória, AgentShield |
+| `obra/superpowers` | 14 | MIT | Skill system multi-harness |
+| `trycompai/crm` | 34 | MIT | Comp AI CRM — CRM agentic-first (pesquisa autónoma) |
+| `trycompai/comp` | 53 | AGPL-3.0 | Compliance AI-native (SOC2/GDPR/ISO27001) |
+| `HKUDS/DeepTutor` | 6 | Apache-2.0 | Tutor lifelong personalizado (memória L1/L2/L3) |
+| `cobusgreyling/loop-engineering` | 41 | MIT | Loop engineering: patterns/starters/audit/init/cost |
+
+Comandos novos:
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm run integrations:status` | Estado das 9 integrações + skills indexadas |
+| `npm run integrations:ecc` | Detalhe ECC (harness system) |
+| `npm run integrations:loop` | Detalhe Loop Engineering (7 patterns) |
+| `npm run integrations:crm` | Detalhe Comp AI CRM (skills do agente) |
+| `npm run integrations:comp` | Detalhe Comp AI (compliance) |
+| `npm run integrations:tutor` | Detalhe DeepTutor |
+| `npm run ecc:setup` | Instalador oficial ECC para o harness opencode (correr SÓ com autorização do Comandante — escreve nos `.opencode/`) |
+| `npm run loop:init` | Scaffold do loop (`@cobusgreyling/loop init .`) |
+| `npm run loop:doctor` | Saúde do loop (`loop doctor .`) |
+| `npm run loop:audit` | Loop Readiness Score (`loop audit .`) |
+| `npm run loop:cost` | Estimativa de tokens (`@cobusgreyling/loop-cost`) |
+| `npm run tutor:deeptutor` | Corre o DeepTutor em Docker (`:3782`) |
+
+Governança: quem governa é Pedro Costa (Comandante) e Trinnity Hurtado (Rainha) — decisões de instalação/go-live destas integrações passam sempre por eles; nenhuma integração altera a autonomia direta deles sobre o sistema.

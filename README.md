@@ -827,6 +827,24 @@ Integração progressiva de capacidades selecionadas de projetos externos:
 
 Cada projeto será analisado antes de integração.
 
+### Skills & External Integrations (estado 2026-08)
+
+Os 9 repositórios externos já estão integrados como coleções de skills no `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10 coleções** — instaláveis com `npm run skills:install`:
+
+| Repositório | Skills | Licença |
+|---|---|---|
+| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | — | MIT |
+| [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | 31 | Apache-2.0 |
+| [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | 864 | Apache-2.0 |
+| [affaan-m/ECC](https://github.com/affaan-m/ECC) | 897 | MIT |
+| [obra/superpowers](https://github.com/obra/superpowers) | 14 | MIT |
+| [trycompai/crm](https://github.com/trycompai/crm) | 34 | MIT |
+| [trycompai/comp](https://github.com/trycompai/comp) | 53 | AGPL-3.0 |
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 6 | Apache-2.0 |
+| [cobusgreyling/loop-engineering](https://github.com/cobusgreyling/loop-engineering) | 41 | MIT |
+
+Comandos: `npm run integrations:status` (estado geral) · `integrations:ecc/loop/crm/comp/tutor` (detalhe) · `npm run ecc:setup` (instalador ECC para opencode) · `npm run loop:init/doctor/audit/cost` (loop engineering) · `npm run tutor:deeptutor` (DeepTutor em Docker `:3782`). Todas as decisões de go-live passam por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).
+
 ## Phase 3 — Continuous Evolution
 
 * ciclos de avaliação;

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trinnity Viseron System — AI-Native Operating System v5.0</title>
-  <meta name="description" content="TVS v5.0 — Sistema Operacional Multi-Agente de Superinteligência. 5396 mentes, 290+ providers IA, auto-evolução e receita live. Squad AIOX com 200 anos de experiência combinada. Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)." />
-  <meta property="og:title" content="Trinnity Viseron System v5.0" />
-  <meta property="og:description" content="AI-Native Operating System — 5396 mentes em operação" />
+  <meta name="description" content="TVS v5.0 — Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditable. Sistema Operativo Native IA + Infrastructure Intelligence. Validación: OMEGA 192/192, CORE 20/20, WEB 109/109, TypeScript CLEAN. © Pedro Costa (Comandante) & Trinnity Hurtado (Reina)." />
+  <meta property="og:title" content="Trinnity Viseron System v5.0 — AI-Native Operating System" />
+  <meta property="og:description" content="Autonomous AI Operating System & Intelligence Infrastructure. Inteligencia + Memoria + Auditoría + Evolución." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.trinnityviseronsystem.io" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030310'/%3E%3Cpath d='M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23bf5af2'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -244,6 +245,38 @@
     .glass-card:hover { border-color:rgba(0,240,255,0.18); transform:translateY(-5px); box-shadow:0 24px 70px rgba(0,0,0,0.55), 0 0 30px rgba(0,240,255,0.06); }
     .glass-card:hover::after { opacity:1; }
 
+    /* PAGES GRID — mapa del sitio */
+    .pages-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:18px; }
+    .page-card { padding:26px; display:flex; flex-direction:column; }
+    .page-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .page-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+    .page-path { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3); }
+    .page-title { font-size:17px; font-weight:700; margin-bottom:8px; }
+    .page-desc { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:20px; }
+    .page-btn {
+      margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:11px 18px; border-radius:9px; font-size:13.5px; font-weight:700;
+      text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.25s;
+      border:1px solid var(--border2); color:var(--neon); background:rgba(0,240,255,0.05);
+    }
+    .page-btn:hover { background:var(--neon); color:var(--bg); box-shadow:0 0 30px rgba(0,240,255,0.3); transform:translateY(-2px); }
+
+    /* MAP CTA — botão de destaque */
+    .map-cta {
+      margin-top:36px; padding:30px 34px; border-radius:18px;
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;
+      background:linear-gradient(120deg, rgba(0,240,255,0.07), rgba(191,90,242,0.06));
+      border:1px solid rgba(0,240,255,0.18); position:relative; overflow:hidden;
+    }
+    .map-cta h3 { font-size:20px; font-weight:800; margin-bottom:8px; }
+    .map-cta p { font-size:13.5px; color:var(--text2); max-width:560px; line-height:1.6; }
+    .map-cta .btn-map {
+      display:inline-flex; align-items:center; gap:9px; padding:14px 28px; border-radius:11px;
+      background:var(--neon); color:var(--bg); font-size:14.5px; font-weight:800;
+      text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.25s;
+    }
+    .map-cta .btn-map:hover { box-shadow:0 0 40px rgba(0,240,255,0.4); transform:translateY(-2px); }
+
     /* SQUADS SECTION */
     .squads-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:20px; }
     .squad-card {
@@ -281,6 +314,11 @@
     .omega-desc { font-size:13px; color:var(--text2); line-height:1.65; }
     .omega-badge { display:inline-block; margin-top:12px; padding:3px 10px; border-radius:20px; font-size:10.5px; font-weight:700; font-family:'JetBrains Mono',monospace; }
 
+    /* PIPELINE — INTENT → VERIFY */
+    .pipeline { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; margin-top:36px; }
+    .pipe-step { padding:12px 20px; border-radius:12px; background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.18); font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; color:var(--neon); }
+    .pipe-arrow { color:var(--text3); font-size:18px; }
+
     /* TERMINAL */
     .terminal {
       background:#000c18; border:1px solid rgba(0,240,255,0.15); border-radius:14px;
@@ -302,6 +340,14 @@
     .tl .v { color:var(--neon2); }
     .tl .e { color:var(--neon3); }
 
+    /* INTEGRATIONS */
+    .int-table { width:100%; border-collapse:collapse; margin-top:8px; }
+    .int-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--text3); padding:12px 16px; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; }
+    .int-table td { padding:14px 16px; font-size:13.5px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:top; }
+    .int-table td:first-child { color:var(--text); font-weight:600; font-family:'JetBrains Mono',monospace; font-size:12.5px; white-space:nowrap; }
+    .int-table tr:hover td { background:rgba(0,240,255,0.03); }
+    .int-count { color:var(--neon); font-weight:800; }
+
     /* STATUS GRID */
     .status-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
     .status-card { padding:22px; }
@@ -314,6 +360,12 @@
     .badge-red { background:rgba(255,45,85,0.1); color:var(--neon3); border:1px solid rgba(255,45,85,0.2); }
     .status-val { font-size:13px; color:var(--text2); }
     .status-val strong { color:var(--text); }
+
+    /* VALIDATION */
+    .valid-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-top:16px; }
+    .valid-card { padding:22px; text-align:center; }
+    .valid-num { font-size:34px; font-weight:900; font-family:'Space Grotesk',sans-serif; }
+    .valid-label { font-size:12px; color:var(--text3); margin-top:6px; text-transform:uppercase; letter-spacing:0.08em; }
 
     /* PRICING */
     .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; max-width:1000px; margin:0 auto; }
@@ -361,7 +413,7 @@
     .cmd-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; }
     .cmd-item { display:flex; align-items:flex-start; gap:14px; padding:18px 20px; border-radius:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); transition:all 0.25s; }
     .cmd-item:hover { border-color:var(--border2); background:rgba(0,240,255,0.03); }
-    .cmd-code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--neon); white-space:nowrap; min-width:160px; }
+    .cmd-code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--neon); white-space:nowrap; min-width:170px; }
     .cmd-desc { font-size:13px; color:var(--text2); line-height:1.5; }
 
     /* FOOTER */
@@ -398,6 +450,7 @@
       .pricing-grid { grid-template-columns:1fr; }
       .footer-top { flex-direction:column; gap:32px; }
       .footer-authority { text-align:left; }
+      .int-table { display:block; overflow-x:auto; }
     }
     @media (max-width:480px) {
       .hero-btns { flex-direction:column; align-items:center; }
@@ -446,28 +499,31 @@
     </a>
     <div class="nav-links">
       <div class="nav-lang">
-        <button class="lang-btn active" onclick="setLang('pt')" id="lb-pt">PT</button>
+        <button class="lang-btn active" onclick="setLang('es')" id="lb-es">ES</button>
+        <button class="lang-btn" onclick="setLang('pt')" id="lb-pt">PT</button>
         <button class="lang-btn" onclick="setLang('en')" id="lb-en">EN</button>
-        <button class="lang-btn" onclick="setLang('es')" id="lb-es">ES</button>
       </div>
-      <a href="#squads" class="nav-link" data-i18n="nav.squads">Squads</a>
-      <a href="#omega" class="nav-link" data-i18n="nav.omega">OMEGA</a>
-      <a href="#status" class="nav-link" data-i18n="nav.status">Status</a>
-      <a href="#pricing" class="nav-link" data-i18n="nav.pricing">Planos</a>
-      <a href="#downloads" class="nav-link" data-i18n="nav.downloads">Downloads</a>
+      <a href="#paginas" class="nav-link" data-i18n="nav.paginas">Páginas</a>
+      <a href="#sistema" class="nav-link" data-i18n="nav.sistema">Sistema</a>
+      <a href="#arquitectura" class="nav-link" data-i18n="nav.arquitectura">Arquitectura</a>
+      <a href="#integraciones" class="nav-link" data-i18n="nav.integraciones">Integraciones</a>
+      <a href="#estado" class="nav-link" data-i18n="nav.estado">Estado</a>
+      <a href="#planos" class="nav-link" data-i18n="nav.planos">Planes</a>
       <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="nav-link">GitHub</a>
-      <a href="#pricing" class="btn-nav-cta" data-i18n="nav.cta">Começar</a>
+      <a href="/os" class="btn-nav-cta" data-app="1" data-i18n="nav.cta">Abrir Sistema</a>
     </div>
     <button class="hamburger" onclick="toggleMobile()" id="hamburger-btn">
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#squads" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.squads">Squads</a>
-    <a href="#omega" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.omega">OMEGA</a>
-    <a href="#status" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.status">Status</a>
-    <a href="#pricing" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.pricing">Planos</a>
-    <a href="#downloads" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.downloads">Downloads</a>
+    <a href="#paginas" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.paginas">Páginas</a>
+    <a href="#sistema" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.sistema">Sistema</a>
+    <a href="#arquitectura" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.arquitectura">Arquitectura</a>
+    <a href="#integraciones" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.integraciones">Integraciones</a>
+    <a href="#estado" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.estado">Estado</a>
+    <a href="#planos" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.planos">Planes</a>
+    <a href="/os" class="mobile-link" data-app="1">Abrir Sistema</a>
     <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="mobile-link">GitHub</a>
   </div>
 </nav>
@@ -482,32 +538,33 @@
   <div class="hero-content reveal">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      <span data-i18n="hero.badge">v5.0 · AI-Native Operating System · LIVE</span>
+      <span data-i18n="hero.badge">v5.0 · Sistema Operativo Native IA · EN VIVO</span>
     </div>
     <h1 class="hero-title">
       <span class="line1">Trinnity</span>
       <span class="line2">Viseron System</span>
     </h1>
     <p class="hero-sub">
-      <span data-i18n="hero.sub1">Sistema Operacional Multi-Agente de Superinteligência.</span>
-      <strong> <span id="mind-count">5396</span> <span data-i18n="hero.minds">mentes em operação</span></strong>
-      <span data-i18n="hero.sub2"> — TVS OS + OMEGA Platform, 290+ providers IA, auto-evolução e cobrança real.</span><br>
-      <em data-i18n="hero.authority">Pedro Costa (Comandante) &amp; Trinnity Hurtado (Rainha).</em>
+      <span data-i18n="hero.sub1">Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditada.</span><br>
+      <strong data-i18n="hero.sub2">No es un chatbot.</strong>
+      <span data-i18n="hero.sub3"> Coordina agentes especializados, memoria persistente, conocimiento estructurado, herramientas, integraciones empresariales y modelos de IA en una sola arquitectura.</span><br>
+      <em data-i18n="hero.authority">© Pedro Costa (Comandante) &amp; Trinnity Hurtado (Reina).</em>
     </p>
     <div class="hero-btns">
-      <a href="#squads" class="btn-primary" data-i18n="hero.btn1">
-        Conhecer os Squads
+      <a href="#paginas" class="btn-primary" data-i18n="hero.btn1">
+        Explorar el Sistema
         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
       </a>
-      <a href="#pricing" class="btn-purple-outline" data-i18n="hero.btn2">Ver Planos</a>
-      <a href="#downloads" class="btn-secondary" data-i18n="hero.btn3">Downloads</a>
+      <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-purple-outline" data-i18n="hero.btnMap">Mapa del Sitio (PDF)</a>
+      <a href="/os" class="btn-secondary" data-app="1" data-i18n="hero.btnOs">Abrir el Sistema</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-card"><p class="stat-val c-neon" id="h-agents">5396</p><p class="stat-label" data-i18n="stat.minds">Mentes ativas</p></div>
-      <div class="stat-card"><p class="stat-val c-neon">290+</p><p class="stat-label" data-i18n="stat.providers">Providers IA</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2">5</p><p class="stat-label" data-i18n="stat.squads">Squads AIOX</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2" id="h-tests">212</p><p class="stat-label" data-i18n="stat.tests">Testes verdes</p></div>
-      <div class="stat-card"><p class="stat-val c-green">6/6</p><p class="stat-label" data-i18n="stat.revenue">Receita live</p></div>
+      <div class="stat-card"><p class="stat-val c-neon">192/192</p><p class="stat-label" data-i18n="stat.omega">OMEGA tests</p></div>
+      <div class="stat-card"><p class="stat-val c-neon">20/20</p><p class="stat-label" data-i18n="stat.core">CORE tests</p></div>
+      <div class="stat-card"><p class="stat-val c-neon">109/109</p><p class="stat-label" data-i18n="stat.web">WEB tests</p></div>
+      <div class="stat-card"><p class="stat-val c-neon2">1.997</p><p class="stat-label" data-i18n="stat.skills">Skills (10 colecciones)</p></div>
+      <div class="stat-card"><p class="stat-val c-neon2">9</p><p class="stat-label" data-i18n="stat.integ">Integraciones</p></div>
+      <div class="stat-card"><p class="stat-val c-green">6/6</p><p class="stat-label" data-i18n="stat.revenue">Ingresos listos</p></div>
     </div>
     <!-- Live API Bar -->
     <div class="api-bar reveal reveal-d3">
@@ -522,24 +579,135 @@
 
 <div class="divider"></div>
 
-<!-- SQUAD AIOX -->
-<section id="squads" style="padding:96px 0;">
+<!-- PÁGINAS DEL SISTEMA — mapa completo -->
+<section id="paginas" style="padding:96px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="squads.tag">// Squad AIOX — 200 Anos de Experiência</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="squads.title">Os 5 Esquadrões do Sistema</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="squads.sub">Cada esquadrão opera com autonomia completa, memória partilhada e objetivos próprios. Monitorados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).</p>
+      <p class="section-tag c-neon reveal" data-i18n="pages.tag">// Mapa del Sitio</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="pages.title">Todas las Páginas del Sistema</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="pages.sub">Cada página del TVS — acceso directo con botones reales. Nada de decoración: todo funciona.</p>
+    </div>
+    <div class="pages-grid">
+
+      <div class="glass-card page-card reveal">
+        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">📊</div><span class="page-path">/dashboard</span></div>
+        <div class="page-title" data-i18n="page.dash">Dashboard</div>
+        <div class="page-desc" data-i18n="page.dash.desc">Panel autenticado de la plataforma — auth, billing, onboarding, mensajería E2E.</div>
+        <a href="/dashboard" class="page-btn" data-app="1" data-i18n="page.open">Abrir Dashboard</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d1">
+        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🖥️</div><span class="page-path">/os</span></div>
+        <div class="page-title" data-i18n="page.os">TVS OS — Desktop</div>
+        <div class="page-desc" data-i18n="page.os.desc">Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.</div>
+        <a href="/os" class="page-btn" data-app="1" data-i18n="page.openOs">Abrir TVS OS</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d2">
+        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🧠</div><span class="page-path">/viseron</span></div>
+        <div class="page-title" data-i18n="page.viseron">VISERON — HUD</div>
+        <div class="page-desc" data-i18n="page.viseron.desc">Superinteligencia con voz (Stark). Wake words, TTS/STT, supervisión AIOX y gobernanza bíblica.</div>
+        <a href="/viseron" class="page-btn" data-app="1" data-i18n="page.openViseron">Abrir VISERON</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d3">
+        <div class="page-top"><div class="page-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">🎓</div><span class="page-path">/atlas</span></div>
+        <div class="page-title" data-i18n="page.atlas">ATLAS — Tutor de Inglés</div>
+        <div class="page-desc" data-i18n="page.atlas.desc">Profesor personal de inglés con voz (explica en ES/PT), plan de 7 días y corrección inmediata.</div>
+        <a href="/atlas" class="page-btn" data-app="1" data-i18n="page.openAtlas">Abrir ATLAS</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d4">
+        <div class="page-top"><div class="page-icon" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">⚙️</div><span class="page-path">/operate</span></div>
+        <div class="page-title" data-i18n="page.operate">SEE VISERON OPERATE</div>
+        <div class="page-desc" data-i18n="page.operate.desc">Pipeline E2E de tareas con eventos reales del OMEGA (SSE) en vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.</div>
+        <a href="/operate" class="page-btn" data-app="1" data-i18n="page.openOperate">Ver Operación</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d5">
+        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🎛️</div><span class="page-path">/command-center</span></div>
+        <div class="page-title" data-i18n="page.command">Command Center</div>
+        <div class="page-desc" data-i18n="page.command.desc">Panel operacional: salud, autonomía, ingresos, agentes, ejecución, integraciones, actividad y evolución.</div>
+        <a href="/command-center" class="page-btn" data-app="1" data-i18n="page.openCommand">Abrir Command Center</a>
+      </div>
+
+      <div class="glass-card page-card reveal">
+        <div class="page-top"><div class="page-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">🎮</div><span class="page-path">/game</span></div>
+        <div class="page-title" data-i18n="page.game">Juego VISERON</div>
+        <div class="page-desc" data-i18n="page.game.desc">Plataformas Canvas 2D trilingüe (ES/PT/EN). Transformaciones MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.</div>
+        <a href="/game" class="page-btn" data-app="1" data-i18n="page.openGame">Jugar</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d1">
+        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🌐</div><span class="page-path">/cosmos</span></div>
+        <div class="page-title" data-i18n="page.cosmos">Viseron Cosmos</div>
+        <div class="page-desc" data-i18n="page.cosmos.desc">Tokens reales $VSR (300M) y $TRIN (420.69M) en Ethereum/BSC/Solana. Sitio interplanetario trilingüe.</div>
+        <a href="/cosmos" class="page-btn" data-app="1" data-i18n="page.openCosmos">Abrir Cosmos</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d2">
+        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🪐</div><span class="page-path">/cosmos/metaverse</span></div>
+        <div class="page-title" data-i18n="page.meta">Metaverso Cosmos</div>
+        <div class="page-desc" data-i18n="page.meta.desc">Navega los planetas-módulos del TVS, recolecta mentes y gana $VSR/$TRIN. Touch + teclado + autónomo.</div>
+        <a href="/cosmos/metaverse" class="page-btn" data-app="1" data-i18n="page.openMeta">Entrar al Metaverso</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d3">
+        <div class="page-top"><div class="page-icon" style="background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);">📰</div><span class="page-path">/blog</span></div>
+        <div class="page-title" data-i18n="page.blog">Blog</div>
+        <div class="page-desc" data-i18n="page.blog.desc">Contenido del sistema generado por el agente de contenido (cada 120 min).</div>
+        <a href="/blog" class="page-btn" data-app="1" data-i18n="page.openBlog">Abrir Blog</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d4">
+        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🔌</div><span class="page-path">/api/health</span></div>
+        <div class="page-title" data-i18n="page.api">API Health</div>
+        <div class="page-desc" data-i18n="page.api.desc">Estado real de la API: db, billing, email, messaging, tenants y usuarios.</div>
+        <a href="/api/health" class="page-btn" data-app="1" data-i18n="page.openApi">Ver API</a>
+      </div>
+
+      <div class="glass-card page-card reveal reveal-d5">
+        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🗺️</div><span class="page-path">/pitch/Viseron_Mapa_Site.pdf</span></div>
+        <div class="page-title" data-i18n="page.map">Mapa del Sitio (PDF)</div>
+        <div class="page-desc" data-i18n="page.map.desc">Todas las páginas, comandos OS, endpoints de API, integraciones y cómo operar el sistema.</div>
+        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="page-btn" data-i18n="page.openMap">Descargar Mapa</a>
+      </div>
+
+    </div>
+
+    <!-- MAP CTA -->
+    <div class="map-cta reveal reveal-d3">
+      <div>
+        <h3 data-i18n="map.title">Guía completa de operación en PDF</h3>
+        <p data-i18n="map.desc">El Mapa del Sitio muestra TODAS las páginas, el control del TVS OS, los comandos npm, los endpoints de la API y las 9 integraciones — para operar el sistema con confianza.</p>
+      </div>
+      <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-map" data-i18n="map.btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Viseron_Mapa_Site.pdf
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SISTEMA — SQUAD AIOX -->
+<section id="sistema" style="padding:96px 0;">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:64px;">
+      <p class="section-tag c-neon reveal" data-i18n="squads.tag">// Auditoría AIOX</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="squads.title">¿Estamos realmente mejorando?</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="squads.sub">El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 5 escuadrones con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).</p>
     </div>
     <div class="squads-grid">
 
-      <!-- Engineering Squad -->
       <div class="squad-card reveal" style="--squad-color:var(--neon);">
         <div class="squad-header">
           <div class="squad-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">⚙️</div>
           <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
         </div>
         <div class="squad-name" style="color:var(--neon);" data-i18n="squad.eng.name">Engineering Squad</div>
-        <div class="squad-desc" data-i18n="squad.eng.desc">Arquitectura de software, desenvolvimento TypeScript, deploy e infraestrutura cloud. Constrói e mantém o núcleo do TVS.</div>
+        <div class="squad-desc" data-i18n="squad.eng.desc">Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.</div>
         <div class="squad-agents">
           <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">Architect Prime</span>
           <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">Dev Master</span>
@@ -547,19 +715,18 @@
           <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">QA Sentinel</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">99.8%</div><div class="squad-kpi-label" data-i18n="kpi.uptime">Uptime</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">212</div><div class="squad-kpi-label" data-i18n="kpi.tests">Testes ✅</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">321</div><div class="squad-kpi-label" data-i18n="kpi.tests">Tests verdes</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);">CLEAN</div><div class="squad-kpi-label" data-i18n="kpi.ts">TypeScript</div></div>
         </div>
       </div>
 
-      <!-- Security Squad -->
       <div class="squad-card reveal reveal-d1" style="--squad-color:var(--neon3);">
         <div class="squad-header">
           <div class="squad-icon" style="background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);">🛡️</div>
           <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
         </div>
         <div class="squad-name" style="color:var(--neon3);" data-i18n="squad.sec.name">Security Squad</div>
-        <div class="squad-desc" data-i18n="squad.sec.desc">Auditoria contínua, JWT, HMAC, x25519+AES-256-GCM, compliance e proteção de dados. Zero vulnerabilidades detectadas.</div>
+        <div class="squad-desc" data-i18n="squad.sec.desc">Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Least privilege + authorization explícita.</div>
         <div class="squad-agents">
           <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">CyberSentinel</span>
           <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">AuditBot</span>
@@ -571,33 +738,31 @@
         </div>
       </div>
 
-      <!-- Business Squad -->
       <div class="squad-card reveal reveal-d2" style="--squad-color:var(--neon4);">
         <div class="squad-header">
           <div class="squad-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">💼</div>
           <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
         </div>
         <div class="squad-name" style="color:var(--neon4);" data-i18n="squad.biz.name">Business Squad</div>
-        <div class="squad-desc" data-i18n="squad.biz.desc">Pipeline de vendas, CRM, cobranças Avirato/Stripe, propostas, follow-up e gestão de receita recorrente (MRR).</div>
+        <div class="squad-desc" data-i18n="squad.biz.desc">Pipeline de ventas, CRM, cobros Avirato (real), propuestas, follow-up y gestión de ingresos recurrentes (MRR).</div>
         <div class="squad-agents">
           <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">Sales Agent</span>
           <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">Finance Agent</span>
           <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">CRM Bot</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">$29+</div><div class="squad-kpi-label" data-i18n="kpi.plans">Planos /mês</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">Live</div><div class="squad-kpi-label" data-i18n="kpi.billing">Cobrança real</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">$29+</div><div class="squad-kpi-label" data-i18n="kpi.plans">Planes /mes</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">Live</div><div class="squad-kpi-label" data-i18n="kpi.billing">Avirato real</div></div>
         </div>
       </div>
 
-      <!-- Operations Squad -->
       <div class="squad-card reveal reveal-d3" style="--squad-color:#ff9f0a;">
         <div class="squad-header">
           <div class="squad-icon" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">⚡</div>
           <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
         </div>
         <div class="squad-name" style="color:#ff9f0a;" data-i18n="squad.ops.name">Operations Squad</div>
-        <div class="squad-desc" data-i18n="squad.ops.desc">Monitorização, alertas, backup automático, restart anti-congelamento, deploy GitHub/Vercel/Render e watchdog.</div>
+        <div class="squad-desc" data-i18n="squad.ops.desc">Monitorización, alertas, backup automático, reinicio anti-congelación, deploy GitHub/Vercel/Render y watchdog.</div>
         <div class="squad-agents">
           <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">OpsBot</span>
           <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">WatchDog</span>
@@ -605,19 +770,18 @@
           <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">DeployBot</span>
         </div>
         <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#ff9f0a;">5</div><div class="squad-kpi-label" data-i18n="kpi.targets">Alvos vigiados</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#ff9f0a;">5</div><div class="squad-kpi-label" data-i18n="kpi.targets">Alvos vigilados</div></div>
           <div class="squad-kpi"><div class="squad-kpi-val" style="color:#ff9f0a;">Auto</div><div class="squad-kpi-label" data-i18n="kpi.selfheal">Self-Heal</div></div>
         </div>
       </div>
 
-      <!-- Research Squad -->
       <div class="squad-card reveal reveal-d4" style="--squad-color:var(--neon2);">
         <div class="squad-header">
           <div class="squad-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🔬</div>
           <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
         </div>
         <div class="squad-name" style="color:var(--neon2);" data-i18n="squad.res.name">Research Squad</div>
-        <div class="squad-desc" data-i18n="squad.res.desc">IA avançada, novos modelos, HyperLearning, AutoEvolution, memória de grafo, análise de mercado e inovação.</div>
+        <div class="squad-desc" data-i18n="squad.res.desc">IA avanzada, nuevos modelos, HyperLearning, AutoEvolution, memoria de grafo, análisis de mercado e innovación.</div>
         <div class="squad-agents">
           <span class="agent-tag" style="color:var(--neon2);border-color:rgba(191,90,242,0.2);background:rgba(191,90,242,0.06);">ResearchBot</span>
           <span class="agent-tag" style="color:var(--neon2);border-color:rgba(191,90,242,0.2);background:rgba(191,90,242,0.06);">HyperLearner</span>
@@ -625,22 +789,40 @@
         </div>
         <div class="squad-kpis">
           <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon2);">4</div><div class="squad-kpi-label" data-i18n="kpi.cycles">Ciclos auto</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon2);">∞</div><div class="squad-kpi-label" data-i18n="kpi.learning">Aprendizagem</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon2);">∞</div><div class="squad-kpi-label" data-i18n="kpi.learning">Aprendizaje</div></div>
+        </div>
+      </div>
+
+      <div class="squad-card reveal reveal-d5" style="--squad-color:#f59e0b;">
+        <div class="squad-header">
+          <div class="squad-icon" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);">🧭</div>
+          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
+        </div>
+        <div class="squad-name" style="color:#f59e0b;" data-i18n="squad.evo.name">Evolution Squad</div>
+        <div class="squad-desc" data-i18n="squad.evo.desc">Ciclos continuos de evolución: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Si nada mejora: ninguna promoción.</div>
+        <div class="squad-agents">
+          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">EvoEngine</span>
+          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">AuditAI</span>
+          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">RollbackBot</span>
+        </div>
+        <div class="squad-kpis">
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;">10</div><div class="squad-kpi-label" data-i18n="kpi.agents">Agentes nucleares</div></div>
+          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;">Safe</div><div class="squad-kpi-label" data-i18n="kpi.evol">Evolución segura</div></div>
         </div>
       </div>
 
     </div>
 
-    <!-- Squad Commander Banner -->
+    <!-- Command Banner -->
     <div class="glass-card reveal reveal-d5" style="margin-top:32px;padding:28px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
       <div>
-        <p style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-family:'JetBrains Mono',monospace;" data-i18n="command.label">// Comando Supremo</p>
+        <p style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-family:'JetBrains Mono',monospace;" data-i18n="command.label">// Mando Supremo</p>
         <h3 style="font-size:20px;font-weight:800;" data-i18n="command.title">Pedro Costa <span style="color:var(--text2);font-weight:400;" data-i18n="command.and">&amp;</span> Trinnity Hurtado</h3>
-        <p style="font-size:13px;color:var(--text2);margin-top:6px;" data-i18n="command.desc">Comandante Supremo &amp; Rainha — Todos os direitos autorais do projeto pertencem a Pedro e Trinnity. Decisões finais, direção, prioridades e go-lives.</p>
+        <p style="font-size:13px;color:var(--text2);margin-top:6px;" data-i18n="command.desc">Comandante Supremo &amp; Chief Evolution Officer — Decisiones finales, dirección, prioridades y go-lives. Todos los derechos del proyecto pertenecen a Pedro y Trinnity.</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <span class="badge badge-neon" data-i18n="cmd.badge1">Pedro Costa — Comandante</span>
-        <span class="badge badge-purple" data-i18n="cmd.badge2">Trinnity Hurtado — Rainha</span>
+        <span class="badge badge-purple" data-i18n="cmd.badge2">Trinnity Hurtado — Reina</span>
       </div>
     </div>
   </div>
@@ -648,13 +830,13 @@
 
 <div class="divider"></div>
 
-<!-- OMEGA PLATFORM -->
-<section id="omega" style="padding:96px 0;">
+<!-- ARQUITECTURA OMEGA -->
+<section id="arquitectura" style="padding:96px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon2 reveal" data-i18n="omega.tag">// OMEGA Platform</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="omega.title">Arquitetura OMEGA</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="omega.sub">A espinha dorsal da superinteligência — kernel, runtime, memória, roteamento de IA, autonomia e auto-cura em produção.</p>
+      <p class="section-tag c-neon2 reveal" data-i18n="omega.tag">// Arquitectura</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="omega.title">Inteligencia + Memoria + Auditoría + Evolución</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="omega.sub">Hierarquía de inteligencia: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORIA → Orquestación → Agentes · Skills · Tools → Ejecución → Negocio.</p>
     </div>
     <div class="omega-grid">
       <div class="glass-card omega-card reveal">
@@ -662,7 +844,7 @@
           <svg width="22" height="22" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-13.5 0V9a3 3 0 013-3h7.5a3 3 0 013 3v5.25m-10.5-9V3"/></svg>
         </div>
         <div class="omega-title c-neon" data-i18n="omega.kernel">Kernel + EventBus</div>
-        <div class="omega-desc" data-i18n="omega.kernel.desc">Núcleo com bus de eventos tipados, permissões granulares por role e attach dinâmico de agentes, memória e router IA.</div>
+        <div class="omega-desc" data-i18n="omega.kernel.desc">Núcleo con bus de eventos tipados, cola de tareas persistente (TaskQueue) y verificación E2E (TaskVerifier).</div>
         <span class="omega-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.15);">TVS Kernel v1.0</span>
       </div>
       <div class="glass-card omega-card reveal reveal-d1">
@@ -670,41 +852,50 @@
           <svg width="22" height="22" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
         </div>
         <div class="omega-title c-neon2" data-i18n="omega.runtime">Agent Runtime</div>
-        <div class="omega-desc" data-i18n="omega.runtime.desc">10+ agentes nucleares carregados de specs JSON com fallback offline, timeout por agente e eventos por tarefa.</div>
+        <div class="omega-desc" data-i18n="omega.runtime.desc">10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) con specs JSON y fallback offline.</div>
         <span class="omega-badge" style="background:rgba(191,90,242,0.08);color:var(--neon2);border:1px solid rgba(191,90,242,0.15);">10 core agents</span>
       </div>
       <div class="glass-card omega-card reveal reveal-d2">
         <div class="omega-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.15);">
           <svg width="22" height="22" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
         </div>
-        <div class="omega-title c-neon" data-i18n="omega.memory">Knowledge Graph</div>
-        <div class="omega-desc" data-i18n="omega.memory.desc">Memória STM/LTM em grafo persistida em ficheiro — entidades, relações, decisões e consolidação automática.</div>
-        <span class="omega-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.15);">LTM limitada 20k</span>
+        <div class="omega-title c-neon" data-i18n="omega.memory">Memory Architecture</div>
+        <div class="omega-desc" data-i18n="omega.memory.desc">SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memoria persistente e independiente del servidor físico.</div>
+        <span class="omega-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.15);">Persistente</span>
       </div>
       <div class="glass-card omega-card reveal reveal-d3">
         <div class="omega-icon" style="background:rgba(191,90,242,0.08);border:1px solid rgba(191,90,242,0.15);">
           <svg width="22" height="22" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
         </div>
         <div class="omega-title c-neon2" data-i18n="omega.router">AI Router</div>
-        <div class="omega-desc" data-i18n="omega.router.desc">Roteamento inteligente entre Ollama, OmniRoute (290+ providers), OpenAI, Claude, Gemini e Grok por custo/velocidade.</div>
-        <span class="omega-badge" style="background:rgba(191,90,242,0.08);color:var(--neon2);border:1px solid rgba(191,90,242,0.15);">290+ providers</span>
+        <div class="omega-desc" data-i18n="omega.router.desc">Roteo por calidad, costo, latencia, contexto y privacidad: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.</div>
+        <span class="omega-badge" style="background:rgba(191,90,242,0.08);color:var(--neon2);border:1px solid rgba(191,90,242,0.15);">Multi-modelo</span>
       </div>
       <div class="glass-card omega-card reveal reveal-d4">
         <div class="omega-icon" style="background:rgba(48,209,88,0.08);border:1px solid rgba(48,209,88,0.15);">
           <svg width="22" height="22" fill="none" stroke="var(--neon4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
         </div>
-        <div class="omega-title c-green" data-i18n="omega.autonomy">Autonomy Layer</div>
-        <div class="omega-desc" data-i18n="omega.autonomy.desc">HyperLearning, AutoEvolution, AutoLearning e AutoPilot — 4 ciclos contínuos de aprendizagem e evolução.</div>
-        <span class="omega-badge" style="background:rgba(48,209,88,0.08);color:var(--neon4);border:1px solid rgba(48,209,88,0.15);">4 ciclos autónomos</span>
+        <div class="omega-title c-green" data-i18n="omega.autonomy">AutonomyOS</div>
+        <div class="omega-desc" data-i18n="omega.autonomy.desc">Autonomía graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Más autonomía con más control, evidencia y auditabilidad.</div>
+        <span class="omega-badge" style="background:rgba(48,209,88,0.08);color:var(--neon4);border:1px solid rgba(48,209,88,0.15);">L0–L5</span>
       </div>
       <div class="glass-card omega-card reveal reveal-d5">
         <div class="omega-icon" style="background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.15);">
           <svg width="22" height="22" fill="none" stroke="var(--neon3)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
         </div>
-        <div class="omega-title" style="color:var(--neon3);" data-i18n="omega.selfheal">Self-Heal Watchdog</div>
-        <div class="omega-desc" data-i18n="omega.selfheal.desc">5 alvos vigiados — destrava componentes presos, regista incidentes e reinicia serviços automaticamente.</div>
-        <span class="omega-badge" style="background:rgba(255,45,85,0.08);color:var(--neon3);border:1px solid rgba(255,45,85,0.15);">Anti-freeze Active</span>
+        <div class="omega-title" style="color:var(--neon3);" data-i18n="omega.portable">Portabilidad</div>
+        <div class="omega-desc" data-i18n="omega.portable.desc">El VISERON no depende de la vida útil de una máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.</div>
+        <span class="omega-badge" style="background:rgba(255,45,85,0.08);color:var(--neon3);border:1px solid rgba(255,45,85,0.15);">Sobrevive al hardware</span>
       </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="pipeline reveal reveal-d3">
+      <span class="pipe-step">INTENT</span><span class="pipe-arrow">→</span>
+      <span class="pipe-step">PLAN</span><span class="pipe-arrow">→</span>
+      <span class="pipe-step">AUTHORIZE</span><span class="pipe-arrow">→</span>
+      <span class="pipe-step">EXECUTE</span><span class="pipe-arrow">→</span>
+      <span class="pipe-step">VERIFY</span>
     </div>
 
     <!-- Terminal Demo -->
@@ -718,11 +909,11 @@
         </div>
         <div class="terminal-body">
           <span class="tl"><span class="p">$</span> <span class="c">npm run tvs</span></span>
-          <span class="tl"><span class="g">TVS OS Core v1 v1.0.0 — Kernel v1.0.0</span></span>
-          <span class="tl"><span class="o">├─ Agentes: <span class="g">10 runtime</span> · catálogo: 21</span></span>
-          <span class="tl"><span class="o">├─ Watchdog: <span class="g">ATIVO</span> (5 alvos)</span></span>
-          <span class="tl"><span class="o">├─ Squads: <span class="g">5 ATIVOS</span></span></span>
-          <span class="tl"><span class="o">├─ DB: <span class="g">Neon Postgres 10 tabelas</span></span></span>
+          <span class="tl"><span class="g">TVS OS Core v1 — Kernel v1.0.0</span></span>
+          <span class="tl"><span class="o">├─ Agentes: <span class="g">10 nucleares</span></span></span>
+          <span class="tl"><span class="o">├─ Watchdog: <span class="g">ACTIVO</span> (5 alvos)</span></span>
+          <span class="tl"><span class="o">├─ Squads: <span class="g">6 ACTIVOS</span></span></span>
+          <span class="tl"><span class="o">├─ DB: <span class="g">Neon Postgres</span></span></span>
           <span class="tl"><span class="o">└─ Revenue: <span class="g">ok=true · Avirato LIVE</span></span></span>
           <span class="tl" style="margin-top:8px;"><span class="p">$</span> <span class="c">npm run squad:scan</span></span>
           <span class="tl"><span class="v">🔍 Squad Scanner v1.0 iniciado...</span></span>
@@ -734,18 +925,19 @@
         </div>
       </div>
       <div>
-        <h3 style="font-size:22px;font-weight:800;margin-bottom:14px;" data-i18n="omega.api.title">Gateway /api/omega</h3>
-        <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;" data-i18n="omega.api.desc">Command Center com endpoints de kernel, runtime, memória, autonomia, squads, factory, enterprise e watchdog — tudo via REST API ou CLI.</p>
+        <h3 style="font-size:22px;font-weight:800;margin-bottom:14px;" data-i18n="omega.api.title">Command Center</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;" data-i18n="omega.api.desc">Indicadores observables: salud del sistema, autonomía, ingresos, agentes, ejecución, conocimiento, operaciones, integraciones, actividad y evolución. El VISERON es una plataforma observable, no una caja negra.</p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span class="badge badge-neon">/api/omega/kernel</span>
-          <span class="badge badge-neon">/api/omega/agents</span>
-          <span class="badge badge-purple">/api/omega/squads</span>
-          <span class="badge badge-purple">/api/omega/memory</span>
-          <span class="badge badge-green">/api/omega/autonomy</span>
-          <span class="badge badge-neon">/api/omega/factory</span>
-          <span class="badge badge-neon">/api/os</span>
-          <span class="badge badge-purple">/api/jarvis/chat</span>
+          <span class="badge badge-neon">/api/omega/tasks</span>
+          <span class="badge badge-neon">/api/omega/events</span>
+          <span class="badge badge-purple">/api/omega/verifier</span>
+          <span class="badge badge-purple">/api/os</span>
+          <span class="badge badge-green">/api/jarvis/chat</span>
+          <span class="badge badge-neon">/api/viseron/chat</span>
+          <span class="badge badge-purple">/api/tutor/chat</span>
+          <span class="badge badge-green">/api/rcs/send</span>
         </div>
+        <a href="/operate" class="page-btn" data-app="1" style="margin-top:20px;width:auto;display:inline-flex;" data-i18n="omega.watch">Ver operación en vivo →</a>
       </div>
     </div>
   </div>
@@ -753,68 +945,147 @@
 
 <div class="divider"></div>
 
-<!-- STATUS LIVE -->
-<section id="status" style="padding:96px 0;">
+<!-- INTEGRACIONES -->
+<section id="integraciones" style="padding:96px 0;">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:48px;">
+      <p class="section-tag c-neon2 reveal" data-i18n="int.tag">// Skills &amp; External Integrations</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="int.title">1.997 Skills · 10 Colecciones</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="int.sub">9 repositorios externos integrados como colecciones de skills en el SkillsRegistry. Instalables con <code>npm run skills:install</code>.</p>
+    </div>
+    <div class="glass-card reveal reveal-d3" style="overflow-x:auto;">
+      <table class="int-table">
+        <thead>
+          <tr>
+            <th data-i18n="int.hRepo">Repositorio</th>
+            <th data-i18n="int.hSkills">Skills</th>
+            <th data-i18n="int.hLic">Licencia</th>
+            <th data-i18n="int.hDesc">Qué aporta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Graphify-Labs/graphify</td><td class="int-count">—</td><td>MIT</td><td data-i18n="int.graphify">Knowledge graph operativo (query/path/explain)</td></tr>
+          <tr><td>anthropics/claude-plugins-official</td><td class="int-count">31</td><td>Apache-2.0</td><td data-i18n="int.anthropic">Plugins/skills oficiales de Anthropic</td></tr>
+          <tr><td>ComposioHQ/awesome-claude-skills</td><td class="int-count">864</td><td>Apache-2.0</td><td data-i18n="int.composio">Colección de la comunidad (productividad/marketing/dev)</td></tr>
+          <tr><td>affaan-m/ECC</td><td class="int-count">897</td><td>MIT</td><td data-i18n="int.ecc">Harness OS: 67 agents, hooks, memoria, AgentShield</td></tr>
+          <tr><td>obra/superpowers</td><td class="int-count">14</td><td>MIT</td><td data-i18n="int.super">Skill system multi-harness</td></tr>
+          <tr><td>trycompai/crm</td><td class="int-count">34</td><td>MIT</td><td data-i18n="int.crm">Comp AI CRM — CRM agentic-first</td></tr>
+          <tr><td>trycompai/comp</td><td class="int-count">53</td><td>AGPL-3.0</td><td data-i18n="int.comp">Compliance AI-native (SOC2/GDPR/ISO27001)</td></tr>
+          <tr><td>HKUDS/DeepTutor</td><td class="int-count">6</td><td>Apache-2.0</td><td data-i18n="int.tutor">Tutor lifelong personalizado (memoria L1/L2/L3)</td></tr>
+          <tr><td>cobusgreyling/loop-engineering</td><td class="int-count">41</td><td>MIT</td><td data-i18n="int.loop">Loop engineering: patterns/starters/audit/init/cost</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;justify-content:center;">
+      <span class="badge badge-neon">npm run integrations:status</span>
+      <span class="badge badge-purple">npm run skills:install</span>
+      <span class="badge badge-neon">npm run ecc:setup</span>
+      <span class="badge badge-green">npm run loop:doctor</span>
+      <span class="badge badge-purple">npm run tutor:deeptutor</span>
+      <span class="badge badge-neon">npm run integrations:crm</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ESTADO LIVE -->
+<section id="estado" style="padding:96px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="status.tag">// Estado do Sistema</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="status.title">Status Live</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="status.sub">Monitorização em tempo real via <code>/api/health</code> e <code>/api/revenue/readiness</code>.</p>
+      <p class="section-tag c-neon reveal" data-i18n="status.tag">// Estado del Sistema</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="status.title">Validación en vivo</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="status.sub">Datos reales vía <code>/api/health</code> y <code>/api/revenue/readiness</code>. Sin cifras inventadas.</p>
     </div>
-    <div class="status-grid">
+
+    <!-- VALIDATION -->
+    <div class="valid-grid">
+      <div class="glass-card valid-card reveal">
+        <div class="valid-num c-neon">192/192</div>
+        <div class="valid-label" data-i18n="valid.omega">OMEGA tests PASS</div>
+      </div>
+      <div class="glass-card valid-card reveal reveal-d1">
+        <div class="valid-num c-neon">20/20</div>
+        <div class="valid-label" data-i18n="valid.core">CORE tests PASS</div>
+      </div>
+      <div class="glass-card valid-card reveal reveal-d2">
+        <div class="valid-num c-neon">109/109</div>
+        <div class="valid-label" data-i18n="valid.web">WEB tests PASS</div>
+      </div>
+      <div class="glass-card valid-card reveal reveal-d3">
+        <div class="valid-num c-green">CLEAN</div>
+        <div class="valid-label" data-i18n="valid.ts">TypeScript check</div>
+      </div>
+      <div class="glass-card valid-card reveal reveal-d4">
+        <div class="valid-num c-neon2">1.997</div>
+        <div class="valid-label" data-i18n="valid.skills">Skills indexadas</div>
+      </div>
+      <div class="glass-card valid-card reveal reveal-d5">
+        <div class="valid-num c-green">6/6</div>
+        <div class="valid-label" data-i18n="valid.revenue">Ingresos listos</div>
+      </div>
+    </div>
+
+    <div class="status-grid" style="margin-top:24px;">
       <div class="glass-card status-card reveal">
         <div class="status-header">
           <div class="status-name" data-i18n="status.api">API Core</div>
           <span class="badge badge-green" id="s-api"><span class="live-dot"></span> Live</span>
         </div>
-        <div class="status-val" data-i18n="status.api.desc">REST API + Socket.IO em produção. Health check, auth, billing, messaging.</div>
+        <div class="status-val" data-i18n="status.api.desc">REST API + Socket.IO en producción. Health check, auth, billing, messaging.</div>
       </div>
       <div class="glass-card status-card reveal reveal-d1">
         <div class="status-header">
           <div class="status-name" data-i18n="status.db">Postgres Neon</div>
           <span class="badge badge-green" id="s-db">Connected</span>
         </div>
-        <div class="status-val" data-i18n="status.db.desc">10 tabelas migradas: tenants, users, usage_events e billing. eu-central-1.</div>
+        <div class="status-val" data-i18n="status.db.desc">10 tablas migradas: tenants, users, usage_events y billing. usage_events registrando actividad.</div>
       </div>
       <div class="glass-card status-card reveal reveal-d2">
         <div class="status-header">
           <div class="status-name">Avirato Payments</div>
           <span class="badge badge-green" id="s-billing">Live</span>
         </div>
-        <div class="status-val" data-i18n="status.billing.desc">Checkout live de subscrições com webhook HMAC assinado. Core $29 / Pro $99 / Enterprise $499.</div>
+        <div class="status-val" data-i18n="status.billing.desc">Checkout en vivo con webhook HMAC firmado. Core $29 / Pro $99 / Enterprise $499.</div>
       </div>
       <div class="glass-card status-card reveal reveal-d3">
         <div class="status-header">
           <div class="status-name">Gmail OAuth</div>
           <span class="badge badge-green" id="s-gmail">Active</span>
         </div>
-        <div class="status-val" data-i18n="status.gmail.desc">Agente de atendimento envia emails reais — verify, reset, faturas e suporte.</div>
+        <div class="status-val" data-i18n="status.gmail.desc">Agente de atención envía emails reales — verify, reset, facturas y soporte.</div>
       </div>
       <div class="glass-card status-card reveal reveal-d4">
         <div class="status-header">
-          <div class="status-name" data-i18n="status.domain">Domínio</div>
+          <div class="status-name" data-i18n="status.domain">Dominio</div>
           <span class="badge badge-green" id="s-domain">HTTPS</span>
         </div>
-        <div class="status-val">www.trinnityviseronsystem.io — Cloudflare + Vercel. HTTPS ativo.</div>
+        <div class="status-val">www.trinnityviseronsystem.io — Cloudflare + Vercel + Render. HTTPS activo.</div>
       </div>
       <div class="glass-card status-card reveal reveal-d5">
         <div class="status-header">
-          <div class="status-name" data-i18n="status.revenue">Revenue</div>
-          <span class="badge badge-green" id="s-revenue">6/6</span>
+          <div class="status-name" data-i18n="status.infra">Infraestructura</div>
+          <span class="badge badge-neon" id="s-infra">Primary Node</span>
         </div>
-        <div class="status-val" data-i18n="status.revenue.desc">Todos os requisitos de receita verificados. Pronto para faturar.</div>
+        <div class="status-val" data-i18n="status.infra.desc">AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.</div>
       </div>
     </div>
 
     <div class="glass-card reveal reveal-d5" style="margin-top:28px;padding:26px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
       <div>
-        <h3 style="font-weight:700;font-size:16px;margin-bottom:6px;" data-i18n="status.pdf.title">Relatório de Estado PDF</h3>
-        <p style="font-size:13px;color:var(--text2);" data-i18n="status.pdf.desc">Estado completo do sistema — testes, infraestrutura, pendências e o que podes fazer agora.</p>
+        <h3 style="font-weight:700;font-size:16px;margin-bottom:6px;" data-i18n="status.pdf.title">Informe de Estado + Mapa del Sitio</h3>
+        <p style="font-size:13px;color:var(--text2);" data-i18n="status.pdf.desc">Estado completo del sistema y guía de operación — tests, infraestructura, pendientes y qué puedes hacer ahora.</p>
       </div>
-      <a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank" class="btn-secondary" style="font-size:13px;padding:10px 20px;">
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        <span data-i18n="btn.pdf">Baixar PDF</span>
-      </a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank" class="btn-secondary" style="font-size:13px;padding:10px 20px;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-i18n="btn.pdf">Informe PDF</span>
+        </a>
+        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-primary" style="font-size:13px;padding:10px 20px;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-i18n="btn.map">Mapa del Sitio</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -822,62 +1093,62 @@
 <div class="divider"></div>
 
 <!-- PRICING -->
-<section id="pricing" style="padding:96px 0;">
+<section id="planos" style="padding:96px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon2 reveal" data-i18n="pricing.tag">// Planos</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="pricing.title">Escolhe o teu Plano</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="pricing.sub">Acesso à superinteligência em operação. Cancela quando quiseres.</p>
+      <p class="section-tag c-neon2 reveal" data-i18n="pricing.tag">// Planes</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="pricing.title">Elige tu Plan</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="pricing.sub">Acceso a la superinteligencia en operación. Cobros reales vía Avirato. Cancela cuando quieras.</p>
     </div>
     <div class="pricing-grid">
       <!-- Core -->
       <div class="glass-card plan-card reveal">
         <span class="plan-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.18);">Core</span>
         <div class="plan-name" data-i18n="plan.core.name">Core Plan</div>
-        <div class="plan-price" style="color:var(--neon);">$29<span>/mês</span></div>
-        <div class="plan-sub" data-i18n="plan.core.sub">Para startups e developers</div>
+        <div class="plan-price" style="color:var(--neon);">$29<span>/mes</span></div>
+        <div class="plan-sub" data-i18n="plan.core.sub">Para startups y developers</div>
         <ul class="plan-features">
-          <li data-i18n="plan.core.f1">1 workspace, 5 agentes ativos</li>
-          <li data-i18n="plan.core.f2">100 tarefas/dia de IA</li>
+          <li data-i18n="plan.core.f1">1 workspace, 5 agentes activos</li>
+          <li data-i18n="plan.core.f2">100 tareas IA/día</li>
           <li data-i18n="plan.core.f3">API REST completa</li>
-          <li data-i18n="plan.core.f4">Ollama local + 3 cloud providers</li>
-          <li data-i18n="plan.core.f5">Suporte por email</li>
-          <li class="off" data-i18n="plan.core.f6">Squads personalizados</li>
+          <li data-i18n="plan.core.f4">Ollama local + 3 proveedores cloud</li>
+          <li data-i18n="plan.core.f5">Soporte por email</li>
+          <li class="off" data-i18n="plan.core.f6">Escuadrones personalizados</li>
           <li class="off" data-i18n="plan.core.f7">Multi-tenant</li>
         </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Core Plan" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Começar</a>
+        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Core Plan" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Comenzar</a>
       </div>
       <!-- Pro -->
       <div class="glass-card plan-card featured reveal reveal-d1">
         <span class="plan-badge" style="background:var(--neon);color:var(--bg);">★ PRO — POPULAR</span>
         <div class="plan-name" data-i18n="plan.pro.name">Pro Plan</div>
-        <div class="plan-price" style="color:var(--neon);">$99<span>/mês</span></div>
-        <div class="plan-sub" data-i18n="plan.pro.sub">Para empresas em crescimento</div>
+        <div class="plan-price" style="color:var(--neon);">$99<span>/mes</span></div>
+        <div class="plan-sub" data-i18n="plan.pro.sub">Para empresas en crecimiento</div>
         <ul class="plan-features">
           <li data-i18n="plan.pro.f1">5 workspaces, 50 agentes</li>
-          <li data-i18n="plan.pro.f2">1000 tarefas/dia</li>
-          <li data-i18n="plan.pro.f3">Squads AIOX configurados</li>
-          <li data-i18n="plan.pro.f4">Todos os providers IA</li>
-          <li data-i18n="plan.pro.f5">JARVIS Chat avançado</li>
-          <li data-i18n="plan.pro.f6">Messaging E2E cifrado</li>
-          <li data-i18n="plan.pro.f7">Suporte prioritário</li>
+          <li data-i18n="plan.pro.f2">1000 tareas/día</li>
+          <li data-i18n="plan.pro.f3">Escuadrones AIOX configurados</li>
+          <li data-i18n="plan.pro.f4">Todos los proveedores IA</li>
+          <li data-i18n="plan.pro.f5">JARVIS Chat avanzado</li>
+          <li data-i18n="plan.pro.f6">Mensajería E2E cifrada</li>
+          <li data-i18n="plan.pro.f7">Soporte prioritario</li>
         </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Pro Plan" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Começar</a>
+        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Pro Plan" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Comenzar</a>
       </div>
       <!-- Enterprise -->
       <div class="glass-card plan-card reveal reveal-d2">
         <span class="plan-badge" style="background:rgba(191,90,242,0.12);color:var(--neon2);border:1px solid rgba(191,90,242,0.25);">Enterprise</span>
         <div class="plan-name" data-i18n="plan.ent.name">Enterprise</div>
-        <div class="plan-price" style="color:var(--neon2);">$499<span>/mês</span></div>
-        <div class="plan-sub" data-i18n="plan.ent.sub">Para grandes organizações</div>
+        <div class="plan-price" style="color:var(--neon2);">$499<span>/mes</span></div>
+        <div class="plan-sub" data-i18n="plan.ent.sub">Para grandes organizaciones</div>
         <ul class="plan-features">
           <li data-i18n="plan.ent.f1">Workspaces ilimitados</li>
-          <li data-i18n="plan.ent.f2">Agentes ilimitados + 5000+</li>
-          <li data-i18n="plan.ent.f3">Squads AIOX custom + white-label</li>
-          <li data-i18n="plan.ent.f4">SLA 99.9% + suporte dedicado</li>
-          <li data-i18n="plan.ent.f5">On-premise deployment</li>
-          <li data-i18n="plan.ent.f6">API commercialização</li>
-          <li data-i18n="plan.ent.f7">Integração n8n + OmniRoute</li>
+          <li data-i18n="plan.ent.f2">Agentes ilimitados + customer factory</li>
+          <li data-i18n="plan.ent.f3">Escuadrones AIOX custom + white-label</li>
+          <li data-i18n="plan.ent.f4">SLA 99.9% + soporte dedicado</li>
+          <li data-i18n="plan.ent.f5">Deploy on-premise</li>
+          <li data-i18n="plan.ent.f6">Comercialización de API</li>
+          <li data-i18n="plan.ent.f7">Integración Composio + RCS</li>
         </ul>
         <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Enterprise" class="plan-btn plan-btn-outline" data-i18n="plan.btn.contact">Contactar</a>
       </div>
@@ -888,36 +1159,36 @@
 <div class="divider"></div>
 
 <!-- DOWNLOADS -->
-<section id="downloads" style="padding:96px 0;">
+<section id="descargas" style="padding:96px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="dl.tag">// Downloads</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="dl.title">Instala o TVS</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="dl.sub">Disponível para todas as plataformas. Roda com Ollama local sem API key.</p>
+      <p class="section-tag c-neon reveal" data-i18n="dl.tag">// Descargas</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="dl.title">Instala el TVS</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="dl.sub">Disponible para todas las plataformas. Funciona con Ollama local, sin API key.</p>
     </div>
     <div class="downloads-grid">
       <div class="glass-card dl-card reveal">
         <div class="dl-icon">🤖</div>
         <div class="dl-title">Android APK</div>
-        <div class="dl-desc" data-i18n="dl.apk.desc">App nativa Android para Google Play. Interface mobile do TVS OS.</div>
-        <a href="https://github.com/ViseronSystem/trinnity-viseron-system/releases" target="_blank" class="dl-btn">
+        <div class="dl-desc" data-i18n="dl.apk.desc">App nativa Android. Interface mobile del TVS OS (también el Juego VISERON embebido).</div>
+        <a href="/downloads/TrinnityViseron.apk" target="_blank" class="dl-btn" data-app="1">
           <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="dl.btn">Baixar APK</span>
+          <span data-i18n="dl.btn">Descargar APK</span>
         </a>
       </div>
       <div class="glass-card dl-card reveal reveal-d1">
         <div class="dl-icon">🖥️</div>
         <div class="dl-title">Windows EXE</div>
-        <div class="dl-desc" data-i18n="dl.exe.desc">Executável standalone para Windows. Não precisa de Node.js instalado.</div>
-        <a href="https://github.com/ViseronSystem/trinnity-viseron-system/releases" target="_blank" class="dl-btn">
+        <div class="dl-desc" data-i18n="dl.exe.desc">Instalador Windows (Setup.exe) con el APK + accesos directos. No necesita Node.js.</div>
+        <a href="/downloads/TrinnityViseron-APK-Setup-5.0.0.exe" target="_blank" class="dl-btn" data-app="1">
           <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="dl.btn.exe">Baixar EXE</span>
+          <span data-i18n="dl.btn.exe">Descargar EXE</span>
         </a>
       </div>
       <div class="glass-card dl-card reveal reveal-d2">
         <div class="dl-icon">🐳</div>
         <div class="dl-title">Docker</div>
-        <div class="dl-desc" data-i18n="dl.docker.desc">Imagem Docker para deploy em qualquer cloud ou servidor self-hosted.</div>
+        <div class="dl-desc" data-i18n="dl.docker.desc">Imagen Docker para deploy en cualquier cloud o servidor self-hosted.</div>
         <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="dl-btn">
           <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           <span data-i18n="dl.btn.code">Ver Código</span>
@@ -925,9 +1196,9 @@
       </div>
       <div class="glass-card dl-card reveal reveal-d3">
         <div class="dl-icon">📚</div>
-        <div class="dl-title" data-i18n="dl.docs.title">Documentação</div>
-        <div class="dl-desc" data-i18n="dl.docs.desc">Manuais, PDFs de pitch, roadmap e guia completo de comandos.</div>
-        <a href="/pitch/" target="_blank" class="dl-btn">
+        <div class="dl-title" data-i18n="dl.docs.title">Documentación</div>
+        <div class="dl-desc" data-i18n="dl.docs.desc">Manuales, PDFs de pitch, roadmap, mapa del sitio y guía completa de comandos.</div>
+        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="dl-btn">
           <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span data-i18n="dl.btn.docs">Ver PDFs</span>
         </a>
@@ -939,25 +1210,26 @@
 <div class="divider"></div>
 
 <!-- COMMANDS -->
-<section id="commands" style="padding:80px 0;">
+<section id="comandos" style="padding:80px 0;">
   <div class="section-inner">
     <div style="text-align:center;margin-bottom:52px;">
       <p class="section-tag c-neon reveal" data-i18n="cmd.tag">// Comandos</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="cmd.title">Comandos Principais</h2>
+      <h2 class="section-title reveal reveal-d1" data-i18n="cmd.title">Control del TVS OS</h2>
+      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="cmd.sub">Comandos reales del sistema — el Mapa del Sitio (PDF) lista los 144 comandos npm + endpoints de la API.</p>
     </div>
     <div class="cmd-grid">
-      <div class="cmd-item reveal"><div class="cmd-code">npm run dev</div><div class="cmd-desc" data-i18n="cmd.dev">Dev mode com hot reload</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run build</div><div class="cmd-desc" data-i18n="cmd.build">Compila TypeScript para dist/</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm start</div><div class="cmd-desc" data-i18n="cmd.start">Roda o sistema completo</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run restart</div><div class="cmd-desc" data-i18n="cmd.restart">Reinício anti-congelamento</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm test</div><div class="cmd-desc" data-i18n="cmd.test">Roda todos os testes (212)</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run squad:scan</div><div class="cmd-desc" data-i18n="cmd.scan">Varredura real do sistema</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run deploy</div><div class="cmd-desc" data-i18n="cmd.deploy">Deploy GitHub + Vercel + Render</div></div>
-      <div class="cmd-item reveal reveal-d4"><div class="cmd-code">npm run pdfs:all</div><div class="cmd-desc" data-i18n="cmd.pdfs">Gera todos os PDFs</div></div>
-      <div class="cmd-item reveal"><div class="cmd-code">npm run tvs</div><div class="cmd-desc" data-i18n="cmd.tvs">Estado do TVS OS</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run demo:jarvis</div><div class="cmd-desc" data-i18n="cmd.jarvis">Demo JARVIS AI</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run backup</div><div class="cmd-desc" data-i18n="cmd.backup">Backup automático</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run cofre</div><div class="cmd-desc" data-i18n="cmd.cofre">PDF de credenciais (cofre)</div></div>
+      <div class="cmd-item reveal"><div class="cmd-code">npm run dev</div><div class="cmd-desc" data-i18n="cmd.dev">Modo dev con hot reload</div></div>
+      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run build</div><div class="cmd-desc" data-i18n="cmd.build">Compila TypeScript a dist/</div></div>
+      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm start</div><div class="cmd-desc" data-i18n="cmd.start">Ejecuta el sistema completo</div></div>
+      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run restart</div><div class="cmd-desc" data-i18n="cmd.restart">Reinicio anti-congelación (mata servidor + huérfanos)</div></div>
+      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm test</div><div class="cmd-desc" data-i18n="cmd.test">Ejecuta todos los tests (core/web/omega/os/restart)</div></div>
+      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run squad:scan</div><div class="cmd-desc" data-i18n="cmd.scan">Escaneo real del sistema</div></div>
+      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run tvs</div><div class="cmd-desc" data-i18n="cmd.tvs">Estado del TVS OS (kernel, agentes, watchdog)</div></div>
+      <div class="cmd-item reveal reveal-d4"><div class="cmd-code">npm run mapa:site</div><div class="cmd-desc" data-i18n="cmd.map">Genera el Mapa del Sitio PDF</div></div>
+      <div class="cmd-item reveal"><div class="cmd-code">npm run pdfs:all</div><div class="cmd-desc" data-i18n="cmd.pdfs">Genera todos los PDFs</div></div>
+      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run deploy</div><div class="cmd-desc" data-i18n="cmd.deploy">Deploy GitHub + Vercel + Render</div></div>
+      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run demo:jarvis</div><div class="cmd-desc" data-i18n="cmd.jarvis">Demo JARVIS IA</div></div>
+      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run backup</div><div class="cmd-desc" data-i18n="cmd.backup">Backup automático</div></div>
     </div>
   </div>
 </section>
@@ -970,7 +1242,7 @@
         <div class="footer-brand-title">
           <span style="color:var(--neon);">Trinnity</span> Viseron System
         </div>
-        <div class="footer-brand-desc" data-i18n="footer.desc">Sistema Operacional Multi-Agente de Superinteligência. 5396 mentes em operação. AI-Native OS com auto-evolução e receita live.</div>
+        <div class="footer-brand-desc" data-i18n="footer.desc">Infraestructura operacional de IA autónoma, evolutiva y auditada. No es un chatbot: es un sistema operativo de IA-native con agentes, memoria, auditoría y evolución continua.</div>
         <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
           <span class="badge badge-green"><span class="live-dot"></span> v5.0 LIVE</span>
           <span class="badge badge-neon">TVS OS v1</span>
@@ -978,21 +1250,23 @@
         </div>
       </div>
       <div class="footer-links">
-        <h4 data-i18n="footer.system">Sistema</h4>
+        <h4 data-i18n="footer.paginas">Páginas</h4>
         <ul>
-          <li><a href="#squads">Squad AIOX</a></li>
-          <li><a href="#omega">OMEGA Platform</a></li>
-          <li><a href="#status">Status Live</a></li>
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/os">TVS Desktop</a></li>
+          <li><a href="/dashboard" data-app="1">Dashboard</a></li>
+          <li><a href="/os" data-app="1">TVS Desktop</a></li>
+          <li><a href="/viseron" data-app="1">VISERON HUD</a></li>
+          <li><a href="/atlas" data-app="1">ATLAS</a></li>
+          <li><a href="/command-center" data-app="1">Command Center</a></li>
+          <li><a href="/game" data-app="1">Juego VISERON</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4 data-i18n="footer.docs">Docs</h4>
         <ul>
-          <li><a href="/pitch/Viseron_Pitch_Investidores_v6.pdf" target="_blank">Pitch Investidores</a></li>
+          <li><a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank">Mapa del Sitio</a></li>
+          <li><a href="/pitch/Viseron_Pitch_Investidores_v6.pdf" target="_blank">Pitch Inversores</a></li>
+          <li><a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank">Informe de Estado</a></li>
           <li><a href="/pitch/Viseron_Roadmap_Milionario.pdf" target="_blank">Roadmap</a></li>
-          <li><a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank">Relatório de Estado</a></li>
           <li><a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank">GitHub</a></li>
         </ul>
       </div>
@@ -1001,16 +1275,17 @@
         <ul>
           <li><a href="mailto:daviiicostaaa11@gmail.com">Email</a></li>
           <li><a href="https://github.com/ViseronSystem" target="_blank">GitHub Org</a></li>
-          <li><a href="#pricing" data-i18n="footer.plans">Ver Planos</a></li>
-          <li><a href="/blog">Blog</a></li>
+          <li><a href="#planos" data-i18n="footer.plans">Ver Planes</a></li>
+          <li><a href="/blog" data-app="1">Blog</a></li>
+          <li><a href="/cosmos" data-app="1">Viseron Cosmos</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 <strong>Trinnity Viseron System</strong> · AI-Native Operating System v5.0</div>
       <div class="footer-authority">
-        <strong data-i18n="footer.auth">© Pedro Costa (Comandante) &amp; Trinnity Hurtado (Rainha)</strong><br>
-        <span data-i18n="footer.rights">Todos os direitos reservados. Autoria e propriedade intelectual.</span>
+        <strong data-i18n="footer.auth">© Pedro Costa (Comandante) &amp; Trinnity Hurtado (Reina)</strong><br>
+        <span data-i18n="footer.rights">Todos los derechos reservados. Autoría y propiedad intelectual.</span>
       </div>
     </div>
   </div>
@@ -1035,7 +1310,6 @@
     const group = new THREE.Group();
     scene.add(group);
 
-    // TorusKnot
     const tk = new THREE.TorusKnotGeometry(1.4, 0.28, 160, 18);
     const m1 = new THREE.Mesh(tk, new THREE.MeshBasicMaterial({color:0x00f0ff, wireframe:true, transparent:true, opacity:0.1}));
     m1.position.set(-3, 0.5, -5); m1.scale.setScalar(0.55);
@@ -1051,13 +1325,11 @@
     m3.position.set(0, 2, -7); m3.scale.setScalar(0.65);
     group.add(m3);
 
-    // Octahedron
     const oct = new THREE.OctahedronGeometry(1);
     const m4 = new THREE.Mesh(oct, new THREE.MeshBasicMaterial({color:0xff2d55, wireframe:true, transparent:true, opacity:0.06}));
     m4.position.set(2, 2, -4); m4.scale.setScalar(0.4);
     group.add(m4);
 
-    // Particles
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(1200*3);
     for(let i=0;i<1200*3;i++) pPos[i]=(Math.random()-0.5)*28;
@@ -1112,173 +1384,251 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
 });
 
-// ═══ I18N ═══
+// ═══ APP BASE — botones a páginas reales ═══
+// En el servidor standalone (localhost / Render) las rutas son relativas.
+// En Vercel (dominio) las páginas de la app viven en el app server (Render).
+(function(){
+  const host = location.hostname;
+  const onVercel = host.indexOf('trinnityviseronsystem.io') !== -1 && host !== 'localhost';
+  const base = onVercel ? 'https://viseron-web.onrender.com' : '';
+  document.querySelectorAll('[data-app]').forEach(a=>{
+    const href = a.getAttribute('href');
+    if(href && href.charAt(0)==='/') a.setAttribute('href', base + href);
+  });
+})();
+
+// ═══ I18N — por defecto ESPAÑOL ═══
 const LANG = {
-  pt:{
-    "hero.badge":"v5.0 · AI-Native Operating System · LIVE",
-    "hero.sub1":"Sistema Operacional Multi-Agente de Superinteligência.",
-    "hero.minds":"mentes em operação",
-    "hero.sub2":" — TVS OS + OMEGA Platform, 290+ providers IA, auto-evolução e cobrança real.",
-    "hero.authority":"Pedro Costa (Comandante) & Trinnity Hurtado (Rainha).",
-    "hero.btn1":"Conhecer os Squads",
-    "hero.btn2":"Ver Planos",
-    "hero.btn3":"Downloads",
-    "stat.minds":"Mentes ativas","stat.providers":"Providers IA","stat.squads":"Squads AIOX","stat.tests":"Testes verdes","stat.revenue":"Receita live",
-    "api.api":"API","api.tenants":"Tenants","api.users":"Users","api.billing":"Billing",
-    "nav.squads":"Squads","nav.omega":"OMEGA","nav.status":"Status","nav.pricing":"Planos","nav.downloads":"Downloads","nav.cta":"Começar",
-    "squads.tag":"// Squad AIOX — 200 Anos de Experiência","squads.title":"Os 5 Esquadrões do Sistema","squads.sub":"Cada esquadrão opera com autonomia completa, memória partilhada e objetivos próprios. Monitorados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
-    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitectura de software, desenvolvimento TypeScript, deploy e infraestrutura cloud. Constrói e mantém o núcleo do TVS.",
-    "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoria contínua, JWT, HMAC, x25519+AES-256-GCM, compliance e proteção de dados. Zero vulnerabilidades detectadas.",
-    "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de vendas, CRM, cobranças Avirato/Stripe, propostas, follow-up e gestão de receita recorrente (MRR).",
-    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitorização, alertas, backup automático, restart anti-congelamento, deploy GitHub/Vercel/Render e watchdog.",
-    "squad.res.name":"Research Squad","squad.res.desc":"IA avançada, novos modelos, HyperLearning, AutoEvolution, memória de grafo, análise de mercado e inovação.",
-    "kpi.uptime":"Uptime","kpi.tests":"Testes ✅","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planos /mês","kpi.billing":"Cobrança real","kpi.targets":"Alvos vigiados","kpi.selfheal":"Self-Heal","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizagem",
-    "command.label":"// Comando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Rainha — Todos os direitos autorais do projeto pertencem a Pedro e Trinnity. Decisões finais, direção, prioridades e go-lives.",
-    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Rainha",
-    "omega.tag":"// OMEGA Platform","omega.title":"Arquitetura OMEGA","omega.sub":"A espinha dorsal da superinteligência — kernel, runtime, memória, roteamento de IA, autonomia e auto-cura em produção.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo com bus de eventos tipados, permissões granulares por role e attach dinâmico de agentes, memória e router IA.",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10+ agentes nucleares carregados de specs JSON com fallback offline, timeout por agente e eventos por tarefa.",
-    "omega.memory":"Knowledge Graph","omega.memory.desc":"Memória STM/LTM em grafo persistida em ficheiro — entidades, relações, decisões e consolidação automática.",
-    "omega.router":"AI Router","omega.router.desc":"Roteamento inteligente entre Ollama, OmniRoute (290+ providers), OpenAI, Claude, Gemini e Grok por custo/velocidade.",
-    "omega.autonomy":"Autonomy Layer","omega.autonomy.desc":"HyperLearning, AutoEvolution, AutoLearning e AutoPilot — 4 ciclos contínuos de aprendizagem e evolução.",
-    "omega.selfheal":"Self-Heal Watchdog","omega.selfheal.desc":"5 alvos vigiados — destrava componentes presos, regista incidentes e reinicia serviços automaticamente.",
-    "omega.api.title":"Gateway /api/omega","omega.api.desc":"Command Center com endpoints de kernel, runtime, memória, autonomia, squads, factory, enterprise e watchdog — tudo via REST API ou CLI.",
+  es:{
+    "hero.badge":"v5.0 · Sistema Operativo Native IA · EN VIVO",
+    "hero.sub1":"Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditada.",
+    "hero.sub2":"No es un chatbot.",
+    "hero.sub3":" Coordina agentes especializados, memoria persistente, conocimiento estructurado, herramientas, integraciones empresariales y modelos de IA en una sola arquitectura.",
+    "hero.authority":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina).",
+    "hero.btn1":"Explorar el Sistema","hero.btnMap":"Mapa del Sitio (PDF)","hero.btnOs":"Abrir el Sistema",
+    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 colecciones)","stat.integ":"Integraciones","stat.revenue":"Ingresos listos",
+    "api.api":"API","api.tenants":"Tenants","api.users":"Usuarios","api.billing":"Facturación",
+    "nav.paginas":"Páginas","nav.sistema":"Sistema","nav.arquitectura":"Arquitectura","nav.integraciones":"Integraciones","nav.estado":"Estado","nav.planos":"Planes","nav.cta":"Abrir Sistema",
+    "pages.tag":"// Mapa del Sitio","pages.title":"Todas las Páginas del Sistema","pages.sub":"Cada página del TVS — acceso directo con botones reales. Nada de decoración: todo funciona.",
+    "page.dash":"Dashboard","page.dash.desc":"Panel autenticado de la plataforma — auth, billing, onboarding, mensajería E2E.","page.open":"Abrir Dashboard",
+    "page.os":"TVS OS — Desktop","page.os.desc":"Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Abrir TVS OS",
+    "page.viseron":"VISERON — HUD","page.viseron.desc":"Superinteligencia con voz (Stark). Wake words, TTS/STT, supervisión AIOX y gobernanza bíblica.","page.openViseron":"Abrir VISERON",
+    "page.atlas":"ATLAS — Tutor de Inglés","page.atlas.desc":"Profesor personal de inglés con voz (explica en ES/PT), plan de 7 días y corrección inmediata.","page.openAtlas":"Abrir ATLAS",
+    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"Pipeline E2E de tareas con eventos reales del OMEGA (SSE) en vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Ver Operación",
+    "page.command":"Command Center","page.command.desc":"Panel operacional: salud, autonomía, ingresos, agentes, ejecución, integraciones, actividad y evolución.","page.openCommand":"Abrir Command Center",
+    "page.game":"Juego VISERON","page.game.desc":"Plataformas Canvas 2D trilingüe (ES/PT/EN). Transformaciones MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.","page.openGame":"Jugar",
+    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Tokens reales $VSR (300M) y $TRIN (420.69M) en Ethereum/BSC/Solana. Sitio interplanetario trilingüe.","page.openCosmos":"Abrir Cosmos",
+    "page.meta":"Metaverso Cosmos","page.meta.desc":"Navega los planetas-módulos del TVS, recolecta mentes y gana $VSR/$TRIN. Touch + teclado + autónomo.","page.openMeta":"Entrar al Metaverso",
+    "page.blog":"Blog","page.blog.desc":"Contenido del sistema generado por el agente de contenido (cada 120 min).","page.openBlog":"Abrir Blog",
+    "page.api":"API Health","page.api.desc":"Estado real de la API: db, billing, email, messaging, tenants y usuarios.","page.openApi":"Ver API",
+    "page.map":"Mapa del Sitio (PDF)","page.map.desc":"Todas las páginas, comandos OS, endpoints de API, integraciones y cómo operar el sistema.","page.openMap":"Descargar Mapa",
+    "map.title":"Guía completa de operación en PDF","map.desc":"El Mapa del Sitio muestra TODAS las páginas, el control del TVS OS, los comandos npm, los endpoints de la API y las 9 integraciones — para operar el sistema con confianza.","map.btn":"Viseron_Mapa_Site.pdf",
+    "squads.tag":"// Auditoría AIOX","squads.title":"¿Estamos realmente mejorando?","squads.sub":"El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 5 escuadrones con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
+    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.",
+    "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Least privilege + authorization explícita.",
+    "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de ventas, CRM, cobros Avirato (real), propuestas, follow-up y gestión de ingresos recurrentes (MRR).",
+    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitorización, alertas, backup automático, reinicio anti-congelación, deploy GitHub/Vercel/Render y watchdog.",
+    "squad.res.name":"Research Squad","squad.res.desc":"IA avanzada, nuevos modelos, HyperLearning, AutoEvolution, memoria de grafo, análisis de mercado e innovación.",
+    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Ciclos continuos de evolución: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Si nada mejora: ninguna promoción.",
+    "kpi.tests":"Tests verdes","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planes /mes","kpi.billing":"Avirato real","kpi.targets":"Alvos vigilados","kpi.selfheal":"Self-Heal","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizaje","kpi.agents":"Agentes nucleares","kpi.evol":"Evolución segura",
+    "command.label":"// Mando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Chief Evolution Officer — Decisiones finales, dirección, prioridades y go-lives. Todos los derechos del proyecto pertenecen a Pedro y Trinnity.",
+    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Reina",
+    "omega.tag":"// Arquitectura","omega.title":"Inteligencia + Memoria + Auditoría + Evolución","omega.sub":"Hierarquía de inteligencia: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORIA → Orquestación → Agentes · Skills · Tools → Ejecución → Negocio.",
+    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo con bus de eventos tipados, cola de tareas persistente (TaskQueue) y verificación E2E (TaskVerifier).",
+    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) con specs JSON y fallback offline.",
+    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memoria persistente e independiente del servidor físico.",
+    "omega.router":"AI Router","omega.router.desc":"Roteo por calidad, costo, latencia, contexto y privacidad: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
+    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Autonomía graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Más autonomía con más control, evidencia y auditabilidad.",
+    "omega.portable":"Portabilidad","omega.portable.desc":"El VISERON no depende de la vida útil de una máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
+    "omega.api.title":"Command Center","omega.api.desc":"Indicadores observables: salud del sistema, autonomía, ingresos, agentes, ejecución, conocimiento, operaciones, integraciones, actividad y evolución. El VISERON es una plataforma observable, no una caja negra.",
+    "omega.watch":"Ver operación en vivo →",
     "term.title":"tvs — sistema operativo",
-    "status.tag":"// Estado do Sistema","status.title":"Status Live","status.sub":"Monitorização em tempo real via /api/health e /api/revenue/readiness.",
+    "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Colecciones","int.sub":"9 repositorios externos integrados como colecciones de skills en el SkillsRegistry. Instalables con npm run skills:install.",
+    "int.hRepo":"Repositorio","int.hSkills":"Skills","int.hLic":"Licencia","int.hDesc":"Qué aporta",
+    "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiales de Anthropic","int.composio":"Colección de la comunidad (productividad/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memoria, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memoria L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
+    "status.tag":"// Estado del Sistema","status.title":"Validación en vivo","status.sub":"Datos reales vía /api/health y /api/revenue/readiness. Sin cifras inventadas.",
+    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Ingresos listos",
+    "status.api":"API Core","status.api.desc":"REST API + Socket.IO en producción. Health check, auth, billing, messaging.",
+    "status.db":"Postgres Neon","status.db.desc":"10 tablas migradas: tenants, users, usage_events y billing. usage_events registrando actividad.",
+    "status.billing.desc":"Checkout en vivo con webhook HMAC firmado. Core $29 / Pro $99 / Enterprise $499.",
+    "status.gmail.desc":"Agente de atención envía emails reales — verify, reset, facturas y soporte.",
+    "status.domain":"Dominio",
+    "status.infra":"Infraestructura","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
+    "status.pdf.title":"Informe de Estado + Mapa del Sitio","status.pdf.desc":"Estado completo del sistema y guía de operación — tests, infraestructura, pendientes y qué puedes hacer ahora.",
+    "btn.pdf":"Informe PDF","btn.map":"Mapa del Sitio",
+    "pricing.tag":"// Planes","pricing.title":"Elige tu Plan","pricing.sub":"Acceso a la superinteligencia en operación. Cobros reales vía Avirato. Cancela cuando quieras.",
+    "plan.core.name":"Plan Core","plan.core.sub":"Para startups y desarrolladores","plan.core.f1":"1 workspace, 5 agentes activos","plan.core.f2":"100 tareas IA/día","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 proveedores cloud","plan.core.f5":"Soporte por email","plan.core.f6":"Escuadrones personalizados","plan.core.f7":"Multi-tenant",
+    "plan.pro.name":"Plan Pro","plan.pro.sub":"Para empresas en crecimiento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tareas/día","plan.pro.f3":"Escuadrones AIOX configurados","plan.pro.f4":"Todos los proveedores IA","plan.pro.f5":"JARVIS Chat avanzado","plan.pro.f6":"Mensajería E2E cifrada","plan.pro.f7":"Soporte prioritario",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizaciones","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Escuadrones AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + soporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialización de API","plan.ent.f7":"Integración Composio + RCS",
+    "plan.btn.start":"Comenzar","plan.btn.contact":"Contactar",
+    "dl.tag":"// Descargas","dl.title":"Instala el TVS","dl.sub":"Disponible para todas las plataformas. Funciona con Ollama local, sin API key.",
+    "dl.apk.desc":"App nativa Android. Interface mobile del TVS OS (también el Juego VISERON embebido).","dl.exe.desc":"Instalador Windows (Setup.exe) con el APK + accesos directos. No necesita Node.js.","dl.docker.desc":"Imagen Docker para deploy en cualquier cloud o servidor self-hosted.","dl.docs.title":"Documentación","dl.docs.desc":"Manuales, PDFs de pitch, roadmap, mapa del sitio y guía completa de comandos.",
+    "dl.btn":"Descargar APK","dl.btn.exe":"Descargar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
+    "cmd.tag":"// Comandos","cmd.title":"Control del TVS OS","cmd.sub":"Comandos reales del sistema — el Mapa del Sitio (PDF) lista los 144 comandos npm + endpoints de la API.",
+    "cmd.dev":"Modo dev con hot reload","cmd.build":"Compila TypeScript a dist/","cmd.start":"Ejecuta el sistema completo","cmd.restart":"Reinicio anti-congelación (mata servidor + huérfanos)","cmd.test":"Ejecuta todos los tests (core/web/omega/os/restart)","cmd.scan":"Escaneo real del sistema","cmd.tvs":"Estado del TVS OS (kernel, agentes, watchdog)","cmd.map":"Genera el Mapa del Sitio PDF","cmd.pdfs":"Genera todos los PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"Demo JARVIS IA","cmd.backup":"Backup automático",
+    "footer.desc":"Infraestructura operacional de IA autónoma, evolutiva y auditada. No es un chatbot: es un sistema operativo de IA-native con agentes, memoria, auditoría y evolución continua.",
+    "footer.paginas":"Páginas","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planes","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina)","footer.rights":"Todos los derechos reservados. Autoría y propiedad intelectual."
+  },
+  pt:{
+    "hero.badge":"v5.0 · Sistema Operativo Native IA · AO VIVO",
+    "hero.sub1":"Infraestrutura operacional de inteligência artificial autónoma, evolutiva e auditada.",
+    "hero.sub2":"Não é um chatbot.",
+    "hero.sub3":" Coordena agentes especializados, memória persistente, conhecimento estruturado, ferramentas, integrações empresariais e modelos de IA numa só arquitetura.",
+    "hero.authority":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha).",
+    "hero.btn1":"Explorar o Sistema","hero.btnMap":"Mapa do Site (PDF)","hero.btnOs":"Abrir o Sistema",
+    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 coleções)","stat.integ":"Integrações","stat.revenue":"Receita pronta",
+    "api.api":"API","api.tenants":"Tenants","api.users":"Utilizadores","api.billing":"Faturação",
+    "nav.paginas":"Páginas","nav.sistema":"Sistema","nav.arquitectura":"Arquitetura","nav.integraciones":"Integrações","nav.estado":"Estado","nav.planos":"Planos","nav.cta":"Abrir Sistema",
+    "pages.tag":"// Mapa do Site","pages.title":"Todas as Páginas do Sistema","pages.sub":"Cada página do TVS — acesso direto com botões reais. Nada de decoração: tudo funciona.",
+    "page.dash":"Dashboard","page.dash.desc":"Painel autenticado da plataforma — auth, billing, onboarding, mensageria E2E.","page.open":"Abrir Dashboard",
+    "page.os":"TVS OS — Desktop","page.os.desc":"Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Abrir TVS OS",
+    "page.viseron":"VISERON — HUD","page.viseron.desc":"Superinteligência com voz (Stark). Wake words, TTS/STT, supervisão AIOX e governança bíblica.","page.openViseron":"Abrir VISERON",
+    "page.atlas":"ATLAS — Tutor de Inglês","page.atlas.desc":"Professor pessoal de inglês com voz (explica em ES/PT), plano de 7 dias e correção imediata.","page.openAtlas":"Abrir ATLAS",
+    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"Pipeline E2E de tarefas com eventos reais do OMEGA (SSE) ao vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Ver Operação",
+    "page.command":"Command Center","page.command.desc":"Painel operacional: saúde, autonomia, receita, agentes, execução, integrações, atividade e evolução.","page.openCommand":"Abrir Command Center",
+    "page.game":"Jogo VISERON","page.game.desc":"Plataformas Canvas 2D trilingue (ES/PT/EN). Transformações MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.","page.openGame":"Jogar",
+    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Tokens reais $VSR (300M) e $TRIN (420.69M) em Ethereum/BSC/Solana. Site interplanetário trilingue.","page.openCosmos":"Abrir Cosmos",
+    "page.meta":"Metaverso Cosmos","page.meta.desc":"Navega os planetas-módulos do TVS, coleta mentes e ganha $VSR/$TRIN. Touch + teclado + autónomo.","page.openMeta":"Entrar no Metaverso",
+    "page.blog":"Blog","page.blog.desc":"Conteúdo do sistema gerado pelo agente de conteúdo (cada 120 min).","page.openBlog":"Abrir Blog",
+    "page.api":"API Health","page.api.desc":"Estado real da API: db, billing, email, messaging, tenants e utilizadores.","page.openApi":"Ver API",
+    "page.map":"Mapa do Site (PDF)","page.map.desc":"Todas as páginas, comandos OS, endpoints de API, integrações e como operar o sistema.","page.openMap":"Descarregar Mapa",
+    "map.title":"Guia completo de operação em PDF","map.desc":"O Mapa do Site mostra TODAS as páginas, o controlo do TVS OS, os comandos npm, os endpoints da API e as 9 integrações — para operar o sistema com confiança.","map.btn":"Viseron_Mapa_Site.pdf",
+    "squads.tag":"// Auditoria AIOX","squads.title":"Estamos realmente a melhorar?","squads.sub":"O squad AIOX audita código, arquitetura, agentes, memória, segurança e resultados. 5 esquadrões com autonomia completa. Supervisionados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
+    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitetura de software, desenvolvimento TypeScript, deploy e infraestrutura cloud. Constrói e mantém o núcleo do TVS.",
+    "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoria contínua, JWT, HMAC, x25519+AES-256-GCM, compliance e proteção de dados. Least privilege + authorization explícita.",
+    "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de vendas, CRM, cobranças Avirato (real), propostas, follow-up e gestão de receita recorrente (MRR).",
+    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitorização, alertas, backup automático, reinício anti-congelamento, deploy GitHub/Vercel/Render e watchdog.",
+    "squad.res.name":"Research Squad","squad.res.desc":"IA avançada, novos modelos, HyperLearning, AutoEvolution, memória de grafo, análise de mercado e inovação.",
+    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Ciclos contínuos de evolução: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Se nada melhorar: nenhuma promoção.",
+    "kpi.tests":"Testes verdes","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planos /mês","kpi.billing":"Avirato real","kpi.targets":"Alvos vigiados","kpi.selfheal":"Self-Heal","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizagem","kpi.agents":"Agentes nucleares","kpi.evol":"Evolução segura",
+    "command.label":"// Comando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Chief Evolution Officer — Decisões finais, direção, prioridades e go-lives. Todos os direitos do projeto pertencem a Pedro e Trinnity.",
+    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Rainha",
+    "omega.tag":"// Arquitetura","omega.title":"Inteligência + Memória + Auditoria + Evolução","omega.sub":"Hierarquia de inteligência: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMÓRIA → Orquestação → Agentes · Skills · Tools → Execução → Negócio.",
+    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo com bus de eventos tipados, fila de tarefas persistente (TaskQueue) e verificação E2E (TaskVerifier).",
+    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) com specs JSON e fallback offline.",
+    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memória persistente e independente do servidor físico.",
+    "omega.router":"AI Router","omega.router.desc":"Roteamento por qualidade, custo, latência, contexto e privacidade: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
+    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Autonomia graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Mais autonomia com mais controlo, evidência e auditabilidade.",
+    "omega.portable":"Portabilidade","omega.portable.desc":"O VISERON não depende da vida útil de uma máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
+    "omega.api.title":"Command Center","omega.api.desc":"Indicadores observáveis: saúde do sistema, autonomia, receita, agentes, execução, conhecimento, operações, integrações, atividade e evolução. O VISERON é uma plataforma observável, não uma caixa-preta.",
+    "omega.watch":"Ver operação ao vivo →",
+    "term.title":"tvs — sistema operativo",
+    "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Coleções","int.sub":"9 repositórios externos integrados como coleções de skills no SkillsRegistry. Instaláveis com npm run skills:install.",
+    "int.hRepo":"Repositório","int.hSkills":"Skills","int.hLic":"Licença","int.hDesc":"O que traz",
+    "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiais da Anthropic","int.composio":"Coleção da comunidade (produtividade/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memória, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memória L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
+    "status.tag":"// Estado do Sistema","status.title":"Validação ao vivo","status.sub":"Dados reais via /api/health e /api/revenue/readiness. Sem cifras inventadas.",
+    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Receita pronta",
     "status.api":"API Core","status.api.desc":"REST API + Socket.IO em produção. Health check, auth, billing, messaging.",
-    "status.db":"Postgres Neon","status.db.desc":"10 tabelas migradas: tenants, users, usage_events e billing. eu-central-1.",
-    "status.billing.desc":"Checkout live de subscrições com webhook HMAC assinado. Core $29 / Pro $99 / Enterprise $499.",
+    "status.db":"Postgres Neon","status.db.desc":"10 tabelas migradas: tenants, users, usage_events e billing. usage_events a registar atividade.",
+    "status.billing.desc":"Checkout ao vivo com webhook HMAC assinado. Core $29 / Pro $99 / Enterprise $499.",
     "status.gmail.desc":"Agente de atendimento envia emails reais — verify, reset, faturas e suporte.",
-    "status.domain":"Domínio","status.revenue":"Revenue","status.revenue.desc":"Todos os requisitos de receita verificados. Pronto para faturar.",
-    "status.pdf.title":"Relatório de Estado PDF","status.pdf.desc":"Estado completo do sistema — testes, infraestrutura, pendências e o que podes fazer agora.",
-    "btn.pdf":"Baixar PDF",
-    "pricing.tag":"// Planos","pricing.title":"Escolhe o teu Plano","pricing.sub":"Acesso à superinteligência em operação. Cancela quando quiseres.",
-    "plan.core.name":"Core Plan","plan.core.sub":"Para startups e developers","plan.core.f1":"1 workspace, 5 agentes ativos","plan.core.f2":"100 tarefas/dia de IA","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 cloud providers","plan.core.f5":"Suporte por email","plan.core.f6":"Squads personalizados","plan.core.f7":"Multi-tenant",
-    "plan.pro.name":"Pro Plan","plan.pro.sub":"Para empresas em crescimento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tarefas/dia","plan.pro.f3":"Squads AIOX configurados","plan.pro.f4":"Todos os providers IA","plan.pro.f5":"JARVIS Chat avançado","plan.pro.f6":"Messaging E2E cifrado","plan.pro.f7":"Suporte prioritário",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizações","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + 5000+","plan.ent.f3":"Squads AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + suporte dedicado","plan.ent.f5":"On-premise deployment","plan.ent.f6":"API commercialização","plan.ent.f7":"Integração n8n + OmniRoute",
+    "status.domain":"Domínio",
+    "status.infra":"Infraestrutura","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
+    "status.pdf.title":"Relatório de Estado + Mapa do Site","status.pdf.desc":"Estado completo do sistema e guia de operação — testes, infraestrutura, pendências e o que podes fazer agora.",
+    "btn.pdf":"Relatório PDF","btn.map":"Mapa do Site",
+    "pricing.tag":"// Planos","pricing.title":"Escolhe o teu Plano","pricing.sub":"Acesso à superinteligência em operação. Cobranças reais via Avirato. Cancela quando quiseres.",
+    "plan.core.name":"Plan Core","plan.core.sub":"Para startups e developers","plan.core.f1":"1 workspace, 5 agentes ativos","plan.core.f2":"100 tarefas IA/dia","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 providers cloud","plan.core.f5":"Suporte por email","plan.core.f6":"Esquadrões personalizados","plan.core.f7":"Multi-tenant",
+    "plan.pro.name":"Plan Pro","plan.pro.sub":"Para empresas em crescimento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tarefas/dia","plan.pro.f3":"Esquadrões AIOX configurados","plan.pro.f4":"Todos os providers IA","plan.pro.f5":"JARVIS Chat avançado","plan.pro.f6":"Messaging E2E cifrado","plan.pro.f7":"Suporte prioritário",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizações","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Esquadrões AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + suporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialização de API","plan.ent.f7":"Integração Composio + RCS",
     "plan.btn.start":"Começar","plan.btn.contact":"Contactar",
-    "dl.tag":"// Downloads","dl.title":"Instala o TVS","dl.sub":"Disponível para todas as plataformas. Roda com Ollama local sem API key.",
-    "dl.apk.desc":"App nativa Android para Google Play. Interface mobile do TVS OS.","dl.exe.desc":"Executável standalone para Windows. Não precisa de Node.js instalado.","dl.docker.desc":"Imagem Docker para deploy em qualquer cloud ou servidor self-hosted.","dl.docs.title":"Documentação","dl.docs.desc":"Manuais, PDFs de pitch, roadmap e guia completo de comandos.",
-    "dl.btn":"Baixar APK","dl.btn.exe":"Baixar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
-    "cmd.tag":"// Comandos","cmd.title":"Comandos Principais",
-    "cmd.dev":"Dev mode com hot reload","cmd.build":"Compila TypeScript para dist/","cmd.start":"Roda o sistema completo","cmd.restart":"Reinício anti-congelamento","cmd.test":"Roda todos os testes (212)","cmd.scan":"Varredura real do sistema","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.pdfs":"Gera todos os PDFs","cmd.tvs":"Estado do TVS OS","cmd.jarvis":"Demo JARVIS AI","cmd.backup":"Backup automático","cmd.cofre":"PDF de credenciais (cofre)",
-    "footer.desc":"Sistema Operacional Multi-Agente de Superinteligência. 5396 mentes em operação. AI-Native OS com auto-evolução e receita live.",
-    "footer.system":"Sistema","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planos","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)","footer.rights":"Todos os direitos reservados. Autoria e propriedade intelectual."
+    "dl.tag":"// Downloads","dl.title":"Instala o TVS","dl.sub":"Disponível para todas as plataformas. Funciona com Ollama local, sem API key.",
+    "dl.apk.desc":"App nativa Android. Interface mobile do TVS OS (também o Jogo VISERON embutido).","dl.exe.desc":"Instalador Windows (Setup.exe) com o APK + atalhos. Não precisa de Node.js.","dl.docker.desc":"Imagem Docker para deploy em qualquer cloud ou servidor self-hosted.","dl.docs.title":"Documentação","dl.docs.desc":"Manuais, PDFs de pitch, roadmap, mapa do site e guia completo de comandos.",
+    "dl.btn":"Descarregar APK","dl.btn.exe":"Descarregar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
+    "cmd.tag":"// Comandos","cmd.title":"Controlo do TVS OS","cmd.sub":"Comandos reais do sistema — o Mapa do Site (PDF) lista os 144 comandos npm + endpoints da API.",
+    "cmd.dev":"Modo dev com hot reload","cmd.build":"Compila TypeScript para dist/","cmd.start":"Executa o sistema completo","cmd.restart":"Reinício anti-congelamento (mata servidor + órfãos)","cmd.test":"Executa todos os testes (core/web/omega/os/restart)","cmd.scan":"Scan real do sistema","cmd.tvs":"Estado do TVS OS (kernel, agentes, watchdog)","cmd.map":"Gera o Mapa do Site PDF","cmd.pdfs":"Gera todos os PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"Demo JARVIS IA","cmd.backup":"Backup automático",
+    "footer.desc":"Infraestrutura operacional de IA autónoma, evolutiva e auditada. Não é um chatbot: é um sistema operativo AI-native com agentes, memória, auditoria e evolução contínua.",
+    "footer.paginas":"Páginas","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planos","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)","footer.rights":"Todos os direitos reservados. Autoria e propriedade intelectual."
   },
   en:{
     "hero.badge":"v5.0 · AI-Native Operating System · LIVE",
-    "hero.sub1":"Multi-Agent Superintelligence Operating System.",
-    "hero.minds":"active minds",
-    "hero.sub2":" — TVS OS + OMEGA Platform, 290+ AI providers, auto-evolution and live billing.",
-    "hero.authority":"Pedro Costa (Commander) & Trinnity Hurtado (Queen).",
-    "hero.btn1":"Meet the Squads","hero.btn2":"View Plans","hero.btn3":"Downloads",
-    "stat.minds":"Active minds","stat.providers":"AI Providers","stat.squads":"AIOX Squads","stat.tests":"Green tests","stat.revenue":"Live revenue",
+    "hero.sub1":"Autonomous, evolvable and auditable AI operational infrastructure.",
+    "hero.sub2":"Not a chatbot.",
+    "hero.sub3":" Coordinates specialized agents, persistent memory, structured knowledge, tools, business integrations and AI models in a single architecture.",
+    "hero.authority":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen).",
+    "hero.btn1":"Explore the System","hero.btnMap":"Site Map (PDF)","hero.btnOs":"Open the System",
+    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 collections)","stat.integ":"Integrations","stat.revenue":"Revenue ready",
     "api.api":"API","api.tenants":"Tenants","api.users":"Users","api.billing":"Billing",
-    "nav.squads":"Squads","nav.omega":"OMEGA","nav.status":"Status","nav.pricing":"Plans","nav.downloads":"Downloads","nav.cta":"Get Started",
-    "squads.tag":"// AIOX Squad — 200 Years of Experience","squads.title":"The 5 System Squadrons","squads.sub":"Each squadron operates with full autonomy, shared memory and own objectives. Monitored by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
-    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Software architecture, TypeScript development, deploy and cloud infrastructure. Builds and maintains the TVS core.",
-    "squad.sec.name":"Security Squad","squad.sec.desc":"Continuous audit, JWT, HMAC, x25519+AES-256-GCM, compliance and data protection. Zero vulnerabilities detected.",
-    "squad.biz.name":"Business Squad","squad.biz.desc":"Sales pipeline, CRM, Avirato/Stripe billing, proposals, follow-up and recurring revenue management (MRR).",
+    "nav.paginas":"Pages","nav.sistema":"System","nav.arquitectura":"Architecture","nav.integraciones":"Integrations","nav.estado":"Status","nav.planos":"Plans","nav.cta":"Open System",
+    "pages.tag":"// Site Map","pages.title":"All System Pages","pages.sub":"Every TVS page — direct access with real buttons. No decoration: everything works.",
+    "page.dash":"Dashboard","page.dash.desc":"Authenticated platform panel — auth, billing, onboarding, E2E messaging.","page.open":"Open Dashboard",
+    "page.os":"TVS OS — Desktop","page.os.desc":"AI-native operating system: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Open TVS OS",
+    "page.viseron":"VISERON — HUD","page.viseron.desc":"Voice superintelligence (Stark). Wake words, TTS/STT, AIOX supervision and biblical governance.","page.openViseron":"Open VISERON",
+    "page.atlas":"ATLAS — English Tutor","page.atlas.desc":"Personal English tutor with voice (explains in ES/PT), 7-day plan and immediate correction.","page.openAtlas":"Open ATLAS",
+    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"E2E task pipeline with real OMEGA events (SSE) live: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Watch Operation",
+    "page.command":"Command Center","page.command.desc":"Operational panel: health, autonomy, revenue, agents, execution, integrations, activity and evolution.","page.openCommand":"Open Command Center",
+    "page.game":"VISERON Game","page.game.desc":"Trilingual Canvas 2D platformer (ES/PT/EN). MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA transformations. ?demo = autonomous.","page.openGame":"Play",
+    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Real tokens $VSR (300M) and $TRIN (420.69M) on Ethereum/BSC/Solana. Trilingual interplanetary site.","page.openCosmos":"Open Cosmos",
+    "page.meta":"Cosmos Metaverse","page.meta.desc":"Navigate the TVS module planets, collect minds and earn $VSR/$TRIN. Touch + keyboard + autonomous.","page.openMeta":"Enter Metaverse",
+    "page.blog":"Blog","page.blog.desc":"System content generated by the content agent (every 120 min).","page.openBlog":"Open Blog",
+    "page.api":"API Health","page.api.desc":"Real API status: db, billing, email, messaging, tenants and users.","page.openApi":"View API",
+    "page.map":"Site Map (PDF)","page.map.desc":"All pages, OS commands, API endpoints, integrations and how to operate the system.","page.openMap":"Download Map",
+    "map.title":"Complete operation guide in PDF","map.desc":"The Site Map shows ALL pages, TVS OS control, npm commands, API endpoints and the 9 integrations — to operate the system confidently.","map.btn":"Viseron_Mapa_Site.pdf",
+    "squads.tag":"// AIOX Audit","squads.title":"Are we really improving?","squads.sub":"The AIOX squad audits code, architecture, agents, memory, security and results. 5 squads with full autonomy. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
+    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Software architecture, TypeScript development, deployment and cloud infrastructure. Builds and maintains the TVS core.",
+    "squad.sec.name":"Security Squad","squad.sec.desc":"Continuous audit, JWT, HMAC, x25519+AES-256-GCM, compliance and data protection. Least privilege + explicit authorization.",
+    "squad.biz.name":"Business Squad","squad.biz.desc":"Sales pipeline, CRM, Avirato billing (real), proposals, follow-up and recurring revenue management (MRR).",
     "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitoring, alerts, automatic backup, anti-freeze restart, GitHub/Vercel/Render deployment and watchdog.",
     "squad.res.name":"Research Squad","squad.res.desc":"Advanced AI, new models, HyperLearning, AutoEvolution, graph memory, market analysis and innovation.",
-    "kpi.uptime":"Uptime","kpi.tests":"Tests ✅","kpi.vulns":"Vulnerabilities","kpi.crypto":"E2E Crypto","kpi.plans":"Plans /mo","kpi.billing":"Live billing","kpi.targets":"Watched targets","kpi.selfheal":"Self-Heal","kpi.cycles":"Auto cycles","kpi.learning":"Learning",
-    "command.label":"// Supreme Command","command.title":"Pedro Costa","command.and":"&","command.desc":"Supreme Commander & Queen — All project copyrights belong to Pedro and Trinnity. Final decisions, direction, priorities and go-lives.",
+    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Continuous evolution cycles: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. If nothing improves: no promotion.",
+    "kpi.tests":"Green tests","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilities","kpi.crypto":"E2E Crypto","kpi.plans":"Plans /mo","kpi.billing":"Avirato real","kpi.targets":"Watched targets","kpi.selfheal":"Self-Heal","kpi.cycles":"Auto cycles","kpi.learning":"Learning","kpi.agents":"Core agents","kpi.evol":"Safe evolution",
+    "command.label":"// Supreme Command","command.title":"Pedro Costa","command.and":"&","command.desc":"Supreme Commander & Chief Evolution Officer — Final decisions, direction, priorities and go-lives. All project rights belong to Pedro and Trinnity.",
     "cmd.badge1":"Pedro Costa — Commander","cmd.badge2":"Trinnity Hurtado — Queen",
-    "omega.tag":"// OMEGA Platform","omega.title":"OMEGA Architecture","omega.sub":"The backbone of superintelligence — kernel, runtime, memory, AI routing, autonomy and self-healing in production.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Core with typed event bus, granular role permissions and dynamic attach of agents, memory and AI router.",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10+ core agents loaded from JSON specs with offline fallback, per-agent timeout and per-task events.",
-    "omega.memory":"Knowledge Graph","omega.memory.desc":"STM/LTM graph memory persisted to file — entities, relations, decisions and automatic consolidation.",
-    "omega.router":"AI Router","omega.router.desc":"Intelligent routing between Ollama, OmniRoute (290+ providers), OpenAI, Claude, Gemini and Grok by cost/speed.",
-    "omega.autonomy":"Autonomy Layer","omega.autonomy.desc":"HyperLearning, AutoEvolution, AutoLearning and AutoPilot — 4 continuous learning and evolution cycles.",
-    "omega.selfheal":"Self-Heal Watchdog","omega.selfheal.desc":"5 watched targets — unblocks stuck components, logs incidents and restarts services automatically.",
-    "omega.api.title":"Gateway /api/omega","omega.api.desc":"Command Center with kernel, runtime, memory, autonomy, squads, factory, enterprise and watchdog endpoints — all via REST API or CLI.",
+    "omega.tag":"// Architecture","omega.title":"Intelligence + Memory + Audit + Evolution","omega.sub":"Intelligence hierarchy: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORY → Orchestration → Agents · Skills · Tools → Execution → Business.",
+    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Core with typed event bus, persistent task queue (TaskQueue) and E2E verification (TaskVerifier).",
+    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 core agents (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) with JSON specs and offline fallback.",
+    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Persistent memory independent of the physical server.",
+    "omega.router":"AI Router","omega.router.desc":"Routing by quality, cost, latency, context and privacy: local Ollama · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
+    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Graduated autonomy L0-OBSERVE → L5-AUTHORIZED AUTONOMY. More autonomy with more control, evidence and auditability.",
+    "omega.portable":"Portability","omega.portable.desc":"VISERON cannot depend on a machine's lifespan. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
+    "omega.api.title":"Command Center","omega.api.desc":"Observable indicators: system health, autonomy, revenue, agents, execution, knowledge, operations, integrations, activity and evolution. VISERON is an observable platform, not a black box.",
+    "omega.watch":"Watch live operation →",
     "term.title":"tvs — operating system",
-    "status.tag":"// System Status","status.title":"Live Status","status.sub":"Real-time monitoring via /api/health and /api/revenue/readiness.",
+    "int.tag":"// Skills & External Integrations","int.title":"1,997 Skills · 10 Collections","int.sub":"9 external repositories integrated as skill collections in the SkillsRegistry. Installable with npm run skills:install.",
+    "int.hRepo":"Repository","int.hSkills":"Skills","int.hLic":"License","int.hDesc":"What it brings",
+    "int.graphify":"Operational knowledge graph (query/path/explain)","int.anthropic":"Official Anthropic plugins/skills","int.composio":"Community collection (productivity/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memory, AgentShield","int.super":"Multi-harness skill system","int.crm":"Comp AI CRM — agentic-first CRM","int.comp":"AI-native compliance (SOC2/GDPR/ISO27001)","int.tutor":"Personalized lifelong tutor (L1/L2/L3 memory)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
+    "status.tag":"// System Status","status.title":"Live Validation","status.sub":"Real data via /api/health and /api/revenue/readiness. No invented numbers.",
+    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Indexed skills","valid.revenue":"Revenue ready",
     "status.api":"Core API","status.api.desc":"REST API + Socket.IO in production. Health check, auth, billing, messaging.",
-    "status.db":"Neon Postgres","status.db.desc":"10 migrated tables: tenants, users, usage_events and billing. eu-central-1.",
+    "status.db":"Neon Postgres","status.db.desc":"10 migrated tables: tenants, users, usage_events and billing. usage_events logging activity.",
     "status.billing.desc":"Live subscription checkout with signed HMAC webhook. Core $29 / Pro $99 / Enterprise $499.",
-    "status.gmail.desc":"Attendance agent sends real emails — verify, reset, invoices and support.",
-    "status.domain":"Domain","status.revenue":"Revenue","status.revenue.desc":"All revenue requirements verified. Ready to bill.",
-    "status.pdf.title":"Status Report PDF","status.pdf.desc":"Complete system status — tests, infrastructure, pending items and what you can do now.",
-    "btn.pdf":"Download PDF",
-    "pricing.tag":"// Plans","pricing.title":"Choose your Plan","pricing.sub":"Access to the superintelligence in operation. Cancel anytime.",
+    "status.gmail.desc":"Service agent sends real emails — verify, reset, invoices and support.",
+    "status.domain":"Domain",
+    "status.infra":"Infrastructure","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
+    "status.pdf.title":"Status Report + Site Map","status.pdf.desc":"Full system status and operation guide — tests, infrastructure, pending items and what you can do now.",
+    "btn.pdf":"Status PDF","btn.map":"Site Map",
+    "pricing.tag":"// Plans","pricing.title":"Choose your Plan","pricing.sub":"Access to the superintelligence in operation. Real billing via Avirato. Cancel anytime.",
     "plan.core.name":"Core Plan","plan.core.sub":"For startups and developers","plan.core.f1":"1 workspace, 5 active agents","plan.core.f2":"100 AI tasks/day","plan.core.f3":"Full REST API","plan.core.f4":"Local Ollama + 3 cloud providers","plan.core.f5":"Email support","plan.core.f6":"Custom squads","plan.core.f7":"Multi-tenant",
     "plan.pro.name":"Pro Plan","plan.pro.sub":"For growing companies","plan.pro.f1":"5 workspaces, 50 agents","plan.pro.f2":"1000 tasks/day","plan.pro.f3":"Configured AIOX Squads","plan.pro.f4":"All AI providers","plan.pro.f5":"Advanced JARVIS Chat","plan.pro.f6":"E2E encrypted messaging","plan.pro.f7":"Priority support",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"For large organizations","plan.ent.f1":"Unlimited workspaces","plan.ent.f2":"Unlimited agents + 5000+","plan.ent.f3":"Custom AIOX Squads + white-label","plan.ent.f4":"SLA 99.9% + dedicated support","plan.ent.f5":"On-premise deployment","plan.ent.f6":"API commercialization","plan.ent.f7":"n8n + OmniRoute integration",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"For large organizations","plan.ent.f1":"Unlimited workspaces","plan.ent.f2":"Unlimited agents + customer factory","plan.ent.f3":"Custom AIOX Squads + white-label","plan.ent.f4":"SLA 99.9% + dedicated support","plan.ent.f5":"On-premise deployment","plan.ent.f6":"API commercialization","plan.ent.f7":"Composio + RCS integration",
     "plan.btn.start":"Get Started","plan.btn.contact":"Contact Us",
-    "dl.tag":"// Downloads","dl.title":"Install TVS","dl.sub":"Available for all platforms. Runs with local Ollama, no API key needed.",
-    "dl.apk.desc":"Native Android app for Google Play. Mobile interface of TVS OS.","dl.exe.desc":"Standalone Windows executable. No Node.js required.","dl.docker.desc":"Docker image for deployment on any cloud or self-hosted server.","dl.docs.title":"Documentation","dl.docs.desc":"Manuals, pitch PDFs, roadmap and complete command guide.",
+    "dl.tag":"// Downloads","dl.title":"Install TVS","dl.sub":"Available for all platforms. Works with local Ollama, no API key.",
+    "dl.apk.desc":"Native Android app. Mobile interface of TVS OS (also embeds the VISERON Game).","dl.exe.desc":"Windows installer (Setup.exe) with the APK + shortcuts. No Node.js required.","dl.docker.desc":"Docker image for deployment on any cloud or self-hosted server.","dl.docs.title":"Documentation","dl.docs.desc":"Manuals, pitch PDFs, roadmap, site map and complete command guide.",
     "dl.btn":"Download APK","dl.btn.exe":"Download EXE","dl.btn.code":"View Code","dl.btn.docs":"View PDFs",
-    "cmd.tag":"// Commands","cmd.title":"Main Commands",
-    "cmd.dev":"Dev mode with hot reload","cmd.build":"Compile TypeScript to dist/","cmd.start":"Run the complete system","cmd.restart":"Anti-freeze restart","cmd.test":"Run all tests (212)","cmd.scan":"Real system scan","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.pdfs":"Generate all PDFs","cmd.tvs":"TVS OS status","cmd.jarvis":"JARVIS AI demo","cmd.backup":"Automatic backup","cmd.cofre":"Credentials PDF (vault)",
-    "footer.desc":"Multi-Agent Superintelligence Operating System. 5396 minds in operation. AI-Native OS with auto-evolution and live revenue.",
-    "footer.system":"System","footer.docs":"Docs","footer.contact":"Contact","footer.plans":"View Plans","footer.auth":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen)","footer.rights":"All rights reserved. Authorship and intellectual property."
-  },
-  es:{
-    "hero.badge":"v5.0 · Sistema Operativo Native IA · EN VIVO",
-    "hero.sub1":"Sistema Operativo Multi-Agente de Superinteligencia.",
-    "hero.minds":"mentes en operación",
-    "hero.sub2":" — TVS OS + OMEGA Platform, 290+ proveedores IA, auto-evolución y cobros reales.",
-    "hero.authority":"Pedro Costa (Comandante) & Trinnity Hurtado (Reina).",
-    "hero.btn1":"Conocer los Escuadrones","hero.btn2":"Ver Planes","hero.btn3":"Descargas",
-    "stat.minds":"Mentes activas","stat.providers":"Proveedores IA","stat.squads":"Escuadrones AIOX","stat.tests":"Tests verdes","stat.revenue":"Ingresos en vivo",
-    "api.api":"API","api.tenants":"Tenants","api.users":"Usuarios","api.billing":"Facturación",
-    "nav.squads":"Escuadrones","nav.omega":"OMEGA","nav.status":"Estado","nav.pricing":"Planes","nav.downloads":"Descargas","nav.cta":"Comenzar",
-    "squads.tag":"// Escuadrón AIOX — 200 Años de Experiencia","squads.title":"Los 5 Escuadrones del Sistema","squads.sub":"Cada escuadrón opera con autonomía completa, memoria compartida y objetivos propios. Monitoreados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
-    "squad.eng.name":"Escuadrón de Ingeniería","squad.eng.desc":"Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.",
-    "squad.sec.name":"Escuadrón de Seguridad","squad.sec.desc":"Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Cero vulnerabilidades detectadas.",
-    "squad.biz.name":"Escuadrón de Negocios","squad.biz.desc":"Pipeline de ventas, CRM, cobros Avirato/Stripe, propuestas, follow-up y gestión de ingresos recurrentes (MRR).",
-    "squad.ops.name":"Escuadrón de Operaciones","squad.ops.desc":"Monitorización, alertas, backup automático, reinicio anti-congelamiento, deploy GitHub/Vercel/Render y watchdog.",
-    "squad.res.name":"Escuadrón de Investigación","squad.res.desc":"IA avanzada, nuevos modelos, HyperLearning, AutoEvolution, memoria de grafo, análisis de mercado e innovación.",
-    "kpi.uptime":"Uptime","kpi.tests":"Tests ✅","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planes /mes","kpi.billing":"Cobro real","kpi.targets":"Objetivos vigilados","kpi.selfheal":"Auto-curación","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizaje",
-    "command.label":"// Mando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Reina — Todos los derechos de autor del proyecto pertenecen a Pedro y Trinnity. Decisiones finales, dirección, prioridades y go-lives.",
-    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Reina",
-    "omega.tag":"// OMEGA Platform","omega.title":"Arquitectura OMEGA","omega.sub":"La columna vertebral de la superinteligencia — kernel, runtime, memoria, enrutamiento IA, autonomía y auto-curación en producción.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo con bus de eventos tipados, permisos granulares por rol y attach dinámico de agentes, memoria y router IA.",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10+ agentes nucleares cargados de specs JSON con fallback offline, timeout por agente y eventos por tarea.",
-    "omega.memory":"Knowledge Graph","omega.memory.desc":"Memoria STM/LTM en grafo persistida en fichero — entidades, relaciones, decisiones y consolidación automática.",
-    "omega.router":"AI Router","omega.router.desc":"Enrutamiento inteligente entre Ollama, OmniRoute (290+ proveedores), OpenAI, Claude, Gemini y Grok por coste/velocidad.",
-    "omega.autonomy":"Capa de Autonomía","omega.autonomy.desc":"HyperLearning, AutoEvolution, AutoLearning y AutoPilot — 4 ciclos continuos de aprendizaje y evolución.",
-    "omega.selfheal":"Watchdog Auto-Curación","omega.selfheal.desc":"5 objetivos vigilados — desbloquea componentes atascados, registra incidentes y reinicia servicios automáticamente.",
-    "omega.api.title":"Gateway /api/omega","omega.api.desc":"Command Center con endpoints de kernel, runtime, memoria, autonomía, escuadrones, factory, enterprise y watchdog — todo vía REST API o CLI.",
-    "term.title":"tvs — sistema operativo",
-    "status.tag":"// Estado del Sistema","status.title":"Estado en Vivo","status.sub":"Monitorización en tiempo real vía /api/health y /api/revenue/readiness.",
-    "status.api":"API Core","status.api.desc":"REST API + Socket.IO en producción. Health check, auth, billing, messaging.",
-    "status.db":"Postgres Neon","status.db.desc":"10 tablas migradas: tenants, users, usage_events y billing. eu-central-1.",
-    "status.billing.desc":"Checkout en vivo de suscripciones con webhook HMAC firmado. Core $29 / Pro $99 / Enterprise $499.",
-    "status.gmail.desc":"Agente de atención envía emails reales — verify, reset, facturas y soporte.",
-    "status.domain":"Dominio","status.revenue":"Ingresos","status.revenue.desc":"Todos los requisitos de ingresos verificados. Listo para facturar.",
-    "status.pdf.title":"Informe de Estado PDF","status.pdf.desc":"Estado completo del sistema — tests, infraestructura, pendientes y qué puedes hacer ahora.",
-    "btn.pdf":"Descargar PDF",
-    "pricing.tag":"// Planes","pricing.title":"Elige tu Plan","pricing.sub":"Acceso a la superinteligencia en operación. Cancela cuando quieras.",
-    "plan.core.name":"Plan Core","plan.core.sub":"Para startups y desarrolladores","plan.core.f1":"1 workspace, 5 agentes activos","plan.core.f2":"100 tareas IA/día","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 proveedores cloud","plan.core.f5":"Soporte por email","plan.core.f6":"Escuadrones personalizados","plan.core.f7":"Multi-tenant",
-    "plan.pro.name":"Plan Pro","plan.pro.sub":"Para empresas en crecimiento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tareas/día","plan.pro.f3":"Escuadrones AIOX configurados","plan.pro.f4":"Todos los proveedores IA","plan.pro.f5":"JARVIS Chat avanzado","plan.pro.f6":"Mensajería E2E cifrada","plan.pro.f7":"Soporte prioritario",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizaciones","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + 5000+","plan.ent.f3":"Escuadrones AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + soporte dedicado","plan.ent.f5":"Despliegue on-premise","plan.ent.f6":"Comercialización de API","plan.ent.f7":"Integración n8n + OmniRoute",
-    "plan.btn.start":"Comenzar","plan.btn.contact":"Contactar",
-    "dl.tag":"// Descargas","dl.title":"Instala el TVS","dl.sub":"Disponible para todas las plataformas. Funciona con Ollama local sin API key.",
-    "dl.apk.desc":"App nativa Android para Google Play. Interfaz móvil del TVS OS.","dl.exe.desc":"Ejecutable standalone para Windows. No requiere Node.js instalado.","dl.docker.desc":"Imagen Docker para deploy en cualquier cloud o servidor self-hosted.","dl.docs.title":"Documentación","dl.docs.desc":"Manuales, PDFs de pitch, roadmap y guía completa de comandos.",
-    "dl.btn":"Descargar APK","dl.btn.exe":"Descargar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
-    "cmd.tag":"// Comandos","cmd.title":"Comandos Principales",
-    "cmd.dev":"Modo dev con hot reload","cmd.build":"Compila TypeScript a dist/","cmd.start":"Ejecuta el sistema completo","cmd.restart":"Reinicio anti-congelamiento","cmd.test":"Ejecuta todos los tests (212)","cmd.scan":"Escaneo real del sistema","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.pdfs":"Genera todos los PDFs","cmd.tvs":"Estado del TVS OS","cmd.jarvis":"Demo JARVIS IA","cmd.backup":"Backup automático","cmd.cofre":"PDF de credenciales (cofre)",
-    "footer.desc":"Sistema Operativo Multi-Agente de Superinteligencia. 5396 mentes en operación. AI-Native OS con auto-evolución e ingresos en vivo.",
-    "footer.system":"Sistema","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planes","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina)","footer.rights":"Todos los derechos reservados. Autoría y propiedad intelectual."
+    "cmd.tag":"// Commands","cmd.title":"TVS OS Control","cmd.sub":"Real system commands — the Site Map (PDF) lists the 144 npm commands + API endpoints.",
+    "cmd.dev":"Dev mode with hot reload","cmd.build":"Compile TypeScript to dist/","cmd.start":"Run the complete system","cmd.restart":"Anti-freeze restart (kills server + orphans)","cmd.test":"Run all tests (core/web/omega/os/restart)","cmd.scan":"Real system scan","cmd.tvs":"TVS OS status (kernel, agents, watchdog)","cmd.map":"Generate the Site Map PDF","cmd.pdfs":"Generate all PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"JARVIS AI demo","cmd.backup":"Automatic backup",
+    "footer.desc":"Autonomous, evolvable and auditable AI operational infrastructure. Not a chatbot: an AI-native operating system with agents, memory, audit and continuous evolution.",
+    "footer.paginas":"Pages","footer.docs":"Docs","footer.contact":"Contact","footer.plans":"View Plans","footer.auth":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen)","footer.rights":"All rights reserved. Authorship and intellectual property."
   }
 };
 
-let currentLang = 'pt';
+let currentLang = 'es';
 function setLang(l) {
   currentLang = l;
-  const d = LANG[l] || LANG['pt'];
+  const d = LANG[l] || LANG['es'];
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const key = el.getAttribute('data-i18n');
     if(d[key]) el.textContent = d[key];
   });
-  ['pt','en','es'].forEach(lx=>{
+  ['es','pt','en'].forEach(lx=>{
     const btn = document.getElementById('lb-'+lx);
     if(btn) btn.classList.toggle('active', lx===l);
   });
   document.documentElement.lang = l;
+  try { localStorage.setItem('tvs-lang', l); } catch(e){}
 }
+
+// ═══ RESTAURAR IDIOMA (padrão es) ═══
+try { const saved = localStorage.getItem('tvs-lang'); if(saved && LANG[saved]) setLang(saved); } catch(e){}
 
 // ═══ LIVE API FETCH ═══
 (async function(){
@@ -1289,25 +1639,10 @@ function setLang(l) {
     if(el('api-tenants')) el('api-tenants').textContent = h.tenants ?? '0';
     if(el('api-users')) el('api-users').textContent = h.users ?? '0';
     if(el('api-billing')) el('api-billing').textContent = h.billing ?? 'avirato';
-    if(el('h-agents')) el('h-agents').textContent = h.agents ?? '5396';
-    if(el('h-tests')) el('h-tests').textContent = h.tests ?? '212';
   } catch(e){
     const el = document.getElementById('api-status-txt');
     if(el){ el.textContent='offline (local build ok)'; el.style.color='var(--neon2)'; }
   }
-})();
-
-// ═══ ANIMATED MIND COUNT ═══
-(function(){
-  const el = document.getElementById('mind-count');
-  if(!el) return;
-  let n = 5380;
-  const target = 5396;
-  const step = () => {
-    if(n < target){ n += Math.ceil((target-n)*0.15); el.textContent = n; requestAnimationFrame(step); }
-    else el.textContent = target;
-  };
-  setTimeout(step, 800);
 })();
 </script>
 </body>
