@@ -96,6 +96,7 @@
       <button onclick="setPageLang('en')" class="lang-btn" title="English">🇺🇸</button>
       <button onclick="setPageLang('es')" class="lang-btn" title="Español">🇪🇸</button>
       <a href="#platform" class="nav-link text-white/40 hover:text-neon transition-colors nav-platform">Platform</a>
+      <a href="#architecture" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-architecture">Arquitetura</a>
       <a href="#forge" class="nav-link text-white/40 hover:text-neon transition-colors nav-forge">Forge</a>
       <a href="#jarvis" class="nav-link text-white/40 hover:text-neon2 transition-colors nav-jarvis">JARVIS</a>
       <a href="#status" class="nav-link text-white/40 hover:text-neon transition-colors nav-status">Status</a>
@@ -115,6 +116,7 @@
   <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
     <div class="flex flex-col gap-3 text-sm">
       <a href="#platform" onclick="toggleMenu()" class="text-white/50 py-2">Platform</a>
+      <a href="#architecture" onclick="toggleMenu()" class="text-white/50 py-2">Arquitetura</a>
       <a href="#forge" onclick="toggleMenu()" class="text-white/50 py-2">Forge</a>
       <a href="#jarvis" onclick="toggleMenu()" class="text-white/50 py-2">JARVIS</a>
       <a href="#status" onclick="toggleMenu()" class="text-white/50 py-2">Status</a>
@@ -156,8 +158,8 @@
       <span class="block glitch brand-gradient" data-text="Viseron System">Viseron System</span>
     </h1>
     <p class="reveal text-lg sm:text-xl text-white/40 max-w-3xl mx-auto mt-6 leading-relaxed font-light" style="transition-delay:0.2s">
-      Trinnity Viseron System — Sistema Operacional Multi-Agente de Superinteligência. 5000+ mentes, 290+ provedores de IA,<br>
-      auto-evolução genética, aprendizado hiper-exponencial. <span class="text-neon">Autoria de Trinnity &amp; Viseron.</span>
+      AI Operating System for Autonomous Operations — objetivos entram, processos autónomos verificáveis saem.<br>
+      OMEGA Kernel · Execution OS · Composite Verification · Architecture Intelligence. <span class="text-neon">Autoria de Pedro Costa &amp; Trinnity Hurtado.</span>
     </p>
     <div class="reveal flex flex-wrap justify-center gap-4 mt-10" style="transition-delay:0.3s">
       <a href="javascript:void(0)" onclick="openOSLogin()" class="btn-neon btn-neon-solid">Entrar no TVS OS →</a>
@@ -173,6 +175,83 @@
   </div>
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/20">
     <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+  </div>
+</section>
+
+<div class="data-line"></div>
+
+<!-- AI Operating System for Autonomous Operations -->
+<section id="architecture" class="relative py-24 sm:py-32 px-6" style="z-index:1;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 sm:mb-20">
+      <span class="reveal text-neon text-xs font-semibold tracking-[0.2em] uppercase">// AI Operating System</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-bold mt-4 tracking-tight" style="transition-delay:0.1s">Arquitetura consolidada</h2>
+      <p class="reveal text-white/40 max-w-2xl mx-auto mt-4 text-sm" style="transition-delay:0.2s">Um kernel OMEGA real: planeamento, execução, verificação e memória — o que está LIVE, em desenvolvimento e no roadmap.</p>
+    </div>
+
+    <!-- Pipeline OMEGA -->
+    <div class="reveal grid grid-cols-2 md:grid-cols-5 gap-3 mb-14" style="transition-delay:0.1s">
+      <div class="cyber-card p-4 text-center"><p class="text-neon font-bold text-sm">1 · Objetivo</p><p class="text-xs text-white/40 mt-1">entra como texto</p></div>
+      <div class="cyber-card p-4 text-center"><p class="text-neon font-bold text-sm">2 · OMEGA Kernel</p><p class="text-xs text-white/40 mt-1">plano · fila · memória</p></div>
+      <div class="cyber-card p-4 text-center"><p class="text-neon2 font-bold text-sm">3 · Agentes</p><p class="text-xs text-white/40 mt-1">AIOX · JARVIS · ATLAS</p></div>
+      <div class="cyber-card p-4 text-center"><p class="text-neon font-bold text-sm">4 · Executar + Verificar</p><p class="text-xs text-white/40 mt-1">ferramentas reais · composite</p></div>
+      <div class="cyber-card p-4 text-center"><p class="text-neon2 font-bold text-sm">5 · Aprender</p><p class="text-xs text-white/40 mt-1">memória persistente</p></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="reveal flex flex-wrap justify-center gap-3 mb-14 text-xs font-semibold" style="transition-delay:0.2s">
+      <span class="badge badge-green">LIVE — testado</span>
+      <span class="badge badge-purple">EM DESENVOLVIMENTO</span>
+      <span class="badge" style="background:rgba(255,255,255,0.08);color:#94a3b8;border:1px solid rgba(255,255,255,0.12)">ROADMAP</span>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- LIVE -->
+      <div class="reveal cyber-card p-6" style="transition-delay:0.1s">
+        <h3 class="text-neon font-bold text-lg mb-1">LIVE — em produção</h3>
+        <p class="text-xs text-white/40 mb-6">Verificado por testes: OMEGA 174/174 · core 14/14 · web 109/109 · OS 25/25</p>
+        <div class="space-y-4">
+          <div><p class="font-semibold text-sm">OMEGA Kernel</p><p class="text-xs text-white/40 mt-0.5">EventBus reativo · TaskQueue persistente · Permissions</p></div>
+          <div><p class="font-semibold text-sm">Execution OS</p><p class="text-xs text-white/40 mt-0.5">tarefas E2E: plano → fila → agente → ferramentas → verificação</p></div>
+          <div><p class="font-semibold text-sm">Composite Verification</p><p class="text-xs text-white/40 mt-0.5">Verifier + CompositeVerifier · PASS &lt; RETRY &lt; HUMAN &lt; FAIL</p></div>
+          <div><p class="font-semibold text-sm">Architecture Intelligence</p><p class="text-xs text-white/40 mt-0.5">Graphify 4.278 nós · 8.275 arestas · 282 comunidades</p></div>
+          <div><p class="font-semibold text-sm">Integration Bridge</p><p class="text-xs text-white/40 mt-0.5">8 bridges · contrato comum · Promise&lt;number&gt;</p></div>
+          <div><p class="font-semibold text-sm">Memória persistente</p><p class="text-xs text-white/40 mt-0.5">KnowledgeGraph + STM/LTM · nada morre no restart</p></div>
+          <div><p class="font-semibold text-sm">Self-healing</p><p class="text-xs text-white/40 mt-0.5">Watchdog monitoriza e recupera componentes</p></div>
+        </div>
+      </div>
+
+      <!-- IN DEVELOPMENT -->
+      <div class="reveal cyber-card p-6" style="transition-delay:0.2s">
+        <h3 class="text-neon2 font-bold text-lg mb-1">EM DESENVOLVIMENTO</h3>
+        <p class="text-xs text-white/40 mb-6">A consolidar na UI e na operação — já com APIs e fluxos reais</p>
+        <div class="space-y-4">
+          <div><p class="font-semibold text-sm">TVS Desktop / OS</p><p class="text-xs text-white/40 mt-0.5">Process Manager · Virtual FS · App Store · Security Center</p></div>
+          <div><p class="font-semibold text-sm">VISERON + ATLAS</p><p class="text-xs text-white/40 mt-0.5">HUD de voz Stark · tutor de inglês com voz</p></div>
+          <div><p class="font-semibold text-sm">Agency OS</p><p class="text-xs text-white/40 mt-0.5">Reporting · Leads · Creativos · Nurturing · projeção MRR</p></div>
+          <div><p class="font-semibold text-sm">RCS de marca</p><p class="text-xs text-white/40 mt-0.5">Twilio RCS — mock até aprovação Google do agente</p></div>
+          <div><p class="font-semibold text-sm">Cosmos + Jogo</p><p class="text-xs text-white/40 mt-0.5">$VSR/$TRIN · metaverso · plataformas Canvas 2D</p></div>
+        </div>
+      </div>
+
+      <!-- ROADMAP -->
+      <div class="reveal cyber-card p-6" style="transition-delay:0.3s">
+        <h3 class="font-bold text-lg mb-1 text-white/70">ROADMAP</h3>
+        <p class="text-xs text-white/40 mb-6">Planeado — capacidade a provar antes de escalar</p>
+        <div class="space-y-4">
+          <div><p class="font-semibold text-sm">TVS Autonomous Org Benchmark</p><p class="text-xs text-white/40 mt-0.5">100 tarefas reais: success rate · cost · latency · ROI</p></div>
+          <div><p class="font-semibold text-sm">Enterprise Autonomy</p><p class="text-xs text-white/40 mt-0.5">10 clientes reais · ROI mensurável · conectores Gmail/CRM/ERP</p></div>
+          <div><p class="font-semibold text-sm">Escala 10 → 100 → 1.000 → 10.000</p><p class="text-xs text-white/40 mt-0.5">pela capacidade verificada, não por nomes de agentes</p></div>
+          <div><p class="font-semibold text-sm">OMEGA Aerospace / Robotics</p><p class="text-xs text-white/40 mt-0.5">IA + infraestrutura física</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal text-center mt-14" style="transition-delay:0.2s">
+      <a href="/viseron" class="btn-neon btn-purple">Falar com o VISERON →</a>
+      <a href="/atlas" class="btn-neon">Aprender inglês com o ATLAS</a>
+      <a href="/dashboard" class="btn-neon">Dashboard operacional</a>
+    </div>
   </div>
 </section>
 
@@ -700,7 +779,7 @@
 <!-- Footer -->
 <footer class="border-t border-white/5 py-10 px-6 relative" style="z-index:1;">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-    <p><span class="text-white/40 font-semibold">Trinnity Viseron System</span> — Multi Agent AI Operating System v5.0</p>
+    <p><span class="text-white/40 font-semibold">Trinnity Viseron System</span> — AI Operating System for Autonomous Operations v5.0</p>
     <div class="flex gap-5">
       <a href="https://github.com/ViseronSystem/trinnity-viseron-system" class="hover:text-neon transition-colors">GitHub</a>
     </div>
@@ -717,8 +796,8 @@ function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('hi
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.style.background=window.scrollY>50?'rgba(5,5,16,0.9)':'transparent';nav.style.backdropFilter=window.scrollY>50?'blur(20px)':'none';nav.style.borderBottom=window.scrollY>50?'1px solid rgba(255,255,255,0.04)':'none'});
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')})},{threshold:0.15,rootMargin:'0px 0px -60px 0px'});revealEls.forEach(el=>observer.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
-const LANG_MENU={pt:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",forge:"Forge",jarvis:"JARVIS",status:"Estado",downloads:"Descargas",token:"$VSR"}};
-function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
+const LANG_MENU={pt:{platform:"Plataforma",architecture:"Arquitetura",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},en:{platform:"Platform",architecture:"Architecture",forge:"Forge",jarvis:"JARVIS",status:"Status",downloads:"Downloads",token:"$VSR"},es:{platform:"Plataforma",architecture:"Arquitectura",forge:"Forge",jarvis:"JARVIS",status:"Estado",downloads:"Descargas",token:"$VSR"}};
+function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelector('.nav-platform')&&(document.querySelector('.nav-platform').textContent=d.platform);document.querySelector('.nav-architecture')&&(document.querySelector('.nav-architecture').textContent=d.architecture);document.querySelector('.nav-forge')&&(document.querySelector('.nav-forge').textContent=d.forge);document.querySelector('.nav-jarvis')&&(document.querySelector('.nav-jarvis').textContent=d.jarvis);document.querySelector('.nav-status')&&(document.querySelector('.nav-status').textContent=d.status);document.querySelector('.nav-downloads')&&(document.querySelector('.nav-downloads').textContent=d.downloads);document.querySelector('.nav-token')&&(document.querySelector('.nav-token').textContent=d.token)}
 (async()=>{const el=id=>document.getElementById(id);try{const h=await(await fetch('/api/health')).json();if(el('apiStatus')){el('apiStatus').textContent='Operacional';el('apiStatus').className='badge badge-green';}if(el('hTenants'))el('hTenants').textContent=h.tenants??'0';if(el('hUsers'))el('hUsers').textContent=h.users??'0';if(el('hEmail'))el('hEmail').textContent=h.email??'dev';if(el('hBilling'))el('hBilling').textContent=h.billing??'manual';if(el('hConv'))el('hConv').textContent=(h.messaging&&h.messaging.conversations)??'0';if(el('hMsgs'))el('hMsgs').textContent=(h.messaging&&h.messaging.messages)??'0';}catch(e){if(el('apiStatus')){el('apiStatus').textContent='offline (local build ok)';el('apiStatus').className='badge badge-purple';}}})();
 (async()=>{const el=id=>document.getElementById(id);try{const r=await(await fetch('/api/revenue/readiness')).json();if(el('revStatus')){el('revStatus').textContent=r.ok?'Pronto para faturar':'Go-live pendente ('+r.missing.length+' requisitos)';el('revStatus').className=r.ok?'badge badge-green':'badge badge-purple';}r.requirements.forEach(q=>{const b=el('req-'+q.key);const v=el('val-'+q.key);if(b){b.textContent=q.ready?'Pronto':'Pendente';b.className=q.ready?'badge badge-green':'badge badge-purple';}if(v)v.textContent=q.value;});}catch(e){if(el('revStatus')){el('revStatus').textContent='readiness offline';el('revStatus').className='badge badge-purple';}}})();
 </script>
@@ -842,13 +921,95 @@ function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelecto
       "Multi Agent AI Operating System": "Multi Agent AI Operating System",
       "5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência": "5000+ minds · 290+ providers · 25 sectors · 300M $VSR · Self-evolution · Superintelligence",
       "GitHub": "GitHub",
-      "— Multi Agent AI Operating System v5.0": "— Multi Agent AI Operating System v5.0",
+      "— Multi Agent AI Operating System v5.0": "— AI Operating System for Autonomous Operations v5.0",
+      "Arquitetura": "Architecture",
+      "Arquitetura consolidada": "Consolidated architecture",
+      "Um kernel OMEGA real: planeamento, execução, verificação e memória — o que está LIVE, em desenvolvimento e no roadmap.": "A real OMEGA kernel: planning, execution, verification and memory — what is LIVE, in development and on the roadmap.",
+      "AI Operating System for Autonomous Operations — objetivos entram, processos autónomos verificáveis saem.": "AI Operating System for Autonomous Operations — goals come in, verifiable autonomous processes come out.",
+      "OMEGA Kernel · Execution OS · Composite Verification · Architecture Intelligence.": "OMEGA Kernel · Execution OS · Composite Verification · Architecture Intelligence.",
+      "Autoria de Pedro Costa & Trinnity Hurtado.": "Authored by Pedro Costa & Trinnity Hurtado.",
+      "1 · Objetivo": "1 · Objective",
+      "entra como texto": "enters as text",
+      "plano · fila · memória": "plan · queue · memory",
+      "3 · Agentes": "3 · Agents",
+      "4 · Executar + Verificar": "4 · Execute + Verify",
+      "ferramentas reais · composite": "real tools · composite",
+      "5 · Aprender": "5 · Learn",
+      "memória persistente": "persistent memory",
+      "LIVE — testado": "LIVE — tested",
+      "EM DESENVOLVIMENTO": "IN DEVELOPMENT",
+      "LIVE — em produção": "LIVE — in production",
+      "Verificado por testes: OMEGA 174/174 · core 14/14 · web 109/109 · OS 25/25": "Verified by tests: OMEGA 174/174 · core 14/14 · web 109/109 · OS 25/25",
+      "EventBus reativo · TaskQueue persistente · Permissions": "Reactive EventBus · persistent TaskQueue · Permissions",
+      "tarefas E2E: plano → fila → agente → ferramentas → verificação": "E2E tasks: plan → queue → agent → tools → verification",
+      "Verifier + CompositeVerifier · PASS < RETRY < HUMAN < FAIL": "Verifier + CompositeVerifier · PASS < RETRY < HUMAN < FAIL",
+      "Graphify 4.278 nós · 8.275 arestas · 282 comunidades": "Graphify 4,278 nodes · 8,275 edges · 282 communities",
+      "8 bridges · contrato comum · Promise<number>": "8 bridges · common contract · Promise<number>",
+      "KnowledgeGraph + STM/LTM · nada morre no restart": "KnowledgeGraph + STM/LTM · nothing dies on restart",
+      "Watchdog monitoriza e recupera componentes": "Watchdog monitors and recovers components",
+      "A consolidar na UI e na operação — já com APIs e fluxos reais": "Being consolidated in UI and operations — already with real APIs and flows",
+      "HUD de voz Stark · tutor de inglês com voz": "Stark voice HUD · English tutor with voice",
+      "Reporting · Leads · Creativos · Nurturing · projeção MRR": "Reporting · Leads · Creatives · Nurturing · MRR projection",
+      "RCS de marca": "Brand RCS",
+      "Twilio RCS — mock até aprovação Google do agente": "Twilio RCS — mock until Google approves the agent",
+      "Cosmos + Jogo": "Cosmos + Game",
+      "$VSR/$TRIN · metaverso · plataformas Canvas 2D": "$VSR/$TRIN · metaverse · Canvas 2D platformer",
+      "Planeado — capacidade a provar antes de escalar": "Planned — capability to be proven before scaling",
+      "100 tarefas reais: success rate · cost · latency · ROI": "100 real tasks: success rate · cost · latency · ROI",
+      "10 clientes reais · ROI mensurável · conectores Gmail/CRM/ERP": "10 real clients · measurable ROI · Gmail/CRM/ERP connectors",
+      "Escala 10 → 100 → 1.000 → 10.000": "Scale 10 → 100 → 1,000 → 10,000",
+      "pela capacidade verificada, não por nomes de agentes": "by verified capacity, not by agent names",
+      "IA + infraestrutura física": "AI + physical infrastructure",
+      "Falar com o VISERON →": "Talk to VISERON →",
+      "Aprender inglês com o ATLAS": "Learn English with ATLAS",
+      "Dashboard operacional": "Operational dashboard",
       "© 2026 — Autoria de Trinnity & Viseron": "© 2026 — Authored by Trinnity & Viseron",
       "Operacional": "Operational", "offline (local build ok)": "offline (local build ok)",
       "verificando…": "checking…", "Pronto para faturar": "Ready to bill",
       "Go-live pendente": "Go-live pending", "requisitos": "requirements", "readiness offline": "readiness offline"
     },
     es: {
+      "Arquitetura": "Arquitectura",
+      "Arquitetura consolidada": "Arquitectura consolidada",
+      "Um kernel OMEGA real: planeamento, execução, verificação e memória — o que está LIVE, em desenvolvimento e no roadmap.": "Un kernel OMEGA real: planificación, ejecución, verificación y memoria — qué está LIVE, en desarrollo y en el roadmap.",
+      "AI Operating System for Autonomous Operations — objetivos entram, processos autónomos verificáveis saem.": "AI Operating System for Autonomous Operations — los objetivos entran, los procesos autónomos verificables salen.",
+      "OMEGA Kernel · Execution OS · Composite Verification · Architecture Intelligence.": "OMEGA Kernel · Execution OS · Composite Verification · Architecture Intelligence.",
+      "Autoria de Pedro Costa & Trinnity Hurtado.": "Autoría de Pedro Costa & Trinnity Hurtado.",
+      "1 · Objetivo": "1 · Objetivo",
+      "entra como texto": "entra como texto",
+      "plano · fila · memória": "plan · cola · memoria",
+      "3 · Agentes": "3 · Agentes",
+      "4 · Executar + Verificar": "4 · Ejecutar + Verificar",
+      "ferramentas reais · composite": "herramientas reales · composite",
+      "5 · Aprender": "5 · Aprender",
+      "memória persistente": "memoria persistente",
+      "LIVE — testado": "LIVE — probado",
+      "EM DESENVOLVIMENTO": "EN DESARROLLO",
+      "LIVE — em produção": "LIVE — en producción",
+      "Verificado por testes: OMEGA 174/174 · core 14/14 · web 109/109 · OS 25/25": "Verificado por pruebas: OMEGA 174/174 · core 14/14 · web 109/109 · OS 25/25",
+      "EventBus reativo · TaskQueue persistente · Permissions": "EventBus reactivo · TaskQueue persistente · Permissions",
+      "tarefas E2E: plano → fila → agente → ferramentas → verificação": "tareas E2E: plan → cola → agente → herramientas → verificación",
+      "Verifier + CompositeVerifier · PASS < RETRY < HUMAN < FAIL": "Verifier + CompositeVerifier · PASS < RETRY < HUMAN < FAIL",
+      "Graphify 4.278 nós · 8.275 arestas · 282 comunidades": "Graphify 4.278 nodos · 8.275 aristas · 282 comunidades",
+      "8 bridges · contrato comum · Promise<number>": "8 bridges · contrato común · Promise<number>",
+      "KnowledgeGraph + STM/LTM · nada morre no restart": "KnowledgeGraph + STM/LTM · nada muere al reiniciar",
+      "Watchdog monitoriza e recupera componentes": "Watchdog monitoriza y recupera componentes",
+      "A consolidar na UI e na operação — já com APIs e fluxos reais": "A consolidar en la UI y en la operación — ya con APIs y flujos reales",
+      "HUD de voz Stark · tutor de inglês com voz": "HUD de voz Stark · tutor de inglés con voz",
+      "Reporting · Leads · Creativos · Nurturing · projeção MRR": "Reporting · Leads · Creativos · Nurturing · proyección MRR",
+      "RCS de marca": "RCS de marca",
+      "Twilio RCS — mock até aprovação Google do agente": "Twilio RCS — mock hasta aprobación de Google del agente",
+      "Cosmos + Jogo": "Cosmos + Juego",
+      "$VSR/$TRIN · metaverso · plataformas Canvas 2D": "$VSR/$TRIN · metaverso · plataformas Canvas 2D",
+      "Planeado — capacidade a provar antes de escalar": "Planificado — capacidad a probar antes de escalar",
+      "100 tarefas reais: success rate · cost · latency · ROI": "100 tareas reales: success rate · cost · latency · ROI",
+      "10 clientes reais · ROI mensurável · conectores Gmail/CRM/ERP": "10 clientes reales · ROI medible · conectores Gmail/CRM/ERP",
+      "Escala 10 → 100 → 1.000 → 10.000": "Escala 10 → 100 → 1.000 → 10.000",
+      "pela capacidade verificada, não por nomes de agentes": "por capacidad verificada, no por nombres de agentes",
+      "IA + infraestrutura física": "IA + infraestructura física",
+      "Falar com o VISERON →": "Hablar con VISERON →",
+      "Aprender inglês com o ATLAS": "Aprender inglés con ATLAS",
+      "Dashboard operacional": "Panel operativo",
       "Plataforma": "Plataforma", "Forge": "Forge", "Status": "Estado", "Downloads": "Descargas", "Planos": "Planes",
       "Blog": "Blog", "Dashboard": "Dashboard", "Ver Planos": "Ver Planes", "Explorar Plataforma": "Explorar Plataforma",
       "v5.0 — Trinnity Viseron System": "v5.0 — Trinnity Viseron System",
@@ -963,7 +1124,7 @@ function setPageLang(l){const d=LANG_MENU[l]||LANG_MENU.pt;document.querySelecto
       "Multi Agent AI Operating System": "Sistema Operativo Multi-Agente de IA",
       "5000+ mentes · 290+ providers · 25 setores · 300M $VSR · Auto-evolução · Superinteligência": "5000+ mentes · 290+ proveedores · 25 sectores · 300M $VSR · Auto-evolución · Superinteligencia",
       "GitHub": "GitHub",
-      "— Multi Agent AI Operating System v5.0": "— Sistema Operativo Multi-Agente de IA v5.0",
+      "— Multi Agent AI Operating System v5.0": "— AI Operating System for Autonomous Operations v5.0",
       "© 2026 — Autoria de Trinnity & Viseron": "© 2026 — Autoría de Trinnity & Viseron",
       "Operacional": "Operativo", "offline (local build ok)": "offline (build local ok)",
       "verificando…": "comprobando…", "Pronto para faturar": "Listo para facturar",

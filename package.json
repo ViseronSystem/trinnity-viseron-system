@@ -100,6 +100,7 @@
     "docs:100": "tsx scripts/gerar-100-melhorias.ts",
     "report:update": "tsx scripts/gerar-relatorio-update.ts",
     "report:state": "tsx scripts/gerar-relatorio-estado.ts",
+    "report:evolution": "tsx scripts/gerar-relatorio-evolucao.ts",
     "docs:revenue": "tsx scripts/gerar-pipeline-receita.ts",
     "audit:arkom": "tsx scripts/audit-arkom.ts",
     "demo:jarvis": "tsx scripts/demo-jarvis.ts",
