@@ -1,0 +1,173 @@
+{
+  "schema": "tvs/system-status/1",
+  "system": "Trinnity Viseron System",
+  "version": "5.0.0",
+  "verifiedAt": "2026-08-09T19:14:26.246Z",
+  "branch": "main",
+  "commitCount": "137",
+  "lastCommit": "8e1316f fix(deploy): Vercel aponta para trinnityviseronsystem.io + redirect do site antigo",
+  "tests": {
+    "core": {
+      "label": "CORE",
+      "type": "unit",
+      "passed": 20,
+      "total": 20,
+      "ok": true,
+      "timedOut": false
+    },
+    "web": {
+      "label": "WEB",
+      "type": "integration",
+      "passed": 109,
+      "total": 109,
+      "ok": true,
+      "timedOut": false
+    },
+    "omega": {
+      "label": "OMEGA",
+      "type": "integration",
+      "passed": 206,
+      "total": 206,
+      "ok": true,
+      "timedOut": false
+    },
+    "os": {
+      "label": "TVS OS",
+      "type": "unit",
+      "passed": 25,
+      "total": 25,
+      "ok": true,
+      "timedOut": false
+    },
+    "restart": {
+      "label": "RESTART",
+      "type": "e2e",
+      "passed": 14,
+      "total": 14,
+      "ok": true,
+      "timedOut": false
+    },
+    "totals": {
+      "passed": 374,
+      "total": 374
+    }
+  },
+  "typeScript": {
+    "clean": true,
+    "errors": 0
+  },
+  "security": {
+    "ok": true,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 2,
+      "high": 0,
+      "critical": 0
+    },
+    "total": 2
+  },
+  "agents": {
+    "core": 10,
+    "coreNames": [
+      "CEO Agent",
+      "CTO Agent",
+      "Developer Agent",
+      "DevOps Agent",
+      "Finance Agent",
+      "Research Agent",
+      "Sales Agent",
+      "Security Agent",
+      "Support Agent",
+      "Vision Agent"
+    ],
+    "squads": 6,
+    "squadNames": [
+      "Business Squad",
+      "Engineering Squad",
+      "Evolution Squad",
+      "Operations Squad",
+      "Research Squad",
+      "Security Squad"
+    ],
+    "definitions": 200
+  },
+  "skills": {
+    "total": 1997,
+    "collections": 10,
+    "sources": [
+      {
+        "name": "awesome-claude-skills",
+        "count": 864,
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "awesome-llm-apps",
+        "count": 8,
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "claude-plugins-official",
+        "count": 31,
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "comp-ai",
+        "count": 53,
+        "license": "AGPL-3.0"
+      },
+      {
+        "name": "comp-crm",
+        "count": 34,
+        "license": "MIT"
+      },
+      {
+        "name": "deeptutor",
+        "count": 6,
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "ecc",
+        "count": 897,
+        "license": "MIT"
+      },
+      {
+        "name": "loop-engineering",
+        "count": 41,
+        "license": "MIT"
+      },
+      {
+        "name": "marketingskills",
+        "count": 49,
+        "license": "MIT"
+      },
+      {
+        "name": "superpowers",
+        "count": 14,
+        "license": "MIT"
+      }
+    ]
+  },
+  "configuration": {
+    "avirato": true,
+    "stripe": false,
+    "gmail": true,
+    "composio": true,
+    "twilioRcs": false,
+    "telegram": false,
+    "postgres": true,
+    "publicUrl": true
+  },
+  "live": {
+    "api": {
+      "online": false
+    },
+    "site": {
+      "online": false
+    }
+  },
+  "integrations": {
+    "total": 10,
+    "repos": 9
+  }
+}

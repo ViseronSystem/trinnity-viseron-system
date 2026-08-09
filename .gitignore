@@ -30,8 +30,7 @@ tvs_demo_pid.txt
 VISERON_SITE_BACKUP/
 # Logs de ciclos de autonomia (runtime)
 data/reports/cycle_*.json
-# System of Truth + scan de segredos (artefatos runtime; PDF auditável é versionado)
-data/system-status.json
+# Scan de segredos (artefato runtime; o veredicto entra no AUDIT_REPORT)
 data/segredos-scan.json
 # Estado runtime do kernel/task-queue e bases locais
 data/state/task-queue.json
