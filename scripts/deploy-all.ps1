@@ -94,9 +94,9 @@ if ($Hostalia -or $Full) {
     }
 }
 
-# Step 5: Vercel
+# Step 5: Vercel (site principal www.trinnityviseronsystem.io)
 if ($Vercel) {
-    Write-Step "Fazendo deploy da landing page para Vercel..." "INFO"
+    Write-Step "Fazendo deploy do site para Vercel (trinnityviseronsystem.io)..." "INFO"
     
     # Check if Vercel CLI is installed
     $VercelInstalled = Get-Command "vercel" -ErrorAction SilentlyContinue
@@ -105,13 +105,16 @@ if ($Vercel) {
         npm install -g vercel
     }
     
-    Push-Location "$Root\trinnityviseron.com"
+    # O projeto Vercel que serve www.trinnityviseronsystem.io vive nesta pasta
+    # (projectId prj_2OtO4v7D57x2ucwCz6tAAtnDgLVm). A pasta antiga
+    # trinnityviseron.com ficou obsoleta - nao deployar dela.
+    Push-Location "$Root\trinnityviseronsystem.io"
     vercel --prod --yes 2>&1 | Out-Null
     if ($LASTEXITCODE -eq 0) {
         Write-Step "Deploy Vercel OK!" "OK"
     } else {
         Write-Step "Falha no deploy Vercel!" "WARN"
-        Write-Step "Execute manualmente: cd trinnityviseron.com; vercel --prod" "WARN"
+        Write-Step "Execute manualmente: cd trinnityviseronsystem.io; vercel --prod" "WARN"
     }
     Pop-Location
 }
@@ -122,5 +125,5 @@ Write-Host "Resumo:" -ForegroundColor Cyan
 if ($GitHub -or $Full) { Write-Host "  GitHub: https://github.com/ViseronSystem/trinnity-viseron-system" -ForegroundColor Green }
 if ($Render -or $Full) { Write-Host "  Render: https://viseron-web.onrender.com" -ForegroundColor Green }
 if ($Hostalia -or $Full) { Write-Host "  Hostalia: landing page + painel" -ForegroundColor Green }
-if ($Vercel) { Write-Host "  Vercel: https://trinnityviseron.com" -ForegroundColor Green }
+if ($Vercel) { Write-Host "  Vercel: https://www.trinnityviseronsystem.io" -ForegroundColor Green }
 Write-Host ""
