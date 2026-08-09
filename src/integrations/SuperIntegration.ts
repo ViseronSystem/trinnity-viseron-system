@@ -6,6 +6,7 @@ import { OmniRouteHub } from "./omniroute/OmniRouteHub";
 import { CallSystemBridge } from "./call-system/CallSystemBridge";
 import { OpenJarvisBridge } from "./openjarvis/OpenJarvisBridge";
 import { ASNOBridge } from "./asno/ASNOBridge";
+import { AviratoBridge } from "./avirato/AviratoBridge";
 import type { IntegrationBridge } from "./contract";
 import { initBridge, shutdownBridge } from "./contract";
 
@@ -27,6 +28,7 @@ export class SuperIntegration {
   public callSystem!: CallSystemBridge;
   public openJarvis!: OpenJarvisBridge;
   public asno!: ASNOBridge;
+  public avirato!: AviratoBridge;
 
   private agentsBefore: number = 0;
   private toolsBefore: number = 0;
@@ -63,12 +65,17 @@ export class SuperIntegration {
       asno: () => new ASNOBridge(
         this.tvs.agentManager, this.tvs.toolManager
       ),
+      avirato: () => new AviratoBridge({
+        env: (process.env.AVIRATO_ENV || "live") === "test" ? "test" : "live",
+        webcode: process.env.AVIRATO_WEBCODE,
+      }),
     };
 
     const results: Record<string, { status: string; count?: number; error?: string }> = {};
     const bridgeKeys: Record<string, keyof SuperIntegration> = {
       viseronApps: "viseronApps", tvsTools: "tvsTools", omniroute: "omnirouteBridge",
       omnirouteHub: "omnirouteHub", callSystem: "callSystem", openJarvis: "openJarvis", asno: "asno",
+      avirato: "avirato",
     };
 
     for (const [key, factory] of Object.entries(modules)) {
@@ -113,7 +120,7 @@ export class SuperIntegration {
 
   async shutdownAll(): Promise<void> {
     for (const bridge of [
-      this.omnirouteBridge, this.omnirouteHub, this.callSystem, this.openJarvis, this.asno,
+      this.omnirouteBridge, this.omnirouteHub, this.callSystem, this.openJarvis, this.asno, this.avirato,
     ]) {
       await shutdownBridge(bridge as IntegrationBridge);
     }

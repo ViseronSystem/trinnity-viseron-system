@@ -94,6 +94,19 @@ async function runCoreTests() {
     assert(detail !== undefined && detail.body.includes("#"), "SkillsRegistry: Carga de cuerpo de skill (SKILL.md)");
   }
 
+  // Test 8: AviratoBridge - Connector de negocio (IntegrationBridge)
+  const { AviratoBridge } = await import("../src/integrations/avirato/AviratoBridge");
+  const avirato = new AviratoBridge({ env: "test", webcode: "test-webcode" });
+  const initialized = await avirato.initialize();
+  assert(initialized >= 3, `AviratoBridge: initialize expone los ${initialized} planes (Core/Pro/Enterprise)`);
+  const snap = avirato.snapshot();
+  assert(snap.plans.length === 3, "AviratoBridge: 3 planes de facturación");
+  assert(snap.cardDataAccess === "never", "AviratoBridge: nunca toca datos de tarjeta (regla AutonomyOS denyFor)");
+  assert(snap.cardHandling === "external" || snap.cardHandling === "none", "AviratoBridge: pago externo o manual, nunca local");
+  const st = avirato.status();
+  assert(typeof st.readiness === "boolean", "AviratoBridge: status expone revenue readiness");
+  assert(avirato.name.includes("Avirato"), "AviratoBridge: nombre del conector");
+
   console.log(`\n==========================================`);
   console.log(`RESUMEN DE PRUEBAS: ${passed}/${total} PRUEBAS PASADAS CON ÉXITO.`);
   console.log("==========================================\n");
