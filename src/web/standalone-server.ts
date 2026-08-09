@@ -320,6 +320,16 @@ export class ViseronWebServer {
       res.sendFile(path.join(PUBLIC_DIR, "atlas.html"));
     });
 
+    // SEE VISERON OPERATE — pipeline E2E com eventos reais do OMEGA (SSE)
+    this.app.get("/operate", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "operate.html"));
+    });
+
+    // Command Center — painel operacional com dados reais do sistema
+    this.app.get("/command-center", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "command-center.html"));
+    });
+
     // JOGO VISERON — plataformas reais (Canvas 2D · iOS/APK/Windows via WebView)
     this.app.get("/game", (_req, res) => {
       res.sendFile(path.join(PUBLIC_DIR, "game", "index.html"));

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SEE VISERON OPERATE — TVS</title>
+<style>
+  :root {
+    --neon: #00f0ff;
+    --neon2: #bf5af2;
+    --neon3: #ff2d55;
+    --green: #3dffa0;
+    --amber: #ffb020;
+    --bg: #050510;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(600px 300px at 20% 0%, rgba(0,240,255,0.08), transparent 60%),
+      radial-gradient(600px 300px at 80% 10%, rgba(191,90,242,0.08), transparent 60%);
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+  .brand h1 {
+    font-size: 22px; letter-spacing: 0.16em; font-weight: 800;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .brand p { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 0.1em; margin-top: 4px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    border: 1px solid var(--border); background: var(--card); letter-spacing: 0.08em;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; animation: pulse 2s infinite; }
+  .dot.on { background: var(--green); box-shadow: 0 0 12px var(--green); }
+  .dot.warn { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 24px; }
+  .stage {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 10px; text-align: center; position: relative;
+  }
+  .stage .n { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.16em; font-weight: 700; }
+  .stage .t { font-size: 12px; font-weight: 700; margin-top: 4px; color: var(--neon); }
+  .stage .s { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; min-height: 24px; }
+  .stage.active { border-color: var(--green); box-shadow: 0 0 18px rgba(61,255,160,0.25); }
+  .stage.active .t { color: var(--green); }
+  .stage.fail { border-color: var(--neon3); box-shadow: 0 0 18px rgba(255,45,85,0.3); }
+  .stage.fail .t { color: var(--neon3); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; transition: border-color .2s;
+  }
+  .card:hover { border-color: rgba(0,240,255,0.35); }
+  .card .label { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.14em; text-transform: uppercase; }
+  .card .value { font-size: 30px; font-weight: 800; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .card .sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
+  .accent-1 .value { color: var(--neon); } .accent-2 .value { color: var(--neon2); }
+  .accent-3 .value { color: var(--neon3); } .accent-4 .value { color: var(--green); }
+
+  .cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } .pipeline { grid-template-columns: repeat(3, 1fr); } }
+
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+  .panel h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
+  .logs {
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.7;
+    color: rgba(255,255,255,0.55); max-height: 420px; overflow-y: auto; padding-right: 6px;
+  }
+  .logs .live { color: var(--green); }
+  .logs .warn { color: var(--amber); }
+  .logs .err { color: var(--neon3); }
+  .logs .accent { color: var(--neon2); }
+
+  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04); color: #fff; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .15s; font-family: inherit;
+  }
+  .btn:hover { border-color: var(--neon); box-shadow: 0 0 18px rgba(0,240,255,0.25); }
+  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.18), rgba(191,90,242,0.18)); border-color: rgba(0,240,255,0.4); }
+  .autonomy { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .autonomy .row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .autonomy .row span:first-child { color: rgba(255,255,255,0.45); }
+  .verdict { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .verdict.auto { background: rgba(61,255,160,0.14); color: var(--green); }
+  .verdict.approval { background: rgba(255,176,32,0.14); color: var(--amber); }
+  .verdict.deny { background: rgba(255,45,85,0.14); color: var(--neon3); }
+  .verdict.supervised { background: rgba(0,240,255,0.14); color: var(--neon); }
+  .hint { color: rgba(255,255,255,0.35); font-size: 12px; text-align: center; margin-top: 24px; }
+  .hint a { color: var(--neon); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>SEE VISERON OPERATE</h1>
+      <p>PIPELINE E2E · eventos reais do OMEGA em tempo real · v5.0</p>
+    </div>
+    <div class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></div>
+  </header>
+
+  <div class="pipeline">
+    <div class="stage" id="st_objetivo"><div class="n">01</div><div class="t">OBJETIVO</div><div class="s">entra no sistema</div></div>
+    <div class="stage" id="st_kernel"><div class="n">02</div><div class="t">KERNEL</div><div class="s">event bus + permissões</div></div>
+    <div class="stage" id="st_agentes"><div class="n">03</div><div class="t">AGENTES</div><div class="s">5.4k mentes ativas</div></div>
+    <div class="stage" id="st_executa"><div class="n">04</div><div class="t">EXECUTAR + VERIFICAR</div><div class="s">tools → verifier</div></div>
+    <div class="stage" id="st_aprende"><div class="n">05</div><div class="t">APRENDER</div><div class="s">memória + graph</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card accent-1"><div class="label">Tasks Completas</div><div class="value" id="k_tasks">—</div><div class="sub">task queue</div></div>
+    <div class="card accent-2"><div class="label">Taxa Verificada</div><div class="value" id="k_verified">—</div><div class="sub">verified completion</div></div>
+    <div class="card accent-4"><div class="label">Eventos Emitidos</div><div class="value" id="k_events">—</div><div class="sub">event bus</div></div>
+    <div class="card accent-1"><div class="label">Agentes Ativos</div><div class="value" id="k_agents">—</div><div class="sub">nuclear runtime</div></div>
+    <div class="card accent-2"><div class="label">Graph</div><div class="value" id="k_graph">—</div><div class="sub">entities · relations</div></div>
+    <div class="card accent-3"><div class="label">Ferramentas</div><div class="value" id="k_tools">—</div><div class="sub">tool manager</div></div>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <h2>Stream ao vivo (SSE · task.* tool.* memory.* kernel.*)</h2>
+      <div class="toolbar">
+        <button class="btn primary" onclick="runTask()">▶ Executar Tarefa Real</button>
+        <button class="btn" onclick="runAutonomy()">⚙ Ciclo de Autonomia</button>
+        <button class="btn" onclick="assessAutonomy()">🔒 Avaliar Autonomia</button>
+        <button class="btn" onclick="clearLogs()">Limpar</button>
+      </div>
+      <div class="logs" id="logs">
+        <div>[viseron] à espera de eventos reais… abre a página e clica em "Executar Tarefa Real"</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel" style="margin-bottom:16px">
+        <h2>Autonomy OS (L0-L5)</h2>
+        <div class="autonomy" id="autonomyBox"><div style="color:rgba(255,255,255,0.3);font-size:12px">A carregar…</div></div>
+      </div>
+      <div class="panel">
+        <h2>Pipeline</h2>
+        <div class="autonomy" id="pipelineLog"><div style="color:rgba(255,255,255,0.3);font-size:12px">A aguardar atividade…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">
+    API: <a href="/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*,autonomy.*" target="_blank">SSE /api/omega/events</a> ·
+    <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
+    <a href="/api/omega/autonomy/os" target="_blank">/api/omega/autonomy/os</a>
+  </div>
+</div>
+
+<script>
+  const logEl = document.getElementById("logs");
+  function log(msg, cls) {
+    const div = document.createElement("div");
+    div.textContent = "[" + new Date().toLocaleTimeString() + "] " + msg;
+    if (cls) div.className = cls;
+    logEl.insertBefore(div, logEl.firstChild);
+    while (logEl.children.length > 60) logEl.removeChild(logEl.lastChild);
+  }
+  function clearLogs() {
+    logEl.innerHTML = "";
+    log("logs limpos");
+  }
+  async function j(url, opts) {
+    const r = await fetch(url, opts);
+    if (!r.ok) throw new Error(url + " → " + r.status);
+    return r.json();
+  }
+  function setStatus(on) {
+    document.getElementById("sysdot").className = "dot " + (on ? "on" : "warn");
+    document.getElementById("sysstatus").textContent = on ? "SYSTEM ONLINE" : "DEGRADED";
+  }
+  function stage(id, state) {
+    const el = document.getElementById(id);
+    el.className = "stage";
+    if (state) el.classList.add(state);
+  }
+  function pushPipeline(msg, cls) {
+    const box = document.getElementById("pipelineLog");
+    if (box.children.length === 1 && box.children[0].textContent.indexOf("A aguardar") !== -1) box.innerHTML = "";
+    const div = document.createElement("div");
+    div.className = "row";
+    div.innerHTML = "<span>" + msg + "</span><span class='" + (cls || "verdict auto") + "'>●</span>";
+    box.insertBefore(div, box.firstChild);
+    while (box.children.length > 12) box.removeChild(box.lastChild);
+  }
+
+  async function refresh() {
+    try {
+      const health = await j("/api/health");
+      setStatus(health && (health.status === "OK" || health.status === "online"));
+      const omega = await j("/api/omega/status");
+      const k = omega.kernel, g = omega.graph, r = omega.runtime;
+      document.getElementById("k_tasks").textContent = k.tasks.completed;
+      document.getElementById("k_verified").textContent = Math.round((k.tasks.verified / (k.tasks.total || 1)) * 100) + "%";
+      document.getElementById("k_events").textContent = k.events.totalEmitted;
+      document.getElementById("k_agents").textContent = r.active + " / " + r.loaded;
+      document.getElementById("k_graph").textContent = g.entities;
+      document.getElementById("k_graph").nextElementSibling.textContent = g.entities + " entities · " + g.relations + " relations";
+      document.getElementById("k_tools").textContent = k.tools.enabled + " / " + k.tools.total;
+    } catch (e) {
+      setStatus(false);
+      log("refresh failed: " + e.message, "err");
+    }
+  }
+
+  async function loadAutonomy() {
+    try {
+      const s = await j("/api/omega/autonomy/os");
+      const box = document.getElementById("autonomyBox");
+      box.innerHTML = "";
+      const levels = s.levels || [];
+      levels.forEach(lv => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = "<span>L" + lv.level + " · " + lv.label + "</span><span>" + lv.name + "</span>";
+        box.appendChild(row);
+      });
+      (s.policies || []).slice(0, 4).forEach(p => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = "<span>" + p.domain + " (L" + p.level + ")</span><span>" + (p.autoBelow !== undefined ? "auto<" + p.autoBelow : "aprov.") + "</span>";
+        box.appendChild(row);
+      });
+      const st = document.createElement("div");
+      st.className = "row";
+      st.innerHTML = "<span>decisões auditadas</span><span>" + (s.decisions || 0) + "</span>";
+      box.appendChild(st);
+    } catch (e) { log("autonomy os load failed: " + e.message, "err"); }
+  }
+
+  async function runTask() {
+    try {
+      stage("st_objetivo", "active");
+      log("objetivo: enfileirar tarefa real no kernel…", "accent");
+      const res = await j("/api/omega/tasks", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "omega:live", title: "Tarefa ao vivo do SEE VISERON OPERATE", payload: { origin: "operate" }, priority: "high" })
+      });
+      log("task criada: " + res.id + " [" + res.priority + "] — estado " + res.state, "live");
+      stage("st_kernel", "active");
+      pushPipeline("task " + res.id + " → kernel", "auto");
+      setTimeout(() => { stage("st_kernel", ""); }, 2500);
+    } catch (e) { log("runTask failed: " + e.message, "err"); }
+  }
+
+  async function runAutonomy() {
+    try {
+      log("ciclo de autonomia (planning) a arrancar…", "accent");
+      const res = await j("/api/omega/autonomy/cycle", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: "planning" })
+      });
+      log("autonomy planning → engine: " + (res.engine || "-") + " · " + new Date().toLocaleTimeString(), "live");
+      pushPipeline("ciclo planning → " + (res.engine || "-"), "auto");
+    } catch (e) { log("autonomy failed: " + e.message, "err"); }
+  }
+
+  async function assessAutonomy() {
+    try {
+      stage("st_kernel", "active");
+      const cases = [
+        { domain: "finance", op: "charge", value: 25, actor: "viserogem" },
+        { domain: "finance", op: "charge", value: 1500, actor: "viserogem" },
+        { domain: "finance", op: "card_data_access", actor: "viserogem" },
+        { domain: "research", op: "market_scan", actor: "viserogem" },
+      ];
+      for (const c of cases) {
+        const d = await j("/api/omega/autonomy/os/assess", {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(c)
+        });
+        const v = '<span class="verdict ' + d.verdict + '">' + d.verdict.toUpperCase() + "</span>";
+        log(c.domain + ":" + c.op + (c.value !== undefined ? " €" + c.value : "") + " → " + d.verdict + " (L" + d.level + ") · " + d.reason, d.verdict === "deny" ? "err" : d.verdict === "approval" ? "warn" : "live");
+        pushPipeline(d.reason, v);
+      }
+      setTimeout(() => { stage("st_kernel", ""); }, 2500);
+    } catch (e) { log("assessAutonomy failed: " + e.message, "err"); }
+  }
+
+  function onEvent(topic, data) {
+    if (topic === "task.completed") {
+      stage("st_executa", "");
+      stage("st_aprende", "active");
+      pushPipeline("task " + data.taskId + " completada → verifier " + (data.verification || ""), "auto");
+      setTimeout(() => stage("st_aprende", ""), 3000);
+    } else if (topic === "task.failed") {
+      stage("st_executa", "fail");
+      log("task " + data.taskId + " FALHOU", "err");
+      setTimeout(() => stage("st_executa", ""), 3000);
+    } else if (topic.indexOf("tool.") === 0) {
+      stage("st_executa", "active");
+      log("tool " + data.toolId + " " + (data.success ? "✓" : "✗") + " (" + (data.executionTimeMs || 0) + "ms)", data.success ? "live" : "err");
+    } else if (topic.indexOf("autonomy") === 0) {
+      pushPipeline(topic + " · " + (data.verdict || "…"), data.verdict ? "verdict " + data.verdict : "auto");
+    } else {
+      const tag = topic.split(".")[0];
+      log(topic + " · " + JSON.stringify(data).slice(0, 90), tag === "memory" ? "accent" : "live");
+    }
+  }
+
+  function connectSSE() {
+    const es = new EventSource("/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*,autonomy.*");
+    es.onopen = () => { setStatus(true); log("SSE ligado — eventos reais do OMEGA a fluir", "live"); };
+    es.addEventListener("task", e => onEvent("task", JSON.parse(e.data)));
+    es.addEventListener("task.completed", e => onEvent("task.completed", JSON.parse(e.data)));
+    es.addEventListener("task.failed", e => onEvent("task.failed", JSON.parse(e.data)));
+    es.addEventListener("tool.called", e => onEvent("tool.called", JSON.parse(e.data)));
+    es.addEventListener("tool.completed", e => onEvent("tool.completed", JSON.parse(e.data)));
+    es.addEventListener("tool.failed", e => onEvent("tool.failed", JSON.parse(e.data)));
+    es.addEventListener("memory:updated", e => onEvent("memory:updated", JSON.parse(e.data)));
+    es.addEventListener("autonomy:decided", e => onEvent("autonomy:decided", JSON.parse(e.data)));
+    es.addEventListener("message", e => {
+      try {
+        const d = JSON.parse(e.data);
+        onEvent(d.topic || "event", d.payload || d);
+      } catch {}
+    });
+    es.onerror = () => { setStatus(false); log("SSE reconnecting…", "warn"); };
+  }
+
+  refresh();
+  loadAutonomy();
+  connectSSE();
+  setInterval(refresh, 15000);
+</script>
+</body>
+</html>
