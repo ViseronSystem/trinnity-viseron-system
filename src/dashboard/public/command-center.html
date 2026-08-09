@@ -131,6 +131,38 @@
     <span class="sub" id="a_last" style="margin-left:10px"></span>
   </div>
 
+  <div class="grid">
+    <div class="card accent-1"><div class="label">Revenue Readiness</div><div class="value" id="c_rev">—</div><div class="sub" id="c_rev_sub">billing · webhook · gmail</div></div>
+    <div class="card accent-4"><div class="label">Tenants</div><div class="value" id="c_tenants">—</div><div class="sub" id="c_tenants_sub">orgs multi-tenant</div></div>
+    <div class="card accent-2"><div class="label">Users</div><div class="value" id="c_users">—</div><div class="sub" id="c_users_sub">contas registadas</div></div>
+    <div class="card accent-1"><div class="label">AI Providers</div><div class="value" id="c_providers">—</div><div class="sub" id="c_providers_sub">ollama · omniroute · cloud</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Autonomy OS (L0-L5) · Permission Engine</h2>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <div><span style="color:var(--neon)">Domínios</span><br><span class="stat" id="ao_domains">—</span></div>
+      <div><span style="color:var(--neon)">Decisões</span><br><span class="stat" id="ao_decisions">—</span></div>
+      <div><span style="color:var(--neon)">Auto</span><br><span class="stat" id="ao_auto">—</span></div>
+      <div><span style="color:var(--neon)">Aprovação</span><br><span class="stat" id="ao_approval">—</span></div>
+      <div><span style="color:var(--neon)">Negadas</span><br><span class="stat" id="ao_deny">—</span></div>
+    </div>
+    <table>
+      <thead><tr><th>Nível</th><th>Nome</th><th>Comportamento</th><th>Descrição</th></tr></thead>
+      <tbody id="aoRows"><tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3)">A carregar…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Architecture Intelligence (Graphify)</h2>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <div><span style="color:var(--neon)">Nós</span><br><span class="stat" id="ar_nodes">—</span></div>
+      <div><span style="color:var(--neon)">Arestas</span><br><span class="stat" id="ar_edges">—</span></div>
+      <div><span style="color:var(--neon)">Comunidades</span><br><span class="stat" id="ar_communities">—</span></div>
+      <div><span style="color:var(--neon)">Risco alto</span><br><span class="stat" id="ar_risk">—</span></div>
+    </div>
+  </div>
+
   <div class="panel">
     <h2>Live Activity</h2>
     <div class="logs" id="logs">
@@ -193,6 +225,46 @@
       document.getElementById("a_learning").textContent = au.learning ? ("cycle " + au.learning.cycleCount + " · intel " + au.learning.intelligenceLevel) : "—";
       const lr = au.lastRuns || {};
       document.getElementById("a_last").textContent = lr.planning ? ("last planning: " + new Date(lr.planning).toLocaleTimeString()) : "";
+
+      // Revenue readiness + tenants/users + providers (dados reais)
+      try {
+        const rev = await j("/api/revenue/readiness");
+        const checks = rev?.checks || {};
+        const done = Object.values(checks).filter(Boolean).length;
+        const total = Object.keys(checks).length || 0;
+        document.getElementById("c_rev").textContent = rev?.ok ? done + "/" + total : "n/a";
+        document.getElementById("c_rev_sub").textContent = rev?.ok ? "ready to bill" : "revenue pending";
+        document.getElementById("c_tenants").textContent = health.tenants ?? "—";
+        document.getElementById("c_users").textContent = health.users ?? "—";
+        document.getElementById("c_providers").textContent = (omega.router?.providers || []).length;
+        document.getElementById("c_providers_sub").textContent = (omega.router?.providers || []).join(" · ");
+      } catch { document.getElementById("c_rev").textContent = "n/a"; }
+
+      // Autonomy OS L0-L5 (dados reais do permission engine)
+      try {
+        const ao = await j("/api/omega/autonomy/os");
+        document.getElementById("ao_domains").textContent = ao.domains ?? 0;
+        document.getElementById("ao_decisions").textContent = ao.decisions ?? 0;
+        document.getElementById("ao_auto").textContent = ao.autonomous ?? 0;
+        document.getElementById("ao_approval").textContent = ao.approvals ?? 0;
+        document.getElementById("ao_deny").textContent = ao.denies ?? 0;
+        const aoTbody = document.getElementById("aoRows");
+        aoTbody.innerHTML = "";
+        (ao.levels || []).forEach(lv => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td style='font-family:monospace;color:var(--neon)'>L" + lv.level + "</td><td>" + lv.label + "</td><td><span class='badge norm'>" + lv.name + "</span></td><td style='color:rgba(255,255,255,0.5)'>" + lv.description + "</td>";
+          aoTbody.appendChild(tr);
+        });
+      } catch { /* autonomy os indisponível no modo standalone */ }
+
+      // Architecture Intelligence (Graphify real)
+      try {
+        const ar = await j("/api/omega/architecture");
+        document.getElementById("ar_nodes").textContent = ar.summary?.stats?.nodes ?? "—";
+        document.getElementById("ar_edges").textContent = ar.summary?.stats?.edges ?? "—";
+        document.getElementById("ar_communities").textContent = ar.summary?.stats?.communities ?? "—";
+        document.getElementById("ar_risk").textContent = ar.summary?.risk?.highCount ?? "—";
+      } catch { /* architecture indisponível sem grafo */ }
 
       const agents = omega.runtime.specs || [];
       const tbody = document.getElementById("agentRows");
