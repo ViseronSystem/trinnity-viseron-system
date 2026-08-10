@@ -220,7 +220,7 @@ Trinnity Hurtado (Reina) & Pedro Costa (Capitán)
     launchTimestamp: timestamp,
     platform: os.platform(),
     nodeVersion: process.version,
-    agents: { total: 5360, battalion: 114, historical: 5000, archetypes: 246, core: 10 },
+    agents: { total: 13, battalion: 0, historical: 0, archetypes: 246, core: 10, runtime: 3, minds: 5014 },
     sovereigns: [
       { name: "Trinnity Hurtado", title: "Reina", line: "Corona" },
       { name: "Pedro Costa", title: "Capitán", line: "Hierro" },

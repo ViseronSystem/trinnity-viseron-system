@@ -7,6 +7,7 @@ import { MessageStore } from "../messaging/store";
 import { BlogStorage } from "../blog-storage";
 import { PLANS } from "../billing/plans";
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
+import { ViseronModelRouter } from "../../core/model-router/ViseronModelRouter";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { AgencyDeps } from "../agency/routes";
 import { RcsEngine } from "../../core/rcs/RcsEngine";
@@ -108,6 +109,7 @@ export class JarvisAgent {
   private logger: ILogger;
   private metrics: IMetrics;
   private providerFactory: ProviderFactory;
+  private modelRouter: ViseronModelRouter;
   private sessionsFile: string;
   private accounts: AccountStore;
   private billing: BillingProvider;
@@ -145,6 +147,7 @@ export class JarvisAgent {
     this.rcs = ctx.rcs;
     this.persona = ctx.persona;
     this.providerFactory = new ProviderFactory();
+    this.modelRouter = new ViseronModelRouter(this.providerFactory);
     this.sessionsFile = path.join(this.dataDir, "jarvis-sessions.json");
     this.memoryFile = path.join(this.dataDir, "knowledge", "jarvis-memory.jsonl");
   }
@@ -279,41 +282,17 @@ export class JarvisAgent {
     return { sessionId, reply, provider: ai.text ? ai.provider : "rule", model: ai.text ? ai.model : "tvs-fallback", actions, intent };
   }
 
-  // Tenta IA real em cadeia: cloud → Ollama local → OmniRoute.
-  // Só aceita texto não-simulado; se nenhum provider estiver disponível, devolve fallback nulo.
+  // IA real via VISERON MODEL ROUTER (abstração única):
+  //   provider indisponível → próximo disponível → fallback local (Ollama) → falha honesta.
+  // Nunca texto simulado com sucesso; se nenhum provider real estiver disponível → fallback nulo.
   private async generateRealAI(prompt: string, systemPrompt: string): Promise<{ text: string | null; provider: string; model: string }> {
-    const candidates: { id: string; key: string; model: string }[] = [
-      { id: "openai", key: "OPENAI_API_KEY", model: "gpt-4o-mini" },
-      { id: "claude", key: "ANTHROPIC_API_KEY", model: "claude-3-5-haiku-latest" },
-      { id: "gemini", key: "GEMINI_API_KEY", model: "gemini-1.5-flash" },
-      { id: "grok", key: "XAI_API_KEY", model: "grok-3" },
-      { id: "omniroute", key: "", model: "auto/best-reasoning" },
-      { id: "ollama", key: "", model: "qwen2.5:3b" },
-    ];
-
-    for (const cand of candidates) {
-      const provider = this.providerFactory.getProvider(cand.id as any);
-      if (!provider) continue;
-      if (cand.key && !process.env[cand.key]) continue;
-
-      try {
-        if (cand.id === "ollama" || cand.id === "omniroute") {
-          const avail = await provider.isAvailable();
-          if (!avail) continue;
-        }
-        const result = await provider.generateResponse({
-          prompt,
-          systemPrompt,
-          temperature: 0.7,
-          maxTokens: 600,
-          modelName: cand.model,
-        });
-        if (result?.text && !this.isMockOrError(result.text) && this.hasSubstance(result.text)) {
-          return { text: result.text, provider: result.provider, model: result.modelName || cand.model };
-        }
-      } catch {
-        // continua para o próximo provider
-      }
+    const result = await this.modelRouter.resolve(prompt, {
+      systemPrompt,
+      temperature: 0.7,
+      maxTokens: 600,
+    });
+    if (result.ok && result.text && this.hasSubstance(result.text)) {
+      return { text: result.text, provider: result.provider, model: result.model };
     }
     return { text: null, provider: "rule", model: "tvs-fallback" };
   }
@@ -346,17 +325,6 @@ export class JarvisAgent {
       `CRITICAL: Reply ONLY in ${lang}. Do not switch to another language.`,
       "Respond helpfully and concisely (max ~4 sentences).",
     ].join("\n");
-  }
-
-  private isMockOrError(text: string): boolean {
-    return (
-      text.startsWith("[Ollama Mock Response]") ||
-      text.startsWith("[Gemini Error Fallback]") ||
-      text.startsWith("[Gemini Google Connector Ready]") ||
-      text.startsWith("[Grok xAI Connector Ready]") ||
-      text.startsWith("[Grok Error Fallback]") ||
-      text.toLowerCase().includes("all ai providers failed")
-    );
   }
 
   /** Rejeita respostas sem conteúdo real (ex. free tier devolve "?" ou vazio). */

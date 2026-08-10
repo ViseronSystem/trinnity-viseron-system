@@ -153,8 +153,8 @@ export class AutonomyLayer {
     if (status.agents.total === 0) {
       queued.push(await this.kernel.runTask("autonomy", "Registar agentes nucleares", { description: "Nenhum agente ativo no runtime" }, "high", ACTOR));
     } else {
-      // Mantém o kernel a executar com os 5410 agentes ativos: uma tarefa real
-      // de manutenção/supervisão por ciclo, prioridade low (não satura).
+    // Mantém o kernel a executar com os agentes ativos reais: uma tarefa real
+    // de manutenção/supervisão por ciclo, prioridade low (não satura).
       queued.push(await this.kernel.runTask(
         "autonomy",
         `Supervisão do ecossistema: ${status.agents.total} mentes ativas, ${status.tasks.total} tarefas processadas`,

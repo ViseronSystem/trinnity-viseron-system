@@ -746,16 +746,30 @@ O objetivo é que **código que não passa pelas verificações não seja promov
 
 # 📊 Current Validation
 
-A validação mais recente informada para a versão atual inclui:
+Validação real da versão atual (System of Truth — `npm run status:system`, sem claims):
 
 ```text
-OMEGA       192 / 192  PASS
+OMEGA       229 / 229  PASS
 CORE         20 / 20   PASS
 WEB         109 / 109  PASS
+TVS OS       25 / 25   PASS
+RESTART      14 / 14   PASS
+Total       397 / 397  PASS
 TypeScript              CLEAN
 ```
 
-O estado operacional deve ser continuamente atualizado conforme novas alterações forem incorporadas.
+Contagens reais do sistema:
+
+```text
+Agentes runtime (registry)  3
+Specs OMEGA (runtime)      10
+Squads                     6
+Archetypes               246
+Mentes (knowledge)      5.014
+Skills (10 coleções)    1.997
+```
+
+> Verdade prática: as 5.014 "mentes" são arquetipos de conhecimento (data/minds), não processos independentes executáveis. Agentes executáveis = 3 runtime + 10 specs OMEGA.
 
 ---
 

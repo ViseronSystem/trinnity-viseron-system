@@ -6,6 +6,7 @@ import * as http from "http";
 import * as path from "path";
 import * as fs from "fs";
 import type { IntegrationBridge } from "../contract";
+import { reality } from "../../core/policy/RealityPolicy";
 
 interface WorkflowStep {
   id: string;
@@ -99,6 +100,9 @@ export class N8NBridge implements IntegrationBridge {
     this.memoryEngine = memoryEngine;
     this.port = port;
     this.workflowEngine = new LocalWorkflowEngine(toolManager, agentManager, memoryEngine);
+
+    reality.set("n8n.engine", "MOCK", "o n8n real não está ativo; o LocalWorkflowEngine simula passos (webhook/ai/notification/transform) e executa apenas tool/code/delay de verdade");
+    reality.set("n8n.workflow", "EXPERIMENTAL", "motor local de workflows: steps tool/code/delay reais, restantes marcados como MOCK");
 
     this.registerTools();
   }
@@ -260,14 +264,22 @@ class LocalWorkflowEngine {
   }
 
   private async executeStep(step: WorkflowStep, ctx: Record<string, any>): Promise<any> {
+    const mock = (reason: string, data: Record<string, any> = {}) => ({
+      mode: "MOCK",
+      stepType: step.type,
+      reason,
+      at: Date.now(),
+      ...data,
+    });
+
     switch (step.type) {
       case "webhook":
-        return { received: true, payload: ctx.input, path: step.config.path };
+        return mock("webhook simulado — sem n8n real a ouvir o caminho", { path: step.config.path, payload: ctx.input });
 
       case "ai": {
         const agents = this.agentManager.list();
         const prompt = step.config.prompt || "Process data";
-        return { prompt, agentsAvailable: agents.length, aiResult: `[AI] Processed: ${prompt}` };
+        return mock("passo AI simulado — não houve inferência real", { prompt, agentsAvailable: agents.length });
       }
 
       case "tool": {
@@ -276,14 +288,14 @@ class LocalWorkflowEngine {
         if (tool) {
           return await this.toolManager.executeTool(toolId, ctx.input);
         }
-        return { error: `Tool ${toolId} not found`, mock: true };
+        return { success: false, error: `Tool ${toolId} não existe`, mode: "NOT_IMPLEMENTED" };
       }
 
       case "code": {
         const code = step.config.code || "return input;";
         try {
           const fn = new Function("input", "context", code);
-          return fn(ctx.input, ctx);
+          return { mode: "REAL", result: fn(ctx.input, ctx) };
         } catch (err: any) {
           return { error: err.message, code };
         }
@@ -294,21 +306,21 @@ class LocalWorkflowEngine {
         const thenBranch = step.config.then || "continue";
         const elseBranch = step.config.else || "skip";
         const met = condition.includes("80") ? (ctx.results[Object.keys(ctx.results)[0]]?.wisdom || 0) < 80 : true;
-        return { condition, met, branch: met ? thenBranch : elseBranch };
+        return { mode: "REAL", condition, met, branch: met ? thenBranch : elseBranch };
       }
 
       case "transform":
-        return { transformed: true, data: ctx.input, transform: step.config };
+        return mock("transform simulado — sem transformação real", { data: ctx.input, transform: step.config });
 
       case "delay":
         await new Promise(r => setTimeout(r, Math.min(step.config.duration || 1000, 5000)));
-        return { delayed: true, duration: step.config.duration || 1000 };
+        return { mode: "REAL", delayed: true, duration: step.config.duration || 1000 };
 
       case "notification":
-        return { notified: true, channel: step.config.channel || "dashboard", message: step.config.message || "Workflow step complete" };
+        return mock("notificação simulada — canal não conectado", { channel: step.config.channel || "dashboard", message: step.config.message || "Workflow step complete" });
 
       default:
-        return { type: step.type, status: "unknown" };
+        return { type: step.type, status: "unknown", mode: "NOT_IMPLEMENTED" };
     }
   }
 }

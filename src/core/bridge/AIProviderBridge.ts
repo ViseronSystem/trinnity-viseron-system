@@ -51,6 +51,9 @@ export interface AIBridgeResponse {
   latencyMs: number;
   cost: number;
   tokens?: { prompt: number; completion: number; total: number };
+  /** Reality metadata — todo mock/falha é explícito; success:true só com execução real. */
+  mode?: "REAL" | "PARTIAL" | "MOCK" | "EXPERIMENTAL" | "NOT_IMPLEMENTED";
+  reason?: string;
 }
 
 export interface AIModelCompareResult {
@@ -239,8 +242,19 @@ export class AIProviderBridge {
     const config = this.providerConfigs.get(providerId);
 
     if (!provider) {
-      const fallback = await this.fallback(request, [providerId]);
-      return fallback;
+      return await this.fallback(request, [providerId]);
+    }
+
+    // Filtro de realidade: só chama o provider se estiver realmente disponível.
+    // Sem credenciais/endpoint → NUNCA texto fake com success:true.
+    let available = false;
+    try {
+      available = await provider.isAvailable();
+    } catch {
+      available = false;
+    }
+    if (!available) {
+      return await this.fallback(request, [providerId]);
     }
 
     try {
@@ -263,6 +277,7 @@ export class AIProviderBridge {
         model: response.modelName,
         latencyMs: latency,
         cost,
+        mode: "REAL",
         tokens: response.usage ? { prompt: response.usage.promptTokens, completion: response.usage.completionTokens, total: response.usage.totalTokens } : undefined,
       };
 
@@ -281,7 +296,7 @@ export class AIProviderBridge {
 
   private async fallback(request: AIBridgeRequest, exclude: AIProviderId[]): Promise<AIBridgeResponse> {
     const startTime = Date.now();
-    const fallbackOrder: AIProviderId[] = ["openai", "claude", "gemini", "grok", "mistral", "ollama"];
+    const fallbackOrder: AIProviderId[] = ["ollama", "openai", "claude", "gemini", "grok", "mistral"];
 
     for (const altId of fallbackOrder) {
       if (exclude.includes(altId)) continue;
@@ -289,6 +304,10 @@ export class AIProviderBridge {
       if (!provider) continue;
 
       try {
+        // Fallback só para providers realmente disponíveis (evidência real).
+        const available = await provider.isAvailable();
+        if (!available) continue;
+
         const response = await provider.generateResponse({
           prompt: request.prompt,
           systemPrompt: request.systemPrompt,
@@ -299,12 +318,25 @@ export class AIProviderBridge {
         return {
           success: true, text: response.text, provider: altId,
           model: response.modelName, latencyMs: Date.now() - startTime,
-          cost: 0, tokens: response.usage ? { prompt: response.usage.promptTokens, completion: response.usage.completionTokens, total: response.usage.totalTokens } : undefined,
+          cost: 0, mode: "REAL",
+          tokens: response.usage ? { prompt: response.usage.promptTokens, completion: response.usage.completionTokens, total: response.usage.totalTokens } : undefined,
         };
-      } catch { continue; }
+      } catch {
+        continue; // erro real do provider → próximo disponível
+      }
     }
 
-    return { success: false, text: "All AI providers failed", provider: "ollama", model: "none", latencyMs: Date.now() - startTime, cost: 0 };
+    // NENHUM provider disponível: falha honesta, nunca sucesso fake.
+    return {
+      success: false,
+      text: "All AI providers failed",
+      provider: "ollama" as AIProviderId,
+      model: "none",
+      latencyMs: Date.now() - startTime,
+      cost: 0,
+      mode: "NOT_IMPLEMENTED",
+      reason: "no provider available with real credentials or reachable endpoint",
+    };
   }
 
   async compareModels(request: AIBridgeRequest, modelIds: string[]): Promise<AIModelCompareResult[]> {
@@ -329,7 +361,7 @@ export class AIProviderBridge {
     }
 
     if (successful.length === 0) {
-      return { success: false, text: "Ensemble: all providers failed", provider: "ollama" as AIProviderId, model: "none", latencyMs: 0, cost: 0 };
+      return { success: false, text: "Ensemble: all providers failed", provider: "ollama" as AIProviderId, model: "none", latencyMs: 0, cost: 0, mode: "NOT_IMPLEMENTED", reason: "no provider available with real credentials" };
     }
 
     const best = successful.reduce((a, b) => a.latencyMs < b.latencyMs ? a : b);

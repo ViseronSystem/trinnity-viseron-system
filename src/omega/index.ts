@@ -266,6 +266,26 @@ export class OmegaPlatform {
 
     this.autonomyOS = new AutonomyOS(options.autonomyPolicies);
 
+    // GATE DE AUTONOMIA OBRIGATÓRIO: toda tool/task/agente passa pelo gate real.
+    // Nenhuma ferramenta ignora o nível de autonomia configurado nas políticas.
+    this.kernel.setAutonomyGate({
+      assess: async (req) => {
+        const decision = this.autonomyOS.assess({
+          domain: req.domain as any,
+          op: req.op,
+          value: req.value,
+          actor: req.actor,
+          permission: req.permission,
+        });
+        return {
+          verdict: decision.verdict,
+          level: decision.level,
+          reason: decision.reason,
+          at: decision.at,
+        };
+      },
+    });
+
     this.vaec = new VaecOrchestrator({ rootDir: process.cwd(), events: this.kernel.events });
 
     // Auditoria de autonomia: cada decisão flui para o EventBus (backbone reativo)
@@ -325,8 +345,8 @@ export class OmegaPlatform {
 
   /**
    * Liga o motor de autonomia ao kernel: a cada 2 minutos roda um ciclo de
-   * planeamento OMEGA que ENFILEIRA trabalho no kernel (supervisão) e executa
-   * as tarefas pendentes do planner — as 5000+ mentes nunca ficam a 0 tarefas.
+   * planeamento OMEGA que ENFILEIRA trabalho real no kernel (supervisão) e
+   * executa as tarefas pendentes do planner.
    */
   public startAutonomyCycles(intervalMs: number = 2 * 60 * 1000): void {
     if (this.autonomyTimer) return;
@@ -341,7 +361,7 @@ export class OmegaPlatform {
     void run();
     this.autonomyTimer = setInterval(run, intervalMs);
     this.autonomyTimer.unref?.();
-    console.log(`[TVS OMEGA] Autonomy cycles ligados: kernel recebe trabalho a cada ${Math.round(intervalMs / 60000)}min (5.4k mentes nunca ficam paradas)`);
+    console.log(`[TVS OMEGA] Autonomy cycles ligados: kernel recebe trabalho a cada ${Math.round(intervalMs / 60000)}min (agentes reais do runtime: ${this.agents.status().active} ativos)`);
   }
 
   public stopAutonomyCycles(): void {

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { reality } from "../policy/RealityPolicy";
 
 // RcsEngine — canal RCS do TVS.
 // Envia mensagens de marca (RCS com fallback automático para SMS/MMS) via Twilio
@@ -79,6 +80,14 @@ export class RcsEngine {
     this.brandName = process.env.RCS_BRAND_NAME || "VISERON";
     this.publicUrl = (process.env.TVS_PUBLIC_URL || process.env.RENDER_WEB_URL || "https://viseron-web.onrender.com").replace(/\/+$/, "");
     this.ensureStore();
+    reality.set(
+      "rcs.channel",
+      this.mode === "live" ? "REAL" : "MOCK",
+      this.mode === "live"
+        ? "Twilio + MessagingServiceSid configurados — RCS/SMS/MMS reais"
+        : "sem Twilio_RCS_SERVICE_SID — broadcasts simulados (channel MOCK, status simulated)",
+      { mode: this.mode }
+    );
   }
 
   private ensureStore(): void {

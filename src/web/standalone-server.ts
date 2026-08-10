@@ -75,6 +75,7 @@ export class ViseronWebServer {
   private osRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
   private omegaEventsUnsub?: () => void;
+  private omegaInstance: any = null;
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
@@ -123,6 +124,7 @@ export class ViseronWebServer {
 
   public mountOmega(omega: any): void {
     try {
+      this.omegaInstance = omega;
       if (omega?.os) {
         this.osRouter.stack = createOsGateway(omega.os).stack;
         console.log(`[Web] OMEGA ligado à web API: /api/os usa o OS completo (kernel + runtime + watchdog)`);
@@ -144,6 +146,49 @@ export class ViseronWebServer {
 
   public getOmegaRouter(): express.Router | undefined {
     return this.osRouter;
+  }
+
+  /** Estado de autonomia REAL do OMEGA (kernel + autonomy OS + VAEC) — nunca claims hardcoded. */
+  private omegaAutonomyStatus(lastFull: any): Record<string, any> {
+    const base: Record<string, any> = {
+      omegaLoaded: false,
+      verifiedTaskCompletion: lastFull?.tests?.omega ? `${lastFull.tests.omega.passed}/${lastFull.tests.omega.total}` : "ver em npm run status:system",
+    };
+    try {
+      const omega = this.omegaInstance;
+      if (!omega || typeof omega.status !== "function") return base;
+      const s = omega.status();
+      const kernel = s?.kernel ?? {};
+      base.omegaLoaded = true;
+      base.kernel = {
+        tasks: kernel.tasks ?? 0,
+        verified: kernel.verified ?? 0,
+        completed: kernel.completed ?? 0,
+        failed: kernel.failed ?? 0,
+        tools: kernel.tools ?? 0,
+        agents: kernel.agents ?? 0,
+      };
+      base.autonomy = {
+        enabled: s?.autonomy?.enabled ?? false,
+        planning: s?.autonomy?.planning ?? null,
+        evolution: s?.autonomy?.evolution ?? null,
+        learning: s?.autonomy?.learning ?? null,
+        lastRuns: s?.autonomy?.lastRuns ?? null,
+      };
+      base.vaec = {
+        stage: s?.vaec?.stage ?? "IDLE",
+        lastOutcome: s?.vaec?.lastOutcome ?? null,
+        runs: s?.vaec?.historySize ?? 0,
+      };
+      base.runtime = {
+        specs: s?.runtime?.specs?.length ?? 0,
+        active: s?.runtime?.active ?? 0,
+      };
+      base.gate = omega.kernel?.events ? (omega.kernel.getGate ? "attached" : "permissive") : "n/a";
+    } catch (e: any) {
+      base.error = String(e?.message || e);
+    }
+    return base;
   }
 
   private setupMiddleware(): void {
@@ -239,10 +284,7 @@ export class ViseronWebServer {
           ollamaLocal: true,
           cloudProviders: ["openai", "anthropic", "gemini", "grok"].filter(has),
         },
-        autonomy: {
-          omegaL0toL5: true,
-          verifiedTaskCompletion: lastFull?.tests?.omega ? `${lastFull.tests.omega.passed}/${lastFull.tests.omega.total}` : "ver em npm run status:system",
-        },
+        autonomy: this.omegaAutonomyStatus(lastFull),
         lastFullCheck: lastFull
           ? {
               at: lastFull.verifiedAt,

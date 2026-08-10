@@ -944,7 +944,93 @@ async function runOmegaTests() {
     assert("vaec" in p2.status() && p2.status().vaec.historySize >= 0, "OmegaPlatform: status().vaec inclui histórico");
   }
 
+  async function section22_RealityHardening() {
+    console.log("\n--- SECÇÃO 22: Reality Hardening (REAL > MOCK > CLAIM) ---");
+
+    // 22.1 RealityPolicy: prioridade pessimista (REAL nunca sobrescreve MOCK)
+    const { RealityRegistry, ProviderUnavailableError, ProviderExecutionError, realityMeta } = await import("../src/core/policy/RealityPolicy");
+    const rr = new RealityRegistry();
+    rr.set("comp.a", "MOCK", "sem credenciais");
+    rr.set("comp.a", "REAL", "claim otimista");
+    assert(rr.get("comp.a")?.mode === "MOCK", "RealityPolicy: MOCK nunca é sobrescrito por REAL (nunca promovido a claim)");
+    rr.set("comp.b", "REAL", "verdade");
+    rr.set("comp.b", "NOT_IMPLEMENTED", "degradou");
+    assert(rr.get("comp.b")?.mode === "NOT_IMPLEMENTED", "RealityPolicy: estado mais grave vence (NOT_IMPLEMENTED > REAL)");
+    assert(rr.isReal("comp.b") === false, "RealityPolicy: isReal falso quando degradado");
+    const sum = rr.summary();
+    assert(sum.mock.includes("comp.a") && sum.notImplemented.includes("comp.b"), "RealityPolicy: summary agrupa por modo");
+
+    // 22.2 Erros honestos de provider (nunca success falso)
+    const ua = new ProviderUnavailableError("anthropic", "credentials_unavailable");
+    assert(ua.code === "PROVIDER_UNAVAILABLE" && ua.meta.mode === "NOT_IMPLEMENTED", "RealityPolicy: ProviderUnavailableError com meta NOT_IMPLEMENTED");
+    const pe = new ProviderExecutionError("openai", "rate limited");
+    assert(pe.code === "PROVIDER_EXECUTION_ERROR" && pe.meta.mode === "PARTIAL", "RealityPolicy: ProviderExecutionError com meta PARTIAL");
+    const meta = realityMeta("MOCK", "motivo real", { provider: "ollama" });
+    assert(meta.mode === "MOCK" && meta.provider === "ollama" && typeof meta.at === "number", "RealityPolicy: realityMeta monta metadata explícita");
+
+    // 22.3 SkillPipeline: indexação real, sem execução simulada
+    const { skillPipeline } = await import("../src/core/skills");
+    const sumSkills = await skillPipeline.summary();
+    assert(sumSkills.total === sumSkills.indexed && sumSkills.total >= 1000, `SkillPipeline: summary real com ${sumSkills.total} skills INDEXED`);
+    assert((sumSkills.status.INDEXED ?? 0) === sumSkills.total, "SkillPipeline: todas as skills contam como INDEXED (nunca executadas)");
+    const inspected = await skillPipeline.inspect("nonexistent_skill_xyz");
+    assert(inspected.status === "REJECTED", "SkillPipeline: skill inexistente → REJECTED honesto");
+    const perm = await skillPipeline.permission("nonexistent_skill_xyz", false);
+    assert(perm.status === "REJECTED" && perm.allowed === false, "SkillPipeline: permission sem skill → REJECTED, nunca allow");
+    const exec = await skillPipeline.execute("any_skill");
+    assert(exec.stage === "EXECUTION" && exec.status === "REJECTED" && exec.allowed === false, "SkillPipeline: execute devolve REJECTED (contrato futuro, sem simulação)");
+
+    // 22.4 Agent Registry: contagens reais (3 runtime, 5.014 mentes, 10 specs, 6 squads)
+    const { registry: agentRegistry } = await import("../src/agents/registry");
+    assert(agentRegistry.mode === "REAL", "AgentRegistry: mode REAL (não 200 fictício)");
+    assert(agentRegistry.total === 3, `AgentRegistry: total real de agentes runtime = 3 (obtido ${agentRegistry.total})`);
+    assert(agentRegistry.mindsLoaded === 5014, `AgentRegistry: minds real = 5014 (obtido ${agentRegistry.mindsLoaded})`);
+    assert(agentRegistry.omegaSpecs === 10, `AgentRegistry: specs OMEGA = 10 (obtido ${agentRegistry.omegaSpecs})`);
+    assert(agentRegistry.squadManifests === 6, `AgentRegistry: squads = 6 (obtido ${agentRegistry.squadManifests})`);
+    const { generated } = await import("../src/agents/generated");
+    assert(generated.mode === "NOT_IMPLEMENTED" && generated.agents.length === 0, "AgentRegistry: agentes gerados = 0 NOT_IMPLEMENTED (sem placeholders)");
+
+    // 22.5 N8N LocalWorkflowEngine: mocks explícitos, tools reais, falha honesta
+    const { ToolManager } = await import("../src/core/tools/ToolManager");
+    const { AgentManager } = await import("../src/core/AgentManager");
+    const { MemoryEngine } = await import("../src/core/memory/MemoryEngine");
+    const { reality } = await import("../src/core/policy/RealityPolicy");
+    const { N8NBridge } = await import("../src/integrations/n8n/N8NBridge");
+    const tm = new ToolManager();
+    const am = new AgentManager();
+    const mem = new MemoryEngine(path.join(require("os").tmpdir(), `tvs-mem-${Date.now()}`));
+    const bridge = new N8NBridge(tm, am, mem, 5699);
+    assert(reality.get("n8n.engine")?.mode === "MOCK", "N8N: registry reality n8n.engine = MOCK (honesto)");
+
+    const tDelay = {
+      id: "t_delay", name: "t", description: "t", triggers: [] as string[],
+      steps: [
+        { id: "s2", type: "delay" as const, config: { duration: 5 } },
+        { id: "s1", type: "code" as const, config: { code: "return { computed: input.x * 2 };" } },
+      ],
+    };
+    const resDelay = await bridge.workflowEngine.execute(tDelay, { x: 21 });
+    assert(resDelay.success === true && resDelay.result?.mode === "REAL", "N8N: passos code/delay executados de verdade (mode REAL)");
+    assert(resDelay.result?.result?.computed === 42, "N8N: passo code computou resultado real (42)");
+
+    const tWebhook = {
+      id: "t_webhook", name: "t", description: "t", triggers: [] as string[],
+      steps: [{ id: "s1", type: "webhook" as const, config: { path: "/x" } }],
+    };
+    const resWebhook = await bridge.workflowEngine.execute(tWebhook, {});
+    assert(resWebhook.success === true && resWebhook.result?.mode === "MOCK", "N8N: passo webhook marcado como MOCK (nunca parece sucesso real)");
+
+    const tToolMissing = {
+      id: "t_tool", name: "t", description: "t", triggers: [] as string[],
+      steps: [{ id: "s1", type: "tool" as const, config: { toolId: "tool_nao_existe" } }],
+    };
+    const resTool = await bridge.workflowEngine.execute(tToolMissing, {});
+    assert(resTool.result?.mode === "NOT_IMPLEMENTED", "N8N: tool inexistente → NOT_IMPLEMENTED (falha honesta)");
+    bridge.stop();
+  }
+
   await section21_VaecOrchestrator();
+  await section22_RealityHardening();
 
   console.log(`\n==========================================`);
   console.log(total === passed ? `✅ OMEGA: ${passed}/${total} testes passaram` : `❌ OMEGA: ${passed}/${total} — FALHAS DETETADAS`);

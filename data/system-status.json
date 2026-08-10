@@ -2,10 +2,10 @@
   "schema": "tvs/system-status/1",
   "system": "Trinnity Viseron System",
   "version": "5.0.0",
-  "verifiedAt": "2026-08-09T19:14:26.246Z",
+  "verifiedAt": "2026-08-10T01:10:17.370Z",
   "branch": "main",
-  "commitCount": "137",
-  "lastCommit": "8e1316f fix(deploy): Vercel aponta para trinnityviseronsystem.io + redirect do site antigo",
+  "commitCount": "139",
+  "lastCommit": "b3781c1 fix(system-of-truth): versionar data/system-status.json para o /api/status funcionar em prod (Render) com KPIs reais (374/374, 1997 skills, 6 squads)",
   "tests": {
     "core": {
       "label": "CORE",
@@ -26,8 +26,8 @@
     "omega": {
       "label": "OMEGA",
       "type": "integration",
-      "passed": 206,
-      "total": 206,
+      "passed": 229,
+      "total": 229,
       "ok": true,
       "timedOut": false
     },
@@ -48,8 +48,8 @@
       "timedOut": false
     },
     "totals": {
-      "passed": 374,
-      "total": 374
+      "passed": 397,
+      "total": 397
     }
   },
   "typeScript": {
@@ -90,7 +90,7 @@
       "Research Squad",
       "Security Squad"
     ],
-    "definitions": 200
+    "definitions": 3
   },
   "skills": {
     "total": 1997,

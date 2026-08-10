@@ -1,9 +1,11 @@
 import axios from "axios";
-import { ILLMProvider, LLMRequest, LLMResponse } from "./BaseProvider";
+import { ILLMProvider, LLMRequest, LLMResponse, ProviderCapabilities, ProviderHealth } from "./BaseProvider";
 import { ModelProvider } from "../types";
+import { ProviderExecutionError, RealityMode } from "../policy";
 
 export class OllamaProvider implements ILLMProvider {
   public providerId: ModelProvider = "ollama";
+  public readonly mode: RealityMode = "REAL";
   private host: string;
   private cachedModels: string[] | null = null;
   private cacheTime = 0;
@@ -19,6 +21,26 @@ export class OllamaProvider implements ILLMProvider {
     } catch {
       return false;
     }
+  }
+
+  public async health(): Promise<ProviderHealth> {
+    const start = Date.now();
+    try {
+      const res = await axios.get(`${this.host}/api/tags`, { timeout: 3000 });
+      const models = (res.data?.models || []).length;
+      return { ok: true, latencyMs: Date.now() - start, detail: `${models} modelos locais`, checkedAt: Date.now() };
+    } catch (e: any) {
+      return { ok: false, latencyMs: Date.now() - start, detail: e?.message || "unreachable", checkedAt: Date.now() };
+    }
+  }
+
+  public capabilities(): ProviderCapabilities {
+    return {
+      tasks: ["general", "chat", "code", "reasoning", "creative", "research", "automation"],
+      contextWindow: 32768,
+      isLocal: true,
+      hasCredentials: true,
+    };
   }
 
   private async detectModels(): Promise<string[]> {
@@ -44,12 +66,14 @@ export class OllamaProvider implements ILLMProvider {
     const start = Date.now();
     const model = this.pickModel(request.modelName);
 
-    try {
-      const available = await this.detectModels();
-      const finalModel = available.length && !available.includes(model)
-        ? (available[0] || model)
-        : model;
+    const available = await this.detectModels();
+    if (available.length === 0) {
+      throw new ProviderExecutionError("ollama", "servidor local não responde em " + this.host);
+    }
 
+    const finalModel = !available.includes(model) ? (available[0] || model) : model;
+
+    try {
       const res = await axios.post(`${this.host}/api/generate`, {
         model: finalModel,
         prompt: request.prompt,
@@ -57,23 +81,23 @@ export class OllamaProvider implements ILLMProvider {
         stream: false,
         options: {
           temperature: request.temperature || 0.7,
-          num_predict: request.maxTokens || 2048
-        }
+          num_predict: request.maxTokens || 2048,
+        },
       }, { timeout: 150000 });
 
+      const text = res.data.response || "";
+      if (!text.trim()) {
+        throw new ProviderExecutionError("ollama", "resposta vazia do modelo local");
+      }
       return {
         provider: this.providerId,
         modelName: finalModel,
-        text: res.data.response || "",
-        latencyMs: Date.now() - start
+        text,
+        latencyMs: Date.now() - start,
       };
-    } catch (err: any) {
-      return {
-        provider: this.providerId,
-        modelName: model,
-        text: `[Ollama Mock Response]: ${request.prompt}`,
-        latencyMs: Date.now() - start
-      };
+    } catch (e: any) {
+      if (e instanceof ProviderExecutionError) throw e;
+      throw new ProviderExecutionError("ollama", e?.message || String(e));
     }
   }
 }

@@ -19,8 +19,11 @@ export type VaecStage =
   | "VERIFY"
   | "LEARN"
   | "PROMOTE"
+  | "COMPLETED"
+  | "FAILED"
   | "HOLD"
-  | "ROLLBACK";
+  | "ROLLBACK"
+  | "VERIFIED";
 
 export type VaecOutcome = "PROMOTED" | "HOLD" | "ROLLED_BACK" | "FAILED";
 
@@ -94,7 +97,7 @@ const run = (cmd: string, cwd: string, timeoutMs = 600000) => {
 };
 
 export class VaecOrchestrator {
-  public readonly stage: VaecStage;
+  private _stage: VaecStage;
   public readonly history: VaecRunRecord[];
   private readonly opts: Required<Pick<VaecOptions, "rootDir" | "autoPush">> & VaecOptions;
 
@@ -104,8 +107,37 @@ export class VaecOrchestrator {
       autoPush: options.autoPush ?? false,
       ...options,
     };
-    this.stage = "IDLE";
+    this._stage = this.loadStage();
     this.history = this.loadJournal();
+  }
+
+  /** Estado ATUAL do ciclo — persiste entre instâncias (nunca fica eternamente em IDLE). */
+  public get stage(): VaecStage {
+    return this._stage;
+  }
+
+  private get stagePath(): string {
+    return path.join(this.opts.rootDir, "data", "state", "vaec-stage.json");
+  }
+
+  private loadStage(): VaecStage {
+    try {
+      const raw = fs.readFileSync(this.stagePath, "utf8");
+      const parsed = JSON.parse(raw);
+      return (parsed?.stage as VaecStage) ?? "IDLE";
+    } catch {
+      return "IDLE";
+    }
+  }
+
+  private async persistStage(stage: VaecStage): Promise<void> {
+    this._stage = stage;
+    try {
+      fs.mkdirSync(path.dirname(this.stagePath), { recursive: true });
+      fs.writeFileSync(this.stagePath, JSON.stringify({ stage, at: new Date().toISOString() }), "utf8");
+    } catch (e: any) {
+      console.warn(`[VAEC] falha a persistir stage ${stage}: ${e?.message}`);
+    }
   }
 
   private get journalPath(): string {
@@ -261,12 +293,14 @@ export class VaecOrchestrator {
     const ctx: VaecContext = { rootDir: this.opts.rootDir, description, baseRef, record };
 
     await this.emit("vaec:stage", { id, stage: "IMPLEMENT" });
+    await this.persistStage("IMPLEMENT");
     try {
       const impl = await runners.implement(ctx);
       record.headRef = impl.ref;
       ctx.headRef = impl.ref;
       record.stages.push({ stage: "IMPLEMENT", ok: true, at: new Date().toISOString(), evidence: [impl.message] });
       await this.emit("vaec:stage", { id, stage: "TEST" });
+      await this.persistStage("TEST");
 
       const gates: Array<{ stage: VaecStage; fn: (c: VaecContext) => Promise<GateResult> }> = [
         { stage: "TEST", fn: runners.test },
@@ -276,17 +310,20 @@ export class VaecOrchestrator {
       ];
       for (const g of gates) {
         await this.emit("vaec:stage", { id, stage: g.stage });
+        await this.persistStage(g.stage);
         const result = await g.fn(ctx);
         record.stages.push({ stage: g.stage, ok: result.ok, at: new Date().toISOString(), evidence: result.evidence, error: result.error });
         await this.emit("vaec:gate", { id, stage: g.stage, ok: result.ok, evidence: result.evidence, error: result.error });
         if (!result.ok) {
           record.outcome = "ROLLED_BACK";
           await this.emit("vaec:stage", { id, stage: "ROLLBACK" });
+          await this.persistStage("ROLLBACK");
           const rb = await runners.rollback(ctx);
           record.stages.push({ stage: "ROLLBACK", ok: rb.ok, at: new Date().toISOString(), evidence: rb.evidence, error: rb.error });
           record.rollbackTo = baseRef;
           await this.emit("vaec:rollback", { id, stage: g.stage, error: result.error, ok: rb.ok });
-          await this.emit("vaec:stage", { id, stage: "IDLE" });
+          await this.persistStage(rb.ok ? "VERIFIED" : "FAILED");
+          await this.emit("vaec:stage", { id, stage: rb.ok ? "VERIFIED" : "FAILED" });
           await this.appendRecord(record);
           return record;
         }
@@ -297,6 +334,7 @@ export class VaecOrchestrator {
       record.stages.push({ stage: "LEARN", ok: learn.ok, at: new Date().toISOString(), evidence: learn.evidence, error: learn.error });
 
       await this.emit("vaec:stage", { id, stage: "PROMOTE" });
+      await this.persistStage("PROMOTE");
       try {
         const promoted = await runners.promote(ctx);
         record.promoted = promoted.pushed;
@@ -307,22 +345,25 @@ export class VaecOrchestrator {
         record.stages.push({ stage: "PROMOTE", ok: false, at: new Date().toISOString(), evidence: [], error: e?.message || String(e) });
       }
       await this.emit("vaec:promoted", { id, promoted: record.promoted, outcome: record.outcome });
-      await this.emit("vaec:stage", { id, stage: "IDLE" });
+      await this.persistStage("COMPLETED");
+      await this.emit("vaec:stage", { id, stage: "COMPLETED" });
       await this.appendRecord(record);
       return record;
     } catch (e: any) {
       record.outcome = "FAILED";
       record.stages.push({ stage: "IMPLEMENT", ok: false, at: new Date().toISOString(), evidence: [], error: e?.message || String(e) });
       await this.emit("vaec:rollback", { id, stage: "IMPLEMENT", error: e?.message || String(e), ok: false });
+      await this.persistStage("FAILED");
       await this.appendRecord(record);
       return record;
     }
   }
 
-  public status(): { stage: VaecStage; historySize: number; lastOutcome?: VaecOutcome; lastAt?: string } {
+  public status(): { stage: VaecStage; historySize: number; lastOutcome?: VaecOutcome; lastAt?: string; persistedStage: VaecStage } {
     const last = this.history[this.history.length - 1];
     return {
       stage: this.stage,
+      persistedStage: this.loadStage(),
       historySize: this.history.length,
       lastOutcome: last?.outcome,
       lastAt: last?.at,

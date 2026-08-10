@@ -1,17 +1,17 @@
 {
   "schema": "tvs/audit-report/2",
-  "timestamp": "2026-08-09T19:14:35.659Z",
+  "timestamp": "2026-08-10T01:10:31.002Z",
   "version": "5.0.0",
   "totalAgents": {
-    "definitions": 200,
+    "definitions": 3,
     "core": 10,
     "squads": 6,
     "skills": 1997,
     "skillCollections": 10
   },
   "tests": {
-    "passed": 374,
-    "total": 374,
+    "passed": 397,
+    "total": 397,
     "suites": {
       "core": {
         "label": "CORE",
@@ -32,8 +32,8 @@
       "omega": {
         "label": "OMEGA",
         "type": "integration",
-        "passed": 206,
-        "total": 206,
+        "passed": 229,
+        "total": 229,
         "ok": true,
         "timedOut": false
       },
@@ -157,7 +157,7 @@
         "layer": "Agents",
         "modules": [
           "10 nucleares (specs)",
-          "200 definições (registry)",
+          "3 definições (registry)",
           "squad AIOX (auditoria contínua)"
         ]
       },
@@ -206,7 +206,7 @@
   "components": {
     "src": {
       "omega": 58,
-      "core": 61,
+      "core": 66,
       "web": 61,
       "os": 7,
       "agents": 9,

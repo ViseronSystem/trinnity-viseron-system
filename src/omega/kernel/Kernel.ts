@@ -24,6 +24,32 @@ export interface AIRouterAdapter {
   resolve(task: string, opts?: any): Promise<{ provider: string; modelName: string; isLocal: boolean; text: string }>;
 }
 
+/**
+ * AutonomyGateAdapter — gate de autonomia OBRIGATÓRIO no kernel.
+ * Antes de executar qualquer tool/task, o kernel consulta o gate:
+ *   deny → bloqueia (opção proibida pela política)
+ *   approval → bloqueia salvo autorização explícita (meta.authorized === true)
+ *   auto/supervised → executa com auditoria
+ * Sem gate anexado, o kernel mantém o comportamento permissivo de testes;
+ * com gate anexado (OmegaPlatform), NENHUMA ferramenta ignora o nível de autonomia.
+ */
+export interface AutonomyGateAdapter {
+  assess(req: { domain: string; op: string; value?: number; actor?: string; permission?: string }): Promise<{
+    verdict: "deny" | "approval" | "auto" | "supervised";
+    level: number;
+    reason: string;
+    at: number;
+  }>;
+}
+
+export interface AutonomyGateResult {
+  allowed: boolean;
+  verdict: string;
+  level: number;
+  reason: string;
+  requiredApproval: boolean;
+}
+
 export interface KernelStatus {
   name: string;
   version: string;
@@ -50,6 +76,7 @@ export class Kernel {
   private memory?: MemoryAdapter;
   private aiRouter?: AIRouterAdapter;
   private toolsAdapter?: ToolAdapter;
+  private autonomyGate?: AutonomyGateAdapter;
 
   constructor(options?: { concurrency?: number; taskQueuePath?: string; permissions?: ConstructorParameters<typeof Permissions>[0] }) {
     this.events = new EventBus();
@@ -80,6 +107,36 @@ export class Kernel {
     void this.events.publish("kernel:attached", { component: "tools" }, "kernel");
   }
 
+  /**
+   * Anexa o gate de autonomia obrigatório. Sem gate, o kernel é permissivo
+   * (usado nos testes unitários); com gate, toda tool/task passa por ele.
+   */
+  public setAutonomyGate(adapter: AutonomyGateAdapter): void {
+    this.autonomyGate = adapter;
+    void this.events.publish("kernel:attached", { component: "autonomyGate" }, "kernel");
+  }
+
+  /** Consulta o gate (se anexado). Permissivo quando não há gate. */
+  public async assessAutonomy(req: { domain: string; op: string; value?: number; actor?: string; permission?: string; authorized?: boolean }): Promise<AutonomyGateResult> {
+    if (!this.autonomyGate) {
+      return { allowed: true, verdict: "auto", level: 5, reason: "no gate attached (permissive)", requiredApproval: false };
+    }
+    const d = await this.autonomyGate.assess(req);
+    const requiredApproval = d.verdict === "approval";
+    let allowed = d.verdict !== "deny";
+    if (requiredApproval) {
+      allowed = req.authorized === true;
+    }
+    if (d.verdict === "deny") allowed = false;
+    return {
+      allowed,
+      verdict: d.verdict,
+      level: d.level,
+      reason: d.reason,
+      requiredApproval,
+    };
+  }
+
   public setPlanner(planner: TaskPlanner): void {
     this.tasks.setPlanner(planner);
   }
@@ -99,6 +156,34 @@ export class Kernel {
 
   public async executeTool(toolId: string, input: Record<string, any>, meta?: { taskId?: string }): Promise<any> {
     if (!this.toolsAdapter) throw new Error("[Kernel] No tool adapter attached");
+
+    // GATE DE AUTONOMIA OBRIGATÓRIO: nenhuma ferramenta ignora o nível.
+    const gate = await this.assessAutonomy({
+      domain: "system",
+      op: `tool:${toolId}`,
+      actor: meta?.taskId ? `task:${meta.taskId}` : "kernel",
+      permission: "tools.execute",
+      authorized: (input as any)?.authorized === true,
+    });
+    await this.events.publish("tool.gate", { toolId, ...gate, taskId: meta?.taskId }, "kernel");
+    if (!gate.allowed) {
+      const denied = {
+        toolId,
+        input,
+        taskId: meta?.taskId,
+        success: false,
+        result: null,
+        error: gate.requiredApproval
+          ? `[Autonomy] tool '${toolId}' requires human approval: ${gate.reason}`
+          : `[Autonomy] tool '${toolId}' denied: ${gate.reason}`,
+        executionTimeMs: 0,
+        blocked: true,
+        autonomy: { verdict: gate.verdict, level: gate.level, reason: gate.reason },
+      };
+      await this.events.publish("tool.blocked", { ...denied }, "kernel");
+      return denied;
+    }
+
     await this.events.publish("tool.called", { toolId, input, taskId: meta?.taskId }, "kernel");
     let executed: any;
     try {
@@ -126,11 +211,23 @@ export class Kernel {
   public runTask(taskType: string, title: string, payload?: any, priority: TaskPriority = "normal", actor?: Actor): Promise<KernelTask> {
     if (actor) this.permissions.assert(actor, "tasks.create");
     return this.tasks.enqueue(taskType, title, payload, priority);
-  }
-
-  public async dispatchAgent(agentIdOrName: string, task: string, context?: Record<string, any>, actor?: Actor): Promise<any> {
+  }  public async dispatchAgent(agentIdOrName: string, task: string, context?: Record<string, any>, actor?: Actor): Promise<any> {
     if (actor) this.permissions.assert(actor, "agents.manage");
     if (!this.agentRegistry) throw new Error("[Kernel] No agent registry attached");
+
+    // GATE DE AUTONOMIA OBRIGATÓRIO: execução de agente também é supervisionada.
+    const gate = await this.assessAutonomy({
+      domain: "agents",
+      op: `agent:${agentIdOrName}`,
+      actor: actor?.id ?? "kernel",
+      permission: "agents.manage",
+      authorized: context?.authorized === true,
+    });
+    await this.events.publish("agent.gate", { agent: agentIdOrName, ...gate }, "kernel");
+    if (!gate.allowed) {
+      throw new Error(`[Autonomy] agent '${agentIdOrName}' ${gate.requiredApproval ? "requires human approval" : "denied"}: ${gate.reason}`);
+    }
+
     await this.events.publish("kernel:dispatch", { agent: agentIdOrName, task }, "kernel");
     return this.agentRegistry.runAgent(agentIdOrName, task, context);
   }
