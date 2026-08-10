@@ -7,8 +7,7 @@ lista honesta: cada issue tem gravidade, estado e a correção aplicada.
 ## Corrigidas na Phase 1
 
 | # | Issue | Gravidade | Estado |
-|---|-------|-----------|--------|
-| 1 | Providers cloud sem credenciais devolviam texto mock com `success: true` | Alta | CORRIGIDO — `CloudProviderBase` lança `ProviderUnavailableError`; sem chave → falha honesta |
+|---|-------|-----------|--------|| 1 | Providers cloud sem credenciais devolviam texto mock com `success: true` | Alta | CORRIGIDO — `CloudProviderBase` lança `ProviderUnavailableError`; sem chave → falha honesta |
 | 2 | OllamaProvider tinha detecção de formato `llama.cpp` e mock interno | Alta | CORRIGIDO — falha real `ProviderExecutionError`; `mode: REAL` |
 | 3 | Dois routers de modelo concorrentes (`ModelRouter` + `AIRouter` omega) | Média | CORRIGIDO — `ViseronModelRouter` é a abstração única; `AIRouter` é camada fina |
 | 4 | `vaec-stage.json` ficava eternamente em `IDLE` (progresso não persistia) | Média | CORRIGIDO — transições persistidas (`IMPLEMENT→…→COMPLETED/FAILED/VERIFIED`) |
@@ -21,6 +20,7 @@ lista honesta: cada issue tem gravidade, estado e a correção aplicada.
 | 11 | Logs reclamavam "5.4k mentes nunca ficam paradas" | Baixa | CORRIGIDO — log com contagem real de agentes do runtime |
 | 12 | `vaec-stage.json` órfão `FAILED` sem registo no journal | Baixa | CORRIGIDO — reset honesto para `IDLE` |
 | 13 | Skills (1.997) sem classificação de estado nem pipeline | Média | CORRIGIDO — `SkillPipeline`: INDEXED + VALIDATION + PERMISSION (governança) + EXECUTION (não implementada) |
+| 17 | Produção devolvia `omegaL0toL5: true` hardcoded no `/api/status` | Média | CORRIGIDO — consulta `omega.status()` real + redeploy Render 2026-08-10; live devolve `omegaLoaded:false` honesto |
 
 ## Em aberto (conscientemente não resolvidas — marketing/claims fora do runtime)
 
@@ -29,7 +29,6 @@ lista honesta: cada issue tem gravidade, estado e a correção aplicada.
 | 14 | Copy de marketing/personas ainda diz "5000+ mentes" (VISERON/JARVIS/RCS/PDFs) | Baixa | Fora do runtime — texto de marca. Manter (posição comercial dos comandantes), NÃO como claim técnico de agentes executáveis |
 | 15 | `ComprehensivePDFReport` descreve "5,000+ independent minds" como operacional | Baixa | Docs/PDFs de marketing. Marcado como narrativa, não facto técnico |
 | 16 | Mentes (`data/minds/minds.json` 5.014) são arquetipos de conhecimento, não processos independentes | Média | Documentado no OMEGA Master Plan: "arquitetura de agentes, não 5.396 processos independentes" |
-| 17 | Produção (`viseron-web.onrender.com`) ainda devolve `autonomy: { omegaL0toL5: true }` hardcoded | Média | Source CORRIGIDO (consulta `omega.status()` real) mas a build live é antiga → **redeploy pendente** (Render). Após deploy, `/api/status` mostra estado real do kernel/autonomy/VAEC |
 
 ## Regras de triagem
 

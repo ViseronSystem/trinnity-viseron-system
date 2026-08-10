@@ -28,8 +28,8 @@
 | 14 | ISSUE_TRIAGE com regras de triagem | **FEITO** | `docs/ISSUE_TRIAGE.md` — 13 corrigidas + 4 em aberto + regras (sem mock que pareça sucesso, VAEC gates) |
 | 15 | Testes novos de Reality/Registry/Skills/N8N/VAEC | **FEITO** | Secção 22 em `tests/omega.test.ts` (16 testes) → OMEGA 229/229 |
 | 16 | Regressão total | **FEITO** | `npm test` + `npm run status:system` = 397/397 (core 20 · web 109 · omega 229 · os 25 · restart 14) |
-| 17 | Produção não mente | **PARCIAL** | Source corrigido verificado; `viseron-web.onrender.com/api/status` ainda devolve `omegaL0toL5:true` da build antiga → aguarda redeploy |
-| 18 | Commit/push | **NÃO** (regra) | Sem commit sem pedido explícito do Comandante; mudanças no working tree |
+| 17 | Produção não mente | **FEITO** | Redeploy Render 2026-08-10; `/api/status` live devolve `omegaLoaded:false` + `verifiedTaskCompletion:229/229` — claim `omegaL0toL5:true` removido |
+| 18 | Commit/push | **FEITO** | Commit `be50382` + push `b3781c1..be50382 main` (após aprovação do Comandante) |
 | 19 | Relatório final | **FEITO** | Este documento |
 
 ---
@@ -56,10 +56,8 @@
 
 ## O que falta (após aprovação)
 
-1. **Redeploy da produção** (Render) para `/api/status` deixar de mostrar o claim antigo.
-2. **VAEC `run` completo** com commit automático — requer autorização explícita do Comandante.
-3. Commit + push deste hardening (item 18).
-4. Regenerar PDFs de marketing (`npm run pdfs:all`) se os comandantes quiserem que reflitam as contagens reais — hoje são narrativa comercial (decisão deles).
+1. **VAEC `run` completo** com commit automático — requer autorização explícita do Comandante.
+2. Regenerar PDFs de marketing (`npm run pdfs:all`) se os comandantes quiserem que reflitam as contagens reais — hoje são narrativa comercial (decisão deles).
 
 ---
 
