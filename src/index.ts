@@ -10,6 +10,8 @@ import { OmniRouteHub } from "./integrations/omniroute/OmniRouteHub";
 import { N8NBridge } from "./integrations/n8n/N8NBridge";
 import { TVSTerminal } from "./terminal/TerminalInterface";
 import { ViseronWebServer } from "./web/standalone-server";
+import { registerWorkspaceTools } from "./web/workspace/tools";
+import { createViseronBuilder } from "./web/workspace/viseron-builder";
 
 (global as any).__TVS_START_TIME = Date.now();
 
@@ -82,6 +84,14 @@ tvs.toolManager.createQuickTool("tool_scaffold_app", "App Scaffolding Generator"
     name: input.name || "AutoGenApp", description: input.description || "App generada por TVS",
     template: input.template || "express-api", port: input.port || 3000
   }));
+
+// ═══ REAL USER VERTICAL SLICE — ferramentas + agente reais do workspace ═══
+// Ferramentas sandboxed (fs real + teste node real) e o agente VISERON BUILDER
+// (Model Router → Ollama local real) ficam registados ANTES do OmegaPlatform
+// para o kernel OMEGA os ver quando o default executor os invoca.
+registerWorkspaceTools(tvs.toolManager, path.join(process.cwd(), "data"));
+tvs.agentManager.register(createViseronBuilder(tvs.providerFactory));
+console.log(`[TVS Workspace] VISERON BUILDER + ferramentas reais (fs/test) registados`);
 
 const n8nBridge = new N8NBridge(tvs.toolManager, tvs.agentManager, tvs.memoryEngine, parseInt(process.env.N8N_PORT || "5678", 10));
 n8nBridge.initialize().catch(e => console.log(`[N8N] init deferred: ${e.message}`));

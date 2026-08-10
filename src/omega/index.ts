@@ -148,8 +148,8 @@ export class OmegaPlatform {
 
         const result = await manager.run(agentId, description, {
           kernelTaskId: task.id,
-          tools: toolCalls,
           ...payload,
+          tools: toolCalls,
         });
         const latencyMs = Date.now() - startedAt;
         return {
@@ -157,6 +157,7 @@ export class OmegaPlatform {
           success: result?.success ?? false,
           output: result?.output ?? "",
           error: result?.error,
+          model: (result as any)?.model ?? null,
           tools: toolCalls,
           latencyMs,
           cost: +(latencyMs * 0.00002).toFixed(6),

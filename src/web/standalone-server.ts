@@ -46,6 +46,10 @@ import { RcsEngine } from "../core/rcs/RcsEngine";
 import { createRcsRouter } from "./rcs/routes";
 import { createOmegaGateway } from "../omega/gateway";
 import { bridgeSocketIO } from "../omega/kernel/EventBridge";
+import { requireAuth } from "./auth/middleware";
+import { WorkspaceStore } from "./workspace/store";
+import { UserTaskOrchestrator } from "./workspace/orchestrator";
+import { createWorkspaceRouter } from "./workspace/routes";
 
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
@@ -79,6 +83,8 @@ export class ViseronWebServer {
   private db: ReturnType<typeof getDatabase>;
   private dataDir: string;
   private port: number;
+  private workspace: WorkspaceStore;
+  private workspaceOrchestrator: UserTaskOrchestrator;
 
   constructor(options?: { dataDir?: string; port?: number; disablePostgresAccounts?: boolean }) {
     this.app = express();
@@ -116,6 +122,8 @@ export class ViseronWebServer {
     this.rcs = new RcsEngine({ dataDir: this.dataDir });
     this.os = new TVSOs({ baseDir: path.join(this.dataDir, "tvs-os") });
     this.os.boot();
+    this.workspace = new WorkspaceStore(this.dataDir);
+    this.workspaceOrchestrator = new UserTaskOrchestrator(this.workspace);
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -132,6 +140,9 @@ export class ViseronWebServer {
       if (omega && omega.kernel) {
         const omegaGateway = createOmegaGateway(omega);
         this.app.use("/api/omega", omegaGateway);
+        // Vertical slice real: o orchestrator liga-se ao kernel OMEGA (eventos auditáveis)
+        this.workspaceOrchestrator.attach(omega);
+        console.log(`[Web] Workspace vertical slice ligado ao kernel OMEGA: ${this.workspaceOrchestrator.status().mode}`);
         // Reatividade: o kernel bus flui para os clientes via Socket.IO (omega:event)
         this.omegaEventsUnsub?.();
         this.omegaEventsUnsub = bridgeSocketIO(this.io, omega.kernel.events, {
@@ -405,6 +416,13 @@ export class ViseronWebServer {
     this.app.use("/api", createCryptoRouter(this.crypto.payments));
     this.app.use("/api", createRcsRouter(this.rcs));
 
+    // ── REAL USER VERTICAL SLICE — workspace (auth → project → task → kernel E2E)
+    this.app.use("/api", createWorkspaceRouter({
+      store: this.workspace,
+      orchestrator: this.workspaceOrchestrator,
+      requireAuth,
+    }));
+
     // TVS OS — API (/api/os) · Process Manager · Virtual FS · App Store · Security
     // O router é guardado para o mountOmega trocar a stack (igual ao dashboard):
     // quando o OMEGA (kernel+runtime+watchdog) carrega, a mesma rota passa a
@@ -426,6 +444,11 @@ export class ViseronWebServer {
     // ATLAS — Tutor de Inglês com voz
     this.app.get("/atlas", (_req, res) => {
       res.sendFile(path.join(PUBLIC_DIR, "atlas.html"));
+    });
+
+    // WORKSPACE — Real User Vertical Slice (auth → project → task → resultado real)
+    this.app.get("/workspace", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "workspace.html"));
     });
 
     // SEE VISERON OPERATE — pipeline E2E com eventos reais do OMEGA (SSE)
