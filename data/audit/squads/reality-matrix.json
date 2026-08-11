@@ -1,0 +1,42 @@
+[
+  {
+    "capability": "Squad Registry",
+    "status": "REAL",
+    "evidence": "5 squads, 15 total member slots"
+  },
+  {
+    "capability": "Squad Discovery",
+    "status": "REAL",
+    "evidence": "5 squads discoverable by domain"
+  },
+  {
+    "capability": "Squad Routing",
+    "status": "REAL",
+    "evidence": "3 projects routed to correct squads"
+  },
+  {
+    "capability": "Task Assignment",
+    "status": "REAL",
+    "evidence": "domain-specific agents assigned via IntelligentRouter"
+  },
+  {
+    "capability": "Parallel Execution",
+    "status": "REAL",
+    "evidence": "2 tasks parallel"
+  },
+  {
+    "capability": "Agent Utilization",
+    "status": "REAL",
+    "evidence": "3 unique agents used"
+  },
+  {
+    "capability": "Evidence Generation",
+    "status": "REAL",
+    "evidence": "all executions produce structured results"
+  },
+  {
+    "capability": "Multi-Domain Coverage",
+    "status": "REAL",
+    "evidence": "15 total domains covered"
+  }
+]

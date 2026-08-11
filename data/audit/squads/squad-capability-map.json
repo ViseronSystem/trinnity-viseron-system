@@ -1,0 +1,99 @@
+[
+  {
+    "squadId": "architecture_squad",
+    "mission": "System architecture analysis and design",
+    "members": [
+      "agent_cto",
+      "agent_developer",
+      "agent_devops"
+    ],
+    "domains": [
+      "architecture",
+      "development",
+      "operations"
+    ],
+    "skills": [
+      "architecture_analysis",
+      "code_analysis",
+      "infrastructure_audit"
+    ]
+  },
+  {
+    "squadId": "security_squad",
+    "mission": "Security audit and compliance verification",
+    "members": [
+      "agent_security",
+      "agent_devops",
+      "agent_developer"
+    ],
+    "domains": [
+      "security",
+      "operations",
+      "development"
+    ],
+    "skills": [
+      "security_scan",
+      "config_audit",
+      "infrastructure_audit"
+    ]
+  },
+  {
+    "squadId": "research_squad",
+    "mission": "Research, analysis, and strategic intelligence",
+    "members": [
+      "agent_research",
+      "agent_vision",
+      "agent_finance"
+    ],
+    "domains": [
+      "research",
+      "vision",
+      "finance"
+    ],
+    "skills": [
+      "kg_analysis",
+      "research_synthesis",
+      "strategy_analysis",
+      "metrics_analysis"
+    ]
+  },
+  {
+    "squadId": "growth_squad",
+    "mission": "Business growth, sales analysis, and market positioning",
+    "members": [
+      "agent_sales",
+      "agent_research",
+      "agent_support"
+    ],
+    "domains": [
+      "sales",
+      "research",
+      "support"
+    ],
+    "skills": [
+      "value_analysis",
+      "market_positioning",
+      "documentation_analysis"
+    ]
+  },
+  {
+    "squadId": "management_squad",
+    "mission": "Executive synthesis, coordination, and oversight",
+    "members": [
+      "agent_ceo",
+      "agent_cto",
+      "agent_finance"
+    ],
+    "domains": [
+      "management",
+      "architecture",
+      "finance"
+    ],
+    "skills": [
+      "synthesis",
+      "coordination",
+      "architecture_analysis",
+      "metrics_analysis"
+    ]
+  }
+]

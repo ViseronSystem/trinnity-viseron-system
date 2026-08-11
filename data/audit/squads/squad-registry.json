@@ -1,0 +1,127 @@
+[
+  {
+    "squadId": "architecture_squad",
+    "mission": "System architecture analysis and design",
+    "members": [
+      "agent_cto",
+      "agent_developer",
+      "agent_devops"
+    ],
+    "domains": [
+      "architecture",
+      "development",
+      "operations"
+    ],
+    "skills": [
+      "architecture_analysis",
+      "code_analysis",
+      "infrastructure_audit"
+    ],
+    "tools": [
+      "filesystem_read",
+      "architecture_analysis",
+      "code_analysis",
+      "infrastructure_audit"
+    ]
+  },
+  {
+    "squadId": "security_squad",
+    "mission": "Security audit and compliance verification",
+    "members": [
+      "agent_security",
+      "agent_devops",
+      "agent_developer"
+    ],
+    "domains": [
+      "security",
+      "operations",
+      "development"
+    ],
+    "skills": [
+      "security_scan",
+      "config_audit",
+      "infrastructure_audit"
+    ],
+    "tools": [
+      "security_scan",
+      "config_audit",
+      "file_inspection"
+    ]
+  },
+  {
+    "squadId": "research_squad",
+    "mission": "Research, analysis, and strategic intelligence",
+    "members": [
+      "agent_research",
+      "agent_vision",
+      "agent_finance"
+    ],
+    "domains": [
+      "research",
+      "vision",
+      "finance"
+    ],
+    "skills": [
+      "kg_analysis",
+      "research_synthesis",
+      "strategy_analysis",
+      "metrics_analysis"
+    ],
+    "tools": [
+      "kg_analysis",
+      "research_synthesis",
+      "strategy_analysis",
+      "cost_estimation"
+    ]
+  },
+  {
+    "squadId": "growth_squad",
+    "mission": "Business growth, sales analysis, and market positioning",
+    "members": [
+      "agent_sales",
+      "agent_research",
+      "agent_support"
+    ],
+    "domains": [
+      "sales",
+      "research",
+      "support"
+    ],
+    "skills": [
+      "value_analysis",
+      "market_positioning",
+      "documentation_analysis"
+    ],
+    "tools": [
+      "value_analysis",
+      "market_positioning",
+      "guide_generation"
+    ]
+  },
+  {
+    "squadId": "management_squad",
+    "mission": "Executive synthesis, coordination, and oversight",
+    "members": [
+      "agent_ceo",
+      "agent_cto",
+      "agent_finance"
+    ],
+    "domains": [
+      "management",
+      "architecture",
+      "finance"
+    ],
+    "skills": [
+      "synthesis",
+      "coordination",
+      "architecture_analysis",
+      "metrics_analysis"
+    ],
+    "tools": [
+      "synthesis",
+      "coordination",
+      "architecture_analysis",
+      "cost_estimation"
+    ]
+  }
+]

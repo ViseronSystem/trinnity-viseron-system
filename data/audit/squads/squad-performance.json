@@ -1,0 +1,62 @@
+[
+  {
+    "squadId": "architecture_squad",
+    "members": 3,
+    "domains": [
+      "architecture",
+      "development",
+      "operations"
+    ],
+    "tasks": 0,
+    "success": 0,
+    "avgLatencyMs": 0
+  },
+  {
+    "squadId": "security_squad",
+    "members": 3,
+    "domains": [
+      "security",
+      "operations",
+      "development"
+    ],
+    "tasks": 1,
+    "success": 1,
+    "avgLatencyMs": 0
+  },
+  {
+    "squadId": "research_squad",
+    "members": 3,
+    "domains": [
+      "research",
+      "vision",
+      "finance"
+    ],
+    "tasks": 1,
+    "success": 1,
+    "avgLatencyMs": 0
+  },
+  {
+    "squadId": "growth_squad",
+    "members": 3,
+    "domains": [
+      "sales",
+      "research",
+      "support"
+    ],
+    "tasks": 0,
+    "success": 0,
+    "avgLatencyMs": 0
+  },
+  {
+    "squadId": "management_squad",
+    "members": 3,
+    "domains": [
+      "management",
+      "architecture",
+      "finance"
+    ],
+    "tasks": 1,
+    "success": 1,
+    "avgLatencyMs": 1
+  }
+]
