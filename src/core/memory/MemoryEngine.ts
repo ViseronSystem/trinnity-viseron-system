@@ -228,31 +228,42 @@ export class MemoryEngine extends EventEmitter {
    * Búsqueda full-text en LTM: busca en tags, key, y contenido serializado del value.
    */
   public searchLongTerm(query: string): LongTermMemoryItem[] {
+    const results = new Map<string, LongTermMemoryItem>();
+
+    // Split query into terms and search each term in the inverted index
+    const queryTerms = this.tokenize(query);
+    for (const term of queryTerms) {
+      const termIndex = this.ltmFullTextIndex.get(term);
+      if (termIndex) {
+        for (const key of termIndex) {
+          if (!results.has(key)) {
+            const item = this.longTermStore.get(key);
+            if (item) results.set(key, item);
+          }
+        }
+      }
+    }
+
+    // Also try exact match as fallback
+    const exactIndex = this.ltmFullTextIndex.get(query.toLowerCase());
+    if (exactIndex) {
+      for (const key of exactIndex) {
+        if (!results.has(key)) {
+          const item = this.longTermStore.get(key);
+          if (item) results.set(key, item);
+        }
+      }
+    }
+
+    // Fallback: key substring and tag match
     const q = query.toLowerCase();
-    const results: LongTermMemoryItem[] = [];
-
-    // Buscar en índice invertido de términos
-    const termIndex = this.ltmFullTextIndex.get(q);
-    if (termIndex) {
-      for (const key of termIndex) {
-        const item = this.longTermStore.get(key);
-        if (item) results.push(item);
-      }
-    }
-
-    // Fallback: búsqueda lineal en tags y key
     for (const item of this.longTermStore.values()) {
-      if (results.some(r => r.key === item.key)) continue;
-      if (item.key.toLowerCase().includes(q)) {
-        results.push(item);
-        continue;
-      }
-      if (item.tags.some(t => t.toLowerCase().includes(q))) {
-        results.push(item);
-      }
+      if (results.has(item.key)) continue;
+      if (item.key.toLowerCase().includes(q)) { results.set(item.key, item); continue; }
+      if (item.tags.some(t => t.toLowerCase().includes(q))) { results.set(item.key, item); }
     }
 
-    return results;
+    return Array.from(results.values());
   }
 
   /**
