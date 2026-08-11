@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msomkblq_ik9ndh",
+  "timestamp": 1786450603454,
+  "source": "reality-gate",
+  "agentId": "test_agent",
+  "input": {
+    "text": "production reality gate test"
+  },
+  "processing": {
+    "embeddingMs": 150
+  },
+  "result": {
+    "success": true,
+    "output": "trace completed",
+    "latencyMs": 200,
+    "modelUsed": "test"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "verified"
+    ],
+    "verifiedBy": "reality-gate"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "8d029f88b4660b5466ae4470e0d148682c557a6f2f6b46c015bdeb2c218d44e1"
+}

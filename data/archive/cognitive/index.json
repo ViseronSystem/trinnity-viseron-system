@@ -1,0 +1,38 @@
+[
+  {
+    "traceId": "cog_msomjqk6_gv9621",
+    "hash": "d0bf9f1dd830b6259f150270ddcd4a5c76f5594a5a325c2b09b21c9cc6263616",
+    "source": "reality-gate",
+    "agentId": "test_agent",
+    "timestamp": "2026-08-11T12:16:16.182Z",
+    "success": true,
+    "latencyMs": 200
+  },
+  {
+    "traceId": "cog_msomkblq_ik9ndh",
+    "hash": "8d029f88b4660b5466ae4470e0d148682c557a6f2f6b46c015bdeb2c218d44e1",
+    "source": "reality-gate",
+    "agentId": "test_agent",
+    "timestamp": "2026-08-11T12:16:43.454Z",
+    "success": true,
+    "latencyMs": 200
+  },
+  {
+    "traceId": "cog_msonwz03_h1g1x2",
+    "hash": "14794b350ff6a50c008795320604772b97131ec31de2251eb5391cf4688e0938",
+    "source": "reality-gate",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T12:54:33.267Z",
+    "success": true,
+    "latencyMs": 6
+  },
+  {
+    "traceId": "cog_msonwz0n_shu8la",
+    "hash": "8c47f0e8fadd2c6597eb7c9f637bccc0990b18fc18d3d64939423b294f2ea9e0",
+    "source": "reality-gate",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T12:54:33.287Z",
+    "success": false,
+    "latencyMs": 50
+  }
+]

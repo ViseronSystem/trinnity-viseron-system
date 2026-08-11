@@ -1,0 +1,23 @@
+{
+  "traceId": "cog_msonwz0n_shu8la",
+  "timestamp": 1786452873287,
+  "source": "reality-gate",
+  "agentId": "agent_ceo",
+  "input": {
+    "text": "invalid task"
+  },
+  "processing": {},
+  "result": {
+    "success": false,
+    "error": "Simulated failure: invalid input",
+    "latencyMs": 50
+  },
+  "validation": {
+    "status": "FAIL",
+    "reasons": [
+      "invalid input detected"
+    ],
+    "verifiedBy": "reality-gate-negative"
+  },
+  "archiveHash": "8c47f0e8fadd2c6597eb7c9f637bccc0990b18fc18d3d64939423b294f2ea9e0"
+}
