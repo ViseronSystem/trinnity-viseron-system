@@ -60,11 +60,7 @@ A arquitetura do VISERON possui uma hierarquia clara.
                Chief Evolution Officer
                            │
                            ▼
-                    VISERON AGENT
-                  (Persona Stark + Governança)
-                           │
-                       JARVIS
-                 (Cérebro de Execução)
+                    VISERON CORE
                            │
           ┌────────────────┼────────────────┐
           ▼                ▼                ▼
@@ -73,8 +69,7 @@ A arquitetura do VISERON possui uma hierarquia clara.
           │                │                │
           └────────────────┼────────────────┘
                            ▼
-                  COMMAND CENTER
-                (Interface Operacional)
+                  ORCHESTRATION LAYER
                            │
           ┌────────────────┼────────────────┐
           ▼                ▼                ▼
@@ -146,210 +141,53 @@ Cada tarefa pode ser direcionada ao modelo, agente ou ferramenta mais adequada d
 
 ---
 
-# 🤖 Agentes
-
-O VISERON opera com múltiplas camadas de inteligência agentiva.
-
-## Agentes Principais
-
-| Agente | Linhas | Provider | Função |
-|--------|--------|----------|--------|
-| **JARVIS** | 916 | ViseronModelRouter (6 providers) | Cérebro conversacional — 23 intents, executa ferramentas reais, memória persistente |
-| **VISERON** | 246 | Delega ao JARVIS | Alma do sistema — persona Stark, governança bíblica, supervisão AIOX |
-| **OMEGA Platform** | 594 | 6 providers | Kernel operacional — 10 agentes nucleares, TaskQueue, EventBus, AutonomyOS |
-
-## Agentes Nucleares (OMEGA Kernel)
-
-```
-CEO · CTO · Finance · Sales · Research · Developer · DevOps · Security · Support · Vision
-```
-
-Cada agente nuclear possui spec-driven capabilities, pode ser disparado via API e tem o seu estado visível no Command Center.
-
-## Agentes Especializados
-
-| Agente | Função |
-|--------|--------|
-| **ATLAS** (236L) | Tutor de inglês pessoal com voz — 7-day plan, 5 modos, 6 providers em cadeia |
-| **Agency OS** (4 agentes) | Reporting · LeadResponse · Creativos · Nurturing |
-| **CallLearning** | Análise de chamadas telefônicas com IA local (Ollama) |
-| **ContentAgent** | Gerador automático de conteúdo para o blog |
-
-## AIOX Squads
-
-246+ archetypes em 21 domínios especializados: propulsión, órbita, salud, finanzas, legal, educación, energía, logística, ciberseguridad, gobierno, arte, ciencia, deporte, turismo, inmobiliaria, retail, telecomunicaciones, medio ambiente, manufactura, agro, y más.
-
-Cada archetype é registado no AgentManager com role, capabilities e squad designado.
-
----
-
-# 🎛️ Command Center
-
-O Command Center é a interface operacional viva do VISERON — não um dashboard informativo, mas um centro de comando que mostra e executa.
-
-> **Estado atual (v2):** 1,089 linhas de HTML/CSS/JS vanilla. Zero dependências externas. Três milestones completados.
-
-## Componentes Ativos
-
-### 🖥️ Holograma 3D
-- Canvas Three.js com **10 esferas de agentes nucleares** em órbita circular
-- **Reator central** (kernel icosaedro) com animação de pulso
-- **Estados visuais** em tempo real: IDLE (dim), ACTIVE (neon), BUSY (âmbar com pulso rápido), ERROR (vermelho flicker)
-- **Partículas de tasks** — viajam entre agentes quando tasks completam
-- **Labels HTML** sobrepostas com glow condicional por estado
-- Cores por role: CEO=neon, CTO=roxo, Finance=verde, Security=vermelho
-- Dados alimentados por `/api/omega/agents` + SSE (`agent.gate`, `kernel:dispatch`, `task:*`)
-
-### 🎤 Voz Bidirecional
-- **STT** — Web Speech API (SpeechRecognition) com wake word "VISERON"
-- **TTS** — SpeechSynthesis com voz Stark (rate=0.92, pitch=0.72)
-- **Comandos processados** via `POST /api/viseron/chat` (executa 21 intents JARVIS)
-- **Histórico** dos últimos 5 comandos visível na barra de voz
-
-### ⌨️ Terminal de Comandos
-7 comandos operacionais que disparam ações reais no OMEGA Kernel:
-
-```
-dispatch <agentId> "<task>"    → POST /api/omega/agents/:id/execute
-task "<title>" [priority]       → POST /api/omega/tasks
-autonomy <planning|evolution|learning> → POST /api/omega/autonomy/cycle
-status                          → GET /api/omega/status (refresh)
-search "<query>"               → GET /api/omega/memory/search
-cancel <taskId>                 → POST /api/omega/tasks/:id/cancel
-voice "<mensagem>"             → POST /api/viseron/chat
-```
-
-### 📡 Live Activity (SSE)
-- **43 tópicos** de eventos em tempo real do OMEGA EventBus
-- **Filtro** por categoria: All / Tasks / Tools / Memory / Kernel
-- Últimos 60 eventos com timestamp, cor por tópico, payload resumido
-- Reconexão automática com retry a cada 5s
-
-### 📊 KPI Cards
-6 indicadores atualizados em tempo real via SSE:
-- System Status · Active Agents · Tasks · Events · Knowledge Graph · Minds Online
-
-### 👥 Agentes Nucleares (tabela interativa)
-- **10 agentes** com ID, nome, role, squad, estado (badge colorido)
-- **Botão de dispatch** por agente com input de task inline
-- **Última execução** visível via SSE
-- **Estado em tempo real** — badge muda com eventos `agent.gate`
-
-### 📜 Governança Bíblica
-- **9 princípios** (sabedoria, verdade, mordomia, justiça, serviço, diligência, humildade, liberalidade, fidelidade)
-- **4 blockedKinds** (fraud, hidden_fee, data_leak, seed_exposure)
-- **7 checks éticos** que cada operação deve passar
-
-### 🔍 Supervisão AIOX
-- **Últimas 10 operações** com speaker, intent, mensagem, provider/model, OK/FAIL
-- **okRate** em percentagem
-- **byIntent** — distribuição de intents
-
-### ⚡ Autonomy Layer
-- Planning · Evolution · Learning — estado em tempo real
-- Botões para disparar ciclos manualmente
-- Feedback visual imediato
-
----
-
-# ⚡ SEE VISERON OPERATE
-
-O VISERON executa tarefas através de um pipeline E2E verificável com 9 estados.
-
-```text
-CREATED → PLANNING → QUEUED → RUNNING → VERIFYING → COMPLETED
-                                                    ↓
-                        FAILED → RECOVERING → (retry)
-                                    ↓
-                              CANCELLED
-```
-
-Cada task:
-- Recebe um ID único
-- Passa pelo **planner** (divisão em passos + ferramentas)
-- Entra na **fila persistente** (`data/state/task-queue.json` — sobrevive a restarts)
-- É executada por um **agente** com ferramentas reais
-- Passa pelo **TaskVerifier** (PASS / FAIL / RETRY / HUMAN)
-- É registada no **KnowledgeGraph** e na **memória de longo prazo**
-
-A execução pode ser acompanhada em tempo real através de **SSE** (43 tópicos) no Command Center e na página `/operate`.
-
----
-
 # 🔍 AIOX + Graphify
 
 Dois componentes possuem papel estratégico na evolução do VISERON.
 
 ## AIOX — Audit & Evaluation Intelligence
 
-O AIOX atua como camada de avaliação e auditoria. Está **ativo e operacional**:
-
-- O `ViseronAgent.supervise()` grava cada operação em `data/knowledge/viseron-supervision.jsonl`
-- Cada registo contém: speaker, lang, intent, provider, modelo, ok, ações, mensagem, resposta
-- O **Command Center** expõe as últimas 10 operações + okRate + byIntent
-- API: `GET /api/viseron/supervision`
+O AIOX atua como camada de avaliação e auditoria.
 
 Seu objetivo é ajudar o VISERON a responder:
 
 > **"Estamos realmente melhorando?"**
 
-## Graphify — Knowledge Intelligence
+A auditoria deve considerar:
 
-O Graphify atua como camada de conhecimento estrutural. Está **ativo com dados reais**:
-
-- **4,278 nós / 8,275 arestas / 282 comunidades** no grafo do codebase completo
-- Modo AST-only (zero custo de API)
-- CLI tools: `graphify query`, `graphify path`, `graphify explain`, `graphify update`
-- Integrado ao OMEGA via **Architecture Intelligence** (`/api/omega/architecture/*`)
-- API para query, riscos, path entre componentes, impacto
+* código;
+* arquitetura;
+* agentes;
+* ferramentas;
+* memória;
+* desempenho;
+* segurança;
+* regressões;
+* resultados;
+* dependências;
+* mudanças de comportamento;
+* qualidade das respostas;
+* eficiência operacional.
 
 ---
 
-# 🧠 Memory Architecture
+## Graphify — Knowledge Intelligence
 
-A memória do VISERON opera em 4 camadas (MemoryEngine v3.0 — Hyper-Brain):
+O Graphify atua como camada de conhecimento estrutural.
 
-```text
-SHORT-TERM MEMORY (STM)
-    RAM · 200 itens/sessão · TTL 30 min · LRU eviction
-        │
-        ▼
-LONG-TERM MEMORY (LTM)
-    JSON persistente · 20.000 registos (12.8 MB) · FIFO eviction · Full-text index
-        │
-        ▼
-KNOWLEDGE BASE (KB)
-    RAM · 2.000 documentos · TF-IDF search
-        │
-        ▼
-VECTOR STORE
-    Qdrant (localhost:6333) · 1536-dim · cosine similarity · fallback RAM (10K)
-```
+Ele permite representar e analisar relações entre:
 
-**Consolidação automática:** STM → LTM quando um item aparece em 3+ sessões ou >200 caracteres.
+* agentes;
+* componentes;
+* conhecimento;
+* projetos;
+* dependências;
+* entidades;
+* processos;
+* evidências;
+* sistemas.
 
-**Persistência:** Auto-save com debounce 5s + 5 backups rotativos em `database/memory/backups/`.
-
-## KnowledgeGraph
-
-- **896 entidades / 893 relações** em `database/memory/knowledge-graph.json` (643 KB)
-- APIs: searchEntities, getNeighbors, shortestPath (BFS)
-- Cada `task:completed` gera entidade + relação `executed_by` no grafo
-
-## KnowledgeArchive
-
-- Arquivo histórico **permanente e verificável** (SHA-256 em cada registo)
-- **Execuções** arquivadas em `data/archive/executions/`
-- **Decisões (milestones)** em `data/archive/decisions/` (4 milestones registados)
-- **Snapshots do grafo** em `data/archive/graph/`
-- **Timeline** cronológica de toda a atividade
-
-## EventBus
-
-- **43 tópicos** de eventos (task:*, tool:*, memory:*, kernel:*, autonomy:*, vaec:*, omega:*)
-- **Ring buffer** de 500 eventos com replay
-- **Wildcards**, source filtering, retry, handler isolation
-- **3 pontes:** MemoryEngine → EventBus, EventBus → Socket.IO, EventBus → SSE
+O Graphify permanece como componente independente, mas integrado ao ecossistema VISERON através de contratos e interfaces próprias.
 
 ---
 
@@ -457,6 +295,49 @@ O objetivo é:
 
 ---
 
+# ⚙️ SEE VISERON OPERATE
+
+O VISERON possui uma camada operacional destinada a tornar as ações observáveis.
+
+O pipeline operacional pode:
+
+```text
+INTENT
+  ↓
+PLAN
+  ↓
+AUTHORIZE
+  ↓
+EXECUTE
+  ↓
+VERIFY
+```
+
+A execução pode ser acompanhada em tempo real através dos mecanismos de operação e streaming da plataforma.
+
+---
+
+# 🎛️ Command Center
+
+O Command Center fornece uma visão operacional da plataforma.
+
+Entre os indicadores podem estar:
+
+* saúde do sistema;
+* autonomia;
+* receita;
+* agentes;
+* execução;
+* conhecimento;
+* operações;
+* integrações;
+* atividade;
+* evolução.
+
+O objetivo é transformar o VISERON em uma plataforma observável, não em uma caixa-preta.
+
+---
+
 # 🤖 Agent Fabric
 
 O VISERON utiliza uma arquitetura de agentes especializados.
@@ -484,38 +365,31 @@ O sistema também deve permitir criação, atualização, substituição, isolam
 
 ---
 
-# 🎤 Voz & Interface
+# 🧠 Memory Architecture
 
-O VISERON suporta interação por voz em múltiplos pontos:
+A memória é uma capacidade fundamental do VISERON.
 
-| Interface | STT | TTS | Wake Word |
-|-----------|-----|-----|-----------|
-| **Command Center** | Web Speech API | SpeechSynthesis | "VISERON" |
-| **VISERON HUD** (`/viseron`) | Web Speech API | SpeechSynthesis (Stark) | "VISERON", "hey viseron", "jarvis" |
-| **ATLAS Tutor** (`/atlas`) | Web Speech API | SpeechSynthesis (en-US) | — |
-| **Voice Widget** (global) | Web Speech API | SpeechSynthesis (Pedro/Trinnity) | — |
-| **Chamadas (Twilio)** | `<Gather input="speech">` | Google WaveNet (pt-PT) | — |
+A arquitetura deve separar:
 
-## Comandos de Voz
+```text
+SHORT-TERM MEMORY
+        │
+        ▼
+WORKING MEMORY
+        │
+        ▼
+LONG-TERM MEMORY
+        │
+        ▼
+KNOWLEDGE
+        │
+        ▼
+GRAPH / RELATIONSHIPS
+```
 
-O `VoiceBridge` (`src/voice/VoiceBridge.ts`) processa comandos com intents:
+Memória operacional, conhecimento e estado devem permanecer independentes do servidor físico sempre que possível.
 
-- `status/estado/sistema` — estado do sistema
-- `agente/agent/quem está` — lista de agentes
-- `ola/oi/hello` — saudação personalizada (Pedro ou Trinnity)
-- `plano/100k` — descrição do plano estratégico
-- `obrigado/thanks` — reconhecimento
-- `hora/time` — hora atual formatada
-- Fallback → `SuperIntelligenceEngine.synthesize()`
-
-Comandos também podem ser enviados ao VISERON Agent via `/api/viseron/chat` para execução de intents completos (system_status, rcs_broadcast, agency_report, etc.).
-
-## Pendências de Voz
-
-- **TTS neural** — ElevenLabs (API key disponível, não ativada)
-- **STT server-side** — Whisper (ferramenta CLI, não servidor)
-- **WebRTC** — voz bidirecional browser↔servidor (não implementado)
-- **OpenAI Realtime** — referenciado, não implementado
+Isso permite migrar o VISERON sem perder sua continuidade.
 
 ---
 
@@ -793,24 +667,22 @@ A estrutura do projeto está organizada em camadas:
 ```text
 trinnity-viseron-system/
 │
-├── src/                      269 ficheiros TypeScript
-│   ├── core/                  66   Motor central (30 módulos)
-│   ├── omega/                 59   OMEGA Kernel (TaskQueue, EventBus, Agents, Autonomy, Verifier)
-│   ├── web/                   67   API layer (Auth, Billing, JARVIS, VISERON, ATLAS, Agency, RCS)
-│   ├── dashboard/             25   UI web (13 HTML pages + 3 JS widgets + 3 CSS)
-│   ├── integrations/          21   9 integrações externas (Avirato, Composio, N8N, OmniRoute...)
-│   ├── os/                     7   TVS OS (Process Manager, Virtual FS, App Store)
-│   └── voice/                  1   VoiceBridge
-│
-├── data/                     336   Dados runtime (archive, knowledge, state, reports, backups)
-├── contracts/                 92   Tokens (Solidity ERC-20 + Solana SPL)
-├── tests/                      7   Suites (core, web, omega, os, restart, vertical-slice, hyperbrain)
-├── scripts/                   96   Build, deploy, migração, PDFs, cosmos
-├── docs/                      30   Documentação (arquitetura, migração, segurança, roadmaps)
-├── mobile/                 3,224   Expo/React Native (Android APK + iOS)
-├── skills/                20,854   10 coleções vendor (1,997 skills)
-├── database/                   7   Memory DB (knowledge-graph, LTM, backups)
-├── graphify-out/             113   Knowledge graph AST-cached (4,278 nós / 8,275 arestas)
+├── agents/                 # Agentes e estruturas agentivas
+├── config/                 # Configurações
+├── contracts/              # Contratos internos
+├── core/                   # Núcleo do VISERON
+├── data/                   # Dados e estado
+├── docs/                   # Documentação
+├── graphify-out/           # Saídas/integrações Graphify
+├── migrations/             # Migrações
+├── packages/
+│   └── aiox-core/          # Núcleo AIOX
+├── skills/                 # Skills e capacidades
+├── src/                    # Implementação principal
+├── tests/                  # Testes
+├── tools/                  # Ferramentas
+├── electron/               # Desktop
+├── mobile/                 # Mobile
 │
 ├── Dockerfile
 ├── docker-compose.yml
@@ -835,24 +707,6 @@ Dashboard:
 
 ```text
 http://localhost:3000
-```
-
-Command Center (interface operacional):
-
-```text
-http://localhost:3000/command-center
-```
-
-VISERON HUD (voz + supervisão):
-
-```text
-http://localhost:3000/viseron
-```
-
-ATLAS Tutor de Inglês:
-
-```text
-http://localhost:3000/atlas
 ```
 
 Desenvolvimento:
@@ -890,45 +744,32 @@ O objetivo é que **código que não passa pelas verificações não seja promov
 
 ---
 
-# 📊 System of Truth
+# 📊 Current Validation
 
-Validação real da versão atual (dados verificados, sem claims inflacionados):
+Validação real da versão atual (System of Truth — `npm run status:system`, sem claims):
 
 ```text
+OMEGA       229 / 229  PASS
 CORE         20 / 20   PASS
-WEB         ~60 / 60   PASS
-OMEGA       206 / 206  (último registo)
+WEB         109 / 109  PASS
 TVS OS       25 / 25   PASS
 RESTART      14 / 14   PASS
+Total       397 / 397  PASS
+TypeScript              CLEAN
 ```
 
-Métricas reais do sistema (2026-08-11):
+Contagens reais do sistema:
 
 ```text
-Ficheiros TypeScript (src/)    269
-APIs REST (total endpoints)   ~188
-Tópicos SSE (tempo real)        43
-Canais Socket.IO                 5
-
-Agentes registados (AgentManager)   246+
-Agentes nucleares (OMEGA specs)      10
-Agency OS agents                      4
-AIOX squads (domínios)               21
-
-Command Center (linhas)          1,089
-Command Center (milestones)          3
-
-LTM registos                   20,000
-KnowledgeGraph entidades          896
-Graphify nós / arestas    4,278/8,275
-Skills indexadas (10 coleções)   1,997
-
-Domínios ativos                   2
-  trinnityviseron.com
-  trinnityviseronsystem.io
+Agentes runtime (registry)  3
+Specs OMEGA (runtime)      10
+Squads                     6
+Archetypes               246
+Mentes (knowledge)      5.014
+Skills (10 coleções)    1.997
 ```
 
-> **Verdade prática:** Os 246+ agentes são archetypes registados no AgentManager com role e capabilities. Agentes executáveis ativos: JARVIS + VISERON + OMEGA (10 specs nucleares) + ATLAS + Agency (4). O conceito de "mentes" refere-se ao conhecimento estruturado em archetypes, não a processos independentes.
+> Verdade prática: as 5.014 "mentes" são arquetipos de conhecimento (data/minds), não processos independentes executáveis. Agentes executáveis = 3 runtime + 10 specs OMEGA.
 
 ---
 
@@ -959,7 +800,7 @@ Dados sensíveis devem permanecer isolados e sujeitos às políticas específica
 
 # 🧩 Evolution Roadmap
 
-## Phase 0 — Foundation ✅
+## Phase 0 — Foundation
 
 * Primary Node
 * Core
@@ -971,9 +812,6 @@ Dados sensíveis devem permanecer isolados e sujeitos às políticas específica
 * AutonomyOS
 * Observability
 * Backup/Restore
-* **Command Center Foundation** (milestone 2026-08-11)
-* **Holographic 3D Visualization** (milestone 2026-08-11)
-* **KnowledgeArchive** (milestone 2026-08-10)
 
 ## Phase 1 — Infrastructure Reliability
 
@@ -1005,7 +843,7 @@ Cada projeto será analisado antes de integração.
 
 ### Skills & External Integrations (estado 2026-08)
 
-Os 9 repositórios externos já estão integrados como coleções de skills no `SkillsRegistry` (`src/core/skills/`) — **1,997 skills em 10 coleções** — instaláveis com `npm run skills:install`:
+Os 9 repositórios externos já estão integrados como coleções de skills no `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10 coleções** — instaláveis com `npm run skills:install`:
 
 | Repositório | Skills | Licença |
 |---|---|---|
@@ -1058,7 +896,7 @@ Comandos: `npm run integrations:status` (estado geral) · `integrations:ecc/loop
 
 ## Long-Term Vision
 
-Construir uma infraestrutura capaz de atender **100,000+ clientes**, com cada cliente recebendo agentes, automações, conhecimento, websites, aplicações e processos adaptados às suas necessidades.
+Construir uma infraestrutura capaz de atender **100.000+ clientes**, com cada cliente recebendo agentes, automações, conhecimento, websites, aplicações e processos adaptados às suas necessidades.
 
 ---
 
@@ -1193,9 +1031,3 @@ Multi-Agent Intelligence Platform
 Continuous Evolution Architecture
 
 **© 2026 Trinnity Viseron System · www.trinnityviseronsystem.io · GitHub**
-
----
-
-**Versões do README:**
-- v5.0 — Conceitual / Vision (backup: `docs/README-v5-legacy-backup-2026-08-11.md`)
-- v6.0 — Reality Alignment (2026-08-11): +Agentes, +Voz, +Command Center, +Memory real, +System of Truth atualizado, 17 funcionalidades documentadas
