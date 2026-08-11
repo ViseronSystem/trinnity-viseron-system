@@ -1,0 +1,212 @@
+{
+  "timestamp": "2026-08-11T04:53:12.629Z",
+  "summary": {
+    "real": 25,
+    "partial": 0,
+    "futuro": 0,
+    "total": 25
+  },
+  "results": [
+    {
+      "test": "0.1 startTrace cria trace recuperável",
+      "status": "REAL",
+      "evidence": "traceId=cog_mso6pxz9_yqd9mj, source=rag, agentId=agent_ceo"
+    },
+    {
+      "test": "0.2 recordProcessing atualiza métricas",
+      "status": "REAL",
+      "evidence": "embeddingMs=350, retrievedChunks=15"
+    },
+    {
+      "test": "0.3 completeTrace regista resultado + validação",
+      "status": "REAL",
+      "evidence": "success=true, sources=2, validation=PASS"
+    },
+    {
+      "test": "0.4 searchTraces por source",
+      "status": "REAL",
+      "evidence": "encontrados 1 traces com source=rag"
+    },
+    {
+      "test": "0.5 getStats retorna métricas agregadas",
+      "status": "REAL",
+      "evidence": "totalTraces=1, successRate=1, bySource keys=1"
+    },
+    {
+      "test": "0.6 getInsights retorna tendências",
+      "status": "REAL",
+      "evidence": "latencyTrend=improving, successRateTrend=stable"
+    },
+    {
+      "test": "0.7 persistência JSONL em disco",
+      "status": "REAL",
+      "evidence": "cognitive-telemetry.jsonl: 537 bytes"
+    },
+    {
+      "test": "0.8 archive com SHA-256",
+      "status": "REAL",
+      "evidence": "data/archive/cognitive/: 2 ficheiros JSON"
+    },
+    {
+      "test": "1.1 provider.isAvailable()",
+      "status": "REAL",
+      "evidence": "chain: chain, model: text-embedding-3-small, dims: 1536"
+    },
+    {
+      "test": "1.2 embed(text) retorna vector",
+      "status": "REAL",
+      "evidence": "dims=384, model=all-MiniLM-L6-v2-fallback, latencyMs=33"
+    },
+    {
+      "test": "1.3 mesmo texto → mesmo vector (determinístico)",
+      "status": "REAL",
+      "evidence": "first 10 dims match: true"
+    },
+    {
+      "test": "1.4 embedBatch(textos) retorna vectors",
+      "status": "REAL",
+      "evidence": "3 vectors, dims=384"
+    },
+    {
+      "test": "2.1 Chunker divide documento em chunks",
+      "status": "REAL",
+      "evidence": "2 chunks de ~512 tokens, source=README.md"
+    },
+    {
+      "test": "2.2 overlap entre chunks consecutivos",
+      "status": "REAL",
+      "evidence": "overlap verificado: \"6 providers | Kernel operacion...\" ↔ \"...Mistral ``` A plataforma não d\""
+    },
+    {
+      "test": "2.3 Reranker reduz + ordena por relevância",
+      "status": "REAL",
+      "evidence": "2 → 1 chunks após rerank, topScore=0.93"
+    },
+    {
+      "test": "2.5 MemoryEngine.searchLongTerm funciona",
+      "status": "REAL",
+      "evidence": "3424 resultados para query='task'"
+    },
+    {
+      "test": "2b.0 documentos indexados",
+      "status": "REAL",
+      "evidence": "9 documentos → 17 chunks indexados"
+    },
+    {
+      "test": "2b.arquitetura \"O que é o VISERON?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.020, 1ms, 5 chunks"
+    },
+    {
+      "test": "2b.agentes \"Quais são os agentes principais do sistema?\"",
+      "status": "REAL",
+      "evidence": "5 fontes, top=0.023, 1ms, 5 chunks"
+    },
+    {
+      "test": "2b.memória \"Como funciona a memória do VISERON?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.019, 0ms, 5 chunks"
+    },
+    {
+      "test": "2b.arquitetura \"O que é o OMEGA Kernel?\"",
+      "status": "REAL",
+      "evidence": "3 fontes, top=0.044, 0ms, 5 chunks"
+    },
+    {
+      "test": "2b.frontend \"Como funciona o Command Center?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.017, 1ms, 5 chunks"
+    },
+    {
+      "test": "2b.APIs \"Quais APIs estão disponíveis?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.006, 1ms, 5 chunks"
+    },
+    {
+      "test": "2b.roadmap \"Qual é o roadmap do VISERON?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.009, 1ms, 5 chunks"
+    },
+    {
+      "test": "2b.governança \"Como funciona a governança bíblica?\"",
+      "status": "REAL",
+      "evidence": "4 fontes, top=0.017, 0ms, 5 chunks"
+    }
+  ],
+  "benchmark": [
+    {
+      "query": "O que é o VISERON?",
+      "category": "arquitetura",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.020",
+      "latencyMs": 1,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Quais são os agentes principais do sistema?",
+      "category": "agentes",
+      "status": "REAL",
+      "foundSources": 5,
+      "topScore": "0.023",
+      "latencyMs": 1,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Como funciona a memória do VISERON?",
+      "category": "memória",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.019",
+      "latencyMs": 0,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "O que é o OMEGA Kernel?",
+      "category": "arquitetura",
+      "status": "REAL",
+      "foundSources": 3,
+      "topScore": "0.044",
+      "latencyMs": 0,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Como funciona o Command Center?",
+      "category": "frontend",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.017",
+      "latencyMs": 1,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Quais APIs estão disponíveis?",
+      "category": "APIs",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.006",
+      "latencyMs": 1,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Qual é o roadmap do VISERON?",
+      "category": "roadmap",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.009",
+      "latencyMs": 1,
+      "chunksRetrieved": 5
+    },
+    {
+      "query": "Como funciona a governança bíblica?",
+      "category": "governança",
+      "status": "REAL",
+      "foundSources": 4,
+      "topScore": "0.017",
+      "latencyMs": 0,
+      "chunksRetrieved": 5
+    }
+  ],
+  "documentsIndexed": 9,
+  "totalChunks": 17
+}
