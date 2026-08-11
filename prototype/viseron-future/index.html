@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VISERON — AI Operating System</title>
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--border:rgba(255,255,255,0.06);--text:#e2e2e8;--muted:#7a7a8a;--dim:#4a4a5a;--blue:#1a6bff;--blue-dim:rgba(26,107,255,0.08);--blue-glow:rgba(26,107,255,0.25);--gold:#c9a84c;--green:#22c55e;--radius:16px;--font:'Inter',system-ui,-apple-system,sans-serif;--mono:'SF Mono','JetBrains Mono','Fira Code',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,backdrop-filter .3s}
+nav.scrolled{background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-brand{font-size:18px;font-weight:800;letter-spacing:.12em;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
+.nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue-glow);animation:corePulse 2s ease-in-out infinite}
+@keyframes corePulse{0%,100%{box-shadow:0 0 8px var(--blue-glow)}50%{box-shadow:0 0 20px var(--blue)}}
+section{position:relative;z-index:1;padding:100px 32px;max-width:1200px;margin:0 auto}
+@media(max-width:768px){section{padding:64px 20px}nav{padding:12px 16px}}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:32px}
+.hero-badge .live{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.hero h1{font-size:clamp(42px,8vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1.05;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.7)100%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:20px}
+.hero .subtitle{font-size:clamp(16px,2.5vw,20px);color:var(--muted);max-width:640px;line-height:1.5;margin-bottom:40px;letter-spacing:.02em}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn{padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:all .2s;font-family:inherit;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 8px 30px rgba(26,107,255,.3)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:#fff}
+.btn-outline:hover{border-color:#fff}
+.core-viz{width:320px;height:320px;position:relative;margin:60px auto 0}
+.core-viz canvas{width:100%;height:100%}
+@media(max-width:768px){.core-viz{width:240px;height:240px;margin-top:40px}}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--blue);font-weight:700;margin-bottom:12px}
+.section-title{font-size:clamp(28px,5vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+.section-desc{font-size:16px;color:var(--muted);max-width:560px;margin-bottom:48px;line-height:1.6}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color .3s,transform .3s}
+.card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-2px)}
+.card-icon{font-size:28px;margin-bottom:16px}
+.card h3{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.card p{font-size:13px;color:var(--muted);line-height:1.5}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;display:flex;align-items:flex-start;gap:16px;transition:border-color .3s}
+.agent-card:hover{border-color:var(--blue)}
+.agent-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
+.agent-info h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.agent-info .caps{font-size:11px;color:var(--dim);display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.caps span{padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.04);font-size:10px;color:var(--muted)}
+.dual-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+@media(max-width:768px){.dual-panel{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px}
+.panel h3{font-size:15px;font-weight:700;margin-bottom:20px;letter-spacing:-.01em}
+.check-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.check-icon{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px}
+.check-icon.done{background:rgba(34,197,94,.12);color:var(--green)}
+.check-icon.future{background:rgba(201,168,76,.12);color:var(--gold)}
+.check-text{font-size:13px}
+.check-text strong{color:#fff;font-weight:600}
+.check-text span{color:var(--muted);display:block;font-size:11px;margin-top:2px}
+.cc-mockup{background:radial-gradient(ellipse at center,rgba(26,107,255,.06)0%,transparent 60%);border:1px solid var(--border);border-radius:20px;padding:48px 32px;text-align:center;position:relative;overflow:hidden;min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cc-mockup .ring{width:200px;height:200px;border-radius:50%;border:1px solid rgba(26,107,255,.15);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cc-mockup .ring:nth-child(2){width:280px;height:280px;border-color:rgba(26,107,255,.08)}
+.cc-mockup .ring:nth-child(3){width:360px;height:360px;border-color:rgba(26,107,255,.04)}
+.cc-core{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,var(--blue),transparent 70%);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:corePulse 2s ease-in-out infinite;z-index:1}
+.cc-metrics{display:flex;gap:40px;position:absolute;bottom:32px;z-index:1}
+.cc-metric{text-align:center}
+.cc-metric .val{font-size:28px;font-weight:800;font-family:var(--mono);color:var(--blue)}
+.cc-metric .lbl{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+@media(max-width:768px){.cc-metrics{gap:20px}.cc-metric .val{font-size:20px}}
+footer{text-align:center;padding:48px 32px;border-top:1px solid var(--border);position:relative;z-index:1}
+footer .brand{font-size:14px;font-weight:700;letter-spacing:.1em;color:#fff;margin-bottom:8px}
+footer p{font-size:12px;color:var(--dim)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.divider{border:none;border-top:1px solid var(--border);margin:0 auto;max-width:1200px;position:relative;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<nav id="nav">
+<a href="#" class="nav-brand"><span class="dot"></span>VISERON</a>
+<div style="display:flex;gap:28px;align-items:center">
+<a href="#core" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em">Core</a>
+<a href="#agents" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em">Agents</a>
+<a href="#memory" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em">Memory</a>
+<a href="#command" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em">Command</a>
+<a href="#reality" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em">Reality</a>
+<a href="/command-center" style="padding:8px 18px;border-radius:8px;border:1px solid var(--blue);background:var(--blue-dim);color:var(--blue);font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.04em">Command Center</a>
+</div>
+</nav>
+
+<section class="hero" id="hero">
+<div class="hero-badge"><span class="live"></span> Cognitive Operating System · v5.0</div>
+<h1>VISERON</h1>
+<p class="subtitle">AI Operating System for the Future of Business and Human Intelligence</p>
+<div class="hero-actions">
+<a href="#command" class="btn btn-primary">Explore</a>
+<a href="#reality" class="btn btn-outline">System of Truth</a>
+</div>
+<div class="core-viz"><canvas id="coreCanvas"></canvas></div>
+</section>
+
+<hr class="divider">
+
+<section id="core">
+<div class="section-label reveal">Core Intelligence</div>
+<h2 class="section-title reveal">VISERON Core</h2>
+<p class="section-desc reveal">An intelligent operating system that coordinates agents, knowledge, memory, and operations.</p>
+<div class="card-grid reveal">
+<div class="card"><div class="card-icon">&#9679;</div><h3>OMEGA Kernel</h3><p>9-state task pipeline, 43-topic event bus, L0-L5 autonomy, self-heal watchdog.</p></div>
+<div class="card"><div class="card-icon">&#9670;</div><h3>Cognitive Telemetry</h3><p>Every operation traced: input, embeddings, retrieval, agent, result, SHA-256 verified.</p></div>
+<div class="card"><div class="card-icon">&#9650;</div><h3>Real Embeddings</h3><p>Semantic understanding via configurable provider chain. OpenAI + local fallback.</p></div>
+<div class="card"><div class="card-icon">&#9654;</div><h3>RAG Pipeline</h3><p>Hybrid retrieval: vector + keyword + KnowledgeGraph. Sources, scores, latency — traced.</p></div>
+<div class="card"><div class="card-icon">&#9673;</div><h3>Voice Neural</h3><p>Whisper STT + ElevenLabs TTS with fallback. Voice-to-agent-to-response pipeline.</p></div>
+<div class="card"><div class="card-icon">&#9644;</div><h3>Evolution Engine</h3><p>Evidence-based improvement. Zero random. Zero formulas. Real metrics only.</p></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<section id="agents">
+<div class="section-label reveal">AI Agent Ecosystem</div>
+<h2 class="section-title reveal">Agent Architecture</h2>
+<p class="section-desc reveal">Future agent categories — each with memory, tools, specialization, and collaboration.</p>
+<div class="agent-grid reveal">
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(26,107,255,.12);color:var(--blue)">E</div><div class="agent-info"><h4>Executive Agent</h4><div class="caps"><span>strategy</span><span>vision</span><span>governance</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(34,197,94,.12);color:var(--green)">R</div><div class="agent-info"><h4>Research Agent</h4><div class="caps"><span>analysis</span><span>papers</span><span>trends</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(168,85,247,.12);color:#a855f7">D</div><div class="agent-info"><h4>Engineering Agent</h4><div class="caps"><span>code</span><span>architecture</span><span>testing</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(251,146,60,.12);color:#fb923c">M</div><div class="agent-info"><h4>Marketing Agent</h4><div class="caps"><span>creatives</span><span>analytics</span><span>campaigns</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(34,197,94,.12);color:var(--green)">F</div><div class="agent-info"><h4>Finance Agent</h4><div class="caps"><span>forecasting</span><span>risk</span><span>budget</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(239,68,68,.12);color:#ef4444">S</div><div class="agent-info"><h4>Security Agent</h4><div class="caps"><span>monitoring</span><span>compliance</span><span>defense</span></div></div></div>
+<div class="agent-card"><div class="agent-avatar" style="background:rgba(26,107,255,.12);color:var(--blue)">O</div><div class="agent-info"><h4>Operations Agent</h4><div class="caps"><span>deploy</span><span>monitor</span><span>scale</span></div></div></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<section id="memory">
+<div class="section-label reveal">Cognitive Memory System</div>
+<h2 class="section-title reveal">Knowledge That Evolves</h2>
+<p class="section-desc reveal">VISERON transforms information into operational knowledge — with continuous consolidation, semantic deduplication, and graph-based relationships.</p>
+<div class="card-grid reveal">
+<div class="card"><div class="card-icon">&#9679;</div><h3>4-Layer Memory</h3><p>STM (30min TTL) → LTM (20K records) → Knowledge Base (2K docs) → Vector Store.</p></div>
+<div class="card"><div class="card-icon">&#9670;</div><h3>Knowledge Graph</h3><p>1000+ entities, 1000+ relations. BFS shortest path, semantic clustering, entity linking.</p></div>
+<div class="card"><div class="card-icon">&#9650;</div><h3>GraphRAG</h3><p>Hybrid search combining graph traversal with vector similarity. Entity extraction + relation scoring.</p></div>
+<div class="card"><div class="card-icon">&#9654;</div><h3>Knowledge Archive</h3><p>SHA-256 hashed permanent records. Decisions, executions, milestones — immutable.</p></div>
+</div>
+</section>
+
+<hr class="divider">
+
+<section id="command">
+<div class="section-label reveal">Command Center</div>
+<h2 class="section-title reveal">Operational Intelligence Interface</h2>
+<p class="section-desc reveal">Real-time 3D hologram, voice commands, live agent dispatch, cognitive dashboard.</p>
+<div class="cc-mockup reveal">
+<div class="ring"></div><div class="ring"></div><div class="ring"></div>
+<div class="cc-core"></div>
+<div class="cc-metrics">
+<div class="cc-metric"><div class="val">9</div><div class="lbl">Systems</div></div>
+<div class="cc-metric"><div class="val">43</div><div class="lbl">SSE Topics</div></div>
+<div class="cc-metric"><div class="val">188</div><div class="lbl">APIs</div></div>
+<div class="cc-metric"><div class="val">20K</div><div class="lbl">Memory</div></div>
+</div>
+</div>
+</section>
+
+<hr class="divider">
+
+<section id="reality">
+<div class="section-label reveal">System of Truth</div>
+<h2 class="section-title reveal">Implemented vs Future</h2>
+<p class="section-desc reveal">What exists today. What we are building tomorrow. Zero exaggeration.</p>
+<div class="dual-panel reveal">
+<div class="panel">
+<h3>Implemented Today</h3>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>Cognitive Telemetry</strong><span>Every operation traced and SHA-256 verified</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>Real Embeddings</strong><span>OpenAI + MiniLM provider chain</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>RAG Pipeline</strong><span>Hybrid vector + keyword retrieval</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>Voice Neural</strong><span>Whisper STT + ElevenLabs TTS architecture</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>GraphRAG</strong><span>KG traversal + vector hybrid search</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>Evolution Engine</strong><span>Evidence-based, zero random, zero formulas</span></div></div>
+<div class="check-item"><div class="check-icon done">&#10003;</div><div class="check-text"><strong>Command Center 2.0</strong><span>3D hologram + voice + terminal + cognitive dashboard</span></div></div>
+</div>
+<div class="panel">
+<h3>Future Vision</h3>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Advanced Autonomous Agents</strong><span>Self-improving, domain-specialized, collaborative</span></div></div>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Enterprise Scale</strong><span>Multi-tenant, 100+ clients, custom agent factories</span></div></div>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Full Business Automation</strong><span>CRM, marketing, sales, support, finance — autonomous</span></div></div>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Continuous Evolution</strong><span>Self-optimizing agents with feedback loop</span></div></div>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Distributed Infrastructure</strong><span>Multi-node, regional, high availability</span></div></div>
+<div class="check-item"><div class="check-icon future">&#9679;</div><div class="check-text"><strong>Global AI OS</strong><span>100K+ clients, autonomous organizations, planetary scale</span></div></div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="brand">VISERON</div>
+<p>AI Operating System · &copy; 2026 Pedro Costa &amp; Trinnity Hurtado · Trinnity Viseron System v5.0</p>
+<p style="margin-top:8px">This prototype represents the architectural vision. <a href="/command-center" style="color:var(--blue)">Command Center</a> is operational.</p>
+</footer>
+<script>
+(function(){
+var pc=document.getElementById('particles'),pctx=pc.getContext('2d');
+var pts=[],W,H;
+function resize(){W=pc.width=innerWidth;H=pc.height=innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<100;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*0.3,vy:(Math.random()-.5)*0.3,r:Math.random()*1.5+0.5});
+function draw(){
+pctx.clearRect(0,0,W,H);
+for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+pctx.beginPath();pctx.arc(p.x,p.y,p.r,0,Math.PI*2);pctx.fillStyle='rgba(255,255,255,'+(0.15+Math.sin(i*0.5+Date.now()*0.001)*0.1)+')';pctx.fill()}
+for(var i=0;i<pts.length;i++){for(var j=i+1;j<pts.length;j++){var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;var d=Math.sqrt(dx*dx+dy*dy);if(d<100){pctx.beginPath();pctx.moveTo(pts[i].x,pts[i].y);pctx.lineTo(pts[j].x,pts[j].y);pctx.strokeStyle='rgba(255,255,255,'+(0.03*(1-d/100))+')';pctx.stroke()}}}
+requestAnimationFrame(draw)}
+draw();
+
+var cc=document.getElementById('coreCanvas'),cctx=cc.getContext('2d');
+var cW,cH,time=0;function resizeCore(){cW=cc.width=cc.parentElement.clientWidth;cH=cc.height=cc.parentElement.clientHeight}resizeCore();window.addEventListener('resize',resizeCore);
+function drawCore(){cctx.clearRect(0,0,cW,cH);time+=0.01;var cx=cW/2,cy=cH/2;
+var r=40+Math.sin(time*1.5)*4;var grad=cctx.createRadialGradient(cx,cy,0,cx,cy,r*2);
+grad.addColorStop(0,'rgba(26,107,255,0.6)');grad.addColorStop(0.5,'rgba(26,107,255,0.1)');grad.addColorStop(1,'transparent');
+cctx.beginPath();cctx.arc(cx,cy,r*2,0,Math.PI*2);cctx.fillStyle=grad;cctx.fill();
+cctx.beginPath();cctx.arc(cx,cy,r,0,Math.PI*2);cctx.fillStyle='rgba(26,107,255,0.8)';cctx.fill();
+cctx.beginPath();cctx.arc(cx,cy,r*0.4,0,Math.PI*2);cctx.fillStyle='#fff';cctx.fill();
+var orbitR=90;for(var i=0;i<3;i++){cctx.beginPath();cctx.arc(cx,cy,orbitR+i*25,0,Math.PI*2);cctx.strokeStyle='rgba(26,107,255,'+(0.08-i*0.02)+')';cctx.stroke()}
+var modules=['Agents','Memory','Knowledge','Voice','Evolution','RAG'];
+for(var i=0;i<modules.length;i++){var angle=(i/modules.length)*Math.PI*2+time*0.3;var ox=cx+Math.cos(angle)*orbitR,oy=cy+Math.sin(angle)*orbitR*0.5;
+cctx.beginPath();cctx.arc(ox,oy,3,0,Math.PI*2);cctx.fillStyle='rgba(255,255,255,0.6)';cctx.fill();
+cctx.fillStyle='rgba(255,255,255,0.4)';cctx.font='10px system-ui';cctx.fillText(modules[i],ox+6,oy+4)}
+requestAnimationFrame(drawCore)}drawCore();
+
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>40)});
+var reveals=document.querySelectorAll('.reveal');
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.12});
+reveals.forEach(function(el){obs.observe(el)});
+})();
+</script>
+</body>
+</html>
