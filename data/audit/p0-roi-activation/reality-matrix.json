@@ -1,0 +1,22 @@
+[
+  {
+    "capability": "Provider Matrix",
+    "status": "REAL",
+    "evidence": "2/5 providers configured"
+  },
+  {
+    "capability": "Skill Executor",
+    "status": "REAL",
+    "evidence": "10 skills indexed (PARTIAL — not yet executable via VISERON runtime)"
+  },
+  {
+    "capability": "Agent Dispatch",
+    "status": "PARTIAL",
+    "evidence": "[Autonomy] agent 'agent_ceo' requires human approval: domain \"agents\" at level 2 — execution requires human approval"
+  },
+  {
+    "capability": "Throughput (after)",
+    "status": "REAL",
+    "evidence": "333 tasks/sec"
+  }
+]

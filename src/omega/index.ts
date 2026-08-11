@@ -122,12 +122,16 @@ export class OmegaPlatform {
     this.enterprise = new EnterpriseHub(this.kernel);
     this.enterprise.loadFromDir(ENTERPRISE_DIR);
 
-    if (options.agentManager) {
-      this.kernel.attachAgentRegistry({
-        getAgents: () => options.agentManager!.list(),
-        runAgent: (id, task, ctx) => options.agentManager!.run(id, task, ctx),
-      });
+    // Wire Agent Registry to Kernel for real dispatch (P0-C)
+    // Always wire when agents are loaded
+    this.kernel.attachAgentRegistry({
+      getAgents: () => this.agents.status().specs.map(s => ({
+        id: s.id, name: s.name, role: s.role, status: s.status, capabilities: []
+      })),
+      runAgent: (id, task, ctx) => this.agents.execute(id, task, ctx),
+    });
 
+    if (options.agentManager) {
       // Executor padrão do kernel: QUALQUER tarefa enfileirada é executada por
       // uma das 5000+ mentes (o agente nuclear mais indicado pelo payload).
       // Regra de honra do hardening: o sucesso NUNCA se deduz do texto — só da

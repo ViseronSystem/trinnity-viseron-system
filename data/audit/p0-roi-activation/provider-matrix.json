@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Ollama",
+    "type": "TEXT_GENERATION",
+    "configured": false,
+    "status": "AVAILABLE",
+    "capability": "local AI generation"
+  },
+  {
+    "name": "OpenAI",
+    "type": "EMBEDDING",
+    "configured": false,
+    "status": "NOT_CONFIGURED",
+    "capability": "cloud embeddings + text generation"
+  },
+  {
+    "name": "ElevenLabs",
+    "type": "TTS",
+    "configured": false,
+    "status": "NOT_CONFIGURED",
+    "capability": "neural voice synthesis"
+  },
+  {
+    "name": "MiniLM",
+    "type": "EMBEDDING",
+    "configured": true,
+    "status": "AVAILABLE (fallback)",
+    "capability": "local embeddings (384d, deterministic)"
+  },
+  {
+    "name": "Composio",
+    "type": "MCP_TOOLS",
+    "configured": false,
+    "status": "NOT_CONFIGURED",
+    "capability": "MCP external tools"
+  }
+]
