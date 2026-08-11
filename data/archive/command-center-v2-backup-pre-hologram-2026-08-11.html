@@ -177,33 +177,12 @@
   .hint { color: var(--dim); font-size: 11px; text-align: center; margin-top: 28px; }
   .hint a { color: var(--neon); text-decoration: none; }
 
-  #holo-container {
-    position: relative; width: 100%; height: 360px; margin-bottom: 20px;
-    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
-    background: radial-gradient(ellipse at center, rgba(0,240,255,0.03) 0%, transparent 70%);
-  }
-  #holo-canvas { display: block; width: 100%; height: 100%; }
-  .holo-label {
-    position: absolute; color: var(--neon); font-size: 10px; font-weight: 600;
-    text-align: center; pointer-events: none; transform: translate(-50%, -50%);
-    letter-spacing: 0.05em; text-shadow: 0 0 8px rgba(0,240,255,0.5);
-    transition: color 0.5s, text-shadow 0.5s;
-  }
-  .holo-label.busy { color: var(--amber); text-shadow: 0 0 12px rgba(255,176,32,0.7); }
-  .holo-label.error { color: var(--neon3); text-shadow: 0 0 12px rgba(255,45,85,0.7); }
-  .holo-legend {
-    position: absolute; bottom: 12px; left: 16px; display: flex; gap: 14px; flex-wrap: wrap;
-  }
-  .holo-legend span { font-size: 9px; color: var(--dim); display: flex; align-items: center; gap: 5px; }
-  .holo-legend .swatch { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
   @media (max-width: 600px) {
     .card .value { font-size: 24px; }
     .wrap { padding: 16px 12px 48px; }
     .agent-task-input { width: 100px; }
-    #holo-container { height: 260px; }
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -217,18 +196,6 @@
       <span class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></span>
     </div>
   </header>
-
-  <!-- HOLOGRAM 3D -->
-  <div id="holo-container">
-    <canvas id="holo-canvas"></canvas>
-    <div class="holo-legend">
-      <span><span class="swatch" style="background:var(--neon);box-shadow:0 0 6px var(--neon)"></span>ACTIVE</span>
-      <span><span class="swatch" style="background:var(--amber);box-shadow:0 0 6px var(--amber)"></span>BUSY</span>
-      <span><span class="swatch" style="background:var(--neon2)"></span>IDLE</span>
-      <span><span class="swatch" style="background:var(--neon3);box-shadow:0 0 6px var(--neon3)"></span>ERROR</span>
-      <span style="margin-left:8px">kernel · <span id="holoKernelLabel">—</span></span>
-    </div>
-  </div>
 
   <!-- VOICE COMMAND BAR -->
   <div class="voice-bar">
@@ -345,242 +312,6 @@
   const logEl = document.getElementById('logs');
   let eventSource = null;
 
-  // ─── THREE.JS HOLOGRAM ──────────────────────────────────
-  let holoScene, holoCamera, holoRenderer, holoGroup;
-  let agentSpheres = [];     // { id, mesh, ring, baseColor, targetScale, pulseSpeed, state }
-  let kernelSphere = null;
-  let taskParticles = [];
-  let holoLabels = [];
-  const AGENT_COLORS = {
-    ACTIVE: 0x00f0ff, BUSY: 0xffb020, ERROR: 0xff2d55, IDLE: 0x444466,
-    CEO: 0x00f0ff, CTO: 0xbf5af2, Finance: 0x3dffa0, Security: 0xff2d55,
-    Sales: 0xffb020, Research: 0x00f0ff, DevOps: 0xbf5af2, Support: 0x3dffa0, Vision: 0xffb020
-  };
-  const AGENT_COLORS_HEX = {
-    ACTIVE: '#00f0ff', BUSY: '#ffb020', ERROR: '#ff2d55', IDLE: '#444466'
-  };
-
-  function initHologram() {
-    try {
-      const container = document.getElementById('holo-container');
-      const canvas = document.getElementById('holo-canvas');
-      if (!container || !canvas || typeof THREE === 'undefined') return;
-
-      const W = container.clientWidth, H = container.clientHeight;
-      holoScene = new THREE.Scene();
-      holoCamera = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
-      holoCamera.position.z = 12;
-      holoRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      holoRenderer.setSize(W, H);
-      holoRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // Central kernel sphere
-      const kGeo = new THREE.IcosahedronGeometry(0.55, 1);
-      const kMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.5 });
-      kernelSphere = new THREE.Mesh(kGeo, kMat);
-      holoScene.add(kernelSphere);
-
-      // Ring for orbit reference
-      const ringGeo = new THREE.TorusGeometry(3.8, 0.02, 16, 100);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.08 });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = Math.PI / 2.5;
-      holoScene.add(ring);
-
-      // Ambient particles background
-      const pGeo = new THREE.BufferGeometry();
-      const pPos = new Float32Array(400 * 3);
-      for (let i = 0; i < 400 * 3; i++) pPos[i] = (Math.random() - 0.5) * 16;
-      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-      const pMat = new THREE.PointsMaterial({ color: 0x00f0ff, size: 0.03, transparent: true, opacity: 0.25 });
-      holoScene.add(new THREE.Points(pGeo, pMat));
-
-      holoGroup = new THREE.Group();
-      holoScene.add(holoGroup);
-
-      // Start render loop
-      function animateHolo() {
-        requestAnimationFrame(animateHolo);
-        const t = performance.now() * 0.001;
-        if (kernelSphere) {
-          kernelSphere.rotation.x += 0.004;
-          kernelSphere.rotation.y += 0.006;
-          const ks = 1 + Math.sin(t * 1.5) * 0.08;
-          kernelSphere.scale.setScalar(ks);
-        }
-        agentSpheres.forEach(function(as) {
-          if (!as.mesh) return;
-          as.mesh.rotation.x += 0.005;
-          as.mesh.rotation.y += 0.008;
-          // Pulse based on state
-          const target = as.targetScale || 1;
-          const speed = as.pulseSpeed || 1;
-          const s = target + Math.sin(t * speed * 3) * 0.1 * target;
-          as.mesh.scale.lerp(new THREE.Vector3(s, s, s), 0.1);
-          // Opacity pulse
-          if (as.mesh.material) {
-            const op = as.state === 'BUSY' ? 0.5 + Math.sin(t * 6) * 0.3 : (as.state === 'ERROR' ? 0.5 + Math.sin(t * 10) * 0.4 : 0.3 + Math.sin(t * 2) * 0.1);
-            as.mesh.material.opacity = op;
-          }
-        });
-        // Animate task particles
-        taskParticles = taskParticles.filter(function(tp) {
-          tp.progress += tp.speed;
-          if (tp.progress >= 1) { holoScene.remove(tp.mesh); return false; }
-          tp.mesh.position.lerpVectors(tp.from, tp.to, tp.progress);
-          tp.mesh.material.opacity = 1 - tp.progress;
-          return true;
-        });
-        if (holoRenderer && holoScene && holoCamera) holoRenderer.render(holoScene, holoCamera);
-      }
-      animateHolo();
-
-      window.addEventListener('resize', function() {
-        if (!holoRenderer || !holoCamera) return;
-        const w = container.clientWidth, h = container.clientHeight;
-        holoCamera.aspect = w / h;
-        holoCamera.updateProjectionMatrix();
-        holoRenderer.setSize(w, h);
-      });
-    } catch(e) { console.warn('[holo] init failed:', e.message); }
-  }
-
-  function updateAgentSpheres(agents) {
-    if (!holoGroup || typeof THREE === 'undefined') return;
-    // Remove old spheres and labels
-    agentSpheres.forEach(function(as) { if (as.mesh) holoGroup.remove(as.mesh); });
-    holoLabels.forEach(function(l) { l.remove(); });
-    holoLabels = [];
-    agentSpheres = [];
-
-    const n = agents.length || 10;
-    const radius = 3.8;
-    agents.forEach(function(a, i) {
-      const angle = (i / n) * Math.PI * 2;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius * 0.55; // flatten ellipse
-
-      // Determine color from role or status
-      const roleColor = AGENT_COLORS[a.role] || AGENT_COLORS[a.id] || AGENT_COLORS.ACTIVE;
-      const state = a.status === 'ACTIVE' ? 'ACTIVE' : 'IDLE';
-
-      const geo = new THREE.IcosahedronGeometry(0.32, 0);
-      const mat = new THREE.MeshBasicMaterial({
-        color: state === 'ACTIVE' ? roleColor : AGENT_COLORS.IDLE,
-        wireframe: true, transparent: true, opacity: state === 'ACTIVE' ? 0.7 : 0.2
-      });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(x, y, 0);
-      holoGroup.add(mesh);
-
-      // Inner solid sphere for glow
-      const innerGeo = new THREE.SphereGeometry(0.15, 16, 16);
-      const innerMat = new THREE.MeshBasicMaterial({
-        color: roleColor, transparent: true, opacity: state === 'ACTIVE' ? 0.5 : 0.1
-      });
-      const inner = new THREE.Mesh(innerGeo, innerMat);
-      mesh.add(inner);
-
-      agentSpheres.push({
-        id: a.id, mesh: mesh, ring: null,
-        baseColor: roleColor,
-        targetScale: state === 'ACTIVE' ? 1.0 : 0.4,
-        pulseSpeed: state === 'ACTIVE' ? 1.0 : 0.3,
-        state: state
-      });
-
-      // HTML label
-      const label = document.createElement('div');
-      label.className = 'holo-label';
-      label.textContent = (a.name || a.id || '').slice(0, 14);
-      document.getElementById('holo-container').appendChild(label);
-      holoLabels.push({ el: label, mesh: mesh, id: a.id });
-    });
-    updateHoloLabels();
-  }
-
-  function setAgentHoloState(agentId, newState) {
-    const as = agentSpheres.find(function(s) { return s.id === agentId; });
-    if (!as || !as.mesh) return;
-    as.state = newState;
-    const color = AGENT_COLORS[newState] || as.baseColor;
-    as.mesh.material.color.setHex(color);
-    as.mesh.material.opacity = newState === 'BUSY' ? 0.9 : newState === 'ERROR' ? 1.0 : newState === 'ACTIVE' ? 0.7 : 0.2;
-    as.targetScale = newState === 'BUSY' ? 1.8 : newState === 'ERROR' ? 1.5 : newState === 'ACTIVE' ? 1.0 : 0.4;
-    as.pulseSpeed = newState === 'BUSY' ? 3.0 : newState === 'ERROR' ? 5.0 : 1.0;
-
-    // Update child inner sphere
-    if (as.mesh.children[0]) {
-      as.mesh.children[0].material.color.setHex(color);
-      as.mesh.children[0].material.opacity = newState === 'BUSY' ? 0.7 : newState === 'ACTIVE' ? 0.5 : 0.1;
-    }
-
-    // Update label
-    const lbl = holoLabels.find(function(l) { return l.id === agentId; });
-    if (lbl) {
-      lbl.el.className = 'holo-label' + (newState === 'BUSY' ? ' busy' : '') + (newState === 'ERROR' ? ' error' : '');
-    }
-  }
-
-  function spawnTaskParticle(fromAgentId, toAgentId) {
-    if (!holoScene || typeof THREE === 'undefined') return;
-    const fromAs = agentSpheres.find(function(s) { return s.id === fromAgentId; });
-    const toAs = agentSpheres.find(function(s) { return s.id === toAgentId; });
-    const fromPos = fromAs ? fromAs.mesh.position.clone() : new THREE.Vector3(0, 0, 0);
-    const toPos = toAs ? toAs.mesh.position.clone() : new THREE.Vector3(0, 0, 0);
-    const geo = new THREE.SphereGeometry(0.06, 6, 6);
-    const mat = new THREE.MeshBasicMaterial({ color: 0x3dffa0, transparent: true, opacity: 0.9 });
-    const particle = new THREE.Mesh(geo, mat);
-    particle.position.copy(fromPos);
-    holoScene.add(particle);
-    taskParticles.push({ mesh: particle, from: fromPos, to: toPos, progress: 0, speed: 0.015 + Math.random() * 0.02 });
-  }
-
-  function updateHoloLabels() {
-    if (!holoRenderer || !holoCamera) return;
-    holoLabels.forEach(function(l) {
-      if (!l.mesh) return;
-      const pos = l.mesh.position.clone();
-      pos.project(holoCamera);
-      const container = document.getElementById('holo-container');
-      const w = container.clientWidth, h = container.clientHeight;
-      const x = (pos.x * 0.5 + 0.5) * w;
-      const y = (-pos.y * 0.5 + 0.5) * h;
-      l.el.style.left = x + 'px';
-      l.el.style.top = (y - 20) + 'px';
-    });
-    // Update kernel label
-    const kl = document.getElementById('holoKernelLabel');
-    if (kl) kl.textContent = agentSpheres.filter(function(s) { return s.state === 'BUSY'; }).length + ' busy';
-  }
-
-  // Hook into existing SSE events for hologram
-  function holoOnSseEvent(topic, payload) {
-    if (!holoGroup) return;
-    if (topic === 'agent.gate' || topic === 'kernel:dispatch') {
-      const agentId = payload.agent || payload.agentId;
-      if (agentId) setAgentHoloState(agentId, 'BUSY');
-    }
-    if (topic === 'task:completed') {
-      const task = payload;
-      if (task.assignedAgentId) {
-        setAgentHoloState(task.assignedAgentId, 'ACTIVE');
-        spawnTaskParticle(task.assignedAgentId, null);
-      }
-    }
-    if (topic === 'task:failed') {
-      const task = payload;
-      if (task.assignedAgentId) {
-        setAgentHoloState(task.assignedAgentId, 'ERROR');
-        setTimeout(function() { setAgentHoloState(task.assignedAgentId, 'ACTIVE'); }, 3000);
-      }
-    }
-    updateHoloLabels();
-  }
-
-  // Init hologram after DOM ready
-  setTimeout(initHologram, 300);
-
   // ─── HELPERS ────────────────────────────────────────────
   function $(id) { return document.getElementById(id); }
   async function j(url, opts) {
@@ -650,7 +381,6 @@
           var st = p.state || '?';
           addLog(title + ' (' + st + ')', d.topic, true);
           updateTaskCard();
-          holoOnSseEvent(d.topic, p);
         } catch(ex) {}
       });
     });
@@ -673,7 +403,6 @@
           var d = JSON.parse(e.data);
           var p = d.payload || {};
           addLog((p.component || p.agent || '?') + ' ' + (p.allowed !== undefined ? (p.allowed ? 'allowed' : 'denied') : ''), d.topic, true);
-          holoOnSseEvent(d.topic, p);
         } catch(ex) {}
       });
     });
@@ -769,7 +498,6 @@
         tbody.appendChild(tr);
       });
       addLog('refresh: ' + agents.length + ' agents, ' + k.tasks.completed + ' tasks completed', 'kernel:status', true);
-      updateAgentSpheres(agents);
     } catch (e) {
       setStatus(false);
       $('k_system').textContent = 'ERR';
@@ -1080,7 +808,6 @@
   connectSSE();
   refresh();
   setInterval(refresh, 30000); // fallback polling a cada 30s
-  setInterval(updateHoloLabels, 2000); // update hologram labels
 
   // Auto-foco no terminal ao carregar
   setTimeout(function() { $('termInput').focus(); }, 500);
