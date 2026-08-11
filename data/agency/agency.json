@@ -129,6 +129,16 @@
       "createdAt": "2026-07-24T00:12:39.072Z",
       "updatedAt": "2026-08-06T00:12:39.072Z",
       "notes": "Onboarding estandarizado · reporte quincenal"
+    },
+    {
+      "id": "clinica_demo",
+      "name": "Clinica Demo",
+      "niche": "saude",
+      "plan": "bundle",
+      "fee": 1400,
+      "owner": "pedro",
+      "status": "active",
+      "createdAt": "2026-08-11T10:48:05.261Z"
     }
   ],
   "leads": [
@@ -222,6 +232,402 @@
       "lastContact": "2026-08-07T13:44:19.297Z",
       "followUpAt": "",
       "notes": "Hola, quiero aumentar clientes con Google Ads para mi estudio de yoga. �Me ayudais? · [2026-08-07T13:44:19.296Z] resposta enviada: Hola Marta,\n\n¡Claro que sí! Me encantaría ayudarte con tu estudio de yoga.\n\n¿Te gustaría hablar sobre cómo podemos mejorar tus campañas de Google Ads? Podríamos programar una llamada para discutirlo e"
+    },
+    {
+      "id": "lead_msojfv1f_tvep",
+      "clientId": "clinica_demo",
+      "name": "Dra. Ana Silva",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dra..ana.silva@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T21:27:31.588Z",
+      "lastContact": "2026-08-11T10:49:16.522Z"
+    },
+    {
+      "id": "lead_msojfv1o_ww0e",
+      "clientId": "clinica_demo",
+      "name": "Dr. Carlos Mendes",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..carlos.mendes@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-06T10:01:34.356Z",
+      "lastContact": "2026-08-11T10:49:16.526Z"
+    },
+    {
+      "id": "lead_msojfv1r_lrns",
+      "clientId": "clinica_demo",
+      "name": "Enf. Maria Costa",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "enf..maria.costa@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T15:44:17.436Z",
+      "lastContact": "2026-08-11T10:49:16.529Z"
+    },
+    {
+      "id": "lead_msojfv1u_og4n",
+      "clientId": "clinica_demo",
+      "name": "Dr. Joao Pereira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dr..joao.pereira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-07-28T12:41:04.609Z",
+      "lastContact": "2026-08-11T10:49:16.531Z"
+    },
+    {
+      "id": "lead_msojfv1x_rco3",
+      "clientId": "clinica_demo",
+      "name": "Dra. Sofia Rodrigues",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..sofia.rodrigues@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-03T17:01:22.423Z",
+      "lastContact": "2026-08-11T10:49:16.535Z"
+    },
+    {
+      "id": "lead_msojfv21_mn85",
+      "clientId": "clinica_demo",
+      "name": "Dr. Paulo Santos",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..paulo.santos@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-06T04:41:36.962Z",
+      "lastContact": "2026-08-11T10:49:16.539Z"
+    },
+    {
+      "id": "lead_msojfv24_qr5j",
+      "clientId": "clinica_demo",
+      "name": "Enf. Rita Oliveira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..rita.oliveira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-07T13:12:59.458Z",
+      "lastContact": "2026-08-11T10:49:16.542Z"
+    },
+    {
+      "id": "lead_msojfv27_s3ra",
+      "clientId": "clinica_demo",
+      "name": "Dr. Miguel Ferreira",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..miguel.ferreira@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-07T13:22:02.336Z",
+      "lastContact": "2026-08-11T10:49:16.544Z"
+    },
+    {
+      "id": "lead_msojfv29_9kr4",
+      "clientId": "clinica_demo",
+      "name": "Dra. Laura Martins",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..laura.martins@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-09T15:10:04.435Z",
+      "lastContact": "2026-08-11T10:49:16.549Z"
+    },
+    {
+      "id": "lead_msojfv2g_r5ec",
+      "clientId": "clinica_demo",
+      "name": "Dr. Tiago Almeida",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..tiago.almeida@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T20:47:26.669Z",
+      "lastContact": "2026-08-11T10:49:16.557Z"
+    },
+    {
+      "id": "lead_msojfv2n_z6xl",
+      "clientId": "clinica_demo",
+      "name": "Enf. Beatriz Cardoso",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..beatriz.cardoso@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-01T03:32:01.237Z",
+      "lastContact": "2026-08-11T10:49:16.565Z"
+    },
+    {
+      "id": "lead_msojfv2v_bpvf",
+      "clientId": "clinica_demo",
+      "name": "Dr. Andre Lopes",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..andre.lopes@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T22:15:05.100Z",
+      "lastContact": "2026-08-11T10:49:16.571Z"
+    },
+    {
+      "id": "lead_msojge8j_0tan",
+      "clientId": "clinica_demo",
+      "name": "Dra. Ana Silva",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dra..ana.silva@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-07-31T12:38:02.013Z",
+      "lastContact": "2026-08-11T10:49:41.395Z"
+    },
+    {
+      "id": "lead_msojge8k_tmod",
+      "clientId": "clinica_demo",
+      "name": "Dr. Carlos Mendes",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..carlos.mendes@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-09T21:28:56.788Z",
+      "lastContact": "2026-08-11T10:49:41.397Z"
+    },
+    {
+      "id": "lead_msojge8l_3pwn",
+      "clientId": "clinica_demo",
+      "name": "Enf. Maria Costa",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "enf..maria.costa@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-07T15:23:17.423Z",
+      "lastContact": "2026-08-11T10:49:41.398Z"
+    },
+    {
+      "id": "lead_msojge8m_za27",
+      "clientId": "clinica_demo",
+      "name": "Dr. Joao Pereira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dr..joao.pereira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T23:07:50.594Z",
+      "lastContact": "2026-08-11T10:49:41.399Z"
+    },
+    {
+      "id": "lead_msojge8n_u0go",
+      "clientId": "clinica_demo",
+      "name": "Dra. Sofia Rodrigues",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..sofia.rodrigues@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T19:01:36.523Z",
+      "lastContact": "2026-08-11T10:49:41.400Z"
+    },
+    {
+      "id": "lead_msojge8p_ph2w",
+      "clientId": "clinica_demo",
+      "name": "Dr. Paulo Santos",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..paulo.santos@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T09:31:56.185Z",
+      "lastContact": "2026-08-11T10:49:41.403Z"
+    },
+    {
+      "id": "lead_msojge8r_7ghp",
+      "clientId": "clinica_demo",
+      "name": "Enf. Rita Oliveira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..rita.oliveira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T04:04:50.920Z",
+      "lastContact": "2026-08-11T10:49:41.405Z"
+    },
+    {
+      "id": "lead_msojge8t_ga7q",
+      "clientId": "clinica_demo",
+      "name": "Dr. Miguel Ferreira",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..miguel.ferreira@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-07-30T09:28:32.775Z",
+      "lastContact": "2026-08-11T10:49:41.408Z"
+    },
+    {
+      "id": "lead_msojge8x_7pa7",
+      "clientId": "clinica_demo",
+      "name": "Dra. Laura Martins",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..laura.martins@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-06T12:52:45.664Z",
+      "lastContact": "2026-08-11T10:49:41.410Z"
+    },
+    {
+      "id": "lead_msojge8z_e9my",
+      "clientId": "clinica_demo",
+      "name": "Dr. Tiago Almeida",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..tiago.almeida@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-07T23:56:56.335Z",
+      "lastContact": "2026-08-11T10:49:41.412Z"
+    },
+    {
+      "id": "lead_msojge90_i103",
+      "clientId": "clinica_demo",
+      "name": "Enf. Beatriz Cardoso",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..beatriz.cardoso@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-03T08:10:18.631Z",
+      "lastContact": "2026-08-11T10:49:41.414Z"
+    },
+    {
+      "id": "lead_msojge92_sqft",
+      "clientId": "clinica_demo",
+      "name": "Dr. Andre Lopes",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..andre.lopes@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T01:32:03.311Z",
+      "lastContact": "2026-08-11T10:49:41.415Z"
+    },
+    {
+      "id": "lead_msojh3ey_fa39",
+      "clientId": "clinica_demo",
+      "name": "Dra. Ana Silva",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dra..ana.silva@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-02T09:54:07.020Z",
+      "lastContact": "2026-08-11T10:50:14.029Z"
+    },
+    {
+      "id": "lead_msojh3f2_v3nw",
+      "clientId": "clinica_demo",
+      "name": "Dr. Carlos Mendes",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..carlos.mendes@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-09T10:52:14.485Z",
+      "lastContact": "2026-08-11T10:50:14.032Z"
+    },
+    {
+      "id": "lead_msojh3f5_hoe6",
+      "clientId": "clinica_demo",
+      "name": "Enf. Maria Costa",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "enf..maria.costa@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-01T15:12:32.982Z",
+      "lastContact": "2026-08-11T10:50:14.033Z"
+    },
+    {
+      "id": "lead_msojh3f6_ku23",
+      "clientId": "clinica_demo",
+      "name": "Dr. Joao Pereira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "dr..joao.pereira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-03T00:42:35.402Z",
+      "lastContact": "2026-08-11T10:50:14.035Z"
+    },
+    {
+      "id": "lead_msojh3f9_9rcq",
+      "clientId": "clinica_demo",
+      "name": "Dra. Sofia Rodrigues",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..sofia.rodrigues@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-02T20:34:16.408Z",
+      "lastContact": "2026-08-11T10:50:14.039Z"
+    },
+    {
+      "id": "lead_msojh3fc_qqix",
+      "clientId": "clinica_demo",
+      "name": "Dr. Paulo Santos",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..paulo.santos@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-01T04:01:11.671Z",
+      "lastContact": "2026-08-11T10:50:14.041Z"
+    },
+    {
+      "id": "lead_msojh3fe_xqu0",
+      "clientId": "clinica_demo",
+      "name": "Enf. Rita Oliveira",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..rita.oliveira@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-07-29T01:33:28.354Z",
+      "lastContact": "2026-08-11T10:50:14.043Z"
+    },
+    {
+      "id": "lead_msojh3ff_capq",
+      "clientId": "clinica_demo",
+      "name": "Dr. Miguel Ferreira",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..miguel.ferreira@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-01T13:00:00.947Z",
+      "lastContact": "2026-08-11T10:50:14.045Z"
+    },
+    {
+      "id": "lead_msojh3fi_b2ga",
+      "clientId": "clinica_demo",
+      "name": "Dra. Laura Martins",
+      "source": "referral",
+      "status": "responded",
+      "email": "dra..laura.martins@email.pt",
+      "notes": "Lead de referral | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T22:21:50.200Z",
+      "lastContact": "2026-08-11T10:50:14.049Z"
+    },
+    {
+      "id": "lead_msojh3fm_p0np",
+      "clientId": "clinica_demo",
+      "name": "Dr. Tiago Almeida",
+      "source": "meta_ads",
+      "status": "responded",
+      "email": "dr..tiago.almeida@email.pt",
+      "notes": "Lead de meta_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-08T20:05:35.874Z",
+      "lastContact": "2026-08-11T10:50:14.053Z"
+    },
+    {
+      "id": "lead_msojh3fq_448z",
+      "clientId": "clinica_demo",
+      "name": "Enf. Beatriz Cardoso",
+      "source": "google_ads",
+      "status": "responded",
+      "email": "enf..beatriz.cardoso@email.pt",
+      "notes": "Lead de google_ads | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-05T07:32:05.622Z",
+      "lastContact": "2026-08-11T10:50:14.054Z"
+    },
+    {
+      "id": "lead_msojh3fr_7cvx",
+      "clientId": "clinica_demo",
+      "name": "Dr. Andre Lopes",
+      "source": "tiktok",
+      "status": "responded",
+      "email": "dr..andre.lopes@email.pt",
+      "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
+      "createdAt": "2026-08-01T16:16:50.131Z",
+      "lastContact": "2026-08-11T10:50:14.057Z"
     }
   ],
   "metrics": [
@@ -928,6 +1334,126 @@
       "cpa": 0,
       "roas": 0,
       "recordedAt": "2026-07-16T00:12:39.100Z"
+    },
+    {
+      "id": "m_msojh3fu_c3",
+      "clientId": "clinica_demo",
+      "platform": "g",
+      "spend": 120,
+      "conversions": 4,
+      "cpa": 30,
+      "period": "W1",
+      "createdAt": "2026-08-11T10:50:14.058Z"
+    },
+    {
+      "id": "m_msojh3fu_pa",
+      "clientId": "clinica_demo",
+      "platform": "m",
+      "spend": 150,
+      "conversions": 3,
+      "cpa": 50,
+      "period": "W1",
+      "createdAt": "2026-08-11T10:50:14.058Z"
+    },
+    {
+      "id": "m_msojh3fv_y3",
+      "clientId": "clinica_demo",
+      "platform": "t",
+      "spend": 80,
+      "conversions": 2,
+      "cpa": 40,
+      "period": "W1",
+      "createdAt": "2026-08-11T10:50:14.059Z"
+    },
+    {
+      "id": "m_msojh3fw_9z",
+      "clientId": "clinica_demo",
+      "platform": "g",
+      "spend": 200,
+      "conversions": 7,
+      "cpa": 28.57,
+      "period": "W2",
+      "createdAt": "2026-08-11T10:50:14.060Z"
+    },
+    {
+      "id": "m_msojh3fw_2j",
+      "clientId": "clinica_demo",
+      "platform": "m",
+      "spend": 180,
+      "conversions": 5,
+      "cpa": 36,
+      "period": "W2",
+      "createdAt": "2026-08-11T10:50:14.060Z"
+    },
+    {
+      "id": "m_msojh3fy_ye",
+      "clientId": "clinica_demo",
+      "platform": "t",
+      "spend": 100,
+      "conversions": 3,
+      "cpa": 33.33,
+      "period": "W2",
+      "createdAt": "2026-08-11T10:50:14.062Z"
+    },
+    {
+      "id": "m_msojh3fy_rl",
+      "clientId": "clinica_demo",
+      "platform": "g",
+      "spend": 250,
+      "conversions": 9,
+      "cpa": 27.78,
+      "period": "W3",
+      "createdAt": "2026-08-11T10:50:14.062Z"
+    },
+    {
+      "id": "m_msojh3fz_z8",
+      "clientId": "clinica_demo",
+      "platform": "m",
+      "spend": 200,
+      "conversions": 6,
+      "cpa": 33.33,
+      "period": "W3",
+      "createdAt": "2026-08-11T10:50:14.063Z"
+    },
+    {
+      "id": "m_msojh3g0_xd",
+      "clientId": "clinica_demo",
+      "platform": "t",
+      "spend": 120,
+      "conversions": 4,
+      "cpa": 30,
+      "period": "W3",
+      "createdAt": "2026-08-11T10:50:14.064Z"
+    },
+    {
+      "id": "m_msojh3g1_sl",
+      "clientId": "clinica_demo",
+      "platform": "g",
+      "spend": 300,
+      "conversions": 12,
+      "cpa": 25,
+      "period": "W4",
+      "createdAt": "2026-08-11T10:50:14.065Z"
+    },
+    {
+      "id": "m_msojh3g1_l3",
+      "clientId": "clinica_demo",
+      "platform": "m",
+      "spend": 220,
+      "conversions": 8,
+      "cpa": 27.5,
+      "period": "W4",
+      "createdAt": "2026-08-11T10:50:14.065Z"
+    },
+    {
+      "id": "m_msojh3g2_ii",
+      "clientId": "clinica_demo",
+      "platform": "t",
+      "spend": 150,
+      "conversions": 5,
+      "cpa": 30,
+      "period": "W4",
+      "createdAt": "2026-08-11T10:50:14.066Z"
     }
   ],
   "creatives": [
@@ -958,6 +1484,132 @@
         }
       ],
       "createdAt": "2026-08-06T00:12:39.101Z"
+    },
+    {
+      "id": "cr_google",
+      "clientId": "clinica_demo",
+      "platform": "google",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:16.508Z"
+    },
+    {
+      "id": "cr_meta",
+      "clientId": "clinica_demo",
+      "platform": "meta",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:16.512Z"
+    },
+    {
+      "id": "cr_tiktok",
+      "clientId": "clinica_demo",
+      "platform": "tiktok",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:16.514Z"
+    },
+    {
+      "id": "cr_google",
+      "clientId": "clinica_demo",
+      "platform": "google",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:41.391Z"
+    },
+    {
+      "id": "cr_meta",
+      "clientId": "clinica_demo",
+      "platform": "meta",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:41.392Z"
+    },
+    {
+      "id": "cr_tiktok",
+      "clientId": "clinica_demo",
+      "platform": "tiktok",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:49:41.393Z"
+    },
+    {
+      "id": "cr_google",
+      "clientId": "clinica_demo",
+      "platform": "google",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:50:14.021Z"
+    },
+    {
+      "id": "cr_meta",
+      "clientId": "clinica_demo",
+      "platform": "meta",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:50:14.022Z"
+    },
+    {
+      "id": "cr_tiktok",
+      "clientId": "clinica_demo",
+      "platform": "tiktok",
+      "niche": "saude",
+      "variants": [
+        {
+          "headline": "Sua clinica merece mais pacientes",
+          "primaryText": "Marketing especializado para clinicas. Resultados reais.",
+          "cta": "Falar com especialista"
+        }
+      ],
+      "createdAt": "2026-08-11T10:50:14.023Z"
     }
   ],
   "nurture": [],
