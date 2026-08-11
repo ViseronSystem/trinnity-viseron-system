@@ -1,0 +1,40 @@
+[
+  {
+    "agentId": "agent_ceo",
+    "score": 0.5,
+    "reasons": [
+      "active",
+      "4 prior learnings"
+    ]
+  },
+  {
+    "agentId": "agent_security",
+    "score": 0.5,
+    "reasons": [
+      "role match: 1 terms",
+      "active",
+      "domain match: security"
+    ]
+  },
+  {
+    "agentId": "agent_cto",
+    "score": 0.2,
+    "reasons": [
+      "active"
+    ]
+  },
+  {
+    "agentId": "agent_developer",
+    "score": 0.2,
+    "reasons": [
+      "active"
+    ]
+  },
+  {
+    "agentId": "agent_devops",
+    "score": 0.2,
+    "reasons": [
+      "active"
+    ]
+  }
+]

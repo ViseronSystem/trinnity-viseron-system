@@ -1,0 +1,39 @@
+[
+  {
+    "agentId": "agent_ceo",
+    "score": 0.55,
+    "reasons": [
+      "active",
+      "4 prior learnings"
+    ]
+  },
+  {
+    "agentId": "agent_research",
+    "score": 0.35000000000000003,
+    "reasons": [
+      "role match: 1 terms",
+      "active"
+    ]
+  },
+  {
+    "agentId": "agent_cto",
+    "score": 0.25,
+    "reasons": [
+      "active"
+    ]
+  },
+  {
+    "agentId": "agent_developer",
+    "score": 0.25,
+    "reasons": [
+      "active"
+    ]
+  },
+  {
+    "agentId": "agent_devops",
+    "score": 0.25,
+    "reasons": [
+      "active"
+    ]
+  }
+]

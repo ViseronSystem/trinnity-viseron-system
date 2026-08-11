@@ -1,0 +1,67 @@
+{
+  "loaded": 10,
+  "active": 10,
+  "specs": [
+    {
+      "id": "agent_ceo",
+      "name": "CEO Agent",
+      "role": "CEO & Strategic Leader",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_cto",
+      "name": "CTO Agent",
+      "role": "Chief Architect & Technical Leader",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_developer",
+      "name": "Developer Agent",
+      "role": "Developer",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_devops",
+      "name": "DevOps Agent",
+      "role": "DevOps Engineer",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_finance",
+      "name": "Finance Agent",
+      "role": "Finance & Treasury",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_research",
+      "name": "Research Agent",
+      "role": "Research & Intelligence",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_sales",
+      "name": "Sales Agent",
+      "role": "Sales & Business Development",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_security",
+      "name": "Security Agent",
+      "role": "Security",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_support",
+      "name": "Support Agent",
+      "role": "Customer Support",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "agent_vision",
+      "name": "Vision Agent",
+      "role": "Vision & Perception",
+      "status": "ACTIVE"
+    }
+  ],
+  "timestamp": "2026-08-11T17:49:15.538Z"
+}

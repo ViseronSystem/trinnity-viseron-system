@@ -1,0 +1,47 @@
+[
+  {
+    "capability": "Agent Inventory",
+    "status": "REAL",
+    "evidence": "10 active agents"
+  },
+  {
+    "capability": "Task Decomposition",
+    "status": "REAL",
+    "evidence": "7 nodes in DAG"
+  },
+  {
+    "capability": "Intelligent Routing",
+    "status": "REAL",
+    "evidence": "domain + keyword matching with learning history"
+  },
+  {
+    "capability": "Parallel Execution",
+    "status": "REAL",
+    "evidence": "speedup=2.5x"
+  },
+  {
+    "capability": "DAG Dependencies",
+    "status": "REAL",
+    "evidence": "1 nodes with dependencies"
+  },
+  {
+    "capability": "Failure Isolation",
+    "status": "REAL",
+    "evidence": "7 failures didn't block other tasks"
+  },
+  {
+    "capability": "Performance Measurement",
+    "status": "REAL",
+    "evidence": "sequential=5ms, parallel=2ms"
+  },
+  {
+    "capability": "Learning Feedback",
+    "status": "PARTIAL",
+    "evidence": "routing uses learning records but needs more data"
+  },
+  {
+    "capability": "Multi-Domain Execution",
+    "status": "REAL",
+    "evidence": "7 domains"
+  }
+]

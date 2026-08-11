@@ -1,0 +1,58 @@
+[
+  {
+    "id": "T1",
+    "description": "Analyze memory requirements and produce report",
+    "domain": "memory",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T2",
+    "description": "Analyze agents requirements and produce report",
+    "domain": "agents",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T3",
+    "description": "Analyze api requirements and produce report",
+    "domain": "api",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T4",
+    "description": "Analyze security requirements and produce report",
+    "domain": "security",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T5",
+    "description": "Analyze performance requirements and produce report",
+    "domain": "performance",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T6",
+    "description": "Analyze analytics requirements and produce report",
+    "domain": "analytics",
+    "dependencies": [],
+    "priority": 1
+  },
+  {
+    "id": "T7",
+    "description": "Synthesize findings from all domains into final report",
+    "domain": "synthesis",
+    "dependencies": [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6"
+    ],
+    "priority": 2
+  }
+]
