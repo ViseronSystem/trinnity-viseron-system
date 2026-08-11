@@ -22,6 +22,7 @@ export class IntelligentRouter {
 
     for (const spec of specs) {
       let score = 0;
+      let domainScore = 0;
       const reasons: string[] = [];
 
       // Domain match (keyword overlap between task and agent role/name)
@@ -34,45 +35,43 @@ export class IntelligentRouter {
 
       const roleOverlap = [...taskWords].filter(w => roleWords.has(w)).length;
       const nameOverlap = [...taskWords].filter(w => nameWords.has(w)).length;
-      score += Math.min(0.5, roleOverlap * 0.1 + nameOverlap * 0.05);
-      if (roleOverlap > 0) reasons.push(`role match: ${roleOverlap} terms`);
 
-      // Status bonus
-      if (spec.status === "ACTIVE") { score += 0.2; reasons.push("active"); }
-      else { score -= 0.3; reasons.push("inactive"); }
-
-      // Domain-specific routing
-      if (domain) {
-        const domainTerms = domain.toLowerCase().split(/\s+/);
-        for (const dt of domainTerms) {
-          if (roleLower.includes(dt) || nameLower.includes(dt)) {
-            score += 0.15;
-            reasons.push(`domain match: ${dt}`);
-            break;
-          }
-        }
-      }
-
-      // Evidence from learning records
-      const learningRecords = this.omega.learning?.list("CONSOLIDATED") || [];
-      const agentLearning = learningRecords.filter(r => r.agentIds?.includes(spec.id));
-      if (agentLearning.length > 0) {
-        score += Math.min(0.3, agentLearning.length * 0.1);
-        reasons.push(`${agentLearning.length} prior learnings`);
-      }
-
-      // Domain specificity bonus: if agent's role/name directly matches the domain
+      // ── DOMAIN SPECIALIST CHECK ──
+      let isSpecialist = false;
       if (domain) {
         const domainLower = domain.toLowerCase();
         const domainInRole = roleLower.includes(domainLower) || nameLower.includes(domainLower);
         const roleInDomain = domainLower.split(/\s+/).some(dt => roleLower.includes(dt) || nameLower.includes(dt));
         if (domainInRole || roleInDomain) {
-          score += 0.3; // significant boost for domain-specific agent
+          domainScore = 0.5; // specialist baseline — beats any non-specialist
+          isSpecialist = true;
           reasons.push(`domain specialist: ${domain}`);
         }
       }
 
-      if (score > 0) ranked.push({ agentId: spec.id, score, reasons });
+      score += Math.min(0.3, roleOverlap * 0.06 + nameOverlap * 0.04);
+      if (roleOverlap > 0) reasons.push(`role overlap: ${roleOverlap} terms`);
+
+      // Status bonus
+      if (spec.status === "ACTIVE") { score += 0.1; reasons.push("active"); }
+      else { score -= 0.5; reasons.push("inactive"); }
+
+      // ── SPECIALIST PROTECTION ──
+      // Learning history only applies within the specialist's domain
+      // A generalist's history in other domains doesn't beat a specialist
+      const learningRecords = this.omega.learning?.list("CONSOLIDATED") || [];
+      const agentLearning = learningRecords.filter(r => r.agentIds?.includes(spec.id));
+      if (agentLearning.length > 0) {
+        const boost = Math.min(0.2, agentLearning.length * 0.05);
+        score += boost;
+        reasons.push(`${agentLearning.length} prior learnings`);
+      }
+
+      // Final score: specialist gets domainScore + taskScore
+      // Non-specialist gets score only from task match + learning
+      const finalScore = isSpecialist ? domainScore + score : score;
+
+      if (finalScore > 0) ranked.push({ agentId: spec.id, score: finalScore, reasons });
     }
 
     return ranked.sort((a, b) => b.score - a.score);
