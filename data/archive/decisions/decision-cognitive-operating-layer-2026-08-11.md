@@ -20,12 +20,14 @@ A base está sólida: kernel operacional, agentes com evidência, métricas reai
 
 A **Cognitive Operating Layer** é essa camada.
 
+Mas uma camada cognitiva sem telemetria é uma caixa-preta. Antes de construir inteligência, precisamos construir **observabilidade da inteligência**. O Sistema 0 existe para garantir que cada operação cognitiva deixa rasto — registando input, memória, embeddings, retrieval, agente, resultado, validação, e aprendizado gerado.
+
 ---
 
 ## 2. Visão
 
 **De:** Sistema operacional de orquestração com memória keyword-based  
-**Para:** Sistema operacional **cognitivo** com compreensão semântica, recuperação inteligente e evolução contínua
+**Para:** Sistema operacional **cognitivo** com compreensão semântica, recuperação inteligente, evolução contínua e **telemetria completa de cada operação cognitiva**
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -45,6 +47,11 @@ A **Cognitive Operating Layer** é essa camada.
 │  │         MEMORY CONSOLIDATION ENGINE         │         │
 │  │   STM → LTM → KB → VECTOR (real embeddings) │         │
 │  └──────────────────────────────────────────────┘        │
+│                         │                                  │
+│  ═══════════════ COGNITIVE TELEMETRY ════════════════    │
+│  │ input · memory · embedding · retrieval · agent │      │
+│  │ result · validation · learning · trace_id      │      │
+│  └────────────────────────────────────────────────┘      │
 └────────────────────────┬─────────────────────────────────┘
                          │
 ┌────────────────────────┴─────────────────────────────────┐
@@ -58,7 +65,9 @@ A **Cognitive Operating Layer** é essa camada.
 
 ## 3. Decisão
 
-Implementar 7 sistemas (o 8º é o Atlas, tratado separadamente) que formam a camada cognitiva do VISERON. Cada sistema é planeado com estado REAL/PARCIAL/PLANEJADO e evidência.
+Implementar Sistema 0 (Cognitive Telemetry) + 8 sistemas cognitivos que formam a camada operacional do VISERON. O Sistema 0 é implementado **primeiro** porque é pré-requisito de observabilidade para todos os outros. Cada sistema é planeado com estado REAL/PARCIAL/PLANEJADO e evidência.
+
+**Total:** 9 sistemas · ~54 horas.
 
 ---
 

@@ -1,7 +1,181 @@
 # VISERON COGNITIVE OPERATING LAYER — Plano Técnico
 
 **Data:** 2026-08-11 · **Decisão:** `decision-cognitive-operating-layer`  
-**Estado:** Plano — aguarda aprovação
+**Estado:** Plano — aguarda aprovação  
+**Sistemas:** 0 (Telemetry) + 1-8 (Cognitive) = 9 sistemas
+
+---
+
+## SISTEMA 0: Cognitive Telemetry Layer
+
+### Estado: PLANEJADO (hoje: PARCIAL — Agent Evidence existe mas isolado)
+
+**Evidência do estado atual:**
+- `agent-activity.jsonl`: regista task_started/completed/failed por agente
+- `viseron-supervision.jsonl`: regista operações VISERON (speaker, intent, ok)
+- `jarvis-memory.jsonl`: regista operações JARVIS (tool, detail, ok)
+- `EventBus`: emite eventos mas sem tracing estruturado
+- **Falta:** rastreabilidade ponta-a-ponta, trace_id, métricas de embeddings/retrieval
+
+### Objetivo
+
+Registar **TODA** atividade cognitiva com rastreabilidade completa. Cada operação que usa embeddings, RAG, GraphRAG, memory consolidation, ou voice deixa um rasto auditável.
+
+### Plano
+
+| Passo | Descrição | Esforço |
+|-------|-----------|---------|
+| 0.1 | Criar `src/omega/telemetry/CognitiveTrace.ts` — estrutura de dados imutável | 1h |
+| 0.2 | Criar `src/omega/telemetry/TelemetryEngine.ts` — captura, persistence, query | 2h |
+| 0.3 | Integrar com EventBus — subscribe a `cognitive:*` events | 30min |
+| 0.4 | Integrar com KnowledgeArchive — cada trace gera registro SHA-256 | 1h |
+| 0.5 | Integrar com Agent Evidence — link trace → agent activity | 30min |
+| 0.6 | Criar API `GET /api/omega/telemetry/trace/:id` + `GET /api/omega/telemetry/search` | 1h |
+| 0.7 | Dashboard no Command Center — Cognitive Trace Explorer | 2h |
+
+### Estrutura do CognitiveTrace
+
+```typescript
+interface CognitiveTrace {
+  traceId: string;              // "cog_<timestamp36>_<random8>"
+  parentTraceId?: string;       // para operações aninhadas (RAG dentro de chat)
+  timestamp: number;
+  
+  // Origem
+  source: "voice" | "chat" | "rag" | "graphrag" | "consolidation" | "evolution" | "atlas";
+  agentId?: string;
+  sessionId?: string;
+  
+  // Input cognitivo
+  input: {
+    text?: string;              // query/pergunta/comando
+    audioFile?: string;         // se voice input
+    lang?: string;              // es/pt/en
+    embeddingsModel?: string;   // "text-embedding-3-small" | "all-MiniLM-L6-v2"
+  };
+  
+  // Processamento
+  processing: {
+    embeddingMs?: number;       // latência do embedding
+    retrievalMs?: number;       // latência da busca
+    retrievedChunks?: number;   // quantos chunks foram recuperados
+    topScore?: number;          // score do chunk mais relevante
+    rerankMs?: number;          // latência do rerank
+    graphNodesVisited?: number; // nós percorridos no GraphRAG
+    consolidationType?: string; // "semantic_dedup" | "summarize" | "insight"
+  };
+  
+  // Resultado
+  result: {
+    success: boolean;
+    output?: string;            // resposta gerada
+    sources?: string[];         // fontes (documentos, chunks)
+    modelUsed?: string;         // LLM usado para gerar resposta
+    latencyMs: number;          // latência total
+    tokensUsed?: number;        // tokens consumidos (input + output)
+  };
+  
+  // Validação
+  validation?: {
+    status: "PASS" | "FAIL" | "RETRY" | "HUMAN";
+    verifiedBy?: string;        // "TaskVerifier" | "human" | "auto"
+    reasons: string[];
+    evidence?: any;
+  };
+  
+  // Aprendizado
+  learning?: {
+    newKnowledgeGenerated: boolean;
+    knowledgeArchiveRef?: string;  // hash do registro no Archive
+    performanceScoreDelta?: number; // mudança no score após esta operação
+    insightsGenerated?: string[];
+  };
+}
+```
+
+### Fluxo de telemetria
+
+```
+Operação cognitiva (RAG query, voice command, etc.)
+        │
+        ▼
+   CognitiveTrace criado (traceId único)
+        │
+        ▼
+   EventBus.publish("cognitive:started", trace)
+        │
+        ▼
+   [embedding] → trace.processing.embeddingMs
+        │
+        ▼
+   [retrieval] → trace.processing.retrievalMs, topScore
+        │
+        ▼
+   [generation] → trace.result.output, modelUsed, tokensUsed
+        │
+        ▼
+   [validation] → trace.validation.status
+        │
+        ▼
+   EventBus.publish("cognitive:completed", trace)
+        │
+        ▼
+   KnowledgeArchive: arquivar trace (SHA-256)
+        │
+        ▼
+   Agent Evidence: link trace → agent-activity.jsonl
+        │
+        ▼
+   Evolution Loop: atualizar Performance Score
+```
+
+### APIs
+
+```
+GET  /api/omega/telemetry/trace/:traceId
+→ CognitiveTrace completo
+
+GET  /api/omega/telemetry/search?agentId=&source=rag&since=24h&limit=50
+→ { total: 42, traces: [...] }
+
+GET  /api/omega/telemetry/stats?since=7d
+→ {
+    totalTraces: 1543,
+    bySource: { rag: 500, chat: 800, consolidation: 100, ... },
+    avgLatencyMs: 1200,
+    avgEmbeddingMs: 350,
+    avgRetrievalMs: 200,
+    successRate: 0.92,
+    topQueries: [...],
+    tokensConsumed: 450000
+  }
+
+GET  /api/omega/telemetry/insights?since=30d
+→ {
+    latencyTrend: "improving",     // ±10% nos últimos 7 dias
+    successRateTrend: "stable",     // ±2%
+    topFailingSource: "rag",       // source com menor successRate
+    mostExpensiveOperation: "graphrag"  // maior avgLatencyMs
+  }
+```
+
+### Integrações
+
+| Sistema | Como integra |
+|---------|-------------|
+| **EventBus** | Publica `cognitive:started`, `cognitive:completed`, `cognitive:failed` |
+| **KnowledgeArchive** | Cada trace completado → SHA-256 → `data/archive/cognitive/` |
+| **Agent Evidence** | `trace.agentId` → link no `agent-activity.jsonl` |
+| **Evolution Loop** | `trace.learning.performanceScoreDelta` → feedback para AutoEvolutionEngine |
+| **Command Center** | Cognitive Trace Explorer — busca, filtro, timeline |
+
+### Critério de sucesso
+
+- Toda operação RAG/GraphRAG/voice/consolidation gera CognitiveTrace
+- Traces são recuperáveis por traceId, agentId, source, timeframe
+- Stats mostram métricas reais de latência, success rate, tokens
+- Archive contém registos imutáveis de operações cognitivas
+- Zero operações cognitivas sem rasto
 
 ---
 
@@ -392,27 +566,29 @@ Response: { "tts": { "provider": "elevenlabs", "voices": ["pedro","trinnity","st
 
 ---
 
-## 8. ORDEM DE IMPLEMENTAÇÃO
+## 9. ORDEM DE IMPLEMENTAÇÃO
 
 | # | Sistema | Prioridade | Esforço | Dependências |
 |---|---------|-----------|---------|-------------|
-| 1 | **Embeddings Reais** | P0 | 5h | Nenhuma — é a base de tudo |
-| 2 | **RAG Pipeline** | P0 | 5.5h | Embeddings (#1) |
-| 3 | **Voz Neural** | P0 | 5.5h | Nenhuma |
-| 4 | **Memory Consolidation** | P1 | 6.5h | Embeddings (#1) |
-| 5 | **GraphRAG** | P1 | 5.5h | Embeddings (#1) + RAG (#2) |
-| 6 | **Evolution Loop** | P1 | 5h | Embeddings (#1) + Agent Evidence (já existe) |
-| 7 | **Command Center 2.0** | P1 | 10h | Voz (#3) + RAG (#2) + GraphRAG (#5) |
-| 8 | **ATLAS Operacional** | P2 | 3.5h | Agent Evidence (já existe) |
+| **0** | **Cognitive Telemetry** | **P0** | **8h** | **Nenhuma — pré-requisito de todos** |
+| 1 | Embeddings Reais | P0 | 5h | Telemetry (#0) |
+| 2 | RAG Pipeline | P0 | 5.5h | Embeddings (#1) + Telemetry (#0) |
+| 3 | Voz Neural | P0 | 5.5h | Telemetry (#0) |
+| 4 | Memory Consolidation | P1 | 6.5h | Embeddings (#1) + Telemetry (#0) |
+| 5 | GraphRAG | P1 | 5.5h | Embeddings (#1) + RAG (#2) + Telemetry (#0) |
+| 6 | Evolution Loop | P1 | 5h | Embeddings (#1) + Agent Evidence + Telemetry (#0) |
+| 7 | Command Center 2.0 | P1 | 10h | Voz (#3) + RAG (#2) + GraphRAG (#5) + Telemetry (#0) |
+| 8 | ATLAS Operacional | P2 | 3.5h | Agent Evidence + Telemetry (#0) |
 
-**Total estimado:** ~46 horas de implementação.
+**Total estimado:** ~54 horas de implementação.
 
 ---
 
-## 9. IMPACTO ESPERADO
+## 10. IMPACTO ESPERADO
 
 | Dimensão | Antes | Depois |
 |----------|-------|--------|
+| **Telemetria** | 3 JSONLs isolados, sem tracing | CognitiveTrace ponta-a-ponta, SHA-256 no Archive |
 | **Busca** | Keyword-based (TF-IDF, substring) | Semântica (embeddings + cosine) |
 | **Perguntas** | "Não sei" (sem RAG) | Resposta com fontes e contexto |
 | **Voz** | Robótica (browser TTS) | Neural (ElevenLabs, indistinguível) |
@@ -421,6 +597,7 @@ Response: { "tts": { "provider": "elevenlabs", "voices": ["pedro","trinnity","st
 | **Evolução** | Fórmulas e random | Feedback loop real com Archive |
 | **Interface** | CC v1 (parcial) | CC 2.0 (completo, interativo, cognitivo) |
 | **ATLAS** | Tutor isolado | Agente operacional com evidência e memória |
+| **Observabilidade** | Fragmentada por sistema | Unificada — cada operação deixa rasto |
 
 ---
 
