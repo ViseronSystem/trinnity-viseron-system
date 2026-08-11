@@ -1,38 +1,7 @@
 {
   "ollama": true,
-  "envKeys": {
-    "OPENAI_API_KEY": {
-      "key": "OPENAI_API_KEY",
-      "configured": false
-    },
-    "ELEVENLABS_API_KEY": {
-      "key": "ELEVENLABS_API_KEY",
-      "configured": false
-    },
-    "ANTHROPIC_API_KEY": {
-      "key": "ANTHROPIC_API_KEY",
-      "configured": false
-    },
-    "GEMINI_API_KEY": {
-      "key": "GEMINI_API_KEY",
-      "configured": false
-    },
-    "XAI_API_KEY": {
-      "key": "XAI_API_KEY",
-      "configured": false
-    },
-    "COMPOSIO_API_KEY": {
-      "key": "COMPOSIO_API_KEY",
-      "configured": false
-    },
-    "TWILIO_ACCOUNT_SID": {
-      "key": "TWILIO_ACCOUNT_SID",
-      "configured": false
-    },
-    "AVIRATO_API_KEY": {
-      "key": "AVIRATO_API_KEY",
-      "configured": false
-    }
-  },
-  "timestamp": "2026-08-11T12:16:44.070Z"
+  "openai": false,
+  "elevenlabs": false,
+  "composio": false,
+  "timestamp": "2026-08-11T13:29:33.467Z"
 }

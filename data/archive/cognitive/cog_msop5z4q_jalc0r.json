@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msop5z4q_jalc0r",
+  "timestamp": 1786454972954,
+  "source": "reality-gate",
+  "agentId": "test",
+  "input": {
+    "text": "gate test"
+  },
+  "processing": {
+    "embeddingMs": 120
+  },
+  "result": {
+    "success": true,
+    "output": "ok",
+    "latencyMs": 200,
+    "modelUsed": "test"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "verified"
+    ],
+    "verifiedBy": "gate"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "f59a671132408d7bfcb99991039212d64399986f343d5128a41c5763faed51b6"
+}

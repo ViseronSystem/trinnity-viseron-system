@@ -1,42 +1,28 @@
 [
   {
-    "test": "07-evolution",
-    "status": "BLOCKED",
-    "evidence": [],
-    "failures": [
-      "evolution-history.jsonl not found"
-    ],
-    "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
-  },
-  {
-    "test": "08a-voice-stt",
+    "test": "07a-voice-stt",
     "status": "BLOCKED",
     "evidence": [
-      "STT provider: whisper (whisper-1)",
+      "STT: whisper/whisper-1",
       "available: false"
     ],
     "failures": [
-      "OPENAI_API_KEY not configured — STT blocked"
+      "OPENAI_API_KEY not configured"
     ],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
+    "metrics": {}
   },
   {
-    "test": "08b-voice-tts",
+    "test": "07b-voice-tts",
     "status": "BLOCKED",
     "evidence": [
-      "TTS provider: elevenlabs",
-      "voices: pedro, trinnity, stark",
+      "TTS: elevenlabs",
       "available: false"
     ],
     "failures": [
-      "ELEVENLABS_API_KEY not configured — TTS blocked"
+      "ELEVENLABS_API_KEY not configured"
     ],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
+    "metrics": {}
   }
 ]

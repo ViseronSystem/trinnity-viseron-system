@@ -1,146 +1,143 @@
 [
   {
-    "test": "01-cognitive-trace",
+    "test": "01-api-server",
     "status": "REAL",
     "evidence": [
-      "traceId: cog_msomkblq_ik9ndh",
-      "retrieved: true",
-      "persisted (JSONL): true",
-      "SHA-256 archived: true",
-      "stats: 2 total traces"
+      "server responding on :3000"
     ],
     "failures": [],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450603457
+    "metrics": {}
   },
   {
-    "test": "02-embedding",
-    "status": "PARTIAL",
+    "test": "02-telemetry",
+    "status": "REAL",
     "evidence": [
-      "model: all-MiniLM-L6-v2-fallback",
-      "dimensions: 384",
-      "latency: 14ms",
-      "deterministic: true",
-      "batch: 3 vectors",
-      "NOTE: using MiniLM fallback (hash-based) — not OpenAI embeddings"
+      "trace: true",
+      "persisted (JSONL): true",
+      "SHA-256 archived: true"
     ],
     "failures": [],
     "artifacts": [],
-    "metrics": {
-      "provider": "chain",
-      "model": "text-embedding-3-small",
-      "dimensions": 1536
-    },
-    "timestamp": 1786450603479
+    "metrics": {}
   },
   {
     "test": "03-memory",
     "status": "REAL",
     "evidence": [
-      "STM items: 1",
-      "LTM retrieval: true",
-      "LTM persisted (13MB)",
-      "STM→LTM consolidation: executed"
-    ],
-    "failures": [],
-    "artifacts": [
-      "C:\\Trinnity-Viseron-System\\database\\memory\\ltm.json"
-    ],
-    "metrics": {},
-    "timestamp": 1786450603980
-  },
-  {
-    "test": "04-rag",
-    "status": "REAL",
-    "evidence": [
-      "chunks: 1 from README.md",
-      "vector retrieval: 0 results",
-      "keyword retrieval: 9 results",
-      "unified search: 4 results"
+      "LTM: 13MB",
+      "item written: false"
     ],
     "failures": [],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604049
+    "metrics": {}
   },
   {
-    "test": "05-graphrag",
-    "status": "REAL",
+    "test": "04-embeddings",
+    "status": "PARTIAL",
     "evidence": [
-      "KG entities: 1202",
-      "KG relations: 1199",
-      "KG persisted: true (846KB)",
-      "sample entity: autonomy supervised charge (autonomy)"
+      "model: all-MiniLM-L6-v2-fallback",
+      "dims: 384",
+      "deterministic: true",
+      "latency: 10ms"
     ],
     "failures": [],
-    "artifacts": [
-      "C:\\Trinnity-Viseron-System\\database\\memory\\knowledge-graph.json"
-    ],
-    "metrics": {},
-    "timestamp": 1786450604058
-  },
-  {
-    "test": "07-evolution",
-    "status": "BLOCKED",
-    "evidence": [],
-    "failures": [
-      "evolution-history.jsonl not found"
-    ],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
+    "metrics": {}
   },
   {
-    "test": "08a-voice-stt",
+    "test": "05-rag",
+    "status": "REAL",
+    "evidence": [
+      "chunks: 1",
+      "keyword results: 9"
+    ],
+    "failures": [],
+    "artifacts": [],
+    "metrics": {}
+  },
+  {
+    "test": "06-graphrag",
+    "status": "REAL",
+    "evidence": [
+      "entities: 1239",
+      "relations: 1236",
+      "size: 872KB"
+    ],
+    "failures": [],
+    "artifacts": [],
+    "metrics": {}
+  },
+  {
+    "test": "07a-voice-stt",
     "status": "BLOCKED",
     "evidence": [
-      "STT provider: whisper (whisper-1)",
+      "STT: whisper/whisper-1",
       "available: false"
     ],
     "failures": [
-      "OPENAI_API_KEY not configured — STT blocked"
+      "OPENAI_API_KEY not configured"
     ],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
+    "metrics": {}
   },
   {
-    "test": "08b-voice-tts",
+    "test": "07b-voice-tts",
     "status": "BLOCKED",
     "evidence": [
-      "TTS provider: elevenlabs",
-      "voices: pedro, trinnity, stark",
+      "TTS: elevenlabs",
       "available: false"
     ],
     "failures": [
-      "ELEVENLABS_API_KEY not configured — TTS blocked"
+      "ELEVENLABS_API_KEY not configured"
     ],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604058
+    "metrics": {}
   },
   {
-    "test": "10-api-server",
+    "test": "08-agent-evidence",
     "status": "REAL",
     "evidence": [
-      "server responding on port 3000"
+      "agent-activity.jsonl: 1 entries"
     ],
     "failures": [],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604068
+    "metrics": {}
   },
   {
-    "test": "06-agent-evidence",
-    "status": "BLOCKED",
+    "test": "09-evolution",
+    "status": "REAL",
     "evidence": [
-      "agent-activity.jsonl: 0 entries",
-      "persisted: false"
+      "events: 2",
+      "with evidence: 2"
     ],
     "failures": [],
     "artifacts": [],
-    "metrics": {},
-    "timestamp": 1786450604068
+    "metrics": {}
+  },
+  {
+    "test": "10-full-e2e",
+    "status": "REAL",
+    "evidence": [
+      "taskId: e2e_msop5zit",
+      "traceId: cog_msop5zit_j3ilqu",
+      "agentId: agent_ceo",
+      "artifact: C:\\Trinnity-Viseron-System\\data\\runtime\\reality-execution\\E2E_GATE_REPORT.md (226B)",
+      "SHA-256: 6eda3e9f0bdd7a23..."
+    ],
+    "failures": [],
+    "artifacts": [
+      "C:\\Trinnity-Viseron-System\\data\\runtime\\reality-execution\\E2E_GATE_REPORT.md"
+    ],
+    "metrics": {
+      "taskId": "e2e_msop5zit",
+      "traceId": "cog_msop5zit_j3ilqu",
+      "agentId": "agent_ceo",
+      "artifactHash": "6eda3e9f0bdd7a235e466ff86a5deaefb0f3d64e358f72d98cb0a9308b026ff8",
+      "tools": [
+        "filesystem_read",
+        "file_generation"
+      ]
+    }
   }
 ]
