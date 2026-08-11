@@ -386,6 +386,24 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── VAEC (Evolution & Continuity) ──
+  router.get("/vaec", (_req, res) => {
+    try {
+      res.json(omega.vaec.status());
+    } catch (e: any) {
+      res.json({ stage: "UNKNOWN", error: e.message });
+    }
+  });
+
+  router.post("/vaec/recover", async (_req, res) => {
+    try {
+      const result = await omega.vaec.attemptRecovery();
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ recovered: false, reason: e.message });
+    }
+  });
+
   // ── ENTERPRISE ──
   router.get("/enterprise", (_req, res) => {
     res.json(omega.enterprise.status());

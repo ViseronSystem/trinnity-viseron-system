@@ -108,8 +108,11 @@ export class AutoEvolutionEngine {
 
     const knowledgeGained = KNOWLEDGE_GAIN_MIN + Math.random() * (KNOWLEDGE_GAIN_MAX - KNOWLEDGE_GAIN_MIN);
 
-    const currentWisdom = this.calculateWisdom(agent);
-    const newWisdom = Math.min(100, currentWisdom + (knowledgeGained * 100 * (enriched.length > 0 ? 1.5 : 0.5)));
+    const legacyWisdom = this.calculateWisdom(agent);
+
+    // Reality Hardening: Performance Score based on real agent activity
+    const performanceScore = this.computePerformanceScore(agent);
+
     const newCapabilities = this.generateNewCapabilities(agent);
 
     const record: EvolutionRecord = {
@@ -119,7 +122,8 @@ export class AutoEvolutionEngine {
       timestamp: Date.now(),
       knowledgeGained: parseFloat((knowledgeGained * 100).toFixed(2)),
       newCapabilities,
-      wisdomScore: parseFloat(newWisdom.toFixed(2))
+      wisdomScore: parseFloat(legacyWisdom.toFixed(2)),
+      performanceScore: parseFloat(performanceScore.toFixed(2))  // ← NOVO
     };
 
     const evolutionData = {
@@ -139,7 +143,7 @@ export class AutoEvolutionEngine {
 
     this.memoryEngine.setLongTerm(
       `agent_wisdom_${agent.id}`,
-      { wisdom: newWisdom, lastUpdated: Date.now(), cycle: this.evolutionCycle },
+      { wisdom: legacyWisdom, performanceScore, lastUpdated: Date.now(), cycle: this.evolutionCycle },
       ['wisdom', agent.id]
     );
 
@@ -315,5 +319,33 @@ export class AutoEvolutionEngine {
       vector[i] = Math.sin(i + this.evolutionCycle + wisdomScore) * 0.05;
     }
     return vector;
+  }
+
+  // Reality Hardening: Performance Score based on real agent activity
+  private computePerformanceScore(agent: IAgent): number {
+    try {
+      const fs = require("fs");
+      const path = require("path");
+      const logPath = path.resolve(process.cwd(), "data", "knowledge", "agent-activity.jsonl");
+      if (!fs.existsSync(logPath)) return 0;
+
+      const lines = fs.readFileSync(logPath, "utf8").trim().split("\n").filter(Boolean);
+      const entries = lines
+        .map((l: string) => { try { return JSON.parse(l); } catch { return null; } })
+        .filter((e: any) => e && e.agentId === agent.id);
+
+      if (entries.length === 0) return 0;
+
+      const completed = entries.filter((e: any) => e.action === "task_completed").length;
+      const failed = entries.filter((e: any) => e.action === "task_failed").length;
+      const total = completed + failed;
+      const successRate = total > 0 ? completed / total : 0;
+      const verified = entries.filter((e: any) => e.verification === "PASS").length;
+      const verificationRate = total > 0 ? verified / total : 0;
+
+      return Math.min(100, Math.round((successRate * 40 + verificationRate * 30 + Math.min(entries.length / 10, 1) * 30) * 100) / 100);
+    } catch {
+      return 0;
+    }
   }
 }

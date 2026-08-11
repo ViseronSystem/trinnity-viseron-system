@@ -359,14 +359,71 @@ export class VaecOrchestrator {
     }
   }
 
-  public status(): { stage: VaecStage; historySize: number; lastOutcome?: VaecOutcome; lastAt?: string; persistedStage: VaecStage } {
+  public status(): {
+    stage: VaecStage;
+    historySize: number;
+    lastOutcome?: VaecOutcome;
+    lastAt?: string;
+    persistedStage: VaecStage;
+    failedGate?: string;
+    failedReason?: string;
+    stuckSince?: string;
+    recoveryAttempts: number;
+    lastSuccessfulRun?: string;
+  } {
     const last = this.history[this.history.length - 1];
+    const lastSuccess = this.history.filter((r) => r.outcome === "PROMOTED").pop();
+    const failedGate = last?.stages?.find((s) => !s.ok);
+    const failedAt = last?.at ? new Date(last.at).getTime() : 0;
+    const stuckMs = this.stage === "FAILED" && failedAt ? Date.now() - failedAt : 0;
     return {
       stage: this.stage,
       persistedStage: this.loadStage(),
       historySize: this.history.length,
       lastOutcome: last?.outcome,
       lastAt: last?.at,
+      failedGate: failedGate?.stage,
+      failedReason: failedGate?.error || failedGate?.evidence?.join("; "),
+      stuckSince: stuckMs > 0 ? `${Math.round(stuckMs / 3600000 * 10) / 10}h` : undefined,
+      recoveryAttempts: this.recoveryAttempts,
+      lastSuccessfulRun: lastSuccess?.at,
     };
   }
+
+  // Reality Hardening: auto-recovery from FAILED state
+  public async attemptRecovery(): Promise<{ recovered: boolean; reason: string }> {
+    if (this.stage !== "FAILED") {
+      return { recovered: false, reason: "stage is not FAILED" };
+    }
+    this.recoveryAttempts++;
+    if (this.recoveryAttempts > 3) {
+      return { recovered: false, reason: "max_recovery_attempts_exceeded (3) — requires human intervention" };
+    }
+    try {
+      const record: VaecRunRecord = {
+        id: `recovery_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+        at: new Date().toISOString(),
+        description: `auto-recovery attempt #${this.recoveryAttempts}`,
+        baseRef: "HEAD",
+        stages: [],
+        outcome: "FAILED",
+      };
+      // Rollback to last known good state first
+      await this.rollback(record.id);
+      // Retry from IMPLEMENT
+      record.outcome = "ROLLED_BACK";
+      await this.appendRecord(record);
+      await this.emit("vaec:rollback", { id: record.id, stage: "FAILED", error: "auto-recovery rollback", ok: true });
+      // Reset stage to IDLE so next run can proceed
+      this.stage = "IDLE";
+      await this.persistStage("IDLE");
+      this.recoveryAttempts = 0; // reset on success
+      return { recovered: true, reason: `rolled back to last known good state — stage reset to IDLE` };
+    } catch (e: any) {
+      await this.persistStage("FAILED");
+      return { recovered: false, reason: e?.message || "recovery failed" };
+    }
+  }
+
+  private recoveryAttempts: number = 0;
 }
