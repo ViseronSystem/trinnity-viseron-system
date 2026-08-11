@@ -1,29 +1,58 @@
 // VISERON RAG Pipeline — Sistema 2 Cognitive Operating Layer
 // Retriever: hybrid search (vector + keyword) across MemoryEngine
+// With experience-prioritized retrieval (Sistema Memory Recall)
 // 2026-08-11
 
 import { TextChunk } from "./Chunker";
+import { ExperienceStore, TaskContext } from "./ExperienceStore";
 
 export interface RetrievalResult {
   chunk: TextChunk;
   vectorScore: number;
   keywordScore: number;
   combinedScore: number;
+  fromExperience?: boolean;
+  experienceId?: string;
 }
 
 export class HybridRetriever {
   constructor(
-    private memoryEngine: any, // MemoryEngine instance
-    private embeddingProvider: any, // EmbeddingProvider instance
+    private memoryEngine: any,
+    private embeddingProvider: any,
+    private experienceStore?: ExperienceStore,
   ) {}
 
   async retrieve(
     query: string,
-    options: { topK?: number; vectorWeight?: number; keywordWeight?: number } = {}
+    options: { topK?: number; vectorWeight?: number; keywordWeight?: number; taskContext?: TaskContext } = {}
   ): Promise<RetrievalResult[]> {
     const topK = options.topK || 10;
     const vw = options.vectorWeight ?? 0.6;
     const kw = options.keywordWeight ?? 0.4;
+    const results: RetrievalResult[] = [];
+
+    // ── EXPERIENCE-PRIORITIZED RETRIEVAL ──
+    if (options.taskContext && this.experienceStore) {
+      const experiences = this.experienceStore.retrieveRelevant(options.taskContext, 3);
+      for (const exp of experiences) {
+        results.push({
+          chunk: {
+            id: `experience_${exp.experienceId}`,
+            text: exp.content || exp.summary,
+            index: 0,
+            source: `experience:${exp.experienceId}`,
+            metadata: { experienceId: exp.experienceId, taskId: exp.taskId, agentId: exp.agentId },
+          },
+          vectorScore: 0.9,
+          keywordScore: 1.0,
+          combinedScore: 0.95,
+          fromExperience: true,
+          experienceId: exp.experienceId,
+        });
+      }
+    }
+
+    // ── VECTOR + KEYWORD RETRIEVAL (existing logic) ──
 
     // Vector retrieval (via MemoryEngine)
     let vectorResults: Array<{ id: string; score: number; payload: any }> = [];
@@ -132,7 +161,13 @@ export class HybridRetriever {
       }
     }
 
-    return Array.from(combined.values())
+    // Merge experience results with combined results (prepend, highest priority)
+    const allResults = Array.from(combined.values());
+    for (const expResult of results) {
+      allResults.unshift(expResult); // experiences at the front
+    }
+
+    return allResults
       .sort((a, b) => b.combinedScore - a.combinedScore)
       .slice(0, topK);
   }

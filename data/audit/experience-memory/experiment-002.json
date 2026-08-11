@@ -1,0 +1,47 @@
+{
+  "experiment": "LEARNING EXPERIMENT #002",
+  "timestamp": "2026-08-11T16:08:11.903Z",
+  "verdict": "INFLUENCE OBSERVED — experience context changes retrieval, persists across reload",
+  "classification": {
+    "experienceRetrieval": "REAL",
+    "contextInjection": "REAL",
+    "controlGroup": "REAL",
+    "influence": "OBSERVED",
+    "behaviorChange": "YES",
+    "persistence": "REAL"
+  },
+  "comparison": {
+    "without": {
+      "found": false,
+      "sourceCount": 5
+    },
+    "with": {
+      "found": true,
+      "sourceCount": 5,
+      "experiencePosition": 0,
+      "topSource": "experience:EXP002_MSOUTZVM"
+    }
+  },
+  "experience": {
+    "experienceId": "EXP002_MSOUTZVM",
+    "taskId": "task_analysis_001",
+    "agentId": "agent_ceo",
+    "timestamp": 1786464491746,
+    "input": "Analyze project memory architecture for optimization opportunities",
+    "summary": "Memory optimization analysis complete",
+    "content": "[EXP002_MSOUTZVM] Analysis result: The VISERON MemoryEngine has 4 layers (STM, LTM, KB, Vector). LTM contains 20,000+ entries. Optimization recommendation: add experience-prioritized retrieval layer to separate operational experiences from general knowledge. The LTM full-text index is token-based but was fixed to support multi-term queries. The HybridRetriever now supports experience context for relevant retrieval. Unique marker: EXP002_MSOUTZVM.",
+    "artifact": "memory-analysis-report",
+    "validation": "PASS",
+    "tools": [
+      "memory_query",
+      "ltm_analysis"
+    ],
+    "tags": [
+      "analysis",
+      "memory",
+      "optimization",
+      "task_analysis_001"
+    ],
+    "importance": 0.9
+  }
+}
