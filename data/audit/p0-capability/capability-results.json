@@ -1,0 +1,31 @@
+[
+  {
+    "id": "P0.1",
+    "name": "Deep Research Pipeline",
+    "status": "REAL",
+    "metrics": {
+      "sources": 2,
+      "chunks": 3,
+      "latencyMs": 860
+    }
+  },
+  {
+    "id": "P0.2",
+    "name": "Multi-Squad Project",
+    "status": "REAL",
+    "metrics": {
+      "squads": 3,
+      "agents": 3,
+      "latencyMs": 1
+    }
+  },
+  {
+    "id": "P0.3",
+    "name": "Artifact Generation Pipeline",
+    "status": "REAL",
+    "metrics": {
+      "artifacts": 2,
+      "dir": "C:\\Trinnity-Viseron-System\\data\\runtime\\p0-artifacts"
+    }
+  }
+]
