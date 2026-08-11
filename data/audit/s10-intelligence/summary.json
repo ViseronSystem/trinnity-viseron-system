@@ -1,0 +1,156 @@
+{
+  "timestamp": "2026-08-11T21:29:49.853Z",
+  "skillRanking": {
+    "collections": 5,
+    "totalFiles": 1212,
+    "executable": 0,
+    "tiers": [
+      {
+        "name": "awesome-claude-skills",
+        "tier": "A",
+        "files": 892
+      },
+      {
+        "name": "awesome-llm-apps",
+        "tier": "C",
+        "files": 8
+      },
+      {
+        "name": "claude-plugins-official",
+        "tier": "B",
+        "files": 226
+      },
+      {
+        "name": "comp-ai",
+        "tier": "C",
+        "files": 49
+      },
+      {
+        "name": "comp-crm",
+        "tier": "C",
+        "files": 37
+      }
+    ]
+  },
+  "knowledge": {
+    "sources": {
+      "web": 2,
+      "files": 8,
+      "repositories": 1,
+      "documents": 0,
+      "total": 11,
+      "ingested": 11
+    },
+    "research": {
+      "accepted": 1,
+      "chunks": 1
+    }
+  },
+  "learning": {
+    "records": 18,
+    "consolidated": 4,
+    "experienceRetrieval": 0
+  },
+  "scores": {
+    "agents": [
+      {
+        "agentId": "agent_ceo",
+        "evidence": 9,
+        "routingScore": 0.30000000000000004,
+        "intelligenceScore": 96,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_research",
+        "evidence": 6,
+        "routingScore": 0.66,
+        "intelligenceScore": 73,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_security",
+        "evidence": 6,
+        "routingScore": 0.6,
+        "intelligenceScore": 72,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_finance",
+        "evidence": 6,
+        "routingScore": 0,
+        "intelligenceScore": 60,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_cto",
+        "evidence": 5,
+        "routingScore": 0.1,
+        "intelligenceScore": 52,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_developer",
+        "evidence": 5,
+        "routingScore": 0.1,
+        "intelligenceScore": 52,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_devops",
+        "evidence": 5,
+        "routingScore": 0.1,
+        "intelligenceScore": 52,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_sales",
+        "evidence": 5,
+        "routingScore": 0,
+        "intelligenceScore": 50,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_support",
+        "evidence": 5,
+        "routingScore": 0,
+        "intelligenceScore": 50,
+        "tier": "PROVEN"
+      },
+      {
+        "agentId": "agent_vision",
+        "evidence": 5,
+        "routingScore": 0,
+        "intelligenceScore": 50,
+        "tier": "PROVEN"
+      }
+    ],
+    "top3": [
+      "agent_ceo",
+      "agent_research",
+      "agent_security"
+    ]
+  },
+  "bottlenecks": [
+    {
+      "rank": 1,
+      "name": "Skills indexed but not executable",
+      "domain": "SKILLS",
+      "gain": "HIGH",
+      "action": "Build SkillExecutor bridge for Tier A skills"
+    },
+    {
+      "rank": 2,
+      "name": "Cloud embeddings blocked",
+      "domain": "EMBEDDING",
+      "gain": "HIGH",
+      "action": "Configure OPENAI_API_KEY"
+    },
+    {
+      "rank": 3,
+      "name": "Voice STT/TTS blocked",
+      "domain": "VOICE",
+      "gain": "MEDIUM",
+      "action": "Configure ELEVENLABS_API_KEY"
+    }
+  ]
+}

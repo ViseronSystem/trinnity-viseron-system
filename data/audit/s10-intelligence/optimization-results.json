@@ -1,0 +1,23 @@
+[
+  {
+    "rank": 1,
+    "name": "Skills indexed but not executable",
+    "domain": "SKILLS",
+    "gain": "HIGH",
+    "action": "Build SkillExecutor bridge for Tier A skills"
+  },
+  {
+    "rank": 2,
+    "name": "Cloud embeddings blocked",
+    "domain": "EMBEDDING",
+    "gain": "HIGH",
+    "action": "Configure OPENAI_API_KEY"
+  },
+  {
+    "rank": 3,
+    "name": "Voice STT/TTS blocked",
+    "domain": "VOICE",
+    "gain": "MEDIUM",
+    "action": "Configure ELEVENLABS_API_KEY"
+  }
+]

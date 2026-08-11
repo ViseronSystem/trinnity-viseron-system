@@ -1,0 +1,72 @@
+[
+  {
+    "agentId": "agent_ceo",
+    "evidence": 9,
+    "routingScore": 0.30000000000000004,
+    "intelligenceScore": 96,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_research",
+    "evidence": 6,
+    "routingScore": 0.66,
+    "intelligenceScore": 73,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_security",
+    "evidence": 6,
+    "routingScore": 0.6,
+    "intelligenceScore": 72,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_finance",
+    "evidence": 6,
+    "routingScore": 0,
+    "intelligenceScore": 60,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_cto",
+    "evidence": 5,
+    "routingScore": 0.1,
+    "intelligenceScore": 52,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_developer",
+    "evidence": 5,
+    "routingScore": 0.1,
+    "intelligenceScore": 52,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_devops",
+    "evidence": 5,
+    "routingScore": 0.1,
+    "intelligenceScore": 52,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_sales",
+    "evidence": 5,
+    "routingScore": 0,
+    "intelligenceScore": 50,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_support",
+    "evidence": 5,
+    "routingScore": 0,
+    "intelligenceScore": 50,
+    "tier": "PROVEN"
+  },
+  {
+    "agentId": "agent_vision",
+    "evidence": 5,
+    "routingScore": 0,
+    "intelligenceScore": 50,
+    "tier": "PROVEN"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "collections": 5,
+  "totalFiles": 1212,
+  "executable": 0,
+  "tiers": [
+    {
+      "name": "awesome-claude-skills",
+      "tier": "A",
+      "files": 892
+    },
+    {
+      "name": "awesome-llm-apps",
+      "tier": "C",
+      "files": 8
+    },
+    {
+      "name": "claude-plugins-official",
+      "tier": "B",
+      "files": 226
+    },
+    {
+      "name": "comp-ai",
+      "tier": "C",
+      "files": 49
+    },
+    {
+      "name": "comp-crm",
+      "tier": "C",
+      "files": 37
+    }
+  ]
+}
