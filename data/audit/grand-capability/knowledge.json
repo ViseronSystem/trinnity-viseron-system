@@ -1,0 +1,46 @@
+{
+  "ltm": {
+    "items": 20000,
+    "size": "15MB"
+  },
+  "knowledgeGraph": {
+    "entities": 1444,
+    "relations": 1441
+  },
+  "sources": {
+    "total": 6,
+    "ingested": 6
+  },
+  "learning": {
+    "records": 18,
+    "status": "PROVEN (independent audit)"
+  },
+  "rag": {
+    "status": "REAL",
+    "features": [
+      "chunking",
+      "keyword retrieval",
+      "hybrid search"
+    ]
+  },
+  "graphRAG": {
+    "status": "REAL",
+    "features": [
+      "entity extraction",
+      "BFS traversal",
+      "relation scoring"
+    ]
+  },
+  "embeddings": {
+    "status": "PARTIAL",
+    "model": "MiniLM fallback (384d)",
+    "note": "OpenAI key not configured"
+  },
+  "telemetry": {
+    "status": "REAL",
+    "features": [
+      "JSONL persistence",
+      "SHA-256 archive"
+    ]
+  }
+}

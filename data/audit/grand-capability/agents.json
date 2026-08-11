@@ -1,0 +1,92 @@
+[
+  {
+    "agentId": "agent_ceo",
+    "name": "CEO Agent",
+    "role": "CEO & Strategic Leader",
+    "status": "ACTIVE",
+    "domain": "management",
+    "executionEvidence": 7,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_cto",
+    "name": "CTO Agent",
+    "role": "Chief Architect & Technical Leader",
+    "status": "ACTIVE",
+    "domain": "architecture",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_developer",
+    "name": "Developer Agent",
+    "role": "Developer",
+    "status": "ACTIVE",
+    "domain": "development",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_devops",
+    "name": "DevOps Agent",
+    "role": "DevOps Engineer",
+    "status": "ACTIVE",
+    "domain": "development",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_finance",
+    "name": "Finance Agent",
+    "role": "Finance & Treasury",
+    "status": "ACTIVE",
+    "domain": "finance",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_research",
+    "name": "Research Agent",
+    "role": "Research & Intelligence",
+    "status": "ACTIVE",
+    "domain": "research",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_sales",
+    "name": "Sales Agent",
+    "role": "Sales & Business Development",
+    "status": "ACTIVE",
+    "domain": "development",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_security",
+    "name": "Security Agent",
+    "role": "Security",
+    "status": "ACTIVE",
+    "domain": "security",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_support",
+    "name": "Support Agent",
+    "role": "Customer Support",
+    "status": "ACTIVE",
+    "domain": "support",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  },
+  {
+    "agentId": "agent_vision",
+    "name": "Vision Agent",
+    "role": "Vision & Perception",
+    "status": "ACTIVE",
+    "domain": "vision",
+    "executionEvidence": 5,
+    "classification": "REAL"
+  }
+]

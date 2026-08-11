@@ -1,0 +1,82 @@
+[
+  {
+    "component": "Agents (execution-proven)",
+    "status": "REAL",
+    "count": "10/10",
+    "evidence": "52 records"
+  },
+  {
+    "component": "Squads (capability-based)",
+    "status": "REAL",
+    "count": "5"
+  },
+  {
+    "component": "Skills (indexed)",
+    "status": "PARTIAL",
+    "count": "21129",
+    "note": "indexed≠executable"
+  },
+  {
+    "component": "Knowledge Graph",
+    "status": "REAL",
+    "count": "1444 entities"
+  },
+  {
+    "component": "RAG Pipeline",
+    "status": "REAL"
+  },
+  {
+    "component": "GraphRAG",
+    "status": "REAL"
+  },
+  {
+    "component": "Embeddings",
+    "status": "PARTIAL",
+    "note": "MiniLM fallback"
+  },
+  {
+    "component": "Voice (STT/TTS)",
+    "status": "BLOCKED",
+    "note": "no API keys"
+  },
+  {
+    "component": "Continuous Learning",
+    "status": "REAL",
+    "note": "PROVEN (independent audit)"
+  },
+  {
+    "component": "Parallel Intelligence",
+    "status": "REAL",
+    "note": "2x speedup"
+  },
+  {
+    "component": "Recovery & Migration",
+    "status": "REAL",
+    "note": "10/10, MIGRATION_READY"
+  },
+  {
+    "component": "Knowledge Acquisition (S9)",
+    "status": "PARTIAL",
+    "note": "infrastructure REAL, providers PARTIAL"
+  },
+  {
+    "component": "Telemetry",
+    "status": "REAL",
+    "note": "JSONL + SHA-256"
+  },
+  {
+    "component": "Agent Evidence",
+    "status": "REAL",
+    "count": "52 records"
+  },
+  {
+    "component": "Memory (LTM)",
+    "status": "REAL",
+    "count": "20000 records"
+  },
+  {
+    "component": "Core Tests",
+    "status": "REAL",
+    "count": "20/20 PASS"
+  }
+]

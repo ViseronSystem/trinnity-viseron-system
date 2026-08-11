@@ -1,0 +1,12 @@
+{
+  "status": "10/10 REAL",
+  "readiness": "MIGRATION_READY",
+  "features": [
+    "snapshot",
+    "SHA-256",
+    "secret exclusion",
+    "restore",
+    "environment validation",
+    "provider detection"
+  ]
+}

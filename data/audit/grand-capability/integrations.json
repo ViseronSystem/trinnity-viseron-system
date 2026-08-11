@@ -1,0 +1,35 @@
+{
+  "ollama": {
+    "status": "AVAILABLE",
+    "type": "local AI provider"
+  },
+  "openai": {
+    "status": "NOT_CONFIGURED",
+    "type": "cloud AI provider"
+  },
+  "elevenlabs": {
+    "status": "NOT_CONFIGURED",
+    "type": "voice TTS"
+  },
+  "composio": {
+    "status": "NOT_CONFIGURED",
+    "type": "MCP tools"
+  },
+  "twilio": {
+    "status": "NOT_CONFIGURED",
+    "type": "SMS/RCS/Voice"
+  },
+  "avirato": {
+    "status": "NOT_CONFIGURED",
+    "type": "billing"
+  },
+  "n8n": {
+    "status": "CONFIGURED",
+    "type": "workflow automation"
+  },
+  "graphify": {
+    "status": "REAL",
+    "entities": "4,278 nodes / 8,275 edges",
+    "type": "knowledge graph"
+  }
+}

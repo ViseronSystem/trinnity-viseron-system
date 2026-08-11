@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-08-11T20:19:39.608Z",
+  "agents": {
+    "total": 10,
+    "real": 10,
+    "partial": 0
+  },
+  "squads": {
+    "total": 5,
+    "real": 5
+  },
+  "skills": {
+    "collections": 10,
+    "files": 21129,
+    "executable": 0,
+    "status": "indexed≠executable"
+  },
+  "knowledge": {
+    "ltm": 20000,
+    "kg": 1444,
+    "sources": 6
+  },
+  "learning": {
+    "records": 18,
+    "status": "PROVEN"
+  },
+  "recovery": {
+    "status": "10/10 REAL",
+    "readiness": "MIGRATION_READY"
+  },
+  "parallel": {
+    "speedup": "2x",
+    "throughput": "80 tasks/sec"
+  },
+  "coreTests": "20/20 PASS",
+  "overallStatus": "CONTROLLED-PILOT",
+  "bottlenecks": [
+    "OpenAI/ElevenLabs keys",
+    "Skills not executable",
+    "LTM 20K cap",
+    "Single-process"
+  ],
+  "scaleModel": [
+    "10 agents (no bottleneck)",
+    "20 (evidence gap)",
+    "50 (memory contention)",
+    "100 (LTM cap)",
+    "500+ (distributed queue)"
+  ]
+}

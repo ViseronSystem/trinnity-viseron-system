@@ -1,0 +1,72 @@
+[
+  {
+    "squadId": "architecture_squad",
+    "members": [
+      "agent_cto",
+      "agent_developer",
+      "agent_devops"
+    ],
+    "domains": [
+      "architecture",
+      "development",
+      "operations"
+    ],
+    "status": "REAL"
+  },
+  {
+    "squadId": "security_squad",
+    "members": [
+      "agent_security",
+      "agent_devops",
+      "agent_developer"
+    ],
+    "domains": [
+      "security",
+      "operations",
+      "development"
+    ],
+    "status": "REAL"
+  },
+  {
+    "squadId": "research_squad",
+    "members": [
+      "agent_research",
+      "agent_vision",
+      "agent_finance"
+    ],
+    "domains": [
+      "research",
+      "vision",
+      "finance"
+    ],
+    "status": "REAL"
+  },
+  {
+    "squadId": "growth_squad",
+    "members": [
+      "agent_sales",
+      "agent_research",
+      "agent_support"
+    ],
+    "domains": [
+      "sales",
+      "research",
+      "support"
+    ],
+    "status": "REAL"
+  },
+  {
+    "squadId": "management_squad",
+    "members": [
+      "agent_ceo",
+      "agent_cto",
+      "agent_finance"
+    ],
+    "domains": [
+      "management",
+      "architecture",
+      "finance"
+    ],
+    "status": "REAL"
+  }
+]
