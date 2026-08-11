@@ -1,0 +1,37 @@
+{
+  "version": "7.0.0",
+  "codename": "Trinnity VISERON System",
+  "releaseDate": "2026-08-11",
+  "coreTests": "20/20 PASS",
+  "realityStatus": "CONTROLLED-PILOT",
+  "capabilities": {
+    "agents": { "total": 10, "real": 10, "evidence": 52 },
+    "squads": { "total": 5, "memberSlots": 15, "domains": 15 },
+    "skills": { "collections": 10, "files": "21K+", "executable": "PARTIAL" },
+    "knowledge": { "ltm": 20000, "kgEntities": 1407, "sources": 6, "learningRecords": 18 },
+    "throughput": { "safeConcurrency": 4, "estimatedTasksPerSec": 80, "parallelSpeedup": 2.0 }
+  },
+  "cognitiveSystems": [
+    "Cognitive Telemetry",
+    "Real Embeddings (MiniLM fallback)",
+    "RAG Pipeline",
+    "GraphRAG",
+    "Voice Neural Architecture",
+    "Memory Consolidation",
+    "Experience Store",
+    "Continuous Learning (PROVEN)",
+    "Parallel Intelligence",
+    "Squad Intelligence",
+    "Recovery & Migration"
+  ],
+  "knownLimitations": [
+    "Embeddings use MiniLM fallback (no OpenAI key configured)",
+    "Voice STT/TTS blocked (no API keys configured)",
+    "Skills indexed but not executable via VISERON runtime",
+    "LTM capped at 20K entries (synchronous Map)",
+    "Single-process architecture (no distributed queue)",
+    "Agent dispatch registry not fully wired for parallel execution"
+  ],
+  "gitCommit": "pending",
+  "tag": "v7.0.0"
+}
