@@ -1,37 +1,37 @@
 {
   "experiment": "LEARNING VALIDATION — Final Proof",
-  "timestamp": "2026-08-11T16:19:36.857Z",
+  "timestamp": "2026-08-11T17:12:13.549Z",
   "classification": "LEARNING_REAL",
   "criteria": {
     "influence": true,
     "improvement": true,
     "reproducible": true,
-    "negativeControl": false,
+    "negativeControl": true,
     "persistence": true
   },
   "baseline": {
     "tasks": 3,
     "found": 0,
     "errors": 0,
-    "avgLatencyMs": 122,
+    "avgLatencyMs": 93,
     "avgSources": 1
   },
   "withExperience": {
     "tasks": 3,
     "found": 3,
     "errors": 0,
-    "avgLatencyMs": 94,
+    "avgLatencyMs": 87,
     "avgSources": 4
   },
   "deltas": {
     "foundDelta": 3,
     "errorsDelta": 0,
-    "latencyDelta": 28,
+    "latencyDelta": 6,
     "sourcesDelta": 3
   },
   "experiences": [
     {
-      "id": "LRNMSOV8NYQ_A",
+      "id": "LRNMSOX4BRM_A",
       "tools": [
         "memory_query",
         "ltm_analysis"
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "id": "LRNMSOV8NYQ_B",
+      "id": "LRNMSOX4BRM_B",
       "tools": [
         "retriever_audit",
         "performance_test"
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "id": "LRNMSOV8NYQ_C",
+      "id": "LRNMSOX4BRM_C",
       "tools": [
         "pipeline_test",
         "metrics_collection"

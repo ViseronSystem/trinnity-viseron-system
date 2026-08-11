@@ -3,13 +3,13 @@
     "taskId": "WE_memory",
     "success": true,
     "errors": 0,
-    "latencyMs": 94,
+    "latencyMs": 76,
     "validation": "PASS",
-    "artifactSize": 1131,
+    "artifactSize": 851,
     "sourcesUsed": 4,
     "experienceUsed": true,
     "experienceIds": [
-      "EXP002_MSOUSVUD",
+      "LRNMSOX4BRM_A",
       "LRNMSOV8NYQ_A",
       "LRNMSOV7RTN_A"
     ]
@@ -18,13 +18,13 @@
     "taskId": "WE_retrieval",
     "success": true,
     "errors": 0,
-    "latencyMs": 102,
+    "latencyMs": 87,
     "validation": "PASS",
-    "artifactSize": 1215,
+    "artifactSize": 977,
     "sourcesUsed": 4,
     "experienceUsed": true,
     "experienceIds": [
-      "EXP002_MSOUSVUD",
+      "LRNMSOX4BRM_B",
       "LRNMSOV8NYQ_B",
       "LRNMSOV7RTN_B"
     ]
@@ -33,13 +33,13 @@
     "taskId": "WE_pipeline",
     "success": true,
     "errors": 0,
-    "latencyMs": 87,
+    "latencyMs": 98,
     "validation": "PASS",
-    "artifactSize": 1195,
+    "artifactSize": 947,
     "sourcesUsed": 4,
     "experienceUsed": true,
     "experienceIds": [
-      "EXP002_MSOUSVUD",
+      "LRNMSOX4BRM_C",
       "LRNMSOV8NYQ_C",
       "LRNMSOV7RTN_C"
     ]

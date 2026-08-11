@@ -55,46 +55,58 @@ export class ExperienceStore {
   // ── RETRIEVE BY TASK CONTEXT ─────────────────────────
 
   retrieveRelevant(context: TaskContext, limit: number = 5): ExperienceRecord[] {
-    const scored: Array<{ exp: ExperienceRecord; score: number }> = [];
+    const scored: Array<{ exp: ExperienceRecord; score: number; relevance: number; rejectionReason?: string }> = [];
 
     for (const exp of this.experiences.values()) {
-      let score = 0;
+      let relevance = 0;  // semantic/contextual match — MUST be > 0 to pass gate
+      let boost = 0;      // recency, importance, evidence — only applied if relevant
 
+      // ── RELEVANCE (HARD GATE) ──
       // Same agent
-      if (context.agentId && exp.agentId === context.agentId) score += 0.3;
+      if (context.agentId && exp.agentId === context.agentId) relevance += 0.3;
 
-      // Input similarity (keyword overlap)
+      // Input similarity (keyword overlap between task inputs)
       if (context.input && exp.input) {
         const ctxTerms = new Set(context.input.toLowerCase().split(/\s+/).filter(t => t.length > 3));
         const expTerms = new Set(exp.input.toLowerCase().split(/\s+/).filter(t => t.length > 3));
         const overlap = [...ctxTerms].filter(t => expTerms.has(t)).length;
-        score += Math.min(0.4, overlap * 0.05);
+        relevance += Math.min(0.5, overlap * 0.06);
       } else if (context.input && exp.summary) {
         const ctxTerms = new Set(context.input.toLowerCase().split(/\s+/).filter(t => t.length > 3));
         const sumTerms = new Set(exp.summary.toLowerCase().split(/\s+/).filter(t => t.length > 3));
         const overlap = [...ctxTerms].filter(t => sumTerms.has(t)).length;
-        score += Math.min(0.3, overlap * 0.04);
+        relevance += Math.min(0.4, overlap * 0.05);
       }
 
-      // Entity overlap
+      // Entity/project overlap
       if (context.relatedEntities && exp.tags) {
         const overlap = context.relatedEntities.filter(e => exp.tags.some(t => t.includes(e) || e.includes(t))).length;
-        score += Math.min(0.3, overlap * 0.1);
+        relevance += Math.min(0.4, overlap * 0.15);
       }
 
-      // Recency boost
+      // Content similarity: does the experience content relate to the task input?
+      if (context.input && exp.content) {
+        const ctxTerms = new Set(context.input.toLowerCase().split(/\s+/).filter(t => t.length > 3));
+        const contentLower = exp.content.toLowerCase();
+        const contentMatch = [...ctxTerms].filter(t => contentLower.includes(t)).length;
+        relevance += Math.min(0.3, contentMatch * 0.05);
+      }
+
+      // ── HARD GATE ──
+      // Require minimum semantic/contextual relevance before boosts apply
+      if (relevance < 0.15) continue; // not semantically connected — REJECT
+
+      // ── BOOST (only for relevant experiences) ──
       const ageMs = Date.now() - exp.timestamp;
-      if (ageMs < 3600000) score += 0.2;
-      else if (ageMs < 86400000) score += 0.1;
-      else if (ageMs < 604800000) score += 0.03;
+      if (ageMs < 3600000) boost += 0.2;
+      else if (ageMs < 86400000) boost += 0.1;
+      else if (ageMs < 604800000) boost += 0.03;
 
-      // Evidence (has artifact + validation)
-      if (exp.artifact && exp.validation) score += 0.1;
+      if (exp.artifact && exp.validation) boost += 0.1;
+      boost += exp.importance * 0.15;
 
-      // Importance
-      score += exp.importance * 0.15;
-
-      if (score > 0.2) scored.push({ exp, score }); // minimum relevance threshold
+      const finalScore = relevance + boost;
+      if (finalScore > 0.15) scored.push({ exp, score: finalScore, relevance });
     }
 
     return scored
