@@ -62,7 +62,7 @@ export class LearningValidationGate {
 
     // 3. Performance check
     if (record.performanceDelta <= 0) {
-      warnings.push("no positive performance delta — keeping as experience only");
+      failures.push({ check: "performance_delta", reason: `negative or zero performance delta (${record.performanceDelta.toFixed(2)}) — no improvement` });
     }
 
     // 4. Reproducibility check

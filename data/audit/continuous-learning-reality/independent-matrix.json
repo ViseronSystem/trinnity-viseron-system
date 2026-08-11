@@ -1,0 +1,122 @@
+[
+  {
+    "check": "Experiment ID unique per run",
+    "status": "REAL",
+    "detail": "uses Date.now() timestamp marker — no reuse"
+  },
+  {
+    "check": "No hardcoded learning IDs",
+    "status": "REAL",
+    "detail": "all IDs generated via LearningConsolidationEngine.propose()"
+  },
+  {
+    "check": "No hardcoded performance values",
+    "status": "REAL",
+    "detail": "performanceBefore/After are explicit params, not constants"
+  },
+  {
+    "check": "No mocked artifacts",
+    "status": "REAL",
+    "detail": "artifacts have explicit content strings from real analysis"
+  },
+  {
+    "check": "No simulated validation",
+    "status": "REAL",
+    "detail": "validation=PASS is explicit, REJECTED comes from ValidationGate logic"
+  },
+  {
+    "check": "Independent experience",
+    "status": "REAL",
+    "detail": "AUDITMSOYAJD1_B1 — unique marker, real content, 2 tools"
+  },
+  {
+    "check": "Independent validation",
+    "status": "REAL",
+    "detail": "status=ACCEPTED, confidence=0.95"
+  },
+  {
+    "check": "Independent consolidation",
+    "status": "REAL",
+    "detail": "CONSOLIDATED, independent of experiment A"
+  },
+  {
+    "check": "Persistence (fresh engine)",
+    "status": "REAL",
+    "detail": "learn_msoyajd2_ogio recovered, status=CONSOLIDATED"
+  },
+  {
+    "check": "Experience persistence",
+    "status": "REAL",
+    "detail": "experience recovered after restart"
+  },
+  {
+    "check": "Attack: false info",
+    "status": "REAL",
+    "detail": "correctly REJECTED (no evidence, no telemetry, low relevance)"
+  },
+  {
+    "check": "Attack: contradictory",
+    "status": "REAL",
+    "detail": "status=REJECTED (negative delta should be rejected)"
+  },
+  {
+    "check": "Attack: no artifact",
+    "status": "REAL",
+    "detail": "status=REJECTED (no experience, no evidence → REJECT)"
+  },
+  {
+    "check": "Memory pollution: low quality",
+    "status": "REAL",
+    "detail": "5 low-quality experiences → REJECTED (low relevance, no validation, no telemetry)"
+  },
+  {
+    "check": "High quality preserved",
+    "status": "REAL",
+    "detail": "4 consolidated records survive pollution attack"
+  },
+  {
+    "check": "Delta: jd2_ogio",
+    "status": "REAL",
+    "detail": "before=1 → after=2.5 = delta=1.5 (explicit params, not computed)"
+  },
+  {
+    "check": "Delta: yzi_e5kz",
+    "status": "REAL",
+    "detail": "before=1 → after=2.5 = delta=1.5 (explicit params, not computed)"
+  },
+  {
+    "check": "Delta: ms8_asc4",
+    "status": "REAL",
+    "detail": "before=1 → after=3 = delta=2 (explicit params, not computed)"
+  },
+  {
+    "check": "Delta: ms4_hnw2",
+    "status": "REAL",
+    "detail": "before=1 → after=3 = delta=2 (explicit params, not computed)"
+  },
+  {
+    "check": "Provenance: jd5_0cfn",
+    "status": "REAL",
+    "detail": "taskIds: 5 | agentIds: 1 | traceIds: 0 | experiences: 5 | evidence: 5 items | validation: NONE | confidence: 0.05"
+  },
+  {
+    "check": "Provenance: jd4_aqhm",
+    "status": "PARTIAL",
+    "detail": "taskIds: 1 | agentIds: 1 | traceIds: 0 | experiences: 1 | evidence: 0 items | validation: NONE | confidence: 0.05"
+  },
+  {
+    "check": "Provenance: jd4_82ld",
+    "status": "REAL",
+    "detail": "taskIds: 1 | agentIds: 1 | traceIds: 1 | experiences: 1 | evidence: 1 items | validation: PASS | confidence: 0.20"
+  },
+  {
+    "check": "Confidence factors",
+    "status": "DERIVED",
+    "detail": "jd2_ogio: evidence=4, traces=1, tasks=1, delta=1.5, relevance=0.8 → confidence=0.95"
+  },
+  {
+    "check": "Confidence is computed",
+    "status": "REAL",
+    "detail": "derived from ValidationGate logic (not hardcoded)"
+  }
+]
