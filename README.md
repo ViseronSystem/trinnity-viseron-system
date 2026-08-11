@@ -890,7 +890,7 @@ O objetivo é que **código que não passa pelas verificações não seja promov
 
 ---
 
-# 📊 System of Truth
+# 📊 System of Truth — v7.0.0
 
 Validação real da versão atual (dados verificados, sem claims inflacionados):
 
@@ -902,33 +902,78 @@ TVS OS       25 / 25   PASS
 RESTART      14 / 14   PASS
 ```
 
+## Current System Reality — v7.0.0
+
 Métricas reais do sistema (2026-08-11):
 
 ```text
-Ficheiros TypeScript (src/)    269
-APIs REST (total endpoints)   ~188
-Tópicos SSE (tempo real)        43
-Canais Socket.IO                 5
+IMPLEMENTED + PROVEN:
+  Agents REAL (execution evidence)     10/10
+  Squads (capability-based)                5
+  Squad member slots                      15
+  Domains covered by squads               15
+  Agent evidence records                  52
 
-Agentes registados (AgentManager)   246+
-Agentes nucleares (OMEGA specs)      10
-Agency OS agents                      4
-AIOX squads (domínios)               21
+  LTM registos                       20,000
+  KnowledgeGraph entidades            1,407
+  KnowledgeGraph relações             1,404
+  Sources registadas (S9)                 6
+  Learning records consolidados          18
 
-Command Center (linhas)          1,089
-Command Center (milestones)          3
+COGNITIVE OS (9 systems):
+  Cognitive Telemetry       REAL (JSONL + SHA-256)
+  Embeddings                PARTIAL (MiniLM fallback, sem OpenAI key)
+  RAG Pipeline              REAL (chunker + keyword + hybrid retrieval)
+  Voice Architecture        BLOCKED (sem API keys configuradas)
+  Memory Consolidation      REAL (semantic dedup + classification)
+  GraphRAG                  REAL (1,407 entities, BFS traversal)
+  Evolution Loop            REAL (evidence-based, zero random)
+  Command Center 2.0        REAL (3D hologram + voice + terminal + cognitive dashboard)
+  ATLAS Cognitive Agent     REAL (telemetry + evidence + learning)
 
-LTM registos                   20,000
-KnowledgeGraph entidades          896
-Graphify nós / arestas    4,278/8,275
-Skills indexadas (10 coleções)   1,997
+PARALLEL INTELLIGENCE:
+  IntelligentRouter         REAL (domain specialist protection)
+  TaskDecomposer            REAL (complex goal → DAG)
+  ParallelOrchestrator      REAL (concurrency=4, measured speedup=2x)
+  Estimated throughput      80 tasks/sec
 
-Domínios ativos                   2
-  trinnityviseron.com
-  trinnityviseronsystem.io
+RECOVERY & MIGRATION:       10/10 REAL, MIGRATION_READY
+
+CONTROLLED-PILOT (validated but not production-hardened):
+  Safe concurrency                         4 tasks
+  Memory contention threshold            ~16 concurrent writes
+  LTM capacity ceiling                   20K entries
+  Distributed queue required for         50+ agents
+
+KNOWN LIMITATIONS:
+  - OpenAI key NOT configured (embeddings use fallback, voice STT blocked)
+  - ElevenLabs key NOT configured (voice TTS blocked)
+  - Skills indexed (21K+) but not executable via VISERON runtime
+  - Single-process architecture (no distributed queue)
+
+FILES:
+  TypeScript source                     ~300
+  APIs REST (total endpoints)           ~188
+  Tópicos SSE (tempo real)                43
+  Canais Socket.IO                         5
+  Skills indexadas (10 coleções)       1,997
+  Graphify nós / arestas        4,278/8,275
+
+SCALE MODEL (projected, not deployed):
+  10 agents / concur 4    → no bottleneck
+  20 agents / concur 8    → evidence gap
+  50 agents / concur 16   → memory contention
+  100 agents / concur 32  → LTM capacity limit
+  500+ agents              → distributed queue required
+
+VERDICT: CONTROLLED-PILOT
+  The VISERON has proven 10/10 agents REAL, 5 squads functional,
+  continuous learning verified by independent audit, parallel execution
+  at 2x speedup. Production hardening requires: cloud API keys,
+  distributed queue, and LTM storage migration.
 ```
 
-> **Verdade prática:** Os 246+ agentes são archetypes registados no AgentManager com role e capabilities. Agentes executáveis ativos: JARVIS + VISERON + OMEGA (10 specs nucleares) + ATLAS + Agency (4). O conceito de "mentes" refere-se ao conhecimento estruturado em archetypes, não a processos independentes.
+> **Verdade prática:** Os 246+ agentes são archetypes registados no AgentManager com role e capabilities. Agentes executáveis com evidência REAL: 10 (CEO, CTO, Developer, DevOps, Finance, Research, Sales, Security, Support, Vision). O conceito de "mentes" refere-se ao conhecimento estruturado em archetypes, não a processos independentes.
 
 ---
 
@@ -1199,3 +1244,4 @@ Continuous Evolution Architecture
 **Versões do README:**
 - v5.0 — Conceitual / Vision (backup: `docs/README-v5-legacy-backup-2026-08-11.md`)
 - v6.0 — Reality Alignment (2026-08-11): +Agentes, +Voz, +Command Center, +Memory real, +System of Truth atualizado, 17 funcionalidades documentadas
+- v7.0.0 — Production Baseline (2026-08-11): Recovery 10/10, Continuous Learning PROVEN, Parallel 2x, 10 agents REAL, 5 squads, CONTROLLED-PILOT
