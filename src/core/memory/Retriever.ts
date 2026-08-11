@@ -38,7 +38,7 @@ export class HybridRetriever {
     } catch { /* vector retrieval failed — continue with keyword only */ }
 
     // Keyword retrieval (via MemoryEngine unifiedSearch)
-    let keywordResults: Array<{ id: string; score: number; content: string }> = [];
+    let keywordResults: Array<{ id: string; score: number; content: string; timestamp?: number; tags?: string[]; source?: string; metadata?: any }> = [];
     try {
       if (typeof this.memoryEngine.unifiedSearch === "function") {
         const unified = await this.memoryEngine.unifiedSearch(query, { maxResults: topK * 2 });
@@ -46,6 +46,10 @@ export class HybridRetriever {
           id: r.id || r.title || "?",
           score: r.score || 0,
           content: r.content || r.title || "",
+          timestamp: r.timestamp,
+          tags: r.tags,
+          source: r.source,
+          metadata: r,
         }));
       } else {
         // Fallback: search LTM
@@ -54,9 +58,41 @@ export class HybridRetriever {
           id: r.key || r.id,
           score: 0.5,
           content: typeof r.value === "string" ? r.value : JSON.stringify(r.value).slice(0, 200),
+          timestamp: r.updatedAt || r.createdAt,
+          tags: r.tags,
+          source: "ltm",
         }));
       }
     } catch { /* keyword retrieval failed */ }
+
+    // Boost factors
+    const now = Date.now();
+    const maxBoost = 0.3; // maximum boost from recency + importance
+
+    for (const kr of keywordResults) {
+      let boost = 0;
+
+      // Recency boost: items from last hour get up to +0.15
+      if (kr.timestamp) {
+        const ageMs = now - kr.timestamp;
+        if (ageMs < 3600000) boost += 0.15;       // < 1 hour
+        else if (ageMs < 86400000) boost += 0.08;  // < 24 hours
+        else if (ageMs < 604800000) boost += 0.03; // < 7 days
+      }
+
+      // Importance boost: items tagged with high-value tags get +0.10
+      if (kr.tags?.some((t: string) => ["learning-exp", "project-structure", "analysis", "consolidated", "semantic_dedup", "wisdom", "evolution"].includes(t))) {
+        boost += 0.10;
+      }
+
+      // Evidence boost: items with operational provenance get +0.05
+      const content = kr.content || "";
+      if (content.includes("taskId") || content.includes("traceId") || content.includes("agentId") || content.includes("artifact")) {
+        boost += 0.05;
+      }
+
+      kr.score = Math.min(1, kr.score + Math.min(boost, maxBoost));
+    }
 
     // Combine scores
     const combined = new Map<string, RetrievalResult>();

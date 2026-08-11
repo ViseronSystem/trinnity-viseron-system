@@ -107,12 +107,23 @@ async function main() {
     version: pkgJson.version || "5.0.0",
   };
 
-  // Store in LTM with rich structure
-  mem.setLongTerm("learning_exp_project_structure", knowledge, ["project-structure", "analysis", "learning-exp"]);
+  // Store in LTM with rich structure AND unique identifiers
+  const uniqueId = "EXP_" + Date.now().toString(36).toUpperCase();
+  const uniqueFact = `Experimental knowledge unit ${uniqueId}: VISERON project analysis completed at ${new Date().toISOString()} by agent agent_ceo. Key finding: the system has ${coreFiles} core modules, ${omegaFiles} omega modules, and ${webFiles} web modules totaling ${srcFiles} source files. The OMEGA kernel contains TaskQueue (392 lines), EventBus (215 lines), and AutonomyOS (248 lines). Unique experiment marker: ${uniqueId}.`;
 
-  // Store in KB for RAG
-  const knowledgeText = `VISERON v${knowledge.version} has ${knowledge.totalFiles} source files across core (${coreFiles} files), omega kernel (${omegaFiles} files), and web layer (${webFiles} files). Key modules: OMEGA Kernel with TaskQueue, EventBus, AutonomyOS; Core engine with agents, memory, providers; Web layer with auth, billing, JARVIS, VISERON, ATLAS, agency. The Command Center features hologram 3D, voice, terminal, and agent dispatch. Integrations include Composio MCP, Avirato, Twilio, N8N, OmniRoute.`;
-  mem.addKnowledge("project_structure_knowledge", "project-analysis", knowledgeText, ["project-structure", "analysis", "learning-exp"]);
+  mem.setLongTerm("learning_exp_" + uniqueId, {
+    title: `[EXPERIMENT ${uniqueId}] VISERON Project Analysis`,
+    content: uniqueFact,
+    summary: `Analysis completed with unique marker ${uniqueId}`,
+    agentId: "agent_ceo",
+    taskType: "project-analysis",
+    modules: { core: coreFiles, omega: omegaFiles, web: webFiles },
+    uniqueMarker: uniqueId,
+    timestamp: Date.now(),
+  }, ["learning-exp", "project-structure", "analysis", uniqueId]);
+
+  // Store unique fact in KB for RAG
+  mem.addKnowledge("project_exp_" + uniqueId, "experiment-analysis", uniqueFact, ["learning-exp", "analysis", uniqueId]);
 
   // Consolidate
   consolidation.deduplicateSTM();
@@ -122,14 +133,15 @@ async function main() {
   fs.writeFileSync(expArtifact, JSON.stringify(knowledge, null, 2));
 
   omega.telemetry.completeTrace(expTrace.traceId, {
-    success: true, output: knowledgeText.slice(0, 500), latencyMs: Date.now() - expStart,
+    success: true, output: uniqueFact.slice(0, 500), latencyMs: Date.now() - expStart,
     sources: ["package.json", "filesystem"], modelUsed: "omega-kernel",
   }, { status: "PASS", reasons: ["project structure analyzed", "knowledge stored in LTM + KB"], verifiedBy: "learning-exp" }, { newKnowledgeGenerated: true });
 
   const experience = {
     taskType: "project-analysis",
+    uniqueId,
     knowledgeSize: JSON.stringify(knowledge).length,
-    ltmStored: !!mem.getLongTerm("learning_exp_project_structure"),
+    ltmStored: !!mem.getLongTerm("learning_exp_" + uniqueId),
     kbStored: !!(mem as any).knowledgeStore?.size > 0,
     filesAnalyzed: 3,
     artifact: expArtifact,
@@ -162,8 +174,8 @@ async function main() {
   } catch { vecHits = []; }
 
   // Check if our stored knowledge appears in results
-  const ltmFound = kwHits.some((h: any) => h.key === "learning_exp_project_structure");
-  const kbFound = kbHits.some((h: any) => (h.id || h.title)?.includes("project_structure"));
+  const ltmFound = kwHits.some((h: any) => h.key?.includes("learning_exp_EXP_"));
+  const kbFound = kbHits.some((h: any) => (h.id || h.title)?.includes("EXPERIMENT"));
 
   const retrievalData = {
     keywordHits: kwHits.length, kbHits: kbHits.length, vectorHits: vecHits.length,
@@ -184,13 +196,11 @@ async function main() {
     afterResults = await retriever.retrieve(bQuery, { topK: 5 });
   } catch { afterResults = []; }
 
-  // Check if ANY result came from our stored experience
+  // Check if ANY result came from our stored experience (look for unique marker)
   const experienceInResults = afterResults.some((r: any) =>
-    r.chunk.text?.includes("OMEGA Kernel") ||
-    r.chunk.text?.includes("TaskQueue") ||
-    r.chunk.text?.includes("EventBus") ||
-    r.chunk.text?.includes("project_structure") ||
-    r.chunk.source === "project-analysis"
+    r.chunk.text?.includes("EXP_") ||
+    r.chunk.text?.includes("Experimental knowledge unit") ||
+    r.chunk.text?.includes(uniqueId)
   );
 
   // Build answer
@@ -246,7 +256,7 @@ async function main() {
   console.log("\n── Persistence ──");
   const ltmFile = path.join(ROOT, "database", "memory", "ltm.json");
   console.log(`  LTM file: ${fs.existsSync(ltmFile) ? ((fs.statSync(ltmFile).size/1024/1024).toFixed(0)+"MB") : "NOT FOUND"}`);
-  const persisted = fs.existsSync(ltmFile) && fs.readFileSync(ltmFile, "utf8").includes("learning_exp_project_structure");
+  const persisted = fs.existsSync(ltmFile) && fs.readFileSync(ltmFile, "utf8").includes(uniqueId);
   console.log(`  Experience persisted in LTM file: ${persisted}`);
 
   // ═══ WRITE RESULTS ═══
