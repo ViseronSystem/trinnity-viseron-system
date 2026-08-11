@@ -9,6 +9,7 @@ import { FactoryEngine, SolutionEngineAdapter, ScaffolderAdapter } from "./facto
 import { EnterpriseHub } from "./enterprise";
 import { SelfHealWatchdog } from "./selfheal";
 import { TelemetryEngine } from "./telemetry/TelemetryEngine";
+import { createEmbeddingProvider, EmbeddingProvider } from "../core/memory/EmbeddingProvider";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -74,6 +75,7 @@ export class OmegaPlatform {
   public readonly vaec: VaecOrchestrator;
   public readonly archive: KnowledgeArchive;
   public readonly telemetry: TelemetryEngine;
+  public readonly embedding: EmbeddingProvider;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -478,6 +480,9 @@ export class OmegaPlatform {
 
     // Cognitive Telemetry — Sistema 0: rastreabilidade completa de operações cognitivas
     this.telemetry = new TelemetryEngine(path.join(process.cwd(), "data"));
+
+    // Embedding Provider — Sistema 1: OpenAI → MiniLM fallback chain
+    this.embedding = createEmbeddingProvider();
 
     // Publica eventos de telemetria no EventBus para observabilidade
     this.kernel.events.subscribe("cognitive:completed", (trace) => {

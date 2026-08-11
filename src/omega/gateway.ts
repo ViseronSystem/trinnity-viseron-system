@@ -381,6 +381,32 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json(omega.telemetry.status());
   });
 
+  // ── EMBEDDINGS (Sistema 1) ──
+  router.get("/memory/embed/status", (_req, res) => {
+    res.json({
+      provider: omega.embedding.name,
+      model: omega.embedding.model,
+      dimensions: omega.embedding.dimensions,
+      available: omega.embedding.isAvailable(),
+    });
+  });
+
+  router.post("/memory/embed", async (req, res) => {
+    try {
+      const { text } = req.body ?? {};
+      if (!text || typeof text !== "string") return res.status(400).json({ error: "text required" });
+      const trace = omega.telemetry.startTrace({ source: "rag", agentId: req.body?.agentId, input: { text, embeddingsModel: omega.embedding.model } });
+      const result = await omega.embedding.embed(text);
+      omega.telemetry.recordProcessing(trace.traceId, { embeddingMs: result.latencyMs });
+      omega.telemetry.completeTrace(trace.traceId, {
+        success: true, modelUsed: result.model, latencyMs: result.latencyMs, tokensUsed: result.tokensUsed, output: `vector[${result.dimensions}]`,
+      });
+      res.json({ ok: true, dimensions: result.dimensions, model: result.model, latencyMs: result.latencyMs, tokensUsed: result.tokensUsed, traceId: trace.traceId });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
