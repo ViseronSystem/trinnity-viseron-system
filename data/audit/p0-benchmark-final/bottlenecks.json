@@ -1,0 +1,92 @@
+[
+  {
+    "rank": 1,
+    "category": "PROVIDER",
+    "name": "Cloud API keys not configured",
+    "evidence": "OPENAI_API_KEY, ELEVENLABS_API_KEY commented in .env",
+    "impact": "Embeddings use fallback, Voice STT/TTS blocked",
+    "severity": "HIGH",
+    "action": "Configure API keys in .env"
+  },
+  {
+    "rank": 2,
+    "category": "SKILL_EXECUTION",
+    "name": "21K+ skills indexed but not executable",
+    "evidence": "10 collections, 21,129 files, 0 executable via VISERON runtime",
+    "impact": "Massive untapped capability inventory",
+    "severity": "HIGH",
+    "action": "Create SkillExecutor to bridge index→execution"
+  },
+  {
+    "rank": 3,
+    "category": "MEMORY",
+    "name": "LTM 20K hard cap with synchronous Map",
+    "evidence": "MemoryEngine.ts MAX_LTM_ITEMS=20,000, synchronous Map operations",
+    "impact": "Memory contention at 16+ concurrent writes",
+    "severity": "MEDIUM",
+    "action": "Increase cap or migrate to SQLite for LTM"
+  },
+  {
+    "rank": 4,
+    "category": "ORCHESTRATION",
+    "name": "Agent dispatch registry not fully wired",
+    "evidence": "Kernel.dispatchAgent requires AgentRegistry adapter",
+    "impact": "Agents can't be dispatched via kernel.runTask",
+    "severity": "MEDIUM",
+    "action": "Wire AgentRegistry adapter in OmegaPlatform"
+  },
+  {
+    "rank": 5,
+    "category": "QUEUE",
+    "name": "Single-process architecture",
+    "evidence": "No Redis/RabbitMQ/Kafka integration",
+    "impact": "Cannot scale beyond single Node.js process",
+    "severity": "MEDIUM",
+    "action": "Add distributed queue for 50+ agent concurrency"
+  },
+  {
+    "rank": 6,
+    "category": "EMBEDDING",
+    "name": "MiniLM fallback only (no cloud embeddings)",
+    "evidence": "EmbeddingProvider uses hash-based MiniLM fallback",
+    "impact": "Semantic search quality limited",
+    "severity": "LOW",
+    "action": "Configure OPENAI_API_KEY for text-embedding-3-small"
+  },
+  {
+    "rank": 7,
+    "category": "KNOWLEDGE",
+    "name": "Web research limited to HTTP fetch",
+    "evidence": "WebResearchEngine does basic fetch, no search API integration",
+    "impact": "Cannot discover new sources autonomously",
+    "severity": "LOW",
+    "action": "Integrate search API (Composio MCP or direct)"
+  },
+  {
+    "rank": 8,
+    "category": "VALIDATION",
+    "name": "KB not persistent across restart",
+    "evidence": "Knowledge Base is RAM-only (Map)",
+    "impact": "Knowledge lost on process restart",
+    "severity": "LOW",
+    "action": "Persist KB to disk (JSONL like LTM)"
+  },
+  {
+    "rank": 9,
+    "category": "ROUTING",
+    "name": "Architecture→agent_ceo (not agent_cto)",
+    "evidence": "Domain 'architecture' doesn't match role 'architect' — partial word match gap",
+    "impact": "Specialist misrouting for architecture domain",
+    "severity": "LOW",
+    "action": "Add stemming/prefix matching to domain specialist check"
+  },
+  {
+    "rank": 10,
+    "category": "HUMAN",
+    "name": "No automated recovery from VAEC FAILED",
+    "evidence": "VAEC stage stuck at FAILED since 00:14",
+    "impact": "Autonomous evolution pipeline blocked",
+    "severity": "LOW",
+    "action": "Add auto-retry with max attempts"
+  }
+]

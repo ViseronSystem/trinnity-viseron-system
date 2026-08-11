@@ -1,0 +1,26 @@
+[
+  {
+    "rank": 1,
+    "name": "Configure cloud API keys",
+    "gain": "HIGH",
+    "cost": "LOW",
+    "risk": "LOW",
+    "domain": "PROVIDER"
+  },
+  {
+    "rank": 2,
+    "name": "Create SkillExecutor bridge",
+    "gain": "HIGH",
+    "cost": "MEDIUM",
+    "risk": "MEDIUM",
+    "domain": "SKILLS"
+  },
+  {
+    "rank": 3,
+    "name": "Wire AgentRegistry to Kernel",
+    "gain": "MEDIUM",
+    "cost": "LOW",
+    "risk": "LOW",
+    "domain": "ORCHESTRATION"
+  }
+]

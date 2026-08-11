@@ -1,0 +1,89 @@
+{
+  "agents": [
+    {
+      "agentId": "agent_ceo",
+      "name": "CEO Agent",
+      "domain": "ceo & strategic leader",
+      "evidence": 7,
+      "routingScore": 0.30000000000000004,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_cto",
+      "name": "CTO Agent",
+      "domain": "chief architect & technical leader",
+      "evidence": 5,
+      "routingScore": 0.1,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_developer",
+      "name": "Developer Agent",
+      "domain": "developer",
+      "evidence": 5,
+      "routingScore": 0.1,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_devops",
+      "name": "DevOps Agent",
+      "domain": "devops engineer",
+      "evidence": 5,
+      "routingScore": 0.1,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_finance",
+      "name": "Finance Agent",
+      "domain": "finance & treasury",
+      "evidence": 5,
+      "routingScore": 0.1,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_research",
+      "name": "Research Agent",
+      "domain": "research & intelligence",
+      "evidence": 5,
+      "routingScore": 0,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_sales",
+      "name": "Sales Agent",
+      "domain": "sales & business development",
+      "evidence": 5,
+      "routingScore": 0,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_security",
+      "name": "Security Agent",
+      "domain": "security",
+      "evidence": 5,
+      "routingScore": 0,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_support",
+      "name": "Support Agent",
+      "domain": "customer support",
+      "evidence": 5,
+      "routingScore": 0,
+      "utilization": "HIGH"
+    },
+    {
+      "agentId": "agent_vision",
+      "name": "Vision Agent",
+      "domain": "vision & perception",
+      "evidence": 5,
+      "routingScore": 0,
+      "utilization": "HIGH"
+    }
+  ],
+  "summary": {
+    "high": 10,
+    "medium": 0,
+    "total": 10
+  }
+}

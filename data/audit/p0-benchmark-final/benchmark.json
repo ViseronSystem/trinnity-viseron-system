@@ -1,0 +1,78 @@
+{
+  "multiProjects": [
+    {
+      "name": "Architecture+Security",
+      "domains": 2,
+      "agents": 2,
+      "squads": 2,
+      "wallClockMs": 3
+    },
+    {
+      "name": "Research+Vision",
+      "domains": 2,
+      "agents": 2,
+      "squads": 1,
+      "wallClockMs": 1
+    },
+    {
+      "name": "Sales+Support",
+      "domains": 2,
+      "agents": 2,
+      "squads": 1,
+      "wallClockMs": 0
+    },
+    {
+      "name": "Finance+Ops",
+      "domains": 2,
+      "agents": 2,
+      "squads": 2,
+      "wallClockMs": 0
+    },
+    {
+      "name": "Full Assessment",
+      "domains": 3,
+      "agents": 3,
+      "squads": 3,
+      "wallClockMs": 0
+    }
+  ],
+  "concurrency": [
+    {
+      "concurrency": 1,
+      "wallClockMs": 4,
+      "throughput": 250,
+      "tasks": 1
+    },
+    {
+      "concurrency": 2,
+      "wallClockMs": 5,
+      "throughput": 400,
+      "tasks": 2
+    },
+    {
+      "concurrency": 4,
+      "wallClockMs": 9,
+      "throughput": 444,
+      "tasks": 4
+    },
+    {
+      "concurrency": 8,
+      "wallClockMs": 23,
+      "throughput": 348,
+      "tasks": 8
+    },
+    {
+      "concurrency": 12,
+      "wallClockMs": 33,
+      "throughput": 364,
+      "tasks": 12
+    },
+    {
+      "concurrency": 16,
+      "wallClockMs": 48,
+      "throughput": 333,
+      "tasks": 16
+    }
+  ],
+  "timestamp": "2026-08-11T20:36:23.128Z"
+}

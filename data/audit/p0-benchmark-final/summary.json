@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-08-11T20:36:23.133Z",
+  "multiSquad": {
+    "projects": 5,
+    "avgAgents": "2.2",
+    "avgSquads": "1.8"
+  },
+  "concurrency": {
+    "optimal": 4,
+    "safe": 8,
+    "saturation": 16
+  },
+  "agents": {
+    "high": 10,
+    "medium": 0,
+    "total": 10
+  },
+  "bottlenecks": {
+    "total": 10,
+    "highSeverity": 2
+  },
+  "top3Actions": [
+    "Configure cloud API keys",
+    "Create SkillExecutor bridge",
+    "Wire AgentRegistry to Kernel"
+  ]
+}
