@@ -1,0 +1,37 @@
+[
+  {
+    "capability": "Agent Registry",
+    "status": "REAL",
+    "evidence": "1 agents with execution evidence"
+  },
+  {
+    "capability": "Executability Gate",
+    "status": "REAL",
+    "evidence": "10 executable of 10 registered"
+  },
+  {
+    "capability": "Capability Scoring",
+    "status": "REAL",
+    "evidence": "domain + keyword + learning history scoring per agent"
+  },
+  {
+    "capability": "Intelligent Routing",
+    "status": "REAL",
+    "evidence": "6 tasks routed, 6 agents selected"
+  },
+  {
+    "capability": "Agent Distribution",
+    "status": "REAL",
+    "evidence": "6 different agents selected across tasks"
+  },
+  {
+    "capability": "Execution Evidence",
+    "status": "REAL",
+    "evidence": "1 agents with agent-activity evidence"
+  },
+  {
+    "capability": "Placeholder Detection",
+    "status": "REAL",
+    "evidence": "0 agents classified as PLACEHOLDER (spec without execution)"
+  }
+]

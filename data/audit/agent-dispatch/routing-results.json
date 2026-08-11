@@ -1,0 +1,175 @@
+[
+  {
+    "task": "Analyze memory architecture for optimization opportunities",
+    "domain": "memory",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      },
+      {
+        "agentId": "agent_developer",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  },
+  {
+    "task": "Audit security vulnerabilities in API authentication",
+    "domain": "security",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_security",
+        "score": 0.5,
+        "reasons": [
+          "role match: 1 terms",
+          "active",
+          "domain match: security"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  },
+  {
+    "task": "Research new AI model integration strategies",
+    "domain": "research",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_research",
+        "score": 0.5,
+        "reasons": [
+          "role match: 1 terms",
+          "active",
+          "domain match: research"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  },
+  {
+    "task": "Optimize database query performance",
+    "domain": "performance",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      },
+      {
+        "agentId": "agent_developer",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  },
+  {
+    "task": "Design financial reporting dashboard",
+    "domain": "finance",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_finance",
+        "score": 0.35,
+        "reasons": [
+          "active",
+          "domain match: finance"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  },
+  {
+    "task": "Deploy infrastructure updates to production",
+    "domain": "operations",
+    "ranked": [
+      {
+        "agentId": "agent_ceo",
+        "score": 0.5,
+        "reasons": [
+          "active",
+          "4 prior learnings"
+        ]
+      },
+      {
+        "agentId": "agent_cto",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      },
+      {
+        "agentId": "agent_developer",
+        "score": 0.2,
+        "reasons": [
+          "active"
+        ]
+      }
+    ]
+  }
+]
