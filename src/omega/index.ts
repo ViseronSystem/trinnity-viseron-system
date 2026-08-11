@@ -14,6 +14,7 @@ import { RAGPipeline } from "../core/memory/RAGPipeline";
 import { createVoiceProvider, VoiceProvider } from "../core/voice/VoiceProvider";
 import { MemoryConsolidationEngine } from "../core/memory/MemoryConsolidation";
 import { GraphRAGEngine } from "../core/memory/GraphRAG";
+import { EvolutionEngine } from "./evolution/EvolutionEngine";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -84,6 +85,7 @@ export class OmegaPlatform {
   public readonly voice: VoiceProvider;
   public readonly consolidation: MemoryConsolidationEngine;
   public readonly graphrag: GraphRAGEngine;
+  public readonly evolution: EvolutionEngine;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -517,6 +519,12 @@ export class OmegaPlatform {
       this.embedding,
       this.telemetry,
       options.memoryEngine,
+    );
+
+    // Evolution Engine — Sistema 6: evidence-based evolution (zero random)
+    this.evolution = new EvolutionEngine(
+      path.join(process.cwd(), "data"),
+      this.telemetry,
     );
 
     // Publica eventos de telemetria no EventBus para observabilidade

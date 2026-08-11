@@ -532,6 +532,22 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json(detail);
   });
 
+  // ── EVOLUTION LOOP (Sistema 6) ──
+  router.get("/evolution/status", (_req, res) => {
+    res.json(omega.evolution.status());
+  });
+
+  router.get("/evolution/history", (req, res) => {
+    const limit = parseInt(req.query.limit as string) || 50;
+    res.json({ events: omega.evolution.getHistory(limit) });
+  });
+
+  router.post("/evolution/analyze", (req, res) => {
+    const since = req.body?.since;
+    const analysis = omega.evolution.analyze(since);
+    res.json(analysis);
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
