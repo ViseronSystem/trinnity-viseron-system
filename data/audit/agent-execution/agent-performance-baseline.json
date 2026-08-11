@@ -1,0 +1,225 @@
+{
+  "timestamp": "2026-08-11T18:10:39.413Z",
+  "summary": {
+    "real": 10,
+    "partial": 0,
+    "total": 10,
+    "routingAccuracy": 0.5
+  },
+  "agents": [
+    {
+      "agentId": "agent_ceo",
+      "domain": "management",
+      "probe": "Synthesize execution overview from all agent probes",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\ceo_synthesis.md",
+      "artifactHash": "e34df11c243ccbf36491fbc5ca343184d7cf286902eff04b3d3370b8fc5dd011",
+      "artifactSize": 93,
+      "toolsUsed": [
+        "synthesis",
+        "coordination"
+      ],
+      "latencyMs": 2,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_cto",
+      "domain": "architecture",
+      "probe": "Analyze VISERON system architecture and produce technical ov",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\cto_architecture.md",
+      "artifactHash": "c791ed2c6c46e54cadd2abc608dd4dc170898d443a2971cc2aa19e7b140e0fb3",
+      "artifactSize": 136,
+      "toolsUsed": [
+        "filesystem_read",
+        "architecture_analysis"
+      ],
+      "latencyMs": 8,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_developer",
+      "domain": "development",
+      "probe": "Analyze code structure and produce quality report",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\developer_code_analysis.md",
+      "artifactHash": "1ddc66f48f1e434e955f8b18a4a44caa28052124a594dc250b31e7a9122a4c6a",
+      "artifactSize": 89,
+      "toolsUsed": [
+        "code_analysis",
+        "file_inspection"
+      ],
+      "latencyMs": 2,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_devops",
+      "domain": "operations",
+      "probe": "Analyze infrastructure readiness and deployment status",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\devops_infrastructure.md",
+      "artifactHash": "72fac8ed3d451eeb9a0912c68da1b6ec24645e020a7e057f36b46ff8dc5a8fd8",
+      "artifactSize": 114,
+      "toolsUsed": [
+        "infrastructure_audit",
+        "config_inspection"
+      ],
+      "latencyMs": 1,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_finance",
+      "domain": "finance",
+      "probe": "Analyze operational metrics and produce cost/resource report",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\finance_operations.md",
+      "artifactHash": "c73951fd1a34b670af6c82098e35080fecc9702755328cbc118b93ebb22e1687",
+      "artifactSize": 146,
+      "toolsUsed": [
+        "metrics_analysis",
+        "cost_estimation"
+      ],
+      "latencyMs": 13,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_research",
+      "domain": "research",
+      "probe": "Research cognitive architecture patterns and produce finding",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\research_findings.md",
+      "artifactHash": "b998c4be2d552d233504e2376f35a18ceadc1cafc0d7780d71a0300ed97db7c5",
+      "artifactSize": 117,
+      "toolsUsed": [
+        "kg_analysis",
+        "research_synthesis"
+      ],
+      "latencyMs": 7,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_sales",
+      "domain": "sales",
+      "probe": "Analyze system capabilities and produce value proposition",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\sales_value_proposition.md",
+      "artifactHash": "801003492be5c4467179b60f413411fb0d552b579d2e13c87acf36247b4eeb96",
+      "artifactSize": 166,
+      "toolsUsed": [
+        "value_analysis",
+        "market_positioning"
+      ],
+      "latencyMs": 2,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_security",
+      "domain": "security",
+      "probe": "Audit security posture of the system",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\security_audit.md",
+      "artifactHash": "b86cd0174033022659eaaf75f1d807a506e9f36ddf06e2bbfcb587f01b0d6dca",
+      "artifactSize": 122,
+      "toolsUsed": [
+        "security_scan",
+        "config_audit"
+      ],
+      "latencyMs": 2,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_support",
+      "domain": "support",
+      "probe": "Analyze system documentation and produce support guide",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\support_guide.md",
+      "artifactHash": "6192381c6edab244d8ebcb191258af90ebee84cec678111bc48d3742808779af",
+      "artifactSize": 124,
+      "toolsUsed": [
+        "documentation_analysis",
+        "guide_generation"
+      ],
+      "latencyMs": 26,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_vision",
+      "domain": "vision",
+      "probe": "Analyze future roadmap and produce strategic vision",
+      "success": true,
+      "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\vision_strategy.md",
+      "artifactHash": "bad0417e353cb4e934cd03aa758602181f4ab6b0f5203b08e472e20507c2be7f",
+      "artifactSize": 143,
+      "toolsUsed": [
+        "strategy_analysis",
+        "roadmap_synthesis"
+      ],
+      "latencyMs": 2,
+      "traceCreated": true,
+      "evidenceRecorded": true,
+      "classification": "REAL"
+    }
+  ],
+  "routing": [
+    {
+      "domain": "architecture",
+      "expected": "agent_cto",
+      "selected": "agent_ceo",
+      "correct": false,
+      "score": 0.5
+    },
+    {
+      "domain": "security",
+      "expected": "agent_security",
+      "selected": "agent_security",
+      "correct": true,
+      "score": 0.8
+    },
+    {
+      "domain": "finance",
+      "expected": "agent_finance",
+      "selected": "agent_finance",
+      "correct": true,
+      "score": 0.6499999999999999
+    },
+    {
+      "domain": "research",
+      "expected": "agent_research",
+      "selected": "agent_research",
+      "correct": true,
+      "score": 0.8
+    },
+    {
+      "domain": "operations",
+      "expected": "agent_devops",
+      "selected": "agent_ceo",
+      "correct": false,
+      "score": 0.5
+    },
+    {
+      "domain": "development",
+      "expected": "agent_developer",
+      "selected": "agent_sales",
+      "correct": false,
+      "score": 0.6499999999999999
+    }
+  ]
+}

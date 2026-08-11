@@ -61,6 +61,17 @@ export class IntelligentRouter {
         reasons.push(`${agentLearning.length} prior learnings`);
       }
 
+      // Domain specificity bonus: if agent's role/name directly matches the domain
+      if (domain) {
+        const domainLower = domain.toLowerCase();
+        const domainInRole = roleLower.includes(domainLower) || nameLower.includes(domainLower);
+        const roleInDomain = domainLower.split(/\s+/).some(dt => roleLower.includes(dt) || nameLower.includes(dt));
+        if (domainInRole || roleInDomain) {
+          score += 0.3; // significant boost for domain-specific agent
+          reasons.push(`domain specialist: ${domain}`);
+        }
+      }
+
       if (score > 0) ranked.push({ agentId: spec.id, score, reasons });
     }
 
