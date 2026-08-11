@@ -1,0 +1,47 @@
+[
+  {
+    "check": "Web Research",
+    "status": "REAL",
+    "evidence": "2 accepted, 3 chunks"
+  },
+  {
+    "check": "Quality Gate",
+    "status": "REAL",
+    "evidence": "2 ACCEPT, 0 REJECT"
+  },
+  {
+    "check": "Negative: invalid URL",
+    "status": "REAL",
+    "evidence": "accepted=0 (should be 0)"
+  },
+  {
+    "check": "Negative: duplicate",
+    "status": "REAL",
+    "evidence": "2 URLs, accepted=2, dedup by hash"
+  },
+  {
+    "check": "Negative: 404",
+    "status": "REAL",
+    "evidence": "accepted=0 (should be 0 for empty/error)"
+  },
+  {
+    "check": "Retrieval (LTM)",
+    "status": "REAL",
+    "evidence": "8 results for 'VISERON'"
+  },
+  {
+    "check": "Retrieval (KB)",
+    "status": "PARTIAL",
+    "evidence": "0 results for 'architecture'"
+  },
+  {
+    "check": "Telemetry",
+    "status": "REAL",
+    "evidence": "4 research traces recorded"
+  },
+  {
+    "check": "Source Registry",
+    "status": "REAL",
+    "evidence": "6 sources registered"
+  }
+]
