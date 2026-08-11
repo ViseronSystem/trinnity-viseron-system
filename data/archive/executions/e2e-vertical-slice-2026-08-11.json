@@ -1,0 +1,92 @@
+{
+  "milestone": "PRIMEIRO VERTICAL SLICE REAL",
+  "date": "2026-08-11T01:38:00.000Z",
+  "dateDisplay": "2026-08-11",
+  "status": "COMPLETED",
+  "summary": "Prova completa da cadeia Agent → Tool → Verify com Ollama real e qwen2.5:7b local.",
+  "duration": {
+    "seconds": 200.9,
+    "display": "200.9s (3.3 min)"
+  },
+  "model": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "isLocal": true,
+    "mode": "REAL",
+    "strategy": "router:general→ollama(qwen2.5:7b)",
+    "latencyMs": 70728
+  },
+  "task": {
+    "id": "task_msnrhzlr_59blio",
+    "title": "Criar README.md do projeto e validar com um teste",
+    "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe.",
+    "stage": "COMPLETED",
+    "executedBy": "viseron_builder",
+    "result": {
+      "success": true
+    }
+  },
+  "tools": {
+    "requested": 2,
+    "executed": 2,
+    "succeeded": 2,
+    "failed": 0,
+    "verification": "PASS",
+    "details": [
+      {
+        "index": 0,
+        "tool": "workspace_fs_write",
+        "success": true,
+        "result": {
+          "fileName": "README.md",
+          "bytes": 55,
+          "written": true
+        }
+      },
+      {
+        "index": 1,
+        "tool": "workspace_test_run",
+        "success": true,
+        "result": {
+          "exitCode": 0,
+          "stdout": "TEST OK README existe",
+          "passed": true
+        }
+      }
+    ]
+  },
+  "pipeline": {
+    "steps": [
+      "INTENÇÃO HUMANA → OMEGA KERNEL → ViseronModelRouter → qwen2.5:7b → parseToolCalls → workspace_fs_write + workspace_test_run → VERIFY(PASS) → MEMORY → AUDIT"
+    ],
+    "events": [
+      "task:started",
+      "tool.gate",
+      "tool.called",
+      "tool.completed",
+      "tool.gate",
+      "tool.called",
+      "tool.completed",
+      "task:verifying",
+      "task:completed"
+    ]
+  },
+  "memory": {
+    "entity": "task_task_msnrhzlr_59blio",
+    "present": true
+  },
+  "criteria": {
+    "tools_2_of_2": true,
+    "tools_succeeded_2_of_2": true,
+    "verify": "PASS",
+    "task_status": "COMPLETED",
+    "memory_present": true,
+    "audit_events": 9,
+    "model_real_used": "qwen2.5:7b (ollama, local, REAL)"
+  },
+  "authors": {
+    "commander": "Pedro Costa",
+    "queen": "Trinnity Hurtado"
+  },
+  "copyright": "© 2026 Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)"
+}

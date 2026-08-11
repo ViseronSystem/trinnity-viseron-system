@@ -18,6 +18,7 @@ import { bridgeEventEmitter } from "./kernel/EventBridge";
 import { ArchitectureIntelligence } from "./intelligence/architecture";
 import { CompositeVerifier } from "./verifier/composite";
 import { VaecOrchestrator } from "./evolution";
+import { KnowledgeArchive, ArchiveStatus } from "./archive/KnowledgeArchive";
 
 export interface OmegaOptions {
   agentManager?: AgentManager;
@@ -49,6 +50,7 @@ export interface OmegaPlatformStatus {
   watchdog: ReturnType<SelfHealWatchdog["status"]>;
   architecture: { ready: boolean; summary?: ReturnType<ArchitectureIntelligence["summary"]> };
   vaec: ReturnType<VaecOrchestrator["status"]>;
+  archive?: ArchiveStatus;
 }
 
 const SPECS_DIR = path.join(__dirname, "agent-runtime", "specs");
@@ -69,6 +71,7 @@ export class OmegaPlatform {
   public readonly architecture: ArchitectureIntelligence;
   public readonly autonomyOS: AutonomyOS;
   public readonly vaec: VaecOrchestrator;
+  public readonly archive: KnowledgeArchive;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -109,8 +112,12 @@ export class OmegaPlatform {
 
       // Executor padrão do kernel: QUALQUER tarefa enfileirada é executada por
       // uma das 5000+ mentes (o agente nuclear mais indicado pelo payload).
-      // Se o payload pedir ferramentas, são invocadas de verdade antes do agente
-      // e os resultados entram no contexto — a cadeia E2E passa pelo ToolManager.
+      // Regra de honra do hardening: o sucesso NUNCA se deduz do texto — só da
+      // execução real. Com `protocol: "tool2phase"`, a cadeia é:
+      //   1. o modelo planifica e emite tool-calls ESTRUTURADAS `{tool, arguments}`;
+      //   2. o kernel executa-as DE VERDADE (gate de autonomia + ToolManager);
+      //   3. o modelo escreve o relatório final com os resultados reais.
+      // Sem tool-call válida → zero execução; obrigatórias falhadas → sucesso=falso.
       this.kernel.tasks.setDefaultExecutor(async (task) => {
         const manager = options.agentManager!;
         const payload = task.payload as any;
@@ -133,16 +140,133 @@ export class OmegaPlatform {
 
         const agentId = pickTarget();
         const startedAt = Date.now();
+        const hints = Array.isArray(payload?.tools) ? payload.tools : [];
+        const toolSpecs = hints.map((s: any) =>
+          typeof s === "string" ? { id: s, input: {} } : { id: s?.id, input: s?.input ?? {} }
+        );
 
-        // Ferramentas reais: invocadas pelo kernel com eventos tool.called/tool.completed
+        // Derivação SEMÂNTICA de sucesso: uma tool que reporta `passed:false`
+        // (teste falhou) nunca pode contar como sucesso, mesmo que o adapter
+        // tenha resolvido sem exceção.
+        const deriveToolSuccess = (call: any): any => {
+          const res = call?.result;
+          if (res && typeof res === "object" && res.passed === false) {
+            return {
+              ...call,
+              success: false,
+              error: call?.error || String(res.stderr || `execução reportou falha (exitCode ${res.exitCode})`),
+            };
+          }
+          return call;
+        };
+
+        const executeCalls = async (calls: any[]): Promise<any[]> => {
+          const out: any[] = [];
+          for (const c of calls) {
+            const toolId = c?.call?.tool ?? c?.toolId;
+            const args = c?.call?.arguments ?? c?.input ?? {};
+            // Validação ANTES da execução: uma tool-call rejeitada (schema
+            // inválido, tool desconhecida, sem id) é registada como FALHADA,
+            // nunca executada — fica no rasto de auditoria como tool falhada.
+            const validationErrors: string[] = Array.isArray(c?.validation?.errors) ? c.validation.errors : [];
+            const rejected = !toolId || (c?.validation && c.validation.ok === false);
+            if (rejected) {
+              const reason = !toolId
+                ? "tool-call sem id de ferramenta"
+                : `args inválidos: ${validationErrors.join("; ") || "schema"}`;
+              const rejectedCall = {
+                toolId: toolId || "(sem-tool)",
+                input: args,
+                taskId: task.id,
+                success: false,
+                result: null,
+                error: reason,
+                executionTimeMs: 0,
+                rejected: true,
+              };
+              await this.kernel.publish("tool.failed", { ...rejectedCall }, "kernel");
+              out.push(rejectedCall);
+              continue;
+            }
+            let call = await this.kernel.executeTool(toolId, args, { taskId: task.id });
+            out.push(deriveToolSuccess(call));
+          }
+          return out;
+        };
+
+        // PROTOCOLO 2 FASES — vertical slice real (viseron_builder).
+        if (payload?.protocol === "tool2phase") {
+          const authorized = payload?.authorized === true || toolSpecs.length > 0;
+
+          // FASE 1 — planificação: structured-output do modelo (schema + hints).
+          const plan = await manager.run(agentId, description, {
+            kernelTaskId: task.id,
+            phase: "tool_plan",
+            tenantId: payload?.tenantId,
+            projectId: payload?.projectId,
+            authorized,
+            toolSpecs,
+          });
+
+          // FASE 2 — execução REAL das tool-calls (nunca o texto do modelo).
+          const calls = Array.isArray((plan as any)?.toolCalls) ? (plan as any).toolCalls : [];
+          const executed = await executeCalls(calls);
+          task.tools = executed;
+
+          // FASE 3 — relatório final com os resultados reais.
+          const final = await manager.run(agentId, description, {
+            kernelTaskId: task.id,
+            phase: "final",
+            tenantId: payload?.tenantId,
+            projectId: payload?.projectId,
+            tools: executed,
+          });
+
+          const latencyMs = Date.now() - startedAt;
+          const requested = calls.length;
+          const executedCount = executed.length;
+          const succeededCount = executed.filter((t) => t?.success === true).length;
+          const failedCount = executedCount - succeededCount;
+          const noCalls = requested === 0;
+          const allSucceeded = executedCount > 0 && failedCount === 0;
+          const success = allSucceeded
+            ? true
+            : noCalls
+              ? final?.success === true && !!final?.output
+              : false;
+          const model = (final as any)?.model ?? (plan as any)?.model ?? null;
+          return {
+            executedBy: agentId,
+            success,
+            output: String(final?.output ?? plan?.output ?? ""),
+            error: success
+              ? undefined
+              : failedCount > 0
+                ? `${failedCount}/${executedCount} ferramentas falharam`
+                : final?.error || (noCalls ? "o modelo não emitiu tool-calls válidas" : "execução incompleta"),
+            model,
+            tools: executed,
+            toolsSummary: {
+              requested,
+              executed: executedCount,
+              succeeded: succeededCount,
+              failed: failedCount,
+              verification: success ? "PASS" : "FAIL",
+              status: success ? "COMPLETED" : "FAILED",
+              model,
+            },
+            latencyMs,
+            cost: +(latencyMs * 0.00002).toFixed(6),
+          };
+        }
+
+        // Caminho legado: ferramentas do payload executadas de verdade antes do agente.
         const toolCalls: any[] = [];
-        const toolSpecs = Array.isArray(payload?.tools) ? payload.tools : [];
         for (const spec of toolSpecs) {
-          const toolId = typeof spec === "string" ? spec : spec?.id;
-          const toolInput = typeof spec === "string" ? {} : (spec?.input ?? {});
+          const toolId = spec?.id;
           if (!toolId) continue;
-          const call = await this.kernel.executeTool(toolId, toolInput, { taskId: task.id });
-          toolCalls.push(call);
+          const call = await this.kernel.executeTool(toolId, spec?.input ?? {}, { taskId: task.id });
+          toolCalls.push(deriveToolSuccess(call));
         }
         task.tools = toolCalls;
 
@@ -159,6 +283,12 @@ export class OmegaPlatform {
           error: result?.error,
           model: (result as any)?.model ?? null,
           tools: toolCalls,
+          toolsSummary: {
+            requested: toolCalls.length,
+            executed: toolCalls.length,
+            succeeded: toolCalls.filter((t) => t?.success === true).length,
+            failed: toolCalls.filter((t) => t?.success !== true).length,
+          },
           latencyMs,
           cost: +(latencyMs * 0.00002).toFixed(6),
         };
@@ -180,7 +310,10 @@ export class OmegaPlatform {
       return steps;
     });
 
-    // Verificador por omissão: resultado real (success) + schema opcional via payload.verify
+    // Verificador por omissão — HARDENING: com ferramentas OBRIGATÓRIAS no
+    // payload, só declara PASS com N/N executadas e com sucesso. 0/N (modelo
+    // sem tool-calls válidas) ou obrigatória falhada → FAILED. Nunca se aceita
+    // `success:true` sozinho como prova quando o utilizador pediu ferramentas.
     this.kernel.tasks.setVerifier(async (task, result) => {
       const reasons: string[] = [];
       if (result === null || result === undefined) {
@@ -190,7 +323,48 @@ export class OmegaPlatform {
         return { status: "FAIL", reasons: [String(result.error || "executor reported failure")] };
       }
       reasons.push("executor reported success");
-      const verifySpec = (task.payload as any)?.verify;
+
+      const payload = (task.payload ?? {}) as any;
+      const requiredHints = Array.isArray(payload?.tools)
+        ? payload.tools.map((t: any) => (typeof t === "string" ? t : t?.id)).filter(Boolean)
+        : [];
+      const tools: any[] = Array.isArray(result?.tools) ? result.tools : [];
+      const executedIds = tools.map((t) => t?.toolId);
+      const succeeded = tools.filter((t) => t?.success === true);
+      const failed = tools.filter((t) => t?.success !== true);
+
+      if (requiredHints.length > 0) {
+        if (tools.length === 0) {
+          return {
+            status: "FAIL",
+            reasons: [`0/${requiredHints.length} ferramentas executadas — o modelo não emitiu tool-calls válidas`],
+          };
+        }
+        const missing = requiredHints.filter((id: any) => !executedIds.includes(id));
+        if (missing.length > 0) {
+          return {
+            status: "FAIL",
+            reasons: [`${tools.length}/${requiredHints.length} ferramentas executadas — em falta: ${missing.join(", ")}`],
+          };
+        }
+        if (failed.length > 0) {
+          return {
+            status: "FAIL",
+            reasons: [
+              `${failed.length}/${tools.length} ferramentas falharam`,
+              ...failed.map((t) => `${t?.toolId}: ${t?.error ?? "erro desconhecido"}`),
+            ],
+          };
+        }
+        reasons.push(`${tools.length}/${tools.length} ferramentas obrigatórias com sucesso (${succeeded.map((t) => t?.toolId).join(", ")})`);
+      } else {
+        if (!result.output) {
+          return { status: "FAIL", reasons: ["output vazio"] };
+        }
+        reasons.push("output presente (sem ferramentas obrigatórias)");
+      }
+
+      const verifySpec = payload?.verify;
       if (verifySpec && Array.isArray(verifySpec.require)) {
         for (const key of verifySpec.require) {
           if (result[key] === undefined || result[key] === null) {
@@ -288,6 +462,8 @@ export class OmegaPlatform {
     });
 
     this.vaec = new VaecOrchestrator({ rootDir: process.cwd(), events: this.kernel.events });
+
+    this.archive = new KnowledgeArchive({ graph: this.graph, bus: this.kernel.events });
 
     // Auditoria de autonomia: cada decisão flui para o EventBus (backbone reativo)
     this.kernel.events.subscribe("autonomy:decided", (d: any) => {
@@ -408,6 +584,7 @@ export class OmegaPlatform {
         ? { ready: true, summary: this.architecture.summary() }
         : { ready: false },
       vaec: this.vaec.status(),
+      archive: this.archive.status(),
     };
   }
 }

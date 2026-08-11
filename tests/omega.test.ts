@@ -18,6 +18,7 @@ import { OmegaPlatform } from "../src/omega";
 import { ProviderFactory } from "../src/core/providers/ProviderFactory";
 import { ILLMProvider } from "../src/core/providers/BaseProvider";
 import { ModelProvider } from "../src/core/types";
+import { KnowledgeArchive } from "../src/omega/archive/KnowledgeArchive";
 
 class OfflineProviderFactory extends ProviderFactory {
   public getProvider(_providerId: ModelProvider): ILLMProvider | undefined {
@@ -1029,8 +1030,116 @@ async function runOmegaTests() {
     bridge.stop();
   }
 
+  async function section23_KnowledgeArchive() {
+    console.log("\n--- SECÇÃO 23: KnowledgeArchive (memória histórica permanente) ---");
+
+    const tmpDir = path.join(process.cwd(), "data", "archive", "test_" + Date.now().toString(36));
+    const graph = new KnowledgeGraph();
+    const bus = new EventBus();
+
+    // 1. Persistência básica de execução
+    const archive = new KnowledgeArchive({ graph, bus, archiveDir: tmpDir });
+    await bus.publish("task:completed", {
+      id: "task_test_001",
+      taskId: "task_test_001",
+      title: "Test Task",
+      stage: "COMPLETED",
+      model: { provider: "ollama", model: "qwen2.5:7b", isLocal: true, strategy: "router:general→ollama" },
+      toolsSummary: { requested: 2, executed: 2, succeeded: 2, failed: 0, verification: "PASS" },
+      executedBy: "viseron_builder",
+    }, "kernel");
+    // pequeno delay para escrita assíncrona do handler
+    await new Promise((r) => setTimeout(r, 100));
+    const execJson = path.join(tmpDir, "executions", "task_test_001.json");
+    assert(fs.existsSync(execJson), "Archive: task:completed escreve JSON de execução");
+    const record = JSON.parse(fs.readFileSync(execJson, "utf8"));
+    assert(record.success === true, "Archive: record.success === true");
+    assert(record.hash && record.hash.length === 64, "Archive: hash SHA-256 presente (64 chars)");
+
+    // 2. Índice de execuções atualizado
+    const execIndex = JSON.parse(fs.readFileSync(path.join(tmpDir, "executions", "index.json"), "utf8"));
+    assert(execIndex.length === 1, "Archive: index.json tem 1 entrada após primeira execução");
+    assert(execIndex[0].summary.includes("2/2"), "Archive: index contém resumo tools");
+
+    // 3. Falha escreve no índice separado
+    await bus.publish("task:failed", {
+      id: "task_test_fail_001",
+      taskId: "task_test_fail_001",
+      title: "Failed Task",
+      stage: "FAILED",
+      model: { provider: "ollama", model: "qwen2.5:7b", isLocal: true, strategy: "" },
+      toolsSummary: { requested: 2, executed: 1, succeeded: 1, failed: 1, verification: "FAIL" },
+      executedBy: "viseron_builder",
+    }, "kernel");
+    await new Promise((r) => setTimeout(r, 100));
+    const failDir = path.join(tmpDir, "executions", "failures");
+    const failJson = path.join(failDir, "task_test_fail_001.json");
+    assert(fs.existsSync(failJson), "Archive: task:failed escreve JSON no diretório de falhas");
+    const failIndex = JSON.parse(fs.readFileSync(path.join(failDir, "index.json"), "utf8"));
+    assert(failIndex.length === 1, "Archive: índice de falhas tem 1 entrada");
+
+    // 4. Status reflete contagens
+    const st = archive.status();
+    assert(st.counts.executions === 1, "Archive: status.counts.executions === 1");
+    assert(st.counts.failures === 1, "Archive: status.counts.failures === 1");
+    assert(st.health === "OK", "Archive: health === OK");
+
+    // 5. Timeline devolve entradas ordenadas
+    const tl = archive.timeline();
+    assert(tl.length >= 2, "Archive: timeline tem ≥ 2 entradas");
+    assert(new Date(tl[0].date) >= new Date(tl[tl.length - 1].date), "Archive: timeline ordenada cronologicamente (mais recente primeiro)");
+
+    // 6. Snapshot manual
+    graph.upsertEntity("e1", "test", "Test Entity");
+    graph.upsertEntity("e2", "test", "Test Entity 2");
+    graph.addRelation("e1", "e2", "test_rel");
+    archive.snapshot("test snapshot");
+    const snapDir = path.join(tmpDir, "graph");
+    const snapFiles = fs.readdirSync(snapDir).filter((f) => f.endsWith(".json"));
+    assert(snapFiles.length >= 1, "Archive: snapshot cria ficheiro JSON");
+    const snapIndex = JSON.parse(fs.readFileSync(path.join(snapDir, "index.json"), "utf8"));
+    assert(snapIndex.length === 1 && snapIndex[0].entities >= 2, "Archive: snapshot index regista entities ≥ 2");
+
+    // 7. Decisão manual
+    archive.record("Test Decision", "Body of decision.", ["test", "archive"]);
+    const decDir = path.join(tmpDir, "decisions");
+    const decFiles = fs.readdirSync(decDir).filter((f) => f.endsWith(".md"));
+    assert(decFiles.length >= 1, "Archive: record() escreve Markdown em decisions/");
+    const decIndex = JSON.parse(fs.readFileSync(path.join(decDir, "index.json"), "utf8"));
+    assert(decIndex.length >= 1 && decIndex[decIndex.length - 1].hash, "Archive: decisão tem hash");
+
+    // 8. Milestone gerado na primeira execução com PASS (≤3 entries → auto milestone)
+    const decFilesAfter = fs.readdirSync(decDir).filter((f) => f.endsWith(".md"));
+    const milestoneFile = decFilesAfter.find((f) => f.includes("execu") && f.includes("verificada"));
+    assert(milestoneFile != null, "Archive: milestone auto-gerado para execução verificada");
+
+    // 9. archive-state.json atualizado
+    const statePath = path.join(tmpDir, "archive-state.json");
+    const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    assert(state.lastMilestone != null, "Archive: lastMilestone definido no state");
+
+    // 10. Não interfere no pipeline (o bus continua a publicar)
+    let busOk = false;
+    bus.subscribe("task:completed", () => { busOk = true; });
+    await bus.publish("task:completed", { id: "test_bus", stage: "COMPLETED", model: {}, toolsSummary: {} }, "test");
+    await new Promise((r) => setTimeout(r, 100));
+    assert(busOk === true, "Archive: não interfere no EventBus (outros subscritores recebem)");
+
+    // 11. Persistência após recriação (simula restart)
+    archive.destroy();
+    const archive2 = new KnowledgeArchive({ graph: new KnowledgeGraph(), bus: new EventBus(), archiveDir: tmpDir });
+    const st2 = archive2.status();
+    assert(st2.counts.executions >= 1, "Archive: após restart, execuções preservadas");
+    assert(st2.counts.decisions >= 1, "Archive: após restart, decisões preservadas");
+    archive2.destroy();
+
+    // limpeza
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+
   await section21_VaecOrchestrator();
   await section22_RealityHardening();
+  await section23_KnowledgeArchive();
 
   console.log(`\n==========================================`);
   console.log(total === passed ? `✅ OMEGA: ${passed}/${total} testes passaram` : `❌ OMEGA: ${passed}/${total} — FALHAS DETETADAS`);
