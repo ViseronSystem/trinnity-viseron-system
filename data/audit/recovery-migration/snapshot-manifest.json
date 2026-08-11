@@ -1,9 +1,9 @@
 {
-  "snapshotId": "snap_msp0vp2r",
-  "createdAt": "2026-08-11T18:57:28.756Z",
+  "snapshotId": "snap_msp10mmt",
+  "createdAt": "2026-08-11T19:01:18.870Z",
   "rootDir": "C:\\Trinnity-Viseron-System",
   "totalFiles": 411,
-  "totalSize": 93594877,
+  "totalSize": 93597749,
   "excludedSecrets": [
     "src\\core\\tokenomics",
     "src\\web\\auth\\password.ts",
@@ -347,8 +347,8 @@
     },
     {
       "path": "src\\core\\recovery\\RecoverySystem.ts",
-      "hash": "9810fdf65ca8c0ff1f92d8a58329669135da8a06984a519d4db18174fc2b563e",
-      "size": 7819
+      "hash": "3d742388a14b515803ae51eb30a2c7e83e6921da41911563827bbe9fae7521fd",
+      "size": 10078
     },
     {
       "path": "src\\core\\reporting\\ComprehensivePDFReport.ts",
@@ -1967,8 +1967,8 @@
     },
     {
       "path": "scripts\\recovery-migration.ts",
-      "hash": "4e7977aa1872a60d4ed37441689cdb729840d0835d4965b8ef01c229fd652459",
-      "size": 5569
+      "hash": "547878b6e812a3205c7198ddf434071b53b267b56d84c9d77ec2d3a83ff21fd1",
+      "size": 6182
     },
     {
       "path": "scripts\\registrar-milestone-knowledge-archive.ts",
@@ -2066,5 +2066,5 @@
       "size": 15289
     }
   ],
-  "snapshotHash": "6b356325afdf4339fd44860f499431817ee32eae75e333e8b621db497430681b"
+  "snapshotHash": "4d6789f258e57fb8a41be67868a4baf378bcef6e64374bea4b133afd95496393"
 }

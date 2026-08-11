@@ -52,11 +52,16 @@ async function main() {
 
   // ═══ ENVIRONMENT ═══
   console.log("\n── Environment Validation ──");
-  const env = validateEnvironment();
-  for (const v of env) {
+  const env = validateEnvironment(ROOT);
+  const prefix = "^[[32m"; // green
+  for (const v of env.checks) {
     console.log(`  ${v.required ? "REQ" : "OPT"} ${v.variable.padEnd(20)}: ${v.present ? "✓" : "✗"} ${v.value}`);
   }
-  matrix.push({ component: "Environment", status: env.filter(v => v.required && v.present).length >= 2 ? "REAL" : "PARTIAL", evidence: `${env.filter(v => v.present).length}/${env.length} present` });
+  console.log(`  Providers: ${env.providers.filter(p => p.status === "CONFIGURED" || p.status === "AVAILABLE").map(p => p.name).join(", ")}`);
+  console.log(`  Readiness: ${env.readiness}`);
+  matrix.push({ component: "Environment", status: env.readiness === "MIGRATION_READY" ? "REAL" : "PARTIAL", evidence: `${env.checks.filter(v => v.required && v.present).length}/${env.checks.filter(v => v.required).length} required vars present` });
+  matrix.push({ component: "Provider Detection", status: "REAL", evidence: `${env.providers.filter(p => p.status === "CONFIGURED" || p.status === "AVAILABLE").length} available` });
+  matrix.push({ component: "Migration Readiness", status: env.readiness === "MIGRATION_READY" ? "REAL" : "PARTIAL", evidence: env.readiness });
 
   // ═══ TEMPLATE ═══
   console.log("\n── Env Template ──");

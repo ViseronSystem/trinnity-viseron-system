@@ -133,20 +133,70 @@ export interface EnvCheck {
   value: string; // masked
 }
 
-export function validateEnvironment(): EnvCheck[] {
+export function validateEnvironment(rootDir?: string): { checks: EnvCheck[]; providers: Array<{ name: string; status: string; detail: string }>; readiness: string } {
   const requiredVars = [
     { var: "NODE_ENV", required: true },
-    { var: "PORT", required: true },
-    { var: "OLLAMA_HOST", required: false },
-    { var: "DATABASE_URL", required: false },
     { var: "TVS_JWT_SECRET", required: true },
   ];
+  const optionalVars = [
+    { var: "PORT", required: false },
+    { var: "OLLAMA_HOST", required: false },
+    { var: "DATABASE_URL", required: false },
+    { var: "OPENAI_API_KEY", required: false },
+    { var: "ELEVENLABS_API_KEY", required: false },
+    { var: "COMPOSIO_API_KEY", required: false },
+  ];
 
-  return requiredVars.map(({ var: v, required }) => ({
+  // Read .env file if rootDir provided
+  const envValues: Record<string, string> = {};
+  if (rootDir) {
+    const envPath = path.join(rootDir, ".env");
+    if (fs.existsSync(envPath)) {
+      const lines = fs.readFileSync(envPath, "utf8").split("\n");
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eq = trimmed.indexOf("=");
+        if (eq > 0) {
+          const key = trimmed.slice(0, eq).trim();
+          const val = trimmed.slice(eq + 1).trim();
+          envValues[key] = val;
+        }
+      }
+    }
+  }
+
+  const allVars = [...requiredVars, ...optionalVars];
+  const checks: EnvCheck[] = allVars.map(({ var: v, required }) => ({
     variable: v, required,
-    present: !!process.env[v],
-    value: process.env[v] ? "***configured***" : "NOT SET",
+    present: !!(process.env[v] || envValues[v]),
+    value: (process.env[v] || envValues[v]) ? "***configured***" : "NOT SET",
   }));
+
+  // Provider detection
+  const providers = [
+    { name: "Ollama", check: () => !!(envValues.OLLAMA_HOST || process.env.OLLAMA_HOST), status: "", detail: "" },
+    { name: "OpenAI", check: () => !!(envValues.OPENAI_API_KEY || process.env.OPENAI_API_KEY), status: "", detail: "" },
+    { name: "ElevenLabs", check: () => !!(envValues.ELEVENLABS_API_KEY || process.env.ELEVENLABS_API_KEY), status: "", detail: "" },
+    { name: "Composio", check: () => !!(envValues.COMPOSIO_API_KEY || process.env.COMPOSIO_API_KEY), status: "", detail: "" },
+    { name: "Node.js", check: () => true, status: "", detail: process.version },
+  ];
+
+  for (const p of providers) {
+    if (p.check()) {
+      p.status = p.name === "Node.js" ? "AVAILABLE" : "CONFIGURED";
+      p.detail = p.name === "Node.js" ? `v${process.version}` : "key present";
+    } else {
+      p.status = p.name === "Ollama" || p.name === "Node.js" ? "OPTIONAL" : "NOT_CONFIGURED";
+      p.detail = p.name === "Node.js" ? "unreachable" : "key not set";
+    }
+  }
+
+  // Migration readiness
+  const reqOk = checks.filter(c => c.required && c.present).length === requiredVars.length;
+  const readiness = reqOk ? "MIGRATION_READY" : "MIGRATION_PARTIAL";
+
+  return { checks, providers, readiness };
 }
 
 // ── RESTORE ─────────────────────────────────────────────

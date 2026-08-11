@@ -7,7 +7,7 @@
   {
     "component": "SHA-256 Integrity",
     "status": "REAL",
-    "evidence": "snapshot hash: 6b356325afdf4339..."
+    "evidence": "snapshot hash: 4d6789f258e57fb8..."
   },
   {
     "component": "Secret Exclusion",
@@ -26,8 +26,18 @@
   },
   {
     "component": "Environment",
-    "status": "PARTIAL",
-    "evidence": "0/5 present"
+    "status": "REAL",
+    "evidence": "2/2 required vars present"
+  },
+  {
+    "component": "Provider Detection",
+    "status": "REAL",
+    "evidence": "3 available"
+  },
+  {
+    "component": "Migration Readiness",
+    "status": "REAL",
+    "evidence": "MIGRATION_READY"
   },
   {
     "component": "Env Template",
