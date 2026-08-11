@@ -441,6 +441,39 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── VOICE NEURAL (Sistema 3) ──
+  router.get("/voice/status", (_req, res) => {
+    res.json(omega.voice.status());
+  });
+
+  router.post("/voice/stt", async (req, res) => {
+    try {
+      const { audio, lang } = req.body ?? {};
+      if (!audio) return res.status(400).json({ error: "audio (base64) required" });
+      if (!omega.voice.stt.isAvailable()) {
+        return res.json({ ok: true, text: "", model: "fallback", note: "STT provider not configured. Use browser Web Speech API for now." });
+      }
+      const result = await omega.voice.stt.transcribe(audio, { lang });
+      res.json({ ok: true, text: result.text, lang: result.lang, confidence: result.confidence, model: result.model, latencyMs: result.latencyMs });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  router.post("/voice/tts", async (req, res) => {
+    try {
+      const { text, voice } = req.body ?? {};
+      if (!text) return res.status(400).json({ error: "text required" });
+      if (!omega.voice.tts.isAvailable()) {
+        return res.json({ ok: true, audioBase64: "", model: "browser-speechSynthesis", note: "TTS provider not configured. Using browser speechSynthesis as fallback." });
+      }
+      const result = await omega.voice.tts.speak(text, { voice });
+      res.json({ ok: true, audioBase64: result.audioBase64, format: result.format, voice: result.voice, model: result.model, latencyMs: result.latencyMs });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
