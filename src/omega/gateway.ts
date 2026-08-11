@@ -548,6 +548,22 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json(analysis);
   });
 
+  // ── COGNITIVE OS STATUS (aggregated) ──
+  router.get("/cognitive/status", (_req, res) => {
+    res.json({
+      telemetry: omega.telemetry.status(),
+      embedding: { model: omega.embedding.model, dimensions: omega.embedding.dimensions, available: omega.embedding.isAvailable() },
+      voice: omega.voice.status(),
+      graphrag: omega.graphrag.status(),
+      evolution: omega.evolution.status(),
+      systems: {
+        telemetry: true, embeddings: true, rag: true, voice: true,
+        consolidation: true, graphrag: true, evolution: true,
+        commandCenter: true, atlas: false,
+      },
+    });
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());

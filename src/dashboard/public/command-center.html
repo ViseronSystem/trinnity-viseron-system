@@ -298,6 +298,19 @@
     </div>
   </div>
 
+  <!-- AGENT INSPECT PANEL (Sistema 7) -->
+  <div id="agent-panel" style="display:none;position:absolute;top:50%;right:16px;transform:translateY(-50%);width:280px;background:rgba(5,5,16,0.95);border:1px solid var(--border);border-radius:14px;padding:18px;z-index:10;backdrop-filter:blur(8px);">
+    <div style="font-size:15px;font-weight:800;color:#fff" id="ap_name">—</div>
+    <div style="font-size:10px;color:var(--neon);font-family:monospace;margin-bottom:4px" id="ap_id">—</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:12px" id="ap_role">—</div>
+    <div style="font-size:10px;color:var(--dim);margin-bottom:10px" id="ap_last_task">No recent task</div>
+    <input id="ap_task_input" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:#fff;padding:8px 10px;font-size:11px;font-family:inherit;outline:none;margin-bottom:8px" placeholder="Analisa e recomenda..." value="">
+    <div class="btn-group">
+      <button class="btn sm primary" onclick="dispatchFromPanel()">Dispatch</button>
+      <button class="btn sm danger" onclick="closeAgentPanel()">Close</button>
+    </div>
+  </div>
+
   <!-- LIVE ACTIVITY (SSE) -->
   <div class="panel">
     <h2>Live Activity (SSE)</h2>
@@ -315,7 +328,30 @@
 
   <!-- SUPERVISION AIOX -->
   <div class="panel">
-    <h2>Supervisão AIOX (últimas operações)</h2>
+    <!-- COGNITIVE DASHBOARD (Sistema 7) -->
+  <div class="panel">
+    <h2>Cognitive OS Dashboard</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+      <div class="card accent-1" style="padding:12px"><div class="label">Traces</div><div class="value" style="font-size:22px" id="cd_traces">—</div><div class="sub">cognitive ops</div></div>
+      <div class="card accent-4" style="padding:12px"><div class="label">RAG Queries</div><div class="value" style="font-size:22px" id="cd_rag">—</div><div class="sub">retrieval</div></div>
+      <div class="card accent-2" style="padding:12px"><div class="label">Memory</div><div class="value" style="font-size:22px" id="cd_memory">—</div><div class="sub">consolidated</div></div>
+      <div class="card accent-3" style="padding:12px"><div class="label">Evolution</div><div class="value" style="font-size:22px" id="cd_evolution">—</div><div class="sub">events</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="font-size:11px;color:var(--dim)">
+        <span style="color:var(--neon)">Embeddings:</span> <span id="cd_embed">—</span><br>
+        <span style="color:var(--neon)">Voice:</span> <span id="cd_voice">—</span><br>
+        <span style="color:var(--neon)">GraphRAG:</span> <span id="cd_graphrag">—</span>
+      </div>
+      <div style="font-size:11px;color:var(--dim)">
+        <span style="color:var(--green)">Success Rate:</span> <span id="cd_success">—</span><br>
+        <span style="color:var(--green)">Evidence:</span> <span id="cd_evidence">—</span><br>
+        <span style="color:var(--amber)">Trend:</span> <span id="cd_trend">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supervisão AIOX (últimas operações)</h2>
     <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px">
       <span style="font-size:12px">Total: <b style="color:var(--neon)" id="sv_total">—</b></span>
       <span style="font-size:12px">okRate: <b style="color:var(--green)" id="sv_okrate">—</b></span>
@@ -398,6 +434,50 @@
       holoGroup = new THREE.Group();
       holoScene.add(holoGroup);
 
+      // ── INTERACTIVE CONTROLS (Sistema 7) ──
+      let mouseX = 0, mouseY = 0;
+      let targetRotX = 0, targetRotY = 0;
+
+      container.addEventListener('mousemove', function(e) {
+        const rect = container.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      container.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (!holoCamera) return;
+        holoCamera.position.z += e.deltaY * 0.01;
+        holoCamera.position.z = Math.max(5, Math.min(25, holoCamera.position.z));
+      }, { passive: false });
+
+      // Raycaster for click-to-inspect
+      const raycaster = new THREE.Raycaster();
+      const mouseNDC = new THREE.Vector2();
+      let selectedAgentId = null;
+
+      container.addEventListener('click', function(e) {
+        if (!holoCamera || agentSpheres.length === 0) return;
+        const rect = container.getBoundingClientRect();
+        mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouseNDC, holoCamera);
+        const targets = agentSpheres.map(function(s) { return s.mesh; });
+        const intersects = raycaster.intersectObjects(targets, true);
+        if (intersects.length > 0) {
+          let obj = intersects[0].object;
+          while (obj && !agentSpheres.find(function(s) { return s.mesh === obj; })) { obj = obj.parent; }
+          const agentEntry = agentSpheres.find(function(s) { return s.mesh === obj; });
+          if (agentEntry) {
+            selectedAgentId = agentEntry.id;
+            setAgentHoloState(agentEntry.id, 'SELECTED');
+            openAgentPanel(agentEntry.id);
+          }
+        } else {
+          if (selectedAgentId) { setAgentHoloState(selectedAgentId, 'ACTIVE'); selectedAgentId = null; closeAgentPanel(); }
+        }
+      });
+
       // Start render loop
       function animateHolo() {
         requestAnimationFrame(animateHolo);
@@ -432,6 +512,13 @@
           return true;
         });
         if (holoRenderer && holoScene && holoCamera) holoRenderer.render(holoScene, holoCamera);
+        // Smooth mouse follow
+        if (holoGroup) {
+          targetRotY = mouseX * 0.5;
+          targetRotX = mouseY * 0.3;
+          holoGroup.rotation.y += (targetRotY - holoGroup.rotation.y) * 0.05;
+          holoGroup.rotation.x += (targetRotX - holoGroup.rotation.x) * 0.05;
+        }
       }
       animateHolo();
 
@@ -1080,7 +1167,69 @@
   connectSSE();
   refresh();
   setInterval(refresh, 30000); // fallback polling a cada 30s
-  setInterval(updateHoloLabels, 2000); // update hologram labels
+  setInterval(updateHoloLabels, 2000);
+  setInterval(refreshCognitiveDashboard, 15000); // Cognitive OS metrics
+
+  // Cognitive Dashboard refresh (Sistema 7)
+  async function refreshCognitiveDashboard() {
+    try {
+      var t = await j('/api/omega/telemetry');
+      $('cd_traces').textContent = t.total || 0;
+    } catch(e) { $('cd_traces').textContent = '—'; }
+    try {
+      var e = await j('/api/omega/memory/embed/status');
+      $('cd_embed').textContent = (e.model||'—') + ' ' + (e.dimensions||'') + 'd';
+    } catch(e) { $('cd_embed').textContent = '—'; }
+    try {
+      var v = await j('/api/omega/voice/status');
+      $('cd_voice').textContent = (v.stt?.available?'on':'off') + ' | ' + (v.tts?.available?'on':'off');
+    } catch(e) { $('cd_voice').textContent = '—'; }
+    try {
+      var g = await j('/api/omega/memory/graphrag/status');
+      $('cd_graphrag').textContent = g.entities + ' entities';
+    } catch(e) { $('cd_graphrag').textContent = '—'; }
+    try {
+      var ev = await j('/api/omega/evolution/status');
+      $('cd_evolution').textContent = ev.totalEvents || 0;
+    } catch(e) { $('cd_evolution').textContent = '—'; }
+    try {
+      var m = await j('/api/omega/memory/consolidation/status');
+      $('cd_memory').textContent = (m.ltmItems||0);
+    } catch(e) { $('cd_memory').textContent = '—'; }
+    try {
+      var r = await j('/api/omega/memory/rag/status');
+    } catch(e) {}
+    try {
+      var an = await j('/api/omega/evolution/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({}) });
+      if (an && an.trends) {
+        var sr = an.trends.find(function(x){return x.metric==='successRate'});
+        var evc = an.trends.find(function(x){return x.metric==='evidenceCoverage'});
+        if (sr) { $('cd_success').textContent = Math.round(sr.delta*100)+'%'; $('cd_trend').textContent = sr.direction; }
+        if (evc) $('cd_evidence').textContent = Math.round(evc.delta*100)+'%';
+      }
+    } catch(e) {}
+  }
+
+  // Agent panel functions (Sistema 7)
+  function openAgentPanel(agentId) {
+    var a = STATE.agentSpecs.find(function(s) { return s.id === agentId; });
+    if (!a) return;
+    $('ap_name').textContent = a.name; $('ap_id').textContent = a.id; $('ap_role').textContent = a.role||'';
+    var lt = agentTaskMap[agentId];
+    $('ap_last_task').textContent = lt ? '"'+lt.title+'" · '+Math.round((Date.now()-lt.since)/1000)+'s ago' : 'No recent task';
+    $('ap_task_input').value = 'Analisa o estado atual e recomenda 3 acoes prioritarias.';
+    $('agent-panel').style.display = 'block';
+  }
+  function closeAgentPanel() {
+    $('agent-panel').style.display = 'none';
+    if (selectedAgentId) { setAgentHoloState(selectedAgentId, 'ACTIVE'); selectedAgentId = null; }
+  }
+  function dispatchFromPanel() {
+    if (!selectedAgentId) return;
+    var task = $('ap_task_input').value.trim() || 'Analisa o estado atual.';
+    dispatchAgent(selectedAgentId, task);
+    closeAgentPanel();
+  }
 
   // Auto-foco no terminal ao carregar
   setTimeout(function() { $('termInput').focus(); }, 500);
