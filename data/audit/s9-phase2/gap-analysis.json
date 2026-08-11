@@ -1,0 +1,32 @@
+{
+  "scenarioA": {
+    "knowledgeSufficient": true,
+    "confidence": 1,
+    "gaps": [],
+    "requiredDomains": [],
+    "recommendedQueries": [],
+    "reason": "sufficient: 10 results, 6 experiences, confidence=1.00",
+    "retrievalResults": 10,
+    "relevantExperience": 6
+  },
+  "scenarioB": {
+    "knowledgeSufficient": true,
+    "confidence": 0.8,
+    "gaps": [],
+    "requiredDomains": [],
+    "recommendedQueries": [],
+    "reason": "sufficient: 10 results, 0 experiences, confidence=0.80",
+    "retrievalResults": 10,
+    "relevantExperience": 0
+  },
+  "scenarioC": {
+    "knowledgeSufficient": true,
+    "confidence": 1,
+    "gaps": [],
+    "requiredDomains": [],
+    "recommendedQueries": [],
+    "reason": "sufficient: 10 results, 6 experiences, confidence=1.00",
+    "retrievalResults": 10,
+    "relevantExperience": 6
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "check": "Sufficient → no research",
+    "status": "REAL",
+    "evidence": "correctly skipped"
+  },
+  {
+    "check": "Gap detected (insufficient)",
+    "status": "FAIL",
+    "evidence": "0 gaps found"
+  },
+  {
+    "check": "Research plan created",
+    "status": "PARTIAL",
+    "evidence": "no plan"
+  },
+  {
+    "check": "Research executed",
+    "status": "PARTIAL",
+    "evidence": "not executed"
+  },
+  {
+    "check": "Knowledge persisted",
+    "status": "PARTIAL",
+    "evidence": "LTM + KB + Vector indexed"
+  },
+  {
+    "check": "Partial → gap on missing domain",
+    "status": "PARTIAL",
+    "evidence": "0 gaps"
+  }
+]
