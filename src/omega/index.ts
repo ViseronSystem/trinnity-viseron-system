@@ -16,6 +16,7 @@ import { MemoryConsolidationEngine } from "../core/memory/MemoryConsolidation";
 import { GraphRAGEngine } from "../core/memory/GraphRAG";
 import { EvolutionEngine } from "./evolution/EvolutionEngine";
 import { CognitiveATLAS } from "../web/tutor/CognitiveATLAS";
+import { LearningConsolidationEngine } from "../core/learning/ContinuousLearning";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -88,6 +89,7 @@ export class OmegaPlatform {
   public readonly graphrag: GraphRAGEngine;
   public readonly evolution: EvolutionEngine;
   public readonly atlas: CognitiveATLAS;
+  public readonly learning: LearningConsolidationEngine;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -534,6 +536,11 @@ export class OmegaPlatform {
       this.telemetry,
       this.rag,
       this.evolution,
+      path.join(process.cwd(), "data"),
+    );
+
+    // Continuous Learning — validate, consolidate, persist learning records
+    this.learning = new LearningConsolidationEngine(
       path.join(process.cwd(), "data"),
     );
 

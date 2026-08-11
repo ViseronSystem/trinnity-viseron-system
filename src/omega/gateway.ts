@@ -580,6 +580,26 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json(session);
   });
 
+  // ── CONTINUOUS LEARNING ──
+  router.get("/learning", (_req, res) => {
+    const status = req.query.status as any;
+    res.json({ records: omega.learning.list(status) });
+  });
+
+  router.get("/learning/stats", (_req, res) => {
+    res.json(omega.learning.getStats());
+  });
+
+  router.get("/learning/conflicts", (_req, res) => {
+    const all = omega.learning.list();
+    const withConflicts = all.filter(r => r.conflicts.length > 0);
+    res.json({ total: withConflicts.length, records: withConflicts.map(r => ({ learningId: r.learningId, conflicts: r.conflicts })) });
+  });
+
+  router.get("/learning/history", (_req, res) => {
+    res.json({ records: omega.learning.list() });
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
