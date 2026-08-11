@@ -1,0 +1,203 @@
+[
+  {
+    "learningId": "learn_msoy3ms8_asc4",
+    "sourceExperienceIds": [
+      "CLMSOY3MS3_E1"
+    ],
+    "taskIds": [
+      "task_analysis_CLMSOY3MS3"
+    ],
+    "agentIds": [
+      "agent_ceo"
+    ],
+    "traceIds": [
+      "trace_CLMSOY3MS3_e1"
+    ],
+    "inputContext": "retrieval pipeline optimization",
+    "previousBehavior": "vector weight 0.6",
+    "newBehavior": "vector weight 0.7",
+    "performanceBefore": 1,
+    "performanceAfter": 3,
+    "performanceDelta": 2,
+    "validation": "PASS",
+    "confidence": 0.8,
+    "relevanceScore": 0.85,
+    "scope": "AGENT_ONLY",
+    "status": "CONSOLIDATED",
+    "evidence": [
+      "exp:CLMSOY3MS3_E1"
+    ],
+    "conflicts": [
+      {
+        "conflictId": "learn_msoy3ms4_hnw2",
+        "type": "SUPPORTS",
+        "reason": "this learning supports existing knowledge",
+        "resolutionStatus": "DETECTED"
+      },
+      {
+        "conflictId": "learn_msoy3ms7_z16b",
+        "type": "EXTENDS",
+        "reason": "this learning extends existing knowledge",
+        "resolutionStatus": "DETECTED"
+      }
+    ],
+    "createdAt": 1786469980184,
+    "updatedAt": 1786469980185,
+    "consolidatedAt": 1786469980185
+  },
+  {
+    "learningId": "learn_msoy3ms7_z16b",
+    "sourceExperienceIds": [
+      "CLMSOY3MS3_E2"
+    ],
+    "taskIds": [
+      "task_retrieval_CLMSOY3MS3"
+    ],
+    "agentIds": [
+      "agent_ceo"
+    ],
+    "traceIds": [
+      "trace_CLMSOY3MS3_e2"
+    ],
+    "inputContext": "retrieval weight optimization",
+    "previousBehavior": "default weights 0.6/0.4",
+    "newBehavior": "optimized weights 0.7/0.3",
+    "performanceBefore": 2,
+    "performanceAfter": 3,
+    "performanceDelta": 1,
+    "validation": "PASS",
+    "confidence": 0.8999999999999999,
+    "relevanceScore": 0.8,
+    "scope": "AGENT_ONLY",
+    "status": "ACCEPTED",
+    "evidence": [
+      "experience:CLMSOY3MS3_E2",
+      "validation:PASS"
+    ],
+    "conflicts": [],
+    "createdAt": 1786469980183,
+    "updatedAt": 1786469980184
+  },
+  {
+    "learningId": "learn_msoy3ms8_qw5x",
+    "sourceExperienceIds": [
+      "fake_exp"
+    ],
+    "taskIds": [
+      "fake_task"
+    ],
+    "agentIds": [
+      "fake_agent"
+    ],
+    "traceIds": [],
+    "inputContext": "irrelevant noise",
+    "previousBehavior": "same",
+    "newBehavior": "same",
+    "performanceBefore": 0,
+    "performanceAfter": 0,
+    "performanceDelta": 0,
+    "validation": "NONE",
+    "confidence": 0.05,
+    "relevanceScore": 0,
+    "scope": "AGENT_ONLY",
+    "status": "REJECTED",
+    "evidence": [],
+    "conflicts": [],
+    "createdAt": 1786469980184,
+    "updatedAt": 1786469980184
+  },
+  {
+    "learningId": "learn_msoy3ms8_l2aj",
+    "sourceExperienceIds": [],
+    "taskIds": [
+      "t1"
+    ],
+    "agentIds": [
+      "a1"
+    ],
+    "traceIds": [],
+    "inputContext": "test",
+    "previousBehavior": "old",
+    "newBehavior": "new",
+    "performanceBefore": 1,
+    "performanceAfter": 2,
+    "performanceDelta": 1,
+    "validation": "NONE",
+    "confidence": 0.05,
+    "relevanceScore": 0.5,
+    "scope": "AGENT_ONLY",
+    "status": "REJECTED",
+    "evidence": [],
+    "conflicts": [],
+    "createdAt": 1786469980184,
+    "updatedAt": 1786469980184
+  },
+  {
+    "learningId": "learn_msoy3ms8_amoi",
+    "sourceExperienceIds": [
+      "CLMSOY3MS3_E1"
+    ],
+    "taskIds": [
+      "task_analysis_CLMSOY3MS3"
+    ],
+    "agentIds": [
+      "agent_ceo"
+    ],
+    "traceIds": [
+      "trace_CLMSOY3MS3_e1"
+    ],
+    "inputContext": "test",
+    "previousBehavior": "same behavior",
+    "newBehavior": "same behavior",
+    "performanceBefore": 1,
+    "performanceAfter": 1,
+    "performanceDelta": 0,
+    "validation": "PASS",
+    "confidence": 0.19999999999999998,
+    "relevanceScore": 0.6,
+    "scope": "AGENT_ONLY",
+    "status": "REJECTED",
+    "evidence": [
+      "exp:CLMSOY3MS3_E1"
+    ],
+    "conflicts": [],
+    "createdAt": 1786469980184,
+    "updatedAt": 1786469980184
+  },
+  {
+    "learningId": "learn_msoy3ms4_hnw2",
+    "sourceExperienceIds": [
+      "CLMSOY3MS3_E1"
+    ],
+    "taskIds": [
+      "task_analysis_CLMSOY3MS3"
+    ],
+    "agentIds": [
+      "agent_ceo"
+    ],
+    "traceIds": [
+      "trace_CLMSOY3MS3_e1"
+    ],
+    "inputContext": "retrieval pipeline optimization",
+    "previousBehavior": "vector weight 0.6, keyword weight 0.4",
+    "newBehavior": "vector weight 0.7 for semantic-heavy queries",
+    "performanceBefore": 1,
+    "performanceAfter": 3,
+    "performanceDelta": 2,
+    "validation": "PASS",
+    "confidence": 0.95,
+    "relevanceScore": 0.85,
+    "scope": "AGENT_ONLY",
+    "status": "CONSOLIDATED",
+    "evidence": [
+      "experience:CLMSOY3MS3_E1",
+      "artifact:CLMSOY3MS3_E1_report",
+      "validation:PASS",
+      "tools:retriever_audit,performance_analysis"
+    ],
+    "conflicts": [],
+    "createdAt": 1786469980180,
+    "updatedAt": 1786469980181,
+    "consolidatedAt": 1786469980181
+  }
+]

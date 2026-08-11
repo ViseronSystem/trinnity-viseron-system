@@ -1,0 +1,82 @@
+[
+  {
+    "capability": "Real execution",
+    "status": "REAL",
+    "evidence": "experience CLMSOY3MS3_E1 created with agent_ceo, tools[retriever_audit,performance_analysis], validation=PASS"
+  },
+  {
+    "capability": "Experience creation",
+    "status": "REAL",
+    "evidence": "stored in ExperienceStore with artifact, hash, tags, importance=0.85"
+  },
+  {
+    "capability": "Learning proposal",
+    "status": "REAL",
+    "evidence": "PROPOSED: learn_msoy3ms4_hnw2, 4 evidence items, delta=+2.0"
+  },
+  {
+    "capability": "Validation gate",
+    "status": "REAL",
+    "evidence": "status=ACCEPTED, confidence=0.95, checks passed"
+  },
+  {
+    "capability": "Consolidation",
+    "status": "REAL",
+    "evidence": "status=CONSOLIDATED, conflicts=0"
+  },
+  {
+    "capability": "Conflict detection",
+    "status": "REAL",
+    "evidence": "0 conflicts detected (0 = no duplicates yet)"
+  },
+  {
+    "capability": "Persistence (reload)",
+    "status": "REAL",
+    "evidence": "recovered: learn_msoy3ms4_hnw2, status=CONSOLIDATED"
+  },
+  {
+    "capability": "Retrieval",
+    "status": "REAL",
+    "evidence": "1 accepted/consolidated learning records retrievable"
+  },
+  {
+    "capability": "Influence (available)",
+    "status": "REAL",
+    "evidence": "learning records available for future task context"
+  },
+  {
+    "capability": "Performance improvement",
+    "status": "REAL",
+    "evidence": "delta=+2"
+  },
+  {
+    "capability": "Reproducibility",
+    "status": "REAL",
+    "evidence": "second learning ACCEPTED (run 2 of 2)"
+  },
+  {
+    "capability": "Negative: low confidence",
+    "status": "REAL",
+    "evidence": "status=REJECTED (should be REJECTED)"
+  },
+  {
+    "capability": "Negative: no evidence",
+    "status": "REAL",
+    "evidence": "status=REJECTED (should be REJECTED)"
+  },
+  {
+    "capability": "Negative: no change",
+    "status": "REAL",
+    "evidence": "status=REJECTED (should be REJECTED — same behavior)"
+  },
+  {
+    "capability": "Negative: duplicate detection",
+    "status": "REAL",
+    "evidence": "2 conflicts (should detect duplicate of learn_msoy3ms4_hnw2)"
+  },
+  {
+    "capability": "Regression protection",
+    "status": "REAL",
+    "evidence": "no regressions detected (all deltas >= 0)"
+  }
+]
