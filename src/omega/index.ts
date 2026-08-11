@@ -8,6 +8,7 @@ import { SquadRegistry } from "./squads";
 import { FactoryEngine, SolutionEngineAdapter, ScaffolderAdapter } from "./factory";
 import { EnterpriseHub } from "./enterprise";
 import { SelfHealWatchdog } from "./selfheal";
+import { TelemetryEngine } from "./telemetry/TelemetryEngine";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -72,6 +73,7 @@ export class OmegaPlatform {
   public readonly autonomyOS: AutonomyOS;
   public readonly vaec: VaecOrchestrator;
   public readonly archive: KnowledgeArchive;
+  public readonly telemetry: TelemetryEngine;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -474,6 +476,17 @@ export class OmegaPlatform {
 
     this.archive = new KnowledgeArchive({ graph: this.graph, bus: this.kernel.events });
 
+    // Cognitive Telemetry — Sistema 0: rastreabilidade completa de operações cognitivas
+    this.telemetry = new TelemetryEngine(path.join(process.cwd(), "data"));
+
+    // Publica eventos de telemetria no EventBus para observabilidade
+    this.kernel.events.subscribe("cognitive:completed", (trace) => {
+      this.archiveCognitiveTrace(trace);
+    });
+    this.kernel.events.subscribe("cognitive:failed", (trace) => {
+      this.archiveCognitiveTrace(trace);
+    });
+
     // Auditoria de autonomia: cada decisão flui para o EventBus (backbone reativo)
     this.kernel.events.subscribe("autonomy:decided", (d: any) => {
       void this.recordDecision(`autonomy_${d.at}_${d.op}`, "autonomy", `autonomy ${d.verdict} ${d.op}`, [
@@ -525,6 +538,42 @@ export class OmegaPlatform {
     } catch (err: any) {
       console.warn(`[TVS OMEGA] memory record failed: ${err?.message || err}`);
     }
+  }
+
+  private archiveCognitiveTrace(trace: any): void {
+    try {
+      // Link trace to agent evidence
+      if (trace?.agentId && trace?.traceId) {
+        const fs = require("fs");
+        const evPath = path.resolve(process.cwd(), "data", "knowledge", "agent-activity.jsonl");
+        const entry = JSON.stringify({
+          agentId: trace.agentId,
+          action: trace.result?.success ? "cognitive_completed" : "cognitive_failed",
+          traceId: trace.traceId,
+          source: trace.source,
+          ts: new Date().toISOString(),
+        });
+        fs.appendFileSync(evPath, entry + "\n");
+      }
+      // Archive trace to KnowledgeArchive with SHA-256
+      if (trace?.traceId) {
+        const crypto = require("crypto");
+        const hash = crypto.createHash("sha256").update(JSON.stringify(trace)).digest("hex");
+        this.archive.record(
+          `cognitive_trace_${trace.traceId}`,
+          `Cognitive Trace: ${trace.source} — ${trace.result?.success ? "SUCCESS" : "FAILED"}`,
+          {
+            traceId: trace.traceId,
+            source: trace.source,
+            agentId: trace.agentId,
+            success: trace.result?.success,
+            latencyMs: trace.result?.latencyMs,
+            hash,
+          },
+          ["cognitive-telemetry", trace.source, trace.result?.success ? "success" : "failure"]
+        );
+      }
+    } catch { /* non-blocking */ }
   }
 
   private recordAgentActivity(task: any, action: string): void {
@@ -621,6 +670,7 @@ export class OmegaPlatform {
         : { ready: false },
       vaec: this.vaec.status(),
       archive: this.archive.status(),
+      telemetry: this.telemetry.status(),
     };
   }
 }

@@ -349,6 +349,38 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── COGNITIVE TELEMETRY (Sistema 0) ──
+  router.get("/telemetry/trace/:traceId", (req, res) => {
+    const trace = omega.telemetry.getTrace(req.params.traceId);
+    if (!trace) return res.status(404).json({ error: "Trace not found" });
+    res.json(trace);
+  });
+
+  router.get("/telemetry/search", (req, res) => {
+    const { agentId, source, since, limit } = req.query as Record<string, string>;
+    const traces = omega.telemetry.searchTraces({
+      agentId,
+      source,
+      since,
+      limit: limit ? parseInt(limit) : 50,
+    });
+    res.json({ total: traces.length, traces });
+  });
+
+  router.get("/telemetry/stats", (req, res) => {
+    const since = req.query.since as string;
+    res.json(omega.telemetry.getStats(since));
+  });
+
+  router.get("/telemetry/insights", (req, res) => {
+    const since = req.query.since as string;
+    res.json(omega.telemetry.getInsights(since));
+  });
+
+  router.get("/telemetry", (_req, res) => {
+    res.json(omega.telemetry.status());
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
