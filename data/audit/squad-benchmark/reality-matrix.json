@@ -1,0 +1,42 @@
+[
+  {
+    "capability": "Single Agent Routing",
+    "status": "REAL",
+    "evidence": "6 projects routed"
+  },
+  {
+    "capability": "Squad Execution",
+    "status": "REAL",
+    "evidence": "6 squad projects"
+  },
+  {
+    "capability": "Multi-Squad Execution",
+    "status": "REAL",
+    "evidence": "2 multi-squad projects"
+  },
+  {
+    "capability": "Agent Diversity",
+    "status": "PARTIAL",
+    "evidence": "4/10 agents used"
+  },
+  {
+    "capability": "Quality Improvement",
+    "status": "REAL",
+    "evidence": "squad 2.0x vs single"
+  },
+  {
+    "capability": "Multi-Squad Scale",
+    "status": "REAL",
+    "evidence": "multi 9.0x vs single"
+  },
+  {
+    "capability": "Parallel Execution",
+    "status": "REAL",
+    "evidence": "Promise.all across squads"
+  },
+  {
+    "capability": "Failure Isolation",
+    "status": "REAL",
+    "evidence": "individual failures don't block others"
+  }
+]

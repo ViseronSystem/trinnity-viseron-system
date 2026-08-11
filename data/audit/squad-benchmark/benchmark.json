@@ -1,0 +1,170 @@
+[
+  {
+    "project": "Architecture",
+    "domain": "architecture",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 0
+  },
+  {
+    "project": "Architecture",
+    "domain": "architecture",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Security",
+    "domain": "security",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_security"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Security",
+    "domain": "security",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_security"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Research",
+    "domain": "research",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_research"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Research",
+    "domain": "research",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_research"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Growth",
+    "domain": "sales",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_sales"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Growth",
+    "domain": "sales",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_sales"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Production",
+    "domain": "management",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 0
+  },
+  {
+    "project": "Production",
+    "domain": "management",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Production",
+    "domain": "management",
+    "condition": "MULTI",
+    "wallClockMs": 1,
+    "tasks": 3,
+    "success": 3,
+    "agentsUsed": [
+      "agent_ceo",
+      "agent_security",
+      "agent_research"
+    ],
+    "quality": 9
+  },
+  {
+    "project": "Complex",
+    "domain": "management",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 0
+  },
+  {
+    "project": "Complex",
+    "domain": "management",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "quality": 1
+  },
+  {
+    "project": "Complex",
+    "domain": "management",
+    "condition": "MULTI",
+    "wallClockMs": 0,
+    "tasks": 0,
+    "success": 0,
+    "agentsUsed": [],
+    "quality": 0
+  }
+]
