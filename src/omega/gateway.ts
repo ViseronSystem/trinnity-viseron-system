@@ -564,6 +564,22 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     });
   });
 
+  // ── ATLAS COGNITIVO (Sistema 8) ──
+  router.get("/atlas/status", (_req, res) => {
+    res.json(omega.atlas.status());
+  });
+
+  router.get("/atlas/evidence", (req, res) => {
+    const sessionId = req.query.sessionId as string;
+    const limit = parseInt(req.query.limit as string) || 50;
+    res.json({ entries: omega.atlas.getEvidence(sessionId, limit) });
+  });
+
+  router.get("/atlas/session/:sessionId", (req, res) => {
+    const session = omega.atlas.getOrCreateSession(req.params.sessionId);
+    res.json(session);
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());

@@ -15,6 +15,7 @@ import { createVoiceProvider, VoiceProvider } from "../core/voice/VoiceProvider"
 import { MemoryConsolidationEngine } from "../core/memory/MemoryConsolidation";
 import { GraphRAGEngine } from "../core/memory/GraphRAG";
 import { EvolutionEngine } from "./evolution/EvolutionEngine";
+import { CognitiveATLAS } from "../web/tutor/CognitiveATLAS";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -86,6 +87,7 @@ export class OmegaPlatform {
   public readonly consolidation: MemoryConsolidationEngine;
   public readonly graphrag: GraphRAGEngine;
   public readonly evolution: EvolutionEngine;
+  public readonly atlas: CognitiveATLAS;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -525,6 +527,14 @@ export class OmegaPlatform {
     this.evolution = new EvolutionEngine(
       path.join(process.cwd(), "data"),
       this.telemetry,
+    );
+
+    // Cognitive ATLAS — Sistema 8: tutor operacional completo
+    this.atlas = new CognitiveATLAS(
+      this.telemetry,
+      this.rag,
+      this.evolution,
+      path.join(process.cwd(), "data"),
     );
 
     // Publica eventos de telemetria no EventBus para observabilidade
