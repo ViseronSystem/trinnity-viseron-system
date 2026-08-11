@@ -12,6 +12,7 @@ import { TelemetryEngine } from "./telemetry/TelemetryEngine";
 import { createEmbeddingProvider, EmbeddingProvider } from "../core/memory/EmbeddingProvider";
 import { RAGPipeline } from "../core/memory/RAGPipeline";
 import { createVoiceProvider, VoiceProvider } from "../core/voice/VoiceProvider";
+import { MemoryConsolidationEngine } from "../core/memory/MemoryConsolidation";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -80,6 +81,7 @@ export class OmegaPlatform {
   public readonly embedding: EmbeddingProvider;
   public readonly rag: RAGPipeline;
   public readonly voice: VoiceProvider;
+  public readonly consolidation: MemoryConsolidationEngine;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -498,6 +500,14 @@ export class OmegaPlatform {
 
     // Voice Provider — Sistema 3: STT (Whisper) + TTS (ElevenLabs)
     this.voice = createVoiceProvider();
+
+    // Memory Consolidation — Sistema 4: semantic dedup + summarize + KG linking
+    this.consolidation = new MemoryConsolidationEngine(
+      options.memoryEngine || ({} as any),
+      this.embedding,
+      this.telemetry,
+      this.graph,
+    );
 
     // Publica eventos de telemetria no EventBus para observabilidade
     this.kernel.events.subscribe("cognitive:completed", (trace) => {

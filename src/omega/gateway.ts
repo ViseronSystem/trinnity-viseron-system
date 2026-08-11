@@ -474,6 +474,29 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── MEMORY CONSOLIDATION (Sistema 4) ──
+  router.get("/memory/consolidation/status", (_req, res) => {
+    res.json({
+      available: true,
+      features: ["semantic_dedup", "summarization", "importance_classification", "kg_linking"],
+      embeddingModel: omega.embedding.model,
+      ltmItems: (omega.consolidation as any).memoryEngine?.ltmSize?.() || 0,
+    });
+  });
+
+  router.post("/memory/consolidation/run", async (_req, res) => {
+    try {
+      const result = await omega.consolidation.runFullCycle();
+      res.json({ ok: true, ...result });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  router.get("/memory/consolidation/insights", (_req, res) => {
+    res.json({ insights: omega.consolidation.generateInsights() });
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());
