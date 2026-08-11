@@ -1,0 +1,227 @@
+{
+  "timestamp": "2026-08-11T19:05:48.709Z",
+  "agents": [
+    {
+      "agentId": "agent_ceo",
+      "name": "CEO Agent",
+      "role": "CEO & Strategic Leader",
+      "status": "ACTIVE",
+      "executionEvidence": 7,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_cto",
+      "name": "CTO Agent",
+      "role": "Chief Architect & Technical Leader",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_developer",
+      "name": "Developer Agent",
+      "role": "Developer",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_devops",
+      "name": "DevOps Agent",
+      "role": "DevOps Engineer",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_finance",
+      "name": "Finance Agent",
+      "role": "Finance & Treasury",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_research",
+      "name": "Research Agent",
+      "role": "Research & Intelligence",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_sales",
+      "name": "Sales Agent",
+      "role": "Sales & Business Development",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_security",
+      "name": "Security Agent",
+      "role": "Security",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_support",
+      "name": "Support Agent",
+      "role": "Customer Support",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    },
+    {
+      "agentId": "agent_vision",
+      "name": "Vision Agent",
+      "role": "Vision & Perception",
+      "status": "ACTIVE",
+      "executionEvidence": 5,
+      "classification": "REAL"
+    }
+  ],
+  "squads": [
+    {
+      "id": "architecture_squad",
+      "members": 3,
+      "domains": [
+        "architecture",
+        "development",
+        "operations"
+      ]
+    },
+    {
+      "id": "security_squad",
+      "members": 3,
+      "domains": [
+        "security",
+        "operations",
+        "development"
+      ]
+    },
+    {
+      "id": "research_squad",
+      "members": 3,
+      "domains": [
+        "research",
+        "vision",
+        "finance"
+      ]
+    },
+    {
+      "id": "growth_squad",
+      "members": 3,
+      "domains": [
+        "sales",
+        "research",
+        "support"
+      ]
+    },
+    {
+      "id": "management_squad",
+      "members": 3,
+      "domains": [
+        "management",
+        "architecture",
+        "finance"
+      ]
+    }
+  ],
+  "knowledge": {
+    "ltmItems": 20000,
+    "kgEntities": 1407,
+    "sources": 6,
+    "learning": 18
+  },
+  "throughput": {
+    "safeConcurrency": 4,
+    "estimatedTasksPerSec": 80,
+    "estimatedParallelSpeedup": 2
+  },
+  "scaleModel": [
+    {
+      "agents": 10,
+      "squads": 5,
+      "concurrency": 4,
+      "bottleneck": "none"
+    },
+    {
+      "agents": 20,
+      "squads": 10,
+      "concurrency": 8,
+      "bottleneck": "agent evidence — all need execution records"
+    },
+    {
+      "agents": 50,
+      "squads": 20,
+      "concurrency": 16,
+      "bottleneck": "memory contention (synchronous Map ops)"
+    },
+    {
+      "agents": 100,
+      "squads": 30,
+      "concurrency": 32,
+      "bottleneck": "LTM 20K cap — needs SQLite/Postgres migration"
+    },
+    {
+      "agents": 500,
+      "squads": 50,
+      "concurrency": 64,
+      "bottleneck": "distributed queue needed (Redis/RabbitMQ)"
+    }
+  ],
+  "matrix": [
+    {
+      "capability": "Agent Inventory",
+      "status": "REAL",
+      "count": "10/10 REAL"
+    },
+    {
+      "capability": "Squad Registry",
+      "status": "REAL",
+      "count": "5 squads"
+    },
+    {
+      "capability": "Skill Index",
+      "status": "PARTIAL",
+      "count": "21129+ indexed, not executable"
+    },
+    {
+      "capability": "Tool Execution",
+      "status": "REAL",
+      "count": "kernel tools operational"
+    },
+    {
+      "capability": "Knowledge Systems",
+      "status": "REAL",
+      "count": "LTM 20000, KG 1407"
+    },
+    {
+      "capability": "Learning Records",
+      "status": "REAL",
+      "count": "18 records"
+    },
+    {
+      "capability": "Parallel Execution",
+      "status": "REAL",
+      "count": "speedup 2x"
+    },
+    {
+      "capability": "Source Registry",
+      "status": "REAL",
+      "count": "6 sources"
+    },
+    {
+      "capability": "Intelligent Routing",
+      "status": "REAL",
+      "count": "domain + specialist protection"
+    },
+    {
+      "capability": "Recovery/Migration",
+      "status": "REAL",
+      "count": "10/10 REAL"
+    }
+  ]
+}
