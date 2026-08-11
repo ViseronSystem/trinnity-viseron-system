@@ -1,0 +1,42 @@
+[
+  {
+    "component": "Snapshot",
+    "status": "REAL",
+    "evidence": "411 files, 89.3MB"
+  },
+  {
+    "component": "SHA-256 Integrity",
+    "status": "REAL",
+    "evidence": "snapshot hash: 6b356325afdf4339..."
+  },
+  {
+    "component": "Secret Exclusion",
+    "status": "REAL",
+    "evidence": "3 files excluded"
+  },
+  {
+    "component": "Verify",
+    "status": "REAL",
+    "evidence": "411 files verified"
+  },
+  {
+    "component": "Restore",
+    "status": "REAL",
+    "evidence": "411/411 files"
+  },
+  {
+    "component": "Environment",
+    "status": "PARTIAL",
+    "evidence": "0/5 present"
+  },
+  {
+    "component": "Env Template",
+    "status": "REAL",
+    "evidence": "595B"
+  },
+  {
+    "component": "Restore Valid",
+    "status": "REAL",
+    "evidence": "411 files in restore dir"
+  }
+]

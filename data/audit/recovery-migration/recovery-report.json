@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-08-11T18:57:30.436Z",
+  "snapshot": {
+    "id": "snap_msp0vp2r",
+    "files": 411,
+    "size": 93594877,
+    "hash": "6b356325afdf4339fd44860f499431817ee32eae75e333e8b621db497430681b"
+  },
+  "restore": {
+    "restored": 411,
+    "failed": 0
+  },
+  "environment": [
+    {
+      "variable": "NODE_ENV",
+      "required": true,
+      "present": false,
+      "value": "NOT SET"
+    },
+    {
+      "variable": "PORT",
+      "required": true,
+      "present": false,
+      "value": "NOT SET"
+    },
+    {
+      "variable": "OLLAMA_HOST",
+      "required": false,
+      "present": false,
+      "value": "NOT SET"
+    },
+    {
+      "variable": "DATABASE_URL",
+      "required": false,
+      "present": false,
+      "value": "NOT SET"
+    },
+    {
+      "variable": "TVS_JWT_SECRET",
+      "required": true,
+      "present": false,
+      "value": "NOT SET"
+    }
+  ],
+  "verification": true
+}
