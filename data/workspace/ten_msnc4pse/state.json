@@ -1,0 +1,363 @@
+{
+  "projects": [
+    {
+      "id": "proj_msnc4q37jzsmf3",
+      "tenantId": "ten_msnc4pse",
+      "ownerId": "usr_msnc4pzpjbo9",
+      "name": "Projeto Slice msnc4orl_lfpm",
+      "description": "E2E real Ollama",
+      "createdAt": "2026-08-10T14:36:53.395Z",
+      "updatedAt": "2026-08-10T14:36:53.395Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task_msnc4q3v4jgfrc",
+      "tenantId": "ten_msnc4pse",
+      "projectId": "proj_msnc4q37jzsmf3",
+      "userId": "usr_msnc4pzpjbo9",
+      "title": "Criar README.md do projeto e validar com um teste",
+      "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe.",
+      "stage": "FAILED",
+      "tools": [
+        {
+          "id": "workspace_fs_write",
+          "input": {
+            "fileName": "README.md",
+            "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real)."
+          }
+        },
+        {
+          "id": "workspace_test_run",
+          "input": {
+            "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');"
+          }
+        }
+      ],
+      "authorizedBy": "usr_msnc4pzpjbo9",
+      "events": [
+        {
+          "topic": "task:started",
+          "source": "task-queue",
+          "ts": 1786372613429,
+          "payload": {
+            "id": "task_msnc4q3w_e40nqq",
+            "type": "user_task",
+            "title": "Criar README.md do projeto e validar com um teste",
+            "payload": {
+              "assignedAgentId": "viseron_builder",
+              "protocol": "tool2phase",
+              "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe.",
+              "tenantId": "ten_msnc4pse",
+              "projectId": "proj_msnc4q37jzsmf3",
+              "userId": "usr_msnc4pzpjbo9",
+              "authorized": true,
+              "tools": [
+                {
+                  "id": "workspace_fs_write",
+                  "input": {
+                    "fileName": "README.md",
+                    "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                },
+                {
+                  "id": "workspace_test_run",
+                  "input": {
+                    "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                }
+              ],
+              "verify": {
+                "require": [
+                  "success"
+                ],
+                "requireTruthy": "output"
+              }
+            },
+            "priority": "normal",
+            "state": "RUNNING",
+            "attempts": 1,
+            "maxAttempts": 3,
+            "createdAt": 1786372613420,
+            "plan": [
+              {
+                "action": "agent",
+                "description": "Criar README.md do projeto e validar com um teste"
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_fs_write",
+                "tool": "workspace_fs_write",
+                "input": {
+                  "fileName": "README.md",
+                  "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_test_run",
+                "tool": "workspace_test_run",
+                "input": {
+                  "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "report",
+                "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe."
+              }
+            ],
+            "startedAt": 1786372613429,
+            "cancelRequested": false
+          }
+        },
+        {
+          "topic": "task:verifying",
+          "source": "task-queue",
+          "ts": 1786372655533,
+          "payload": {
+            "id": "task_msnc4q3w_e40nqq",
+            "type": "user_task",
+            "title": "Criar README.md do projeto e validar com um teste",
+            "payload": {
+              "assignedAgentId": "viseron_builder",
+              "protocol": "tool2phase",
+              "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe.",
+              "tenantId": "ten_msnc4pse",
+              "projectId": "proj_msnc4q37jzsmf3",
+              "userId": "usr_msnc4pzpjbo9",
+              "authorized": true,
+              "tools": [
+                {
+                  "id": "workspace_fs_write",
+                  "input": {
+                    "fileName": "README.md",
+                    "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                },
+                {
+                  "id": "workspace_test_run",
+                  "input": {
+                    "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                }
+              ],
+              "verify": {
+                "require": [
+                  "success"
+                ],
+                "requireTruthy": "output"
+              }
+            },
+            "priority": "normal",
+            "state": "VERIFYING",
+            "attempts": 1,
+            "maxAttempts": 3,
+            "createdAt": 1786372613420,
+            "plan": [
+              {
+                "action": "agent",
+                "description": "Criar README.md do projeto e validar com um teste"
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_fs_write",
+                "tool": "workspace_fs_write",
+                "input": {
+                  "fileName": "README.md",
+                  "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_test_run",
+                "tool": "workspace_test_run",
+                "input": {
+                  "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "report",
+                "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe."
+              }
+            ],
+            "startedAt": 1786372613429,
+            "cancelRequested": false,
+            "tools": [],
+            "latencyMs": 42104
+          }
+        },
+        {
+          "topic": "task:failed",
+          "source": "task-queue",
+          "ts": 1786372655553,
+          "payload": {
+            "id": "task_msnc4q3w_e40nqq",
+            "type": "user_task",
+            "title": "Criar README.md do projeto e validar com um teste",
+            "payload": {
+              "assignedAgentId": "viseron_builder",
+              "protocol": "tool2phase",
+              "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe.",
+              "tenantId": "ten_msnc4pse",
+              "projectId": "proj_msnc4q37jzsmf3",
+              "userId": "usr_msnc4pzpjbo9",
+              "authorized": true,
+              "tools": [
+                {
+                  "id": "workspace_fs_write",
+                  "input": {
+                    "fileName": "README.md",
+                    "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                },
+                {
+                  "id": "workspace_test_run",
+                  "input": {
+                    "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                    "tenantId": "ten_msnc4pse",
+                    "projectId": "proj_msnc4q37jzsmf3",
+                    "authorized": true
+                  }
+                }
+              ],
+              "verify": {
+                "require": [
+                  "success"
+                ],
+                "requireTruthy": "output"
+              }
+            },
+            "priority": "normal",
+            "state": "FAILED",
+            "attempts": 1,
+            "maxAttempts": 3,
+            "createdAt": 1786372613420,
+            "plan": [
+              {
+                "action": "agent",
+                "description": "Criar README.md do projeto e validar com um teste"
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_fs_write",
+                "tool": "workspace_fs_write",
+                "input": {
+                  "fileName": "README.md",
+                  "content": "# Projeto Slice\nGerado pelo VISERON BUILDER (E2E real).",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "tool",
+                "description": "invoke workspace_test_run",
+                "tool": "workspace_test_run",
+                "input": {
+                  "script": "const fs=require('fs'); if(!fs.existsSync('README.md')) process.exit(1); console.log('TEST OK README existe');",
+                  "tenantId": "ten_msnc4pse",
+                  "projectId": "proj_msnc4q37jzsmf3",
+                  "authorized": true
+                }
+              },
+              {
+                "action": "report",
+                "description": "Escreve o ficheiro README.md com uma breve descrição do projeto e depois corre um teste que lê o ficheiro para confirmar que existe."
+              }
+            ],
+            "startedAt": 1786372613429,
+            "cancelRequested": false,
+            "tools": [],
+            "latencyMs": 42104,
+            "verification": {
+              "status": "FAIL",
+              "reasons": [
+                "0/2 ferramentas executadas — o modelo não emitiu tool-calls válidas"
+              ]
+            },
+            "error": "[TaskQueue] Task \"task_msnc4q3w_e40nqq\" failed verification: 0/2 ferramentas executadas — o modelo não emitiu tool-calls válidas",
+            "completedAt": 1786372655553,
+            "resultSummary": {
+              "success": true,
+              "executedBy": "viseron_builder",
+              "model": {
+                "provider": "ollama",
+                "model": "qwen2.5:3b",
+                "isLocal": true,
+                "mode": "REAL",
+                "strategy": "router:general→ollama",
+                "latencyMs": 12345
+              },
+              "tools": 0,
+              "latencyMs": 42098
+            }
+          }
+        }
+      ],
+      "createdAt": "2026-08-10T14:36:53.419Z",
+      "updatedAt": "2026-08-10T14:37:35.628Z",
+      "kernelTaskId": "task_msnc4q3w_e40nqq",
+      "result": {
+        "executedBy": "viseron_builder",
+        "success": true,
+        "output": "Como VISERON BUILDER, no se han ejecutado ninguna herramienta de los resultados proporcionados, por lo que no se ha creado un ficheiro README.md ni se ha comprobado su existencia en ningún archivo. El informe final indica que ambas tareas no fueron realizadas debido a la falta de ejecución de las herramientas correspondientes.",
+        "model": {
+          "provider": "ollama",
+          "model": "qwen2.5:3b",
+          "isLocal": true,
+          "mode": "REAL",
+          "strategy": "router:general→ollama",
+          "latencyMs": 12345
+        },
+        "tools": [],
+        "toolsSummary": {
+          "requested": 0,
+          "executed": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "verification": "PASS",
+          "status": "COMPLETED",
+          "model": {
+            "provider": "ollama",
+            "model": "qwen2.5:3b",
+            "isLocal": true,
+            "mode": "REAL",
+            "strategy": "router:general→ollama",
+            "latencyMs": 12345
+          }
+        },
+        "latencyMs": 42098,
+        "cost": 0.84196
+      },
+      "error": "[TaskQueue] Task \"task_msnc4q3w_e40nqq\" failed verification: 0/2 ferramentas executadas — o modelo não emitiu tool-calls válidas",
+      "completedAt": "2026-08-10T14:37:35.625Z"
+    }
+  ]
+}

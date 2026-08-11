@@ -44,7 +44,7 @@ import { CryptoDeps, createCryptoDeps } from "./crypto/deps";
 import { createCryptoRouter } from "./crypto/routes";
 import { RcsEngine } from "../core/rcs/RcsEngine";
 import { createRcsRouter } from "./rcs/routes";
-import { createOmegaGateway } from "../omega/gateway";
+import { createOmegaGateway, createOmegaGatewayPlaceholder } from "../omega/gateway";
 import { bridgeSocketIO } from "../omega/kernel/EventBridge";
 import { requireAuth } from "./auth/middleware";
 import { WorkspaceStore } from "./workspace/store";
@@ -77,6 +77,7 @@ export class ViseronWebServer {
   private rcs: RcsEngine;
   private os: TVSOs;
   private osRouter!: express.Router;
+  private omegaRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
   private omegaEventsUnsub?: () => void;
   private omegaInstance: any = null;
@@ -139,7 +140,7 @@ export class ViseronWebServer {
       }
       if (omega && omega.kernel) {
         const omegaGateway = createOmegaGateway(omega);
-        this.app.use("/api/omega", omegaGateway);
+        this.omegaRouter.stack = omegaGateway.stack;
         // Vertical slice real: o orchestrator liga-se ao kernel OMEGA (eventos auditáveis)
         this.workspaceOrchestrator.attach(omega);
         console.log(`[Web] Workspace vertical slice ligado ao kernel OMEGA: ${this.workspaceOrchestrator.status().mode}`);
@@ -429,6 +430,12 @@ export class ViseronWebServer {
     // servir o OS completo.
     this.osRouter = createOsGateway(this.os);
     this.app.use("/api/os", this.osRouter);
+
+    // OMEGA — API (/api/omega) · Kernel · Tasks E2E · Event Bus · Memory · Autonomy
+    // Placeholder montado ANTES do catch-all 404; o mountOmega troca a stack
+    // do mesmo router quando o kernel OMEGA carrega (padrão do /api/os).
+    this.omegaRouter = createOmegaGatewayPlaceholder();
+    this.app.use("/api/omega", this.omegaRouter);
 
     // TVS Desktop — página do sistema operativo
     this.app.get("/os", (_req, res) => {

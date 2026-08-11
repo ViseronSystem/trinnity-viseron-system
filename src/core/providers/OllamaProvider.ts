@@ -64,14 +64,21 @@ export class OllamaProvider implements ILLMProvider {
 
   public async generateResponse(request: LLMRequest): Promise<LLMResponse> {
     const start = Date.now();
-    const model = this.pickModel(request.modelName);
+    const requestedModel = this.pickModel(request.modelName);
 
     const available = await this.detectModels();
     if (available.length === 0) {
       throw new ProviderExecutionError("ollama", "servidor local não responde em " + this.host);
     }
 
-    const finalModel = !available.includes(model) ? (available[0] || model) : model;
+    let finalModel = requestedModel;
+    let fallbackReason: string | undefined;
+
+    if (!available.includes(requestedModel)) {
+      finalModel = available[0] || requestedModel;
+      fallbackReason = `modelo "${requestedModel}" não disponível (disponíveis: ${available.join(", ")}) → fallback para "${finalModel}"`;
+      console.warn(`[OllamaProvider] ${fallbackReason}`);
+    }
 
     try {
       const res = await axios.post(`${this.host}/api/generate`, {
@@ -94,6 +101,7 @@ export class OllamaProvider implements ILLMProvider {
         modelName: finalModel,
         text,
         latencyMs: Date.now() - start,
+        ...(fallbackReason ? { _modelFallback: { requested: requestedModel, used: finalModel, reason: fallbackReason } as any } : {}),
       };
     } catch (e: any) {
       if (e instanceof ProviderExecutionError) throw e;

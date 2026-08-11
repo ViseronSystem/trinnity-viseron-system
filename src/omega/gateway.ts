@@ -2,6 +2,24 @@ import { Router } from "express";
 import { OmegaPlatform } from "./index";
 import { openSSEStream } from "./kernel/EventBridge";
 
+/**
+ * Placeholder montado na fase de setup (antes do catch-all 404): responde com
+ * status honesto enquanto o OMEGA ainda não carregou. O mountOmega troca a
+ * stack do MESMO router (padrão idêntico ao /api/os), garantindo que
+ * `/api/omega/*` nunca caia no 404 do catch-all.
+ */
+export function createOmegaGatewayPlaceholder(): Router {
+  const router = Router();
+  router.use((_req, res) => {
+    res.status(503).json({
+      ok: false,
+      error: "OMEGA kernel ainda não carregado — gateway será ligado no mountOmega",
+      mount: "placeholder",
+    });
+  });
+  return router;
+}
+
 export function createOmegaGateway(omega: OmegaPlatform): Router {
   const router = Router();
 

@@ -314,6 +314,9 @@ export class TaskQueue {
       await this.complete(task);
       return;
     }
+    // Guardar o resultado mesmo na reprovação — a falha é auditável com as
+    // tools executadas, toolsSummary e erro (nunca se perde o rasto).
+    task.result = result;
     throw new VerificationFailError(task, verification);
   }
 

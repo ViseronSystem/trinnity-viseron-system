@@ -1,4 +1,5 @@
 import { ProviderFactory } from "../../core/providers/ProviderFactory";
+import { ViseronModelRouter } from "../../core/model-router/ViseronModelRouter";
 
 // Estado da IA do sistema — qual provider/modelo está operacional de verdade.
 // Útil para o site/JARVIS mostrarem "IA: <provider> <model>" em vez de "rule".
@@ -7,6 +8,18 @@ export interface AIStatus {
   ok: boolean;
   providers: Array<{ id: string; available: boolean; model: string; reason?: string }>;
   active: { id: string; model: string } | null;
+  runtime: {
+    selected: { id: string; model: string; isLocal: boolean } | null;
+    chain: string[];
+    lastTrace: {
+      requested?: string;
+      chosen?: string;
+      model?: string;
+      fallback: boolean;
+      failures: string[];
+      at: string;
+    };
+  };
   ollamaModels: string[];
   checkedAt: string;
 }
@@ -14,19 +27,25 @@ export interface AIStatus {
 let cache: { at: number; status: AIStatus } | null = null;
 const CACHE_TTL_MS = 30_000;
 
+function getOllamaDefaultModel(): string {
+  return (process.env.OLLAMA_MODEL || "qwen2.5:3b").trim();
+}
+
 export async function getAIStatus(): Promise<AIStatus> {
   if (cache && Date.now() - cache.at < CACHE_TTL_MS) {
     return { ...cache.status, checkedAt: new Date().toISOString() };
   }
 
   const factory = new ProviderFactory();
+  const router = new ViseronModelRouter(factory);
+  const ollamaModel = getOllamaDefaultModel();
   const candidates = [
     { id: "openai", key: "OPENAI_API_KEY", model: "gpt-4o-mini" },
     { id: "claude", key: "ANTHROPIC_API_KEY", model: "claude-3-5-haiku-latest" },
     { id: "gemini", key: "GEMINI_API_KEY", model: "gemini-1.5-flash" },
     { id: "grok", key: "XAI_API_KEY", model: "grok-3" },
     { id: "omniroute", key: "", model: "auto/best-reasoning" },
-    { id: "ollama", key: "", model: "qwen2.5:3b" },
+    { id: "ollama", key: "", model: ollamaModel },
   ];
 
   const results: AIStatus["providers"] = [];
@@ -55,6 +74,14 @@ export async function getAIStatus(): Promise<AIStatus> {
     }
   }
 
+  // Runtime real: o que o ViseronModelRouter usaria agora para "general"
+  const runtimeSelected = await router.runtimeProvider("general");
+  const runtimeInfo: AIStatus["runtime"] = {
+    selected: runtimeSelected,
+    chain: runtimeSelected ? runtimeSelected.chain : [],
+    lastTrace: router.lastTrace,
+  };
+
   let ollamaModels: string[] = [];
   if (process.env.OLLAMA_HOST) {
     try {
@@ -76,7 +103,7 @@ export async function getAIStatus(): Promise<AIStatus> {
     }
   }
 
-  const status: AIStatus = { ok: !!active, providers: results, active, ollamaModels, checkedAt: new Date().toISOString() };
+  const status: AIStatus = { ok: !!active, providers: results, active, runtime: runtimeInfo, ollamaModels, checkedAt: new Date().toISOString() };
   cache = { at: Date.now(), status };
   return status;
 }

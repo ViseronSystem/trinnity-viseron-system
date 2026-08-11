@@ -100,10 +100,12 @@ export class UserTaskOrchestrator {
     try {
       kernelTask = await this.omega.kernel.runTask("user_task", task.title, {
         assignedAgentId: "viseron_builder",
+        protocol: "tool2phase",
         description: task.description || task.title,
         tenantId,
         projectId,
         userId,
+        authorized: true,
         tools,
         verify: { require: ["success"], requireTruthy: "output" },
       });

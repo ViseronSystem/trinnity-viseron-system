@@ -17,6 +17,17 @@ import {
   WORKSPACE_TEST_RUN,
 } from "../src/web/workspace/tools";
 import { createViseronBuilder, VISERON_BUILDER_ID } from "../src/web/workspace/viseron-builder";
+import {
+  parseToolCalls,
+  validateToolCall,
+  injectRuntimeArgs,
+  buildToolPlanPrompt,
+  buildToolFinalPrompt,
+  WORKSPACE_TOOL_SCHEMAS,
+  TOOL_CALL_START,
+  TOOL_CALL_END,
+  NO_TOOL_CALL,
+} from "../src/web/workspace/tool-contract";
 import { createWorkspaceRouter } from "../src/web/workspace/routes";
 
 /**
@@ -37,7 +48,35 @@ class OfflineFactory extends ProviderFactory {
   }
 }
 
-function stubBuilderAgent(): IAgent {
+const STUB_MODEL = { provider: "ollama", model: "qwen2.5:3b", isLocal: true, mode: "REAL", strategy: "stub-for-ci" };
+
+interface StubScript {
+  planText: string;
+  /** final devolve sucesso? (default true) */
+  finalOk?: boolean;
+  /** texto do relatório final */
+  finalText?: string;
+}
+
+/**
+ * Stub do MODELO (único elemento simulado — não há Ollama no CI).
+ * Protocolo 2-fases: em `tool_plan` devolve `toolCalls` estruturadas a partir
+ * de `script.planText`; em `final` devolve um relatório. Tudo o resto (kernel,
+ * executor, ferramentas, verifier, memória, HTTP) é REAL.
+ */
+function stubBuilderAgent(script?: Partial<StubScript>): IAgent {
+  const cfg: StubScript = {
+    planText:
+      `${TOOL_CALL_START}\n` +
+      `{"tool":"${WORKSPACE_FS_WRITE}","arguments":{"fileName":"README.md","content":"# Projeto\\nGerado pelo VISERON."}}\n` +
+      `${TOOL_CALL_END}\n` +
+      `${TOOL_CALL_START}\n` +
+      `{"tool":"${WORKSPACE_TEST_RUN}","arguments":{"script":"require('fs').readFileSync('README.md','utf8'); console.log('TEST OK');"}}\n` +
+      `${TOOL_CALL_END}`,
+    finalOk: true,
+    finalText: "README.md criado e teste passou.",
+    ...script,
+  };
   return {
     id: VISERON_BUILDER_ID,
     name: "VISERON BUILDER",
@@ -45,18 +84,35 @@ function stubBuilderAgent(): IAgent {
     status: "ACTIVE",
     capabilities: ["code_build", "file_write", "test_run", "documentation"],
     async execute(task: string, context?: Record<string, any>) {
-      const tools = Array.isArray(context?.tools) ? (context.tools as any[]) : [];
-      const fileOk = tools[0]?.success === true;
-      const testOk = tools[1]?.success === true && tools[1]?.result?.passed === true;
-      const res: any = {
+      const phase = context?.phase ?? "single";
+      const base: any = {
         agentId: VISERON_BUILDER_ID,
         agentName: "VISERON BUILDER",
-        success: true,
-        output: `[stub-modelo] tarefa: ${task}\nfileWritten=${fileOk} testPassed=${testOk}\nmodelo simulado presente (sem Ollama no CI)`,
-        executionTimeMs: 5,
-        model: { provider: "ollama", model: "qwen2.5:3b", isLocal: true, mode: "REAL", strategy: "stub-for-ci" },
+        model: STUB_MODEL,
       };
-      return res;
+      if (phase === "tool_plan") {
+        const parsed = parseToolCalls(cfg.planText);
+        const toolCalls = parsed.map((call) => {
+          const injected = injectRuntimeArgs(call, {
+            tenantId: context?.tenantId,
+            projectId: context?.projectId,
+            authorized: context?.authorized === true,
+          });
+          return { call: injected, validation: validateToolCall(injected) };
+        });
+        return { ...base, success: true, output: cfg.planText, executionTimeMs: 5, toolCalls };
+      }
+      if (phase === "final") {
+        return {
+          ...base,
+          success: cfg.finalOk !== false,
+          output: cfg.finalOk !== false ? cfg.finalText : "",
+          error: cfg.finalOk !== false ? undefined : "modelo falhou no relatório final",
+          executionTimeMs: 5,
+        };
+      }
+      // single
+      return { ...base, success: true, output: `[stub-modelo] tarefa: ${task}`, executionTimeMs: 5 };
     },
   };
 }
@@ -72,7 +128,7 @@ interface Stack {
 
 const dataDirs: string[] = [];
 
-function buildStack(opts: { offline?: boolean } = {}): Stack {
+function buildStack(opts: { offline?: boolean; agent?: IAgent } = {}): Stack {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "tvs-ws-"));
   dataDirs.push(dataDir);
   const store = new WorkspaceStore(dataDir);
@@ -89,7 +145,9 @@ function buildStack(opts: { offline?: boolean } = {}): Stack {
     taskQueuePath: path.join(dataDir, "task-queue.json"),
   });
 
-  if (opts.offline) {
+  if (opts.agent) {
+    agentManager.register(opts.agent);
+  } else if (opts.offline) {
     agentManager.register(createViseronBuilder(new OfflineFactory()));
   } else {
     agentManager.register(stubBuilderAgent());
@@ -233,6 +291,9 @@ async function runVerticalSliceTests() {
     assert(final.result?.tools?.every((c: any) => c.success === true), "E2E: ambas as tools com sucesso real");
     assert(final.result?.tools?.some((c: any) => c.result?.passed === true), "E2E: o teste real passou (result.passed=true)");
     assert(final.result?.model?.mode === "REAL", "E2E: metadata do modelo presente (UI mostra router real)");
+    assert(final.result?.toolsSummary?.requested === 2, "E2E: toolsSummary.requested = 2");
+    assert(final.result?.toolsSummary?.succeeded === 2 && final.result?.toolsSummary?.failed === 0, "E2E: toolsSummary succeeded=2 failed=0");
+    assert(final.result?.toolsSummary?.status === "COMPLETED", "E2E: toolsSummary.status COMPLETED");
 
     const sandboxFile = path.join(dataDir, "workspace", "tenA", "projects", project.id, "README.md");
     assert(fs.existsSync(sandboxFile), "E2E: ficheiro REAL no sandbox do projeto");
@@ -312,6 +373,164 @@ async function runVerticalSliceTests() {
       assert(tnf, "HTTP: tarefa inexistente → 404");
     } finally {
       server.close();
+    }
+  }
+
+  // ── G. HARDENING — tool-call estruturada + verifier N/N honesto ──
+  {
+    // G1 — parseToolCalls extrai blocos bem-formados
+    {
+      const text = `pre\n${TOOL_CALL_START}\n{"tool":"${WORKSPACE_FS_WRITE}","arguments":{"fileName":"a.md","content":"x"}}\n${TOOL_CALL_END}\nmid\n${TOOL_CALL_START}\n{"tool":"${WORKSPACE_TEST_RUN}","arguments":{"script":"console.log(1)"}}\n${TOOL_CALL_END}\npost`;
+      const calls = parseToolCalls(text);
+      assert(calls.length === 2, "G1: parseToolCalls extrai 2 blocos");
+      assert(calls[0].tool === WORKSPACE_FS_WRITE && calls[0].arguments.fileName === "a.md", "G1: 1ª call fs_write com fileName");
+      assert(calls[1].tool === WORKSPACE_TEST_RUN && typeof calls[1].arguments.script === "string", "G1: 2ª call test_run com script");
+    }
+
+    // G2 — texto sem bloco válido → zero calls (nunca inventa execução)
+    {
+      assert(parseToolCalls("só texto livre, sem blocos").length === 0, "G2: texto sem TOOL_CALL → 0 calls");
+      assert(parseToolCalls(`${TOOL_CALL_START}\nnão-é-json\n${TOOL_CALL_END}`).length === 0, "G2: bloco com JSON inválido → ignorado");
+      assert(parseToolCalls(`${TOOL_CALL_START}\n{"arguments":{}}\n${TOOL_CALL_END}`).length === 0, "G2: bloco sem campo tool → ignorado");
+    }
+
+    // G3 — validateToolCall exige args obrigatórios do schema
+    {
+      assert(validateToolCall({ tool: WORKSPACE_FS_WRITE, arguments: {} }).ok === false, "G3: fs_write sem fileName → inválido");
+      assert(validateToolCall({ tool: WORKSPACE_TEST_RUN, arguments: {} }).ok === false, "G3: test_run sem script → inválido");
+      assert(validateToolCall({ tool: WORKSPACE_FS_WRITE, arguments: { fileName: "a.md" } }).ok === true, "G3: fs_write com fileName → válido");
+      assert(validateToolCall({ tool: "tool_inexistente", arguments: {} }).ok === false, "G3: tool desconhecida → inválido");
+    }
+
+    // G4 — injectRuntimeArgs injeta tenantId/projectId/authorized
+    {
+      const inj = injectRuntimeArgs({ tool: WORKSPACE_FS_WRITE, arguments: { fileName: "a.md" } }, { tenantId: "tenX", projectId: "projY", authorized: true });
+      assert(inj.arguments.tenantId === "tenX" && inj.arguments.projectId === "projY" && inj.arguments.authorized === true, "G4: injectRuntimeArgs injeta tenant/project/authorized");
+      assert(inj.arguments.fileName === "a.md", "G4: injectRuntimeArgs preserva args do modelo");
+    }
+
+    // G5 — schemas expõem os 2 tools com params obrigatórios
+    {
+      const ids = WORKSPACE_TOOL_SCHEMAS.map((s) => s.id);
+      assert(ids.includes(WORKSPACE_FS_WRITE) && ids.includes(WORKSPACE_TEST_RUN), "G5: schemas incluem fs_write + test_run");
+      const fsSchema = WORKSPACE_TOOL_SCHEMAS.find((s) => s.id === WORKSPACE_FS_WRITE)!;
+      assert(fsSchema.parameters.fileName?.required === true, "G5: schema fs_write marca fileName obrigatório");
+    }
+
+    // G6 — prompts contêm o formato rígido e as sugestões do utilizador
+    {
+      const plan = buildToolPlanPrompt("Cria README", { toolSpecs: [{ id: WORKSPACE_FS_WRITE, input: { fileName: "README.md" } }] });
+      assert(plan.includes(TOOL_CALL_START) && plan.includes(TOOL_CALL_END), "G6: prompt de plano inclui delimitadores");
+      assert(plan.includes(NO_TOOL_CALL), "G6: prompt de plano inclui opção NO_TOOL_CALL");
+      assert(plan.includes("README.md"), "G6: prompt de plano reflete hint do utilizador");
+      const fin = buildToolFinalPrompt("Cria README", [{ toolId: WORKSPACE_FS_WRITE, success: true, result: { bytes: 10 } }]);
+      assert(fin.includes(WORKSPACE_FS_WRITE) && fin.includes("success=true"), "G6: prompt final reflete resultados reais");
+    }
+
+    // G7 — modelo que NÃO emite tool-call (só texto) → FAILED honesto (0/N)
+    {
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ planText: "Aqui está o README em texto, sem ferramentas." }) });
+      const project = store.createProject("tenG7", "usrG7", { name: "P" });
+      const task = await orchestrator.submit("tenG7", "usrG7", project.id, {
+        title: "Criar README",
+        tools: [{ id: WORKSPACE_FS_WRITE, input: { fileName: "README.md", content: "x" } }],
+      });
+      const final = await waitForTerminal(store, "tenG7", task.id);
+      assert(final.stage === "FAILED", `G7: modelo sem tool-call → FAILED (obtido ${final.stage})`);
+      assert(final.result?.toolsSummary?.executed === 0, "G7: 0 ferramentas executadas");
+      assert(!!(final.error || final.result?.error), "G7: erro honesto registado");
+    }
+
+    // G8 — tool obrigatória falha (teste reprova) → FAILED (não PASS falso)
+    {
+      const failing = `${TOOL_CALL_START}\n{"tool":"${WORKSPACE_TEST_RUN}","arguments":{"script":"process.exit(1)"}}\n${TOOL_CALL_END}`;
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ planText: failing }) });
+      const project = store.createProject("tenG8", "usrG8", { name: "P" });
+      const task = await orchestrator.submit("tenG8", "usrG8", project.id, {
+        title: "Correr teste que falha",
+        tools: [{ id: WORKSPACE_TEST_RUN, input: { script: "process.exit(1)" } }],
+      });
+      const final = await waitForTerminal(store, "tenG8", task.id);
+      assert(final.stage === "FAILED", `G8: teste que falha → FAILED (obtido ${final.stage})`);
+      assert(final.result?.tools?.[0]?.success === false, "G8: deriveToolSuccess marca passed=false como success=false");
+      assert(final.result?.success !== true, "G8: result.success não é true");
+    }
+
+    // G9 — tool-call com arg em falta (schema) → tool falha honestamente → FAILED
+    {
+      const missingArg = `${TOOL_CALL_START}\n{"tool":"${WORKSPACE_FS_WRITE}","arguments":{}}\n${TOOL_CALL_END}`;
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ planText: missingArg }) });
+      const project = store.createProject("tenG9", "usrG9", { name: "P" });
+      const task = await orchestrator.submit("tenG9", "usrG9", project.id, {
+        title: "Escrever sem fileName",
+        tools: [{ id: WORKSPACE_FS_WRITE, input: { fileName: "x.md", content: "x" } }],
+      });
+      const final = await waitForTerminal(store, "tenG9", task.id);
+      assert(final.stage === "FAILED", `G9: arg obrigatório em falta → FAILED (obtido ${final.stage})`);
+      assert(final.result?.tools?.[0]?.success === false, "G9: fs_write sem fileName falha (error da tool)");
+    }
+
+    // G10 — modelo emite MENOS tools que as pedidas → FAILED (N/M em falta)
+    {
+      const onlyWrite = `${TOOL_CALL_START}\n{"tool":"${WORKSPACE_FS_WRITE}","arguments":{"fileName":"a.md","content":"x"}}\n${TOOL_CALL_END}`;
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ planText: onlyWrite }) });
+      const project = store.createProject("tenG10", "usrG10", { name: "P" });
+      const task = await orchestrator.submit("tenG10", "usrG10", project.id, {
+        title: "Escrever e testar",
+        tools: [
+          { id: WORKSPACE_FS_WRITE, input: { fileName: "a.md", content: "x" } },
+          { id: WORKSPACE_TEST_RUN, input: { script: "console.log(1)" } },
+        ],
+      });
+      const final = await waitForTerminal(store, "tenG10", task.id);
+      assert(final.stage === "FAILED", `G10: tool em falta → FAILED (obtido ${final.stage})`);
+      assert(final.result?.toolsSummary?.requested === 1, "G10: apenas 1 tool pedida pelo modelo");
+    }
+
+    // G11 — sucesso total N/N → COMPLETED + toolsSummary coerente
+    {
+      const { store, orchestrator } = buildStack({});
+      const project = store.createProject("tenG11", "usrG11", { name: "P" });
+      const task = await orchestrator.submit("tenG11", "usrG11", project.id, {
+        title: "Escrever e testar",
+        tools: [
+          { id: WORKSPACE_FS_WRITE, input: { fileName: "README.md", content: "# ok" } },
+          { id: WORKSPACE_TEST_RUN, input: { script: "require('fs').readFileSync('README.md','utf8'); console.log('ok');" } },
+        ],
+      });
+      const final = await waitForTerminal(store, "tenG11", task.id);
+      assert(final.stage === "COMPLETED", `G11: N/N sucesso → COMPLETED (obtido ${final.stage})`);
+      assert(final.result?.toolsSummary?.requested === 2 && final.result?.toolsSummary?.succeeded === 2, "G11: toolsSummary requested=2 succeeded=2");
+      assert(final.result?.toolsSummary?.failed === 0 && final.result?.toolsSummary?.verification === "PASS", "G11: toolsSummary failed=0 verification=PASS");
+    }
+
+    // G12 — tool desconhecida → falha honesta → FAILED
+    {
+      const unknown = `${TOOL_CALL_START}\n{"tool":"nao_existe_tool","arguments":{}}\n${TOOL_CALL_END}`;
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ planText: unknown }) });
+      const project = store.createProject("tenG12", "usrG12", { name: "P" });
+      const task = await orchestrator.submit("tenG12", "usrG12", project.id, {
+        title: "Invocar tool inexistente",
+        tools: [{ id: "nao_existe_tool", input: {} }],
+      });
+      const final = await waitForTerminal(store, "tenG12", task.id);
+      assert(final.stage === "FAILED", `G12: tool desconhecida → FAILED (obtido ${final.stage})`);
+      assert(final.result?.tools?.[0]?.success === false, "G12: tool desconhecida falha");
+    }
+
+    // G13 — modelo falha na fase final → FAILED honesto
+    {
+      const { store, orchestrator } = buildStack({ agent: stubBuilderAgent({ finalOk: false }) });
+      const project = store.createProject("tenG13", "usrG13", { name: "P" });
+      const task = await orchestrator.submit("tenG13", "usrG13", project.id, {
+        title: "Escrever e testar",
+        tools: [
+          { id: WORKSPACE_FS_WRITE, input: { fileName: "README.md", content: "# ok" } },
+          { id: WORKSPACE_TEST_RUN, input: { script: "console.log('ok')" } },
+        ],
+      });
+      const final = await waitForTerminal(store, "tenG13", task.id);
+      assert(final.stage === "FAILED", `G13: modelo falha no relatório final → FAILED (obtido ${final.stage})`);
     }
   }
 

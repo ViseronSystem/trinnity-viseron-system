@@ -173,8 +173,43 @@ export class ViseronModelRouter {
 
   private pickModel(p: ILLMProvider, taskType: RouterTaskType, preferred?: string): string | undefined {
     if (preferred) return preferred;
+    // Para Ollama: respeita OLLAMA_MODEL; para cloud providers: undefined (default do provider).
+    if (p.providerId === "ollama") {
+      return (process.env.OLLAMA_MODEL || undefined)?.trim() || undefined;
+    }
     return undefined; // deixa o provider escolher o default
   }
+
+  /**
+   * Provider que o router USARIA AGORA para um tipo de tarefa, sem gerar texto.
+   * Dry-run do primeiro provider disponível na cadeia — runtime real, não catálogo.
+   */
+  public async runtimeProvider(taskType: RouterTaskType = "general"): Promise<{ id: string; model: string; isLocal: boolean; chain: string[]; } | null> {
+    const opts: RouterResolveOptions = { taskType };
+    const chain = this.buildChain(taskType, opts);
+    for (const pid of chain) {
+      const p = this.factory.getProvider(pid);
+      if (!p) continue;
+      try {
+        const available = await this.checkedAvailable(p);
+        if (!available) continue;
+        const selectedModel = this.pickModel(p, taskType);
+        const model = selectedModel || (p.providerId === "ollama" ? (process.env.OLLAMA_MODEL || "qwen2.5:3b") : "auto");
+        return { id: pid, model, isLocal: p.capabilities().isLocal, chain };
+      } catch { /* next */ }
+    }
+    return null;
+  }
+
+  /** Último trace de execução (para /api/ai/status expor runtime). */
+  public lastTrace: {
+    requested?: string;
+    chosen?: string;
+    model?: string;
+    fallback: boolean;
+    failures: string[];
+    at: string;
+  } = { fallback: false, failures: [], at: "" };
 
   /**
    * Resolve e EXECUTA através da cadeia dinâmica. Primeiro provider real com
@@ -185,6 +220,7 @@ export class ViseronModelRouter {
     const taskType = opts.taskType ?? this.inferTaskType(task);
     const chain = this.buildChain(taskType, opts);
     const failures: string[] = [];
+    const requestedProvider = chain[0];
 
     for (const pid of chain) {
       const p = this.factory.getProvider(pid);
@@ -204,12 +240,13 @@ export class ViseronModelRouter {
           continue;
         }
 
+        const selectedModel = this.pickModel(p, taskType);
         const response: LLMResponse = await p.generateResponse({
           prompt: task,
           systemPrompt: opts.systemPrompt,
           temperature: opts.temperature ?? 0.6,
           maxTokens: opts.maxTokens ?? 1024,
-          modelName: this.pickModel(p, taskType),
+          modelName: selectedModel,
         });
 
         if (!response.text || response.text.trim().length < 15) {
@@ -217,21 +254,51 @@ export class ViseronModelRouter {
           continue;
         }
 
+        const fallbackInfo: any = (response as any)._modelFallback;
+        const chosenProvider = response.provider || pid;
+        const chosenModel = response.modelName || "auto";
+        const didFallback = pid !== requestedProvider || !!fallbackInfo;
+
+        this.lastTrace = {
+          requested: requestedProvider,
+          chosen: chosenProvider,
+          model: chosenModel,
+          fallback: didFallback,
+          failures: didFallback ? failures.slice() : [],
+          at: new Date().toISOString(),
+        };
+        console.log(
+          `[ViseronModelRouter] taskType=${taskType} requested=${requestedProvider} chosen=${chosenProvider} model=${chosenModel} fallback=${didFallback}${didFallback && failures.length ? ` (${failures.join(", ")})` : ""}`
+        );
+
         return {
           ok: true,
-          provider: response.provider || pid,
-          model: response.modelName || "auto",
+          provider: chosenProvider,
+          model: chosenModel,
           isLocal: caps.isLocal,
           text: response.text,
           latencyMs: Date.now() - start,
-          strategy: `router:${taskType}→${pid}`,
+          strategy: `router:${taskType}→${pid}${selectedModel ? `(${selectedModel})` : ""}`,
           mode: "REAL",
           usage: response.usage,
+          ...(fallbackInfo ? { reason: fallbackInfo.reason } as any : {}),
         };
       } catch (e: any) {
         failures.push(`${pid}:${e?.code || e?.name || "error"}`);
       }
     }
+
+    this.lastTrace = {
+      requested: requestedProvider,
+      chosen: "internal",
+      model: "none",
+      fallback: true,
+      failures: failures.slice(),
+      at: new Date().toISOString(),
+    };
+    console.log(
+      `[ViseronModelRouter] taskType=${taskType} requested=${requestedProvider} chosen=internal model=none fallback=true (${failures.join(", ")})`
+    );
 
     return {
       ok: false,
