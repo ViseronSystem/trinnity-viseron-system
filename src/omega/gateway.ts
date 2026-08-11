@@ -497,6 +497,41 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     res.json({ insights: omega.consolidation.generateInsights() });
   });
 
+  // ── GraphRAG (Sistema 5) ──
+  router.get("/memory/graphrag/status", (_req, res) => {
+    res.json(omega.graphrag.status());
+  });
+
+  router.post("/memory/graphrag/query", async (req, res) => {
+    try {
+      const { query, maxEntities, maxDepth, topK, agentId } = req.body ?? {};
+      if (!query) return res.status(400).json({ error: "query required" });
+      const result = await omega.graphrag.query(query, {
+        maxEntities: maxEntities || 10,
+        maxDepth: maxDepth || 2,
+        topK: topK || 5,
+        agentId,
+      });
+      res.json({
+        ok: true,
+        query: result.query,
+        entities: result.entities.slice(0, 10),
+        paths: result.paths.slice(0, 10),
+        graphContext: result.graphContext.slice(0, 1500),
+        metrics: result.metrics,
+        traceId: result.traceId,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  router.get("/memory/graphrag/entities/:id", (req, res) => {
+    const detail = omega.graphrag.getEntityDetail(req.params.id);
+    if (!detail) return res.status(404).json({ error: "Entity not found" });
+    res.json(detail);
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());

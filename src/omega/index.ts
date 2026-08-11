@@ -13,6 +13,7 @@ import { createEmbeddingProvider, EmbeddingProvider } from "../core/memory/Embed
 import { RAGPipeline } from "../core/memory/RAGPipeline";
 import { createVoiceProvider, VoiceProvider } from "../core/voice/VoiceProvider";
 import { MemoryConsolidationEngine } from "../core/memory/MemoryConsolidation";
+import { GraphRAGEngine } from "../core/memory/GraphRAG";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -82,6 +83,7 @@ export class OmegaPlatform {
   public readonly rag: RAGPipeline;
   public readonly voice: VoiceProvider;
   public readonly consolidation: MemoryConsolidationEngine;
+  public readonly graphrag: GraphRAGEngine;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -507,6 +509,14 @@ export class OmegaPlatform {
       this.embedding,
       this.telemetry,
       this.graph,
+    );
+
+    // GraphRAG — Sistema 5: hybrid search (KG traversal + vector)
+    this.graphrag = new GraphRAGEngine(
+      this.graph,
+      this.embedding,
+      this.telemetry,
+      options.memoryEngine,
     );
 
     // Publica eventos de telemetria no EventBus para observabilidade
