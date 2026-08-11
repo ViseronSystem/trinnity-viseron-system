@@ -3,21 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TVS OMEGA COMMAND CENTER</title>
+<title>VISERON COMMAND CENTER</title>
 <style>
   :root {
     --neon: #00f0ff;
     --neon2: #bf5af2;
     --neon3: #ff2d55;
     --green: #3dffa0;
+    --amber: #ffb020;
     --bg: #050510;
     --card: rgba(255,255,255,0.03);
     --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: rgba(255,255,255,0.4);
+    --dim: rgba(255,255,255,0.25);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg);
-    color: #e5e7eb;
+    color: var(--text);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
@@ -29,293 +33,784 @@
       radial-gradient(600px 300px at 20% 0%, rgba(0,240,255,0.08), transparent 60%),
       radial-gradient(600px 300px at 80% 10%, rgba(191,90,242,0.08), transparent 60%);
   }
-  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
-  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 24px 24px 64px; }
+
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
   .brand h1 {
-    font-size: 22px; letter-spacing: 0.18em; font-weight: 800;
+    font-size: 20px; letter-spacing: 0.16em; font-weight: 800;
     background: linear-gradient(90deg, var(--neon), var(--neon2));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .brand p { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 0.1em; margin-top: 4px; }
+  .brand p { color: var(--muted); font-size: 11px; letter-spacing: 0.1em; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .status-pill {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; font-size: 11px; font-weight: 700;
     border: 1px solid var(--border); background: var(--card); letter-spacing: 0.08em;
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; animation: pulse 2s infinite; }
   .dot.on { background: var(--green); box-shadow: 0 0 12px var(--green); }
-  .dot.warn { background: #ffb020; box-shadow: 0 0 12px #ffb020; }
+  .dot.warn { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  .dot.off { background: var(--neon3); box-shadow: 0 0 12px var(--neon3); }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+
+  .voice-bar {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 12px 18px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    flex-wrap: wrap;
+  }
+  .voice-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border);
+    background: rgba(0,240,255,0.08); color: var(--neon); font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all .2s;
+    flex-shrink: 0;
+  }
+  .voice-btn:hover { border-color: var(--neon); box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+  .voice-btn.listening { border-color: var(--neon3); background: rgba(255,45,85,0.12); color: var(--neon3); box-shadow: 0 0 24px rgba(255,45,85,0.4); }
+  .voice-status { font-size: 12px; color: var(--muted); min-width: 100px; }
+  .voice-status .cmd { color: var(--neon); font-weight: 600; }
+  .voice-history { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0; overflow: hidden; }
+  .voice-item {
+    font-size: 11px; padding: 4px 10px; border-radius: 999px;
+    background: rgba(0,240,255,0.06); border: 1px solid rgba(0,240,255,0.12);
+    color: var(--neon); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 20px; position: relative; overflow: hidden; transition: border-color .2s;
+    padding: 18px; position: relative; overflow: hidden; transition: border-color .2s;
   }
   .card:hover { border-color: rgba(0,240,255,0.35); }
-  .card .label { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.14em; text-transform: uppercase; }
-  .card .value { font-size: 34px; font-weight: 800; margin-top: 8px; font-variant-numeric: tabular-nums; }
-  .card .sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
+  .card .label { font-size: 10px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+  .card .value { font-size: 30px; font-weight: 800; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .card .sub { font-size: 10px; color: var(--dim); margin-top: 4px; }
   .accent-1 .value { color: var(--neon); } .accent-2 .value { color: var(--neon2); }
   .accent-3 .value { color: var(--neon3); } .accent-4 .value { color: var(--green); }
+
   .panel {
     background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 20px; margin-bottom: 24px;
+    padding: 18px; margin-bottom: 20px;
   }
-  .panel h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; color: rgba(255,255,255,0.4); font-weight: 600; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px; border-bottom: 1px solid var(--border); }
-  td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .panel h2 { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .panel-grid { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 6px; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 6px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; }
   .badge.ok { background: rgba(61,255,160,0.12); color: var(--green); }
   .badge.norm { background: rgba(0,240,255,0.12); color: var(--neon); }
-  .badge.mute { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
-  .logs { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.55); }
-  .logs .live { color: var(--green); }
-  .toolbar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .badge.warn { background: rgba(255,176,32,0.12); color: var(--amber); }
+  .badge.err { background: rgba(255,45,85,0.12); color: var(--neon3); }
+  .badge.mute { background: rgba(255,255,255,0.08); color: var(--muted); }
+
   .btn {
-    padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
-    background: rgba(255,255,255,0.04); color: #fff; font-size: 13px; font-weight: 600;
+    padding: 7px 14px; border-radius: 9px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04); color: #fff; font-size: 12px; font-weight: 600;
     cursor: pointer; transition: all .15s; font-family: inherit;
   }
-  .btn:hover { border-color: var(--neon); box-shadow: 0 0 18px rgba(0,240,255,0.25); }
-  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.18), rgba(191,90,242,0.18)); border-color: rgba(0,240,255,0.4); }
-  .hint { color: rgba(255,255,255,0.35); font-size: 12px; text-align: center; margin-top: 32px; }
+  .btn:hover { border-color: var(--neon); box-shadow: 0 0 14px rgba(0,240,255,0.2); }
+  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.16), rgba(191,90,242,0.16)); border-color: rgba(0,240,255,0.35); }
+  .btn.danger { border-color: rgba(255,45,85,0.3); }
+  .btn.danger:hover { border-color: var(--neon3); box-shadow: 0 0 14px rgba(255,45,85,0.25); }
+  .btn.sm { padding: 4px 10px; font-size: 10px; border-radius: 7px; }
+  .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .terminal {
+    background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px;
+  }
+  .terminal-input {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .terminal-prompt { color: var(--neon); font-weight: 700; white-space: nowrap; }
+  .terminal-input input {
+    flex: 1; background: transparent; border: none; color: #fff; font: inherit;
+    outline: none; caret-color: var(--neon);
+  }
+  .terminal-input input::placeholder { color: var(--dim); }
+  .terminal-output { margin-top: 10px; max-height: 200px; overflow-y: auto; line-height: 1.6; }
+  .terminal-output .line { padding: 2px 0; }
+  .terminal-output .line.cmd { color: var(--neon); }
+  .terminal-output .line.res { color: var(--dim); }
+  .terminal-output .line.err { color: var(--neon3); }
+
+  .logs { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; line-height: 1.6; color: rgba(255,255,255,0.55); max-height: 300px; overflow-y: auto; }
+  .logs .live { color: var(--green); }
+  .logs .ts { color: var(--dim); font-size: 10px; }
+  .logs .topic-task { color: var(--green); }
+  .logs .topic-tool { color: var(--neon); }
+  .logs .topic-memory { color: var(--neon2); }
+  .logs .topic-kernel { color: var(--amber); }
+  .logs .topic-error { color: var(--neon3); }
+
+  .filter-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); font-size: 10px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .filter-btn.active { background: rgba(0,240,255,0.12); border-color: var(--neon); color: var(--neon); }
+  .filter-btn:hover { border-color: rgba(0,240,255,0.4); }
+
+  .governance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .gov-card {
+    padding: 10px; border-radius: 10px; border: 1px solid var(--border);
+    background: rgba(191,90,242,0.03); text-align: center;
+  }
+  .gov-card .gov-id { font-size: 10px; color: var(--neon2); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .gov-card .gov-name { font-size: 12px; color: #fff; margin-top: 3px; font-weight: 600; }
+  .gov-card .gov-ref { font-size: 9px; color: var(--dim); margin-top: 2px; }
+
+  .agent-task-input { width: 140px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 4px 8px; font-size: 11px; font-family: inherit; outline: none; }
+  .agent-task-input:focus { border-color: var(--neon); }
+  .agent-last { font-size: 10px; color: var(--dim); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .supervision-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 11px; }
+  .supervision-item .s-speaker { color: var(--neon2); font-weight: 600; }
+  .supervision-item .s-intent { color: var(--neon); }
+  .supervision-item .s-ok { color: var(--green); }
+  .supervision-item .s-fail { color: var(--neon3); }
+
+  .hint { color: var(--dim); font-size: 11px; text-align: center; margin-top: 28px; }
   .hint a { color: var(--neon); text-decoration: none; }
-  @media (max-width: 600px) { .card .value { font-size: 26px; } }
+
+  @media (max-width: 600px) {
+    .card .value { font-size: 24px; }
+    .wrap { padding: 16px 12px 48px; }
+    .agent-task-input { width: 100px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="brand">
-      <h1>TVS OMEGA COMMAND CENTER</h1>
-      <p>AUTONOMOUS INTELLIGENCE OPERATING SYSTEM · v5.0</p>
+      <h1>VISERON COMMAND CENTER</h1>
+      <p>OPERATIONAL INTERFACE · v5.0 · MILESTONE FOUNDATION</p>
     </div>
-    <div class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></div>
+    <div class="header-right">
+      <span class="status-pill"><span class="dot" id="sseDot"></span><span id="sseLabel">SSE</span></span>
+      <span class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></span>
+    </div>
   </header>
 
+  <!-- VOICE COMMAND BAR -->
+  <div class="voice-bar">
+    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Clique para falar ou diga VISERON">&#127908;</button>
+    <div class="voice-status">
+      <span id="voiceLabel">Clique para falar</span>
+      <span id="voiceInterim" style="color:var(--amber);margin-left:8px;font-size:11px"></span>
+    </div>
+    <div class="voice-history" id="voiceHistory"></div>
+  </div>
+
+  <!-- KPI CARDS -->
   <div class="grid">
-    <div class="card accent-1"><div class="label">System Status</div><div class="value" id="k_system">—</div><div class="sub" id="k_system_sub">kernel</div></div>
+    <div class="card accent-1"><div class="label">System</div><div class="value" id="k_system">—</div><div class="sub" id="k_system_sub">kernel</div></div>
     <div class="card accent-2"><div class="label">Active Agents</div><div class="value" id="k_agents">—</div><div class="sub" id="k_agents_sub">nuclear runtime</div></div>
-    <div class="card accent-4"><div class="label">Tasks Completed</div><div class="value" id="k_tasks">—</div><div class="sub" id="k_tasks_sub">task queue</div></div>
-    <div class="card accent-1"><div class="label">Events Emitted</div><div class="value" id="k_events">—</div><div class="sub" id="k_events_sub">event bus</div></div>
+    <div class="card accent-4"><div class="label">Tasks</div><div class="value" id="k_tasks">—</div><div class="sub" id="k_tasks_sub">completed</div></div>
+    <div class="card accent-1"><div class="label">Events</div><div class="value" id="k_events">—</div><div class="sub" id="k_events_sub">event bus</div></div>
     <div class="card accent-2"><div class="label">Knowledge Graph</div><div class="value" id="k_graph">—</div><div class="sub" id="k_graph_sub">entities · relations</div></div>
-    <div class="card accent-3"><div class="label">Minds Online</div><div class="value" id="k_minds">—</div><div class="sub">ecosistema total</div></div>
+    <div class="card accent-3"><div class="label">Minds Online</div><div class="value" id="k_minds">—</div><div class="sub">ecossistema total</div></div>
   </div>
 
-  <div class="toolbar">
-    <button class="btn primary" onclick="runDemo()">▶ Executar Agente (Demo)</button>
-    <button class="btn" onclick="dispatch('agent_devops')">Dispatch: DevOps</button>
-    <button class="btn" onclick="dispatch('agent_finance')">Dispatch: Finance</button>
-    <button class="btn" onclick="refresh()">⟳ Refresh</button>
-  </div>
-
+  <!-- AGENTES NUCLEARES -->
   <div class="panel">
-    <h2>Agentes Nucleares (spec-driven)</h2>
+    <h2>Agentes Nucleares (spec-driven · live)</h2>
     <table>
-      <thead><tr><th>ID</th><th>Nome</th><th>Rol</th><th>Squad</th><th>Estado</th><th>Capacidades</th></tr></thead>
-      <tbody id="agentRows"><tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.3)">Carregando…</td></tr></tbody>
+      <thead><tr><th>ID</th><th>Nome</th><th>Rol</th><th>Squad</th><th>Estado</th><th>Dispatch</th><th>Última Execução</th></tr></thead>
+      <tbody id="agentRows"><tr><td colspan="7" style="text-align:center;color:rgba(255,255,255,0.3)">Carregando…</td></tr></tbody>
     </table>
   </div>
 
+  <!-- TERMINAL -->
   <div class="panel">
-    <h2>Autonomy Layer</h2>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:10px 0 12px 0">
-      <div><span style="color:var(--neon)">Planning</span><br><span class="stat" id="a_planning">—</span></div>
-      <div><span style="color:var(--neon)">Evolution</span><br><span class="stat" id="a_evolution">—</span></div>
-      <div><span style="color:var(--neon)">Learning</span><br><span class="stat" id="a_learning">—</span></div>
-      <div><span style="color:var(--neon)">Enabled</span><br><span class="stat" id="a_enabled">—</span></div>
-    </div>
-    <button class="btn" onclick="runAutonomy('planning')">Autonomy: Planning Cycle</button>
-    <button class="btn" onclick="runAutonomy('evolution')">Autonomy: Evolution</button>
-    <span class="sub" id="a_last" style="margin-left:10px"></span>
-  </div>
-
-  <div class="grid">
-    <div class="card accent-1"><div class="label">Revenue Readiness</div><div class="value" id="c_rev">—</div><div class="sub" id="c_rev_sub">billing · webhook · gmail</div></div>
-    <div class="card accent-4"><div class="label">Tenants</div><div class="value" id="c_tenants">—</div><div class="sub" id="c_tenants_sub">orgs multi-tenant</div></div>
-    <div class="card accent-2"><div class="label">Users</div><div class="value" id="c_users">—</div><div class="sub" id="c_users_sub">contas registadas</div></div>
-    <div class="card accent-1"><div class="label">AI Providers</div><div class="value" id="c_providers">—</div><div class="sub" id="c_providers_sub">ollama · omniroute · cloud</div></div>
-  </div>
-
-  <div class="panel">
-    <h2>Autonomy OS (L0-L5) · Permission Engine</h2>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
-      <div><span style="color:var(--neon)">Domínios</span><br><span class="stat" id="ao_domains">—</span></div>
-      <div><span style="color:var(--neon)">Decisões</span><br><span class="stat" id="ao_decisions">—</span></div>
-      <div><span style="color:var(--neon)">Auto</span><br><span class="stat" id="ao_auto">—</span></div>
-      <div><span style="color:var(--neon)">Aprovação</span><br><span class="stat" id="ao_approval">—</span></div>
-      <div><span style="color:var(--neon)">Negadas</span><br><span class="stat" id="ao_deny">—</span></div>
-    </div>
-    <table>
-      <thead><tr><th>Nível</th><th>Nome</th><th>Comportamento</th><th>Descrição</th></tr></thead>
-      <tbody id="aoRows"><tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3)">A carregar…</td></tr></tbody>
-    </table>
-  </div>
-
-  <div class="panel">
-    <h2>Architecture Intelligence (Graphify)</h2>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
-      <div><span style="color:var(--neon)">Nós</span><br><span class="stat" id="ar_nodes">—</span></div>
-      <div><span style="color:var(--neon)">Arestas</span><br><span class="stat" id="ar_edges">—</span></div>
-      <div><span style="color:var(--neon)">Comunidades</span><br><span class="stat" id="ar_communities">—</span></div>
-      <div><span style="color:var(--neon)">Risco alto</span><br><span class="stat" id="ar_risk">—</span></div>
+    <h2>Terminal de Comandos</h2>
+    <div class="terminal">
+      <div class="terminal-input">
+        <span class="terminal-prompt">viseron&gt;</span>
+        <input type="text" id="termInput" placeholder="dispatch agent_ceo &quot;Analisa o mercado&quot;  ·  help para comandos"
+          onkeydown="if(event.key==='Enter'){executeTerminal(this.value);this.value='';}">
+      </div>
+      <div class="terminal-output" id="termOutput">
+        <div class="line res">[system] Terminal pronto. Digite help para ver comandos.</div>
+      </div>
     </div>
   </div>
 
+  <!-- AUTONOMY + GOVERNANÇA -->
+  <div class="panel-grid">
+    <div class="panel">
+      <h2>Autonomy Layer</h2>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin:8px 0 14px 0">
+        <div><span style="color:var(--neon);font-size:11px">Planning</span><br><span class="stat" id="a_planning" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Evolution</span><br><span class="stat" id="a_evolution" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Learning</span><br><span class="stat" id="a_learning" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Enabled</span><br><span class="stat" id="a_enabled" style="font-weight:700">—</span></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn sm" onclick="runAutonomy('planning')">Planning Cycle</button>
+        <button class="btn sm" onclick="runAutonomy('evolution')">Evolution</button>
+        <button class="btn sm" onclick="runAutonomy('learning')">Learning</button>
+      </div>
+      <div id="a_last" style="font-size:10px;color:var(--dim);margin-top:10px"></div>
+    </div>
+    <div class="panel">
+      <h2>Governança Bíblica</h2>
+      <div class="governance-grid" id="govGrid"><span style="color:var(--dim);font-size:11px">Carregando…</span></div>
+      <div id="govBlocked" style="margin-top:10px;font-size:10px;color:var(--neon3)"></div>
+    </div>
+  </div>
+
+  <!-- LIVE ACTIVITY (SSE) -->
   <div class="panel">
-    <h2>Live Activity</h2>
+    <h2>Live Activity (SSE)</h2>
+    <div class="filter-bar" id="logFilter">
+      <button class="filter-btn active" onclick="setLogFilter('all')">All</button>
+      <button class="filter-btn" onclick="setLogFilter('task')">Tasks</button>
+      <button class="filter-btn" onclick="setLogFilter('tool')">Tools</button>
+      <button class="filter-btn" onclick="setLogFilter('memory')">Memory</button>
+      <button class="filter-btn" onclick="setLogFilter('kernel')">Kernel</button>
+    </div>
     <div class="logs" id="logs">
       <div>[kernel] waiting for live events…</div>
     </div>
   </div>
 
+  <!-- SUPERVISION AIOX -->
+  <div class="panel">
+    <h2>Supervisão AIOX (últimas operações)</h2>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px">
+      <span style="font-size:12px">Total: <b style="color:var(--neon)" id="sv_total">—</b></span>
+      <span style="font-size:12px">okRate: <b style="color:var(--green)" id="sv_okrate">—</b></span>
+      <span style="font-size:12px">byIntent: <b style="color:var(--neon2)" id="sv_intents">—</b></span>
+    </div>
+    <div id="supervisionList"></div>
+  </div>
+
   <div class="hint">
-    API Gateway: <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
-    <a href="/api/omega/agents" target="_blank">/api/omega/agents</a> ·
-    <a href="/api/omega/kernel" target="_blank">/api/omega/kernel</a>
+    VISERON Command Center · Foundation Milestone · 2026-08-11 ·
+    API: <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
+    SSE: <a href="/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*" target="_blank">/api/omega/events</a>
   </div>
 </div>
 
 <script>
-  const logEl = document.getElementById("logs");
-  const rows = new Map();
-  function log(msg, live) {
-    const div = document.createElement("div");
-    div.textContent = "[" + new Date().toLocaleTimeString() + "] " + msg;
-    if (live) div.className = "live";
-    logEl.insertBefore(div, logEl.firstChild);
-    while (logEl.children.length > 40) logEl.removeChild(logEl.lastChild);
-  }
+  // ─── STATE ──────────────────────────────────────────────
+  const STATE = {
+    sessionId: 'cc_' + Date.now(),
+    logFilter: 'all',
+    voiceListening: false,
+    recognition: null,
+    sseConnected: false,
+    voiceHistory: [],
+    agentSpecs: []
+  };
+  const logEl = document.getElementById('logs');
+  let eventSource = null;
+
+  // ─── HELPERS ────────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
   async function j(url, opts) {
     const r = await fetch(url, opts);
-    if (!r.ok) throw new Error(url + " → " + r.status);
+    if (!r.ok) throw new Error(url + ' → ' + r.status);
     return r.json();
   }
   function setStatus(on) {
-    const dot = document.getElementById("sysdot");
-    const label = document.getElementById("sysstatus");
-    dot.className = "dot " + (on ? "on" : "warn");
-    label.textContent = on ? "SYSTEM ONLINE" : "DEGRADED";
+    const dot = $('sysdot'), label = $('sysstatus');
+    dot.className = 'dot ' + (on ? 'on' : 'warn');
+    label.textContent = on ? 'SYSTEM ONLINE' : 'DEGRADED';
   }
+  function topicClass(topic) {
+    if (/^task/.test(topic)) return 'topic-task';
+    if (/^tool/.test(topic)) return 'topic-tool';
+    if (/^memory|^stm|^ltm|^kb|^vector|^consolidation/.test(topic)) return 'topic-memory';
+    if (/^kernel|^agent|^vaec|^omega/.test(topic)) return 'topic-kernel';
+    if (/error/.test(topic)) return 'topic-error';
+    return '';
+  }
+
+  // ─── LOG ────────────────────────────────────────────────
+  function addLog(msg, topic, live) {
+    if (STATE.logFilter !== 'all') {
+      const cat = topicClass(topic);
+      if (STATE.logFilter === 'task' && cat !== 'topic-task') return;
+      if (STATE.logFilter === 'tool' && cat !== 'topic-tool') return;
+      if (STATE.logFilter === 'memory' && cat !== 'topic-memory') return;
+      if (STATE.logFilter === 'kernel' && cat !== 'topic-kernel') return;
+    }
+    const div = document.createElement('div');
+    const ts = new Date().toLocaleTimeString();
+    div.innerHTML = '<span class="ts">[' + ts + ']</span> <span class="' + (topicClass(topic)) + '">' + topic + '</span> ' + msg;
+    if (live) div.className = 'live';
+    logEl.insertBefore(div, logEl.firstChild);
+    while (logEl.children.length > 60) logEl.removeChild(logEl.lastChild);
+  }
+  function setLogFilter(f) {
+    STATE.logFilter = f;
+    document.querySelectorAll('#logFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#logFilter .filter-btn').forEach(b => {
+      if (b.textContent.toLowerCase().startsWith(f)) b.classList.add('active');
+    });
+    if (f === 'all') document.querySelector('#logFilter .filter-btn').classList.add('active');
+  }
+
+  // ─── SSE CONNECTION ─────────────────────────────────────
+  function connectSSE() {
+    if (eventSource) { eventSource.close(); }
+    const topics = 'task.*,tool.*,memory.*,kernel.*,autonomy.*,vaec.*,omega:*';
+    eventSource = new EventSource('/api/omega/events?topic=' + encodeURIComponent(topics));
+
+    eventSource.onopen = function() {
+      STATE.sseConnected = true;
+      $('sseDot').className = 'dot on';
+      $('sseLabel').textContent = 'SSE LIVE';
+      addLog('connected', 'kernel:attached', true);
+    };
+
+    const taskTopics = ['task:created','task:planned','task:queued','task:started','task:verifying','task:completed','task:failed','task:cancelled','task:recovering'];
+    taskTopics.forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          var title = p.title || p.id || '?';
+          var st = p.state || '?';
+          addLog(title + ' (' + st + ')', d.topic, true);
+          updateTaskCard();
+        } catch(ex) {}
+      });
+    });
+
+    ['tool.called','tool.completed','tool.failed','tool.blocked'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          var id = p.toolId || '?';
+          var ok = p.success ? 'OK' : (p.blocked ? 'BLOCKED' : 'FAIL');
+          addLog(id + ' → ' + ok, d.topic, true);
+        } catch(ex) {}
+      });
+    });
+
+    ['kernel:attached','kernel:dispatch','agent.gate'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          addLog((p.component || p.agent || '?') + ' ' + (p.allowed !== undefined ? (p.allowed ? 'allowed' : 'denied') : ''), d.topic, true);
+        } catch(ex) {}
+      });
+    });
+
+    ['omega:autonomy:run','omega:autonomy:cycle','vaec:stage','vaec:gate','vaec:promoted','vaec:rollback'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          addLog((p.kind || p.stage || '?') + ' ' + (p.ok !== undefined ? (p.ok ? 'OK' : 'FAIL') : ''), d.topic, true);
+          refreshAutonomy();
+        } catch(ex) {}
+      });
+    });
+
+    ['stm:added','ltm:set','kb:added','vector:stored','consolidation:run'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try { var d = JSON.parse(e.data); addLog('memory event', d.topic, true); } catch(ex) {}
+      });
+    });
+
+    eventSource.onmessage = function(e) {
+      try {
+        var d = JSON.parse(e.data);
+        if (d.topic && d.topic !== 'heartbeat') {
+          addLog(JSON.stringify(d.payload || {}).slice(0, 120), d.topic, false);
+        }
+      } catch(ex) {}
+    };
+
+    eventSource.onerror = function() {
+      STATE.sseConnected = false;
+      $('sseDot').className = 'dot warn';
+      $('sseLabel').textContent = 'SSE RETRY';
+      addLog('connection lost — retrying in 5s...', 'kernel:error');
+      eventSource.close();
+      setTimeout(connectSSE, 5000);
+    };
+  }
+
+  // ─── REFRESH (polling fallback) ─────────────────────────
   async function refresh() {
     try {
-      const health = await j("/api/health");
-      setStatus(health && (health.status === "OK" || health.status === "online"));
-      document.getElementById("k_system").textContent = health.status || "OK";
-      document.getElementById("k_system_sub").textContent = "health " + (health.version || "v5.0");
+      const health = await j('/api/health');
+      setStatus(health && (health.status === 'OK' || health.status === 'online'));
+      $('k_system').textContent = health.status || 'OK';
+      $('k_system_sub').textContent = 'health ' + (health.version || 'v5.0');
 
-      const omega = await j("/api/omega/status");
+      const omega = await j('/api/omega/status');
       const k = omega.kernel, r = omega.runtime, g = omega.graph;
-      document.getElementById("k_agents").textContent = r.active + " / " + r.loaded;
-      document.getElementById("k_agents_sub").textContent = "nuclear runtime (total minds: " + (omega.kernel.agents.total || 0) + ")";
-      document.getElementById("k_tasks").textContent = k.tasks.completed;
-      document.getElementById("k_tasks_sub").textContent = k.tasks.running + " running · " + k.tasks.queued + " queued";
-      document.getElementById("k_events").textContent = k.events.totalEmitted;
-      document.getElementById("k_events_sub").textContent = k.events.topics + " topics · " + k.events.totalSubscribers + " subs";
-      document.getElementById("k_graph").textContent = g.entities;
-      document.getElementById("k_graph_sub").textContent = g.entities + " entities · " + g.relations + " relations";
-      document.getElementById("k_minds").textContent = k.agents.total;
-      document.getElementById("k_minds_sub").textContent = "ecossistema total";
+      $('k_agents').textContent = r.active + ' / ' + r.loaded;
+      $('k_agents_sub').textContent = 'active / loaded';
+      $('k_minds').textContent = k.agents.total;
+      $('k_minds_sub').textContent = 'ecossistema total';
+      if (g) {
+        $('k_graph').textContent = g.entities;
+        $('k_graph_sub').textContent = g.entities + ' entities · ' + g.relations + ' relations';
+      }
+
+      const events = await j('/api/omega/kernel/events');
+      $('k_events').textContent = events.totalEmitted;
+      $('k_events_sub').textContent = events.topics + ' topics · ' + events.totalSubscribers + ' subs';
+
+      await updateTaskCard();
+      refreshAutonomy();
 
       const au = omega.autonomy || {};
-      document.getElementById("a_enabled").textContent = au.enabled ? "ON" : "OFF";
-      document.getElementById("a_planning").textContent = au.planning ? ("level " + au.planning.autonomyLevel + " · " + au.planning.pendingTasks + " pending") : "—";
-      document.getElementById("a_evolution").textContent = au.evolution ? (au.evolution.totalAgents + " agents · wisdom " + Math.round(au.evolution.averageWisdom)) : "—";
-      document.getElementById("a_learning").textContent = au.learning ? ("cycle " + au.learning.cycleCount + " · intel " + au.learning.intelligenceLevel) : "—";
+      $('a_enabled').textContent = au.enabled ? 'ON' : 'OFF';
+      $('a_planning').textContent = au.planning ? ('L' + au.planning.autonomyLevel + ' · ' + (au.planning.pendingTasks||0) + ' pend') : '—';
+      $('a_evolution').textContent = au.evolution ? (au.evolution.totalAgents + ' ag · wis ' + Math.round(au.evolution.averageWisdom||0)) : '—';
+      $('a_learning').textContent = au.learning ? ('c' + au.learning.cycleCount + ' · intel ' + au.learning.intelligenceLevel) : '—';
       const lr = au.lastRuns || {};
-      document.getElementById("a_last").textContent = lr.planning ? ("last planning: " + new Date(lr.planning).toLocaleTimeString()) : "";
+      $('a_last').textContent = lr.planning ? ('last: ' + new Date(lr.planning).toLocaleTimeString()) : '';
 
-      // Revenue readiness + tenants/users + providers (dados reais)
-      try {
-        const rev = await j("/api/revenue/readiness");
-        const checks = rev?.checks || {};
-        const done = Object.values(checks).filter(Boolean).length;
-        const total = Object.keys(checks).length || 0;
-        document.getElementById("c_rev").textContent = rev?.ok ? done + "/" + total : "n/a";
-        document.getElementById("c_rev_sub").textContent = rev?.ok ? "ready to bill" : "revenue pending";
-        document.getElementById("c_tenants").textContent = health.tenants ?? "—";
-        document.getElementById("c_users").textContent = health.users ?? "—";
-        document.getElementById("c_providers").textContent = (omega.router?.providers || []).length;
-        document.getElementById("c_providers_sub").textContent = (omega.router?.providers || []).join(" · ");
-      } catch { document.getElementById("c_rev").textContent = "n/a"; }
-
-      // Autonomy OS L0-L5 (dados reais do permission engine)
-      try {
-        const ao = await j("/api/omega/autonomy/os");
-        document.getElementById("ao_domains").textContent = ao.domains ?? 0;
-        document.getElementById("ao_decisions").textContent = ao.decisions ?? 0;
-        document.getElementById("ao_auto").textContent = ao.autonomous ?? 0;
-        document.getElementById("ao_approval").textContent = ao.approvals ?? 0;
-        document.getElementById("ao_deny").textContent = ao.denies ?? 0;
-        const aoTbody = document.getElementById("aoRows");
-        aoTbody.innerHTML = "";
-        (ao.levels || []).forEach(lv => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = "<td style='font-family:monospace;color:var(--neon)'>L" + lv.level + "</td><td>" + lv.label + "</td><td><span class='badge norm'>" + lv.name + "</span></td><td style='color:rgba(255,255,255,0.5)'>" + lv.description + "</td>";
-          aoTbody.appendChild(tr);
-        });
-      } catch { /* autonomy os indisponível no modo standalone */ }
-
-      // Architecture Intelligence (Graphify real)
-      try {
-        const ar = await j("/api/omega/architecture");
-        document.getElementById("ar_nodes").textContent = ar.summary?.stats?.nodes ?? "—";
-        document.getElementById("ar_edges").textContent = ar.summary?.stats?.edges ?? "—";
-        document.getElementById("ar_communities").textContent = ar.summary?.stats?.communities ?? "—";
-        document.getElementById("ar_risk").textContent = ar.summary?.risk?.highCount ?? "—";
-      } catch { /* architecture indisponível sem grafo */ }
-
-      const agents = omega.runtime.specs || [];
-      const tbody = document.getElementById("agentRows");
-      tbody.innerHTML = "";
-      agents.forEach(a => {
-        const tr = document.createElement("tr");
-        const cap = (a.capabilities || []).slice(0, 3).join(", ") + ((a.capabilities||[]).length > 3 ? "…" : "");
-        const st = a.status === "ACTIVE" ? '<span class="badge ok">ACTIVE</span>' : '<span class="badge mute">' + a.status + '</span>';
-        tr.innerHTML = "<td style='font-family:monospace;color:var(--neon)'>" + a.id + "</td><td>" + a.name + "</td><td>" + a.role + "</td><td>" + (a.squad || "-") + "</td><td>" + st + "</td><td style='color:rgba(255,255,255,0.5)'>" + cap + "</td>";
+      const agents = r.specs || [];
+      STATE.agentSpecs = agents;
+      const tbody = $('agentRows');
+      tbody.innerHTML = '';
+      agents.forEach(function(a) {
+        const tr = document.createElement('tr');
+        const st = a.status === 'ACTIVE' ? '<span class="badge ok">ACTIVE</span>' : '<span class="badge mute">' + (a.status || 'IDLE') + '</span>';
+        tr.innerHTML =
+          '<td style="font-family:monospace;color:var(--neon);font-size:11px">' + a.id + '</td>' +
+          '<td style="font-weight:600">' + a.name + '</td>' +
+          '<td style="color:var(--muted)">' + (a.role || '-') + '</td>' +
+          '<td style="font-size:11px">' + (a.squad || '-') + '</td>' +
+          '<td>' + st + '</td>' +
+          '<td><div class="btn-group">' +
+            '<input class="agent-task-input" id="at_' + a.id + '" placeholder="Analisa e recomenda..." value="">' +
+            '<button class="btn sm primary" onclick="dispatchAgent(\'' + a.id + '\',document.getElementById(\'at_' + a.id + '\').value||\'Analisa o estado atual e recomenda 3 ações prioritárias.\')">&#9654;</button>' +
+          '</div></td>' +
+          '<td><span class="agent-last" id="al_' + a.id + '">—</span></td>';
         tbody.appendChild(tr);
       });
-      log("status refreshed: " + agents.length + " nuclear agents, " + k.agents.total + " total minds", true);
+      addLog('refresh: ' + agents.length + ' agents, ' + k.tasks.completed + ' tasks completed', 'kernel:status', true);
     } catch (e) {
       setStatus(false);
-      document.getElementById("k_system").textContent = "ERR";
-      log("refresh failed: " + e.message);
+      $('k_system').textContent = 'ERR';
+      addLog('refresh failed: ' + e.message, 'kernel:error');
     }
+    // Carrega supervisão e governança (menos frequente)
+    refreshSupervision();
+    refreshGovernance();
   }
-  async function dispatch(agentId) {
+
+  async function updateTaskCard() {
     try {
-      log("dispatching " + agentId + "…");
-      const res = await j("/api/omega/agents/" + agentId + "/execute", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: "Analisa o estado atual e recomenda 3 ações prioritárias.", context: { origin: "command-center" } })
-      });
-      const out = (res.output || "").slice(0, 160);
-      log(agentId + " → " + (res.success ? "OK" : "FAIL") + ": " + out.replace(/\n/g, " "));
-    } catch (e) { log("dispatch failed: " + e.message); }
+      const ts = await j('/api/omega/tasks');
+      $('k_tasks').textContent = ts.completed || 0;
+      $('k_tasks_sub').textContent = (ts.running||0) + ' running · ' + (ts.queued||0) + ' queued · ' + (ts.failed||0) + ' failed';
+    } catch(e) {}
   }
-  async function runDemo() {
+
+  async function refreshAutonomy() {
     try {
-      const res = await j("/api/omega/tasks", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "omega:demo", title: "Demo task do Command Center", payload: { origin: "command-center" }, priority: "high" })
-      });
-      log("task enqueued: " + res.id + " [" + res.priority + "]");
-      setTimeout(refresh, 1200);
-    } catch (e) { log("runDemo failed: " + e.message); }
+      const au = await j('/api/omega/autonomy');
+      $('a_enabled').textContent = au.enabled ? 'ON' : 'OFF';
+      if (au.planning) $('a_planning').textContent = 'L' + au.planning.autonomyLevel + ' · ' + (au.planning.pendingTasks||0) + ' pend';
+      if (au.evolution) $('a_evolution').textContent = au.evolution.totalAgents + ' ag · wis ' + Math.round(au.evolution.averageWisdom||0);
+      if (au.learning) $('a_learning').textContent = 'c' + au.learning.cycleCount + ' · intel ' + au.learning.intelligenceLevel;
+    } catch(e) {}
   }
+
+  async function refreshSupervision() {
+    try {
+      const sv = await j('/api/viseron/supervision');
+      $('sv_total').textContent = sv.total || 0;
+      $('sv_okrate').textContent = Math.round((sv.okRate||1) * 100) + '%';
+      const intents = sv.byIntent || {};
+      $('sv_intents').textContent = Object.keys(intents).length + ' tipos';
+      const list = $('supervisionList');
+      list.innerHTML = '';
+      (sv.recent || []).slice(0, 10).forEach(function(s) {
+        const div = document.createElement('div');
+        div.className = 'supervision-item';
+        div.innerHTML =
+          '<span class="s-speaker">' + (s.speaker||'?') + '</span> ' +
+          '<span class="s-intent">' + (s.intent||'?') + '</span>: ' +
+          (s.message||'').slice(0, 80) + ' ' +
+          (s.ok ? '<span class="s-ok">OK</span>' : '<span class="s-fail">FAIL</span>') +
+          ' <span style="color:var(--dim);font-size:10px">' + (s.provider||'') + '/' + (s.model||'') + '</span>';
+        list.appendChild(div);
+      });
+    } catch(e) { $('sv_total').textContent = 'n/a'; }
+  }
+
+  async function refreshGovernance() {
+    try {
+      const gv = await j('/api/viseron/governance');
+      const grid = $('govGrid');
+      grid.innerHTML = '';
+      (gv.principles || []).forEach(function(p) {
+        const div = document.createElement('div');
+        div.className = 'gov-card';
+        div.innerHTML = '<div class="gov-id">' + p.id + '</div><div class="gov-name">' + p.name + '</div><div class="gov-ref">' + (p.reference||'') + '</div>';
+        grid.appendChild(div);
+      });
+      const blocked = (gv.stats && gv.stats.blockedKinds) || [];
+      $('govBlocked').textContent = blocked.length ? 'Bloqueios ativos: ' + blocked.join(', ') : '';
+    } catch(e) {}
+  }
+
+  // ─── AGENT DISPATCH ─────────────────────────────────────
+  async function dispatchAgent(agentId, task) {
+    try {
+      addLog('dispatching ' + agentId + '…', 'agent.gate');
+      const res = await j('/api/omega/agents/' + agentId + '/execute', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: task || 'Analisa o estado atual e recomenda ações.', context: { origin: 'command-center' } })
+      });
+      const el = $('al_' + agentId);
+      if (el) el.textContent = (res.output || '').slice(0, 80) || (res.success ? 'OK' : 'FAIL');
+      addLog(agentId + ' → ' + (res.success ? 'OK' : 'FAIL') + ': ' + ((res.output||'').slice(0, 100).replace(/\n/g, ' ')), 'agent.gate', true);
+      return 'Agent ' + agentId + ' dispatched: ' + (res.success ? 'OK' : 'FAIL');
+    } catch (e) { addLog('dispatch failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
+  }
+
+  async function createTask(title, priority) {
+    try {
+      addLog('creating task: ' + title, 'task:created');
+      const res = await j('/api/omega/tasks', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'omega:command', title: title, priority: priority || 'normal', payload: { origin: 'command-center' } })
+      });
+      addLog('task enqueued: ' + res.id + ' [' + (res.priority||'normal') + ']', 'task:created', true);
+      return 'Task created: ' + res.id + ' [' + (res.priority||'normal') + ']';
+    } catch (e) { addLog('task creation failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
+  }
+
   async function runAutonomy(kind) {
     try {
-      const res = await j("/api/omega/autonomy/cycle", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+      addLog('autonomy ' + kind + ' triggered', 'omega:autonomy:run');
+      const res = await j('/api/omega/autonomy/cycle', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kind })
       });
-      log("autonomy " + kind + " → engine: " + (res.engine || "-") + " (" + new Date().toLocaleTimeString() + ")", true);
-      setTimeout(refresh, 800);
-    } catch (e) { log("autonomy failed: " + e.message); }
+      addLog('autonomy ' + kind + ' → ' + (res.engine||'done') + ' (' + new Date().toLocaleTimeString() + ')', 'omega:autonomy:cycle', true);
+      setTimeout(refreshAutonomy, 800);
+      return 'Autonomy ' + kind + ' executed.';
+    } catch (e) { addLog('autonomy failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
   }
+
+  // ─── TERMINAL ───────────────────────────────────────────
+  function termPrint(text, cls) {
+    const out = $('termOutput');
+    const div = document.createElement('div');
+    div.className = 'line ' + (cls || 'res');
+    div.textContent = text;
+    out.appendChild(div);
+    out.scrollTop = out.scrollHeight;
+    while (out.children.length > 50) out.removeChild(out.firstChild);
+  }
+
+  async function executeTerminal(input) {
+    input = input.trim();
+    if (!input) return;
+    termPrint('viseron> ' + input, 'cmd');
+    const parts = input.match(/(?:[^\s"]+|"[^"]*")+/g);
+    if (!parts) { termPrint('Invalid input', 'err'); return; }
+    const clean = parts.map(function(p) { return p.replace(/^"|"$/g, ''); });
+    const cmd = clean[0].toLowerCase();
+
+    try {
+      if (cmd === 'help') {
+        termPrint('Comandos disponíveis:', 'res');
+        termPrint('  dispatch <agentId> "<task>"  — dispara agente nuclear');
+        termPrint('  task "<title>" [priority]      — cria task E2E');
+        termPrint('  autonomy <plan|evol|learn>     — ciclo de autonomia');
+        termPrint('  status                         — refresh estado');
+        termPrint('  search "<query>"               — busca na memória');
+        termPrint('  cancel <taskId>                — cancela task');
+        termPrint('  clear                          — limpa terminal');
+        termPrint('  voice "<mensagem>"             — fala com VISERON');
+      } else if (cmd === 'dispatch') {
+        if (clean.length < 3) { termPrint('Uso: dispatch <agentId> "<task>"', 'err'); return; }
+        const result = await dispatchAgent(clean[1], clean[2]);
+        termPrint(result);
+      } else if (cmd === 'task') {
+        if (clean.length < 2) { termPrint('Uso: task "<title>" [priority]', 'err'); return; }
+        const result = await createTask(clean[1], clean[2] || 'normal');
+        termPrint(result);
+      } else if (cmd === 'autonomy') {
+        const kinds = { plan: 'planning', evol: 'evolution', learn: 'learning', planning: 'planning', evolution: 'evolution', learning: 'learning' };
+        const kind = kinds[clean[1]] || clean[1];
+        if (!['planning','evolution','learning'].includes(kind)) { termPrint('Uso: autonomy <planning|evolution|learning>', 'err'); return; }
+        const result = await runAutonomy(kind);
+        termPrint(result);
+      } else if (cmd === 'status') {
+        await refresh();
+        termPrint('Sistema atualizado.');
+      } else if (cmd === 'search') {
+        if (clean.length < 2) { termPrint('Uso: search "<query>"', 'err'); return; }
+        const q = clean.slice(1).join(' ');
+        const res = await j('/api/omega/memory/search?q=' + encodeURIComponent(q));
+        const results = res.results || [];
+        termPrint(results.length + ' resultado(s):');
+        results.slice(0, 5).forEach(function(r) { termPrint('  ' + (r.title||r.id||'?') + ' [' + (r.source||'?') + '] score:' + (r.score||0).toFixed(2)); });
+      } else if (cmd === 'cancel') {
+        if (clean.length < 2) { termPrint('Uso: cancel <taskId>', 'err'); return; }
+        const res = await j('/api/omega/tasks/' + clean[1] + '/cancel', { method: 'POST' });
+        termPrint('Cancelled: ' + (res.cancelled ? 'OK' : 'FAIL') + ' — ' + res.taskId);
+      } else if (cmd === 'clear') {
+        $('termOutput').innerHTML = '';
+        termPrint('[system] Terminal limpo.', 'res');
+      } else if (cmd === 'voice') {
+        if (clean.length < 2) { termPrint('Uso: voice "<mensagem>"', 'err'); return; }
+        const msg = clean.slice(1).join(' ');
+        termPrint('Enviando para VISERON...');
+        const res = await j('/api/viseron/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg, speaker: 'pedro', sessionId: STATE.sessionId })
+        });
+        termPrint('VISERON: ' + (res.text||res.reply||'').slice(0, 200));
+        addVoiceHistory(msg, res.text);
+        if (res.text) speak(res.text);
+      } else {
+        termPrint('Comando não reconhecido: ' + cmd + '. Digite help.', 'err');
+      }
+    } catch (e) {
+      termPrint('Error: ' + e.message, 'err');
+    }
+  }
+
+  // ─── VOICE (STT/TTS) ────────────────────────────────────
+  function toggleVoice() {
+    if (STATE.voiceListening) { stopListening(); }
+    else { startListening(); }
+  }
+
+  function startListening() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { $('voiceLabel').textContent = 'STT não disponível'; return; }
+    STATE.voiceListening = true;
+    $('voiceBtn').classList.add('listening');
+    $('voiceLabel').textContent = 'Ouvindo... (diga VISERON)';
+    STATE.recognition = new SR();
+    STATE.recognition.lang = 'pt-BR';
+    STATE.recognition.continuous = false;
+    STATE.recognition.interimResults = true;
+    STATE.recognition.maxAlternatives = 1;
+
+    STATE.recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript.trim();
+      if (!event.results[0].isFinal) {
+        $('voiceInterim').textContent = transcript;
+        return;
+      }
+      $('voiceInterim').textContent = '';
+      const lower = transcript.toLowerCase();
+      const wakeWords = ['viseron', 'hey viseron', 'jarvis', 'companheiro', 'superinteligencia'];
+      const detected = wakeWords.find(function(w) { return lower.indexOf(w) !== -1; });
+      if (detected) {
+        const cmd = lower.slice(lower.indexOf(detected) + detected.length).trim();
+        $('voiceLabel').textContent = 'Comando: ' + (cmd || '(ouvir)');
+        processVoiceCommand(cmd || transcript, 'pedro');
+      } else {
+        processVoiceCommand(transcript, 'pedro');
+      }
+    };
+
+    STATE.recognition.onerror = function(e) {
+      $('voiceLabel').textContent = 'Erro: ' + e.error;
+      stopListening();
+    };
+
+    STATE.recognition.onend = function() {
+      stopListening();
+      setTimeout(startListening, 800);
+    };
+
+    STATE.recognition.start();
+  }
+
+  function stopListening() {
+    STATE.voiceListening = false;
+    $('voiceBtn').classList.remove('listening');
+    $('voiceLabel').textContent = 'Clique para falar';
+    if (STATE.recognition) {
+      try { STATE.recognition.stop(); } catch(e) {}
+      STATE.recognition = null;
+    }
+  }
+
+  async function processVoiceCommand(message, speaker) {
+    try {
+      const res = await j('/api/viseron/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, speaker: speaker, sessionId: STATE.sessionId })
+      });
+      if (res.ok) {
+        addVoiceHistory(message, res.text);
+        const reply = res.text || res.reply || '';
+        addLog('voice: ' + message.slice(0, 60) + ' → ' + reply.slice(0, 60), 'voice:command', true);
+        $('voiceLabel').textContent = 'Resposta: ' + reply.slice(0, 60) + '...';
+        if (reply) speak(reply);
+        if (res.actions && res.actions.length) {
+          setTimeout(refresh, 1000);
+        }
+      }
+    } catch (e) {
+      $('voiceLabel').textContent = 'Erro: ' + e.message;
+    }
+  }
+
+  function speak(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR';
+    u.rate = 0.92;
+    u.pitch = 0.72;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  }
+
+  function addVoiceHistory(cmd, reply) {
+    STATE.voiceHistory.unshift({ cmd: cmd.slice(0, 40), reply: (reply||'').slice(0, 40) });
+    if (STATE.voiceHistory.length > 5) STATE.voiceHistory.pop();
+    const el = $('voiceHistory');
+    el.innerHTML = '';
+    STATE.voiceHistory.forEach(function(h) {
+      const span = document.createElement('span');
+      span.className = 'voice-item';
+      span.textContent = h.cmd;
+      span.title = '→ ' + h.reply;
+      el.appendChild(span);
+    });
+  }
+
+  // ─── KEYBOARD SHORTCUTS ─────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'k') {
+      e.preventDefault();
+      $('termInput').focus();
+    }
+    if (e.ctrlKey && e.code === 'Space') {
+      e.preventDefault();
+      toggleVoice();
+    }
+  });
+
+  // ─── INIT ────────────────────────────────────────────────
+  connectSSE();
   refresh();
-  setInterval(refresh, 15000);
+  setInterval(refresh, 30000); // fallback polling a cada 30s
+
+  // Auto-foco no terminal ao carregar
+  setTimeout(function() { $('termInput').focus(); }, 500);
 </script>
 </body>
 </html>

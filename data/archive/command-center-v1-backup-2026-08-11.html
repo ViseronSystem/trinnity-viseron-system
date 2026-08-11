@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TVS OMEGA COMMAND CENTER</title>
+<style>
+  :root {
+    --neon: #00f0ff;
+    --neon2: #bf5af2;
+    --neon3: #ff2d55;
+    --green: #3dffa0;
+    --bg: #050510;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(600px 300px at 20% 0%, rgba(0,240,255,0.08), transparent 60%),
+      radial-gradient(600px 300px at 80% 10%, rgba(191,90,242,0.08), transparent 60%);
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
+  .brand h1 {
+    font-size: 22px; letter-spacing: 0.18em; font-weight: 800;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .brand p { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 0.1em; margin-top: 4px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    border: 1px solid var(--border); background: var(--card); letter-spacing: 0.08em;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; animation: pulse 2s infinite; }
+  .dot.on { background: var(--green); box-shadow: 0 0 12px var(--green); }
+  .dot.warn { background: #ffb020; box-shadow: 0 0 12px #ffb020; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; position: relative; overflow: hidden; transition: border-color .2s;
+  }
+  .card:hover { border-color: rgba(0,240,255,0.35); }
+  .card .label { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.14em; text-transform: uppercase; }
+  .card .value { font-size: 34px; font-weight: 800; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .card .sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
+  .accent-1 .value { color: var(--neon); } .accent-2 .value { color: var(--neon2); }
+  .accent-3 .value { color: var(--neon3); } .accent-4 .value { color: var(--green); }
+  .panel {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; margin-bottom: 24px;
+  }
+  .panel h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: rgba(255,255,255,0.4); font-weight: 600; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .badge.ok { background: rgba(61,255,160,0.12); color: var(--green); }
+  .badge.norm { background: rgba(0,240,255,0.12); color: var(--neon); }
+  .badge.mute { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+  .logs { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.7; color: rgba(255,255,255,0.55); }
+  .logs .live { color: var(--green); }
+  .toolbar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04); color: #fff; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .15s; font-family: inherit;
+  }
+  .btn:hover { border-color: var(--neon); box-shadow: 0 0 18px rgba(0,240,255,0.25); }
+  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.18), rgba(191,90,242,0.18)); border-color: rgba(0,240,255,0.4); }
+  .hint { color: rgba(255,255,255,0.35); font-size: 12px; text-align: center; margin-top: 32px; }
+  .hint a { color: var(--neon); text-decoration: none; }
+  @media (max-width: 600px) { .card .value { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>TVS OMEGA COMMAND CENTER</h1>
+      <p>AUTONOMOUS INTELLIGENCE OPERATING SYSTEM · v5.0</p>
+    </div>
+    <div class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="card accent-1"><div class="label">System Status</div><div class="value" id="k_system">—</div><div class="sub" id="k_system_sub">kernel</div></div>
+    <div class="card accent-2"><div class="label">Active Agents</div><div class="value" id="k_agents">—</div><div class="sub" id="k_agents_sub">nuclear runtime</div></div>
+    <div class="card accent-4"><div class="label">Tasks Completed</div><div class="value" id="k_tasks">—</div><div class="sub" id="k_tasks_sub">task queue</div></div>
+    <div class="card accent-1"><div class="label">Events Emitted</div><div class="value" id="k_events">—</div><div class="sub" id="k_events_sub">event bus</div></div>
+    <div class="card accent-2"><div class="label">Knowledge Graph</div><div class="value" id="k_graph">—</div><div class="sub" id="k_graph_sub">entities · relations</div></div>
+    <div class="card accent-3"><div class="label">Minds Online</div><div class="value" id="k_minds">—</div><div class="sub">ecosistema total</div></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn primary" onclick="runDemo()">▶ Executar Agente (Demo)</button>
+    <button class="btn" onclick="dispatch('agent_devops')">Dispatch: DevOps</button>
+    <button class="btn" onclick="dispatch('agent_finance')">Dispatch: Finance</button>
+    <button class="btn" onclick="refresh()">⟳ Refresh</button>
+  </div>
+
+  <div class="panel">
+    <h2>Agentes Nucleares (spec-driven)</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Nome</th><th>Rol</th><th>Squad</th><th>Estado</th><th>Capacidades</th></tr></thead>
+      <tbody id="agentRows"><tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.3)">Carregando…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Autonomy Layer</h2>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin:10px 0 12px 0">
+      <div><span style="color:var(--neon)">Planning</span><br><span class="stat" id="a_planning">—</span></div>
+      <div><span style="color:var(--neon)">Evolution</span><br><span class="stat" id="a_evolution">—</span></div>
+      <div><span style="color:var(--neon)">Learning</span><br><span class="stat" id="a_learning">—</span></div>
+      <div><span style="color:var(--neon)">Enabled</span><br><span class="stat" id="a_enabled">—</span></div>
+    </div>
+    <button class="btn" onclick="runAutonomy('planning')">Autonomy: Planning Cycle</button>
+    <button class="btn" onclick="runAutonomy('evolution')">Autonomy: Evolution</button>
+    <span class="sub" id="a_last" style="margin-left:10px"></span>
+  </div>
+
+  <div class="grid">
+    <div class="card accent-1"><div class="label">Revenue Readiness</div><div class="value" id="c_rev">—</div><div class="sub" id="c_rev_sub">billing · webhook · gmail</div></div>
+    <div class="card accent-4"><div class="label">Tenants</div><div class="value" id="c_tenants">—</div><div class="sub" id="c_tenants_sub">orgs multi-tenant</div></div>
+    <div class="card accent-2"><div class="label">Users</div><div class="value" id="c_users">—</div><div class="sub" id="c_users_sub">contas registadas</div></div>
+    <div class="card accent-1"><div class="label">AI Providers</div><div class="value" id="c_providers">—</div><div class="sub" id="c_providers_sub">ollama · omniroute · cloud</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Autonomy OS (L0-L5) · Permission Engine</h2>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <div><span style="color:var(--neon)">Domínios</span><br><span class="stat" id="ao_domains">—</span></div>
+      <div><span style="color:var(--neon)">Decisões</span><br><span class="stat" id="ao_decisions">—</span></div>
+      <div><span style="color:var(--neon)">Auto</span><br><span class="stat" id="ao_auto">—</span></div>
+      <div><span style="color:var(--neon)">Aprovação</span><br><span class="stat" id="ao_approval">—</span></div>
+      <div><span style="color:var(--neon)">Negadas</span><br><span class="stat" id="ao_deny">—</span></div>
+    </div>
+    <table>
+      <thead><tr><th>Nível</th><th>Nome</th><th>Comportamento</th><th>Descrição</th></tr></thead>
+      <tbody id="aoRows"><tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3)">A carregar…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Architecture Intelligence (Graphify)</h2>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <div><span style="color:var(--neon)">Nós</span><br><span class="stat" id="ar_nodes">—</span></div>
+      <div><span style="color:var(--neon)">Arestas</span><br><span class="stat" id="ar_edges">—</span></div>
+      <div><span style="color:var(--neon)">Comunidades</span><br><span class="stat" id="ar_communities">—</span></div>
+      <div><span style="color:var(--neon)">Risco alto</span><br><span class="stat" id="ar_risk">—</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Live Activity</h2>
+    <div class="logs" id="logs">
+      <div>[kernel] waiting for live events…</div>
+    </div>
+  </div>
+
+  <div class="hint">
+    API Gateway: <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
+    <a href="/api/omega/agents" target="_blank">/api/omega/agents</a> ·
+    <a href="/api/omega/kernel" target="_blank">/api/omega/kernel</a>
+  </div>
+</div>
+
+<script>
+  const logEl = document.getElementById("logs");
+  const rows = new Map();
+  function log(msg, live) {
+    const div = document.createElement("div");
+    div.textContent = "[" + new Date().toLocaleTimeString() + "] " + msg;
+    if (live) div.className = "live";
+    logEl.insertBefore(div, logEl.firstChild);
+    while (logEl.children.length > 40) logEl.removeChild(logEl.lastChild);
+  }
+  async function j(url, opts) {
+    const r = await fetch(url, opts);
+    if (!r.ok) throw new Error(url + " → " + r.status);
+    return r.json();
+  }
+  function setStatus(on) {
+    const dot = document.getElementById("sysdot");
+    const label = document.getElementById("sysstatus");
+    dot.className = "dot " + (on ? "on" : "warn");
+    label.textContent = on ? "SYSTEM ONLINE" : "DEGRADED";
+  }
+  async function refresh() {
+    try {
+      const health = await j("/api/health");
+      setStatus(health && (health.status === "OK" || health.status === "online"));
+      document.getElementById("k_system").textContent = health.status || "OK";
+      document.getElementById("k_system_sub").textContent = "health " + (health.version || "v5.0");
+
+      const omega = await j("/api/omega/status");
+      const k = omega.kernel, r = omega.runtime, g = omega.graph;
+      document.getElementById("k_agents").textContent = r.active + " / " + r.loaded;
+      document.getElementById("k_agents_sub").textContent = "nuclear runtime (total minds: " + (omega.kernel.agents.total || 0) + ")";
+      document.getElementById("k_tasks").textContent = k.tasks.completed;
+      document.getElementById("k_tasks_sub").textContent = k.tasks.running + " running · " + k.tasks.queued + " queued";
+      document.getElementById("k_events").textContent = k.events.totalEmitted;
+      document.getElementById("k_events_sub").textContent = k.events.topics + " topics · " + k.events.totalSubscribers + " subs";
+      document.getElementById("k_graph").textContent = g.entities;
+      document.getElementById("k_graph_sub").textContent = g.entities + " entities · " + g.relations + " relations";
+      document.getElementById("k_minds").textContent = k.agents.total;
+      document.getElementById("k_minds_sub").textContent = "ecossistema total";
+
+      const au = omega.autonomy || {};
+      document.getElementById("a_enabled").textContent = au.enabled ? "ON" : "OFF";
+      document.getElementById("a_planning").textContent = au.planning ? ("level " + au.planning.autonomyLevel + " · " + au.planning.pendingTasks + " pending") : "—";
+      document.getElementById("a_evolution").textContent = au.evolution ? (au.evolution.totalAgents + " agents · wisdom " + Math.round(au.evolution.averageWisdom)) : "—";
+      document.getElementById("a_learning").textContent = au.learning ? ("cycle " + au.learning.cycleCount + " · intel " + au.learning.intelligenceLevel) : "—";
+      const lr = au.lastRuns || {};
+      document.getElementById("a_last").textContent = lr.planning ? ("last planning: " + new Date(lr.planning).toLocaleTimeString()) : "";
+
+      // Revenue readiness + tenants/users + providers (dados reais)
+      try {
+        const rev = await j("/api/revenue/readiness");
+        const checks = rev?.checks || {};
+        const done = Object.values(checks).filter(Boolean).length;
+        const total = Object.keys(checks).length || 0;
+        document.getElementById("c_rev").textContent = rev?.ok ? done + "/" + total : "n/a";
+        document.getElementById("c_rev_sub").textContent = rev?.ok ? "ready to bill" : "revenue pending";
+        document.getElementById("c_tenants").textContent = health.tenants ?? "—";
+        document.getElementById("c_users").textContent = health.users ?? "—";
+        document.getElementById("c_providers").textContent = (omega.router?.providers || []).length;
+        document.getElementById("c_providers_sub").textContent = (omega.router?.providers || []).join(" · ");
+      } catch { document.getElementById("c_rev").textContent = "n/a"; }
+
+      // Autonomy OS L0-L5 (dados reais do permission engine)
+      try {
+        const ao = await j("/api/omega/autonomy/os");
+        document.getElementById("ao_domains").textContent = ao.domains ?? 0;
+        document.getElementById("ao_decisions").textContent = ao.decisions ?? 0;
+        document.getElementById("ao_auto").textContent = ao.autonomous ?? 0;
+        document.getElementById("ao_approval").textContent = ao.approvals ?? 0;
+        document.getElementById("ao_deny").textContent = ao.denies ?? 0;
+        const aoTbody = document.getElementById("aoRows");
+        aoTbody.innerHTML = "";
+        (ao.levels || []).forEach(lv => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = "<td style='font-family:monospace;color:var(--neon)'>L" + lv.level + "</td><td>" + lv.label + "</td><td><span class='badge norm'>" + lv.name + "</span></td><td style='color:rgba(255,255,255,0.5)'>" + lv.description + "</td>";
+          aoTbody.appendChild(tr);
+        });
+      } catch { /* autonomy os indisponível no modo standalone */ }
+
+      // Architecture Intelligence (Graphify real)
+      try {
+        const ar = await j("/api/omega/architecture");
+        document.getElementById("ar_nodes").textContent = ar.summary?.stats?.nodes ?? "—";
+        document.getElementById("ar_edges").textContent = ar.summary?.stats?.edges ?? "—";
+        document.getElementById("ar_communities").textContent = ar.summary?.stats?.communities ?? "—";
+        document.getElementById("ar_risk").textContent = ar.summary?.risk?.highCount ?? "—";
+      } catch { /* architecture indisponível sem grafo */ }
+
+      const agents = omega.runtime.specs || [];
+      const tbody = document.getElementById("agentRows");
+      tbody.innerHTML = "";
+      agents.forEach(a => {
+        const tr = document.createElement("tr");
+        const cap = (a.capabilities || []).slice(0, 3).join(", ") + ((a.capabilities||[]).length > 3 ? "…" : "");
+        const st = a.status === "ACTIVE" ? '<span class="badge ok">ACTIVE</span>' : '<span class="badge mute">' + a.status + '</span>';
+        tr.innerHTML = "<td style='font-family:monospace;color:var(--neon)'>" + a.id + "</td><td>" + a.name + "</td><td>" + a.role + "</td><td>" + (a.squad || "-") + "</td><td>" + st + "</td><td style='color:rgba(255,255,255,0.5)'>" + cap + "</td>";
+        tbody.appendChild(tr);
+      });
+      log("status refreshed: " + agents.length + " nuclear agents, " + k.agents.total + " total minds", true);
+    } catch (e) {
+      setStatus(false);
+      document.getElementById("k_system").textContent = "ERR";
+      log("refresh failed: " + e.message);
+    }
+  }
+  async function dispatch(agentId) {
+    try {
+      log("dispatching " + agentId + "…");
+      const res = await j("/api/omega/agents/" + agentId + "/execute", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task: "Analisa o estado atual e recomenda 3 ações prioritárias.", context: { origin: "command-center" } })
+      });
+      const out = (res.output || "").slice(0, 160);
+      log(agentId + " → " + (res.success ? "OK" : "FAIL") + ": " + out.replace(/\n/g, " "));
+    } catch (e) { log("dispatch failed: " + e.message); }
+  }
+  async function runDemo() {
+    try {
+      const res = await j("/api/omega/tasks", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "omega:demo", title: "Demo task do Command Center", payload: { origin: "command-center" }, priority: "high" })
+      });
+      log("task enqueued: " + res.id + " [" + res.priority + "]");
+      setTimeout(refresh, 1200);
+    } catch (e) { log("runDemo failed: " + e.message); }
+  }
+  async function runAutonomy(kind) {
+    try {
+      const res = await j("/api/omega/autonomy/cycle", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind })
+      });
+      log("autonomy " + kind + " → engine: " + (res.engine || "-") + " (" + new Date().toLocaleTimeString() + ")", true);
+      setTimeout(refresh, 800);
+    } catch (e) { log("autonomy failed: " + e.message); }
+  }
+  refresh();
+  setInterval(refresh, 15000);
+</script>
+</body>
+</html>
