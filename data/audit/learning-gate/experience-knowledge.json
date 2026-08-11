@@ -1,0 +1,26 @@
+{
+  "title": "VISERON Project Structure Analysis",
+  "modules": {
+    "core": {
+      "files": 75,
+      "description": "Core engine: agents, memory, providers, learning, governance"
+    },
+    "omega": {
+      "files": 62,
+      "description": "OMEGA Kernel: TaskQueue, EventBus, AutonomyOS, Verifier, Gateway"
+    },
+    "web": {
+      "files": 68,
+      "description": "Web layer: auth, billing, JARVIS, VISERON, ATLAS, agency, RCS"
+    },
+    "dashboard": {
+      "description": "Command Center: hologram 3D, voice, terminal, agents, governance"
+    },
+    "integrations": {
+      "description": "Composio MCP, Avirato, Twilio, N8N, OmniRoute"
+    }
+  },
+  "totalFiles": 282,
+  "projectName": "trinnity-viseron-system",
+  "version": "5.0.0"
+}
