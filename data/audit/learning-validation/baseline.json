@@ -1,0 +1,35 @@
+[
+  {
+    "taskId": "BL_memory",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 146,
+    "validation": "PASS",
+    "artifactSize": 341,
+    "sourcesUsed": 1,
+    "experienceUsed": false,
+    "experienceIds": []
+  },
+  {
+    "taskId": "BL_retrieval",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 110,
+    "validation": "PASS",
+    "artifactSize": 341,
+    "sourcesUsed": 1,
+    "experienceUsed": false,
+    "experienceIds": []
+  },
+  {
+    "taskId": "BL_pipeline",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 110,
+    "validation": "PASS",
+    "artifactSize": 341,
+    "sourcesUsed": 1,
+    "experienceUsed": false,
+    "experienceIds": []
+  }
+]

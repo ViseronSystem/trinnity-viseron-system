@@ -1,0 +1,47 @@
+[
+  {
+    "taskId": "WE_memory",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 94,
+    "validation": "PASS",
+    "artifactSize": 1131,
+    "sourcesUsed": 4,
+    "experienceUsed": true,
+    "experienceIds": [
+      "EXP002_MSOUSVUD",
+      "LRNMSOV8NYQ_A",
+      "LRNMSOV7RTN_A"
+    ]
+  },
+  {
+    "taskId": "WE_retrieval",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 102,
+    "validation": "PASS",
+    "artifactSize": 1215,
+    "sourcesUsed": 4,
+    "experienceUsed": true,
+    "experienceIds": [
+      "EXP002_MSOUSVUD",
+      "LRNMSOV8NYQ_B",
+      "LRNMSOV7RTN_B"
+    ]
+  },
+  {
+    "taskId": "WE_pipeline",
+    "success": true,
+    "errors": 0,
+    "latencyMs": 87,
+    "validation": "PASS",
+    "artifactSize": 1195,
+    "sourcesUsed": 4,
+    "experienceUsed": true,
+    "experienceIds": [
+      "EXP002_MSOUSVUD",
+      "LRNMSOV8NYQ_C",
+      "LRNMSOV7RTN_C"
+    ]
+  }
+]

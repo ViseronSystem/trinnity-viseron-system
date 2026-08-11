@@ -94,7 +94,7 @@ export class ExperienceStore {
       // Importance
       score += exp.importance * 0.15;
 
-      if (score > 0) scored.push({ exp, score });
+      if (score > 0.2) scored.push({ exp, score }); // minimum relevance threshold
     }
 
     return scored
