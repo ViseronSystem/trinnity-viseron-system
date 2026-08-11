@@ -1,0 +1,82 @@
+[
+  {
+    "task": "Audit security vulnerabilities in API authenticati",
+    "domain": "security",
+    "without": {
+      "agent": "agent_security",
+      "latencyMs": 0,
+      "skillsUsed": 0
+    },
+    "with": {
+      "agent": "agent_security",
+      "latencyMs": 2,
+      "skillsFound": 3,
+      "skillsUsed": 3,
+      "qualityBoost": 0.44999999999999996
+    }
+  },
+  {
+    "task": "Research memory optimization patterns for AI syste",
+    "domain": "research",
+    "without": {
+      "agent": "agent_research",
+      "latencyMs": 0,
+      "skillsUsed": 0
+    },
+    "with": {
+      "agent": "agent_research",
+      "latencyMs": 3,
+      "skillsFound": 3,
+      "skillsUsed": 3,
+      "qualityBoost": 0.44999999999999996
+    }
+  },
+  {
+    "task": "Analyze code quality and suggest refactoring impro",
+    "domain": "development",
+    "without": {
+      "agent": "agent_sales",
+      "latencyMs": 0,
+      "skillsUsed": 0
+    },
+    "with": {
+      "agent": "agent_sales",
+      "latencyMs": 3,
+      "skillsFound": 3,
+      "skillsUsed": 3,
+      "qualityBoost": 0.44999999999999996
+    }
+  },
+  {
+    "task": "Design deployment strategy for production infrastr",
+    "domain": "operations",
+    "without": {
+      "agent": "agent_ceo",
+      "latencyMs": 0,
+      "skillsUsed": 0
+    },
+    "with": {
+      "agent": "agent_ceo",
+      "latencyMs": 2,
+      "skillsFound": 3,
+      "skillsUsed": 3,
+      "qualityBoost": 0.44999999999999996
+    }
+  },
+  {
+    "task": "Plan financial forecasting model for SaaS revenue",
+    "domain": "finance",
+    "without": {
+      "agent": "agent_finance",
+      "latencyMs": 0,
+      "skillsUsed": 0
+    },
+    "with": {
+      "agent": "agent_finance",
+      "latencyMs": 2,
+      "skillsFound": 3,
+      "skillsUsed": 3,
+      "qualityBoost": 0.44999999999999996
+    }
+  }
+]
