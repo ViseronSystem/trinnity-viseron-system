@@ -407,6 +407,40 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // ── RAG PIPELINE (Sistema 2) ──
+  router.get("/memory/rag/status", (_req, res) => {
+    res.json({
+      available: true,
+      embeddingModel: omega.embedding.model,
+      embeddingDimensions: omega.embedding.dimensions,
+      hybridSearch: true,
+      knowledgeGraphEnabled: true,
+    });
+  });
+
+  router.post("/memory/rag", async (req, res) => {
+    try {
+      const { query, topK, agentId, includeKnowledgeGraph } = req.body ?? {};
+      if (!query || typeof query !== "string") return res.status(400).json({ error: "query required" });
+      const result = await omega.rag.query(query, {
+        topK: topK || 10,
+        agentId,
+        includeKnowledgeGraph: includeKnowledgeGraph !== false,
+      });
+      res.json({
+        ok: true,
+        query: result.query,
+        context: result.context.slice(0, 2000),
+        sources: result.sources,
+        chunks: result.chunks.length,
+        metrics: result.metrics,
+        traceId: result.traceId,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ── FACTORY ──
   router.get("/factory", (_req, res) => {
     res.json(omega.factory.status());

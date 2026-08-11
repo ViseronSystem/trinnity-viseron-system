@@ -10,6 +10,7 @@ import { EnterpriseHub } from "./enterprise";
 import { SelfHealWatchdog } from "./selfheal";
 import { TelemetryEngine } from "./telemetry/TelemetryEngine";
 import { createEmbeddingProvider, EmbeddingProvider } from "../core/memory/EmbeddingProvider";
+import { RAGPipeline } from "../core/memory/RAGPipeline";
 import { heartbeats } from "./selfheal";
 import { TVSOs } from "../os";
 import { AgentManager } from "../core/AgentManager";
@@ -76,6 +77,7 @@ export class OmegaPlatform {
   public readonly archive: KnowledgeArchive;
   public readonly telemetry: TelemetryEngine;
   public readonly embedding: EmbeddingProvider;
+  public readonly rag: RAGPipeline;
 
   private readonly agentManager?: AgentManager;
   private autonomyTimer: NodeJS.Timeout | null = null;
@@ -483,6 +485,14 @@ export class OmegaPlatform {
 
     // Embedding Provider — Sistema 1: OpenAI → MiniLM fallback chain
     this.embedding = createEmbeddingProvider();
+
+    // RAG Pipeline — Sistema 2: retrieval cognitivo híbrido
+    this.rag = new RAGPipeline(
+      options.memoryEngine || ({} as any),
+      this.embedding,
+      this.telemetry,
+      this.graph,
+    );
 
     // Publica eventos de telemetria no EventBus para observabilidade
     this.kernel.events.subscribe("cognitive:completed", (trace) => {
