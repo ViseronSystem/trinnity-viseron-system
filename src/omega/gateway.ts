@@ -70,6 +70,42 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
     }
   });
 
+  // Agent Evidence: prova do que cada agente realmente executou
+  router.get("/agents/:id/evidence", (req, res) => {
+    try {
+      const agentId = req.params.id;
+      const since = req.query.since as string;
+      const fs = require("fs");
+      const path = require("path");
+      const logPath = path.resolve(process.cwd(), "data", "knowledge", "agent-activity.jsonl");
+      if (!fs.existsSync(logPath)) {
+        return res.json({ agentId, total: 0, recent: [] });
+      }
+      const lines = fs.readFileSync(logPath, "utf8").trim().split("\n").filter(Boolean);
+      const entries = lines
+        .map((l: string) => { try { return JSON.parse(l); } catch { return null; } })
+        .filter((e: any) => e && e.agentId === agentId);
+      const filtered = since
+        ? entries.filter((e: any) => new Date(e.ts) >= new Date(since))
+        : entries;
+      const last50 = filtered.slice(-50).reverse();
+      const tasksCompleted = filtered.filter((e: any) => e.action === "task_completed").length;
+      const tasksFailed = filtered.filter((e: any) => e.action === "task_failed").length;
+      res.json({
+        agentId,
+        total: filtered.length,
+        tasksCompleted,
+        tasksFailed,
+        successRate: tasksCompleted + tasksFailed > 0
+          ? Math.round((tasksCompleted / (tasksCompleted + tasksFailed)) * 100) / 100
+          : null,
+        recent: last50,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   router.get("/kernel", (_req, res) => {
     res.json(omega.kernel.status());
   });

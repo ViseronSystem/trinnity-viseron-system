@@ -379,6 +379,15 @@ export class OmegaPlatform {
           return { status: "RETRY", reasons: [`verify.requireTruthy: "${verifySpec.requireTruthy}" falsy → retry`] };
         }
       }
+
+      // Reality Hardening: autonomy tasks must produce a verifiable artifact
+      if (task.type === "autonomy" && (!result.artifact || typeof result.artifact !== "object")) {
+        return {
+          status: "FAIL",
+          reasons: ["autonomy task requires artifact in result (e.g., { artifact: { type, description, data } }) — template-only responses are not accepted"],
+        };
+      }
+
       return { status: "PASS", reasons };
     });
 
@@ -477,6 +486,11 @@ export class OmegaPlatform {
     this.kernel.events.subscribe("task:completed", (task) => this.recordTaskMemory(task));
     this.kernel.events.subscribe("task:failed", (task) => this.recordTaskMemory(task));
 
+    // Agent Evidence: grava atividade de agentes em JSONL para auditoria
+    this.kernel.events.subscribe("task:started", (task) => this.recordAgentActivity(task, "task_started"));
+    this.kernel.events.subscribe("task:completed", (task) => this.recordAgentActivity(task, "task_completed"));
+    this.kernel.events.subscribe("task:failed", (task) => this.recordAgentActivity(task, "task_failed"));
+
     // Retoma tarefas pendentes recuperadas do ficheiro de persistência.
     this.kernel.tasks.resume();
   }
@@ -510,6 +524,28 @@ export class OmegaPlatform {
       void this.kernel.publish("memory:updated", { taskId: task?.id, entityId, state: task?.state }, "omega-platform");
     } catch (err: any) {
       console.warn(`[TVS OMEGA] memory record failed: ${err?.message || err}`);
+    }
+  }
+
+  private recordAgentActivity(task: any, action: string): void {
+    try {
+      const agentId = task?.assignedAgentId;
+      if (!agentId) return; // só grava se houver agente atribuído
+      const entry = JSON.stringify({
+        agentId,
+        action,
+        taskId: task?.id,
+        taskTitle: task?.title,
+        taskState: task?.state,
+        verification: task?.verification?.status,
+        ts: new Date().toISOString(),
+      });
+      const fs = require("fs");
+      const path = require("path");
+      const logPath = path.resolve(process.cwd(), "data", "knowledge", "agent-activity.jsonl");
+      fs.appendFileSync(logPath, entry + "\n");
+    } catch (err: any) {
+      // non-blocking — não quebra o sistema se o log falhar
     }
   }
 

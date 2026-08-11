@@ -253,7 +253,12 @@ export class TaskQueue {
       if (!executor) {
         throw new Error(`[TaskQueue] No executor registered for task type "${task.type}"`);
       }
-      const meta = { taskId: task.id };
+      const meta = {
+        taskId: task.id,
+        onAgentAssigned: (agentId: string) => {
+          task.assignedAgentId = agentId;
+        },
+      };
       const result = await executor(task, meta);
       if (task.cancelRequested) {
         task.state = "CANCELLED";
