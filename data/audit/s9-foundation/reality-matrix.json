@@ -1,0 +1,42 @@
+[
+  {
+    "point": "Embedding",
+    "status": "REAL",
+    "evidence": "model=all-MiniLM-L6-v2-fallback, dims=384, deterministic=true, latency=21ms"
+  },
+  {
+    "point": "Web Fetch",
+    "status": "REAL",
+    "evidence": "url=https://example.com, status=200, text=559B, title=\"Example Domain\""
+  },
+  {
+    "point": "Document Ingestion",
+    "status": "REAL",
+    "evidence": "3 docs ingested, chunked, indexed"
+  },
+  {
+    "point": "Source Registry",
+    "status": "REAL",
+    "evidence": "4 sources, 4 ingested, byType: {\"url\":1,\"file\":3,\"repository\":0,\"document\":0,\"skill\":0,\"api\":0}"
+  },
+  {
+    "point": "Retrieval (LTM+KB)",
+    "status": "REAL",
+    "evidence": "LTM: 22 results, KB: 0 results"
+  },
+  {
+    "point": "Provenance",
+    "status": "REAL",
+    "evidence": "source registry tracks 4 sources with content hash dedup"
+  },
+  {
+    "point": "Repository Intelligence",
+    "status": "REAL",
+    "evidence": "repo_viseron_self: 287 src files, 7 tests, v5.0.0"
+  },
+  {
+    "point": "Persistence",
+    "status": "REAL",
+    "evidence": "5 sources recovered after reload"
+  }
+]
