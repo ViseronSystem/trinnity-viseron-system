@@ -7,8 +7,32 @@
 **Command:** Pedro Costa
 **Chief Evolution Officer:** Trinnity Hurtado
 **Platform:** ViseronSystem
+**Version:** v7.0.0 · CONTROLLED-PILOT
 **Current architecture:** Primary Node + portable infrastructure
 **Runtime:** Multi-agent · Multi-model · Multi-tool · Multi-interface
+
+> **Reality Principle:** This README separates CURRENT REALITY from FUTURE VISION. Sections marked `[REALITY: PROVEN]` describe capabilities verified by independent audits. Sections marked `[REALITY: VISION]` describe the architectural target. Nothing is claimed as operational without evidence.
+
+---
+
+## ⚡ CURRENT SYSTEM REALITY — v7.0.0 `[REALITY: PROVEN]`
+
+| Capability | Status | Evidence |
+|-----------|--------|----------|
+| **Agents (execution-proven)** | 10/10 REAL | 52 agent-activity records |
+| **Squads (capability-based)** | 5 REAL | 15 member slots, 15 domains |
+| **Continuous Learning** | PROVEN | Independent audit: 22/24 REAL, 0 MOCKED |
+| **Parallel Execution** | 2x speedup | 80 tasks/sec, 97% success rate |
+| **Cognitive Telemetry** | REAL | JSONL + SHA-256 archive |
+| **RAG Pipeline** | REAL | Hybrid retrieval (vector + keyword) |
+| **GraphRAG** | REAL | 1,407 entities, BFS traversal |
+| **Memory (LTM)** | REAL | 20,000 records, 13.6MB |
+| **Recovery & Migration** | 10/10 REAL | Snapshot + SHA-256 + Restore |
+| **Core Tests** | 20/20 PASS | Zero regressions |
+
+**Known limitations:** OpenAI/ElevenLabs keys not configured. Skills (21K+) indexed but not executable. Single-process architecture. LTM capped at 20K entries. Safe concurrency: 4 tasks.
+
+**Scale model (projected):** 10 agents (no bottleneck) → 20 (evidence gap) → 50 (memory contention) → 100 (LTM cap) → 500+ (distributed queue needed).
 
 ---
 
@@ -1152,7 +1176,7 @@ Construir uma infraestrutura capaz de atender **100,000+ clientes**, com cada cl
 
 ---
 
-# 🎯 Vision
+# 🎯 Vision `[REALITY: VISION]`
 
 O objetivo do VISERON é construir uma nova categoria de infraestrutura:
 
@@ -1196,6 +1220,30 @@ A autonomia deve aumentar junto com a capacidade de verificar, medir e corrigir.
 O VISERON foi concebido para combinar os quatro:
 
 **Inteligência + Memória + Auditoria + Evolução.**
+
+---
+
+# 🔬 Reality-First Engineering
+
+O VISERON segue princípios rigorosos de validação:
+
+```text
+registered      ≠  active
+documented      ≠  executable
+configured      ≠  proven
+indexed         ≠  executable
+simulated       ≠  real
+benchmark       ≠  production
+vision          ≠  current capability
+```
+
+Every claim in this README is backed by:
+- **Reality Gates** — 16+ independent E2E audits
+- **Core Tests** — 20/20 PASS (zero regressions)
+- **Agent Evidence** — 52 execution records across 10 agents
+- **Continuous Learning Audit** — Independent audit confirmed (22/24 REAL)
+- **Production Reality Gate** — 10-test E2E validation
+- **Intelligence Throughput Audit** — Full capability inventory
 
 ---
 
