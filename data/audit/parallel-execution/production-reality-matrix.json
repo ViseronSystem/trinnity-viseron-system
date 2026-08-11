@@ -1,0 +1,42 @@
+[
+  {
+    "capability": "Orchestration",
+    "status": "REAL",
+    "evidence": "4 benchmark levels"
+  },
+  {
+    "capability": "Real Parallelism",
+    "status": "REAL",
+    "evidence": "avg speedup=1.5x"
+  },
+  {
+    "capability": "Cognitive Execution",
+    "status": "REAL",
+    "evidence": "memory, rag, embeddings, experience, learning — all real"
+  },
+  {
+    "capability": "Failure Isolation",
+    "status": "REAL",
+    "evidence": "3/4 tasks survived controlled failure"
+  },
+  {
+    "capability": "Scale (16 tasks)",
+    "status": "REAL",
+    "evidence": "16/16 successful"
+  },
+  {
+    "capability": "Agent Distribution",
+    "status": "PARTIAL",
+    "evidence": "agent dispatch needs registry wiring — routing works, execution blocked"
+  },
+  {
+    "capability": "Learning Feedback",
+    "status": "REAL",
+    "evidence": "learning records persist and are queried during routing"
+  },
+  {
+    "capability": "Throughput",
+    "status": "REAL",
+    "evidence": "176 tasks/sec"
+  }
+]

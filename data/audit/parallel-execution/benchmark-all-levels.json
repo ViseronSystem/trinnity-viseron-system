@@ -1,0 +1,318 @@
+[
+  {
+    "level": 1,
+    "description": "Pure orchestration (no I/O)",
+    "sequentialMs": 2,
+    "parallelMs": 0,
+    "speedup": 2,
+    "taskCount": 8,
+    "successCount": 8,
+    "tasks": [
+      {
+        "id": "L1_T1",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 1 completed"
+      },
+      {
+        "id": "L1_T2",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 2 completed"
+      },
+      {
+        "id": "L1_T3",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 3 completed"
+      },
+      {
+        "id": "L1_T4",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 4 completed"
+      },
+      {
+        "id": "L1_T5",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 5 completed"
+      },
+      {
+        "id": "L1_T6",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 6 completed"
+      },
+      {
+        "id": "L1_T7",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 7 completed"
+      },
+      {
+        "id": "L1_T8",
+        "success": true,
+        "latencyMs": 0,
+        "startMs": 1786470832436,
+        "endMs": 1786470832436,
+        "output": "task 8 completed"
+      }
+    ]
+  },
+  {
+    "level": 2,
+    "description": "Cognitive ops (memory, rag, embed, experience, learning, retrieval)",
+    "sequentialMs": 123,
+    "parallelMs": 80,
+    "speedup": 1.5375,
+    "taskCount": 6,
+    "successCount": 6,
+    "tasks": [
+      {
+        "id": "L2_memory",
+        "success": true,
+        "latencyMs": 14,
+        "startMs": 1786470832560,
+        "endMs": 1786470832574,
+        "output": "2"
+      },
+      {
+        "id": "L2_rag",
+        "success": true,
+        "latencyMs": 5,
+        "startMs": 1786470832569,
+        "endMs": 1786470832574,
+        "output": "1"
+      },
+      {
+        "id": "L2_experience",
+        "success": true,
+        "latencyMs": 3,
+        "startMs": 1786470832571,
+        "endMs": 1786470832574,
+        "output": "bench_msoylwhn"
+      },
+      {
+        "id": "L2_learning",
+        "success": true,
+        "latencyMs": 2,
+        "startMs": 1786470832572,
+        "endMs": 1786470832574,
+        "output": "learn_msoylwho_vjkc"
+      },
+      {
+        "id": "L2_embed",
+        "success": true,
+        "latencyMs": 7,
+        "startMs": 1786470832569,
+        "endMs": 1786470832576,
+        "output": "384"
+      },
+      {
+        "id": "L2_retrieval",
+        "success": true,
+        "latencyMs": 68,
+        "startMs": 1786470832572,
+        "endMs": 1786470832640,
+        "output": "2"
+      }
+    ]
+  },
+  {
+    "level": 3,
+    "description": "Mixed workload with controlled failure",
+    "sequentialMs": 15,
+    "parallelMs": 11,
+    "speedup": 1.3636363636363635,
+    "taskCount": 4,
+    "successCount": 3,
+    "tasks": [
+      {
+        "id": "L3_mem",
+        "success": true,
+        "latencyMs": 8,
+        "startMs": 1786470832655,
+        "endMs": 1786470832663,
+        "output": "ok"
+      },
+      {
+        "id": "L3_fail",
+        "success": false,
+        "latencyMs": 2,
+        "startMs": 1786470832661,
+        "endMs": 1786470832663,
+        "error": "controlled failure for isolation test"
+      },
+      {
+        "id": "L3_exp",
+        "success": true,
+        "latencyMs": 1,
+        "startMs": 1786470832662,
+        "endMs": 1786470832663,
+        "output": "l3_msoylwk6"
+      },
+      {
+        "id": "L3_embed",
+        "success": true,
+        "latencyMs": 5,
+        "startMs": 1786470832661,
+        "endMs": 1786470832666,
+        "output": "384"
+      }
+    ]
+  },
+  {
+    "level": 4,
+    "description": "Scale test (16 concurrent memory writes)",
+    "sequentialMs": 98,
+    "parallelMs": 102,
+    "speedup": 0.9607843137254902,
+    "taskCount": 16,
+    "successCount": 16,
+    "tasks": [
+      {
+        "id": "L4_T1",
+        "success": true,
+        "latencyMs": 102,
+        "startMs": 1786470832764,
+        "endMs": 1786470832866,
+        "output": "0"
+      },
+      {
+        "id": "L4_T2",
+        "success": true,
+        "latencyMs": 96,
+        "startMs": 1786470832770,
+        "endMs": 1786470832866,
+        "output": "1"
+      },
+      {
+        "id": "L4_T3",
+        "success": true,
+        "latencyMs": 91,
+        "startMs": 1786470832775,
+        "endMs": 1786470832866,
+        "output": "2"
+      },
+      {
+        "id": "L4_T4",
+        "success": true,
+        "latencyMs": 85,
+        "startMs": 1786470832781,
+        "endMs": 1786470832866,
+        "output": "3"
+      },
+      {
+        "id": "L4_T5",
+        "success": true,
+        "latencyMs": 81,
+        "startMs": 1786470832785,
+        "endMs": 1786470832866,
+        "output": "4"
+      },
+      {
+        "id": "L4_T6",
+        "success": true,
+        "latencyMs": 73,
+        "startMs": 1786470832793,
+        "endMs": 1786470832866,
+        "output": "5"
+      },
+      {
+        "id": "L4_T7",
+        "success": true,
+        "latencyMs": 67,
+        "startMs": 1786470832799,
+        "endMs": 1786470832866,
+        "output": "6"
+      },
+      {
+        "id": "L4_T8",
+        "success": true,
+        "latencyMs": 58,
+        "startMs": 1786470832808,
+        "endMs": 1786470832866,
+        "output": "7"
+      },
+      {
+        "id": "L4_T9",
+        "success": true,
+        "latencyMs": 53,
+        "startMs": 1786470832813,
+        "endMs": 1786470832866,
+        "output": "8"
+      },
+      {
+        "id": "L4_T10",
+        "success": true,
+        "latencyMs": 50,
+        "startMs": 1786470832816,
+        "endMs": 1786470832866,
+        "output": "9"
+      },
+      {
+        "id": "L4_T11",
+        "success": true,
+        "latencyMs": 42,
+        "startMs": 1786470832824,
+        "endMs": 1786470832866,
+        "output": "10"
+      },
+      {
+        "id": "L4_T12",
+        "success": true,
+        "latencyMs": 36,
+        "startMs": 1786470832830,
+        "endMs": 1786470832866,
+        "output": "11"
+      },
+      {
+        "id": "L4_T13",
+        "success": true,
+        "latencyMs": 30,
+        "startMs": 1786470832836,
+        "endMs": 1786470832866,
+        "output": "12"
+      },
+      {
+        "id": "L4_T14",
+        "success": true,
+        "latencyMs": 21,
+        "startMs": 1786470832845,
+        "endMs": 1786470832866,
+        "output": "13"
+      },
+      {
+        "id": "L4_T15",
+        "success": true,
+        "latencyMs": 13,
+        "startMs": 1786470832853,
+        "endMs": 1786470832866,
+        "output": "14"
+      },
+      {
+        "id": "L4_T16",
+        "success": true,
+        "latencyMs": 5,
+        "startMs": 1786470832861,
+        "endMs": 1786470832866,
+        "output": "15"
+      }
+    ]
+  }
+]
