@@ -1,0 +1,62 @@
+[
+  {
+    "taskId": "ig_task_research",
+    "domain": "research",
+    "agentId": "agent_research",
+    "routingScore": 0.7,
+    "dispatchOk": true,
+    "latencyMs": 33,
+    "artifactGenerated": true,
+    "evidenceRecorded": true,
+    "traceId": "cog_msp58rdn_5s17ef",
+    "success": true
+  },
+  {
+    "taskId": "ig_task_security",
+    "domain": "security",
+    "agentId": "agent_security",
+    "routingScore": 0.7,
+    "dispatchOk": true,
+    "latencyMs": 4,
+    "artifactGenerated": true,
+    "evidenceRecorded": true,
+    "traceId": "cog_msp58rep_r4mohe",
+    "success": true
+  },
+  {
+    "taskId": "ig_task_finance",
+    "domain": "finance",
+    "agentId": "agent_finance",
+    "routingScore": 0.6,
+    "dispatchOk": true,
+    "latencyMs": 7,
+    "artifactGenerated": true,
+    "evidenceRecorded": true,
+    "traceId": "cog_msp58rev_ra6obm",
+    "success": true
+  },
+  {
+    "taskId": "ig_task_architecture",
+    "domain": "architecture",
+    "agentId": "agent_ceo",
+    "routingScore": 0.30000000000000004,
+    "dispatchOk": true,
+    "latencyMs": 4,
+    "artifactGenerated": true,
+    "evidenceRecorded": true,
+    "traceId": "cog_msp58rf4_lz708h",
+    "success": true
+  },
+  {
+    "taskId": "ig_task_management",
+    "domain": "management",
+    "agentId": "agent_ceo",
+    "routingScore": 0.30000000000000004,
+    "dispatchOk": true,
+    "latencyMs": 4,
+    "artifactGenerated": true,
+    "evidenceRecorded": true,
+    "traceId": "cog_msp58rfa_h8ke4m",
+    "success": true
+  }
+]

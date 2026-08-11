@@ -1,0 +1,52 @@
+[
+  {
+    "component": "Provider: Embedding",
+    "status": "REAL",
+    "evidence": "all-MiniLM-L6-v2-fallback (384d, 2ms)"
+  },
+  {
+    "component": "Provider: Voice",
+    "status": "BLOCKED",
+    "evidence": "STT=false, TTS=false"
+  },
+  {
+    "component": "Failure Isolation",
+    "status": "REAL",
+    "evidence": "5/5 tasks succeeded"
+  },
+  {
+    "component": "Full Execution Chain",
+    "status": "REAL",
+    "evidence": "5/5 tasks, 4 agents, 5 artifacts"
+  },
+  {
+    "component": "Agent Routing",
+    "status": "REAL",
+    "evidence": "4 unique agents selected"
+  },
+  {
+    "component": "Artifact Generation",
+    "status": "REAL",
+    "evidence": "5 artifacts"
+  },
+  {
+    "component": "Evidence Recording",
+    "status": "REAL",
+    "evidence": "5 evidence entries"
+  },
+  {
+    "component": "Telemetry",
+    "status": "REAL",
+    "evidence": "100 traces"
+  },
+  {
+    "component": "Experience Storage",
+    "status": "REAL",
+    "evidence": "5 experiences stored"
+  },
+  {
+    "component": "Source Registry",
+    "status": "REAL",
+    "evidence": "11 sources"
+  }
+]
