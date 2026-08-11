@@ -1,0 +1,183 @@
+[
+  {
+    "project": "Architecture Analysis",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "squadsUsed": [],
+    "parallel": false,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Security Audit",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_security"
+    ],
+    "squadsUsed": [],
+    "parallel": false,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Research Review",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_research"
+    ],
+    "squadsUsed": [],
+    "parallel": false,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Growth Strategy",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_sales"
+    ],
+    "squadsUsed": [],
+    "parallel": false,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Production Readiness",
+    "condition": "SINGLE",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "squadsUsed": [],
+    "parallel": false,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Architecture Analysis",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "squadsUsed": [
+      "management_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Security Audit",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_security"
+    ],
+    "squadsUsed": [
+      "security_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Research Review",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_research"
+    ],
+    "squadsUsed": [
+      "research_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Growth Strategy",
+    "condition": "SQUAD",
+    "wallClockMs": 1,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_sales"
+    ],
+    "squadsUsed": [
+      "growth_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Production Readiness",
+    "condition": "SQUAD",
+    "wallClockMs": 0,
+    "tasks": 1,
+    "success": 1,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_ceo"
+    ],
+    "squadsUsed": [
+      "management_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": false,
+    "experienceStored": true
+  },
+  {
+    "project": "Production (multi-squad)",
+    "condition": "MULTI",
+    "wallClockMs": 202,
+    "tasks": 3,
+    "success": 3,
+    "failure": 0,
+    "agentsUsed": [
+      "agent_ceo",
+      "agent_security",
+      "agent_research"
+    ],
+    "squadsUsed": [
+      "management_squad",
+      "security_squad",
+      "research_squad"
+    ],
+    "parallel": true,
+    "artifactGenerated": true,
+    "experienceStored": true
+  }
+]

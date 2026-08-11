@@ -1,0 +1,26 @@
+[
+  {
+    "agentId": "agent_ceo",
+    "tasks": 5,
+    "success": 5,
+    "avgLatencyMs": 0
+  },
+  {
+    "agentId": "agent_security",
+    "tasks": 3,
+    "success": 3,
+    "avgLatencyMs": 0
+  },
+  {
+    "agentId": "agent_research",
+    "tasks": 3,
+    "success": 3,
+    "avgLatencyMs": 0
+  },
+  {
+    "agentId": "agent_sales",
+    "tasks": 2,
+    "success": 2,
+    "avgLatencyMs": 0.5
+  }
+]
