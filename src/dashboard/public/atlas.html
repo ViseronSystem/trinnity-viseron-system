@@ -1,291 +1,341 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATLAS — English Tutor · Trinnity Viseron System</title>
-<meta name="description" content="ATLAS — Tutor de Inglês com voz do Trinnity Viseron System. © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)">
+<title>ATLAS — Curso de Inglés · 120 Módulos</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #03050a; --bg2: #070b16; --panel: rgba(8, 14, 28, 0.85);
-    --line: rgba(0, 240, 255, 0.18); --line2: rgba(52, 211, 153, 0.22);
-    --cyan: #00f0ff; --green: #34d399; --gold: #ffd23c; --magenta: #bf5af2;
-    --ok: #34d399; --warn: #ffd23c; --err: #ff4d6d; --txt: #e8f1ff; --dim: rgba(232,241,255,0.45);
-    --mono: 'Consolas','SFMono-Regular',monospace; --sans: 'Segoe UI','Inter',system-ui,sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--txt); font-family:var(--sans); overflow:hidden; height:100vh; }
-  .bg-grid { position:fixed; inset:0; background-image:linear-gradient(rgba(52,211,153,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(52,211,153,0.04) 1px,transparent 1px); background-size:44px 44px; pointer-events:none; }
-  .glow-top { position:fixed; top:-220px; left:50%; transform:translateX(-50%); width:900px; height:440px; background:radial-gradient(ellipse at center,rgba(52,211,153,0.16),transparent 65%); pointer-events:none; }
-
-  header { position:relative; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 26px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(8,14,28,0.9),rgba(3,5,10,0.6)); }
-  .brand b { font-family:var(--mono); font-size:22px; letter-spacing:6px; color:var(--green); text-shadow:0 0 18px rgba(52,211,153,0.6); }
-  .brand span { font-size:10px; color:var(--dim); letter-spacing:2px; display:block; }
-  .header-right { display:flex; gap:18px; align-items:center; }
-  .hud-pill { font-family:var(--mono); font-size:10px; color:var(--dim); border:1px solid var(--line); border-radius:999px; padding:5px 12px; }
-  .hud-pill .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ok); margin-right:6px; box-shadow:0 0 8px var(--ok); }
-
-  main { position:relative; display:grid; grid-template-columns:300px 1fr 300px; gap:0; height:calc(100vh - 64px - 46px); }
-  .panel { position:relative; overflow-y:auto; padding:18px; background:var(--panel); border-right:1px solid var(--line); backdrop-filter:blur(10px); }
-  .panel.right { border-right:none; border-left:1px solid var(--line2); }
-  .panel::-webkit-scrollbar { width:4px; } .panel::-webkit-scrollbar-thumb { background:rgba(52,211,153,0.3); border-radius:4px; }
-
-  .p-title { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--green); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-  .p-title .bar { width:4px; height:12px; background:var(--green); box-shadow:0 0 8px var(--green); }
-  .metric { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:10px 12px; margin-bottom:8px; }
-  .metric .k { font-size:9px; letter-spacing:1.5px; color:var(--dim); text-transform:uppercase; }
-  .metric .v { font-family:var(--mono); font-size:14px; margin-top:3px; color:var(--txt); }
-  .metric .v.gold { color:var(--gold); } .metric .v.cyan { color:var(--cyan); } .metric .v.ok { color:var(--ok); }
-  .day-item { font-family:var(--mono); font-size:9px; color:var(--dim); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:7px 9px; margin-bottom:6px; }
-  .day-item b { color:var(--green); display:block; font-size:10px; margin-bottom:2px; }
-  .day-item.done { border-color:rgba(52,211,153,0.4); }
-  .day-item.done b { color:var(--gold); }
-  .log-line { font-family:var(--mono); font-size:9px; color:var(--dim); border-bottom:1px dashed rgba(255,255,255,0.05); padding:4px 0; }
-  .log-line b { color:var(--green); font-weight:600; }
-
-  .center { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:20px; }
-  .reactor-wrap { position:relative; width:200px; height:200px; }
-  .reactor { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(52,211,153,0.35); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:box-shadow 0.3s, border-color 0.3s; background:radial-gradient(circle, rgba(52,211,153,0.05), rgba(52,211,153,0.14) 40%, rgba(3,5,10,0.8) 78%); }
-  .reactor::before { content:''; position:absolute; inset:-14px; border-radius:50%; border:1px dashed rgba(52,211,153,0.25); animation:spin 14s linear infinite; }
-  .reactor::after { content:''; position:absolute; inset:-34px; border-radius:50%; border:1px solid rgba(255,210,60,0.18); }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .reactor .core { width:80px; height:80px; border-radius:50%; background:radial-gradient(circle, #fff 0%, var(--green) 35%, rgba(52,211,153,0.25) 70%); box-shadow:0 0 40px rgba(52,211,153,0.8), 0 0 90px rgba(52,211,153,0.4); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:12px; color:#031018; font-weight:800; letter-spacing:1px; }
-  .reactor.listening { border-color:var(--err); box-shadow:0 0 60px rgba(255,77,109,0.4); animation:beat 1.1s infinite; }
-  .reactor.speaking { border-color:var(--gold); box-shadow:0 0 60px rgba(255,210,60,0.35); }
-  @keyframes beat { 0%,100% { transform:scale(1);} 50% { transform:scale(1.035);} }
-  .reactor .core.listening { background:radial-gradient(circle,#fff 0%,var(--err) 35%,rgba(255,77,109,0.25) 70%); box-shadow:0 0 40px rgba(255,77,109,0.8); }
-  .reactor .core.speaking { background:radial-gradient(circle,#fff 0%,var(--gold) 35%,rgba(255,210,60,0.25) 70%); box-shadow:0 0 40px rgba(255,210,60,0.8); }
-  .reactor-state { font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--dim); min-height:16px; text-align:center; }
-  .reactor-state.live { color:var(--green); text-shadow:0 0 10px rgba(52,211,153,0.6); }
-
-  .controls { display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
-  .btn { font-family:var(--mono); font-size:11px; letter-spacing:1px; color:var(--txt); background:rgba(255,255,255,0.04); border:1px solid var(--line); border-radius:999px; padding:8px 16px; cursor:pointer; transition:all 0.2s; }
-  .btn:hover { background:rgba(52,211,153,0.1); border-color:var(--green); }
-  .btn.active { background:rgba(52,211,153,0.14); border-color:var(--green); color:var(--green); }
-  .btn.lang { font-size:10px; padding:6px 12px; }
-  .btn.mode.active { background:rgba(255,210,60,0.14); border-color:var(--gold); color:var(--gold); }
-
-  .text-row { display:flex; gap:8px; width:100%; max-width:560px; }
-  .text-row input { flex:1; background:rgba(255,255,255,0.04); border:1px solid var(--line); border-radius:999px; padding:11px 18px; color:var(--txt); font-family:var(--mono); font-size:12px; outline:none; }
-  .text-row input:focus { border-color:var(--green); box-shadow:0 0 14px rgba(52,211,153,0.2); }
-  .text-row input::placeholder { color:var(--dim); }
-  .text-row .btn { border-radius:999px; }
-
-  .transcript { width:100%; max-width:600px; max-height:210px; overflow-y:auto; padding:10px 2px; }
-  .transcript::-webkit-scrollbar { width:4px; } .transcript::-webkit-scrollbar-thumb { background:rgba(52,211,153,0.3); }
-  .t-line { margin-bottom:8px; padding:8px 12px; border-radius:10px; font-size:12px; line-height:1.5; animation:fadeIn 0.25s ease; white-space:pre-wrap; }
-  .t-line.user { background:rgba(0,240,255,0.06); border-left:2px solid var(--cyan); text-align:right; }
-  .t-line.atlas { background:rgba(52,211,153,0.05); border-left:2px solid var(--green); }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:none;} }
-  .t-tag { font-size:9px; letter-spacing:1.5px; opacity:0.6; font-family:var(--mono); }
-  .t-line .eng { color:var(--gold); font-family:var(--mono); font-size:11px; }
-
-  footer { position:fixed; bottom:0; left:0; right:0; height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 26px; border-top:1px solid var(--line); background:rgba(3,5,10,0.85); font-size:10px; color:var(--dim); }
-  footer .copy { color:var(--gold); letter-spacing:1px; }
-  footer .mono { font-family:var(--mono); }
-
-  @media (max-width:960px) { main { grid-template-columns:1fr; } .panel.left,.panel.right { display:none; } }
+:root{--bg:#04040f;--panel:rgba(10,12,30,.95);--line:rgba(0,240,255,.16);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e8e8f4;--muted:#9aa0b5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+canvas#estrellas{position:fixed;inset:0;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:22px 16px 60px}
+header{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:20px}
+header h1{font-family:'Orbitron';font-weight:900;font-size:1.25rem;color:var(--cyan)}
+header .sub{color:var(--muted);font-size:.72rem}
+.btn-regreso{background:rgba(0,240,255,.08);border:1px solid var(--line);color:var(--cyan);border-radius:99px;padding:8px 16px;font-size:.72rem;font-weight:800;cursor:pointer;text-decoration:none}
+.prog{background:rgba(255,255,255,.07);border-radius:99px;height:10px;overflow:hidden;margin:10px 0}
+.prog div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:0;transition:.5s}
+.nivel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+.nivel .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.nivel h2{font-family:'Orbitron';font-size:1rem;color:var(--purple)}
+.nivel .pct{color:var(--green);font-weight:800;font-size:.8rem}
+.modulos{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.mod{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;font-size:.74rem;transition:.2s;text-align:left}
+.mod:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.mod.hecho{border-color:rgba(0,255,135,.5);background:rgba(0,255,135,.06)}
+.mod .n{font-family:'Orbitron';font-size:.6rem;color:var(--orange)}
+.mod .t{color:var(--text);margin-top:3px;line-height:1.35}
+.leccion .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.leccion h3{color:var(--cyan);font-size:1.05rem;margin-bottom:8px}
+.explicacion{color:var(--text);font-size:.9rem;line-height:1.7}
+.ejemplo{display:flex;justify-content:space-between;gap:12px;align-items:center;background:rgba(0,240,255,.05);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;flex-wrap:wrap}
+.ejemplo .en{color:var(--cyan);font-weight:700;font-size:.9rem}
+.ejemplo .es{color:var(--muted);font-size:.8rem}
+.ejemplo button{background:rgba(0,240,255,.12);border:1px solid var(--line);color:var(--cyan);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:.85rem}
+.vocab{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.vocab .v{display:flex;justify-content:space-between;align-items:center;background:rgba(191,90,242,.07);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.82rem}
+.vocab .v b{color:var(--purple)}
+.vocab .v span{color:var(--muted);font-size:.76rem}
+.vocab .v button{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:.95rem}
+.quiz .q{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.quiz .q p{font-size:.86rem;margin-bottom:10px;font-weight:700}
+.quiz .opt{display:block;width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:10px 12px;margin:6px 0;cursor:pointer;font-size:.82rem}
+.quiz .opt.bien{background:rgba(0,255,135,.15);border-color:var(--green)}
+.quiz .opt.mal{background:rgba(255,95,87,.15);border-color:var(--red)}
+.pronuncia{background:linear-gradient(160deg,rgba(10,20,34,.95),rgba(16,8,36,.95));border:1px solid var(--orange);border-radius:16px;padding:20px;margin:14px 0}
+.pronuncia h4{color:var(--orange);margin-bottom:8px;font-family:'Orbitron';font-size:.85rem}
+.pronuncia .frase{font-size:1.15rem;color:var(--text);font-weight:800;margin:10px 0}
+.pronuncia button{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:10px;padding:12px 22px;font-weight:900;cursor:pointer;margin-right:8px}
+.pronuncia .result{font-size:.8rem;color:var(--muted);margin-top:10px;min-height:20px}
+.boton-fin{background:linear-gradient(90deg,var(--cyan),var(--green));color:#030310;border:none;border-radius:12px;padding:14px 26px;font-weight:900;font-size:.95rem;cursor:pointer;width:100%;margin-top:16px}
+.certificado{background:linear-gradient(160deg,rgba(8,26,20,.95),rgba(20,10,40,.95));border:2px solid var(--green);border-radius:20px;padding:34px;text-align:center}
+.certificado .titulo{font-family:'Orbitron';font-size:1.4rem;color:var(--green);margin-bottom:10px}
+.plan7{background:var(--panel);border:1px solid var(--orange);border-radius:16px;padding:18px;margin-bottom:20px}
+.plan7 h3{color:var(--orange);font-size:.95rem;margin-bottom:10px}
+.plan7 ol{margin-left:18px;font-size:.8rem;color:var(--muted);line-height:1.9}
+.streak{color:var(--orange);font-weight:900;font-size:.85rem}
 </style>
 </head>
 <body>
-<div class="bg-grid"></div><div class="glow-top"></div>
-
-<header>
-  <div class="brand"><b>ATLAS</b><span>English Tutor · Trinnity Viseron System · English Teacher</span></div>
-  <div class="header-right">
-    <div class="hud-pill"><span class="dot"></span><span id="hud-online">ONLINE</span></div>
-    <div class="hud-pill"><span id="hud-mode">READY</span></div>
-  </div>
-</header>
-
-<main>
-  <section class="panel left">
-    <div class="p-title"><span class="bar"></span>PLANO DE 7 DIAS / 7-DAY PLAN</div>
-    <div id="plan-list"></div>
-    <div class="p-title" style="margin-top:16px"><span class="bar"></span>PROGRESSO / PROGRESS</div>
-    <div class="metric"><div class="k">Lições completas</div><div class="v gold" id="m-lessons">—</div></div>
-    <div class="metric"><div class="k">Mensagens trocadas</div><div class="v cyan" id="m-msgs">—</div></div>
-  </section>
-
-  <section class="center">
-    <div class="reactor-wrap">
-      <div class="reactor" id="reactor" title="Pressione para falar">
-        <div class="core" id="reactor-core">EN</div>
-      </div>
-    </div>
-    <div class="reactor-state" id="reactor-state">Aprende inglês falando. Toca e fala.</div>
-
-    <div class="controls">
-      <button class="btn lang active" id="btn-es" onclick="setLang('es')">ES</button>
-      <button class="btn lang" id="btn-pt" onclick="setLang('pt')">PT</button>
-      <button class="btn mode" id="btn-lesson" onclick="setMode('lesson')">Liçao</button>
-      <button class="btn mode active" id="btn-chat" onclick="setMode('chat')">Chat</button>
-      <button class="btn mode" id="btn-practice" onclick="setMode('practice')">Praticar</button>
-      <button class="btn mode" id="btn-pronounce" onclick="setMode('pronounce')">Pronúncia</button>
-    </div>
-
-    <div class="transcript" id="transcript">
-      <div class="t-line atlas"><span class="t-tag">ATLAS</span><br>Hola, Comandante. Soy ATLAS, tu tutor de inglés con voz. Dime qué quieres aprender y te enseño ahora mismo. 🎧 Habla y yo te escucho (o escribe abajo).</div>
-    </div>
-
-    <div class="text-row">
-      <input id="text-input" placeholder="Escribe o habla: 'dime cómo se dice negocio en inglés'..." onkeydown="if(event.key==='Enter')sendText()">
-      <button class="btn" onclick="sendText()">ENVIAR</button>
-    </div>
-  </section>
-
-  <section class="panel right">
-    <div class="p-title"><span class="bar"></span>MÉTODO / METHOD</div>
-    <div class="metric"><div class="k">Objetivo</div><div class="v ok">FLUÊNCIA</div></div>
-    <div class="metric"><div class="k">Input compreensível</div><div class="v">ouve + fala</div></div>
-    <div class="metric"><div class="k">Correção imediata</div><div class="v cyan">a cada erro</div></div>
-    <div class="metric"><div class="k">Fonética simples</div><div class="v gold">BÍZ-ness</div></div>
-    <div class="p-title" style="margin-top:16px"><span class="bar"></span>CONSELHO DO DIA</div>
-    <div class="log-line" id="tip-line">Aprende 5 palavras novas por dia e repete-as em voz alta. A voz é o músculo — treina-o.</div>
-  </section>
-</main>
-
-<footer>
-  <div class="mono">ATLAS © <span class="copy">Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)</span></div>
-  <div class="mono">Trinnity Viseron System v5.0 · English Tutor</div>
-</footer>
+<canvas id="estrellas"></canvas>
+<div class="wrap" id="app"></div>
+<script>
+/* ===== MOTOR DEL CURSO ===== */
+var PROG = { get:function(){ try{return JSON.parse(localStorage.getItem('tvs_atlas')||'{"hechas":[],"nombre":"","streak":0,"ultimo":""}')}catch(e){return {hechas:[],nombre:"",streak:0,ultimo:""}} }, set:function(p){localStorage.setItem('tvs_atlas',JSON.stringify(p))} };
+function hablar(texto){ if(!window.speechSynthesis)return; speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(texto); u.lang='en-US'; u.rate=0.92; speechSynthesis.speak(u); }
+function escuchar(cb){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ cb({err:'sin-soporte'}); return; }
+  var r = new SR(); r.lang='en-US'; r.interimResults=false; r.maxAlternatives=3;
+  r.onresult=function(e){ cb({texto:e.results[0][0].transcript}); };
+  r.onerror=function(e){ cb({err:e.error}); };
+  r.start();
+}
+function nivelDe(i){ return Math.floor(i/30); }
+function pintarInicio(){
+  var p = PROG.get();
+  var total = LECCIONES.length, hechas = p.hechas.length;
+  var h = '<header><span style="font-size:1.8rem">&#127891;</span><div><h1>ATLAS · CURSO DE INGLÉS</h1><div class="sub">120 módulos reales · A1 → C1 · voz en cada lección · '+(p.nombre?('Alumno: <b style="color:#ff9f0a">'+p.nombre+'</b>'):'')+'</div></div>'+
+    '<a class="btn-regreso" href="/">&#8592; TVS</a></header>';
+  h += '<div class="prog"><div style="width:'+(hechas/total*100)+'%"></div></div>';
+  h += '<div style="text-align:center;font-size:.85rem;color:var(--muted)">Progreso: <b style="color:#00f0ff">'+hechas+'/120 módulos</b> · Racha: <b class="streak">&#128293; '+p.streak+' días</b></div>';
+  if (hechas >= total) {
+    h += '<div class="certificado" style="margin-top:20px"><div class="titulo">&#127891; CERTIFICADO ATLAS</div><p style="font-size:1rem;color:var(--text)">'+ (p.nombre||'Comandante') +' ha completado los 120 módulos del curso de inglés TVS.</p><p style="color:var(--muted);font-size:.8rem;margin-top:10px">Nivel alcanzado: C1 · Avanzado · Firma: ATLAS · TVS v7.0.0</p></div>';
+  }
+  h += '<div class="plan7"><h3>PLAN DE 7 DÍAS — ARRANQUE RÁPIDO</h3><ol><li>Módulos 1-5: saludos y presentaciones</li><li>Módulos 6-10: números y tiempo</li><li>Módulos 11-15: comida y compras</li><li>Módulos 16-20: viajes y direcciones</li><li>Módulos 21-25: trabajo y profesiones</li><li>Módulos 26-30: repaso A1 + quiz final</li><li>Día 7: certificado nivel A1</li></ol></div>';
+  NIVELES.forEach(function(niv, idx){
+    var mods = LECCIONES.filter(function(l){ return l.nivel===idx; });
+    var hc = mods.filter(function(l){ return p.hechas.indexOf(l.id)>=0; }).length;
+    h += '<div class="nivel"><div class="head"><h2>'+niv.nombre+' — '+niv.desc+'</h2><div class="pct">'+hc+'/'+mods.length+'</div></div><div class="modulos">';
+    mods.forEach(function(l){
+      var done = p.hechas.indexOf(l.id)>=0;
+      h += '<div class="mod'+(done?' hecho':'')+'" onclick="abrirLeccion(\''+l.id+'\')"><div class="n">M'+(l.num+1)+'</div><div class="t">'+l.titulo+'</div></div>';
+    });
+    h += '</div></div>';
+  });
+  document.getElementById('app').innerHTML = h;
+}
+function abrirLeccion(id){
+  var l = LECCIONES.find(function(x){return x.id===id});
+  if(!l)return;
+  var p = PROG.get();
+  var h = '<header><a class="btn-regreso" onclick="pintarInicio()">&#8592; Curso</a><div><h1>M'+(l.num+1)+' · '+l.titulo+'</h1><div class="sub">'+NIVELES[l.nivel].nombre+'</div></div><span style="font-size:1.6rem">&#127891;</span></header>';
+  h += '<div class="leccion"><div class="card"><h3>&#128218; Explicación</h3><p class="explicacion">'+l.explicacion+'</p></div>';
+  h += '<div class="card"><h3>&#128172; Ejemplos</h3>';
+  l.ejemplos.forEach(function(e, i){
+    h += '<div class="ejemplo"><div><div class="en">'+e.en+'</div><div class="es">'+e.es+'</div></div><button onclick="hablar(\''+e.en.replace(/'/g,"\\'")+'\')">&#128266;</button></div>';
+  });
+  h += '</div><div class="card"><h3>&#128218; Vocabulario</h3><div class="vocab">';
+  l.vocab.forEach(function(v){
+    var partes = v.split(':');
+    h += '<div class="v"><div><b>'+partes[0]+'</b> <span>'+partes[1]+'</span></div><button onclick="hablar(\''+partes[0].replace(/'/g,"\\'")+'\')">&#128266;</button></div>';
+  });
+  h += '</div></div>';
+  h += '<div class="quiz" id="quiz">';
+  l.preguntas.forEach(function(q, qi){
+    h += '<div class="q" id="q'+qi+'"><p>'+(qi+1)+'. '+q.p+'</p>';
+    q.o.forEach(function(opt, oi){
+      h += '<button class="opt" onclick="responder(\''+l.id+'\','+qi+','+oi+')">'+opt+'</button>';
+    });
+    h += '</div>';
+  });
+  h += '</div>';
+  h += '<div class="pronuncia"><h4>&#127908; PRONUNCIACIÓN — repite en voz alta</h4><div class="frase">"'+l.pronunciacion+'"</div>'+
+    '<button onclick="hablar(\''+l.pronunciacion.replace(/'/g,"\\'")+'\')">&#128266; Escuchar</button>'+
+    '<button onclick="practicarPronuncia(\''+l.id+'\')">&#127897; Grabar y comparar</button>'+
+    '<div class="result" id="pres">Di la frase en inglés. El sistema la escucha y la compara.</div></div>';
+  h += '<button class="boton-fin" id="btnTerminar" onclick="terminar(\''+l.id+'\')">&#9989; TERMINAR MÓDULO</button></div>';
+  document.getElementById('app').innerHTML = h;
+  if (p.hechas.indexOf(l.id)>=0) {
+    var bt = document.getElementById('btnTerminar');
+    if(bt){bt.textContent='&#10003; MÓDULO COMPLETADO';bt.style.opacity=.6;}
+  }
+}
+function responder(id, qi, oi){
+  var l = LECCIONES.find(function(x){return x.id===id});
+  var q = l.preguntas[qi];
+  var qel = document.getElementById('q'+qi);
+  if(!qel)return;
+  var opts = qel.querySelectorAll('.opt');
+  if(opts[0].classList.contains('bien')||opts[0].classList.contains('mal'))return;
+  opts.forEach(function(o, i){
+    o.disabled = true;
+    if(i===q.c){o.classList.add('bien');}
+    else if(i===oi){o.classList.add('mal');}
+  });
+  var ok = oi===q.c;
+  var p = PROG.get();
+  p.respuestas = p.respuestas||{};
+  if(ok){ var antes=p.respuestas[id]||0; p.respuestas[id]=antes+1; PROG.set(p); }
+}
+function practicarPronuncia(id){
+  var l = LECCIONES.find(function(x){return x.id===id});
+  var el = document.getElementById('pres');
+  if(!el)return;
+  el.textContent = 'Escuchando... habla ahora';
+  escuchar(function(res){
+    if(!el)return;
+    if(res.err){ el.textContent = 'Tu navegador no tiene reconocimiento de voz (usa Chrome/Edge). Sigue practicando con el botón de escuchar.'; return; }
+    var dicho = (res.texto||'').toLowerCase().replace(/[^a-z ]/g,'').trim();
+    var meta = l.pronunciacion.toLowerCase().replace(/[^a-z ]/g,'').trim();
+    var palabras = meta.split(' '), aciertos = 0;
+    palabras.forEach(function(w){ if(dicho.indexOf(w)>=0)aciertos++; });
+    var pct = Math.round(aciertos/palabras.length*100);
+    el.innerHTML = 'Has dicho: <b style="color:#00f0ff">"'+res.texto+'"</b><br>Precisión: <b style="color:'+(pct>=70?'#00ff87':'#ff9f0a')+'">'+pct+'%</b> '+(pct>=70?'&#128293; ¡Excelente!':'Sigue practicando.') ;
+  });
+}
+function terminar(id){
+  var p = PROG.get();
+  if(p.hechas.indexOf(id)>=0){ pintarInicio(); return; }
+  p.hechas.push(id);
+  var hoy = new Date().toISOString().slice(0,10);
+  if(p.ultimo === hoy){ } else { var ayer = new Date(Date.now()-86400000).toISOString().slice(0,10); p.streak = (p.ultimo===ayer)? (p.streak+1) : 1; }
+  p.ultimo = hoy;
+  PROG.set(p);
+  if(!p.nombre){
+    var n = prompt('¡Bien hecho! Escribe tu nombre para el certificado:');
+    if(n){ p.nombre = n; PROG.set(p); }
+  }
+  pintarInicio();
+  window.scrollTo(0,0);
+}
+/* ===== STARFIELD ===== */
+(function(){
+  var c=document.getElementById('estrellas'),x=c.getContext('2d'),W,H,st=[];
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;st=[];for(var i=0;i<220;i++)st.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*1+0.2});}
+  rs();addEventListener('resize',rs);
+  (function loop(){x.clearRect(0,0,W,H);for(var i=0;i<st.length;i++){var s=st[i];s.z-=0.0015;if(s.z<=0.1){s.z=1;s.x=Math.random()*W;s.y=Math.random()*H;}var px=(s.x-W/2)/s.z+W/2,py=(s.y-H/2)/s.z+H/2;if(px<0||px>W||py<0||py>H)continue;x.globalAlpha=Math.min(1,(1-s.z)*1.3);x.fillStyle='#cfe8ff';x.beginPath();x.arc(px,py,0.8/s.z,0,6.29);x.fill();}x.globalAlpha=1;requestAnimationFrame(loop);})();
+})();
+var NIVELES = [
+ {nombre:'A1 · Principiante', desc:'Fundamentos para sobrevivir en inglés'},
+ {nombre:'A2 · Básico', desc:'Conversaciones cotidianas con confianza'},
+ {nombre:'B1 · Intermedio', desc:'Trabajo, viajes y opiniones'},
+ {nombre:'B2 · Intermedio Alto', desc:'Negocios y comunicación fluida'},
+ {nombre:'C1 · Avanzado', desc:'Inglés profesional y matices'}
+];
+</script>
 
 <script>
-(function () {
-  "use strict";
-  const $ = (id) => document.getElementById(id);
-  const T = {
-    es: {
-      listening: "ESCUCHANDO...", speaking: "HABLANDO...", noSupport: "Reconocimiento de voz no soportado en este navegador.", micError: "Error al iniciar el micrófono."
-    },
-    pt: {
-      listening: "A OUVIR...", speaking: "A FALAR...", noSupport: "Reconhecimento de voz não suportado neste navegador.", micError: "Erro ao iniciar o microfone."
-    }
-  };
-  let lang = (navigator.language || 'es').startsWith('pt') ? 'pt' : 'es';
-  let mode = 'chat', isListening = false, isSpeaking = false, busy = false, sessionId = null;
-  let recognition = null;
+var LECCIONES = [
+{id:'m0',num:0,nivel:0,titulo:'Saludos básicos',explicacion:'En inglés saludamos con "Hello" o "Hi" a cualquier hora. Para despedirnos usamos "Goodbye" o "Bye". Es el primer paso para comunicarte.',ejemplos:[{en:'Hello, how are you?',es:'Hola, ¿cómo estás?'},{en:'I am fine, thank you.',es:'Estoy bien, gracias.'}],vocab:['hello:hola','goodbye:adiós','please:por favor','thanks:gracias'],preguntas:[{p:'¿Cómo se dice "hola" en inglés?',o:['Hello','Apple','House'],c:0},{p:'¿Cómo se dice "adiós"?',o:['Goodbye','Morning','Water'],c:0}],pronunciacion:'Hello, how are you?'},
+{id:'m1',num:1,nivel:0,titulo:'Presentarse',explicacion:'Para decir tu nombre usas "My name is...". Para preguntar el nombre de otro usas "What is your name?".',ejemplos:[{en:'My name is Pedro.',es:'Mi nombre es Pedro.'},{en:'What is your name?',es:'¿Cuál es tu nombre?'}],vocab:['name:nombre','my:mi','your:tu','what:qué'],preguntas:[{p:'"Mi nombre es..." en inglés:',o:['My name is...','I am name','Me name'],c:0},{p:'¿Cómo preguntas el nombre?',o:['What is your name?','Who is your name?','How name you?'],c:0}],pronunciacion:'My name is Pedro.'},
+{id:'m2',num:2,nivel:0,titulo:'¿De dónde eres?',explicacion:'Para preguntar el origen usamos "Where are you from?". Se responde "I am from Spain" o el país que sea.',ejemplos:[{en:'Where are you from?',es:'¿De dónde eres?'},{en:'I am from Portugal.',es:'Soy de Portugal.'}],vocab:['where:dónde','from:de','Spain:España','country:país'],preguntas:[{p:'"¿De dónde eres?" en inglés:',o:['Where are you from?','When are you?','What from you?'],c:0},{p:'"Soy de Portugal":',o:['I am from Portugal','I is Portugal','Me Portugal'],c:0}],pronunciacion:'I am from Portugal.'},
+{id:'m3',num:3,nivel:0,titulo:'Los números 1-10',explicacion:'Los números son la base de todo: precios, horas y cantidades. Memorízalos en orden: one, two, three...',ejemplos:[{en:'I have two cars.',es:'Tengo dos coches.'},{en:'She is seven years old.',es:'Ella tiene siete años.'}],vocab:['one:uno','two:dos','three:tres','ten:diez'],preguntas:[{p:'¿Qué número es "three"?',o:['3','4','5'],c:0},{p:'"two" es:',o:['2','1','8'],c:0}],pronunciacion:'One, two, three, four, five.'},
+{id:'m4',num:4,nivel:0,titulo:'Días de la semana',explicacion:'Los días en inglés: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday. Siempre con mayúscula.',ejemplos:[{en:'Today is Monday.',es:'Hoy es lunes.'},{en:'I work from Monday to Friday.',es:'Trabajo de lunes a viernes.'}],vocab:['Monday:lunes','Friday:viernes','week:semana','today:hoy'],preguntas:[{p:'"Monday" es:',o:['Lunes','Martes','Domingo'],c:0},{p:'"Viernes" en inglés:',o:['Friday','Sunday','Monday'],c:0}],pronunciacion:'Today is Monday.'},
+{id:'m5',num:5,nivel:0,titulo:'El verbo To Be',explicacion:'El verbo más importante: "to be" (ser/estar). En presente: I am, you are, he/she/it is, we are, they are.',ejemplos:[{en:'I am happy.',es:'Estoy feliz.'},{en:'They are students.',es:'Ellos son estudiantes.'}],vocab:['am:soy/estoy','is:es/está','are:son/están','happy:feliz'],preguntas:[{p:'"I ___ happy":',o:['am','is','are'],c:0},{p:'"They ___ students":',o:['are','am','is'],c:0}],pronunciacion:'I am happy.'},
+{id:'m6',num:6,nivel:0,titulo:'Colores',explicacion:'Colores básicos: red, blue, green, yellow, black, white. Se usan como adjetivo antes del sustantivo.',ejemplos:[{en:'The car is red.',es:'El coche es rojo.'},{en:'I like blue shoes.',es:'Me gustan los zapatos azules.'}],vocab:['red:rojo','blue:azul','green:verde','yellow:amarillo'],preguntas:[{p:'"Azul" en inglés:',o:['Blue','Red','Green'],c:0},{p:'"The car is ___" (rojo):',o:['red','blue','green'],c:0}],pronunciacion:'The car is red.'},
+{id:'m7',num:7,nivel:0,titulo:'La familia',explicacion:'Familia: mother, father, brother, sister. Con "my" indicamos posesión: my brother = mi hermano.',ejemplos:[{en:'My mother is a doctor.',es:'Mi madre es doctora.'},{en:'I have one sister.',es:'Tengo una hermana.'}],vocab:['mother:madre','father:padre','brother:hermano','sister:hermana'],preguntas:[{p:'"Madre" en inglés:',o:['Mother','Father','Sister'],c:0},{p:'"My ___ is a doctor" (madre):',o:['mother','brother','father'],c:0}],pronunciacion:'My mother is a doctor.'},
+{id:'m8',num:8,nivel:0,titulo:'Profesiones',explicacion:'Para hablar de trabajo: "I am a teacher". Con "a/an" antes de la profesión: a doctor, an engineer.',ejemplos:[{en:'I am a teacher.',es:'Soy profesor.'},{en:'He is an engineer.',es:'Él es ingeniero.'}],vocab:['teacher:profesor','doctor:médico','engineer:ingeniero','work:trabajo'],preguntas:[{p:'"Soy profesor":',o:['I am a teacher','I am teacher','I teacher'],c:0},{p:'"Él es ingeniero":',o:['He is an engineer','He is engineer','He an engineer'],c:0}],pronunciacion:'I am a teacher.'},
+{id:'m9',num:9,nivel:0,titulo:'Comida básica',explicacion:'Palabras de comida: water, bread, milk, apple. Para pedir: "I want..." o "Can I have...?".',ejemplos:[{en:'I want water, please.',es:'Quiero agua, por favor.'},{en:'Can I have an apple?',es:'¿Me das una manzana?'}],vocab:['water:agua','bread:pan','milk:leche','apple:manzana'],preguntas:[{p:'"Agua" en inglés:',o:['Water','Bread','Milk'],c:0},{p:'"Quiero agua, por favor":',o:['I want water, please','I water want','Want I water'],c:0}],pronunciacion:'I want water, please.'},
+{id:'m10',num:10,nivel:0,titulo:'La hora',explicacion:'Para preguntar la hora: "What time is it?". Se responde "It is three o\'clock" o "It is half past three".',ejemplos:[{en:'What time is it?',es:'¿Qué hora es?'},{en:'It is three o\'clock.',es:'Son las tres en punto.'}],vocab:['time:hora','clock:reloj','hour:hora','minute:minuto'],preguntas:[{p:'"¿Qué hora es?"',o:['What time is it?','What hour?','Time what?'],c:0},{p:'"Son las tres":',o:['It is three o\'clock','Three hours','It three'],c:0}],pronunciacion:'What time is it?'},
+{id:'m11',num:11,nivel:0,titulo:'Los meses',explicacion:'Meses: January, February, March, April, May, June, July, August, September, October, November, December.',ejemplos:[{en:'My birthday is in May.',es:'Mi cumpleaños es en mayo.'},{en:'We travel in August.',es:'Viajamos en agosto.'}],vocab:['May:mayo','August:agosto','month:mes','birthday:cumpleaños'],preguntas:[{p:'"Mayo" en inglés:',o:['May','March','June'],c:0},{p:'"Mi cumpleaños es en mayo":',o:['My birthday is in May','My birthday in May is','Birthday my is May'],c:0}],pronunciacion:'My birthday is in May.'},
+{id:'m12',num:12,nivel:0,titulo:'El clima',explicacion:'Clima: sunny, rainy, cold, hot. Se usa "It is" para describir: "It is sunny today".',ejemplos:[{en:'It is sunny today.',es:'Hoy hace sol.'},{en:'It is very cold.',es:'Hace mucho frío.'}],vocab:['sunny:soleado','rainy:lluvioso','cold:frío','hot:caluroso'],preguntas:[{p:'"Lluvioso" en inglés:',o:['Rainy','Sunny','Windy'],c:0},{p:'"Hoy hace sol":',o:['It is sunny today','Is sunny today','Sunny it today'],c:0}],pronunciacion:'It is sunny today.'},
+{id:'m13',num:13,nivel:0,titulo:'Preguntar y responder',explicacion:'Las preguntas con "Wh-" (what, where, who, when, why) llevan verbo auxiliar: do/does o to be.',ejemplos:[{en:'Who is he?',es:'¿Quién es él?'},{en:'Why are you sad?',es:'¿Por qué estás triste?'}],vocab:['who:quién','why:por qué','when:cuándo','sad:triste'],preguntas:[{p:'"¿Quién es él?"',o:['Who is he?','What is he?','Why is he?'],c:0},{p:'"¿Por qué estás triste?"',o:['Why are you sad?','When sad?','What sad you?'],c:0}],pronunciacion:'Who is he?'},
+{id:'m14',num:14,nivel:0,titulo:'Adjetivos comunes',explicacion:'Adjetivos: big, small, good, bad, new, old. Van antes del sustantivo: a big house.',ejemplos:[{en:'This is a big house.',es:'Esta es una casa grande.'},{en:'He is a good friend.',es:'Él es un buen amigo.'}],vocab:['big:grande','small:pequeño','good:bueno','bad:malo'],preguntas:[{p:'"Grande" en inglés:',o:['Big','Small','Old'],c:0},{p:'"Una casa grande":',o:['A big house','A house big','Big a house'],c:0}],pronunciacion:'This is a big house.'},
+{id:'m15',num:15,nivel:0,titulo:'Objetos cotidianos',explicacion:'Objetos: book, phone, computer, table, chair. Útiles para pedir y describir.',ejemplos:[{en:'This is my phone.',es:'Este es mi teléfono.'},{en:'The book is on the table.',es:'El libro está sobre la mesa.'}],vocab:['book:libro','phone:teléfono','table:mesa','chair:silla'],preguntas:[{p:'"Libro" en inglés:',o:['Book','Table','Chair'],c:0},{p:'"Este es mi teléfono":',o:['This is my phone','This my phone is','Phone my this'],c:0}],pronunciacion:'This is my phone.'},
+{id:'m16',num:16,nivel:0,titulo:'Verbo To Have',explicacion:'"To have" (tener): I have, you have, he/she/it has. Para posesiones: "I have a car".',ejemplos:[{en:'I have a car.',es:'Tengo un coche.'},{en:'She has two cats.',es:'Ella tiene dos gatos.'}],vocab:['have:tener','has:tiene','car:coche','cat:gato'],preguntas:[{p:'"Tengo un coche":',o:['I have a car','I has a car','I car have'],c:0},{p:'"Ella tiene dos gatos":',o:['She has two cats','She have two cats','She two cats has'],c:0}],pronunciacion:'I have a car.'},
+{id:'m17',num:17,nivel:0,titulo:'Preposiciones de lugar',explicacion:'in (dentro), on (sobre), under (debajo), next to (al lado). Describen dónde están las cosas.',ejemplos:[{en:'The keys are on the table.',es:'Las llaves están sobre la mesa.'},{en:'The cat is under the bed.',es:'El gato está debajo de la cama.'}],vocab:['in:dentro','on:sobre','under:debajo','bed:cama'],preguntas:[{p:'"Sobre la mesa":',o:['On the table','In the table','Under the table'],c:0},{p:'"El gato está debajo de la cama":',o:['The cat is under the bed','The cat on the bed','Under the cat bed'],c:0}],pronunciacion:'The keys are on the table.'},
+{id:'m18',num:18,nivel:0,titulo:'Verbos de acción',explicacion:'Verbos: eat, drink, sleep, run, read. En presente simple con I/you/we/they van sin "s".',ejemplos:[{en:'I eat bread every day.',es:'Como pan todos los días.'},{en:'We read books at night.',es:'Leemos libros por la noche.'}],vocab:['eat:comer','drink:beber','sleep:dormir','read:leer'],preguntas:[{p:'"Comer" en inglés:',o:['Eat','Sleep','Run'],c:0},{p:'"Como pan todos los días":',o:['I eat bread every day','I eats bread every day','Eat I bread day'],c:0}],pronunciacion:'I eat bread every day.'},
+{id:'m19',num:19,nivel:0,titulo:'Gustos: like/don\'t like',explicacion:'Para gustos usamos "I like" (me gusta) y "I don\'t like" (no me gusta).',ejemplos:[{en:'I like coffee.',es:'Me gusta el café.'},{en:'I don\'t like rain.',es:'No me gusta la lluvia.'}],vocab:['like:gustar','coffee:café','rain:lluvia','music:música'],preguntas:[{p:'"Me gusta el café":',o:['I like coffee','I likes coffee','Like I coffee'],c:0},{p:'"No me gusta la lluvia":',o:['I don\'t like rain','I not like rain','I no like rain'],c:0}],pronunciacion:'I like coffee.'},
+{id:'m20',num:20,nivel:0,titulo:'Can / Can\'t',explicacion:'"Can" expresa habilidad: "I can swim" (puedo nadar). La negación es "can\'t".',ejemplos:[{en:'I can swim.',es:'Puedo nadar.'},{en:'He can\'t drive.',es:'Él no puede conducir.'}],vocab:['can:poder','swim:nadar','drive:conducir','dance:bailar'],preguntas:[{p:'"Puedo nadar":',o:['I can swim','I can swimming','Can I swim'],c:0},{p:'"Él no puede conducir":',o:['He can\'t drive','He no can drive','He cant\'t drive'],c:0}],pronunciacion:'I can swim.'},
+{id:'m21',num:21,nivel:0,titulo:'Ropa',explicacion:'Ropa: shirt, pants, shoes, dress. Con colores: "a blue shirt".',ejemplos:[{en:'I wear a blue shirt.',es:'Llevo una camisa azul.'},{en:'These shoes are new.',es:'Estos zapatos son nuevos.'}],vocab:['shirt:camisa','pants:pantalones','shoes:zapatos','dress:vestido'],preguntas:[{p:'"Zapatos" en inglés:',o:['Shoes','Shirt','Dress'],c:0},{p:'"Llevo una camisa azul":',o:['I wear a blue shirt','I wearing blue shirt','Wear I blue shirt'],c:0}],pronunciacion:'I wear a blue shirt.'},
+{id:'m22',num:22,nivel:0,titulo:'El cuerpo',explicacion:'Partes del cuerpo: head, hand, eyes, feet. Útiles para el médico.',ejemplos:[{en:'My head hurts.',es:'Me duele la cabeza.'},{en:'Wash your hands.',es:'Lávate las manos.'}],vocab:['head:cabeza','hand:mano','eyes:ojos','feet:pies'],preguntas:[{p:'"Cabeza" en inglés:',o:['Head','Hand','Feet'],c:0},{p:'"Me duele la cabeza":',o:['My head hurts','My head hurt','Head my hurts'],c:0}],pronunciacion:'My head hurts.'},
+{id:'m23',num:23,nivel:0,titulo:'En el restaurante',explicacion:'Frases clave: "I would like...", "The bill, please". Pedir comida con educación.',ejemplos:[{en:'I would like a coffee, please.',es:'Me gustaría un café, por favor.'},{en:'The bill, please.',es:'La cuenta, por favor.'}],vocab:['bill:cuenta','menu:menú','order:pedido','waiter:camarero'],preguntas:[{p:'"La cuenta, por favor":',o:['The bill, please','The count please','Bill the please'],c:0},{p:'"Me gustaría un café":',o:['I would like a coffee','I like would coffee','Coffee would I'],c:0}],pronunciacion:'The bill, please.'},
+{id:'m24',num:24,nivel:0,titulo:'De compras',explicacion:'Para comprar: "How much is it?" (¿Cuánto cuesta?). Respuesta: "It is five euros".',ejemplos:[{en:'How much is it?',es:'¿Cuánto cuesta?'},{en:'It is five euros.',es:'Cuesta cinco euros.'}],vocab:['how much:cuánto','euro:euro','buy:comprar','store:tienda'],preguntas:[{p:'"¿Cuánto cuesta?"',o:['How much is it?','How many?','Much how it?'],c:0},{p:'"Cuesta cinco euros":',o:['It is five euros','Five is euros','Is five euro'],c:0}],pronunciacion:'How much is it?'},
+{id:'m25',num:25,nivel:0,titulo:'Direcciones',explicacion:'Para orientarte: left (izquierda), right (derecha), straight (recto), near (cerca).',ejemplos:[{en:'Turn left at the corner.',es:'Gira a la izquierda en la esquina.'},{en:'The bank is near here.',es:'El banco está cerca de aquí.'}],vocab:['left:izquierda','right:derecha','straight:recto','near:cerca'],preguntas:[{p:'"Izquierda" en inglés:',o:['Left','Right','Straight'],c:0},{p:'"Gira a la izquierda":',o:['Turn left','Left turn','Turn to left'],c:0}],pronunciacion:'Turn left at the corner.'},
+{id:'m26',num:26,nivel:0,titulo:'Transporte',explicacion:'Transporte: bus, train, car, plane. "By" indica medio: by bus, by train.',ejemplos:[{en:'I go to work by bus.',es:'Voy al trabajo en autobús.'},{en:'The train is fast.',es:'El tren es rápido.'}],vocab:['bus:autobús','train:tren','plane:avión','fast:rápido'],preguntas:[{p:'"Tren" en inglés:',o:['Train','Bus','Plane'],c:0},{p:'"Voy al trabajo en autobús":',o:['I go to work by bus','I go work bus','Go I work bus'],c:0}],pronunciacion:'I go to work by bus.'},
+{id:'m27',num:27,nivel:0,titulo:'Animales',explicacion:'Animales: dog, cat, bird, fish. Plural regular: dogs, cats, birds.',ejemplos:[{en:'I have a dog.',es:'Tengo un perro.'},{en:'The birds sing.',es:'Los pájaros cantan.'}],vocab:['dog:perro','cat:gato','bird:pájaro','fish:pez'],preguntas:[{p:'"Pájaro" en inglés:',o:['Bird','Dog','Fish'],c:0},{p:'"Tengo un perro":',o:['I have a dog','I dog have','Have I dog'],c:0}],pronunciacion:'I have a dog.'},
+{id:'m28',num:28,nivel:0,titulo:'Repaso: presentaciones',explicacion:'Repaso general: saluda, preséntate y pregunta el nombre. Combina todo lo aprendido en A1.',ejemplos:[{en:'Hello! My name is Trinnity.',es:'¡Hola! Mi nombre es Trinnity.'},{en:'Nice to meet you!',es:'¡Encantado de conocerte!'}],vocab:['nice:agradable','meet:conocer','friend:amigo','welcome:bienvenido'],preguntas:[{p:'"¡Encantado de conocerte!"',o:['Nice to meet you!','Nice meet you to!','Meet nice you!'],c:0},{p:'"¡Hola! Mi nombre es Trinnity":',o:['Hello! My name is Trinnity','Hello name Trinnity my','My Trinnity hello name'],c:0}],pronunciacion:'Nice to meet you!'},
+{id:'m29',num:29,nivel:0,titulo:'Examen A1',explicacion:'Examen final del nivel A1: combina vocabulario, gramática y frases de los módulos 1-30.',ejemplos:[{en:'Good morning! How are you today?',es:'¡Buenos días! ¿Cómo estás hoy?'},{en:'I am very well, and you?',es:'Estoy muy bien, ¿y tú?'}],vocab:['morning:mañana','very:muy','well:bien','exam:examen'],preguntas:[{p:'"Estoy muy bien, ¿y tú?"',o:['I am very well, and you?','I very good you?','Well I am very'],c:0},{p:'"Buenos días" en inglés:',o:['Good morning','Good night','Good day'],c:0}],pronunciacion:'Good morning! How are you today?'}
+];
+</script>
 
-  function langCode() { return lang === 'pt' ? 'pt-BR' : 'es-ES'; }
-  function tr(k) { return T[lang][k]; }
-  function logEl(el, cls, tag, html) {
-    const d = document.createElement('div');
-    d.className = cls;
-    d.innerHTML = '<span class="t-tag">' + tag + '</span><br>' + html;
-    el.appendChild(d); el.scrollTop = el.scrollHeight;
-  }
-  function setLang(l) {
-    lang = l;
-    $('btn-es').className = l==='es' ? 'btn lang active' : 'btn lang';
-    $('btn-pt').className = l==='pt' ? 'btn lang active' : 'btn lang';
-    if (recognition) recognition.lang = langCode();
-  }
-  function setMode(m) {
-    mode = m;
-    ['lesson','chat','practice','pronounce'].forEach(x => $('btn-' + x).className = x===m ? 'btn mode active' : 'btn mode');
-    $('hud-mode').textContent = m.toUpperCase();
-  }
+<script>
+LECCIONES = LECCIONES.concat([
+{id:'m30',num:30,nivel:1,titulo:'Presente continuo',explicacion:'El presente continuo (to be + -ing) describe acciones en curso: "I am working" (estoy trabajando).',ejemplos:[{en:'I am working now.',es:'Estoy trabajando ahora.'},{en:'She is studying English.',es:'Ella está estudiando inglés.'}],vocab:['working:trabajando','studying:estudiando','now:ahora','listening:escuchando'],preguntas:[{p:'"Estoy trabajando ahora":',o:['I am working now','I working am now','I work now am'],c:0},{p:'"Ella está estudiando inglés":',o:['She is studying English','She studying is English','She study English is'],c:0}],pronunciacion:'I am working now.'},
+{id:'m31',num:31,nivel:1,titulo:'Pasado simple: was/were',explicacion:'El pasado de "to be" es was (I/he/she/it) y were (you/we/they): "I was tired" (estaba cansado).',ejemplos:[{en:'I was tired yesterday.',es:'Estaba cansado ayer.'},{en:'They were at home.',es:'Ellos estaban en casa.'}],vocab:['was:era/estaba','were:eran/estaban','yesterday:ayer','tired:cansado'],preguntas:[{p:'"Estaba cansado ayer":',o:['I was tired yesterday','I were tired yesterday','Was I tired'],c:0},{p:'"Ellos estaban en casa":',o:['They were at home','They was at home','They are home'],c:0}],pronunciacion:'I was tired yesterday.'},
+{id:'m32',num:32,nivel:1,titulo:'Pasado simple: verbos regulares',explicacion:'Los verbos regulares forman el pasado con -ed: work → worked, play → played.',ejemplos:[{en:'I worked all day.',es:'Trabajé todo el día.'},{en:'She played football.',es:'Ella jugó al fútbol.'}],vocab:['worked:trabajé','played:jugó','visited:visitó','cleaned:limpió'],preguntas:[{p:'"Trabajé todo el día":',o:['I worked all day','I work all day','I working all day'],c:0},{p:'Pasado de "play":',o:['played','playd','plaied'],c:0}],pronunciacion:'I worked all day.'},
+{id:'m33',num:33,nivel:1,titulo:'Pasado simple: irregulares',explicacion:'Verbos irregulares cambian su forma: go → went, eat → ate, see → saw.',ejemplos:[{en:'I went to the cinema.',es:'Fui al cine.'},{en:'We ate pizza last night.',es:'Comimos pizza anoche.'}],vocab:['went:fui','ate:comí','saw:vi','bought:compré'],preguntas:[{p:'"Fui al cine":',o:['I went to the cinema','I goed to cinema','I go to cinema'],c:0},{p:'Pasado de "eat":',o:['ate','eated','eaten'],c:0}],pronunciacion:'I went to the cinema.'},
+{id:'m34',num:34,nivel:1,titulo:'Futuro con going to',explicacion:'"Going to" expresa planes: "I am going to travel" (voy a viajar).',ejemplos:[{en:'I am going to travel next month.',es:'Voy a viajar el mes que viene.'},{en:'We are going to eat out.',es:'Vamos a comer fuera.'}],vocab:['travel:viajar','next:próximo','plan:plan','tonight:esta noche'],preguntas:[{p:'"Voy a viajar el mes que viene":',o:['I am going to travel next month','I going travel next month','I go travel next'],c:0},{p:'"Vamos a comer fuera":',o:['We are going to eat out','We going eat out','We go eat out'],c:0}],pronunciacion:'I am going to travel next month.'},
+{id:'m35',num:35,nivel:1,titulo:'Futuro con will',explicacion:'"Will" expresa decisiones y promesas: "I will help you" (te ayudaré).',ejemplos:[{en:'I will help you.',es:'Te ayudaré.'},{en:'It will rain tomorrow.',es:'Lloverá mañana.'}],vocab:['will:futuro','help:ayudar','tomorrow:mañana','promise:promesa'],preguntas:[{p:'"Te ayudaré":',o:['I will help you','I help will you','Will help I you'],c:0},{p:'"Lloverá mañana":',o:['It will rain tomorrow','It rain will tomorrow','Will it rain'],c:0}],pronunciacion:'I will help you.'},
+{id:'m36',num:36,nivel:1,titulo:'Comparativos',explicacion:'Comparativos: adjetivo + -er (taller, bigger) o "more" con adjetivos largos.',ejemplos:[{en:'This house is bigger.',es:'Esta casa es más grande.'},{en:'English is more useful than ever.',es:'El inglés es más útil que nunca.'}],vocab:['bigger:más grande','taller:más alto','better:mejor','useful:útil'],preguntas:[{p:'"Más grande":',o:['Bigger','More big','Biggest'],c:0},{p:'"Esta casa es más grande":',o:['This house is bigger','This house bigger is','Bigger this house'],c:0}],pronunciacion:'This house is bigger.'},
+{id:'m37',num:37,nivel:1,titulo:'Superlativos',explicacion:'Superlativos: the + adjetivo + -est (the biggest) o "the most" con largos.',ejemplos:[{en:'This is the best day!',es:'¡Este es el mejor día!'},{en:'She is the smartest student.',es:'Ella es la alumna más lista.'}],vocab:['best:mejor','worst:peor','smartest:más listo','day:día'],preguntas:[{p:'"El mejor":',o:['The best','The goodest','Most best'],c:0},{p:'"¡Este es el mejor día!"',o:['This is the best day!','This best is day!','Day this is best'],c:0}],pronunciacion:'This is the best day!'},
+{id:'m38',num:38,nivel:1,titulo:'There is / There are',explicacion:'"There is" (singular) y "There are" (plural) significan "hay".',ejemplos:[{en:'There is a bank near here.',es:'Hay un banco cerca de aquí.'},{en:'There are three rooms.',es:'Hay tres habitaciones.'}],vocab:['bank:banco','room:habitación','near:cerca','park:parque'],preguntas:[{p:'"Hay un banco cerca":',o:['There is a bank near here','There are a bank near','Is there bank'],c:0},{p:'"Hay tres habitaciones":',o:['There are three rooms','There is three rooms','Three rooms there'],c:0}],pronunciacion:'There is a bank near here.'},
+{id:'m39',num:39,nivel:1,titulo:'Some / Any',explicacion:'"Some" en frases afirmativas; "any" en negativas y preguntas: "I have some money" / "Do you have any money?".',ejemplos:[{en:'I have some money.',es:'Tengo algo de dinero.'},{en:'Do you have any questions?',es:'¿Tienes alguna pregunta?'}],vocab:['some:algunos','any:alguno (neg/preg)','money:dinero','question:pregunta'],preguntas:[{p:'"Tengo algo de dinero":',o:['I have some money','I have any money','Some I have money'],c:0},{p:'"¿Tienes alguna pregunta?"',o:['Do you have any questions?','Have you some questions?','Any you have question?'],c:0}],pronunciacion:'Do you have any questions?'},
+{id:'m40',num:40,nivel:1,titulo:'Adverbios de frecuencia',explicacion:'always (siempre), usually, often, sometimes, never. Van antes del verbo principal.',ejemplos:[{en:'I always drink coffee.',es:'Siempre bebo café.'},{en:'She never eats meat.',es:'Ella nunca come carne.'}],vocab:['always:siempre','never:nunca','often:a menudo','sometimes:a veces'],preguntas:[{p:'"Siempre bebo café":',o:['I always drink coffee','Always I drink coffee','I drink always coffee'],c:0},{p:'"Ella nunca come carne":',o:['She never eats meat','Never she eats meat','She eats never meat'],c:0}],pronunciacion:'I always drink coffee.'},
+{id:'m41',num:41,nivel:1,titulo:'Dar consejos: should',explicacion:'"Should" aconseja: "You should rest" (deberías descansar).',ejemplos:[{en:'You should rest more.',es:'Deberías descansar más.'},{en:'You should drink water.',es:'Deberías beber agua.'}],vocab:['should:debería','rest:descansar','health:salud','exercise:ejercicio'],preguntas:[{p:'"Deberías descansar más":',o:['You should rest more','You rest should more','Should rest you'],c:0},{p:'"Deberías beber agua":',o:['You should drink water','You drink should water','Should you drink'],c:0}],pronunciacion:'You should rest more.'},
+{id:'m42',num:42,nivel:1,titulo:'Obligación: have to',explicacion:'"Have to" expresa obligación: "I have to work" (tengo que trabajar).',ejemplos:[{en:'I have to work today.',es:'Tengo que trabajar hoy.'},{en:'We have to study.',es:'Tenemos que estudiar.'}],vocab:['have to:tener que','study:estudiar','early:temprano','late:tarde'],preguntas:[{p:'"Tengo que trabajar hoy":',o:['I have to work today','I have work today','Have to I work'],c:0},{p:'"Tenemos que estudiar":',o:['We have to study','We have study','Have we study'],c:0}],pronunciacion:'I have to work today.'},
+{id:'m43',num:43,nivel:1,titulo:'Preguntar precios',explicacion:'Para precios: "How much does it cost?" o "How much are these?".',ejemplos:[{en:'How much does it cost?',es:'¿Cuánto cuesta eso?'},{en:'How much are these shoes?',es:'¿Cuánto cuestan estos zapatos?'}],vocab:['cost:costar','cheap:barato','expensive:caro','price:precio'],preguntas:[{p:'"¿Cuánto cuesta eso?"',o:['How much does it cost?','How cost much?','Much how cost?'],c:0},{p:'"Caro" en inglés:',o:['Expensive','Cheap','Cost'],c:0}],pronunciacion:'How much does it cost?'},
+{id:'m44',num:44,nivel:1,titulo:'Pedir ayuda',explicacion:'Pedir ayuda: "Can you help me, please?" y "I need help".',ejemplos:[{en:'Can you help me, please?',es:'¿Puedes ayudarme, por favor?'},{en:'I need help with this.',es:'Necesito ayuda con esto.'}],vocab:['help:ayuda','need:necesitar','problem:problema','sorry:perdón'],preguntas:[{p:'"¿Puedes ayudarme, por favor?"',o:['Can you help me, please?','You can help please?','Help me can please?'],c:0},{p:'"Necesito ayuda con esto":',o:['I need help with this','I need with help this','Need I help this'],c:0}],pronunciacion:'Can you help me, please?'},
+{id:'m45',num:45,nivel:1,titulo:'En el hotel',explicacion:'Frases de hotel: "I have a reservation", "What time is breakfast?".',ejemplos:[{en:'I have a reservation.',es:'Tengo una reserva.'},{en:'What time is breakfast?',es:'¿A qué hora es el desayuno?'}],vocab:['reservation:reserva','breakfast:desayuno','room:habitación','key:llave'],preguntas:[{p:'"Tengo una reserva":',o:['I have a reservation','I reservation have','Have I reservation'],c:0},{p:'"¿A qué hora es el desayuno?"',o:['What time is breakfast?','When breakfast time?','Breakfast what time?'],c:0}],pronunciacion:'I have a reservation.'},
+{id:'m46',num:46,nivel:1,titulo:'En el aeropuerto',explicacion:'Aeropuerto: passport, boarding pass, luggage, gate. Frases para facturar y embarcar.',ejemplos:[{en:'Here is my passport.',es:'Aquí está mi pasaporte.'},{en:'Where is the gate?',es:'¿Dónde está la puerta de embarque?'}],vocab:['passport:pasaporte','gate:puerta','luggage:equipaje','flight:vuelo'],preguntas:[{p:'"Pasaporte" en inglés:',o:['Passport','Gate','Luggage'],c:0},{p:'"¿Dónde está la puerta?"',o:['Where is the gate?','Where gate the?','Gate where is?'],c:0}],pronunciacion:'Here is my passport.'},
+{id:'m47',num:47,nivel:1,titulo:'Hacer planes',explicacion:'Para planes: "What are you doing this weekend?" y "Let\'s meet on Saturday".',ejemplos:[{en:'What are you doing this weekend?',es:'¿Qué haces este fin de semana?'},{en:'Let\'s meet on Saturday.',es:'Quedemos el sábado.'}],vocab:['weekend:fin de semana','meet:quedar','Saturday:sábado','Sunday:domingo'],preguntas:[{p:'"¿Qué haces este fin de semana?"',o:['What are you doing this weekend?','What you weekend doing?','Doing what weekend?'],c:0},{p:'"Quedemos el sábado":',o:['Let\'s meet on Saturday','Meet Saturday on','Saturday meet let\'s'],c:0}],pronunciacion:'What are you doing this weekend?'},
+{id:'m48',num:48,nivel:1,titulo:'En el médico',explicacion:'Síntomas: headache, fever, cough. "I feel sick" (me siento enfermo).',ejemplos:[{en:'I have a headache.',es:'Tengo dolor de cabeza.'},{en:'I feel sick.',es:'Me siento enfermo.'}],vocab:['headache:dolor de cabeza','fever:fiebre','cough:tos','sick:enfermo'],preguntas:[{p:'"Tengo dolor de cabeza":',o:['I have a headache','I headache have','Have I headache'],c:0},{p:'"Me siento enfermo":',o:['I feel sick','I sick feel','Feel sick I'],c:0}],pronunciacion:'I have a headache.'},
+{id:'m49',num:49,nivel:1,titulo:'Hablar por teléfono',explicacion:'Al teléfono: "Hello, this is Pedro", "Can I speak to...?", "Hold on, please".',ejemplos:[{en:'Hello, this is Pedro speaking.',es:'Hola, habla Pedro.'},{en:'Can I speak to Trinnity?',es:'¿Puedo hablar con Trinnity?'}],vocab:['speak:hablar','call:llamada','message:mensaje','hold on:espera'],preguntas:[{p:'"Hola, habla Pedro":',o:['Hello, this is Pedro speaking','Hello Pedro this speaking','Speaking Pedro hello'],c:0},{p:'"¿Puedo hablar con Trinnity?"',o:['Can I speak to Trinnity?','Speak can Trinnity?','I can Trinnity speak?'],c:0}],pronunciacion:'Can I speak to Trinnity?'},
+{id:'m50',num:50,nivel:1,titulo:'Escribir un email básico',explicacion:'Estructura de email: "Dear...", cuerpo, "Best regards". Formal e informal.',ejemplos:[{en:'Dear Sir, I am writing to...',es:'Estimado señor, le escribo para...'},{en:'Best regards, Pedro.',es:'Atentamente, Pedro.'}],vocab:['dear:estimado','regards:saludos','writing:escribiendo','reply:responder'],preguntas:[{p:'"Estimado señor":',o:['Dear Sir','Dear Mister Sir','Sir Dear'],c:0},{p:'"Atentamente":',o:['Best regards','Regards best','Good regards'],c:0}],pronunciacion:'Best regards, Pedro.'},
+{id:'m51',num:51,nivel:1,titulo:'El tiempo libre',explicacion:'Aficiones: "I like playing football", "I enjoy reading". Usa -ing tras like/enjoy.',ejemplos:[{en:'I like playing football.',es:'Me gusta jugar al fútbol.'},{en:'She enjoys reading books.',es:'Ella disfruta leyendo libros.'}],vocab:['enjoy:disfrutar','hobby:afición','sport:deporte','weekend:fin de semana'],preguntas:[{p:'"Me gusta jugar al fútbol":',o:['I like playing football','I like play football','Like I playing football'],c:0},{p:'"Ella disfruta leyendo":',o:['She enjoys reading','She enjoy reading','Enjoys she read'],c:0}],pronunciacion:'I like playing football.'},
+{id:'m52',num:52,nivel:1,titulo:'La casa y muebles',explicacion:'Muebles: sofa, bed, table, kitchen. Describe tu casa con there is/there are.',ejemplos:[{en:'There is a sofa in the living room.',es:'Hay un sofá en el salón.'},{en:'My kitchen is small.',es:'Mi cocina es pequeña.'}],vocab:['sofa:sofá','kitchen:cocina','living room:salón','window:ventana'],preguntas:[{p:'"Hay un sofá en el salón":',o:['There is a sofa in the living room','There sofa is living room','Is there sofa living'],c:0},{p:'"Mi cocina es pequeña":',o:['My kitchen is small','Kitchen my is small','Small my kitchen'],c:0}],pronunciacion:'There is a sofa in the living room.'},
+{id:'m53',num:53,nivel:1,titulo:'Invitar a alguien',explicacion:'Invitar: "Would you like to come?", "Do you want to go out?". Aceptar: "Sure!".',ejemplos:[{en:'Would you like to come?',es:'¿Te gustaría venir?'},{en:'Sure, I would love to!',es:'¡Claro, me encantaría!'}],vocab:['would:condicional','come:venir','sure:claro','invite:invitar'],preguntas:[{p:'"¿Te gustaría venir?"',o:['Would you like to come?','Like would you come?','You would come like?'],c:0},{p:'"¡Claro, me encantaría!"',o:['Sure, I would love to!','Sure love I would!','I sure would love'],c:0}],pronunciacion:'Would you like to come?'},
+{id:'m54',num:54,nivel:1,titulo:'Comprar billetes',explicacion:'Billetes: "A ticket to Lisbon, please", "Return or one-way?".',ejemplos:[{en:'A ticket to Lisbon, please.',es:'Un billete a Lisboa, por favor.'},{en:'Is it return or one-way?',es:'¿Es ida y vuelta o solo ida?'}],vocab:['ticket:billete','return:ida y vuelta','one-way:solo ida','seat:asiento'],preguntas:[{p:'"Un billete a Lisboa":',o:['A ticket to Lisbon','Ticket a Lisbon','Lisbon ticket a'],c:0},{p:'"Solo ida":',o:['One-way','Return','One road'],c:0}],pronunciacion:'A ticket to Lisbon, please.'},
+{id:'m55',num:55,nivel:1,titulo:'Disculparse',explicacion:'Disculpas: "I am sorry", "Excuse me", "It was my fault".',ejemplos:[{en:'I am sorry, I am late.',es:'Lo siento, llego tarde.'},{en:'Excuse me, where is the station?',es:'Disculpe, ¿dónde está la estación?'}],vocab:['sorry:lo siento','excuse:disculpe','fault:culpa','late:tarde'],preguntas:[{p:'"Lo siento, llego tarde":',o:['I am sorry, I am late','Sorry I am, late am','Late sorry am'],c:0},{p:'"Disculpe, ¿dónde está la estación?"',o:['Excuse me, where is the station?','Excuse station where?','Where excuse station?'],c:0}],pronunciacion:'I am sorry, I am late.'},
+{id:'m56',num:56,nivel:1,titulo:'Expresar opinión',explicacion:'Opiniones: "I think...", "In my opinion...", "I agree / I disagree".',ejemplos:[{en:'I think it is a great idea.',es:'Creo que es una gran idea.'},{en:'I agree with you.',es:'Estoy de acuerdo contigo.'}],vocab:['think:pensar','agree:estar de acuerdo','idea:idea','opinion:opinión'],preguntas:[{p:'"Creo que es una gran idea":',o:['I think it is a great idea','Think I great idea','I idea great think'],c:0},{p:'"Estoy de acuerdo contigo":',o:['I agree with you','Agree I with you','I with agree you'],c:0}],pronunciacion:'I agree with you.'},
+{id:'m57',num:57,nivel:1,titulo:'El tiempo pasado y futuro',explicacion:'Conecta tiempos: ayer usaste pasado; mañana usarás futuro. Repasa was/were, -ed y going to.',ejemplos:[{en:'Yesterday I worked, tomorrow I will rest.',es:'Ayer trabajé, mañana descansaré.'},{en:'Last week I was busy.',es:'La semana pasada estuve ocupado.'}],vocab:['last:último','week:semana','busy:ocupado','free:libre'],preguntas:[{p:'"La semana pasada estuve ocupado":',o:['Last week I was busy','Last week I were busy','Week last busy'],c:0},{p:'"Ayer trabajé":',o:['Yesterday I worked','Yesterday I work','I yesterday work'],c:0}],pronunciacion:'Yesterday I worked, tomorrow I will rest.'},
+{id:'m58',num:58,nivel:1,titulo:'Repaso: conversación diaria',explicacion:'Repaso de A2: planes, pasado, opiniones y peticiones en una conversación real.',ejemplos:[{en:'What did you do yesterday?',es:'¿Qué hiciste ayer?'},{en:'I visited my family.',es:'Visité a mi familia.'}],vocab:['family:familia','visit:visitar','movie:película','dinner:cena'],preguntas:[{p:'"¿Qué hiciste ayer?"',o:['What did you do yesterday?','What you did yesterday?','Did what yesterday?'],c:0},{p:'"Visité a mi familia":',o:['I visited my family','I visit my family','Family visited I'],c:0}],pronunciacion:'What did you do yesterday?'},
+{id:'m59',num:59,nivel:1,titulo:'Examen A2',explicacion:'Examen final A2: combina pasado, futuro, comparativos y conversación cotidiana.',ejemplos:[{en:'I am going to travel and I will learn a lot.',es:'Voy a viajar y aprenderé mucho.'},{en:'This year is better than last year.',es:'Este año es mejor que el año pasado.'}],vocab:['learn:aprender','year:año','better:mejor','trip:viaje'],preguntas:[{p:'"Este año es mejor que el año pasado":',o:['This year is better than last year','This year better is last','Better this year is'],c:0},{p:'"Voy a viajar":',o:['I am going to travel','I going travel','Travel going I'],c:0}],pronunciacion:'This year is better than last year.'}
+]);
+</script>
 
-  function getVoices() { return new Promise((r) => { const v = window.speechSynthesis.getVoices(); if (v.length) return r(v); window.speechSynthesis.onvoiceschanged = () => r(window.speechSynthesis.getVoices()); setTimeout(() => r(window.speechSynthesis.getVoices()), 600); }); }
-  function pickVoice(voices, lc) {
-    const names = ['Zira','Maria','Google US English','Microsoft','Google español','Google português'];
-    for (const n of names) { const v = voices.find(x => x.name.includes(n) && x.lang.startsWith(lc)); if (v) return v; }
-    return voices.find(x => x.lang.startsWith(lc)) || voices[0];
-  }
-  function speak(text) {
-    return new Promise((resolve) => {
-      if (isSpeaking) window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US'; u.rate = 0.9; u.pitch = 1.05; u.volume = 1;
-      getVoices().then((voices) => { u.voice = pickVoice(voices, 'en'); });
-      setState('speaking');
-      u.onend = () => { isSpeaking = false; setState('idle'); resolve(); };
-      u.onerror = () => { isSpeaking = false; setState('idle'); resolve(); };
-      window.speechSynthesis.speak(u);
-    });
-  }
-  function setState(s) {
-    const r = $('reactor'), c = $('reactor-core');
-    r.classList.remove('listening','speaking'); c.classList.remove('listening','speaking');
-    if (s === 'listening') { r.classList.add('listening'); c.classList.add('listening'); c.textContent = '●'; $('reactor-state').textContent = tr('listening'); $('reactor-state').className = 'reactor-state live'; }
-    else if (s === 'speaking') { r.classList.add('speaking'); c.classList.add('speaking'); c.textContent = 'EN'; $('reactor-state').textContent = tr('speaking'); $('reactor-state').className = 'reactor-state'; }
-    else { c.textContent = 'EN'; $('reactor-state').textContent = lang==='pt' ? 'Pronto para ensinar. Fala!' : 'Listo para enseñar. ¡Habla!'; $('reactor-state').className = 'reactor-state live'; }
-  }
-  function startListening() {
-    if (busy || isListening) return;
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { $('reactor-state').textContent = tr('noSupport'); return; }
-    recognition = new SR();
-    recognition.lang = langCode(); recognition.interimResults = true; recognition.continuous = false; recognition.maxAlternatives = 1;
-    recognition.onresult = (e) => {
-      let interim = '';
-      for (let i = e.resultIndex; i < e.results.length; i++) interim += e.results[i][0].transcript;
-      if (e.results[e.results.length-1].isFinal) {
-        const t = interim.trim();
-        isListening = false; setState('idle');
-        if (t) handleInput(t);
-      }
-    };
-    recognition.onerror = () => { isListening = false; setState('idle'); };
-    recognition.onend = () => { isListening = false; setState('idle'); };
-    try { recognition.start(); isListening = true; setState('listening'); } catch { $('reactor-state').textContent = tr('micError'); }
-  }
-  function stopListening() { if (recognition && isListening) { try { recognition.stop(); } catch(e){} isListening = false; setState('idle'); } }
+<script>
+LECCIONES = LECCIONES.concat([
+{id:'m60',num:60,nivel:2,titulo:'Presente perfecto',explicacion:'Present perfect (have/has + participio) une pasado con presente: "I have visited London".',ejemplos:[{en:'I have visited London.',es:'He visitado Londres.'},{en:'She has finished her work.',es:'Ella ha terminado su trabajo.'}],vocab:['visited:visitado','finished:terminado','ever:alguna vez','never:nunca'],preguntas:[{p:'"He visitado Londres":',o:['I have visited London','I have visit London','I visited have London'],c:0},{p:'"Ella ha terminado su trabajo":',o:['She has finished her work','She have finished work','Has she finished'],c:0}],pronunciacion:'I have visited London.'},
+{id:'m61',num:61,nivel:2,titulo:'Ever y Never',explicacion:'Con present perfect: "Have you ever...?" y "I have never...".',ejemplos:[{en:'Have you ever been to Spain?',es:'¿Has estado alguna vez en España?'},{en:'I have never tried sushi.',es:'Nunca he probado el sushi.'}],vocab:['ever:alguna vez','never:nunca','tried:probado','been:estado'],preguntas:[{p:'"¿Has estado alguna vez en España?"',o:['Have you ever been to Spain?','Have ever you Spain?','You ever Spain have?'],c:0},{p:'"Nunca he probado el sushi":',o:['I have never tried sushi','I never have tried sushi','Never tried I sushi'],c:0}],pronunciacion:'Have you ever been to Spain?'},
+{id:'m62',num:62,nivel:2,titulo:'For y Since',explicacion:'"For" con duración (for two years); "since" con punto de inicio (since 2020).',ejemplos:[{en:'I have lived here for two years.',es:'He vivido aquí durante dos años.'},{en:'I have worked here since 2020.',es:'Trabajo aquí desde 2020.'}],vocab:['for:durante','since:desde','lived:vivido','years:años'],preguntas:[{p:'"He vivido aquí durante dos años":',o:['I have lived here for two years','I lived here since two years','Have I lived for two'],c:0},{p:'"Trabajo aquí desde 2020":',o:['I have worked here since 2020','I work here for 2020','Since I work 2020'],c:0}],pronunciacion:'I have lived here for two years.'},
+{id:'m63',num:63,nivel:2,titulo:'Already / Yet / Just',explicacion:'"Already" (ya), "yet" (aún, en neg/preg) y "just" (acabo de) van con present perfect.',ejemplos:[{en:'I have already eaten.',es:'Ya he comido.'},{en:'I have just finished.',es:'Acabo de terminar.'}],vocab:['already:ya','just:acabo de','yet:aún','finished:terminado'],preguntas:[{p:'"Ya he comido":',o:['I have already eaten','I already have eaten','Already I have eaten'],c:0},{p:'"Acabo de terminar":',o:['I have just finished','I just have finished','Just finished I'],c:0}],pronunciacion:'I have already eaten.'},
+{id:'m64',num:64,nivel:2,titulo:'Pasado continuo',explicacion:'Past continuous (was/were + -ing) describe acciones en curso en el pasado.',ejemplos:[{en:'I was watching TV at nine.',es:'Estaba viendo la tele a las nueve.'},{en:'They were playing outside.',es:'Ellos estaban jugando fuera.'}],vocab:['watching:viendo','playing:jugando','outside:fuera','suddenly:de repente'],preguntas:[{p:'"Estaba viendo la tele":',o:['I was watching TV','I were watching TV','Watching I was TV'],c:0},{p:'"Ellos estaban jugando fuera":',o:['They were playing outside','They was playing outside','Playing they outside'],c:0}],pronunciacion:'I was watching TV at nine.'},
+{id:'m65',num:65,nivel:2,titulo:'While y When',explicacion:'"While" (mientras) con pasado continuo; "when" (cuando) con pasado simple.',ejemplos:[{en:'While I was cooking, he arrived.',es:'Mientras yo cocinaba, él llegó.'},{en:'When she called, I was sleeping.',es:'Cuando ella llamó, yo dormía.'}],vocab:['while:mientras','when:cuando','cooking:cocinando','sleeping:durmiendo'],preguntas:[{p:'"Mientras cocinaba, él llegó":',o:['While I was cooking, he arrived','While I cooking, he arrived','I cooking while arrived'],c:0},{p:'"Cuando ella llamó, yo dormía":',o:['When she called, I was sleeping','When called she sleeping','She called when sleeping'],c:0}],pronunciacion:'While I was cooking, he arrived.'},
+{id:'m66',num:66,nivel:2,titulo:'Primer condicional',explicacion:'Primer condicional: if + presente, will + verbo. "If it rains, I will stay home".',ejemplos:[{en:'If it rains, I will stay home.',es:'Si llueve, me quedaré en casa.'},{en:'If you study, you will pass.',es:'Si estudias, aprobarás.'}],vocab:['if:si','stay:quedarse','pass:aprobar','rain:llover'],preguntas:[{p:'"Si llueve, me quedaré en casa":',o:['If it rains, I will stay home','If rains, I stay home will','Will stay if rains'],c:0},{p:'"Si estudias, aprobarás":',o:['If you study, you will pass','If study, you pass will','Will pass if study'],c:0}],pronunciacion:'If it rains, I will stay home.'},
+{id:'m67',num:67,nivel:2,titulo:'Segundo condicional',explicacion:'Segundo condicional (hipotético): if + pasado, would + verbo. "If I won, I would travel".',ejemplos:[{en:'If I won the lottery, I would travel.',es:'Si ganara la lotería, viajaría.'},{en:'If I were you, I would call.',es:'Si yo fuera tú, llamaría.'}],vocab:['won:ganara','would:haría','lottery:lotería','rich:rico'],preguntas:[{p:'"Si ganara la lotería, viajaría":',o:['If I won the lottery, I would travel','If I win, I would travel','Would travel if win'],c:0},{p:'"Si yo fuera tú, llamaría":',o:['If I were you, I would call','If I was you, I call would','Would call I were you'],c:0}],pronunciacion:'If I won the lottery, I would travel.'},
+{id:'m68',num:68,nivel:2,titulo:'Verbos modales de posibilidad',explicacion:'may, might, could expresan posibilidad: "It might rain" (podría llover).',ejemplos:[{en:'It might rain later.',es:'Podría llover más tarde.'},{en:'I could help you.',es:'Podría ayudarte.'}],vocab:['might:podría','could:podría','possible:posible','later:más tarde'],preguntas:[{p:'"Podría llover más tarde":',o:['It might rain later','It may rains later','Might rains later'],c:0},{p:'"Podría ayudarte":',o:['I could help you','I could helps you','Could help I you'],c:0}],pronunciacion:'It might rain later.'},
+{id:'m69',num:69,nivel:2,titulo:'Reportar lo dicho',explicacion:'Reported speech: "He said (that)..." retrocede un tiempo verbal.',ejemplos:[{en:'He said he was tired.',es:'Dijo que estaba cansado.'},{en:'She said she would come.',es:'Dijo que vendría.'}],vocab:['said:dijo','told:contó','that:que','reported:reportado'],preguntas:[{p:'"Dijo que estaba cansado":',o:['He said he was tired','He said he is tired','Said he tired'],c:0},{p:'"Dijo que vendría":',o:['She said she would come','She said she will come','Would come said she'],c:0}],pronunciacion:'He said he was tired.'},
+{id:'m70',num:70,nivel:2,titulo:'Phrasal verbs básicos',explicacion:'Phrasal verbs: get up, wake up, turn on, turn off, look for. Muy usados en inglés real.',ejemplos:[{en:'I get up at seven.',es:'Me levanto a las siete.'},{en:'Please turn off the light.',es:'Apaga la luz, por favor.'}],vocab:['get up:levantarse','turn off:apagar','turn on:encender','look for:buscar'],preguntas:[{p:'"Me levanto a las siete":',o:['I get up at seven','I get at seven up','Up get I seven'],c:0},{p:'"Apaga la luz":',o:['Turn off the light','Off turn the light','Turn the light off'],c:0}],pronunciacion:'I get up at seven.'},
+{id:'m71',num:71,nivel:2,titulo:'Frases de trabajo',explicacion:'Vocabulario laboral: meeting, deadline, boss, project, report.',ejemplos:[{en:'We have a meeting at ten.',es:'Tenemos una reunión a las diez.'},{en:'The deadline is Friday.',es:'La fecha límite es el viernes.'}],vocab:['meeting:reunión','deadline:fecha límite','boss:jefe','report:informe'],preguntas:[{p:'"Tenemos una reunión a las diez":',o:['We have a meeting at ten','We have meeting ten at','Meeting have we ten'],c:0},{p:'"La fecha límite es el viernes":',o:['The deadline is Friday','Deadline the Friday','Friday deadline the'],c:0}],pronunciacion:'We have a meeting at ten.'},
+{id:'m72',num:72,nivel:2,titulo:'Entrevista de trabajo',explicacion:'Preguntas de entrevista: "Tell me about yourself", "What are your strengths?".',ejemplos:[{en:'Tell me about yourself.',es:'Háblame de ti.'},{en:'I am a hard worker.',es:'Soy muy trabajador.'}],vocab:['interview:entrevista','strength:fortaleza','experience:experiencia','skill:habilidad'],preguntas:[{p:'"Háblame de ti":',o:['Tell me about yourself','Tell about yourself me','Me tell yourself'],c:0},{p:'"Soy muy trabajador":',o:['I am a hard worker','I hard worker am','Hard worker I am'],c:0}],pronunciacion:'Tell me about yourself.'},
+{id:'m73',num:73,nivel:2,titulo:'Negociar',explicacion:'Negociación: "Can we discuss the price?", "I can offer you...".',ejemplos:[{en:'Can we discuss the price?',es:'¿Podemos hablar del precio?'},{en:'I can offer you ten percent off.',es:'Puedo ofrecerte un diez por ciento de descuento.'}],vocab:['discuss:discutir','offer:ofrecer','price:precio','deal:trato'],preguntas:[{p:'"¿Podemos hablar del precio?"',o:['Can we discuss the price?','Discuss we can price?','Can price we discuss?'],c:0},{p:'"Puedo ofrecerte un descuento":',o:['I can offer you a discount','I can offer discount you','Offer can I discount'],c:0}],pronunciacion:'Can we discuss the price?'},
+{id:'m74',num:74,nivel:2,titulo:'Dar presentaciones',explicacion:'Presentar: "Today I will talk about...", "Let me show you...".',ejemplos:[{en:'Today I will talk about our project.',es:'Hoy hablaré de nuestro proyecto.'},{en:'Let me show you the results.',es:'Déjame mostrarte los resultados.'}],vocab:['talk:hablar','show:mostrar','results:resultados','audience:público'],preguntas:[{p:'"Hoy hablaré de nuestro proyecto":',o:['Today I will talk about our project','Today talk I our project','Will talk today project'],c:0},{p:'"Déjame mostrarte los resultados":',o:['Let me show you the results','Let show me results','Me let results show'],c:0}],pronunciacion:'Let me show you the results.'},
+{id:'m75',num:75,nivel:2,titulo:'Viajes de negocios',explicacion:'Viaje de negocios: "I am here for a conference", "book a flight".',ejemplos:[{en:'I am here for a conference.',es:'Estoy aquí por una conferencia.'},{en:'Please book a flight for Monday.',es:'Reserva un vuelo para el lunes, por favor.'}],vocab:['conference:conferencia','book:reservar','flight:vuelo','meeting:reunión'],preguntas:[{p:'"Estoy aquí por una conferencia":',o:['I am here for a conference','Here I conference for','I here conference am'],c:0},{p:'"Reserva un vuelo para el lunes":',o:['Book a flight for Monday','Flight book Monday','Monday book flight'],c:0}],pronunciacion:'I am here for a conference.'},
+{id:'m76',num:76,nivel:2,titulo:'Dar y pedir opinión formal',explicacion:'Formal: "In my opinion...", "From my point of view...", "I see your point".',ejemplos:[{en:'In my opinion, this is the best option.',es:'En mi opinión, esta es la mejor opción.'},{en:'I see your point.',es:'Entiendo tu punto.'}],vocab:['opinion:opinión','point:punto','option:opción','agree:acuerdo'],preguntas:[{p:'"En mi opinión, esta es la mejor opción":',o:['In my opinion, this is the best option','My opinion in best option','Opinion my best this'],c:0},{p:'"Entiendo tu punto":',o:['I see your point','I see point your','Your point see'],c:0}],pronunciacion:'In my opinion, this is the best option.'},
+{id:'m77',num:77,nivel:2,titulo:'Escribir emails formales',explicacion:'Email formal: "I am writing to inquire about...", "I look forward to hearing from you".',ejemplos:[{en:'I am writing to inquire about your services.',es:'Le escribo para preguntar por sus servicios.'},{en:'I look forward to hearing from you.',es:'Espero su respuesta.'}],vocab:['inquire:preguntar','services:servicios','forward:adelante','hearing:escuchar'],preguntas:[{p:'"Le escribo para preguntar por sus servicios":',o:['I am writing to inquire about your services','Writing I services about','Inquire writing services'],c:0},{p:'"Espero su respuesta":',o:['I look forward to hearing from you','I look forward hear you','Forward look hearing you'],c:0}],pronunciacion:'I look forward to hearing from you.'},
+{id:'m78',num:78,nivel:2,titulo:'Reuniones y agenda',explicacion:'Agenda: "Let\'s start the meeting", "Any questions?", "We will discuss...".',ejemplos:[{en:'Let\'s start the meeting.',es:'Empecemos la reunión.'},{en:'Any questions?',es:'¿Alguna pregunta?'}],vocab:['start:empezar','agenda:orden del día','topic:tema','minutes:acta'],preguntas:[{p:'"Empecemos la reunión":',o:['Let\'s start the meeting','Start let\'s meeting','Meeting let\'s start'],c:0},{p:'"¿Alguna pregunta?"',o:['Any questions?','Questions any?','Have questions any?'],c:0}],pronunciacion:'Let\'s start the meeting.'},
+{id:'m79',num:79,nivel:2,titulo:'Hacer y recibir llamadas',explicacion:'Llamadas de trabajo: "I am calling about...", "Could you repeat, please?".',ejemplos:[{en:'I am calling about the invoice.',es:'Llamo por la factura.'},{en:'Could you repeat, please?',es:'¿Podría repetir, por favor?'}],vocab:['calling:llamando','invoice:factura','repeat:repetir','line:línea'],preguntas:[{p:'"Llamo por la factura":',o:['I am calling about the invoice','I calling invoice about','Calling I invoice'],c:0},{p:'"¿Podría repetir, por favor?"',o:['Could you repeat, please?','Repeat could please?','Please repeat could?'],c:0}],pronunciacion:'Could you repeat, please?'},
+{id:'m80',num:80,nivel:2,titulo:'Describir procesos',explicacion:'Secuencias: first, then, next, finally. Para explicar procesos de trabajo.',ejemplos:[{en:'First, we send the report. Then, we wait.',es:'Primero enviamos el informe. Luego esperamos.'},{en:'Finally, we confirm.',es:'Finalmente, confirmamos.'}],vocab:['first:primero','then:luego','next:después','finally:finalmente'],preguntas:[{p:'"Primero":',o:['First','Last','Never'],c:0},{p:'"Finalmente, confirmamos":',o:['Finally, we confirm','Final we confirm','Confirm finally we'],c:0}],pronunciacion:'First, we send the report.'},
+{id:'m81',num:81,nivel:2,titulo:'Quejas y soluciones',explicacion:'Quejarse con educación: "I am afraid there is a problem", "I would like a refund".',ejemplos:[{en:'I am afraid there is a problem.',es:'Me temo que hay un problema.'},{en:'I would like a refund, please.',es:'Quisiera un reembolso, por favor.'}],vocab:['problem:problema','refund:reembolso','solution:solución','complain:quejarse'],preguntas:[{p:'"Me temo que hay un problema":',o:['I am afraid there is a problem','Afraid I problem','Problem afraid there'],c:0},{p:'"Quisiera un reembolso":',o:['I would like a refund','I like would refund','Refund would I like'],c:0}],pronunciacion:'I would like a refund, please.'},
+{id:'m82',num:82,nivel:2,titulo:'Tomar decisiones',explicacion:'Decidir: "I have decided to...", "We need to choose between...".',ejemplos:[{en:'I have decided to change jobs.',es:'He decidido cambiar de trabajo.'},{en:'We need to choose one.',es:'Necesitamos elegir uno.'}],vocab:['decided:decidido','choose:elegir','change:cambiar','decision:decisión'],preguntas:[{p:'"He decidido cambiar de trabajo":',o:['I have decided to change jobs','I decided have change jobs','Decided I change jobs'],c:0},{p:'"Necesitamos elegir uno":',o:['We need to choose one','Need we choose one','Choose need one'],c:0}],pronunciacion:'I have decided to change jobs.'},
+{id:'m83',num:83,nivel:2,titulo:'Hablar de resultados',explicacion:'Resultados: "The sales increased by 20%", "We achieved our goal".',ejemplos:[{en:'Sales increased by twenty percent.',es:'Las ventas aumentaron un veinte por ciento.'},{en:'We achieved our goal.',es:'Logramos nuestro objetivo.'}],vocab:['increased:aumentaron','achieved:lograron','goal:objetivo','percent:por ciento'],preguntas:[{p:'"Las ventas aumentaron":',o:['Sales increased','Sales increase','Increase sales'],c:0},{p:'"Logramos nuestro objetivo":',o:['We achieved our goal','We achieve goal','Goal achieved our'],c:0}],pronunciacion:'We achieved our goal.'},
+{id:'m84',num:84,nivel:2,titulo:'Planes de carrera',explicacion:'Carrera: "I want to grow professionally", "promotion", "training".',ejemplos:[{en:'I want to grow professionally.',es:'Quiero crecer profesionalmente.'},{en:'She got a promotion.',es:'Ella consiguió un ascenso.'}],vocab:['grow:crecer','promotion:ascenso','training:formación','career:carrera'],preguntas:[{p:'"Quiero crecer profesionalmente":',o:['I want to grow professionally','I grow professionally want','Professionally grow I'],c:0},{p:'"Ella consiguió un ascenso":',o:['She got a promotion','She get promotion','Promotion got she'],c:0}],pronunciacion:'I want to grow professionally.'},
+{id:'m85',num:85,nivel:2,titulo:'Conversación con clientes',explicacion:'Con clientes: "How can I help you?", "Thank you for your business".',ejemplos:[{en:'How can I help you?',es:'¿Cómo puedo ayudarte?'},{en:'Thank you for your business.',es:'Gracias por su confianza.'}],vocab:['help:ayudar','business:negocio','client:cliente','service:servicio'],preguntas:[{p:'"¿Cómo puedo ayudarte?"',o:['How can I help you?','Can how I help?','Help how can you?'],c:0},{p:'"Gracias por su confianza":',o:['Thank you for your business','Thanks business your','Business thank your'],c:0}],pronunciacion:'How can I help you?'},
+{id:'m86',num:86,nivel:2,titulo:'Hablar de dinero',explicacion:'Dinero: salary, budget, expenses, savings, invoice.',ejemplos:[{en:'We need a bigger budget.',es:'Necesitamos un presupuesto mayor.'},{en:'Save ten percent of your salary.',es:'Ahorra el diez por ciento de tu salario.'}],vocab:['budget:presupuesto','salary:salario','savings:ahorros','expenses:gastos'],preguntas:[{p:'"Presupuesto":',o:['Budget','Salary','Expenses'],c:0},{p:'"Ahorra el diez por ciento":',o:['Save ten percent','Ten save percent','Percent save ten'],c:0}],pronunciacion:'We need a bigger budget.'},
+{id:'m87',num:87,nivel:2,titulo:'Repaso: mundo laboral',explicacion:'Repaso B1 laboral: reuniones, emails, negociación y resultados.',ejemplos:[{en:'I sent the report before the meeting.',es:'Envié el informe antes de la reunión.'},{en:'The project was a success.',es:'El proyecto fue un éxito.'}],vocab:['sent:envié','success:éxito','project:proyecto','team:equipo'],preguntas:[{p:'"Envié el informe":',o:['I sent the report','I send the report','Sent I report'],c:0},{p:'"El proyecto fue un éxito":',o:['The project was a success','Project the success was','Success was project'],c:0}],pronunciacion:'The project was a success.'},
+{id:'m88',num:88,nivel:2,titulo:'Redes sociales en inglés',explicacion:'Vocabulario digital: post, share, follow, like, comment, trend.',ejemplos:[{en:'This post is trending.',es:'Esta publicación es tendencia.'},{en:'Follow us for updates.',es:'Síguenos para novedades.'}],vocab:['post:publicación','share:compartir','follow:seguir','update:novedad'],preguntas:[{p:'"Compartir":',o:['Share','Follow','Post'],c:0},{p:'"Síguenos para novedades":',o:['Follow us for updates','Us follow updates','Updates follow us'],c:0}],pronunciacion:'Follow us for updates.'},
+{id:'m89',num:89,nivel:2,titulo:'Examen B1',explicacion:'Examen final B1: present perfect, condicionales, phrasal verbs y mundo laboral.',ejemplos:[{en:'I have worked hard and I will keep improving.',es:'He trabajado duro y seguiré mejorando.'},{en:'If we plan well, we will succeed.',es:'Si planificamos bien, tendremos éxito.'}],vocab:['improving:mejorando','succeed:tener éxito','hard:duro','plan:planificar'],preguntas:[{p:'"He trabajado duro":',o:['I have worked hard','I has worked hard','Worked have hard'],c:0},{p:'"Si planificamos bien, tendremos éxito":',o:['If we plan well, we will succeed','If plan we, succeed will','Will succeed if plan'],c:0}],pronunciacion:'I have worked hard and I will keep improving.'}
+]);
+</script>
 
-  async function handleInput(text) {
-    if (busy) return;
-    busy = true;
-    logEl($('transcript'), 't-line user', lang.toUpperCase(), escapeHtml(text));
-    try {
-      const r = await fetch('/api/tutor/chat', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, lang, mode, sessionId })
-      });
-      const data = await r.json();
-      if (data.ok !== false && data.text) {
-        sessionId = data.sessionId || sessionId;
-        $('hud-mode').textContent = (data.mode || mode).toUpperCase();
-        const eng = data.english ? '<div class="eng">' + escapeHtml(data.english) + '</div>' : '';
-        logEl($('transcript'), 't-line atlas', 'ATLAS · ' + (data.provider || 'brain'), escapeHtml(data.text) + eng);
-        await speak(data.text);
-      } else {
-        logEl($('transcript'), 't-line atlas', 'ATLAS', data.error || 'Erro ao processar.');
-      }
-    } catch (e) {
-      logEl($('transcript'), 't-line atlas', 'ATLAS', 'Falha de ligação. ' + e.message);
-    }
-    busy = false;
-  }
-  function sendText() {
-    const inp = $('text-input'); const t = inp.value.trim();
-    if (!t) return; inp.value = ''; handleInput(t);
-  }
-  function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-  async function loadPlan() {
-    try {
-      const s = await fetch('/api/tutor/status').then(r => r.json()).catch(() => ({}));
-      const list = $('plan-list'); list.innerHTML = '';
-      const done = s.progress && s.progress.lessonsDone ? s.progress.lessonsDone : 0;
-      if (s.plan) {
-        s.plan.forEach((d, i) => {
-          const el = document.createElement('div');
-          el.className = 'day-item' + (i < done ? ' done' : '');
-          el.innerHTML = '<b>' + (i < done ? '✓ ' : '') + escapeHtml(d.day) + ' · ' + escapeHtml(d.title) + '</b>' + escapeHtml(d.focus);
-          list.appendChild(el);
-        });
-      }
-      $('m-lessons').textContent = done + ' / 7';
-      $('m-msgs').textContent = (s.progress && s.progress.messages) || 0;
-    } catch (e) {}
-    setTimeout(loadPlan, 20000);
-  }
-
-  $('reactor').addEventListener('click', () => { isListening ? stopListening() : startListening(); });
-  window.setLang = setLang; window.setMode = setMode; window.sendText = sendText;
-  setLang(lang); setMode('chat');
-  loadPlan();
-})();
+<script>
+LECCIONES = LECCIONES.concat([
+{id:'m90',num:90,nivel:3,titulo:'Pasado perfecto',explicacion:'Past perfect (had + participio) expresa acción anterior a otra pasada: "I had finished before he arrived".',ejemplos:[{en:'I had finished before he arrived.',es:'Había terminado antes de que él llegara.'},{en:'She had never seen snow.',es:'Ella nunca había visto nieve.'}],vocab:['finished:terminado','arrived:llegado','seen:visto','already:ya'],preguntas:[{p:'"Había terminado antes de que él llegara":',o:['I had finished before he arrived','I have finished before arrived','Had finished I before'],c:0},{p:'"Ella nunca había visto nieve":',o:['She had never seen snow','She never had seen snow','Had never she snow'],c:0}],pronunciacion:'I had finished before he arrived.'},
+{id:'m91',num:91,nivel:3,titulo:'Futuro perfecto',explicacion:'Future perfect: "By next year, I will have finished the course".',ejemplos:[{en:'By next year, I will have finished the course.',es:'Para el año que viene habré terminado el curso.'},{en:'We will have arrived by six.',es:'Habremos llegado para las seis.'}],vocab:['by:para','finished:terminado','arrived:llegado','course:curso'],preguntas:[{p:'"Habré terminado el curso":',o:['I will have finished the course','I will finished the course','Will I finished course'],c:0},{p:'"Habremos llegado para las seis":',o:['We will have arrived by six','We will arrived by six','Arrived will have six'],c:0}],pronunciacion:'By next year, I will have finished the course.'},
+{id:'m92',num:92,nivel:3,titulo:'Voz pasiva',explicacion:'Voz pasiva: to be + participio. "The report was written by Pedro".',ejemplos:[{en:'The report was written by Pedro.',es:'El informe fue escrito por Pedro.'},{en:'English is spoken worldwide.',es:'El inglés se habla en todo el mundo.'}],vocab:['written:escrito','spoken:hablado','worldwide:en todo el mundo','built:construido'],preguntas:[{p:'"El informe fue escrito por Pedro":',o:['The report was written by Pedro','The report written was Pedro','Written report by Pedro'],c:0},{p:'"El inglés se habla en todo el mundo":',o:['English is spoken worldwide','English spoken is worldwide','Spoken English worldwide'],c:0}],pronunciacion:'English is spoken worldwide.'},
+{id:'m93',num:93,nivel:3,titulo:'Verbos modales de deducción',explicacion:'must (debe de), can\'t (no puede ser), may/might (puede que): "He must be at work".',ejemplos:[{en:'He must be at work.',es:'Debe de estar trabajando.'},{en:'She can\'t be serious.',es:'No puede hablar en serio.'}],vocab:['must:debe de','serious:serio','sure:seguro','probably:probablemente'],preguntas:[{p:'"Debe de estar trabajando":',o:['He must be at work','He must at work','Must he be work'],c:0},{p:'"No puede hablar en serio":',o:['She can\'t be serious','She cannot serious be','Serious can\'t she'],c:0}],pronunciacion:'He must be at work.'},
+{id:'m94',num:94,nivel:3,titulo:'Tercer condicional',explicacion:'Tercer condicional (pasado hipotético): if + past perfect, would have + participio.',ejemplos:[{en:'If I had known, I would have called.',es:'Si lo hubiera sabido, habría llamado.'},{en:'She would have come if she had time.',es:'Habría venido si hubiera tenido tiempo.'}],vocab:['known:sabido','called:llamado','come:venir','regret:lamentar'],preguntas:[{p:'"Si lo hubiera sabido, habría llamado":',o:['If I had known, I would have called','If I knew, I would called','Would called if knew'],c:0},{p:'"Habría venido si hubiera tenido tiempo":',o:['She would have come if she had time','She would come if had time','Would have she come'],c:0}],pronunciacion:'If I had known, I would have called.'},
+{id:'m95',num:95,nivel:3,titulo:'Reported speech avanzado',explicacion:'Reportar preguntas y órdenes: "He asked if I was busy", "She told me to wait".',ejemplos:[{en:'He asked if I was busy.',es:'Preguntó si estaba ocupado.'},{en:'She told me to wait.',es:'Me dijo que esperara.'}],vocab:['asked:preguntó','told:dijo','wait:esperar','busy:ocupado'],preguntas:[{p:'"Preguntó si estaba ocupado":',o:['He asked if I was busy','He asked if I am busy','Asked he busy'],c:0},{p:'"Me dijo que esperara":',o:['She told me to wait','She told wait me','Told she wait me'],c:0}],pronunciacion:'He asked if I was busy.'},
+{id:'m96',num:96,nivel:3,titulo:'Verbos con gerundio e infinitivo',explicacion:'Unos verbos van con -ing (enjoy doing) y otros con to (want to do). Aprende los grupos.',ejemplos:[{en:'I enjoy working here.',es:'Disfruto trabajando aquí.'},{en:'I want to improve my skills.',es:'Quiero mejorar mis habilidades.'}],vocab:['enjoy:disfrutar','want:querer','improve:mejorar','avoid:evitar'],preguntas:[{p:'"Disfruto trabajando aquí":',o:['I enjoy working here','I enjoy to work here','Enjoy I working here'],c:0},{p:'"Quiero mejorar mis habilidades":',o:['I want to improve my skills','I want improving my skills','Want improve I skills'],c:0}],pronunciacion:'I want to improve my skills.'},
+{id:'m97',num:97,nivel:3,titulo:'Conectores avanzados',explicacion:'however, therefore, although, despite. Dan fluidez formal a tu discurso.',ejemplos:[{en:'The task was hard. However, we finished it.',es:'La tarea fue difícil. Sin embargo, la terminamos.'},{en:'Although it rained, we went out.',es:'Aunque llovió, salimos.'}],vocab:['however:sin embargo','therefore:por lo tanto','although:aunque','despite:a pesar de'],preguntas:[{p:'"Sin embargo":',o:['However','Therefore','Despite'],c:0},{p:'"Aunque llovió, salimos":',o:['Although it rained, we went out','Despite rained we out','However rained out'],c:0}],pronunciacion:'Although it rained, we went out.'},
+{id:'m98',num:98,nivel:3,titulo:'Idioms de negocios',explicacion:'Idioms: "think outside the box", "touch base", "win-win". Dan naturalidad.',ejemplos:[{en:'Let\'s think outside the box.',es:'Pensemos de forma creativa.'},{en:'This is a win-win situation.',es:'Es una situación en la que todos ganan.'}],vocab:['outside:fuera','box:caja','situation:situación','touch base:contactar'],preguntas:[{p:'"Pensemos de forma creativa":',o:['Think outside the box','Think out box','Outside think box'],c:0},{p:'"Todos ganan":',o:['Win-win','Lose-lose','Win-lose'],c:0}],pronunciacion:'Let\'s think outside the box.'},
+{id:'m99',num:99,nivel:3,titulo:'Negociación avanzada',explicacion:'Negociar con tacto: "What if we...?", "I am flexible on...", "Let\'s meet halfway".',ejemplos:[{en:'What if we split the difference?',es:'¿Y si dividimos la diferencia?'},{en:'Let\'s meet halfway.',es:'Quedemos a mitad de camino.'}],vocab:['split:dividir','difference:diferencia','halfway:a mitad','flexible:flexible'],preguntas:[{p:'"¿Y si dividimos la diferencia?"',o:['What if we split the difference?','What split difference?','Split what difference?'],c:0},{p:'"Quedemos a mitad de camino":',o:['Let\'s meet halfway','Meet let\'s halfway','Halfway let\'s meet'],c:0}],pronunciacion:'Let\'s meet halfway.'},
+{id:'m100',num:100,nivel:3,titulo:'Presentaciones de impacto',explicacion:'Abrir con gancho, cerrar con llamada a la acción: "In conclusion...", "Thank you for your attention".',ejemplos:[{en:'In conclusion, we should act now.',es:'En conclusión, debemos actuar ya.'},{en:'Thank you for your attention.',es:'Gracias por su atención.'}],vocab:['conclusion:conclusión','attention:atención','act:actuar','impact:impacto'],preguntas:[{p:'"En conclusión, debemos actuar ya":',o:['In conclusion, we should act now','Conclusion in, act should','Should act conclusion'],c:0},{p:'"Gracias por su atención":',o:['Thank you for your attention','Thanks attention your','Attention thank your'],c:0}],pronunciacion:'Thank you for your attention.'},
+{id:'m101',num:101,nivel:3,titulo:'Escribir propuestas',explicacion:'Propuestas: "We propose to...", "The objective is to...", "Benefits include...".',ejemplos:[{en:'We propose to reduce costs.',es:'Proponemos reducir costes.'},{en:'The benefits include more speed.',es:'Los beneficios incluyen más velocidad.'}],vocab:['propose:proponer','objective:objetivo','benefit:beneficio','cost:coste'],preguntas:[{p:'"Proponemos reducir costes":',o:['We propose to reduce costs','Propose we reduce costs','Reduce propose costs'],c:0},{p:'"Los beneficios incluyen más velocidad":',o:['The benefits include more speed','Benefits the include speed','Include benefits speed'],c:0}],pronunciacion:'We propose to reduce costs.'},
+{id:'m102',num:102,nivel:3,titulo:'Análisis de datos en inglés',explicacion:'Datos: trend, growth, decline, significant, average.',ejemplos:[{en:'The trend shows steady growth.',es:'La tendencia muestra un crecimiento constante.'},{en:'Costs declined significantly.',es:'Los costes bajaron significativamente.'}],vocab:['trend:tendencia','growth:crecimiento','decline:descenso','average:promedio'],preguntas:[{p:'"Crecimiento":',o:['Growth','Decline','Average'],c:0},{p:'"La tendencia muestra crecimiento":',o:['The trend shows growth','Trend the growth shows','Growth trend the'],c:0}],pronunciacion:'The trend shows steady growth.'},
+{id:'m103',num:103,nivel:3,titulo:'Liderazgo y feedback',explicacion:'Liderazgo: "I appreciate your work", "Let\'s improve together", feedback constructivo.',ejemplos:[{en:'I appreciate your hard work.',es:'Aprecio tu duro trabajo.'},{en:'Let\'s improve together.',es:'Mejoremos juntos.'}],vocab:['appreciate:apreciar','improve:mejorar','together:juntos','feedback:comentarios'],preguntas:[{p:'"Aprecio tu duro trabajo":',o:['I appreciate your hard work','I appreciate work hard your','Appreciate hard your work'],c:0},{p:'"Mejoremos juntos":',o:['Let\'s improve together','Improve let\'s together','Together improve let\'s'],c:0}],pronunciacion:'I appreciate your hard work.'},
+{id:'m104',num:104,nivel:3,titulo:'Llamadas internacionales',explicacion:'Llamadas globales: time zones, "Is this a good time?", "Let\'s reschedule".',ejemplos:[{en:'Is this a good time to talk?',es:'¿Es buen momento para hablar?'},{en:'Let\'s reschedule for tomorrow.',es:'Reprogramemos para mañana.'}],vocab:['good time:buen momento','reschedule:reprogramar','time zone:huso horario','available:disponible'],preguntas:[{p:'"¿Es buen momento para hablar?"',o:['Is this a good time to talk?','Time good is talk?','Good is time talk?'],c:0},{p:'"Reprogramemos para mañana":',o:['Let\'s reschedule for tomorrow','Reschedule let\'s tomorrow','Tomorrow reschedule let\'s'],c:0}],pronunciacion:'Is this a good time to talk?'},
+{id:'m105',num:105,nivel:3,titulo:'Cultura de negocios',explicacion:'Diferencias culturales: formal/informal, small talk, punctuality. Sé respetuoso.',ejemplos:[{en:'Punctuality is very important here.',es:'La puntualidad es muy importante aquí.'},{en:'Let\'s start with some small talk.',es:'Empecemos con una charla ligera.'}],vocab:['punctuality:puntualidad','important:importante','small talk:charla ligera','polite:educado'],preguntas:[{p:'"La puntualidad es muy importante":',o:['Punctuality is very important','Punctuality very is important','Important punctuality is'],c:0},{p:'"Charla ligera":',o:['Small talk','Talk small','Little talk'],c:0}],pronunciacion:'Punctuality is very important here.'},
+{id:'m106',num:106,nivel:3,titulo:'Expresiones con get',explicacion:'get rich, get better, get used to, get along. "Get" es el verbo más versátil.',ejemplos:[{en:'I am getting better every day.',es:'Estoy mejorando cada día.'},{en:'We get along very well.',es:'Nos llevamos muy bien.'}],vocab:['getting:volviéndose','better:mejor','get along:llevarse bien','get used to:acostumbrarse'],preguntas:[{p:'"Estoy mejorando cada día":',o:['I am getting better every day','I getting better day every','Better getting I day'],c:0},{p:'"Nos llevamos muy bien":',o:['We get along very well','We get well along','Along get we well'],c:0}],pronunciacion:'I am getting better every day.'},
+{id:'m107',num:107,nivel:3,titulo:'Colocaciones frecuentes',explicacion:'Colocaciones: make a decision, do business, take a break, have a meeting.',ejemplos:[{en:'We need to make a decision.',es:'Necesitamos tomar una decisión.'},{en:'Let\'s do business together.',es:'Hagamos negocios juntos.'}],vocab:['make a decision:tomar una decisión','do business:hacer negocios','take a break:descansar','have a meeting:reunirse'],preguntas:[{p:'"Tomar una decisión":',o:['Make a decision','Do a decision','Take a decision'],c:0},{p:'"Hagamos negocios juntos":',o:['Let\'s do business together','Do let\'s business','Business do together'],c:0}],pronunciacion:'We need to make a decision.'},
+{id:'m108',num:108,nivel:3,titulo:'Repaso: inglés profesional',explicacion:'Repaso B2: pasiva, condicionales, idioms y negociación en contexto real.',ejemplos:[{en:'The contract was signed by both parties.',es:'El contrato fue firmado por ambas partes.'},{en:'If we had known, we would have prepared better.',es:'Si lo hubiéramos sabido, nos habríamos preparado mejor.'}],vocab:['contract:contrato','signed:firmado','parties:partes','prepared:preparado'],preguntas:[{p:'"El contrato fue firmado":',o:['The contract was signed','The contract signed was','Signed was contract'],c:0},{p:'"Si lo hubiéramos sabido":',o:['If we had known','If we knew','Had we known'],c:0}],pronunciacion:'The contract was signed by both parties.'},
+{id:'m109',num:109,nivel:3,titulo:'Examen B2',explicacion:'Examen final B2: toda la gramática profesional y de negocios.',ejemplos:[{en:'I will have completed the project by Friday.',es:'Habré completado el proyecto para el viernes.'},{en:'Although it was difficult, we succeeded.',es:'Aunque fue difícil, tuvimos éxito.'}],vocab:['completed:completado','difficult:difícil','succeeded:tuvo éxito','challenge:reto'],preguntas:[{p:'"Habré completado el proyecto":',o:['I will have completed the project','I will completed the project','Completed will have project'],c:0},{p:'"Aunque fue difícil, tuvimos éxito":',o:['Although it was difficult, we succeeded','Although difficult was, succeeded','Succeeded although difficult'],c:0}],pronunciacion:'I will have completed the project by Friday.'},
+{id:'m110',num:110,nivel:4,titulo:'Matices del inglés avanzado',explicacion:'C1: matices y precisión. "It depends on the context", registros formal/informal.',ejemplos:[{en:'It depends on the context.',es:'Depende del contexto.'},{en:'To a certain extent, I agree.',es:'Hasta cierto punto, estoy de acuerdo.'}],vocab:['context:contexto','extent:medida','subtle:sutil','nuance:matiz'],preguntas:[{p:'"Depende del contexto":',o:['It depends on the context','Depends it context on','Context depends it'],c:0},{p:'"Hasta cierto punto":',o:['To a certain extent','To some point','In certain way'],c:0}],pronunciacion:'It depends on the context.'},
+{id:'m111',num:111,nivel:4,titulo:'Inversiones gramaticales',explicacion:'Inversión avanzada: "Never have I seen...", "Rarely does he...".',ejemplos:[{en:'Never have I seen such talent.',es:'Nunca he visto tanto talento.'},{en:'Rarely does this happen.',es:'Rara vez sucede esto.'}],vocab:['never:nunca','rarely:rara vez','talent:talento','happen:suceder'],preguntas:[{p:'"Nunca he visto tanto talento":',o:['Never have I seen such talent','Never I have seen talent','Seen never have talent'],c:0},{p:'"Rara vez sucede esto":',o:['Rarely does this happen','Rarely this happens','Happens rarely this'],c:0}],pronunciacion:'Never have I seen such talent.'},
+{id:'m112',num:112,nivel:4,titulo:'Expresiones idiomáticas C1',explicacion:'Idioms avanzados: "a blessing in disguise", "cutting edge", "state of the art".',ejemplos:[{en:'This technology is cutting edge.',es:'Esta tecnología es puntera.'},{en:'It was a blessing in disguise.',es:'Fue una bendición disfrazada.'}],vocab:['cutting edge:puntero','blessing:bendición','disguise:disfraz','breakthrough:avance'],preguntas:[{p:'"Tecnología puntera":',o:['Cutting edge','Cutting sharp','Edge cut'],c:0},{p:'"Bendición disfrazada":',o:['A blessing in disguise','A disguised blessing','Blessing hidden'],c:0}],pronunciacion:'This technology is cutting edge.'},
+{id:'m113',num:113,nivel:4,titulo:'Debate y argumentación',explicacion:'Argumentar: "On the one hand... on the other hand...", "That being said".',ejemplos:[{en:'On the one hand, it saves time. On the other, it costs more.',es:'Por un lado ahorra tiempo. Por otro, cuesta más.'},{en:'That being said, I agree.',es:'Dicho esto, estoy de acuerdo.'}],vocab:['on the one hand:por un lado','on the other:por otro','save:ahorrar','argue:argumentar'],preguntas:[{p:'"Por un lado":',o:['On the one hand','In one hand','At one side'],c:0},{p:'"Dicho esto":',o:['That being said','Said that being','Being that said'],c:0}],pronunciacion:'On the one hand, it saves time.'},
+{id:'m114',num:114,nivel:4,titulo:'Inglés académico',explicacion:'Académico: hypothesis, evidence, methodology, conclusion, furthermore.',ejemplos:[{en:'The evidence supports the hypothesis.',es:'La evidencia apoya la hipótesis.'},{en:'Furthermore, the results are clear.',es:'Además, los resultados son claros.'}],vocab:['evidence:evidencia','hypothesis:hipótesis','furthermore:además','methodology:metodología'],preguntas:[{p:'"La evidencia apoya la hipótesis":',o:['The evidence supports the hypothesis','Evidence the hypothesis supports','Supports evidence hypothesis'],c:0},{p:'"Además":',o:['Furthermore','However','Although'],c:0}],pronunciacion:'The evidence supports the hypothesis.'},
+{id:'m115',num:115,nivel:4,titulo:'Redacción persuasiva',explicacion:'Persuadir: "It is undeniable that...", "We strongly believe...", "Consider the following".',ejemplos:[{en:'It is undeniable that this works.',es:'Es innegable que esto funciona.'},{en:'We strongly believe in our vision.',es:'Creemos firmemente en nuestra visión.'}],vocab:['undeniable:innegable','strongly:firmemente','believe:creer','vision:visión'],preguntas:[{p:'"Es innegable que esto funciona":',o:['It is undeniable that this works','Undeniable is this works','Works undeniable this'],c:0},{p:'"Creemos firmemente en nuestra visión":',o:['We strongly believe in our vision','We believe strongly vision','Strongly we vision'],c:0}],pronunciacion:'We strongly believe in our vision.'},
+{id:'m116',num:116,nivel:4,titulo:'Entrevistas ejecutivas',explicacion:'Nivel ejecutivo: "Where do you see yourself in five years?", "What drives you?".',ejemplos:[{en:'I see myself leading a global team.',es:'Me veo liderando un equipo global.'},{en:'Innovation drives me.',es:'La innovación me motiva.'}],vocab:['leading:liderando','global:mundial','drives:motiva','innovation:innovación'],preguntas:[{p:'"Me veo liderando un equipo global":',o:['I see myself leading a global team','I see me leading global','Myself leading see global'],c:0},{p:'"La innovación me motiva":',o:['Innovation drives me','Innovation drive me','Drives innovation me'],c:0}],pronunciacion:'I see myself leading a global team.'},
+{id:'m117',num:117,nivel:4,titulo:'Comunicación de crisis',explicacion:'Crisis: "We are aware of the issue", "We are working on a solution", tono calmado.',ejemplos:[{en:'We are aware of the issue and working on it.',es:'Somos conscientes del problema y estamos trabajando en ello.'},{en:'We will update you shortly.',es:'Les actualizaremos en breve.'}],vocab:['aware:consciente','issue:problema','solution:solución','shortly:en breve'],preguntas:[{p:'"Somos conscientes del problema":',o:['We are aware of the issue','We aware issue are','Aware are we issue'],c:0},{p:'"Les actualizaremos en breve":',o:['We will update you shortly','We update shortly will','Shortly update we'],c:0}],pronunciacion:'We are aware of the issue and working on it.'},
+{id:'m118',num:118,nivel:4,titulo:'Discurso de visión',explicacion:'Inspirar: "Together we will...", "Imagine a world where...", "This is our mission".',ejemplos:[{en:'Together we will reach the stars.',es:'Juntos alcanzaremos las estrellas.'},{en:'Imagine a world without limits.',es:'Imagina un mundo sin límites.'}],vocab:['together:juntos','reach:alcanzar','imagine:imaginar','limits:límites'],preguntas:[{p:'"Juntos alcanzaremos las estrellas":',o:['Together we will reach the stars','Together reach will stars','Stars together reach'],c:0},{p:'"Imagina un mundo sin límites":',o:['Imagine a world without limits','Imagine world without limits a','World imagine without limits'],c:0}],pronunciacion:'Together we will reach the stars.'},
+{id:'m119',num:119,nivel:4,titulo:'Examen C1 — Graduación',explicacion:'Examen final: has completado los 120 módulos. Tu nivel es C1 avanzado. ¡Mente del cosmos!',ejemplos:[{en:'I have mastered English at an advanced level.',es:'He dominado el inglés a nivel avanzado.'},{en:'The journey continues beyond the stars.',es:'El viaje continúa más allá de las estrellas.'}],vocab:['mastered:dominado','advanced:avanzado','journey:viaje','beyond:más allá'],preguntas:[{p:'"He dominado el inglés":',o:['I have mastered English','I mastered have English','Mastered I have English'],c:0},{p:'"El viaje continúa más allá de las estrellas":',o:['The journey continues beyond the stars','Journey the continues beyond','Continues journey beyond stars'],c:0}],pronunciacion:'I have mastered English at an advanced level.'}
+]);
+pintarInicio();
 </script>
 </body>
 </html>
