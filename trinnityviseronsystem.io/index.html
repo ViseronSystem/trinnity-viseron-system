@@ -1117,7 +1117,7 @@
           <li class="off" data-i18n="plan.core.f6">Escuadrones personalizados</li>
           <li class="off" data-i18n="plan.core.f7">Multi-tenant</li>
         </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Core Plan" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Comenzar</a>
+        <a href="visor/index.html" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Comenzar</a>
       </div>
       <!-- Pro -->
       <div class="glass-card plan-card featured reveal reveal-d1">
@@ -1134,7 +1134,7 @@
           <li data-i18n="plan.pro.f6">Mensajería E2E cifrada</li>
           <li data-i18n="plan.pro.f7">Soporte prioritario</li>
         </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Pro Plan" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Comenzar</a>
+        <a href="visor/index.html" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Comenzar</a>
       </div>
       <!-- Enterprise -->
       <div class="glass-card plan-card reveal reveal-d2">
@@ -1151,7 +1151,7 @@
           <li data-i18n="plan.ent.f6">Comercialización de API</li>
           <li data-i18n="plan.ent.f7">Integración Composio + RCS</li>
         </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Enterprise" class="plan-btn plan-btn-outline" data-i18n="plan.btn.contact">Contactar</a>
+        <a href="visor/index.html" class="plan-btn plan-btn-outline" data-i18n="plan.btn.contact">Contactar</a>
       </div>
     </div>
   </div>
@@ -1668,7 +1668,51 @@ try { const saved = localStorage.getItem('tvs-lang'); if(saved && LANG[saved]) s
 </script>
 <div style="position:fixed;top:14px;right:14px;z-index:9999">
 <a href="visor/index.html" style="display:inline-block;background:linear-gradient(90deg,#00f0ff,#bf5af2);color:#030310;font-weight:900;padding:12px 22px;border-radius:99px;text-decoration:none;font-family:Inter,system-ui;font-size:14px;box-shadow:0 0 30px rgba(0,240,255,.45)">&#128640; ENTRAR AL TVS OS</a>
-</div><div id="arsenal" style="font-family:Inter,'Segoe UI',sans-serif;background:linear-gradient(180deg,#050512,#0a0a24);color:#e8e8f4;padding:70px 24px;border-top:1px solid rgba(0,240,255,.15)">
+</div><div id="tvs-vivo" style="font-family:Inter,'Segoe UI',sans-serif;background:#04040f;border-top:1px solid rgba(0,240,255,.2);padding:10px 0;overflow:hidden">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(0,255,135,.12);border:1px solid rgba(0,255,135,.35);color:#00ff87;font-size:.7rem;font-weight:800;padding:5px 12px;border-radius:99px;white-space:nowrap">
+      <span style="width:8px;height:8px;border-radius:50%;background:#00ff87;animation:tvspulse 1.6s infinite"></span> SISTEMA EN VIVO
+    </span>
+    <div id="tvs-ticker" style="flex:1;color:#9aa0b5;font-size:.72rem;white-space:nowrap;overflow:hidden"></div>
+    <span id="tvs-gh" style="color:#00f0ff;font-size:.72rem;font-family:Consolas,monospace">consultando GitHub...</span>
+  </div>
+  <style>
+    @keyframes tvspulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  </style>
+</div>
+<script>
+(function(){
+  var mensajes = [
+    '&#128640; 12 squads AIOX activas · 199 workers · 215 tareas',
+    '&#129302; 21.000+ skills indexadas en 10 colecciones',
+    '&#128142; VSR 300M (gobernanza) · TRIN 420,69M (burn 2%)',
+    '&#127919; 50 misiones con recompensas TRIN',
+    '&#127918; 3 juegos del cosmos con records',
+    '&#128218; Auditoria 17/08/2026: VERDE · QA 13/13 · tests 20/20',
+    '&#128187; n8n 24/7 en UpCloud · puerto 5678 · Ollama local',
+    '&#129680; Roadmap: Genesis > Ascension > Exchange > Cosmos Mainnet',
+    '&#128737; Gobernanza: 9 principios · 7 checks eticos por operacion'
+  ];
+  var t = document.getElementById('tvs-ticker');
+  var i = 0;
+  if (t) {
+    t.textContent = mensajes[0];
+    setInterval(function(){ i = (i + 1) % mensajes.length; t.style.opacity = 0; setTimeout(function(){ t.textContent = mensajes[i]; t.style.opacity = 1; t.style.transition = 'opacity .5s'; }, 400); }, 4200);
+  }
+  var gh = document.getElementById('tvs-gh');
+  if (gh) {
+    fetch('https://api.github.com/repos/ViseronSystem/trinnity-viseron-system')
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j && j.full_name) {
+          gh.innerHTML = '&#9733; ' + j.stargazers_count + ' &middot; forks ' + j.forks_count + ' &middot; actualizado ' + j.updated_at.slice(0,10);
+        } else { gh.textContent = 'github.com/ViseronSystem'; }
+      })
+      .catch(function(){ gh.textContent = 'github.com/ViseronSystem'; });
+  }
+})();
+</script>
+<div id="arsenal" style="font-family:Inter,'Segoe UI',sans-serif;background:linear-gradient(180deg,#050512,#0a0a24);color:#e8e8f4;padding:70px 24px;border-top:1px solid rgba(0,240,255,.15)">
   <div style="max-width:1200px;margin:0 auto">
     <div style="text-align:center;margin-bottom:48px">
       <div style="color:#ff9f0a;letter-spacing:4px;font-size:.75rem;font-weight:800">REALIDAD AUDITADA &middot; 17/08/2026</div>

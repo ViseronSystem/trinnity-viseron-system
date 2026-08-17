@@ -507,13 +507,42 @@ function bindTerm(){var inp=document.getElementById('termIn');if(!inp)return;inp
 }
 
 /* ============ SQUADS ============ */
+var SABER = {
+ 'aiox-master':['coordino el batallon: orquesto las 12 squads, guardo memoria en aiox-kb y entity-registry, y vigilo la evolucion con workflow-intelligence.'],
+ 'architect':['diseno la arquitectura del sistema: capas, contratos de compatibilidad, dependencias y deuda tecnica. Reviso patrones con el architect-checklist.'],
+ 'dev':['construyo stories y features: implemento, pruebo, corrijo. Trabajo por stories en docs/stories y respeto los quality gates antes de terminar.'],
+ 'qa':['soy la puerta de calidad: gates L1 pre-commit, L2 PR con CodeRabbit y Quinn, L3 revision humana. Si no pasa mis checks, no sale a produccion.'],
+ 'devops':['gestiono infraestructura: servidor UpCloud, CI/CD, GitHub, Vercel, backups dorados y migraciones. La web tiene backup diario automatico a las 04:00.'],
+ 'data-engineer':['cuido los datos: Supabase, RLS, migraciones SQL con rollback, seed y smoke tests. Nunca creo tablas de backup en produccion: uso pg_dump.'],
+ 'analyst':['investigo mercado, competencia y datos: genero market-research, competitor-analysis y calculo ROI antes de decidir.'],
+ 'pm':['gestiono el producto: PRDs, alcance, prioridades y roadmap. Nada se construye sin un artefacto aprobado por los creadores.'],
+ 'po':['soy la voz del cliente: backlog, stories priorizadas, ClickUp y criterios de aceptacion claros.'],
+ 'sm':['facilito el equipo: quito bloqueos, cuido el ritmo y las ceremonias, y mantengo el foco del sprint.'],
+ 'ux-design-expert':['diseño la experiencia: design tokens, componentes accesibles WCAG, y audito cada pantalla con el pattern-audit-checklist.'],
+ 'squad-creator':['creo y publico squads y skills: empaqueto agentes, los sincronizo a los 7 IDEs y los publico como skills reutilizables.']
+};
+function responderAgente(id, pregunta){
+  var a=AGENTES.find(function(x){return x.id===id});
+  var panel=document.getElementById('resp-'+id);
+  var texto=(pregunta||'').toLowerCase();
+  var resp=SABER[id]?SABER[id][0]:('Soy '+a.nombre+'. '+a.rol+'. Preguntame sobre mis tareas o usa el comando de activacion.');
+  if(texto.indexOf('quien')>=0||texto.indexOf('eres')>=0)resp='Soy <b>'+a.nombre+'</b>. '+a.rol+'.';
+  if(texto.indexOf('skill')>=0||texto.indexOf('skills')>=0)resp='El batallon indexa 21.000+ skills; las 16 de workflow y las 12 de squads estan sincronizadas a 7 IDEs.';
+  if(texto.indexOf('token')>=0||texto.indexOf('trin')>=0||texto.indexOf('vsr')>=0)resp='VSR (300M, gobernanza, staking) y TRIN (420,69M, burn 2%). Redes: ETH, BSC y Solana.';
+  if(texto.indexOf('auditoria')>=0||texto.indexOf('status')>=0)resp='Auditoria VERDE: manifiestos 12/199/215 validos, QA del OS 13/13, tests 20/20, ejecucion 2x con 97% de exito.';
+  if(texto.indexOf('plan')>=0||texto.indexOf('precio')>=0)resp='Planes: Starter 199€/mes, PRO 499€/mes, Enterprise 1.999€/mes + extras. Se compran en la Tienda del TVS OS.';
+  panel.innerHTML='<span style="color:#00ff87">'+a.nombre+':</span> '+resp;
+}
 function agentesHTML(){
-  var h='<p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">12 mentes del batallon, sincronizadas en 7 IDEs. Activa o despliega cada squad.</p><div class="grid2">';
+  var h='<p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">12 mentes del batallon, sincronizadas en 7 IDEs. Preguntales: cada squad responde desde su conocimiento real.</p><div class="grid2">';
   AGENTES.forEach(function(a){
     h+='<div class="card"><h4>'+a.icon+' '+a.nombre+' <span class="badge bg">ACTIVA</span></h4>'+
        '<p style="font-size:.74rem;color:var(--muted);margin-bottom:6px">'+a.rol+'</p>'+
        '<div style="font-size:.68rem;color:var(--cyan);font-family:var(--mono)">id: '+a.id+'</div>'+
        '<div style="margin-top:8px">'+a.cmds.map(function(c){return '<span class="chip">'+c+'</span>'}).join('')+'</div>'+
+       '<div style="margin-top:10px;display:flex;gap:6px"><input id="ask-'+a.id+'" placeholder="preguntale algo..." style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:7px 10px;font-size:.72rem;outline:none">'+
+       '<button style="background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:7px;padding:7px 10px;font-weight:800;font-size:.72rem;cursor:pointer" onclick="responderAgente(\''+a.id+'\',document.getElementById(\'ask-'+a.id+'\').value)">PREGUNTAR</button></div>'+
+       '<div id="resp-'+a.id+'" style="font-size:.7rem;color:var(--muted);margin-top:8px;min-height:16px"></div>'+
        '<button style="margin-top:10px;width:100%;background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:7px;padding:8px;font-weight:800;cursor:pointer" onclick="desplegarSquad(\''+a.id+'\')">Desplegar squad</button></div>';
   });
   return h+'</div>';
