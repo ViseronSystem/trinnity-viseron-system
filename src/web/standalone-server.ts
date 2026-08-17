@@ -374,6 +374,22 @@ export class ViseronWebServer {
       });
     });
 
+    this.app.get("/api/public/checkout", async (req, res) => {
+      try {
+        const plan = String(req.query.plan || "starter");
+        const base = req.protocol + "://" + req.get("host");
+        const session = await this.billing.createCheckoutSession({
+          plan,
+          tenantId: "publico",
+          successUrl: base + "/dashboard?checkout=success&plan=" + plan,
+          cancelUrl: base + "/dashboard?checkout=cancel",
+        });
+        if (session.url) { return res.redirect(session.url); }
+        res.status(400).json({ ok: false, error: "sin sesion" });
+      } catch (e) {
+        res.status(500).json({ ok: false, error: String(e.message || e) });
+      }
+    });
     this.app.use("/api", createAuthRouter(this.accounts, this.logger, this.metrics, this.email));
     this.app.use("/api", createBillingRouter(this.accounts, this.billing, this.logger, this.metrics, this.email, this.crypto.payments));
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));

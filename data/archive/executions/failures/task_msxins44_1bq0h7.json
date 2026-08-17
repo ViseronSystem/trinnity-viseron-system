@@ -1,0 +1,21 @@
+{
+  "id": "task_msxins44_1bq0h7",
+  "timestamp": "2026-08-17T17:37:21.963Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "856ea9241920f643ab098b59a52c0d1aeb91feaffab925cc31407ccfa085a2a6"
+}

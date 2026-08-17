@@ -1,0 +1,21 @@
+{
+  "id": "task_msxjaxgz_asimrp",
+  "timestamp": "2026-08-17T17:55:21.996Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "2113a039f7eaea7273786416933849a84fe0fa8975659e06c4de0daba99a1726"
+}

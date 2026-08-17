@@ -1,0 +1,21 @@
+{
+  "id": "task_msxj8cvl_kiw33b",
+  "timestamp": "2026-08-17T17:53:21.994Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "7fd01be94c11022794956343884a3c2c107f63bfa9bb96b70bd2617ea578cc88"
+}
