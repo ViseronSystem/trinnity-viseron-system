@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TVS OS — Trinnity Viseron System · Plataforma</title>
-<meta name="description" content="TVS OS v5.1: consola, tienda, cadastro y areas por plan del sistema multi-agente Trinnity Viseron.">
+<title>TVS OS v7.0.0 — Trinnity Viseron System · Plataforma</title>
+<meta name="description" content="TVS OS v7.0.0: consola, tienda, cadastro y areas por plan del sistema multi-agente Trinnity Viseron.">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#02020a;--panel:rgba(8,10,24,.94);--line:rgba(0,240,255,.14);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab;--mono:'JetBrains Mono',monospace}
@@ -100,6 +100,16 @@ table.g td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
 .plan button.adq{background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.4);color:var(--green);cursor:default}
 .plan .tagp{position:absolute;top:-10px;right:12px;background:var(--orange);color:#030310;font-size:.6rem;font-weight:900;padding:3px 10px;border-radius:99px;letter-spacing:1px}
 .notice{background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.3);border-radius:10px;padding:10px 12px;font-size:.7rem;color:var(--orange);margin-bottom:12px;line-height:1.5}
+@media(max-width:768px){
+  #icons{flex-direction:row;position:static;max-height:none;flex-wrap:wrap}
+  .win{left:0!important;top:0!important;width:100%!important;height:calc(100% - 56px)!important;border-radius:0}
+  .dicon{width:70px;padding:8px 4px}
+  #taskbar .tbtn{padding:6px 9px;font-size:.66rem}
+  #userchip{font-size:.62rem;padding:5px 8px}
+  #taskbar{flex-wrap:wrap}
+  .grid2{grid-template-columns:1fr}
+  .planes{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -107,7 +117,7 @@ table.g td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
 
 <div id="boot">
   <div class="logo">TRINNITY <i>VISERON</i></div>
-  <div class="sub">TVS OS v5.1 — PLATAFORMA · TIENDA · SQUADS</div>
+  <div class="sub">TVS OS v7.0.0 &middot; CONTROLLED-PILOT &middot; MULTI-AGENT AI SUPERINTELLIGENCE</div>
   <div class="log" id="bootlog"></div>
   <div class="bar"><div id="bootbar"></div></div>
 </div>
@@ -184,7 +194,7 @@ const ARBOL = [
  ["d","  packages"],["f","    gemini-aiox-extension (en desarrollo)"],
  ["d","  prototype"],["d","  scripts"],["d","  skills"],["d","  src"],["d","  tests"],["d","  tools"],
  ["d","  trinnityviseron.com"],["f","    (redirect -> .io)"],
- ["d","  trinnityviseronsystem.io"],["f","    index.html (TVS OS v5.1)"],["f","    cosmos.html + cosmos/ (VSR, TRIN, metaverso)"],["f","    game/ (3 juegos)"],["f","    jarvis-chat.js"],["f","    voice-widget.js"]
+ ["d","  trinnityviseronsystem.io"],["f","    index.html (TVS OS v7.0.0)"],["f","    cosmos.html + cosmos/ (VSR, TRIN, metaverso)"],["f","    game/ (3 juegos)"],["f","    jarvis-chat.js"],["f","    voice-widget.js"]
 ];
 const MISIONES = [
  ["M01","Génesis","Primera conexión al TVS OS","1",10],["M02","Génesis","Completa el boot y entra al escritorio","1",10],
@@ -284,8 +294,9 @@ function appPermitida(app){
 
 /* ============ BOOT -> LOGIN ============ */
 var BOOTLOG=[
- ["TRINNITY VISERON SYSTEM v5.1","ok"],
- ["BIOS: ViseronCore v5.0 ............ OK","ok"],
+ ["TRINNITY VISERON SYSTEM v7.0.0","ok"],
+ ["Modo: CONTROLLED-PILOT ............ OK","ok"],
+ ["BIOS: ViseronCore v7.0 ............ OK","ok"],
  ["RAM: 5000+ minds detectadas ....... OK","ok"],
  ["Cargando ViseronCore ............. OK","ok"],
  ["Cargando ATLAS ................... OK","ok"],
@@ -296,6 +307,13 @@ var BOOTLOG=[
  ["Auditoria de seguridad ........... VERDE","ok"],
  ["Firma: Pedro (Comandante) & Trinnity (Reina)","ok"]
 ];
+/* Failsafe: si algo bloquea el arranque, forzar login */
+window.addEventListener('error', function(){});
+setTimeout(function(){
+  var b=document.getElementById('boot');
+  var l=document.getElementById('login');
+  if(b&&b.style.display!=='none'){b.style.display='none';if(l){l.style.display='flex';var e=document.getElementById('l-email');if(e)e.focus();}}
+},10000);
 (function(){
   var log=document.getElementById('bootlog'),bar=document.getElementById('bootbar'),i=0;
   function paso(){
@@ -470,7 +488,7 @@ function ejecutar(cmd){
    help:function(){termPrint('<span class="c">COMANDOS</span>\n  whoami · status · version · agentes · skills · trabajadores · tareas · manifests\n  misiones · juegos · tokens · roadmap · arbol · github · auditoria · firma\n  tienda · miplan · comprar &lt;id&gt; · alias &lt;nombre&gt; · fecha · limpiar · salir · reiniciar');},
    whoami:function(){termPrint((s?s.nombre+' · rol: <span class="c">'+s.rol.toUpperCase()+'</span> · plan: '+(s.plan?s.plan.toUpperCase():'ninguno'):'sin sesion')+'\nMisiones: '+misionesLS().length+'/50 · TRIN: '+trinTotal());},
    status:function(){termPrint('<span class="c">ESTADO DEL BATALLON</span>');for(var k in ESTADO){termPrint('  '+k+': <span class="w">'+ESTADO[k]+'</span>');}},
-   version:function(){termPrint('TVS OS v5.1 · AIOX '+ESTADO.version+' · Node '+ESTADO.node);},
+   version:function(){termPrint('TVS OS v7.0.0 (CONTROLLED-PILOT) · AIOX '+ESTADO.version+' · Node '+ESTADO.node);},
    fecha:function(){termPrint(new Date().toLocaleString('es-ES'));},
    agentes:function(){termPrint('<span class="c">12 SQUADS ACTIVAS</span>');AGENTES.forEach(function(ag){termPrint('  ['+'<span class="w">ON</span>'+'] '+ag.id+' — '+ag.rol);});},
    skills:function(){termPrint('<span class="c">'+SKILLS.length+' SKILLS</span>\n  '+SKILLS.join(' · '));},
@@ -563,7 +581,7 @@ function monitorHTML(){
     '</div>'+
     '<div class="card" style="margin-top:12px"><h4>Servicios del batallon</h4>'+
     '<table class="g"><tr><th>Servicio</th><th>Estado</th></tr>'+
-    '<tr><td>TVS OS (web)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>TVS OS v7.0.0 (web)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
     '<tr><td>n8n automations</td><td><span class="badge bg">ONLINE :5678</span></td></tr>'+
     '<tr><td>AIOX framework v'+ESTADO.version+'</td><td><span class="badge bg">ONLINE</span></td></tr>'+
     '<tr><td>Ollama (qwen 7b/3b)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
@@ -690,7 +708,7 @@ function cargarRed(){
 
 /* ============ AYUDA ============ */
 function ayudaHTML(){
-  return '<div class="card"><h4>TVS OS v5.1 — manual rapido</h4>'+
+  return '<div class="card"><h4>TVS OS v7.0.0 — manual rapido</h4>'+
   '<p style="font-size:.76rem;color:var(--muted)">Consola + tienda + areas por plan del sistema real.</p>'+
   '<table class="g"><tr><th>Ventana</th><th>Que hace</th></tr>'+
   '<tr><td>Tienda</td><td>Planes y extras del cosmos</td></tr>'+
@@ -815,20 +833,42 @@ function adminHTML(){
       '<td><button style="background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:6px;padding:5px 10px;cursor:pointer;font-weight:800" onclick="guardarPrecio(\''+p.id+'\')">GUARDAR</button></td></tr>';
   });
   h+='</table></div>';
-  h+='<div class="card"><h4>Clientes</h4><table class="g"><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Plan</th></tr>';
+  h+='<div class="card"><h4>Clientes</h4><table class="g"><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Plan</th><th>Accion</th></tr>';
   us.forEach(function(u){
-    h+='<tr><td>'+u.nombre+'</td><td>'+u.email+'</td><td><span class="badge '+(u.rol==='maestro'?'bp':(u.rol==='admin'?'by':'bc'))+'">'+u.rol+'</span></td><td>'+(u.plan?u.plan.toUpperCase():'—')+'</td></tr>';
+    h+='<tr><td>'+u.nombre+'</td><td>'+u.email+'</td><td><span class="badge '+(u.rol==='maestro'?'bp':(u.rol==='admin'?'by':'bc'))+'">'+u.rol+'</span></td>'+
+      '<td><select onchange="cambiarPlan(\''+u.id+'\',this.value)" style="background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px">'+
+      '<option value="">—</option>'+PLANES.map(function(p){return '<option value="'+p.id+'"'+(u.plan===p.id?' selected':'')+'>'+p.nombre+'</option>'}).join('')+'</select></td>'+
+      '<td><button style="background:rgba(255,95,87,.12);border:1px solid rgba(255,95,87,.35);color:var(--red);border-radius:6px;padding:5px 10px;cursor:pointer;font-weight:800" onclick="toggleCliente(\''+u.id+'\')">'+(u.activo===false?'ACTIVAR':'BAJA')+'</button></td></tr>';
   });
   h+='</table></div>';
-  h+='<div class="card"><h4>Pedidos</h4>';
+  h+='<div class="card"><h4>Pedidos (gestion de estados)</h4>';
   if(peds.length===0)h+='<p style="font-size:.76rem;color:var(--muted)">Sin pedidos.</p>';
   else{h+='<table class="g"><tr><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Importe</th><th>Estado</th></tr>';
     peds.slice().reverse().forEach(function(pd){
-      h+='<tr><td>'+pd.fecha+'</td><td>'+pd.email+'</td><td>'+pd.itemNombre+'</td><td>'+pd.precio+'&euro;</td><td><span class="badge bg">'+pd.estado+'</span></td></tr>';
+      h+='<tr><td>'+pd.fecha+'</td><td>'+pd.email+'</td><td>'+pd.itemNombre+'</td><td>'+pd.precio+'&euro;</td>'+
+        '<td><select onchange="cambiarEstadoPedido(\''+pd.id+'\',this.value)" style="background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px">'+
+        ['pagado (demo)','pendiente','reembolsado','cancelado'].map(function(e){return '<option value="'+e+'"'+(pd.estado===e?' selected':'')+'>'+e+'</option>'}).join('')+'</select></td></tr>';
     });
     h+='</table>';}
   h+='</div>';
   return h;
+}
+function cambiarEstadoPedido(id, estado){
+  var peds=pedidosLS();var pd=peds.find(function(x){return x.id===id});
+  if(pd){pd.estado=estado;guardarPedidos(peds);}
+  var ad=wins['admin'];if(ad)ad.querySelector('.body').innerHTML=adminHTML();
+  var cu=wins['cuenta'];if(cu)cu.querySelector('.body').innerHTML=cuentaHTML();
+}
+function cambiarPlan(uid, plan){
+  var us=usuariosLS();var u=us.find(function(x){return x.id===uid});
+  if(u){u.plan=plan||null;guardarUsuarios(us);}
+  var ad=wins['admin'];if(ad)ad.querySelector('.body').innerHTML=adminHTML();
+  var cu=wins['cuenta'];if(cu)cu.querySelector('.body').innerHTML=cuentaHTML();
+}
+function toggleCliente(uid){
+  var us=usuariosLS();var u=us.find(function(x){return x.id===uid});
+  if(u){u.activo=(u.activo===false)?true:false;guardarUsuarios(us);}
+  var ad=wins['admin'];if(ad)ad.querySelector('.body').innerHTML=adminHTML();
 }
 function guardarPrecio(id){
   var el=document.getElementById('precio-'+id);if(!el)return;
@@ -843,7 +883,7 @@ function sistemaHTML(){
   return '<div class="notice">Panel informativo del sistema — el estilo clasico del TVS vive aqui: arquitectura, integraciones, descargas y comandos.</div>'+
   '<div class="card"><h4>Sistema</h4><table class="g">'+
   '<tr><td>TVS OS</td><td>v5.1 (consola web)</td></tr>'+
-  '<tr><td>ViseronCore</td><td>v5.0 · web server :32123</td></tr>'+
+  '<tr><td>ViseronCore</td><td>v7.0.0 · web server :32123</td></tr>'+
   '<tr><td>ATLAS / VISERON</td><td>dashboards del nucleo</td></tr>'+
   '<tr><td>OmniRoute</td><td>enrutador multi-LLM</td></tr>'+
   '<tr><td>Skills</td><td>1997 skills · 10 colecciones</td></tr></table></div>'+
