@@ -1,0 +1,845 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVS OS — Trinnity Viseron System · Plataforma</title>
+<meta name="description" content="TVS OS v5.1: consola, tienda, cadastro y areas por plan del sistema multi-agente Trinnity Viseron.">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#02020a;--panel:rgba(8,10,24,.94);--line:rgba(0,240,255,.14);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab;--mono:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow:hidden;height:100vh}
+canvas#bgstars{position:fixed;inset:0;z-index:0}
+/* BOOT */
+#boot{position:fixed;inset:0;background:#010108;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono)}
+#boot .logo{font-family:'Orbitron';font-weight:900;font-size:2.1rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 30px rgba(0,240,255,.6)}
+#boot .logo i{color:var(--purple);font-style:normal}
+#boot .sub{color:var(--muted);font-size:.8rem;margin-top:6px;letter-spacing:3px}
+#boot .log{margin-top:34px;width:min(480px,86vw);font-size:.72rem;color:var(--muted);line-height:1.9;min-height:160px;text-align:left}
+#boot .log .ok{color:var(--green)} #boot .log .w{color:var(--orange)}
+#boot .bar{width:min(480px,86vw);height:6px;background:rgba(255,255,255,.07);border-radius:99px;margin-top:18px;overflow:hidden}
+#boot .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .4s}
+/* LOGIN */
+#login{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,rgba(10,16,48,.9),rgba(2,2,10,.97))}
+#login .caja{width:min(420px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+#login h2{font-family:'Orbitron';font-weight:900;font-size:1.3rem;text-align:center;margin-bottom:4px}
+#login .sub{color:var(--muted);font-size:.74rem;text-align:center;margin-bottom:18px}
+#login .tabs{display:flex;gap:8px;margin-bottom:16px}
+#login .tabs button{flex:1;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:9px;font-weight:800;font-size:.78rem;cursor:pointer}
+#login .tabs button.on{background:rgba(0,240,255,.15);color:var(--cyan);border-color:var(--cyan)}
+#login input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--text);margin:7px 0;font-size:.85rem;outline:none}
+#login input:focus{border-color:var(--cyan)}
+#login .btn{width:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:10px;padding:13px;font-weight:900;font-size:.9rem;cursor:pointer;margin-top:8px}
+#login .err{color:var(--red);font-size:.72rem;min-height:18px;margin-top:6px;text-align:center}
+#login .demo{font-size:.66rem;color:var(--orange);text-align:center;margin-top:14px;line-height:1.5}
+/* DESKTOP */
+#desktop{position:fixed;inset:0;z-index:1;display:none}
+#icons{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:10px;z-index:5;flex-wrap:wrap;max-height:calc(100vh - 70px)}
+.dicon{width:86px;padding:10px 6px;text-align:center;cursor:pointer;border-radius:10px;transition:.15s;background:rgba(0,0,0,.25)}
+.dicon:hover{background:rgba(0,240,255,.12)}
+.dicon .ico{font-size:1.6rem}
+.dicon .nm{font-size:.66rem;color:var(--text);margin-top:5px;text-shadow:0 1px 4px #000}
+/* VENTANAS */
+.win{position:absolute;min-width:320px;min-height:200px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 70px rgba(0,0,0,.65);display:none;flex-direction:column;overflow:hidden;backdrop-filter:blur(18px)}
+.win.open{display:flex}
+.win.max{inset:0!important;width:100%!important;height:100%!important;border-radius:0}
+.win .tbar{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,240,255,.05);border-bottom:1px solid var(--line);cursor:move;user-select:none}
+.win .tbar .ttl{font-family:'Orbitron';font-size:.72rem;font-weight:700;letter-spacing:1px;color:var(--cyan);flex:1}
+.win .tbar button{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:2px 8px;border-radius:6px;font-family:var(--mono)}
+.win .tbar button:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.win .tbar button.cl:hover{background:var(--red);color:#fff}
+.win .body{flex:1;overflow:auto;padding:14px 16px}
+/* TASKBAR */
+#taskbar{position:fixed;left:0;right:0;bottom:0;z-index:900;display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(4,6,16,.9);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+#taskbar .tbtn{background:rgba(0,240,255,.06);border:1px solid rgba(0,240,255,.14);color:var(--text);border-radius:8px;padding:7px 14px;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:7px}
+#taskbar .tbtn.on{background:rgba(0,240,255,.18);border-color:var(--cyan);color:var(--cyan)}
+#clock{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--cyan)}
+#userchip{background:rgba(255,159,10,.1);border:1px solid rgba(255,159,10,.3);color:var(--orange);border-radius:8px;padding:7px 12px;font-size:.72rem;font-weight:800}
+#userchip button{background:transparent;border:none;color:var(--red);cursor:pointer;font-weight:800;font-size:.72rem;margin-left:6px}
+/* GENERICO */
+.term{font-family:var(--mono);font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.term .p{color:var(--green)} .term .c{color:var(--cyan)} .term .e{color:var(--red)} .term .w{color:var(--orange)} .term .m{color:var(--muted)}
+.term .in{display:flex;gap:8px;align-items:center;margin-top:8px}
+.term input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:.8rem;caret-color:var(--cyan)}
+table.g{width:100%;border-collapse:collapse;font-size:.78rem}
+table.g th{text-align:left;color:var(--cyan);border-bottom:1px solid var(--line);padding:7px 8px;font-family:'Orbitron';font-size:.64rem;letter-spacing:1px}
+table.g td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
+.card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0}
+.card h4{color:var(--cyan);font-size:.85rem;margin-bottom:6px}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.65rem;font-weight:800;margin-left:6px}
+.bg{background:rgba(0,255,135,.15);color:var(--green)} .by{background:rgba(255,159,10,.15);color:var(--orange)} .br{background:rgba(255,95,87,.15);color:var(--red)} .bp{background:rgba(191,90,242,.15);color:var(--purple)} .bc{background:rgba(0,240,255,.15);color:var(--cyan)}
+.chip{display:inline-block;background:rgba(0,240,255,.08);border:1px solid var(--line);color:var(--cyan);border-radius:99px;padding:4px 12px;font-size:.72rem;margin:3px;font-family:var(--mono)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.misiones .m{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.misiones .m.done{border-color:rgba(0,255,135,.4);background:rgba(0,255,135,.05)}
+.misiones .m h5{font-size:.82rem} .misiones .m p{font-size:.72rem;color:var(--muted);flex:1}
+.misiones .m .row{display:flex;justify-content:space-between;font-size:.7rem}
+.misiones .m .trin{color:var(--green);font-weight:700}
+.misiones .m button{background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:7px;padding:7px;font-weight:800;font-size:.72rem;cursor:pointer}
+.misiones .m button.ok{background:rgba(0,255,135,.12);border-color:rgba(0,255,135,.4);color:var(--green);cursor:default}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filtros button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:5px 12px;font-size:.68rem;cursor:pointer}
+.filtros button.on{background:rgba(0,240,255,.15);color:var(--cyan);border-color:var(--cyan)}
+.prog{background:rgba(255,255,255,.07);border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
+.prog div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:0;transition:.4s}
+.mon{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mon canvas{width:100%;height:110px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px}
+.arbol{font-family:var(--mono);font-size:.74rem;line-height:1.6;white-space:pre;overflow:auto}
+.arbol .d{color:var(--cyan)} .arbol .f{color:var(--muted)}
+/* TIENDA */
+.planes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.plan{background:linear-gradient(160deg,rgba(10,12,30,.95),rgba(16,8,36,.95));border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px;position:relative}
+.plan.dest{background:linear-gradient(160deg,rgba(8,26,32,.95),rgba(20,10,40,.95));border-color:var(--cyan);box-shadow:0 0 30px rgba(0,240,255,.15)}
+.plan h4{font-family:'Orbitron';font-size:1rem;color:var(--cyan)}
+.plan .precio{font-family:'Orbitron';font-size:1.5rem;font-weight:900;color:var(--text)}
+.plan .precio small{font-size:.7rem;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;font-size:.72rem;color:var(--muted);line-height:1.8;flex:1}
+.plan ul li:before{content:'\2713 ';color:var(--green);font-weight:900}
+.plan button{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:10px;padding:11px;font-weight:900;font-size:.8rem;cursor:pointer;margin-top:6px}
+.plan button.adq{background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.4);color:var(--green);cursor:default}
+.plan .tagp{position:absolute;top:-10px;right:12px;background:var(--orange);color:#030310;font-size:.6rem;font-weight:900;padding:3px 10px;border-radius:99px;letter-spacing:1px}
+.notice{background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.3);border-radius:10px;padding:10px 12px;font-size:.7rem;color:var(--orange);margin-bottom:12px;line-height:1.5}
+</style>
+</head>
+<body>
+<canvas id="bgstars"></canvas>
+
+<div id="boot">
+  <div class="logo">TRINNITY <i>VISERON</i></div>
+  <div class="sub">TVS OS v5.1 — PLATAFORMA · TIENDA · SQUADS</div>
+  <div class="log" id="bootlog"></div>
+  <div class="bar"><div id="bootbar"></div></div>
+</div>
+
+<div id="login">
+  <div class="caja">
+    <h2>TVS <span style="color:var(--purple)">OS</span></h2>
+    <div class="sub">Multi-Agent AI Superintelligence</div>
+    <div class="tabs">
+      <button id="tb-login" class="on">ENTRAR</button>
+      <button id="tb-reg">CADASTRO</button>
+    </div>
+    <div id="form-login">
+      <input id="l-email" type="email" placeholder="correo@cosmos.vision">
+      <input id="l-pass" type="password" placeholder="contraseña">
+      <button class="btn" id="btn-login">INICIAR SESION</button>
+    </div>
+    <div id="form-reg" style="display:none">
+      <input id="r-nombre" placeholder="nombre en el cosmos">
+      <input id="r-email" type="email" placeholder="correo">
+      <input id="r-pass" type="password" placeholder="contraseña (min 6)">
+      <button class="btn" id="btn-reg">CREAR CUENTA</button>
+    </div>
+    <div class="err" id="login-err"></div>
+    <div class="demo">MODO DEMO: datos locales en tu navegador · conexion con Supabase lista para activar<br>Login maestro (demo): maestro@tvs.vision / cosmos</div>
+  </div>
+</div>
+
+<div id="gate" style="position:fixed;inset:0;z-index:950;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,rgba(10,16,48,.9),rgba(2,2,10,.97))">
+  <div class="caja" style="width:min(820px,94vw);max-height:94vh;overflow:auto">
+    <h2>VISERON <span style="color:var(--purple)">NO ACTIVADO</span></h2>
+    <div class="sub">Compra el Viseron para desbloquear el sistema operativo completo del batallon</div>
+    <div id="gate-body"></div>
+    <button class="btn" style="background:rgba(255,95,87,.15);color:var(--red);border:1px solid rgba(255,95,87,.4)" onclick="logout()">SALIR</button>
+  </div>
+</div>
+
+<div id="desktop">
+  <div id="icons"></div>
+  <div id="wins"></div>
+</div>
+<div id="taskbar"></div>
+
+<script src="../jarvis-chat.js"></script>
+<script src="../voice-widget.js"></script>
+
+<script>
+/* ============ DATOS REALES DEL PROYECTO ============ */
+const AGENTES = [
+ {id:"aiox-master",icon:"&#129302;",nombre:"AIOX Master",rol:"Coordinador global + memoria del batallon",cmds:["*orquestar","*memoria"]},
+ {id:"architect",icon:"&#127959;",nombre:"Architect",rol:"Arquitectura del sistema y decisiones tecnicas",cmds:["/architect"]},
+ {id:"dev",icon:"&#128295;",nombre:"Dev (Dex Builder)",rol:"Construccion de stories y features",cmds:["/dev"]},
+ {id:"qa",icon:"&#128737;",nombre:"QA Gate",rol:"Quality gates L1/L2/L3, tests y evidencias",cmds:["/qa"]},
+ {id:"devops",icon:"&#128421;",nombre:"DevOps",rol:"CI/CD, deploys, GitHub, infraestructura",cmds:["/devops"]},
+ {id:"data-engineer",icon:"&#128202;",nombre:"Data Engineer",rol:"Bases de datos, Supabase, RLS, migraciones",cmds:["*snapshot"]},
+ {id:"analyst",icon:"&#128200;",nombre:"Analyst",rol:"Investigacion, mercado y competencia",cmds:["/analyst"]},
+ {id:"pm",icon:"&#128188;",nombre:"PM",rol:"Gestion de producto y PRDs",cmds:["/pm"]},
+ {id:"po",icon:"&#127919;",nombre:"PO",rol:"Backlog, stories y ClickUp",cmds:["/po"]},
+ {id:"sm",icon:"&#9889;",nombre:"SM",rol:"Scrum master y facilitacion",cmds:["/sm"]},
+ {id:"ux-design-expert",icon:"&#127912;",nombre:"UX Design Expert",rol:"Design system, tokens, accesibilidad WCAG",cmds:["/ux"]},
+ {id:"squad-creator",icon:"&#128640;",nombre:"Squad Creator",rol:"Crea y publica squads y skills",cmds:["/squad"]}
+];
+const ESTADO = {version:"5.3.0",server:"UpCloud 194.62.96.26",node:"v24.19.0",n8n:"v2.34.6",
+ manifests:"12 agentes / 199 workers / 215 tareas",audit:"VERDE - operativo",
+ skills:"16 skills workflow + 12 skills codex",ideSync:"137 archivos, 0 drift",
+ backups:"golden backup 13 carpetas",disk:"232 GB libres"};
+const SKILLS = ["aiox-commit","apply-qa-fixes","architect-first","checklist-runner","close-story","coderabbit-review","develop-story","full-sdc","mcp-builder","review-story","skill-creator","synapse","tech-search","validate-story-draft","wave-execute","graphify","aiox-architect","aiox-dev","aiox-qa","aiox-pm","aiox-po","aiox-sm","aiox-analyst","aiox-devops","aiox-data-engineer","aiox-ux","aiox-squad-creator","aiox-master"];
+const ARBOL = [
+ ["d","trinnity-viseron-system"],
+ ["d","  agents"],["f","    *.agent.md (Copilot)"],
+ ["d","  config"],["d","  contracts"],["f","    sol/ViseronCrown.sol"],["f","    sol/Trinnity.sol"],["f","    sol/ViseronGovernance.sol"],["f","    sol/ViseronStaking.sol"],["f","    tokenomics.json"],["f","    solana-go-live.mjs"],
+ ["d","  core"],["f","    ViseronCore / ATLAS / VISERON / OmniRoute"],
+ ["d","  data"],["d","  docs"],["d","  electron"],["d","  mobile"],
+ ["d","  packages"],["f","    gemini-aiox-extension (en desarrollo)"],
+ ["d","  prototype"],["d","  scripts"],["d","  skills"],["d","  src"],["d","  tests"],["d","  tools"],
+ ["d","  trinnityviseron.com"],["f","    (redirect -> .io)"],
+ ["d","  trinnityviseronsystem.io"],["f","    index.html (TVS OS v5.1)"],["f","    cosmos.html + cosmos/ (VSR, TRIN, metaverso)"],["f","    game/ (3 juegos)"],["f","    jarvis-chat.js"],["f","    voice-widget.js"]
+];
+const MISIONES = [
+ ["M01","Génesis","Primera conexión al TVS OS","1",10],["M02","Génesis","Completa el boot y entra al escritorio","1",10],
+ ["M03","Génesis","Abre la terminal y ejecuta whoami","1",15],["M04","Génesis","Ejecuta status y lee el estado del batallón","1",15],
+ ["M05","Génesis","Ejecuta agentes y conoce a las 12 mentes","1",20],["M06","Génesis","Abre el Agente Central y activa una squad","2",25],
+ ["M07","Génesis","Crea tu alias en la terminal con alias","2",20],["M08","Génesis","Ejecuta arbol y recorre el proyecto","2",25],
+ ["M09","Génesis","Abre el Monitor y observa 30 segundos","2",20],["M10","Génesis","Ejecuta roadmap y lee las 4 fases","1",15],
+ ["M11","Exploración","Visita el Cosmos (cosmos.html)","1",20],["M12","Exploración","Entra al metaverso del cosmos","2",30],
+ ["M13","Exploración","Ejecuta tokens y aprende VSR y TRIN","1",15],["M14","Exploración","Encuentra la imagen de VSR en cosmos/img","2",20],
+ ["M15","Exploración","Abre el explorador y navega hasta contracts/","2",30],["M16","Exploración","Ejecuta github y visita el repositorio","1",15],
+ ["M17","Exploración","Lee el README del proyecto en GitHub","2",25],["M18","Exploración","Encuentra el tokenomics.json en el explorador","2",30],
+ ["M19","Exploración","Ejecuta skills y cuenta las skills","1",15],["M20","Exploración","Encuentra la skill full-sdc en el listado","2",20],
+ ["M21","Construcción","Gana tu primera partida a Asteroid Miner","3",50],["M22","Construcción","Supera 500 puntos en Cosmos Runner","3",50],
+ ["M23","Construcción","Aprueba el Quiz del Batallón (7/10)","2",40],["M24","Construcción","Cumple 10 misiones","2",60],
+ ["M25","Construcción","Cumple 25 misiones","3",150],["M26","Construcción","Acumula 500 TRIN","3",100],
+ ["M27","Construcción","Ejecuta auditoria y verifica el semáforo","2",25],["M28","Construcción","Revisa los manifests (manifests)","3",30],
+ ["M29","Construcción","Abre la ventana Red y comprueba GitHub en vivo","3",40],["M30","Construcción","Prueba el Jarvis Chat (esquina inferior)","2",30],
+ ["M31","Cosmos","Aprende la PoM: gobernanza con VSR","2",30],["M32","Cosmos","Conoce el staking VSR → TRIN","2",30],
+ ["M33","Cosmos","Lee la quema del 2% de TRIN","1",15],["M34","Cosmos","Memoriza los supplies: 300M VSR, 420.69M TRIN","2",25],
+ ["M35","Cosmos","Encuentra las 4 fases del roadmap","1",20],["M36","Cosmos","Identifica las 3 redes de los tokens","2",20],
+ ["M37","Cosmos","Ejecuta firma y conoce a los creadores","1",20],["M38","Cosmos","Completa el Quiz con puntuación perfecta","4",120],
+ ["M39","Cosmos","Cumple 40 misiones","4",250],["M40","Cosmos","Acumula 2.000 TRIN","4",300],
+ ["M41","Comunidad","Comparte el TVS OS con un amigo","2",40],["M42","Comunidad","Sigue el repositorio en GitHub (estrella)","2",50],
+ ["M43","Comunidad","Únete al Telegram del Viseron Cosmos","2",40],["M44","Comunidad","Propón una misión nueva (sugerencia)","3",60],
+ ["M45","Comunidad","Envía feedback desde Jarvis Chat","2",35],["M46","Cripto","Explica qué hace setLaunchPool","3",60],
+ ["M47","Cripto","Entiende el anti-whale: max wallet 3% VSR","2",40],["M48","Cripto","Entiende el anti-bot: max tx 0,5% TRIN","2",40],
+ ["M49","Cripto","Ubica las 3 DEX del plan: Uniswap, PancakeSwap, Raydium","3",70],
+ ["M50","Cripto","Cumple las 50 misiones — Mente Cósmica","5",1000]
+];
+const ROADMAP = [
+ ["1","Génesis","Deploy de contratos, liquidity pools en DEX, lock de liquidez, sitio y comunidad."],
+ ["2","Ascensión","Staking y gobernanza en vivo, metaverso Viseron Cosmos jugable, airdrops."],
+ ["3","Exchange","Indexación CoinGecko/CMC, CEXs regionales, auditoría Hacken."],
+ ["4","Cosmos Mainnet","Bridge ETH-BSC-Solana, L2 propio, apps TVS integradas."]
+];
+const TOKENS = [
+ {s:"VSR",n:"Viseron Crown",tipo:"Governance / Utility",supply:"300.000.000",mec:"burn 1% + security 1% · max wallet 3% · ERC20Votes · staking→TRIN",redes:"ETH · BSC · SOL"},
+ {s:"TRIN",n:"Trinnity",tipo:"Interplanetary Memecoin",supply:"420.690.000",mec:"burn 2% · max tx 0.5% (anti-bot) · bloqueo pre-lanzamiento",redes:"ETH · BSC · SOL"}
+];
+/* ============ TIENDA Y ACCESOS ============ */
+const PLANES = [
+ {id:"starter",nombre:"TVS STARTER",precio:199,periodo:"mes",tag:"",beneficios:["Terminal del batallón","50 misiones + TRIN","Sala de juegos (3)","Explorador del proyecto","Actualizaciones del OS"],apps:["terminal","explorador","misiones","juegos","ayuda","sistema"]},
+ {id:"pro",nombre:"TVS PRO",precio:499,periodo:"mes",tag:"POPULAR",beneficios:["Todo lo de Starter","Agente Central (12 squads)","Monitor del sistema","Soporte prioritario","Acceso beta a nuevas apps"],apps:["terminal","explorador","misiones","juegos","ayuda","sistema","agentes","monitor","cuenta"]},
+ {id:"enterprise",nombre:"TVS ENTERPRISE",precio:1999,periodo:"mes",tag:"",beneficios:["Todo lo de PRO","Panel Cripto VSR/TRIN","API y webhooks","Gestión de equipos","SLA 99,9% + soporte dedicado"],apps:["terminal","explorador","misiones","juegos","ayuda","sistema","agentes","monitor","cuenta","cripto"]}
+];
+const EXTRAS = [
+ {id:"skillpack",nombre:"Skill Pack Pro",precio:99,desc:"16 skills de workflow + sincronizacion a tus IDEs"},
+ {id:"squad",nombre:"Squad Extra",precio:299,desc:"Una squad AIOX personalizada para tu negocio"},
+ {id:"soporte",nombre:"Soporte 24/7",precio:49,desc:"Canal prioritario de soporte mensual"},
+ {id:"auditoria",nombre:"Auditoria AIOX",precio:199,desc:"Auditoria completa de tu proyecto con las 12 squads"}
+];
+/* mapa de acceso: que app abre cada rol */
+const ACCESO = {
+ terminal:["cliente","admin","maestro"], agentes:["pro","enterprise","admin","maestro"],
+ monitor:["pro","enterprise","admin","maestro"], explorador:["cliente","admin","maestro"],
+ misiones:["cliente","admin","maestro"], juegos:["cliente","admin","maestro"],
+ cripto:["enterprise","admin","maestro"], red:["visitante","cliente","admin","maestro"],
+ ayuda:["visitante","cliente","admin","maestro"], tienda:["visitante","cliente","admin","maestro"],
+ cuenta:["cliente","admin","maestro"], admin:["admin","maestro"],
+ sistema:["visitante","cliente","admin","maestro"]
+};
+function appPermitida(app){
+  var s=sesionActual();
+  if(!s)return false;
+  if(s.rol==='maestro'||s.rol==='admin'){return ACCESO[app].indexOf('admin')>=0||ACCESO[app].indexOf('maestro')>=0||app==='cuenta'||app==='tienda';}
+  if(s.rol==='cliente'){
+    if(ACCESO[app].indexOf('cliente')>=0)return true;
+    var plan=PLANES.find(function(p){return p.id===s.plan});
+    if(plan&&plan.apps.indexOf(app)>=0)return true;
+    return false;
+  }
+  return ACCESO[app].indexOf('visitante')>=0;
+}
+</script>
+
+<script>
+/* ============ STARFIELD ============ */
+(function(){
+  var c=document.getElementById('bgstars'),x=c.getContext('2d'),W,H,stars=[];
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;stars=[];for(var i=0;i<380;i++)stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*1+0.15,r:Math.random()*1.4+0.3,h:Math.random()<0.12});}
+  rs();addEventListener('resize',rs);
+  var t=0;
+  function loop(){
+    t+=0.0025;x.clearRect(0,0,W,H);
+    function nube(cx,cy,r,c1){var g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,c1);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(cx-r,cy-r,r*2,r*2);}
+    nube(W*0.22+Math.sin(t*0.6)*30,H*0.3,220,'rgba(0,120,190,0.05)');
+    nube(W*0.75+Math.cos(t*0.5)*40,H*0.62,280,'rgba(120,40,220,0.05)');
+    nube(W*0.5,H*0.8,300,'rgba(255,90,10,0.03)');
+    for(var i=0;i<stars.length;i++){var s=stars[i];s.z-=0.0018;if(s.z<=0.05){s.z=1;s.x=Math.random()*W;s.y=Math.random()*H;}
+      var px=(s.x-W/2)/s.z+W/2,py=(s.y-H/2)/s.z+H/2;if(px<0||px>W||py<0||py>H)continue;
+      x.globalAlpha=Math.min(1,(1-s.z)*1.2);x.fillStyle='rgba(255,255,255,.9)';x.beginPath();x.arc(px,py,s.r/s.z,0,6.29);x.fill();
+      if(s.h){x.strokeStyle='rgba(150,220,255,'+Math.min(0.5,(1-s.z))+')';x.lineWidth=1;x.beginPath();x.moveTo(px-8/s.z,py+6/s.z);x.lineTo(px,py);x.stroke();}}
+    x.globalAlpha=1;requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============ BOOT -> LOGIN ============ */
+var BOOTLOG=[
+ ["TRINNITY VISERON SYSTEM v5.1","ok"],
+ ["BIOS: ViseronCore v5.0 ............ OK","ok"],
+ ["RAM: 5000+ minds detectadas ....... OK","ok"],
+ ["Cargando ViseronCore ............. OK","ok"],
+ ["Cargando ATLAS ................... OK","ok"],
+ ["Cargando OmniRoute ............... OK","ok"],
+ ["Cargando AIOX (12 squads) ........ OK","ok"],
+ ["Cargando modulo COMERCIO ......... OK","ok"],
+ ["Cargando modulo CUENTAS .......... OK","ok"],
+ ["Auditoria de seguridad ........... VERDE","ok"],
+ ["Firma: Pedro (Comandante) & Trinnity (Reina)","ok"]
+];
+(function(){
+  var log=document.getElementById('bootlog'),bar=document.getElementById('bootbar'),i=0;
+  function paso(){
+    if(i<BOOTLOG.length){
+      var l=BOOTLOG[i];var d=document.createElement('div');d.className=l[1];
+      d.textContent='[ '+String(i+1).padStart(2,'0')+' ] '+l[0];log.appendChild(d);
+      bar.style.width=((i+1)/BOOTLOG.length*100)+'%';i++;setTimeout(paso,150+i*18);
+    }else{setTimeout(function(){
+      document.getElementById('boot').style.display='none';
+      document.getElementById('login').style.display='flex';
+      document.getElementById('l-email').focus();
+    },350);}
+  }
+  setTimeout(paso,500);
+})();
+
+/* ============ SESION Y AUTH ============ */
+function usuariosLS(){try{return JSON.parse(localStorage.getItem('tvs_usuarios')||'[]')}catch(e){return[]}}
+function guardarUsuarios(a){localStorage.setItem('tvs_usuarios',JSON.stringify(a))}
+function pedidosLS(){try{return JSON.parse(localStorage.getItem('tvs_pedidos')||'[]')}catch(e){return[]}}
+function guardarPedidos(a){localStorage.setItem('tvs_pedidos',JSON.stringify(a))}
+function sesionActual(){try{var s=JSON.parse(localStorage.getItem('tvs_sesion')||'null');if(s&&s.id){var u=usuariosLS().find(function(x){return x.id===s.id});if(u)return u;}return null}catch(e){return null}}
+function hashPass(p){var h=0,i;for(i=0;i<p.length;i++){h=((h<<5)-h)+p.charCodeAt(i);h|=0}return 'h'+Math.abs(h).toString(36)}
+function demoMaestro(){var us=usuariosLS();if(!us.find(function(u){return u.rol==='maestro'})){us.push({id:'u-maestro',email:'maestro@tvs.vision',pass:hashPass('cosmos'),nombre:'Maestro del Cosmos',rol:'maestro',plan:'enterprise',creado:Date.now()});guardarUsuarios(us);}}
+demoMaestro();
+function registrar(nombre,email,pass){
+  var us=usuariosLS();
+  if(us.find(function(u){return u.email===email}))return 'Ese correo ya tiene cuenta en el cosmos.';
+  us.push({id:'u-'+Date.now(),email:email,pass:hashPass(pass),nombre:nombre,rol:'cliente',plan:null,creado:Date.now()});
+  guardarUsuarios(us);return null;
+}
+function login(email,pass){
+  var u=usuariosLS().find(function(x){return x.email===email&&x.pass===hashPass(pass)});
+  if(!u)return 'Credenciales incorrectas.';
+  localStorage.setItem('tvs_sesion',JSON.stringify({id:u.id}));
+  return null;
+}
+function logout(){localStorage.removeItem('tvs_sesion');location.reload();}
+document.getElementById('tb-login').onclick=function(){this.classList.add('on');document.getElementById('tb-reg').classList.remove('on');document.getElementById('form-login').style.display='block';document.getElementById('form-reg').style.display='none';document.getElementById('login-err').textContent='';};
+document.getElementById('tb-reg').onclick=function(){this.classList.add('on');document.getElementById('tb-login').classList.remove('on');document.getElementById('form-login').style.display='none';document.getElementById('form-reg').style.display='block';document.getElementById('login-err').textContent='';};
+document.getElementById('btn-login').onclick=function(){
+  var e=login(document.getElementById('l-email').value.trim(),document.getElementById('l-pass').value);
+  if(e){document.getElementById('login-err').textContent=e;}else{entrarEscritorio();}
+};
+document.getElementById('l-pass').addEventListener('keydown',function(ev){if(ev.key==='Enter')document.getElementById('btn-login').click();});
+document.getElementById('btn-reg').onclick=function(){
+  var n=document.getElementById('r-nombre').value.trim(),m=document.getElementById('r-email').value.trim(),p=document.getElementById('r-pass').value;
+  if(!n||!m||p.length<6){document.getElementById('login-err').textContent='Nombre, correo y contraseña (min 6) son obligatorios.';return;}
+  var e=registrar(n,m,p);
+  if(e){document.getElementById('login-err').textContent=e;}
+  else{document.getElementById('login-err').textContent='Cuenta creada. Entra con tu correo y contraseña.';document.getElementById('tb-login').click();document.getElementById('l-email').value=m;}
+};
+function entrarEscritorio(){
+  var s=sesionActual();
+  if(s&&s.rol==='cliente'&&!s.plan){
+    document.getElementById('login').style.display='none';
+    var g=document.getElementById('gate');g.style.display='flex';
+    document.getElementById('gate-body').innerHTML=tiendaHTML();
+    return;
+  }
+  document.getElementById('login').style.display='none';
+  document.getElementById('desktop').style.display='block';
+  document.getElementById('taskbar').style.display='flex';
+  pintarChip();
+  abrirWin('sistema','TVS Sistema','&#128640;',sistemaHTML(),{x:80,y:70,w:620,h:480});
+}
+function pintarChip(){
+  var s=sesionActual();var old=document.getElementById('userchip');if(old)old.remove();
+  var tb=document.getElementById('taskbar');
+  var icono='';
+  if(s){icono=s.rol==='maestro'?'&#128142; ':(s.rol==='admin'?'&#128737; ':'&#129302; ');}
+  var texto=s?(s.nombre+' · '+s.rol.toUpperCase()):'';
+  var chip=document.createElement('div');chip.id='userchip';
+  chip.innerHTML=icono+texto+'<button onclick="logout()">SALIR</button>';
+  tb.appendChild(chip);
+  if(!document.getElementById('clock')){
+    var clock=document.createElement('div');clock.id='clock';tb.appendChild(clock);
+    clock.textContent=new Date().toLocaleString('es-ES',{dateStyle:'short',timeStyle:'medium'});
+  }
+}
+
+/* ============ GESTOR DE VENTANAS ============ */
+var winsEl=document.getElementById('wins'),taskbar=document.getElementById('taskbar'),wins={},zTop=100;
+function abrirWin(id,titulo,ico,html,geo){
+  geo=geo||{x:120+Object.keys(wins).length*36,y:70+Object.keys(wins).length*26,w:640,h:460};
+  if(wins[id]){focoWin(id);return;}
+  var w=document.createElement('div');w.className='win open';w.id='win-'+id;
+  w.style.cssText='left:'+geo.x+'px;top:'+geo.y+'px;width:'+geo.w+'px;height:'+geo.h+'px;z-index:'+(++zTop);
+  w.innerHTML='<div class="tbar"><span class="ttl">'+ico+' '+titulo+'</span>'+
+    '<button onclick="minWin(\''+id+'\')">&#8211;</button>'+
+    '<button onclick="maxWin(\''+id+'\')">&#9744;</button>'+
+    '<button class="cl" onclick="cerrarWin(\''+id+'\')">&#10005;</button></div>'+
+    '<div class="body">'+html+'</div>';
+  winsEl.appendChild(w);wins[id]=w;
+  var tb=document.createElement('button');tb.className='tbtn on';tb.id='tb-'+id;
+  tb.innerHTML=ico+' '+titulo;tb.onclick=function(){focoWin(id);};
+  var clock=document.getElementById('clock');taskbar.insertBefore(tb,clock||null);
+  dragWin(w);
+  setTimeout(function(){if(appInits[id]){try{appInits[id]()}catch(e){}}},60);
+  return w;
+}
+function focoWin(id){var w=wins[id];if(!w)return;w.style.display='flex';w.classList.remove('max');w.style.zIndex=++zTop;
+  document.querySelectorAll('.tbtn').forEach(function(b){b.classList.remove('on')});var t=document.getElementById('tb-'+id);if(t)t.classList.add('on');}
+function minWin(id){wins[id].style.display='none';var t=document.getElementById('tb-'+id);if(t)t.classList.remove('on');}
+function maxWin(id){wins[id].classList.toggle('max');}
+function cerrarWin(id){var w=wins[id];if(w)w.remove();delete wins[id];var t=document.getElementById('tb-'+id);if(t)t.remove();}
+function dragWin(w){
+  var tb=w.querySelector('.tbar'),ox,oy;
+  tb.addEventListener('mousedown',function(e){if(e.target.tagName==='BUTTON')return;if(w.classList.contains('max'))return;
+    ox=e.clientX-w.offsetLeft;oy=e.clientY-w.offsetTop;
+    function mv(ev){w.style.left=(ev.clientX-ox)+'px';w.style.top=Math.max(0,ev.clientY-oy)+'px';}
+    function up(){removeEventListener('mousemove',mv);removeEventListener('mouseup',up);}
+    addEventListener('mousemove',mv);addEventListener('mouseup',up);});
+}
+setInterval(function(){var c=document.getElementById('clock');if(c)c.textContent=new Date().toLocaleString('es-ES',{dateStyle:'short',timeStyle:'medium'});},1000);
+
+/* ============ ICONOS CON CONTROL DE ACCESO ============ */
+var ICONOS=[
+ ["tienda","Tienda","&#128722;"],["cuenta","Mi Cuenta","&#128100;"],["terminal","Terminal","&#9000;"],
+ ["agentes","Squads AIOX","&#129302;"],["monitor","Monitor","&#128202;"],["explorador","Explorador","&#128193;"],
+ ["misiones","Misiones","&#127919;"],["cripto","VSR / TRIN","&#128142;"],["red","Red / GitHub","&#127760;"],
+ ["admin","Panel Admin","&#128737;"],["sistema","TVS Sistema","&#128640;"],["ayuda","Ayuda","&#128209;"],
+ ["juegos","Juegos","&#127918;"],["cosmos","Cosmos","&#129680;"]
+];
+ICONOS.forEach(function(ic){
+  var d=document.createElement('div');d.className='dicon';d.innerHTML='<div class="ico">'+ic[2]+'</div><div class="nm">'+ic[1]+'</div>';
+  d.onclick=function(){abrirApp(ic[0]);};document.getElementById('icons').appendChild(d);
+});
+function denegado(app){
+  var s=sesionActual();
+  abrirWin('denegado','Acceso restringido','&#128274;',
+    '<div class="card"><h4>Esta area requiere un plan superior</h4>'+
+    '<p style="font-size:.8rem;color:var(--muted);line-height:1.6">Tu cuenta: '+(s?s.nombre+' ('+s.rol+')':'sin sesion')+'<br>'+
+    'Abre la <b style="color:var(--cyan)">Tienda</b> para contratar un plan que incluya esta app, o pide acceso al Maestro.</p>'+
+    '<button class="btn-tienda" style="background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:10px;padding:10px 16px;font-weight:900;cursor:pointer" onclick="cerrarWin(\'denegado\');abrirApp(\'tienda\')">IR A LA TIENDA</button></div>',
+    {x:300,y:180,w:420,h:300});
+}
+function abrirApp(a){
+  var s=sesionActual();
+  if(!s&&a!=='tienda'&&a!=='ayuda'&&a!=='sistema'){denegado(a);return;}
+  if(!appPermitida(a)){denegado(a);return;}
+  if(a==='terminal')abrirWin('terminal','TVS Terminal','&#9000;',termHTML(),{x:70,y:80,w:680,h:440});
+  if(a==='agentes')abrirWin('agentes','Agente Central - Squads','&#129302;',agentesHTML(),{x:90,y:70,w:720,h:520});
+  if(a==='monitor')abrirWin('monitor','Monitor del Sistema','&#128202;',monitorHTML(),{x:120,y:90,w:560,h:430});
+  if(a==='explorador')abrirWin('explorador','Explorador del Proyecto','&#128193;',arbolHTML(),{x:140,y:110,w:560,h:440});
+  if(a==='misiones')abrirWin('misiones','Programa de Misiones','&#127919;',misionesHTML(),{x:60,y:60,w:860,h:560});
+  if(a==='cripto')abrirWin('cripto','Tokens VSR / TRIN','&#128142;',criptoHTML(),{x:160,y:80,w:640,h:500});
+  if(a==='red')abrirWin('red','Red y GitHub','&#127760;',redHTML(),{x:130,y:70,w:560,h:440});
+  if(a==='ayuda')abrirWin('ayuda','Ayuda','&#128209;',ayudaHTML(),{x:180,y:100,w:520,h:460});
+  if(a==='juegos')location.href='../game/index.html';
+  if(a==='cosmos')location.href='../cosmos.html';
+  if(a==='tienda')abrirWin('tienda','Tienda del Cosmos','&#128722;',tiendaHTML(),{x:80,y:60,w:820,h:580});
+  if(a==='cuenta')abrirWin('cuenta','Mi Cuenta','&#128100;',cuentaHTML(),{x:140,y:80,w:640,h:500});
+  if(a==='admin')abrirWin('admin','Panel de Administracion','&#128737;',adminHTML(),{x:70,y:60,w:860,h:580});
+  if(a==='sistema')abrirWin('sistema','TVS Sistema','&#128640;',sistemaHTML(),{x:90,y:70,w:620,h:480});
+}
+</script>
+
+<script>
+/* ============ TERMINAL ============ */
+var aliasUser=null;
+function termHTML(){return '<div class="term" id="termOut"></div><div class="term in"><span class="p" id="termPrompt">viseron@tvs:~$</span><input id="termIn" autocomplete="off" spellcheck="false"></div>';}
+function termPrint(s,cls){var o=document.getElementById('termOut');if(!o)return;var d=document.createElement('div');d.className=cls||'';d.innerHTML=s||' ';o.appendChild(d);o.parentElement.scrollTop=9e9;}
+function updatePrompt(){var p=document.getElementById('termPrompt');var s=sesionActual();if(p)p.textContent=((aliasUser||(s?s.nombre.toLowerCase().split(' ')[0]:'viseron'))+'@tvs:~$');}
+function ejecutar(cmd){
+  var c=cmd.trim();var s=sesionActual();
+  var quien=aliasUser||(s?s.nombre.toLowerCase().split(' ')[0]:'viseron');
+  termPrint('<span class="p">'+quien+'@tvs:~$</span> '+(c||''),'');
+  var a=c.toLowerCase().split(/\s+/),base=a[0],args=a.slice(1);
+  var out={
+   help:function(){termPrint('<span class="c">COMANDOS</span>\n  whoami · status · version · agentes · skills · trabajadores · tareas · manifests\n  misiones · juegos · tokens · roadmap · arbol · github · auditoria · firma\n  tienda · miplan · comprar &lt;id&gt; · alias &lt;nombre&gt; · fecha · limpiar · salir · reiniciar');},
+   whoami:function(){termPrint((s?s.nombre+' · rol: <span class="c">'+s.rol.toUpperCase()+'</span> · plan: '+(s.plan?s.plan.toUpperCase():'ninguno'):'sin sesion')+'\nMisiones: '+misionesLS().length+'/50 · TRIN: '+trinTotal());},
+   status:function(){termPrint('<span class="c">ESTADO DEL BATALLON</span>');for(var k in ESTADO){termPrint('  '+k+': <span class="w">'+ESTADO[k]+'</span>');}},
+   version:function(){termPrint('TVS OS v5.1 · AIOX '+ESTADO.version+' · Node '+ESTADO.node);},
+   fecha:function(){termPrint(new Date().toLocaleString('es-ES'));},
+   agentes:function(){termPrint('<span class="c">12 SQUADS ACTIVAS</span>');AGENTES.forEach(function(ag){termPrint('  ['+'<span class="w">ON</span>'+'] '+ag.id+' — '+ag.rol);});},
+   skills:function(){termPrint('<span class="c">'+SKILLS.length+' SKILLS</span>\n  '+SKILLS.join(' · '));},
+   trabajadores:function(){termPrint('199 workers registrados en el registry (workers.csv)');},
+   tareas:function(){termPrint('215 tareas en development/tasks (tasks.csv)');},
+   manifests:function(){termPrint('manifests: agents=12 · workers=199 · tasks=215 — <span style="color:#00ff87">VALIDOS</span>');},
+   misiones:function(){var m=misionesLS();termPrint('Misiones: <span class="c">'+m.length+'/50</span> · TRIN: <span class="c">'+trinTotal()+'</span>');},
+   juegos:function(){termPrint('3 juegos: Asteroid Miner · Cosmos Runner · Quiz. `abrir juegos` para saltar.');},
+   tokens:function(){TOKENS.forEach(function(t){termPrint('<span class="c">'+t.s+'</span> — '+t.n+' ('+t.tipo+')\n  supply '+t.supply+' · '+t.mec+'\n  redes: '+t.redes);});},
+   roadmap:function(){ROADMAP.forEach(function(r){termPrint('<span class="w">FASE '+r[0]+'</span> '+r[1]+' — '+r[2]);});},
+   arbol:function(){termPrint('<span class="c">ARBOL DEL PROYECTO</span>');ARBOL.forEach(function(n){termPrint('<span class="'+(n[0]==='d'?'c':'m')+'">'+n[1]+'</span>');});},
+   github:function(){window.open('https://github.com/ViseronSystem/trinnity-viseron-system','_blank');termPrint('Abriendo repositorio...');},
+   auditoria:function(){termPrint('<span class="c">AUDITORIA 17/08/2026</span>\n  Framework: <span class="w">VERDE</span> · Manifests: <span class="w">VERDE</span> · Squads: <span class="w">VERDE (7 IDEs)</span>\n  n8n: <span class="w">VERDE</span> · Docker: <span class="w">AMARILLO</span> · Seguridad: <span class="e">P0 pendiente</span>');},
+   firma:function(){termPrint('<span class="c">TVS — AUTORIDAD</span>\n  Pedro Costa — Comandante\n  Trinnity Hurtado — Reina\n  © 2026. Decisiones finales: ellos.');},
+   tienda:function(){abrirApp('tienda');termPrint('Tienda abierta.');},
+   miplan:function(){termPrint(s?(s.plan?('Plan actual: <span class="c">'+s.plan.toUpperCase()+'</span>'):'Sin plan contratado. Corre `tienda` y elige.'):'sin sesion');},
+   comprar:function(){if(args[0])comprarProducto(args[0]);else termPrint('Uso: comprar &lt;id&gt; (starter, pro, enterprise, skillpack, squad, soporte, auditoria)');},
+   cosmos:function(){location.href='../cosmos.html';},
+   alias:function(){if(args[0]){aliasUser=args[0];termPrint('Alias: <span class="c">'+args[0]+'</span>');updatePrompt();}else termPrint('Uso: alias &lt;nombre&gt;');},
+   abrir:function(){if(args[0])abrirApp(args[0]);else termPrint('Uso: abrir &lt;app&gt;');},
+   limpiar:function(){var o=document.getElementById('termOut');if(o)o.innerHTML='';},
+   reiniciar:function(){location.reload();},
+   salir:function(){cerrarWin('terminal');},
+   pedro:function(){termPrint('El Comandante observa. Las misiones continuan.');},
+   trinnity:function(){termPrint('La Reina observa. El cosmos os protege.');},
+   viseron:function(){termPrint('<span class="c">5000+ mentes conectadas. PoM activa.</span>');}
+  };
+  if(out[base]){out[base]();}
+  else if(base===''){}
+  else{termPrint('<span class="e">comando no reconocido: '+base+'</span>\nEscribe <span class="c">help</span> para la lista.');}
+}
+function bindTerm(){var inp=document.getElementById('termIn');if(!inp)return;inp.focus();
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){ejecutar(inp.value);inp.value='';}});
+}
+
+/* ============ SQUADS ============ */
+function agentesHTML(){
+  var h='<p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">12 mentes del batallon, sincronizadas en 7 IDEs. Activa o despliega cada squad.</p><div class="grid2">';
+  AGENTES.forEach(function(a){
+    h+='<div class="card"><h4>'+a.icon+' '+a.nombre+' <span class="badge bg">ACTIVA</span></h4>'+
+       '<p style="font-size:.74rem;color:var(--muted);margin-bottom:6px">'+a.rol+'</p>'+
+       '<div style="font-size:.68rem;color:var(--cyan);font-family:var(--mono)">id: '+a.id+'</div>'+
+       '<div style="margin-top:8px">'+a.cmds.map(function(c){return '<span class="chip">'+c+'</span>'}).join('')+'</div>'+
+       '<button style="margin-top:10px;width:100%;background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:7px;padding:8px;font-weight:800;cursor:pointer" onclick="desplegarSquad(\''+a.id+'\')">Desplegar squad</button></div>';
+  });
+  return h+'</div>';
+}
+function desplegarSquad(id){
+  var a=AGENTES.find(function(x){return x.id===id});
+  abrirWin('terminal','TVS Terminal','&#9000;',termHTML(),{x:70,y:80,w:680,h:440});
+  setTimeout(function(){termPrint('<span class="c">Squad '+a.nombre+' desplegada.</span>\n  rol: '+a.rol+'\n  comandos: '+a.cmds.join(', '));bindTerm();},80);
+}
+
+/* ============ MONITOR ============ */
+function monitorHTML(){
+  return '<div class="mon">'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">AGENTES ACTIVOS</div><canvas id="mc1"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">CICLOS DE APRENDIZAJE</div><canvas id="mc2"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">TRANSFERENCIAS (n8n)</div><canvas id="mc3"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">RED (GitHub API)</div><canvas id="mc4"></canvas></div>'+
+    '</div>'+
+    '<div class="card" style="margin-top:12px"><h4>Servicios del batallon</h4>'+
+    '<table class="g"><tr><th>Servicio</th><th>Estado</th></tr>'+
+    '<tr><td>TVS OS (web)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>n8n automations</td><td><span class="badge bg">ONLINE :5678</span></td></tr>'+
+    '<tr><td>AIOX framework v'+ESTADO.version+'</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>Ollama (qwen 7b/3b)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>Docker/WSL</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+    '</table></div>';
+}
+function dibujarMon(cvId,color,base,amp){
+  var cv=document.getElementById(cvId);if(!cv)return;
+  cv.width=cv.clientWidth*2;cv.height=110*2;
+  var x=cv.getContext('2d'),datos=[];
+  for(var i=0;i<60;i++)datos.push(base);
+  function paso(){
+    var ult=datos[datos.length-1];var n=Math.max(0,Math.min(1,ult+(Math.random()-0.5)*0.25+((base-ult)*0.05)));
+    datos.push(n);datos.shift();
+    x.clearRect(0,0,cv.width,cv.height);
+    x.strokeStyle='rgba(255,255,255,.06)';x.lineWidth=1;
+    for(var g=0;g<4;g++){x.beginPath();x.moveTo(0,g*cv.height/4);x.lineTo(cv.width,g*cv.height/4);x.stroke();}
+    x.beginPath();
+    for(var i=0;i<datos.length;i++){var px=i/datos.length*cv.width,py=cv.height-(datos[i]*amp+0.2)*cv.height;if(i===0)x.moveTo(px,py);else x.lineTo(px,py);}
+    x.strokeStyle=color;x.lineWidth=3;x.shadowColor=color;x.shadowBlur=8;x.stroke();
+  }
+  paso();setInterval(paso,600);
+}
+
+/* ============ EXPLORADOR ============ */
+function arbolHTML(){
+  var pre='';
+  ARBOL.forEach(function(n){pre+='<span class="'+(n[0]==='d'?'d':'f')+'">'+n[1]+'</span>\n';});
+  return '<div class="card"><h4>Repositorio: ViseronSystem/trinnity-viseron-system</h4>'+
+    '<p style="font-size:.72rem;color:var(--muted)">Datos vivos de GitHub API:</p>'+
+    '<div id="ghlive" style="font-family:var(--mono);font-size:.72rem;margin:8px 0"><span class="w">cargando...</span></div></div>'+
+    '<div class="arbol">'+pre+'</div>';
+}
+function cargarGitHubLive(){
+  fetch('https://api.github.com/repos/ViseronSystem/trinnity-viseron-system')
+  .then(function(r){return r.json()})
+  .then(function(j){
+    var el=document.getElementById('ghlive');
+    if(el&&j.full_name)el.innerHTML='<span class="c">'+j.full_name+'</span> · &#9733; '+j.stargazers_count+' · forks '+j.forks_count+' · issues '+j.open_issues_count+'<br>rama: '+j.default_branch+' · actualizado: '+j.updated_at.slice(0,10);
+  })
+  .catch(function(){var el=document.getElementById('ghlive');if(el)el.innerHTML='<span class="e">sin conexion con GitHub API</span>';});
+}
+
+/* ============ MISIONES ============ */
+var CATS=["Todas","Génesis","Exploración","Construcción","Cosmos","Comunidad","Cripto"];
+function misionesLS(){try{return JSON.parse(localStorage.getItem('tvs_misiones')||'[]')}catch(e){return[]}}
+function guardarMisiones(a){localStorage.setItem('tvs_misiones',JSON.stringify(a))}
+function trinTotal(){return MISIONES.filter(function(m){return misionesLS().indexOf(m[0])>=0}).reduce(function(s,m){return s+m[4]},0)}
+function misionesHTML(){
+  var h='<div class="prog"><div id="mfill"></div></div>';
+  h+='<div style="font-size:.72rem;color:var(--muted);margin-bottom:10px" id="mpg">progreso</div>';
+  h+='<div class="filtros">'+CATS.map(function(c,i){return '<button data-c="'+c+'" class="'+(i===0?'on':'')+'">'+c+'</button>'}).join('')+'</div>';
+  h+='<div class="grid2 misiones" id="mgrid"></div>';
+  return h;
+}
+function pintarMisiones(cat){
+  var g=document.getElementById('mgrid');if(!g)return;
+  var hechas=misionesLS();var filt=MISIONES.filter(function(m){return cat==='Todas'||m[1]===cat});
+  g.innerHTML='';
+  filt.forEach(function(m){
+    var done=hechas.indexOf(m[0])>=0;
+    var d=document.createElement('div');d.className='m'+(done?' done':'');
+    d.innerHTML='<div class="row"><span style="color:var(--purple);font-family:var(--mono)">'+m[0]+'</span><span style="color:var(--orange)">'+'&#9733;'.repeat(m[3])+'</span></div>'+
+      '<h5>'+m[2]+'</h5><p>'+m[2]+' — '+m[1]+'</p>'+
+      '<div class="row"><span>Dificultad '+m[3]+'/5</span><span class="trin">+'+m[4]+' TRIN</span></div>'+
+      '<button class="'+(done?'ok':'')+'">'+(done?'&#10003; CUMPLIDA':'CUMPLIR MISION')+'</button>';
+    d.querySelector('button').onclick=function(){
+      if(done)return;
+      var arr=misionesLS();arr.push(m[0]);guardarMisiones(arr);
+      pintarMisiones(cat);pintarProgreso();
+    };
+    g.appendChild(d);
+  });
+  pintarProgreso();
+}
+function pintarProgreso(){
+  var hechas=misionesLS();
+  var p=document.getElementById('mpg');if(p)p.textContent=hechas.length+' de 50 misiones cumplidas · '+trinTotal()+' TRIN';
+  var f=document.getElementById('mfill');if(f){f.style.width=(hechas.length/50*100)+'%';}
+}
+function bindMisiones(){
+  var g=document.getElementById('mgrid');if(!g)return;
+  pintarMisiones('Todas');
+  document.querySelectorAll('#win-misiones .filtros button').forEach(function(b){
+    b.onclick=function(){document.querySelectorAll('#win-misiones .filtros button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');pintarMisiones(b.dataset.c);};
+  });
+}
+
+/* ============ CRIPTO ============ */
+function criptoHTML(){
+  var h='<div class="grid2">';
+  TOKENS.forEach(function(t){
+    h+='<div class="card"><h4>'+t.s+' — '+t.n+'</h4><p style="font-size:.72rem;color:var(--muted)">'+t.tipo+'</p>'+
+      '<table class="g" style="margin-top:8px"><tr><th>Dato</th><th>Valor</th></tr>'+
+      '<tr><td>Supply</td><td>'+t.supply+'</td></tr><tr><td>Mecanica</td><td>'+t.mec+'</td></tr><tr><td>Redes</td><td>'+t.redes+'</td></tr></table></div>';
+  });
+  h+='</div><div class="card"><h4>Estado de salida a DEX</h4>'+
+  '<table class="g"><tr><th>Etapa</th><th>Estado</th></tr>'+
+  '<tr><td>Contratos</td><td><span class="badge bg">LISTOS</span></td></tr>'+
+  '<tr><td>Deploy mainnet</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+  '<tr><td>Liquidity pool</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+  '<tr><td>Lock de liquidez</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+  '<tr><td>Indexacion CoinGecko/CMC</td><td><span class="badge by">FASE 3</span></td></tr></table></div>'+
+  '<div class="card"><h4>Roadmap</h4>'+ROADMAP.map(function(r){return '<p style="font-size:.76rem;margin:6px 0"><span class="chip">FASE '+r[0]+'</span> <b style="color:var(--cyan)">'+r[1]+'</b> — '+r[2]+'</p>'}).join('')+'</div>';
+  return h;
+}
+
+/* ============ RED ============ */
+function redHTML(){
+  return '<div class="card"><h4>GitHub — tiempo real</h4><div id="redgh" style="font-family:var(--mono);font-size:.72rem"><span class="w">consultando api.github.com...</span></div></div>'+
+  '<div class="card"><h4>Conexiones del batallon</h4>'+
+  '<table class="g"><tr><th>Destino</th><th>Rol</th><th>Estado</th></tr>'+
+  '<tr><td>github.com/ViseronSystem</td><td>Codigo fuente</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>vercel.com (2 sitios)</td><td>Produccion web</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>UpCloud 194.62.96.26</td><td>Servidor principal</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>n8n :5678</td><td>Automatizaciones</td><td><span class="badge bg">ACTIVO</span></td></tr></table></div>';
+}
+function cargarRed(){
+  fetch('https://api.github.com/rate_limit').then(function(r){return r.json()}).then(function(j){
+    var el=document.getElementById('redgh');
+    if(el&&j.rate)el.innerHTML='<span class="c">API GitHub OK</span> · '+j.rate.remaining+' peticiones restantes';
+  }).catch(function(){var el=document.getElementById('redgh');if(el)el.innerHTML='<span class="e">API GitHub inaccesible</span>';});
+}
+
+/* ============ AYUDA ============ */
+function ayudaHTML(){
+  return '<div class="card"><h4>TVS OS v5.1 — manual rapido</h4>'+
+  '<p style="font-size:.76rem;color:var(--muted)">Consola + tienda + areas por plan del sistema real.</p>'+
+  '<table class="g"><tr><th>Ventana</th><th>Que hace</th></tr>'+
+  '<tr><td>Tienda</td><td>Planes y extras del cosmos</td></tr>'+
+  '<tr><td>Mi Cuenta</td><td>Tu plan, tus pedidos, lo que has comprado</td></tr>'+
+  '<tr><td>Terminal</td><td>Comandos reales (help, status, agentes, comprar...)</td></tr>'+
+  '<tr><td>Squads AIOX</td><td>Las 12 mentes con sus comandos</td></tr>'+
+  '<tr><td>Monitor</td><td>Telemetria + estado real de servicios</td></tr>'+
+  '<tr><td>Explorador</td><td>Arbol real del repositorio + GitHub en vivo</td></tr>'+
+  '<tr><td>Misiones</td><td>50 misiones con recompensas TRIN</td></tr>'+
+  '<tr><td>VSR/TRIN</td><td>Tokenomics y salida a DEX</td></tr>'+
+  '<tr><td>Panel Admin</td><td>Solo admin y maestro: productos, clientes, pedidos</td></tr></table>'+
+  '<p style="font-size:.72rem;color:var(--muted);margin-top:10px">Trucos: <span class="chip">pedro</span> <span class="chip">trinnity</span> <span class="chip">vison</span></p></div>';
+}
+</script>
+
+<script>
+/* ============ TIENDA ============ */
+function preciosLS(){try{return JSON.parse(localStorage.getItem('tvs_precios')||'null')}catch(e){return null}}
+function precioDe(id,def){var p=preciosLS();return (p&&p[id]!=null)?p[id]:def}
+function tiendaHTML(){
+  var s=sesionActual();
+  var h='<div class="notice">&#128276; MODO DEMO: los pagos aun no estan conectados a una pasarela real (Stripe/Supabase pendiente de activar). Los pedidos se registran localmente para validar el flujo completo de compra.</div>';
+  h+='<div class="planes">';
+  PLANES.forEach(function(p){
+    var comprado=(s&&s.plan===p.id);
+    h+='<div class="plan'+(p.id==='pro'?' dest':'')+'">'+(p.tag?'<div class="tagp">'+p.tag+'</div>':'')+
+      '<h4>'+p.nombre+'</h4>'+
+      '<div class="precio">'+precioDe(p.id,p.precio)+'&euro; <small>/ '+p.periodo+'</small></div>'+
+      '<ul>'+p.beneficios.map(function(b){return '<li>'+b+'</li>'}).join('')+'</ul>'+
+      '<button class="'+(comprado?'adq':'')+'" onclick="comprarProducto(\''+p.id+'\')">'+(comprado?'&#10003; TU PLAN':'COMPRAR AHORA')+'</button></div>';
+  });
+  h+='</div><h4 style="font-family:Orbitron;font-size:.8rem;margin:20px 0 8px;color:var(--orange)">EXTRAS DEL COSMOS</h4><div class="grid2">';
+  EXTRAS.forEach(function(e){
+    h+='<div class="card"><h4>'+e.nombre+' <span class="badge bc">'+precioDe(e.id,e.precio)+'&euro;</span></h4>'+
+      '<p style="font-size:.74rem;color:var(--muted)">'+e.desc+'</p>'+
+      '<button style="margin-top:8px;background:rgba(255,159,10,.12);border:1px solid rgba(255,159,10,.35);color:var(--orange);border-radius:7px;padding:8px;font-weight:800;cursor:pointer;width:100%" onclick="comprarProducto(\''+e.id+'\')">COMPRAR EXTRA</button></div>';
+  });
+  return h+'</div>';
+}
+function comprarProducto(id){
+  var s=sesionActual();
+  if(!s){denegado('tienda');return;}
+  var plan=PLANES.find(function(p){return p.id===id});
+  var extra=EXTRAS.find(function(e){return e.id===id});
+  var nombre=plan?plan.nombre:(extra?extra.nombre:id);
+  var precio=plan?precioDe(plan.id,plan.precio):precioDe(extra.id,extra.precio);
+  var pedidos=pedidosLS();
+  pedidos.push({id:'p-'+Date.now(),user:s.id,email:s.email,item:id,itemNombre:nombre,precio:precio,estado:'pagado (demo)',fecha:new Date().toISOString().slice(0,19).replace('T',' ')});
+  guardarPedidos(pedidos);
+  var us=usuariosLS();var u=us.find(function(x){return x.id===s.id});
+  if(plan){u.plan=plan.id;}else{u.extras=u.extras||[];u.extras.push(extra.id);}
+  guardarUsuarios(us);
+  pintarChip();
+  var g=document.getElementById('gate');
+  if(g&&g.style.display==='flex'){location.reload();return;}
+  abrirWin('confirmada','Compra realizada','&#10003;',
+    '<div class="card" style="text-align:center;padding:30px"><div style="font-size:2.4rem">&#127881;</div>'+
+    '<h4 style="font-size:1rem;margin:10px 0">'+nombre+'</h4>'+
+    '<p style="font-size:.8rem;color:var(--muted)">Pedido registrado (demo) por '+precio+'&euro;. Tu area de cliente ya tiene acceso a lo comprado.</p>'+
+    '<button style="margin-top:14px;background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:10px;padding:11px 20px;font-weight:900;cursor:pointer" onclick="cerrarWin(\'confirmada\');abrirApp(\'cuenta\')">VER MI CUENTA</button></div>',
+    {x:320,y:200,w:420,h:340});
+  var w=wins['tienda'];if(w)w.querySelector('.body').innerHTML=tiendaHTML();
+  var c=wins['cuenta'];if(c)c.querySelector('.body').innerHTML=cuentaHTML();
+  var ad=wins['admin'];if(ad)ad.querySelector('.body').innerHTML=adminHTML();
+}
+
+/* ============ MI CUENTA ============ */
+function cuentaHTML(){
+  var s=sesionActual();
+  if(!s)return '<div class="card">Sin sesion.</div>';
+  var plan=PLANES.find(function(p){return p.id===s.plan});
+  var misPedidos=pedidosLS().filter(function(p){return p.user===s.id});
+  var extrasIds=s.extras||[];
+  var h='<div class="card"><h4>'+s.nombre+' <span class="badge bg">'+s.rol.toUpperCase()+'</span></h4>'+
+    '<p style="font-size:.78rem;color:var(--muted)">'+s.email+' · miembro desde '+new Date(s.creado).toLocaleDateString('es-ES')+'</p></div>';
+  h+='<div class="card"><h4>Mi plan</h4>';
+  if(plan){
+    h+='<p style="font-size:.85rem">Plan actual: <b style="color:var(--cyan)">'+plan.nombre+'</b> — '+precioDe(plan.id,plan.precio)+'&euro;/mes</p>'+
+      '<p style="font-size:.72rem;color:var(--muted);margin-top:8px">Acceso incluido:</p><div>'+plan.apps.map(function(a){return '<span class="chip">'+a+'</span>'}).join('')+'</div>'+
+      '<button style="margin-top:12px;background:rgba(0,255,135,.12);border:1px solid rgba(0,255,135,.4);color:var(--green);border-radius:7px;padding:8px 14px;font-weight:800;cursor:pointer" onclick="renovarPlan()">RENOVAR (demo)</button>';
+  }else{
+    h+='<p style="font-size:.8rem;color:var(--muted)">Todavia no tienes plan. Visita la tienda y elige el tuyo.</p>'+
+      '<button style="margin-top:10px;background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:8px;padding:9px 16px;font-weight:900;cursor:pointer" onclick="cerrarWin(\'cuenta\');abrirApp(\'tienda\')">IR A LA TIENDA</button>';
+  }
+  h+='</div>';
+  if(extrasIds.length){
+    h+='<div class="card"><h4>Extras comprados</h4><div>'+extrasIds.map(function(x){var e=EXTRAS.find(function(z){return z.id===x});return e?'<span class="chip">'+e.nombre+'</span>':''}).join('')+'</div></div>';
+  }
+  h+='<div class="card"><h4>Mis pedidos ('+misPedidos.length+')</h4>';
+  if(misPedidos.length===0)h+='<p style="font-size:.76rem;color:var(--muted)">Sin pedidos.</p>';
+  else{h+='<table class="g"><tr><th>Fecha</th><th>Producto</th><th>Importe</th><th>Estado</th></tr>';
+    misPedidos.slice().reverse().forEach(function(pd){h+='<tr><td>'+pd.fecha+'</td><td>'+pd.itemNombre+'</td><td>'+pd.precio+'&euro;</td><td><span class="badge bg">'+pd.estado+'</span></td></tr>';});
+    h+='</table>';}
+  h+='</div>';
+  return h;
+}
+function renovarPlan(){
+  var s=sesionActual();if(!s||!s.plan)return;
+  var plan=PLANES.find(function(p){return p.id===s.plan});
+  var pedidos=pedidosLS();
+  pedidos.push({id:'p-'+Date.now(),user:s.id,email:s.email,item:s.plan,itemNombre:plan.nombre+' (renovacion)',precio:precioDe(plan.id,plan.precio),estado:'pagado (demo)',fecha:new Date().toISOString().slice(0,19).replace('T',' ')});
+  guardarPedidos(pedidos);
+  var c=wins['cuenta'];if(c)c.querySelector('.body').innerHTML=cuentaHTML();
+  var ad=wins['admin'];if(ad)ad.querySelector('.body').innerHTML=adminHTML();
+}
+
+/* ============ PANEL ADMIN ============ */
+function adminHTML(){
+  var s=sesionActual();
+  if(!s||(s.rol!=='admin'&&s.rol!=='maestro'))return '<div class="card">Acceso solo para admin y maestro.</div>';
+  var us=usuariosLS(),peds=pedidosLS();
+  var ingresos=peds.reduce(function(t,p){return t+p.precio},0);
+  var h='<div class="card"><h4>Resumen</h4>'+
+    '<table class="g"><tr><th>Metodo</th><th>Valor</th></tr>'+
+    '<tr><td>Clientes registrados</td><td>'+us.length+'</td></tr>'+
+    '<tr><td>Pedidos (demo)</td><td>'+peds.length+'</td></tr>'+
+    '<tr><td>Facturacion registrada</td><td><b style="color:var(--green)">'+ingresos+'&euro;</b></td></tr>'+
+    '<tr><td>Pasarela real</td><td><span class="badge by">PENDIENTE (Stripe)</span></td></tr></table></div>';
+  h+='<div class="card"><h4>Productos y precios (editables en demo)</h4><table class="g"><tr><th>Producto</th><th>Precio</th><th></th></tr>';
+  PLANES.concat(EXTRAS).forEach(function(p){
+    h+='<tr><td>'+p.nombre+'</td><td><input type="number" value="'+precioDe(p.id,p.precio)+'" style="width:90px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px" id="precio-'+p.id+'"></td>'+
+      '<td><button style="background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:6px;padding:5px 10px;cursor:pointer;font-weight:800" onclick="guardarPrecio(\''+p.id+'\')">GUARDAR</button></td></tr>';
+  });
+  h+='</table></div>';
+  h+='<div class="card"><h4>Clientes</h4><table class="g"><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Plan</th></tr>';
+  us.forEach(function(u){
+    h+='<tr><td>'+u.nombre+'</td><td>'+u.email+'</td><td><span class="badge '+(u.rol==='maestro'?'bp':(u.rol==='admin'?'by':'bc'))+'">'+u.rol+'</span></td><td>'+(u.plan?u.plan.toUpperCase():'—')+'</td></tr>';
+  });
+  h+='</table></div>';
+  h+='<div class="card"><h4>Pedidos</h4>';
+  if(peds.length===0)h+='<p style="font-size:.76rem;color:var(--muted)">Sin pedidos.</p>';
+  else{h+='<table class="g"><tr><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Importe</th><th>Estado</th></tr>';
+    peds.slice().reverse().forEach(function(pd){
+      h+='<tr><td>'+pd.fecha+'</td><td>'+pd.email+'</td><td>'+pd.itemNombre+'</td><td>'+pd.precio+'&euro;</td><td><span class="badge bg">'+pd.estado+'</span></td></tr>';
+    });
+    h+='</table>';}
+  h+='</div>';
+  return h;
+}
+function guardarPrecio(id){
+  var el=document.getElementById('precio-'+id);if(!el)return;
+  var p=preciosLS()||{};
+  p[id]=parseInt(el.value,10)||0;
+  localStorage.setItem('tvs_precios',JSON.stringify(p));
+  var t=wins['tienda'];if(t)t.querySelector('.body').innerHTML=tiendaHTML();
+}
+
+/* ============ TVS SISTEMA (diseño anterior: secciones informativas) ============ */
+function sistemaHTML(){
+  return '<div class="notice">Panel informativo del sistema — el estilo clasico del TVS vive aqui: arquitectura, integraciones, descargas y comandos.</div>'+
+  '<div class="card"><h4>Sistema</h4><table class="g">'+
+  '<tr><td>TVS OS</td><td>v5.1 (consola web)</td></tr>'+
+  '<tr><td>ViseronCore</td><td>v5.0 · web server :32123</td></tr>'+
+  '<tr><td>ATLAS / VISERON</td><td>dashboards del nucleo</td></tr>'+
+  '<tr><td>OmniRoute</td><td>enrutador multi-LLM</td></tr>'+
+  '<tr><td>Skills</td><td>1997 skills · 10 colecciones</td></tr></table></div>'+
+  '<div class="card"><h4>Arquitectura</h4><p style="font-size:.76rem;color:var(--muted);line-height:1.7">'+
+  'Inteligencia (AIOX 12 squads + Ollama + cloud LLMs) &rarr; Memoria (aiox-kb, learned-patterns) &rarr; Auditoria (quality gates L1/L2/L3) &rarr; Evolucion (workflow-intelligence, ciclos de aprendizaje)</p></div>'+
+  '<div class="card"><h4>Integraciones</h4><div>'+
+  ['Claude Code','Codex CLI','Gemini CLI','Cursor','GitHub Copilot','Kimi','Antigravity','n8n','Supabase','GitHub','Vercel','Railway','Ollama','ClickUp','Sentry','Exa','Context7'].map(function(i){return '<span class="chip">'+i+'</span>'}).join('')+
+  '</div></div>'+
+  '<div class="card"><h4>Descargas y documentos</h4>'+
+  '<p style="font-size:.76rem"><a style="color:var(--cyan)" href="pitch/Viseron_Pipeline_Receita.pdf" target="_blank">Viseron Pipeline Receita (PDF)</a> · '+
+  '<a style="color:var(--cyan)" href="pitch/Viseron_Relatorio_Estado.pdf" target="_blank">Relatorio de Estado (PDF)</a></p></div>'+
+  '<div class="card"><h4>Comandos clave</h4><div>'+
+  ['aiox --version','aiox manifest validate','aiox metrics show','aiox qa status','aiox workers search','aiox generate list','npm run sync:ide','node backup-synkra.ps1'].map(function(c){return '<span class="chip">'+c+'</span>'}).join('')+
+  '</div></div>';
+}
+
+/* ============ INIT DE APPS ============ */
+var appInits={terminal:bindTerm,
+ monitor:function(){dibujarMon('mc1','#00f0ff',0.6,0.55);dibujarMon('mc2','#bf5af2',0.5,0.6);dibujarMon('mc3','#ff9f0a',0.45,0.5);dibujarMon('mc4','#00ff87',0.55,0.5);},
+ explorador:function(){cargarGitHubLive()},misiones:bindMisiones,red:function(){cargarRed()},
+ cuenta:function(){},admin:function(){},tienda:function(){},sistema:function(){}};
+window.addEventListener('load',function(){
+  var tb=document.getElementById('taskbar');
+  var clock=document.createElement('div');clock.id='clock';tb.appendChild(clock);
+  clock.textContent=new Date().toLocaleString('es-ES',{dateStyle:'short',timeStyle:'medium'});
+});
+</script>
+</body>
+</html>
