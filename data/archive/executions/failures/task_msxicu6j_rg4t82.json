@@ -1,0 +1,21 @@
+{
+  "id": "task_msxicu6j_rg4t82",
+  "timestamp": "2026-08-17T17:28:51.437Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "52da7a9dc4829d0a7b3933889fa77e1459c6b040d02eeaecad3d2e84684740cd"
+}

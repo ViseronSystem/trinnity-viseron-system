@@ -1,0 +1,21 @@
+{
+  "id": "task_msxfdobr_z7sqka",
+  "timestamp": "2026-08-17T16:05:31.730Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "7014d91a4ead8c098b53e64269883b83726f57a48890dea7ee8e491f4f31c79f"
+}

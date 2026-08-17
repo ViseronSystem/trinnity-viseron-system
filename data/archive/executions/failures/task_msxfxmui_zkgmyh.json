@@ -1,0 +1,21 @@
+{
+  "id": "task_msxfxmui_zkgmyh",
+  "timestamp": "2026-08-17T16:21:02.854Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "863c3d7f2ec779a5668396312fba7e6cc972bd6f2250fbfed54befefc7a05cc1"
+}

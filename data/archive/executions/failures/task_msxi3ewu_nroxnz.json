@@ -1,0 +1,21 @@
+{
+  "id": "task_msxi3ewu_nroxnz",
+  "timestamp": "2026-08-17T17:21:31.743Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "2a3236987a62570707379f907d4b387939c5eb1c78f6f726b1d7cd772989e632"
+}

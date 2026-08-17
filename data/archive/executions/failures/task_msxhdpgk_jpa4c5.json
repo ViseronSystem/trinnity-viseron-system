@@ -1,0 +1,21 @@
+{
+  "id": "task_msxhdpgk_jpa4c5",
+  "timestamp": "2026-08-17T17:01:32.347Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "6d1e45c2726b2efedb2932115d82ceee6408126e2df8bc79bc076d1f5d520f8f"
+}

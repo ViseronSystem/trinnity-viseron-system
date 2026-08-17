@@ -1,0 +1,21 @@
+{
+  "id": "task_msxfsik1_7j0y6d",
+  "timestamp": "2026-08-17T16:17:04.173Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "fdb4f24a0b0d47e4ade4e818151a397d78dfe110f50c5d40e87a512bfc3cde49"
+}

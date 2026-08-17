@@ -1,0 +1,21 @@
+{
+  "id": "task_msxgpxdr_5rpcau",
+  "timestamp": "2026-08-17T16:43:02.870Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "1d4d0774dd89b74fd5627cf228c0349fde765ff700827e12ad90d0e9b753a706"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msxiamm7_bx86vm",
+  "timestamp": "2026-08-17T17:27:08.321Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "76f6dfdcab567695b6c79acd9675a04faf1a8ebaa82a14ee418efadb9088b2b7"
+}

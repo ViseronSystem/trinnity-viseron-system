@@ -1,4 +1,4 @@
-import "dotenv/config";
+﻿import "dotenv/config";
 import express from "express";
 import http from "http";
 import path from "path";
@@ -210,6 +210,13 @@ export class ViseronWebServer {
       },
     }));
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use((req, res, next) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      if (req.method === "OPTIONS") { return res.sendStatus(204); }
+      next();
+    });
     this.app.use(requestLogger(this.logger, this.metrics));
     this.app.use((req, res, next) => {
       const host = (req.headers.host || "").toLowerCase().replace(/:\d+$/, "");

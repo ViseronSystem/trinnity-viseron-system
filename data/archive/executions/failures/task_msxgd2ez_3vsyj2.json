@@ -1,0 +1,21 @@
+{
+  "id": "task_msxgd2ez_3vsyj2",
+  "timestamp": "2026-08-17T16:33:02.875Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "46e7d2d874c3e4055bdf7d8711c9ee2c07ff04c64a5165f1f9fcb726e86a8ef3"
+}

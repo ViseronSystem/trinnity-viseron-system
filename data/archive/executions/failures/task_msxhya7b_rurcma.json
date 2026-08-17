@@ -1,0 +1,21 @@
+{
+  "id": "task_msxhya7b_rurcma",
+  "timestamp": "2026-08-17T17:17:32.352Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "49540e3095f86fa23cd54a3ca1bb2a11c305fdf7bffe87c23c9b0d6fd26cc96b"
+}

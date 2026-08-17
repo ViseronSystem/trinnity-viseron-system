@@ -3,12 +3,29 @@
   window.__jarvisChatLoaded = true;
 
   var CONFIG = {
-    apiBase: (window.__jarvisApiBase) || null,
+    apiBase: (window.__jarvisApiBase) || 'http://194.62.96.26:32123',
     title: 'JARVIS',
-    subtitle: 'Cerebro del TVS v7.0.0 · conocimiento completo del proyecto',
+    subtitle: 'Cerebro del TVS v7.0.0 · IA local Ollama conectada',
     placeholder: 'Preguntame sobre el sistema, los tokens, los planes...',
   };
   if (window.__jarvisConfig) Object.assign(CONFIG, window.__jarvisConfig);
+  var usaNube = false;
+  function responderConCerebro(texto){
+    fetch(CONFIG.apiBase + '/api/viseron/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: texto})
+    }).then(function(r){ return r.json(); })
+    .then(function(j){
+      if (j && j.text) {
+        usaNube = true;
+        var extra = '';
+        if (j.provider && j.model) extra = '<div style="font-size:.62rem;color:#8a90ab;margin-top:4px">cerebro: '+j.provider+' · '+j.model+' · supervisado por AIOX</div>';
+        msg(j.text + extra, 'jar');
+      } else { msg(pensar(texto), 'jar'); }
+    })
+    .catch(function(){ msg(pensar(texto), 'jar'); });
+  }
 
   /* ================= CEREBRO TVS v7.0.0 (README + sistema real) ================= */
   var CEREBRO = [
@@ -121,7 +138,7 @@
   }
   function responder(texto) {
     msg(texto, 'user');
-    setTimeout(function () { msg(pensar(texto), 'jar'); }, 450);
+    setTimeout(function () { responderConCerebro(texto); }, 450);
   }
   document.getElementById('jchat-fab').onclick = function () { document.getElementById('jchat-panel').classList.toggle('open'); };
   document.getElementById('jchat-close').onclick = function () { document.getElementById('jchat-panel').classList.remove('open'); };
