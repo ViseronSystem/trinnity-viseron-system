@@ -1712,6 +1712,55 @@ try { const saved = localStorage.getItem('tvs-lang'); if(saved && LANG[saved]) s
   }
 })();
 </script>
+<div id="suite" style="font-family:Inter,'Segoe UI',sans-serif;background:linear-gradient(180deg,#0a0a24,#050512);color:#e8e8f4;padding:70px 24px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:44px">
+      <div style="color:#00f0ff;letter-spacing:4px;font-size:.75rem;font-weight:800">LA SUITE COMPLETA</div>
+      <h2 style="font-weight:900;font-size:2.1rem;margin:10px 0 8px;background:linear-gradient(90deg,#00f0ff,#bf5af2);-webkit-background-clip:text;background-clip:text;color:transparent">SUITE TVS — TODAS LAS APLICACIONES</h2>
+      <p style="color:#9aa0b5;max-width:720px;margin:0 auto;line-height:1.7">Cada modulo del sistema operativo. Los modulos del nodo TVS se marcan EN VIVO cuando el servidor responde.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px" id="suite-grid"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var NODO = 'http://194.62.96.26:32123';
+  var APPS = [
+    {ico:'&#128202;', nom:'Dashboard', ruta:'/dashboard', desc:'Panel autenticado: auth, billing, onboarding, mensajeria E2E', tipo:'nodo'},
+    {ico:'&#128421;', nom:'TVS OS', ruta:'/os', desc:'SO AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center', tipo:'nodo'},
+    {ico:'&#129302;', nom:'VISERON', ruta:'/viseron', desc:'Superinteligencia con voz (Stark). Wake words, TTS/STT, supervision AIOX', tipo:'nodo'},
+    {ico:'&#127891;', nom:'ATLAS', ruta:'/atlas', desc:'Tutor de ingles con voz (ES/PT), plan de 7 dias y correccion inmediata', tipo:'nodo'},
+    {ico:'&#9889;', nom:'SEE VISERON OPERATE', ruta:'/operate', desc:'Pipeline E2E en vivo: INTENT > PLAN > AUTHORIZE > EXECUTE > VERIFY', tipo:'nodo'},
+    {ico:'&#127899;', nom:'Command Center', ruta:'/command-center', desc:'Salud, autonomia, ingresos, agentes, integraciones y evolucion', tipo:'nodo'},
+    {ico:'&#127918;', nom:'Juego VISERON', ruta:'game/index.html', desc:'Canvas 2D trilingue. Transformaciones MARIO, MEGAMAN, NARUTO, DRAGON BALL', tipo:'estatico'},
+    {ico:'&#127760;', nom:'Viseron Cosmos', ruta:'cosmos.html', desc:'Tokens reales VSR (300M) y TRIN (420,69M) en ETH/BSC/Solana', tipo:'estatico'},
+    {ico:'&#128225;', nom:'Metaverso Cosmos', ruta:'cosmos/metaverse/index.html', desc:'Navega los planetas-modulos, recolecta mentes, gana VSR/TRIN', tipo:'estatico'},
+    {ico:'&#128240;', nom:'Blog', ruta:'/blog', desc:'Contenido generado por el agente de contenido cada 120 min', tipo:'nodo'},
+    {ico:'&#128268;', nom:'API Health', ruta:'/api/health', desc:'Estado real: db, billing, email, messaging, tenants y usuarios', tipo:'nodo'},
+    {ico:'&#128640;', nom:'TVS OS Consola', ruta:'visor/index.html', desc:'Consola web v7.0.0: login, tienda, misiones, squads y terminal', tipo:'estatico'},
+    {ico:'&#128218;', nom:'Documentos', ruta:'pitch/', desc:'Pipeline de Receita y Relatorio de Estado (PDF)', tipo:'estatico'}
+  ];
+  var g = document.getElementById('suite-grid');
+  APPS.forEach(function(a){
+    var d = document.createElement('div');
+    d.style.cssText = 'background:rgba(10,14,34,.85);border:1px solid rgba(0,240,255,.16);border-radius:16px;padding:20px;transition:.25s;cursor:pointer;display:flex;flex-direction:column;gap:8px';
+    d.onmouseover = function(){ d.style.transform='translateY(-4px)'; d.style.borderColor='#00f0ff'; d.style.boxShadow='0 12px 34px rgba(0,240,255,.15)'; };
+    d.onmouseout = function(){ d.style.transform=''; d.style.borderColor='rgba(0,240,255,.16)'; d.style.boxShadow=''; };
+    var badge = a.tipo==='nodo' ? '<span class="badge-suite" id="st-'+a.nom.replace(/\s/g,'')+'" style="font-size:.6rem;font-weight:800;padding:2px 9px;border-radius:99px;background:rgba(255,159,10,.15);color:#ff9f0a">NODO TVS</span>'
+              : '<span style="font-size:.6rem;font-weight:800;padding:2px 9px;border-radius:99px;background:rgba(0,255,135,.15);color:#00ff87">EN VIVO</span>';
+    d.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:1.6rem">'+a.ico+'</span>'+badge+'</div>'+
+      '<h4 style="font-size:.95rem;color:#00f0ff;margin:0">'+a.nom+'</h4>'+
+      '<p style="font-size:.72rem;color:#9aa0b5;line-height:1.5;flex:1">'+a.desc+'</p>';
+    d.onclick = function(){ window.open(a.tipo==='nodo' ? NODO+a.ruta : a.ruta, '_blank'); };
+    g.appendChild(d);
+    if (a.tipo==='nodo') {
+      fetch(NODO+'/api/health')
+        .then(function(){ var b=document.getElementById('st-'+a.nom.replace(/\s/g,'')); if(b){b.textContent='EN VIVO'; b.style.background='rgba(0,255,135,.15)'; b.style.color='#00ff87';} })
+        .catch(function(){});
+    }
+  });
+})();
+</script>
 <div id="arsenal" style="font-family:Inter,'Segoe UI',sans-serif;background:linear-gradient(180deg,#050512,#0a0a24);color:#e8e8f4;padding:70px 24px;border-top:1px solid rgba(0,240,255,.15)">
   <div style="max-width:1200px;margin:0 auto">
     <div style="text-align:center;margin-bottom:48px">
