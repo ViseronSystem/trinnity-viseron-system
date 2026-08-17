@@ -1,1670 +1,557 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trinnity Viseron System — AI-Native Operating System v5.0</title>
-  <meta name="description" content="TVS v5.0 — Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditable. Sistema Operativo Native IA + Infrastructure Intelligence. Validación: OMEGA 192/192, CORE 20/20, WEB 109/109, TypeScript CLEAN. © Pedro Costa (Comandante) & Trinnity Hurtado (Reina)." />
-  <meta property="og:title" content="Trinnity Viseron System v5.0 — AI-Native Operating System" />
-  <meta property="og:description" content="Autonomous AI Operating System & Intelligence Infrastructure. Inteligencia + Memoria + Auditoría + Evolución." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.trinnityviseronsystem.io" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030310'/%3E%3Cpath d='M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23bf5af2'/%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <style>
-    :root {
-      --neon: #00f0ff;
-      --neon2: #bf5af2;
-      --neon3: #ff2d55;
-      --neon4: #30d158;
-      --bg: #030310;
-      --bg2: #060618;
-      --card: rgba(255,255,255,0.025);
-      --card2: rgba(0,240,255,0.04);
-      --border: rgba(255,255,255,0.06);
-      --border2: rgba(0,240,255,0.12);
-      --text: #e8e8f4;
-      --text2: rgba(232,232,244,0.45);
-      --text3: rgba(232,232,244,0.2);
-    }
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; font-size:16px; }
-    body {
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Inter',sans-serif;
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-    }
-    h1,h2,h3,h4,h5 { font-family:'Space Grotesk',sans-serif; }
-    code, .mono { font-family:'JetBrains Mono',monospace; }
-
-    /* CANVAS BG */
-    #tvs-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
-
-    /* SCANLINES */
-    .scanline {
-      position:fixed; inset:0; z-index:9998; pointer-events:none;
-      background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,240,255,0.012) 3px,rgba(0,240,255,0.012) 4px);
-    }
-
-    /* GRID OVERLAY */
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
-      background-size:60px 60px;
-    }
-
-    /* NOISE TEXTURE */
-    body::after {
-      content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
-      opacity:0.018;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    /* NAV */
-    #nav {
-      position:fixed; top:0; left:0; right:0; z-index:100;
-      transition:all 0.4s ease;
-      border-bottom:1px solid transparent;
-    }
-    #nav.scrolled {
-      background:rgba(3,3,16,0.88);
-      backdrop-filter:blur(24px) saturate(180%);
-      border-bottom-color:var(--border);
-    }
-    .nav-inner {
-      max-width:1200px; margin:0 auto; padding:0 24px;
-      height:64px; display:flex; align-items:center; justify-content:space-between;
-    }
-    .nav-logo {
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none; color:inherit;
-    }
-    .nav-logo-icon {
-      width:34px; height:34px; border-radius:9px;
-      background:linear-gradient(135deg, rgba(0,240,255,0.12), rgba(191,90,242,0.12));
-      border:1px solid rgba(0,240,255,0.25);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:900; font-size:15px;
-      box-shadow:0 0 20px rgba(0,240,255,0.12), inset 0 0 15px rgba(0,240,255,0.05);
-    }
-    .nav-logo-text { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; }
-    .nav-logo-text .t1 { color:var(--neon); }
-    .nav-logo-text .t2 { color:rgba(255,255,255,0.35); }
-    .nav-links {
-      display:flex; align-items:center; gap:6px;
-    }
-    .nav-link {
-      color:var(--text2); font-size:13.5px; text-decoration:none; padding:6px 10px;
-      border-radius:6px; transition:all 0.2s; font-weight:500;
-    }
-    .nav-link:hover { color:var(--neon); background:rgba(0,240,255,0.06); }
-    .nav-lang { display:flex; gap:3px; }
-    .lang-btn {
-      background:none; border:1px solid var(--border); border-radius:6px;
-      padding:4px 8px; font-size:13px; cursor:pointer; color:var(--text2);
-      transition:all 0.2s; font-family:'Space Grotesk',sans-serif;
-    }
-    .lang-btn:hover, .lang-btn.active { border-color:var(--border2); color:var(--neon); background:rgba(0,240,255,0.06); }
-    .btn-nav-cta {
-      padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600;
-      background:var(--neon); color:var(--bg); border:none; cursor:pointer;
-      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
-      transition:all 0.25s; font-family:'Space Grotesk',sans-serif;
-    }
-    .btn-nav-cta:hover { background:#00d4e6; box-shadow:0 0 30px rgba(0,240,255,0.3); transform:translateY(-1px); }
-    .hamburger { display:none; background:none; border:1px solid var(--border); border-radius:7px; padding:8px; cursor:pointer; color:var(--text2); }
-    .mobile-menu { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(3,3,16,0.98); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); padding:16px 24px 24px; flex-direction:column; gap:4px; }
-    .mobile-menu.open { display:flex; }
-    .mobile-link { color:var(--text2); font-size:14px; text-decoration:none; padding:10px 12px; border-radius:8px; font-weight:500; transition:all 0.2s; }
-    .mobile-link:hover { color:var(--neon); background:rgba(0,240,255,0.06); }
-
-    /* SECTIONS */
-    section { position:relative; z-index:2; }
-    .section-inner { max-width:1200px; margin:0 auto; padding:0 24px; }
-
-    /* HERO */
-    .hero {
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      text-align:center; padding:120px 24px 80px; overflow:hidden;
-    }
-    .hero-content { position:relative; z-index:2; max-width:900px; margin:0 auto; }
-    .hero-badge {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 16px; border-radius:100px;
-      background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.18);
-      color:var(--neon); font-size:11.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
-      margin-bottom:32px; font-family:'Space Grotesk',sans-serif;
-    }
-    .hero-badge-dot { width:7px; height:7px; border-radius:50%; background:var(--neon4); box-shadow:0 0 8px var(--neon4); animation:blink 1.8s ease infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-    .hero-title {
-      font-size:clamp(52px, 8vw, 100px);
-      font-weight:900; line-height:0.92; letter-spacing:-0.03em;
-      margin-bottom:28px;
-    }
-    .hero-title .line1 { display:block; color:#fff; }
-    .hero-title .line2 {
-      display:block;
-      background:linear-gradient(90deg, var(--neon), var(--neon2), var(--neon3), var(--neon));
-      background-size:300% 100%;
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      animation:flow 5s linear infinite;
-    }
-    @keyframes flow { to { background-position:300% 0; } }
-    .hero-sub {
-      font-size:clamp(15px, 2vw, 19px); color:var(--text2); max-width:680px; margin:0 auto 44px;
-      line-height:1.65; font-weight:300;
-    }
-    .hero-sub strong { color:var(--neon); font-weight:600; }
-    .hero-sub em { color:var(--neon2); font-style:normal; font-weight:600; }
-    .hero-btns { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:64px; }
-    .btn-primary {
-      display:inline-flex; align-items:center; gap:9px;
-      padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700;
-      background:var(--neon); color:var(--bg); border:none; cursor:pointer;
-      text-decoration:none; font-family:'Space Grotesk',sans-serif;
-      transition:all 0.3s; position:relative; overflow:hidden;
-    }
-    .btn-primary::before {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
-      transform:translateX(-100%); transition:transform 0.5s;
-    }
-    .btn-primary:hover::before { transform:translateX(100%); }
-    .btn-primary:hover { box-shadow:0 0 50px rgba(0,240,255,0.35); transform:translateY(-2px); }
-    .btn-secondary {
-      display:inline-flex; align-items:center; gap:9px;
-      padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700;
-      background:transparent; color:var(--text); border:1px solid var(--border);
-      cursor:pointer; text-decoration:none; font-family:'Space Grotesk',sans-serif;
-      transition:all 0.3s;
-    }
-    .btn-secondary:hover { border-color:var(--border2); color:var(--neon); background:rgba(0,240,255,0.05); }
-    .btn-purple-outline {
-      display:inline-flex; align-items:center; gap:9px;
-      padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700;
-      background:rgba(191,90,242,0.08); color:var(--neon2); border:1px solid rgba(191,90,242,0.25);
-      cursor:pointer; text-decoration:none; font-family:'Space Grotesk',sans-serif;
-      transition:all 0.3s;
-    }
-    .btn-purple-outline:hover { background:rgba(191,90,242,0.15); box-shadow:0 0 30px rgba(191,90,242,0.15); transform:translateY(-2px); }
-
-    /* STATS */
-    .hero-stats { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
-    .stat-card {
-      background:rgba(255,255,255,0.03); border:1px solid var(--border);
-      border-radius:14px; padding:18px 26px; text-align:center; min-width:110px;
-      backdrop-filter:blur(20px);
-      transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
-    }
-    .stat-card:hover { border-color:var(--border2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 20px rgba(0,240,255,0.06); }
-    .stat-val { font-size:26px; font-weight:800; font-family:'Space Grotesk',sans-serif; }
-    .stat-label { font-size:11px; color:var(--text3); margin-top:4px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; }
-    .c-neon { color:var(--neon); }
-    .c-neon2 { color:var(--neon2); }
-    .c-green { color:var(--neon4); }
-
-    /* DIVIDER */
-    .divider {
-      height:1px; max-width:700px; margin:80px auto;
-      background:linear-gradient(90deg, transparent, rgba(0,240,255,0.15), transparent);
-    }
-
-    /* REVEAL */
-    .reveal { opacity:0; transform:translateY(28px); transition:all 0.75s cubic-bezier(0.16,1,0.3,1); }
-    .reveal.in-view { opacity:1; transform:translateY(0); }
-    .reveal-d1 { transition-delay:0.1s; }
-    .reveal-d2 { transition-delay:0.2s; }
-    .reveal-d3 { transition-delay:0.3s; }
-    .reveal-d4 { transition-delay:0.4s; }
-    .reveal-d5 { transition-delay:0.5s; }
-    .reveal-d6 { transition-delay:0.6s; }
-
-    /* SECTION HEADER */
-    .section-tag { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:12px; font-family:'JetBrains Mono',monospace; }
-    .section-title { font-size:clamp(30px, 4.5vw, 52px); font-weight:800; letter-spacing:-0.025em; line-height:1.08; margin-bottom:16px; }
-    .section-sub { color:var(--text2); max-width:560px; font-size:15px; line-height:1.7; }
-
-    /* GLASS CARD */
-    .glass-card {
-      background:var(--card); backdrop-filter:blur(20px);
-      border:1px solid var(--border); border-radius:16px;
-      position:relative; overflow:hidden;
-      transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .glass-card::after {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg, rgba(0,240,255,0.04), transparent, rgba(191,90,242,0.04));
-      opacity:0; transition:opacity 0.4s;
-    }
-    .glass-card:hover { border-color:rgba(0,240,255,0.18); transform:translateY(-5px); box-shadow:0 24px 70px rgba(0,0,0,0.55), 0 0 30px rgba(0,240,255,0.06); }
-    .glass-card:hover::after { opacity:1; }
-
-    /* PAGES GRID — mapa del sitio */
-    .pages-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:18px; }
-    .page-card { padding:26px; display:flex; flex-direction:column; }
-    .page-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-    .page-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
-    .page-path { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text3); }
-    .page-title { font-size:17px; font-weight:700; margin-bottom:8px; }
-    .page-desc { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:20px; }
-    .page-btn {
-      margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      padding:11px 18px; border-radius:9px; font-size:13.5px; font-weight:700;
-      text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.25s;
-      border:1px solid var(--border2); color:var(--neon); background:rgba(0,240,255,0.05);
-    }
-    .page-btn:hover { background:var(--neon); color:var(--bg); box-shadow:0 0 30px rgba(0,240,255,0.3); transform:translateY(-2px); }
-
-    /* MAP CTA — botão de destaque */
-    .map-cta {
-      margin-top:36px; padding:30px 34px; border-radius:18px;
-      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;
-      background:linear-gradient(120deg, rgba(0,240,255,0.07), rgba(191,90,242,0.06));
-      border:1px solid rgba(0,240,255,0.18); position:relative; overflow:hidden;
-    }
-    .map-cta h3 { font-size:20px; font-weight:800; margin-bottom:8px; }
-    .map-cta p { font-size:13.5px; color:var(--text2); max-width:560px; line-height:1.6; }
-    .map-cta .btn-map {
-      display:inline-flex; align-items:center; gap:9px; padding:14px 28px; border-radius:11px;
-      background:var(--neon); color:var(--bg); font-size:14.5px; font-weight:800;
-      text-decoration:none; font-family:'Space Grotesk',sans-serif; transition:all 0.25s;
-    }
-    .map-cta .btn-map:hover { box-shadow:0 0 40px rgba(0,240,255,0.4); transform:translateY(-2px); }
-
-    /* SQUADS SECTION */
-    .squads-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:20px; }
-    .squad-card {
-      padding:28px; border-radius:18px;
-      background:var(--card); border:1px solid var(--border);
-      position:relative; overflow:hidden;
-      transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .squad-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:2px;
-      background:linear-gradient(90deg, transparent, var(--squad-color), transparent);
-    }
-    .squad-card:hover { transform:translateY(-6px); box-shadow:0 28px 80px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1); }
-    .squad-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-    .squad-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
-    .squad-status { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:var(--neon4); font-family:'JetBrains Mono',monospace; }
-    .squad-status-dot { width:7px; height:7px; border-radius:50%; background:var(--neon4); box-shadow:0 0 8px var(--neon4); animation:blink 1.8s ease infinite; }
-    .squad-name { font-size:18px; font-weight:700; margin-bottom:8px; }
-    .squad-desc { font-size:13.5px; color:var(--text2); line-height:1.6; margin-bottom:18px; }
-    .squad-agents { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
-    .agent-tag {
-      font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px;
-      font-family:'JetBrains Mono',monospace; border:1px solid;
-    }
-    .squad-kpis { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .squad-kpi { background:rgba(255,255,255,0.025); border-radius:10px; padding:12px; }
-    .squad-kpi-val { font-size:18px; font-weight:800; font-family:'Space Grotesk',sans-serif; }
-    .squad-kpi-label { font-size:10px; color:var(--text3); margin-top:3px; text-transform:uppercase; letter-spacing:0.06em; }
-
-    /* OMEGA ARCHITECTURE */
-    .omega-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
-    .omega-card { padding:24px; }
-    .omega-icon { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
-    .omega-title { font-size:16px; font-weight:700; margin-bottom:8px; }
-    .omega-desc { font-size:13px; color:var(--text2); line-height:1.65; }
-    .omega-badge { display:inline-block; margin-top:12px; padding:3px 10px; border-radius:20px; font-size:10.5px; font-weight:700; font-family:'JetBrains Mono',monospace; }
-
-    /* PIPELINE — INTENT → VERIFY */
-    .pipeline { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; margin-top:36px; }
-    .pipe-step { padding:12px 20px; border-radius:12px; background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.18); font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; color:var(--neon); }
-    .pipe-arrow { color:var(--text3); font-size:18px; }
-
-    /* TERMINAL */
-    .terminal {
-      background:#000c18; border:1px solid rgba(0,240,255,0.15); border-radius:14px;
-      font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.75;
-      overflow:hidden;
-    }
-    .terminal-bar {
-      background:rgba(255,255,255,0.04); padding:12px 16px;
-      display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(0,240,255,0.08);
-    }
-    .term-dot { width:11px; height:11px; border-radius:50%; }
-    .term-title { color:var(--text3); font-size:12px; margin-left:8px; }
-    .terminal-body { padding:20px 22px; }
-    .tl { display:block; }
-    .tl .p { color:var(--neon); }
-    .tl .c { color:#fff; }
-    .tl .o { color:var(--text2); }
-    .tl .g { color:var(--neon4); }
-    .tl .v { color:var(--neon2); }
-    .tl .e { color:var(--neon3); }
-
-    /* INTEGRATIONS */
-    .int-table { width:100%; border-collapse:collapse; margin-top:8px; }
-    .int-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--text3); padding:12px 16px; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; }
-    .int-table td { padding:14px 16px; font-size:13.5px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:top; }
-    .int-table td:first-child { color:var(--text); font-weight:600; font-family:'JetBrains Mono',monospace; font-size:12.5px; white-space:nowrap; }
-    .int-table tr:hover td { background:rgba(0,240,255,0.03); }
-    .int-count { color:var(--neon); font-weight:800; }
-
-    /* STATUS GRID */
-    .status-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
-    .status-card { padding:22px; }
-    .status-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-    .status-name { font-size:15px; font-weight:700; }
-    .badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; font-family:'JetBrains Mono',monospace; }
-    .badge-green { background:rgba(48,209,88,0.12); color:var(--neon4); border:1px solid rgba(48,209,88,0.2); }
-    .badge-neon { background:rgba(0,240,255,0.1); color:var(--neon); border:1px solid rgba(0,240,255,0.18); }
-    .badge-purple { background:rgba(191,90,242,0.1); color:var(--neon2); border:1px solid rgba(191,90,242,0.18); }
-    .badge-red { background:rgba(255,45,85,0.1); color:var(--neon3); border:1px solid rgba(255,45,85,0.2); }
-    .status-val { font-size:13px; color:var(--text2); }
-    .status-val strong { color:var(--text); }
-
-    /* VALIDATION */
-    .valid-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-top:16px; }
-    .valid-card { padding:22px; text-align:center; }
-    .valid-num { font-size:34px; font-weight:900; font-family:'Space Grotesk',sans-serif; }
-    .valid-label { font-size:12px; color:var(--text3); margin-top:6px; text-transform:uppercase; letter-spacing:0.08em; }
-
-    /* PRICING */
-    .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; max-width:1000px; margin:0 auto; }
-    .plan-card { padding:32px; border-radius:20px; position:relative; overflow:hidden; }
-    .plan-card.featured { border-color:rgba(0,240,255,0.3) !important; }
-    .plan-card.featured::before {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg, rgba(0,240,255,0.06), transparent, rgba(191,90,242,0.04));
-    }
-    .plan-badge { font-size:10.5px; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:20px; display:inline-block; font-family:'Space Grotesk',sans-serif; letter-spacing:0.08em; text-transform:uppercase; }
-    .plan-name { font-size:22px; font-weight:800; margin-bottom:8px; }
-    .plan-price { font-size:48px; font-weight:900; font-family:'Space Grotesk',sans-serif; letter-spacing:-0.03em; margin-bottom:4px; }
-    .plan-price span { font-size:16px; font-weight:500; color:var(--text2); }
-    .plan-sub { font-size:13px; color:var(--text2); margin-bottom:24px; }
-    .plan-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
-    .plan-features li { display:flex; align-items:flex-start; gap:10px; font-size:13.5px; color:var(--text2); }
-    .plan-features li::before { content:'✦'; color:var(--neon); font-size:10px; margin-top:3px; flex-shrink:0; }
-    .plan-features li.off { opacity:0.45; }
-    .plan-features li.off::before { color:var(--text3); }
-    .plan-btn {
-      width:100%; padding:14px; border-radius:10px; font-size:15px; font-weight:700;
-      cursor:pointer; text-align:center; text-decoration:none; display:block;
-      font-family:'Space Grotesk',sans-serif; transition:all 0.3s;
-    }
-    .plan-btn-neon { background:var(--neon); color:var(--bg); border:none; }
-    .plan-btn-neon:hover { background:#00d4e6; box-shadow:0 0 40px rgba(0,240,255,0.3); transform:translateY(-2px); }
-    .plan-btn-outline { background:transparent; color:var(--text); border:1px solid var(--border); }
-    .plan-btn-outline:hover { border-color:var(--border2); color:var(--neon); }
-
-    /* DOWNLOADS */
-    .downloads-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
-    .dl-card { padding:24px; display:flex; flex-direction:column; align-items:flex-start; gap:12px; }
-    .dl-icon { font-size:32px; }
-    .dl-title { font-size:16px; font-weight:700; }
-    .dl-desc { font-size:13px; color:var(--text2); line-height:1.55; }
-    .dl-btn {
-      margin-top:auto; display:inline-flex; align-items:center; gap:7px;
-      padding:10px 18px; border-radius:9px; font-size:13px; font-weight:600;
-      border:1px solid var(--border); color:var(--text2); text-decoration:none;
-      transition:all 0.25s; font-family:'Space Grotesk',sans-serif; background:rgba(255,255,255,0.03);
-    }
-    .dl-btn:hover { border-color:var(--border2); color:var(--neon); background:rgba(0,240,255,0.06); }
-
-    /* COMMAND SECTION */
-    .cmd-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; }
-    .cmd-item { display:flex; align-items:flex-start; gap:14px; padding:18px 20px; border-radius:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); transition:all 0.25s; }
-    .cmd-item:hover { border-color:var(--border2); background:rgba(0,240,255,0.03); }
-    .cmd-code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--neon); white-space:nowrap; min-width:170px; }
-    .cmd-desc { font-size:13px; color:var(--text2); line-height:1.5; }
-
-    /* FOOTER */
-    footer {
-      border-top:1px solid var(--border); padding:48px 24px; position:relative; z-index:2;
-      background:rgba(3,3,16,0.7);
-    }
-    .footer-inner { max-width:1200px; margin:0 auto; }
-    .footer-top { display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between; margin-bottom:40px; }
-    .footer-brand { max-width:280px; }
-    .footer-brand-title { font-size:18px; font-weight:800; margin-bottom:10px; }
-    .footer-brand-desc { font-size:13px; color:var(--text2); line-height:1.6; }
-    .footer-links h4 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--text3); margin-bottom:14px; }
-    .footer-links ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
-    .footer-links a { font-size:13.5px; color:var(--text2); text-decoration:none; transition:color 0.2s; }
-    .footer-links a:hover { color:var(--neon); }
-    .footer-bottom { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; padding-top:28px; border-top:1px solid var(--border); }
-    .footer-copy { font-size:12.5px; color:var(--text3); }
-    .footer-copy strong { color:var(--text2); }
-    .footer-authority { font-size:12px; color:var(--text3); text-align:right; }
-    .footer-authority strong { color:var(--neon2); }
-
-    /* GLOW ORBS */
-    .orb {
-      position:absolute; border-radius:50%; pointer-events:none;
-      filter:blur(80px); z-index:1;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width:768px) {
-      .nav-links { display:none; }
-      .hamburger { display:flex; align-items:center; gap:8px; }
-      .squads-grid { grid-template-columns:1fr; }
-      .pricing-grid { grid-template-columns:1fr; }
-      .footer-top { flex-direction:column; gap:32px; }
-      .footer-authority { text-align:left; }
-      .int-table { display:block; overflow-x:auto; }
-    }
-    @media (max-width:480px) {
-      .hero-btns { flex-direction:column; align-items:center; }
-    }
-
-    /* SCROLL BAR */
-    ::-webkit-scrollbar { width:4px; }
-    ::-webkit-scrollbar-track { background:var(--bg); }
-    ::-webkit-scrollbar-thumb { background:var(--neon); border-radius:2px; }
-
-    /* HOLOGRAM ANIMATION */
-    @keyframes holo-rotate { to { transform:rotate(360deg); } }
-    .holo-ring {
-      position:absolute; border-radius:50%; pointer-events:none;
-      border:1px solid rgba(0,240,255,0.06);
-      animation:holo-rotate 20s linear infinite;
-    }
-
-    /* PULSE LIVE */
-    .live-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--neon4); box-shadow:0 0 8px var(--neon4); animation:blink 1.8s ease infinite; }
-
-    /* API STATUS BAR */
-    .api-bar {
-      display:flex; align-items:center; justify-content:center; gap:24px;
-      flex-wrap:wrap; padding:14px 24px; margin-top:40px;
-      background:rgba(255,255,255,0.018); border:1px solid var(--border); border-radius:12px;
-      font-size:12.5px; font-family:'JetBrains Mono',monospace;
-    }
-    .api-item { display:flex; align-items:center; gap:7px; color:var(--text2); }
-    .api-item strong { color:var(--text); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVS OS — Trinnity Viseron System</title>
+<meta name="description" content="TVS OS: consola web del sistema operativo multi-agente Trinnity Viseron. Terminal, squads AIOX, misiones, monitor y cosmos.">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#02020a;--panel:rgba(8,10,24,.92);--line:rgba(0,240,255,.14);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab;--mono:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow:hidden;height:100vh}
+canvas#bgstars{position:fixed;inset:0;z-index:0}
+/* BOOT */
+#boot{position:fixed;inset:0;background:#010108;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono)}
+#boot .logo{font-family:'Orbitron';font-weight:900;font-size:2.1rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 30px rgba(0,240,255,.6)}
+#boot .logo i{color:var(--purple);font-style:normal}
+#boot .sub{color:var(--muted);font-size:.8rem;margin-top:6px;letter-spacing:3px}
+#boot .log{margin-top:34px;width:min(480px,86vw);font-size:.72rem;color:var(--muted);line-height:1.9;min-height:180px;text-align:left}
+#boot .log .ok{color:var(--green)} #boot .log .w{color:var(--orange)}
+#boot .bar{width:min(480px,86vw);height:6px;background:rgba(255,255,255,.07);border-radius:99px;margin-top:18px;overflow:hidden}
+#boot .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .4s}
+/* DESKTOP */
+#desktop{position:fixed;inset:0;z-index:1;display:none}
+#wallpaper{position:absolute;inset:0}
+#icons{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:10px;z-index:5}
+.dicon{width:86px;padding:10px 6px;text-align:center;cursor:pointer;border-radius:10px;transition:.15s;background:rgba(0,0,0,.25)}
+.dicon:hover{background:rgba(0,240,255,.12);box-shadow:0 0 18px rgba(0,240,255,.15)}
+.dicon .ico{font-size:1.7rem}
+.dicon .nm{font-size:.68rem;color:var(--text);margin-top:5px;text-shadow:0 1px 4px #000}
+/* VENTANAS */
+.win{position:absolute;min-width:320px;min-height:200px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 40px rgba(0,240,255,.05);display:none;flex-direction:column;overflow:hidden;backdrop-filter:blur(18px)}
+.win.open{display:flex}
+.win.max{inset:0!important;width:100%!important;height:100%!important;border-radius:0}
+.win .tbar{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,240,255,.05);border-bottom:1px solid var(--line);cursor:move;user-select:none}
+.win .tbar .ttl{font-family:'Orbitron';font-size:.72rem;font-weight:700;letter-spacing:1px;color:var(--cyan);flex:1}
+.win .tbar button{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:2px 8px;border-radius:6px;font-family:var(--mono)}
+.win .tbar button:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.win .tbar button.cl:hover{background:var(--red);color:#fff}
+.win .body{flex:1;overflow:auto;padding:14px 16px}
+/* TASKBAR */
+#taskbar{position:fixed;left:0;right:0;bottom:0;z-index:900;display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(4,6,16,.88);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+#taskbar .tbtn{background:rgba(0,240,255,.06);border:1px solid rgba(0,240,255,.14);color:var(--text);border-radius:8px;padding:7px 14px;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:7px}
+#taskbar .tbtn.on{background:rgba(0,240,255,.18);border-color:var(--cyan);color:var(--cyan)}
+#clock{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--cyan)}
+/* TERMINAL */
+.term{font-family:var(--mono);font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.term .p{color:var(--green)}
+.term .c{color:var(--cyan)} .term .e{color:var(--red)} .term .w{color:var(--orange)} .term .m{color:var(--muted)}
+.term .in{display:flex;gap:8px;align-items:center}
+.term input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:.8rem;caret-color:var(--cyan)}
+/* APPS COMUNES */
+table.g{width:100%;border-collapse:collapse;font-size:.78rem}
+table.g th{text-align:left;color:var(--cyan);border-bottom:1px solid var(--line);padding:7px 8px;font-family:'Orbitron';font-size:.66rem;letter-spacing:1px}
+table.g td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
+.card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0}
+.card h4{color:var(--cyan);font-size:.85rem;margin-bottom:6px}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.65rem;font-weight:800;margin-left:6px}
+.bg{background:rgba(0,255,135,.15);color:var(--green)} .by{background:rgba(255,159,10,.15);color:var(--orange)} .br{background:rgba(255,95,87,.15);color:var(--red)} .bp{background:rgba(191,90,242,.15);color:var(--purple)}
+.chip{display:inline-block;background:rgba(0,240,255,.08);border:1px solid var(--line);color:var(--cyan);border-radius:99px;padding:4px 12px;font-size:.72rem;margin:3px;font-family:var(--mono)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.misiones .m{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.misiones .m.done{border-color:rgba(0,255,135,.4);background:rgba(0,255,135,.05)}
+.misiones .m h5{font-size:.82rem}
+.misiones .m p{font-size:.72rem;color:var(--muted);flex:1}
+.misiones .m .row{display:flex;justify-content:space-between;font-size:.7rem}
+.misiones .m .trin{color:var(--green);font-weight:700}
+.misiones .m button{background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.35);color:var(--cyan);border-radius:7px;padding:7px;font-weight:800;font-size:.72rem;cursor:pointer}
+.misiones .m button.ok{background:rgba(0,255,135,.12);border-color:rgba(0,255,135,.4);color:var(--green);cursor:default}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filtros button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:5px 12px;font-size:.68rem;cursor:pointer}
+.filtros button.on{background:rgba(0,240,255,.15);color:var(--cyan);border-color:var(--cyan)}
+.prog{background:rgba(255,255,255,.07);border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
+.prog div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:0;transition:.4s}
+.mon{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mon canvas{width:100%;height:110px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px}
+.arbol{font-family:var(--mono);font-size:.74rem;line-height:1.6;white-space:pre;overflow:auto}
+.arbol .d{color:var(--cyan)} .arbol .f{color:var(--muted)}
+</style>
 </head>
 <body>
+<canvas id="bgstars"></canvas>
 
-<canvas id="tvs-canvas"></canvas>
-<div class="scanline"></div>
+<!-- BOOT -->
+<div id="boot">
+  <div class="logo">TRINNITY <i>VISERON</i></div>
+  <div class="sub">TVS OS v5.0 — MULTI-AGENT AI SUPERINTELLIGENCE</div>
+  <div class="log" id="bootlog"></div>
+  <div class="bar"><div id="bootbar"></div></div>
+</div>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.5 7.5L23 13l-7.5 3.5L12 24l-3.5-7.5L1 13l7.5-3.5z" stroke="#00f0ff" stroke-width="1.5" fill="none"/><circle cx="12" cy="13" r="2.5" fill="#bf5af2"/></svg>
-      </div>
-      <div class="nav-logo-text"><span class="t1">Trinnity</span><span class="t2"> Viseron</span></div>
-    </a>
-    <div class="nav-links">
-      <div class="nav-lang">
-        <button class="lang-btn active" onclick="setLang('es')" id="lb-es">ES</button>
-        <button class="lang-btn" onclick="setLang('pt')" id="lb-pt">PT</button>
-        <button class="lang-btn" onclick="setLang('en')" id="lb-en">EN</button>
-      </div>
-      <a href="#paginas" class="nav-link" data-i18n="nav.paginas">Páginas</a>
-      <a href="#sistema" class="nav-link" data-i18n="nav.sistema">Sistema</a>
-      <a href="#arquitectura" class="nav-link" data-i18n="nav.arquitectura">Arquitectura</a>
-      <a href="#integraciones" class="nav-link" data-i18n="nav.integraciones">Integraciones</a>
-      <a href="#estado" class="nav-link" data-i18n="nav.estado">Estado</a>
-      <a href="#planos" class="nav-link" data-i18n="nav.planos">Planes</a>
-      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="nav-link">GitHub</a>
-      <a href="/os" class="btn-nav-cta" data-app="1" data-i18n="nav.cta">Abrir Sistema</a>
-    </div>
-    <button class="hamburger" onclick="toggleMobile()" id="hamburger-btn">
-      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-  </div>
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#paginas" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.paginas">Páginas</a>
-    <a href="#sistema" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.sistema">Sistema</a>
-    <a href="#arquitectura" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.arquitectura">Arquitectura</a>
-    <a href="#integraciones" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.integraciones">Integraciones</a>
-    <a href="#estado" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.estado">Estado</a>
-    <a href="#planos" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.planos">Planes</a>
-    <a href="/os" class="mobile-link" data-app="1">Abrir Sistema</a>
-    <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="mobile-link">GitHub</a>
-  </div>
-</nav>
+<!-- DESKTOP -->
+<div id="desktop">
+  <div id="wallpaper"></div>
+  <div id="icons"></div>
+  <div id="wins"></div>
+</div>
+<div id="taskbar"></div>
 
-<!-- HERO -->
-<section class="hero grid-bg">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(0,240,255,0.07) 0%, transparent 60%);z-index:1;"></div>
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 80%, rgba(191,90,242,0.05) 0%, transparent 50%);z-index:1;"></div>
-  <!-- Holo rings -->
-  <div class="holo-ring" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
-  <div class="holo-ring" style="width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(191,90,242,0.04);animation-duration:30s;animation-direction:reverse;"></div>
-  <div class="hero-content reveal">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      <span data-i18n="hero.badge">v5.0 · Sistema Operativo Native IA · EN VIVO</span>
-    </div>
-    <h1 class="hero-title">
-      <span class="line1">Trinnity</span>
-      <span class="line2">Viseron System</span>
-    </h1>
-    <p class="hero-sub">
-      <span data-i18n="hero.sub1">Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditada.</span><br>
-      <strong data-i18n="hero.sub2">No es un chatbot.</strong>
-      <span data-i18n="hero.sub3"> Coordina agentes especializados, memoria persistente, conocimiento estructurado, herramientas, integraciones empresariales y modelos de IA en una sola arquitectura.</span><br>
-      <em data-i18n="hero.authority">© Pedro Costa (Comandante) &amp; Trinnity Hurtado (Reina).</em>
-    </p>
-    <div class="hero-btns">
-      <a href="#paginas" class="btn-primary" data-i18n="hero.btn1">
-        Explorar el Sistema
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-      </a>
-      <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-purple-outline" data-i18n="hero.btnMap">Mapa del Sitio (PDF)</a>
-      <a href="/os" class="btn-secondary" data-app="1" data-i18n="hero.btnOs">Abrir el Sistema</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-card"><p class="stat-val c-neon">192/192</p><p class="stat-label" data-i18n="stat.omega">OMEGA tests</p></div>
-      <div class="stat-card"><p class="stat-val c-neon">20/20</p><p class="stat-label" data-i18n="stat.core">CORE tests</p></div>
-      <div class="stat-card"><p class="stat-val c-neon">109/109</p><p class="stat-label" data-i18n="stat.web">WEB tests</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2" id="stat-skills">1.997</p><p class="stat-label" data-i18n="stat.skills">Skills (10 colecciones)</p></div>
-      <div class="stat-card"><p class="stat-val c-neon2" id="stat-integ">9</p><p class="stat-label" data-i18n="stat.integ">Integraciones</p></div>
-      <div class="stat-card"><p class="stat-val c-green">6/6</p><p class="stat-label" data-i18n="stat.revenue">Ingresos listos</p></div>
-    </div>
-    <!-- Live API Bar -->
-    <div class="api-bar reveal reveal-d3">
-      <div class="api-item"><span class="live-dot"></span><strong data-i18n="api.api">API</strong>: <span id="api-status-txt">verificando…</span></div>
-      <div class="api-item"><strong data-i18n="api.tenants">Tenants</strong>: <span id="api-tenants">—</span></div>
-      <div class="api-item"><strong data-i18n="api.users">Users</strong>: <span id="api-users">—</span></div>
-      <div class="api-item"><strong data-i18n="api.billing">Billing</strong>: <span id="api-billing">—</span></div>
-      <div class="api-item"><strong>DB</strong>: <span id="api-db">Neon Postgres</span></div>
-      <div class="api-item" style="margin-left:auto;"><span id="sot-badge" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">System of Truth</span></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PÁGINAS DEL SISTEMA — mapa completo -->
-<section id="paginas" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="pages.tag">// Mapa del Sitio</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="pages.title">Todas las Páginas del Sistema</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="pages.sub">Cada página del TVS — acceso directo con botones reales. Nada de decoración: todo funciona.</p>
-    </div>
-    <div class="pages-grid">
-
-      <div class="glass-card page-card reveal">
-        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">📊</div><span class="page-path">/dashboard</span></div>
-        <div class="page-title" data-i18n="page.dash">Dashboard</div>
-        <div class="page-desc" data-i18n="page.dash.desc">Panel autenticado de la plataforma — auth, billing, onboarding, mensajería E2E.</div>
-        <a href="/dashboard" class="page-btn" data-app="1" data-i18n="page.open">Abrir Dashboard</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d1">
-        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🖥️</div><span class="page-path">/os</span></div>
-        <div class="page-title" data-i18n="page.os">TVS OS — Desktop</div>
-        <div class="page-desc" data-i18n="page.os.desc">Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.</div>
-        <a href="/os" class="page-btn" data-app="1" data-i18n="page.openOs">Abrir TVS OS</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d2">
-        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🧠</div><span class="page-path">/viseron</span></div>
-        <div class="page-title" data-i18n="page.viseron">VISERON — HUD</div>
-        <div class="page-desc" data-i18n="page.viseron.desc">Superinteligencia con voz (Stark). Wake words, TTS/STT, supervisión AIOX y gobernanza bíblica.</div>
-        <a href="/viseron" class="page-btn" data-app="1" data-i18n="page.openViseron">Abrir VISERON</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d3">
-        <div class="page-top"><div class="page-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">🎓</div><span class="page-path">/atlas</span></div>
-        <div class="page-title" data-i18n="page.atlas">ATLAS — Tutor de Inglés</div>
-        <div class="page-desc" data-i18n="page.atlas.desc">Profesor personal de inglés con voz (explica en ES/PT), plan de 7 días y corrección inmediata.</div>
-        <a href="/atlas" class="page-btn" data-app="1" data-i18n="page.openAtlas">Abrir ATLAS</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d4">
-        <div class="page-top"><div class="page-icon" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">⚙️</div><span class="page-path">/operate</span></div>
-        <div class="page-title" data-i18n="page.operate">SEE VISERON OPERATE</div>
-        <div class="page-desc" data-i18n="page.operate.desc">Pipeline E2E de tareas con eventos reales del OMEGA (SSE) en vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.</div>
-        <a href="/operate" class="page-btn" data-app="1" data-i18n="page.openOperate">Ver Operación</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d5">
-        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🎛️</div><span class="page-path">/command-center</span></div>
-        <div class="page-title" data-i18n="page.command">Command Center</div>
-        <div class="page-desc" data-i18n="page.command.desc">Panel operacional: salud, autonomía, ingresos, agentes, ejecución, integraciones, actividad y evolución.</div>
-        <a href="/command-center" class="page-btn" data-app="1" data-i18n="page.openCommand">Abrir Command Center</a>
-      </div>
-
-      <div class="glass-card page-card reveal">
-        <div class="page-top"><div class="page-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">🎮</div><span class="page-path">/game</span></div>
-        <div class="page-title" data-i18n="page.game">Juego VISERON</div>
-        <div class="page-desc" data-i18n="page.game.desc">Plataformas Canvas 2D trilingüe (ES/PT/EN). Transformaciones MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.</div>
-        <a href="/game" class="page-btn" data-app="1" data-i18n="page.openGame">Jugar</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d1">
-        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🌐</div><span class="page-path">/cosmos</span></div>
-        <div class="page-title" data-i18n="page.cosmos">Viseron Cosmos</div>
-        <div class="page-desc" data-i18n="page.cosmos.desc">Tokens reales $VSR (300M) y $TRIN (420.69M) en Ethereum/BSC/Solana. Sitio interplanetario trilingüe.</div>
-        <a href="/cosmos" class="page-btn" data-app="1" data-i18n="page.openCosmos">Abrir Cosmos</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d2">
-        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🪐</div><span class="page-path">/cosmos/metaverse</span></div>
-        <div class="page-title" data-i18n="page.meta">Metaverso Cosmos</div>
-        <div class="page-desc" data-i18n="page.meta.desc">Navega los planetas-módulos del TVS, recolecta mentes y gana $VSR/$TRIN. Touch + teclado + autónomo.</div>
-        <a href="/cosmos/metaverse" class="page-btn" data-app="1" data-i18n="page.openMeta">Entrar al Metaverso</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d3">
-        <div class="page-top"><div class="page-icon" style="background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);">📰</div><span class="page-path">/blog</span></div>
-        <div class="page-title" data-i18n="page.blog">Blog</div>
-        <div class="page-desc" data-i18n="page.blog.desc">Contenido del sistema generado por el agente de contenido (cada 120 min).</div>
-        <a href="/blog" class="page-btn" data-app="1" data-i18n="page.openBlog">Abrir Blog</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d4">
-        <div class="page-top"><div class="page-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🔌</div><span class="page-path">/api/health</span></div>
-        <div class="page-title" data-i18n="page.api">API Health</div>
-        <div class="page-desc" data-i18n="page.api.desc">Estado real de la API: db, billing, email, messaging, tenants y usuarios.</div>
-        <a href="/api/health" class="page-btn" data-app="1" data-i18n="page.openApi">Ver API</a>
-      </div>
-
-      <div class="glass-card page-card reveal reveal-d5">
-        <div class="page-top"><div class="page-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🗺️</div><span class="page-path">/pitch/Viseron_Mapa_Site.pdf</span></div>
-        <div class="page-title" data-i18n="page.map">Mapa del Sitio (PDF)</div>
-        <div class="page-desc" data-i18n="page.map.desc">Todas las páginas, comandos OS, endpoints de API, integraciones y cómo operar el sistema.</div>
-        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="page-btn" data-i18n="page.openMap">Descargar Mapa</a>
-      </div>
-
-    </div>
-
-    <!-- MAP CTA -->
-    <div class="map-cta reveal reveal-d3">
-      <div>
-        <h3 data-i18n="map.title">Guía completa de operación en PDF</h3>
-        <p data-i18n="map.desc">El Mapa del Sitio muestra TODAS las páginas, el control del TVS OS, los comandos npm, los endpoints de la API y las 9 integraciones — para operar el sistema con confianza.</p>
-      </div>
-      <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-map" data-i18n="map.btn">
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        Viseron_Mapa_Site.pdf
-      </a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SISTEMA — SQUAD AIOX -->
-<section id="sistema" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="squads.tag">// Auditoría AIOX</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="squads.title">¿Estamos realmente mejorando?</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="squads.sub">El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 6 escuadrones core con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).</p>
-    </div>
-    <div class="squads-grid">
-
-      <div class="squad-card reveal" style="--squad-color:var(--neon);">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">⚙️</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:var(--neon);" data-i18n="squad.eng.name">Engineering Squad</div>
-        <div class="squad-desc" data-i18n="squad.eng.desc">Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">Architect Prime</span>
-          <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">Dev Master</span>
-          <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">DevOps Agent</span>
-          <span class="agent-tag" style="color:var(--neon);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.06);">QA Sentinel</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);" id="kpi-tests">360</div><div class="squad-kpi-label" data-i18n="kpi.tests">Tests verdes</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon);" id="kpi-ts">CLEAN</div><div class="squad-kpi-label" data-i18n="kpi.ts">TypeScript</div></div>
-        </div>
-      </div>
-
-      <div class="squad-card reveal reveal-d1" style="--squad-color:var(--neon3);">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);">🛡️</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:var(--neon3);" data-i18n="squad.sec.name">Security Squad</div>
-        <div class="squad-desc" data-i18n="squad.sec.desc">Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Least privilege + authorization explícita.</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">CyberSentinel</span>
-          <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">AuditBot</span>
-          <span class="agent-tag" style="color:var(--neon3);border-color:rgba(255,45,85,0.2);background:rgba(255,45,85,0.06);">CryptoGuard</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon3);" id="kpi-vulns">0</div><div class="squad-kpi-label" data-i18n="kpi.vulns">Vulnerabilidades</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon3);">AES-256</div><div class="squad-kpi-label" data-i18n="kpi.crypto">Cripto E2E</div></div>
-        </div>
-      </div>
-
-      <div class="squad-card reveal reveal-d2" style="--squad-color:var(--neon4);">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">💼</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:var(--neon4);" data-i18n="squad.biz.name">Business Squad</div>
-        <div class="squad-desc" data-i18n="squad.biz.desc">Pipeline de ventas, CRM, cobros Avirato (real), propuestas, follow-up y gestión de ingresos recurrentes (MRR).</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">Sales Agent</span>
-          <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">Finance Agent</span>
-          <span class="agent-tag" style="color:var(--neon4);border-color:rgba(48,209,88,0.2);background:rgba(48,209,88,0.06);">CRM Bot</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">$29+</div><div class="squad-kpi-label" data-i18n="kpi.plans">Planes /mes</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon4);">Live</div><div class="squad-kpi-label" data-i18n="kpi.billing">Avirato real</div></div>
-        </div>
-      </div>
-
-      <div class="squad-card reveal reveal-d3" style="--squad-color:#ff9f0a;">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">⚡</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:#ff9f0a;" data-i18n="squad.ops.name">Operations Squad</div>
-        <div class="squad-desc" data-i18n="squad.ops.desc">Monitorización, alertas, backup automático, reinicio anti-congelación, deploy GitHub/Vercel/Render y watchdog.</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">OpsBot</span>
-          <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">WatchDog</span>
-          <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">BackupAgent</span>
-          <span class="agent-tag" style="color:#ff9f0a;border-color:rgba(255,159,10,0.2);background:rgba(255,159,10,0.06);">DeployBot</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#ff9f0a;">5</div><div class="squad-kpi-label" data-i18n="kpi.targets">Alvos vigilados</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#ff9f0a;">Auto</div><div class="squad-kpi-label" data-i18n="kpi.selfheal">Self-Heal</div></div>
-        </div>
-      </div>
-
-      <div class="squad-card reveal reveal-d4" style="--squad-color:var(--neon2);">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">🔬</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:var(--neon2);" data-i18n="squad.res.name">Research Squad</div>
-        <div class="squad-desc" data-i18n="squad.res.desc">IA avanzada, nuevos modelos, HyperLearning, AutoEvolution, memoria de grafo, análisis de mercado e innovación.</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:var(--neon2);border-color:rgba(191,90,242,0.2);background:rgba(191,90,242,0.06);">ResearchBot</span>
-          <span class="agent-tag" style="color:var(--neon2);border-color:rgba(191,90,242,0.2);background:rgba(191,90,242,0.06);">HyperLearner</span>
-          <span class="agent-tag" style="color:var(--neon2);border-color:rgba(191,90,242,0.2);background:rgba(191,90,242,0.06);">EvoEngine</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon2);">4</div><div class="squad-kpi-label" data-i18n="kpi.cycles">Ciclos auto</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:var(--neon2);">∞</div><div class="squad-kpi-label" data-i18n="kpi.learning">Aprendizaje</div></div>
-        </div>
-      </div>
-
-      <div class="squad-card reveal reveal-d5" style="--squad-color:#f59e0b;">
-        <div class="squad-header">
-          <div class="squad-icon" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);">🧭</div>
-          <div class="squad-status"><span class="squad-status-dot"></span>ACTIVE</div>
-        </div>
-        <div class="squad-name" style="color:#f59e0b;" data-i18n="squad.evo.name">Evolution Squad</div>
-        <div class="squad-desc" data-i18n="squad.evo.desc">Ciclos continuos de evolución: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Si nada mejora: ninguna promoción.</div>
-        <div class="squad-agents">
-          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">EvoEngine</span>
-          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">AuditAI</span>
-          <span class="agent-tag" style="color:#f59e0b;border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.06);">RollbackBot</span>
-        </div>
-        <div class="squad-kpis">
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;" id="kpi-agents">10</div><div class="squad-kpi-label" data-i18n="kpi.agents">Agentes nucleares</div></div>
-          <div class="squad-kpi"><div class="squad-kpi-val" style="color:#f59e0b;">Safe</div><div class="squad-kpi-label" data-i18n="kpi.evol">Evolución segura</div></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Command Banner -->
-    <div class="glass-card reveal reveal-d5" style="margin-top:32px;padding:28px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
-      <div>
-        <p style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-family:'JetBrains Mono',monospace;" data-i18n="command.label">// Mando Supremo</p>
-        <h3 style="font-size:20px;font-weight:800;" data-i18n="command.title">Pedro Costa <span style="color:var(--text2);font-weight:400;" data-i18n="command.and">&amp;</span> Trinnity Hurtado</h3>
-        <p style="font-size:13px;color:var(--text2);margin-top:6px;" data-i18n="command.desc">Comandante Supremo &amp; Chief Evolution Officer — Decisiones finales, dirección, prioridades y go-lives. Todos los derechos del proyecto pertenecen a Pedro y Trinnity.</p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <span class="badge badge-neon" data-i18n="cmd.badge1">Pedro Costa — Comandante</span>
-        <span class="badge badge-purple" data-i18n="cmd.badge2">Trinnity Hurtado — Reina</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ARQUITECTURA OMEGA -->
-<section id="arquitectura" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon2 reveal" data-i18n="omega.tag">// Arquitectura</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="omega.title">Inteligencia + Memoria + Auditoría + Evolución</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="omega.sub">Hierarquía de inteligencia: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORIA → Orquestación → Agentes · Skills · Tools → Ejecución → Negocio.</p>
-    </div>
-    <div class="omega-grid">
-      <div class="glass-card omega-card reveal">
-        <div class="omega-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-13.5 0V9a3 3 0 013-3h7.5a3 3 0 013 3v5.25m-10.5-9V3"/></svg>
-        </div>
-        <div class="omega-title c-neon" data-i18n="omega.kernel">Kernel + EventBus</div>
-        <div class="omega-desc" data-i18n="omega.kernel.desc">Núcleo con bus de eventos tipados, cola de tareas persistente (TaskQueue) y verificación E2E (TaskVerifier).</div>
-        <span class="omega-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.15);">TVS Kernel v1.0</span>
-      </div>
-      <div class="glass-card omega-card reveal reveal-d1">
-        <div class="omega-icon" style="background:rgba(191,90,242,0.08);border:1px solid rgba(191,90,242,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-        </div>
-        <div class="omega-title c-neon2" data-i18n="omega.runtime">Agent Runtime</div>
-        <div class="omega-desc" data-i18n="omega.runtime.desc">10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) con specs JSON y fallback offline.</div>
-        <span class="omega-badge" style="background:rgba(191,90,242,0.08);color:var(--neon2);border:1px solid rgba(191,90,242,0.15);">10 core agents</span>
-      </div>
-      <div class="glass-card omega-card reveal reveal-d2">
-        <div class="omega-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
-        </div>
-        <div class="omega-title c-neon" data-i18n="omega.memory">Memory Architecture</div>
-        <div class="omega-desc" data-i18n="omega.memory.desc">SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memoria persistente e independiente del servidor físico.</div>
-        <span class="omega-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.15);">Persistente</span>
-      </div>
-      <div class="glass-card omega-card reveal reveal-d3">
-        <div class="omega-icon" style="background:rgba(191,90,242,0.08);border:1px solid rgba(191,90,242,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
-        </div>
-        <div class="omega-title c-neon2" data-i18n="omega.router">AI Router</div>
-        <div class="omega-desc" data-i18n="omega.router.desc">Roteo por calidad, costo, latencia, contexto y privacidad: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.</div>
-        <span class="omega-badge" style="background:rgba(191,90,242,0.08);color:var(--neon2);border:1px solid rgba(191,90,242,0.15);">Multi-modelo</span>
-      </div>
-      <div class="glass-card omega-card reveal reveal-d4">
-        <div class="omega-icon" style="background:rgba(48,209,88,0.08);border:1px solid rgba(48,209,88,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
-        </div>
-        <div class="omega-title c-green" data-i18n="omega.autonomy">AutonomyOS</div>
-        <div class="omega-desc" data-i18n="omega.autonomy.desc">Autonomía graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Más autonomía con más control, evidencia y auditabilidad.</div>
-        <span class="omega-badge" style="background:rgba(48,209,88,0.08);color:var(--neon4);border:1px solid rgba(48,209,88,0.15);">L0–L5</span>
-      </div>
-      <div class="glass-card omega-card reveal reveal-d5">
-        <div class="omega-icon" style="background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.15);">
-          <svg width="22" height="22" fill="none" stroke="var(--neon3)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-        </div>
-        <div class="omega-title" style="color:var(--neon3);" data-i18n="omega.portable">Portabilidad</div>
-        <div class="omega-desc" data-i18n="omega.portable.desc">El VISERON no depende de la vida útil de una máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.</div>
-        <span class="omega-badge" style="background:rgba(255,45,85,0.08);color:var(--neon3);border:1px solid rgba(255,45,85,0.15);">Sobrevive al hardware</span>
-      </div>
-    </div>
-
-    <!-- PIPELINE -->
-    <div class="pipeline reveal reveal-d3">
-      <span class="pipe-step">INTENT</span><span class="pipe-arrow">→</span>
-      <span class="pipe-step">PLAN</span><span class="pipe-arrow">→</span>
-      <span class="pipe-step">AUTHORIZE</span><span class="pipe-arrow">→</span>
-      <span class="pipe-step">EXECUTE</span><span class="pipe-arrow">→</span>
-      <span class="pipe-step">VERIFY</span>
-    </div>
-
-    <!-- Terminal Demo -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;align-items:start;" class="reveal reveal-d4">
-      <div class="terminal">
-        <div class="terminal-bar">
-          <span class="term-dot" style="background:#ff5f57;"></span>
-          <span class="term-dot" style="background:#febc2e;"></span>
-          <span class="term-dot" style="background:#28c840;"></span>
-          <span class="term-title" data-i18n="term.title">tvs — sistema operativo</span>
-        </div>
-        <div class="terminal-body">
-          <span class="tl"><span class="p">$</span> <span class="c">npm run tvs</span></span>
-          <span class="tl"><span class="g">TVS OS Core v1 — Kernel v1.0.0</span></span>
-          <span class="tl"><span class="o">├─ Agentes: <span class="g">10 nucleares</span></span></span>
-          <span class="tl"><span class="o">├─ Watchdog: <span class="g">ACTIVO</span> (5 alvos)</span></span>
-          <span class="tl"><span class="o">├─ Squads: <span class="g">6 ACTIVOS</span></span></span>
-          <span class="tl"><span class="o">├─ DB: <span class="g">Neon Postgres</span></span></span>
-          <span class="tl"><span class="o">└─ Revenue: <span class="g">ok=true · Avirato LIVE</span></span></span>
-          <span class="tl" style="margin-top:8px;"><span class="p">$</span> <span class="c">npm run squad:scan</span></span>
-          <span class="tl"><span class="v">🔍 Squad Scanner v1.0 iniciado...</span></span>
-          <span class="tl"><span class="g">✅ Engineering Squad — 4 agentes ONLINE</span></span>
-          <span class="tl"><span class="g">✅ Security Squad — 3 agentes ONLINE</span></span>
-          <span class="tl"><span class="g">✅ Business Squad — 3 agentes ONLINE</span></span>
-          <span class="tl"><span class="g">✅ Operations Squad — 4 agentes ONLINE</span></span>
-          <span class="tl"><span class="g">✅ Research Squad — 3 agentes ONLINE</span></span>
-        </div>
-      </div>
-      <div>
-        <h3 style="font-size:22px;font-weight:800;margin-bottom:14px;" data-i18n="omega.api.title">Command Center</h3>
-        <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;" data-i18n="omega.api.desc">Indicadores observables: salud del sistema, autonomía, ingresos, agentes, ejecución, conocimiento, operaciones, integraciones, actividad y evolución. El VISERON es una plataforma observable, no una caja negra.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span class="badge badge-neon">/api/omega/tasks</span>
-          <span class="badge badge-neon">/api/omega/events</span>
-          <span class="badge badge-purple">/api/omega/verifier</span>
-          <span class="badge badge-purple">/api/os</span>
-          <span class="badge badge-green">/api/jarvis/chat</span>
-          <span class="badge badge-neon">/api/viseron/chat</span>
-          <span class="badge badge-purple">/api/tutor/chat</span>
-          <span class="badge badge-green">/api/rcs/send</span>
-        </div>
-        <a href="/operate" class="page-btn" data-app="1" style="margin-top:20px;width:auto;display:inline-flex;" data-i18n="omega.watch">Ver operación en vivo →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- INTEGRACIONES -->
-<section id="integraciones" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:48px;">
-      <p class="section-tag c-neon2 reveal" data-i18n="int.tag">// Skills &amp; External Integrations</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="int.title">1.997 Skills · 10 Colecciones</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="int.sub">9 repositorios externos integrados como colecciones de skills en el SkillsRegistry. Instalables con <code>npm run skills:install</code>.</p>
-    </div>
-    <div class="glass-card reveal reveal-d3" style="overflow-x:auto;">
-      <table class="int-table">
-        <thead>
-          <tr>
-            <th data-i18n="int.hRepo">Repositorio</th>
-            <th data-i18n="int.hSkills">Skills</th>
-            <th data-i18n="int.hLic">Licencia</th>
-            <th data-i18n="int.hDesc">Qué aporta</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Graphify-Labs/graphify</td><td class="int-count">—</td><td>MIT</td><td data-i18n="int.graphify">Knowledge graph operativo (query/path/explain)</td></tr>
-          <tr><td>anthropics/claude-plugins-official</td><td class="int-count">31</td><td>Apache-2.0</td><td data-i18n="int.anthropic">Plugins/skills oficiales de Anthropic</td></tr>
-          <tr><td>ComposioHQ/awesome-claude-skills</td><td class="int-count">864</td><td>Apache-2.0</td><td data-i18n="int.composio">Colección de la comunidad (productividad/marketing/dev)</td></tr>
-          <tr><td>affaan-m/ECC</td><td class="int-count">897</td><td>MIT</td><td data-i18n="int.ecc">Harness OS: 67 agents, hooks, memoria, AgentShield</td></tr>
-          <tr><td>obra/superpowers</td><td class="int-count">14</td><td>MIT</td><td data-i18n="int.super">Skill system multi-harness</td></tr>
-          <tr><td>trycompai/crm</td><td class="int-count">34</td><td>MIT</td><td data-i18n="int.crm">Comp AI CRM — CRM agentic-first</td></tr>
-          <tr><td>trycompai/comp</td><td class="int-count">53</td><td>AGPL-3.0</td><td data-i18n="int.comp">Compliance AI-native (SOC2/GDPR/ISO27001)</td></tr>
-          <tr><td>HKUDS/DeepTutor</td><td class="int-count">6</td><td>Apache-2.0</td><td data-i18n="int.tutor">Tutor lifelong personalizado (memoria L1/L2/L3)</td></tr>
-          <tr><td>cobusgreyling/loop-engineering</td><td class="int-count">41</td><td>MIT</td><td data-i18n="int.loop">Loop engineering: patterns/starters/audit/init/cost</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;justify-content:center;">
-      <span class="badge badge-neon">npm run integrations:status</span>
-      <span class="badge badge-purple">npm run skills:install</span>
-      <span class="badge badge-neon">npm run ecc:setup</span>
-      <span class="badge badge-green">npm run loop:doctor</span>
-      <span class="badge badge-purple">npm run tutor:deeptutor</span>
-      <span class="badge badge-neon">npm run integrations:crm</span>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ESTADO LIVE -->
-<section id="estado" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="status.tag">// Estado del Sistema</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="status.title">Validación en vivo</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="status.sub">Datos reales vía <code>/api/health</code> y <code>/api/revenue/readiness</code>. Sin cifras inventadas.</p>
-    </div>
-
-    <!-- VALIDATION -->
-    <div class="valid-grid">
-      <div class="glass-card valid-card reveal">
-        <div class="valid-num c-neon">192/192</div>
-        <div class="valid-label" data-i18n="valid.omega">OMEGA tests PASS</div>
-      </div>
-      <div class="glass-card valid-card reveal reveal-d1">
-        <div class="valid-num c-neon">20/20</div>
-        <div class="valid-label" data-i18n="valid.core">CORE tests PASS</div>
-      </div>
-      <div class="glass-card valid-card reveal reveal-d2">
-        <div class="valid-num c-neon">109/109</div>
-        <div class="valid-label" data-i18n="valid.web">WEB tests PASS</div>
-      </div>
-      <div class="glass-card valid-card reveal reveal-d3">
-        <div class="valid-num c-green">CLEAN</div>
-        <div class="valid-label" data-i18n="valid.ts">TypeScript check</div>
-      </div>
-      <div class="glass-card valid-card reveal reveal-d4">
-        <div class="valid-num c-neon2">1.997</div>
-        <div class="valid-label" data-i18n="valid.skills">Skills indexadas</div>
-      </div>
-      <div class="glass-card valid-card reveal reveal-d5">
-        <div class="valid-num c-green">6/6</div>
-        <div class="valid-label" data-i18n="valid.revenue">Ingresos listos</div>
-      </div>
-    </div>
-
-    <div class="status-grid" style="margin-top:24px;">
-      <div class="glass-card status-card reveal">
-        <div class="status-header">
-          <div class="status-name" data-i18n="status.api">API Core</div>
-          <span class="badge badge-green" id="s-api"><span class="live-dot"></span> Live</span>
-        </div>
-        <div class="status-val" data-i18n="status.api.desc">REST API + Socket.IO en producción. Health check, auth, billing, messaging.</div>
-      </div>
-      <div class="glass-card status-card reveal reveal-d1">
-        <div class="status-header">
-          <div class="status-name" data-i18n="status.db">Postgres Neon</div>
-          <span class="badge badge-green" id="s-db">Connected</span>
-        </div>
-        <div class="status-val" data-i18n="status.db.desc">10 tablas migradas: tenants, users, usage_events y billing. usage_events registrando actividad.</div>
-      </div>
-      <div class="glass-card status-card reveal reveal-d2">
-        <div class="status-header">
-          <div class="status-name">Avirato Payments</div>
-          <span class="badge badge-green" id="s-billing">Live</span>
-        </div>
-        <div class="status-val" data-i18n="status.billing.desc">Checkout en vivo con webhook HMAC firmado. Core $29 / Pro $99 / Enterprise $499.</div>
-      </div>
-      <div class="glass-card status-card reveal reveal-d3">
-        <div class="status-header">
-          <div class="status-name">Gmail OAuth</div>
-          <span class="badge badge-green" id="s-gmail">Active</span>
-        </div>
-        <div class="status-val" data-i18n="status.gmail.desc">Agente de atención envía emails reales — verify, reset, facturas y soporte.</div>
-      </div>
-      <div class="glass-card status-card reveal reveal-d4">
-        <div class="status-header">
-          <div class="status-name" data-i18n="status.domain">Dominio</div>
-          <span class="badge badge-green" id="s-domain">HTTPS</span>
-        </div>
-        <div class="status-val">www.trinnityviseronsystem.io — Cloudflare + Vercel + Render. HTTPS activo.</div>
-      </div>
-      <div class="glass-card status-card reveal reveal-d5">
-        <div class="status-header">
-          <div class="status-name" data-i18n="status.infra">Infraestructura</div>
-          <span class="badge badge-neon" id="s-infra">Primary Node</span>
-        </div>
-        <div class="status-val" data-i18n="status.infra.desc">AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.</div>
-      </div>
-    </div>
-
-    <div class="glass-card reveal reveal-d5" style="margin-top:28px;padding:26px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
-      <div>
-        <h3 style="font-weight:700;font-size:16px;margin-bottom:6px;" data-i18n="status.pdf.title">Informe de Estado + Mapa del Sitio</h3>
-        <p style="font-size:13px;color:var(--text2);" data-i18n="status.pdf.desc">Estado completo del sistema y guía de operación — tests, infraestructura, pendientes y qué puedes hacer ahora.</p>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank" class="btn-secondary" style="font-size:13px;padding:10px 20px;">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="btn.pdf">Informe PDF</span>
-        </a>
-        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="btn-primary" style="font-size:13px;padding:10px 20px;">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="btn.map">Mapa del Sitio</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PRICING -->
-<section id="planos" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon2 reveal" data-i18n="pricing.tag">// Planes</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="pricing.title">Elige tu Plan</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="pricing.sub">Acceso a la superinteligencia en operación. Cobros reales vía Avirato. Cancela cuando quieras.</p>
-    </div>
-    <div class="pricing-grid">
-      <!-- Core -->
-      <div class="glass-card plan-card reveal">
-        <span class="plan-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.18);">Core</span>
-        <div class="plan-name" data-i18n="plan.core.name">Core Plan</div>
-        <div class="plan-price" style="color:var(--neon);">$29<span>/mes</span></div>
-        <div class="plan-sub" data-i18n="plan.core.sub">Para startups y developers</div>
-        <ul class="plan-features">
-          <li data-i18n="plan.core.f1">1 workspace, 5 agentes activos</li>
-          <li data-i18n="plan.core.f2">100 tareas IA/día</li>
-          <li data-i18n="plan.core.f3">API REST completa</li>
-          <li data-i18n="plan.core.f4">Ollama local + 3 proveedores cloud</li>
-          <li data-i18n="plan.core.f5">Soporte por email</li>
-          <li class="off" data-i18n="plan.core.f6">Escuadrones personalizados</li>
-          <li class="off" data-i18n="plan.core.f7">Multi-tenant</li>
-        </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Core Plan" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Comenzar</a>
-      </div>
-      <!-- Pro -->
-      <div class="glass-card plan-card featured reveal reveal-d1">
-        <span class="plan-badge" style="background:var(--neon);color:var(--bg);">★ PRO — POPULAR</span>
-        <div class="plan-name" data-i18n="plan.pro.name">Pro Plan</div>
-        <div class="plan-price" style="color:var(--neon);">$99<span>/mes</span></div>
-        <div class="plan-sub" data-i18n="plan.pro.sub">Para empresas en crecimiento</div>
-        <ul class="plan-features">
-          <li data-i18n="plan.pro.f1">5 workspaces, 50 agentes</li>
-          <li data-i18n="plan.pro.f2">1000 tareas/día</li>
-          <li data-i18n="plan.pro.f3">Escuadrones AIOX configurados</li>
-          <li data-i18n="plan.pro.f4">Todos los proveedores IA</li>
-          <li data-i18n="plan.pro.f5">JARVIS Chat avanzado</li>
-          <li data-i18n="plan.pro.f6">Mensajería E2E cifrada</li>
-          <li data-i18n="plan.pro.f7">Soporte prioritario</li>
-        </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Pro Plan" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Comenzar</a>
-      </div>
-      <!-- Enterprise -->
-      <div class="glass-card plan-card reveal reveal-d2">
-        <span class="plan-badge" style="background:rgba(191,90,242,0.12);color:var(--neon2);border:1px solid rgba(191,90,242,0.25);">Enterprise</span>
-        <div class="plan-name" data-i18n="plan.ent.name">Enterprise</div>
-        <div class="plan-price" style="color:var(--neon2);">$499<span>/mes</span></div>
-        <div class="plan-sub" data-i18n="plan.ent.sub">Para grandes organizaciones</div>
-        <ul class="plan-features">
-          <li data-i18n="plan.ent.f1">Workspaces ilimitados</li>
-          <li data-i18n="plan.ent.f2">Agentes ilimitados + customer factory</li>
-          <li data-i18n="plan.ent.f3">Escuadrones AIOX custom + white-label</li>
-          <li data-i18n="plan.ent.f4">SLA 99.9% + soporte dedicado</li>
-          <li data-i18n="plan.ent.f5">Deploy on-premise</li>
-          <li data-i18n="plan.ent.f6">Comercialización de API</li>
-          <li data-i18n="plan.ent.f7">Integración Composio + RCS</li>
-        </ul>
-        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Enterprise" class="plan-btn plan-btn-outline" data-i18n="plan.btn.contact">Contactar</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- DOWNLOADS -->
-<section id="descargas" style="padding:96px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:64px;">
-      <p class="section-tag c-neon reveal" data-i18n="dl.tag">// Descargas</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="dl.title">Instala el TVS</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="dl.sub">Disponible para todas las plataformas. Funciona con Ollama local, sin API key.</p>
-    </div>
-    <div class="downloads-grid">
-      <div class="glass-card dl-card reveal">
-        <div class="dl-icon">🤖</div>
-        <div class="dl-title">Android APK</div>
-        <div class="dl-desc" data-i18n="dl.apk.desc">App nativa Android. Interface mobile del TVS OS (también el Juego VISERON embebido).</div>
-        <a href="/downloads/TrinnityViseron.apk" target="_blank" class="dl-btn" data-app="1">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="dl.btn">Descargar APK</span>
-        </a>
-      </div>
-      <div class="glass-card dl-card reveal reveal-d1">
-        <div class="dl-icon">🖥️</div>
-        <div class="dl-title">Windows EXE</div>
-        <div class="dl-desc" data-i18n="dl.exe.desc">Instalador Windows (Setup.exe) con el APK + accesos directos. No necesita Node.js.</div>
-        <a href="/downloads/TrinnityViseron-APK-Setup-5.0.0.exe" target="_blank" class="dl-btn" data-app="1">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="dl.btn.exe">Descargar EXE</span>
-        </a>
-      </div>
-      <div class="glass-card dl-card reveal reveal-d2">
-        <div class="dl-icon">🐳</div>
-        <div class="dl-title">Docker</div>
-        <div class="dl-desc" data-i18n="dl.docker.desc">Imagen Docker para deploy en cualquier cloud o servidor self-hosted.</div>
-        <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="dl-btn">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-          <span data-i18n="dl.btn.code">Ver Código</span>
-        </a>
-      </div>
-      <div class="glass-card dl-card reveal reveal-d3">
-        <div class="dl-icon">📚</div>
-        <div class="dl-title" data-i18n="dl.docs.title">Documentación</div>
-        <div class="dl-desc" data-i18n="dl.docs.desc">Manuales, PDFs de pitch, roadmap, mapa del sitio y guía completa de comandos.</div>
-        <a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank" class="dl-btn">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3 3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span data-i18n="dl.btn.docs">Ver PDFs</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- COMMANDS -->
-<section id="comandos" style="padding:80px 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:52px;">
-      <p class="section-tag c-neon reveal" data-i18n="cmd.tag">// Comandos</p>
-      <h2 class="section-title reveal reveal-d1" data-i18n="cmd.title">Control del TVS OS</h2>
-      <p class="section-sub reveal reveal-d2" style="margin:0 auto;" data-i18n="cmd.sub">Comandos reales del sistema — el Mapa del Sitio (PDF) lista los 144 comandos npm + endpoints de la API.</p>
-    </div>
-    <div class="cmd-grid">
-      <div class="cmd-item reveal"><div class="cmd-code">npm run dev</div><div class="cmd-desc" data-i18n="cmd.dev">Modo dev con hot reload</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run build</div><div class="cmd-desc" data-i18n="cmd.build">Compila TypeScript a dist/</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm start</div><div class="cmd-desc" data-i18n="cmd.start">Ejecuta el sistema completo</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run restart</div><div class="cmd-desc" data-i18n="cmd.restart">Reinicio anti-congelación (mata servidor + huérfanos)</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm test</div><div class="cmd-desc" data-i18n="cmd.test">Ejecuta todos los tests (core/web/omega/os/restart)</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run squad:scan</div><div class="cmd-desc" data-i18n="cmd.scan">Escaneo real del sistema</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run tvs</div><div class="cmd-desc" data-i18n="cmd.tvs">Estado del TVS OS (kernel, agentes, watchdog)</div></div>
-      <div class="cmd-item reveal reveal-d4"><div class="cmd-code">npm run mapa:site</div><div class="cmd-desc" data-i18n="cmd.map">Genera el Mapa del Sitio PDF</div></div>
-      <div class="cmd-item reveal"><div class="cmd-code">npm run pdfs:all</div><div class="cmd-desc" data-i18n="cmd.pdfs">Genera todos los PDFs</div></div>
-      <div class="cmd-item reveal reveal-d1"><div class="cmd-code">npm run deploy</div><div class="cmd-desc" data-i18n="cmd.deploy">Deploy GitHub + Vercel + Render</div></div>
-      <div class="cmd-item reveal reveal-d2"><div class="cmd-code">npm run demo:jarvis</div><div class="cmd-desc" data-i18n="cmd.jarvis">Demo JARVIS IA</div></div>
-      <div class="cmd-item reveal reveal-d3"><div class="cmd-code">npm run backup</div><div class="cmd-desc" data-i18n="cmd.backup">Backup automático</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-brand-title">
-          <span style="color:var(--neon);">Trinnity</span> Viseron System
-        </div>
-        <div class="footer-brand-desc" data-i18n="footer.desc">Infraestructura operacional de IA autónoma, evolutiva y auditada. No es un chatbot: es un sistema operativo de IA-native con agentes, memoria, auditoría y evolución continua.</div>
-        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-          <span class="badge badge-green"><span class="live-dot"></span> v5.0 LIVE</span>
-          <span class="badge badge-neon">TVS OS v1</span>
-          <span class="badge badge-purple">OMEGA Platform</span>
-        </div>
-      </div>
-      <div class="footer-links">
-        <h4 data-i18n="footer.paginas">Páginas</h4>
-        <ul>
-          <li><a href="/dashboard" data-app="1">Dashboard</a></li>
-          <li><a href="/os" data-app="1">TVS Desktop</a></li>
-          <li><a href="/viseron" data-app="1">VISERON HUD</a></li>
-          <li><a href="/atlas" data-app="1">ATLAS</a></li>
-          <li><a href="/command-center" data-app="1">Command Center</a></li>
-          <li><a href="/game" data-app="1">Juego VISERON</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4 data-i18n="footer.docs">Docs</h4>
-        <ul>
-          <li><a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank">Mapa del Sitio</a></li>
-          <li><a href="/pitch/Viseron_Pitch_Investidores_v6.pdf" target="_blank">Pitch Inversores</a></li>
-          <li><a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank">Informe de Estado</a></li>
-          <li><a href="/pitch/Viseron_Roadmap_Milionario.pdf" target="_blank">Roadmap</a></li>
-          <li><a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank">GitHub</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4 data-i18n="footer.contact">Contacto</h4>
-        <ul>
-          <li><a href="mailto:daviiicostaaa11@gmail.com">Email</a></li>
-          <li><a href="https://github.com/ViseronSystem" target="_blank">GitHub Org</a></li>
-          <li><a href="#planos" data-i18n="footer.plans">Ver Planes</a></li>
-          <li><a href="/blog" data-app="1">Blog</a></li>
-          <li><a href="/cosmos" data-app="1">Viseron Cosmos</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 <strong>Trinnity Viseron System</strong> · AI-Native Operating System v5.0</div>
-      <div class="footer-authority">
-        <strong data-i18n="footer.auth">© Pedro Costa (Comandante) &amp; Trinnity Hurtado (Reina)</strong><br>
-        <span data-i18n="footer.rights">Todos los derechos reservados. Autoría y propiedad intelectual.</span>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Socket.IO + JS Widget -->
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-<script src="voice-widget.js" onerror="void 0"></script>
-<script src="jarvis-chat.js" onerror="void 0"></script>
+<script src="jarvis-chat.js"></script>
+<script src="voice-widget.js"></script>
 
 <script>
-// ═══ THREE.JS BACKGROUND ═══
-(function(){
-  try {
-    const canvas = document.getElementById('tvs-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-
-    const group = new THREE.Group();
-    scene.add(group);
-
-    const tk = new THREE.TorusKnotGeometry(1.4, 0.28, 160, 18);
-    const m1 = new THREE.Mesh(tk, new THREE.MeshBasicMaterial({color:0x00f0ff, wireframe:true, transparent:true, opacity:0.1}));
-    m1.position.set(-3, 0.5, -5); m1.scale.setScalar(0.55);
-    group.add(m1);
-
-    const ico = new THREE.IcosahedronGeometry(1, 1);
-    const m2 = new THREE.Mesh(ico, new THREE.MeshBasicMaterial({color:0xbf5af2, wireframe:true, transparent:true, opacity:0.08}));
-    m2.position.set(3.5, -1, -6); m2.scale.setScalar(0.6);
-    group.add(m2);
-
-    const tor = new THREE.TorusGeometry(1.2, 0.18, 24, 60);
-    const m3 = new THREE.Mesh(tor, new THREE.MeshBasicMaterial({color:0x00f0ff, wireframe:true, transparent:true, opacity:0.06}));
-    m3.position.set(0, 2, -7); m3.scale.setScalar(0.65);
-    group.add(m3);
-
-    const oct = new THREE.OctahedronGeometry(1);
-    const m4 = new THREE.Mesh(oct, new THREE.MeshBasicMaterial({color:0xff2d55, wireframe:true, transparent:true, opacity:0.06}));
-    m4.position.set(2, 2, -4); m4.scale.setScalar(0.4);
-    group.add(m4);
-
-    const pGeo = new THREE.BufferGeometry();
-    const pPos = new Float32Array(1200*3);
-    for(let i=0;i<1200*3;i++) pPos[i]=(Math.random()-0.5)*28;
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    const pMat = new THREE.PointsMaterial({color:0x00f0ff, size:0.018, transparent:true, opacity:0.35});
-    const points = new THREE.Points(pGeo, pMat);
-    points.position.z = -8;
-    group.add(points);
-
-    camera.position.z = 6;
-    let mx=0, my=0;
-    document.addEventListener('mousemove', e=>{mx=(e.clientX/innerWidth-0.5)*2; my=(e.clientY/innerHeight-0.5)*2;});
-
-    function animate(){
-      requestAnimationFrame(animate);
-      m1.rotation.x+=0.003; m1.rotation.y+=0.005;
-      m2.rotation.x+=0.004; m2.rotation.y-=0.003;
-      m3.rotation.x+=0.002; m3.rotation.z+=0.004;
-      m4.rotation.x-=0.003; m4.rotation.y+=0.006;
-      points.rotation.y+=0.0003;
-      group.rotation.x += (my*0.015 - group.rotation.x)*0.025;
-      group.rotation.y += (mx*0.015 - group.rotation.y)*0.025;
-      renderer.render(scene, camera);
-    }
-    animate();
-    window.addEventListener('resize', ()=>{
-      camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth, innerHeight);
-    });
-  } catch(e) {}
-})();
-
-// ═══ NAV SCROLL ═══
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', scrollY > 40));
-
-// ═══ MOBILE MENU ═══
-function toggleMobile(){document.getElementById('mobile-menu').classList.toggle('open');}
-
-// ═══ REVEAL ON SCROLL ═══
-const revealEls = document.querySelectorAll('.reveal');
-try {
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
-  },{threshold:0.12, rootMargin:'0px 0px -50px 0px'});
-  revealEls.forEach(el=>obs.observe(el));
-  setTimeout(()=>revealEls.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)el.classList.add('in-view');}), 500);
-} catch(e){ revealEls.forEach(el=>el.classList.add('in-view')); }
-
-// ═══ SMOOTH SCROLL ═══
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
-});
-
-// ═══ APP BASE — botones a páginas reales ═══
-// En el servidor standalone (localhost / Render) las rutas son relativas.
-// En Vercel (dominio) las páginas de la app viven en el app server (Render).
-(function(){
-  const host = location.hostname;
-  const onVercel = host.indexOf('trinnityviseronsystem.io') !== -1 && host !== 'localhost';
-  const base = onVercel ? 'https://viseron-web.onrender.com' : '';
-  document.querySelectorAll('[data-app]').forEach(a=>{
-    const href = a.getAttribute('href');
-    if(href && href.charAt(0)==='/') a.setAttribute('href', base + href);
-  });
-})();
-
-// ═══ I18N — por defecto ESPAÑOL ═══
-const LANG = {
-  es:{
-    "hero.badge":"v5.0 · Sistema Operativo Native IA · EN VIVO",
-    "hero.sub1":"Infraestructura operacional de inteligencia artificial autónoma, evolutiva y auditada.",
-    "hero.sub2":"No es un chatbot.",
-    "hero.sub3":" Coordina agentes especializados, memoria persistente, conocimiento estructurado, herramientas, integraciones empresariales y modelos de IA en una sola arquitectura.",
-    "hero.authority":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina).",
-    "hero.btn1":"Explorar el Sistema","hero.btnMap":"Mapa del Sitio (PDF)","hero.btnOs":"Abrir el Sistema",
-    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 colecciones)","stat.integ":"Integraciones","stat.revenue":"Ingresos listos",
-    "api.api":"API","api.tenants":"Tenants","api.users":"Usuarios","api.billing":"Facturación",
-    "nav.paginas":"Páginas","nav.sistema":"Sistema","nav.arquitectura":"Arquitectura","nav.integraciones":"Integraciones","nav.estado":"Estado","nav.planos":"Planes","nav.cta":"Abrir Sistema",
-    "pages.tag":"// Mapa del Sitio","pages.title":"Todas las Páginas del Sistema","pages.sub":"Cada página del TVS — acceso directo con botones reales. Nada de decoración: todo funciona.",
-    "page.dash":"Dashboard","page.dash.desc":"Panel autenticado de la plataforma — auth, billing, onboarding, mensajería E2E.","page.open":"Abrir Dashboard",
-    "page.os":"TVS OS — Desktop","page.os.desc":"Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Abrir TVS OS",
-    "page.viseron":"VISERON — HUD","page.viseron.desc":"Superinteligencia con voz (Stark). Wake words, TTS/STT, supervisión AIOX y gobernanza bíblica.","page.openViseron":"Abrir VISERON",
-    "page.atlas":"ATLAS — Tutor de Inglés","page.atlas.desc":"Profesor personal de inglés con voz (explica en ES/PT), plan de 7 días y corrección inmediata.","page.openAtlas":"Abrir ATLAS",
-    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"Pipeline E2E de tareas con eventos reales del OMEGA (SSE) en vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Ver Operación",
-    "page.command":"Command Center","page.command.desc":"Panel operacional: salud, autonomía, ingresos, agentes, ejecución, integraciones, actividad y evolución.","page.openCommand":"Abrir Command Center",
-    "page.game":"Juego VISERON","page.game.desc":"Plataformas Canvas 2D trilingüe (ES/PT/EN). Transformaciones MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.","page.openGame":"Jugar",
-    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Tokens reales $VSR (300M) y $TRIN (420.69M) en Ethereum/BSC/Solana. Sitio interplanetario trilingüe.","page.openCosmos":"Abrir Cosmos",
-    "page.meta":"Metaverso Cosmos","page.meta.desc":"Navega los planetas-módulos del TVS, recolecta mentes y gana $VSR/$TRIN. Touch + teclado + autónomo.","page.openMeta":"Entrar al Metaverso",
-    "page.blog":"Blog","page.blog.desc":"Contenido del sistema generado por el agente de contenido (cada 120 min).","page.openBlog":"Abrir Blog",
-    "page.api":"API Health","page.api.desc":"Estado real de la API: db, billing, email, messaging, tenants y usuarios.","page.openApi":"Ver API",
-    "page.map":"Mapa del Sitio (PDF)","page.map.desc":"Todas las páginas, comandos OS, endpoints de API, integraciones y cómo operar el sistema.","page.openMap":"Descargar Mapa",
-    "map.title":"Guía completa de operación en PDF","map.desc":"El Mapa del Sitio muestra TODAS las páginas, el control del TVS OS, los comandos npm, los endpoints de la API y las 9 integraciones — para operar el sistema con confianza.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// Auditoría AIOX","squads.title":"¿Estamos realmente mejorando?","squads.sub":"El squad AIOX audita código, arquitectura, agentes, memoria, seguridad y resultados. 6 escuadrones core con autonomía completa. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
-    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitectura de software, desarrollo TypeScript, deploy e infraestructura cloud. Construye y mantiene el núcleo del TVS.",
-    "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoría continua, JWT, HMAC, x25519+AES-256-GCM, compliance y protección de datos. Least privilege + authorization explícita.",
-    "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de ventas, CRM, cobros Avirato (real), propuestas, follow-up y gestión de ingresos recurrentes (MRR).",
-    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitorización, alertas, backup automático, reinicio anti-congelación, deploy GitHub/Vercel/Render y watchdog.",
-    "squad.res.name":"Research Squad","squad.res.desc":"IA avanzada, nuevos modelos, HyperLearning, AutoEvolution, memoria de grafo, análisis de mercado e innovación.",
-    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Ciclos continuos de evolución: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Si nada mejora: ninguna promoción.",
-    "kpi.tests":"Tests verdes","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planes /mes","kpi.billing":"Avirato real","kpi.targets":"Alvos vigilados","kpi.selfheal":"Self-Heal","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizaje","kpi.agents":"Agentes nucleares","kpi.evol":"Evolución segura",
-    "command.label":"// Mando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Chief Evolution Officer — Decisiones finales, dirección, prioridades y go-lives. Todos los derechos del proyecto pertenecen a Pedro y Trinnity.",
-    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Reina",
-    "omega.tag":"// Arquitectura","omega.title":"Inteligencia + Memoria + Auditoría + Evolución","omega.sub":"Hierarquía de inteligencia: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORIA → Orquestación → Agentes · Skills · Tools → Ejecución → Negocio.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo con bus de eventos tipados, cola de tareas persistente (TaskQueue) y verificación E2E (TaskVerifier).",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) con specs JSON y fallback offline.",
-    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memoria persistente e independiente del servidor físico.",
-    "omega.router":"AI Router","omega.router.desc":"Roteo por calidad, costo, latencia, contexto y privacidad: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
-    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Autonomía graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Más autonomía con más control, evidencia y auditabilidad.",
-    "omega.portable":"Portabilidad","omega.portable.desc":"El VISERON no depende de la vida útil de una máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
-    "omega.api.title":"Command Center","omega.api.desc":"Indicadores observables: salud del sistema, autonomía, ingresos, agentes, ejecución, conocimiento, operaciones, integraciones, actividad y evolución. El VISERON es una plataforma observable, no una caja negra.",
-    "omega.watch":"Ver operación en vivo →",
-    "term.title":"tvs — sistema operativo",
-    "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Colecciones","int.sub":"9 repositorios externos integrados como colecciones de skills en el SkillsRegistry. Instalables con npm run skills:install.",
-    "int.hRepo":"Repositorio","int.hSkills":"Skills","int.hLic":"Licencia","int.hDesc":"Qué aporta",
-    "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiales de Anthropic","int.composio":"Colección de la comunidad (productividad/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memoria, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memoria L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// Estado del Sistema","status.title":"Validación en vivo",    "status.sub":"Datos reales vía /api/status (System of Truth), /api/health y /api/revenue/readiness. Sin cifras inventadas.",
-    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Ingresos listos",
-    "status.api":"API Core","status.api.desc":"REST API + Socket.IO en producción. Health check, auth, billing, messaging.",
-    "status.db":"Postgres Neon","status.db.desc":"10 tablas migradas: tenants, users, usage_events y billing. usage_events registrando actividad.",
-    "status.billing.desc":"Checkout en vivo con webhook HMAC firmado. Core $29 / Pro $99 / Enterprise $499.",
-    "status.gmail.desc":"Agente de atención envía emails reales — verify, reset, facturas y soporte.",
-    "status.domain":"Dominio",
-    "status.infra":"Infraestructura","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
-    "status.pdf.title":"Informe de Estado + Mapa del Sitio","status.pdf.desc":"Estado completo del sistema y guía de operación — tests, infraestructura, pendientes y qué puedes hacer ahora.",
-    "btn.pdf":"Informe PDF","btn.map":"Mapa del Sitio",
-    "pricing.tag":"// Planes","pricing.title":"Elige tu Plan","pricing.sub":"Acceso a la superinteligencia en operación. Cobros reales vía Avirato. Cancela cuando quieras.",
-    "plan.core.name":"Plan Core","plan.core.sub":"Para startups y desarrolladores","plan.core.f1":"1 workspace, 5 agentes activos","plan.core.f2":"100 tareas IA/día","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 proveedores cloud","plan.core.f5":"Soporte por email","plan.core.f6":"Escuadrones personalizados","plan.core.f7":"Multi-tenant",
-    "plan.pro.name":"Plan Pro","plan.pro.sub":"Para empresas en crecimiento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tareas/día","plan.pro.f3":"Escuadrones AIOX configurados","plan.pro.f4":"Todos los proveedores IA","plan.pro.f5":"JARVIS Chat avanzado","plan.pro.f6":"Mensajería E2E cifrada","plan.pro.f7":"Soporte prioritario",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizaciones","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Escuadrones AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + soporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialización de API","plan.ent.f7":"Integración Composio + RCS",
-    "plan.btn.start":"Comenzar","plan.btn.contact":"Contactar",
-    "dl.tag":"// Descargas","dl.title":"Instala el TVS","dl.sub":"Disponible para todas las plataformas. Funciona con Ollama local, sin API key.",
-    "dl.apk.desc":"App nativa Android. Interface mobile del TVS OS (también el Juego VISERON embebido).","dl.exe.desc":"Instalador Windows (Setup.exe) con el APK + accesos directos. No necesita Node.js.","dl.docker.desc":"Imagen Docker para deploy en cualquier cloud o servidor self-hosted.","dl.docs.title":"Documentación","dl.docs.desc":"Manuales, PDFs de pitch, roadmap, mapa del sitio y guía completa de comandos.",
-    "dl.btn":"Descargar APK","dl.btn.exe":"Descargar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
-    "cmd.tag":"// Comandos","cmd.title":"Control del TVS OS","cmd.sub":"Comandos reales del sistema — el Mapa del Sitio (PDF) lista los 144 comandos npm + endpoints de la API.",
-    "cmd.dev":"Modo dev con hot reload","cmd.build":"Compila TypeScript a dist/","cmd.start":"Ejecuta el sistema completo","cmd.restart":"Reinicio anti-congelación (mata servidor + huérfanos)","cmd.test":"Ejecuta todos los tests (core/web/omega/os/restart)","cmd.scan":"Escaneo real del sistema","cmd.tvs":"Estado del TVS OS (kernel, agentes, watchdog)","cmd.map":"Genera el Mapa del Sitio PDF","cmd.pdfs":"Genera todos los PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"Demo JARVIS IA","cmd.backup":"Backup automático",
-    "footer.desc":"Infraestructura operacional de IA autónoma, evolutiva y auditada. No es un chatbot: es un sistema operativo de IA-native con agentes, memoria, auditoría y evolución continua.",
-    "footer.paginas":"Páginas","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planes","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina)","footer.rights":"Todos los derechos reservados. Autoría y propiedad intelectual."
-  },
-  pt:{
-    "hero.badge":"v5.0 · Sistema Operativo Native IA · AO VIVO",
-    "hero.sub1":"Infraestrutura operacional de inteligência artificial autónoma, evolutiva e auditada.",
-    "hero.sub2":"Não é um chatbot.",
-    "hero.sub3":" Coordena agentes especializados, memória persistente, conhecimento estruturado, ferramentas, integrações empresariais e modelos de IA numa só arquitetura.",
-    "hero.authority":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha).",
-    "hero.btn1":"Explorar o Sistema","hero.btnMap":"Mapa do Site (PDF)","hero.btnOs":"Abrir o Sistema",
-    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 coleções)","stat.integ":"Integrações","stat.revenue":"Receita pronta",
-    "api.api":"API","api.tenants":"Tenants","api.users":"Utilizadores","api.billing":"Faturação",
-    "nav.paginas":"Páginas","nav.sistema":"Sistema","nav.arquitectura":"Arquitetura","nav.integraciones":"Integrações","nav.estado":"Estado","nav.planos":"Planos","nav.cta":"Abrir Sistema",
-    "pages.tag":"// Mapa do Site","pages.title":"Todas as Páginas do Sistema","pages.sub":"Cada página do TVS — acesso direto com botões reais. Nada de decoração: tudo funciona.",
-    "page.dash":"Dashboard","page.dash.desc":"Painel autenticado da plataforma — auth, billing, onboarding, mensageria E2E.","page.open":"Abrir Dashboard",
-    "page.os":"TVS OS — Desktop","page.os.desc":"Sistema operativo AI-native: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Abrir TVS OS",
-    "page.viseron":"VISERON — HUD","page.viseron.desc":"Superinteligência com voz (Stark). Wake words, TTS/STT, supervisão AIOX e governança bíblica.","page.openViseron":"Abrir VISERON",
-    "page.atlas":"ATLAS — Tutor de Inglês","page.atlas.desc":"Professor pessoal de inglês com voz (explica em ES/PT), plano de 7 dias e correção imediata.","page.openAtlas":"Abrir ATLAS",
-    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"Pipeline E2E de tarefas com eventos reais do OMEGA (SSE) ao vivo: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Ver Operação",
-    "page.command":"Command Center","page.command.desc":"Painel operacional: saúde, autonomia, receita, agentes, execução, integrações, atividade e evolução.","page.openCommand":"Abrir Command Center",
-    "page.game":"Jogo VISERON","page.game.desc":"Plataformas Canvas 2D trilingue (ES/PT/EN). Transformações MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA. ?demo = autónomo.","page.openGame":"Jogar",
-    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Tokens reais $VSR (300M) e $TRIN (420.69M) em Ethereum/BSC/Solana. Site interplanetário trilingue.","page.openCosmos":"Abrir Cosmos",
-    "page.meta":"Metaverso Cosmos","page.meta.desc":"Navega os planetas-módulos do TVS, coleta mentes e ganha $VSR/$TRIN. Touch + teclado + autónomo.","page.openMeta":"Entrar no Metaverso",
-    "page.blog":"Blog","page.blog.desc":"Conteúdo do sistema gerado pelo agente de conteúdo (cada 120 min).","page.openBlog":"Abrir Blog",
-    "page.api":"API Health","page.api.desc":"Estado real da API: db, billing, email, messaging, tenants e utilizadores.","page.openApi":"Ver API",
-    "page.map":"Mapa do Site (PDF)","page.map.desc":"Todas as páginas, comandos OS, endpoints de API, integrações e como operar o sistema.","page.openMap":"Descarregar Mapa",
-    "map.title":"Guia completo de operação em PDF","map.desc":"O Mapa do Site mostra TODAS as páginas, o controlo do TVS OS, os comandos npm, os endpoints da API e as 9 integrações — para operar o sistema com confiança.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// Auditoria AIOX","squads.title":"Estamos realmente a melhorar?","squads.sub":"O squad AIOX audita código, arquitetura, agentes, memória, segurança e resultados. 6 esquadrões core com autonomia completa. Supervisionados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
-    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Arquitetura de software, desenvolvimento TypeScript, deploy e infraestrutura cloud. Constrói e mantém o núcleo do TVS.",
-    "squad.sec.name":"Security Squad","squad.sec.desc":"Auditoria contínua, JWT, HMAC, x25519+AES-256-GCM, compliance e proteção de dados. Least privilege + authorization explícita.",
-    "squad.biz.name":"Business Squad","squad.biz.desc":"Pipeline de vendas, CRM, cobranças Avirato (real), propostas, follow-up e gestão de receita recorrente (MRR).",
-    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitorização, alertas, backup automático, reinício anti-congelamento, deploy GitHub/Vercel/Render e watchdog.",
-    "squad.res.name":"Research Squad","squad.res.desc":"IA avançada, novos modelos, HyperLearning, AutoEvolution, memória de grafo, análise de mercado e inovação.",
-    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Ciclos contínuos de evolução: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. Se nada melhorar: nenhuma promoção.",
-    "kpi.tests":"Testes verdes","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilidades","kpi.crypto":"Cripto E2E","kpi.plans":"Planos /mês","kpi.billing":"Avirato real","kpi.targets":"Alvos vigiados","kpi.selfheal":"Self-Heal","kpi.cycles":"Ciclos auto","kpi.learning":"Aprendizagem","kpi.agents":"Agentes nucleares","kpi.evol":"Evolução segura",
-    "command.label":"// Comando Supremo","command.title":"Pedro Costa","command.and":"&","command.desc":"Comandante Supremo & Chief Evolution Officer — Decisões finais, direção, prioridades e go-lives. Todos os direitos do projeto pertencem a Pedro e Trinnity.",
-    "cmd.badge1":"Pedro Costa — Comandante","cmd.badge2":"Trinnity Hurtado — Rainha",
-    "omega.tag":"// Arquitetura","omega.title":"Inteligência + Memória + Auditoria + Evolução","omega.sub":"Hierarquia de inteligência: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMÓRIA → Orquestação → Agentes · Skills · Tools → Execução → Negócio.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Núcleo com bus de eventos tipados, fila de tarefas persistente (TaskQueue) e verificação E2E (TaskVerifier).",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 agentes nucleares (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) com specs JSON e fallback offline.",
-    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Memória persistente e independente do servidor físico.",
-    "omega.router":"AI Router","omega.router.desc":"Roteamento por qualidade, custo, latência, contexto e privacidade: Ollama local · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
-    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Autonomia graduada L0-OBSERVE → L5-AUTHORIZED AUTONOMY. Mais autonomia com mais controlo, evidência e auditabilidade.",
-    "omega.portable":"Portabilidade","omega.portable.desc":"O VISERON não depende da vida útil de uma máquina. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
-    "omega.api.title":"Command Center","omega.api.desc":"Indicadores observáveis: saúde do sistema, autonomia, receita, agentes, execução, conhecimento, operações, integrações, atividade e evolução. O VISERON é uma plataforma observável, não uma caixa-preta.",
-    "omega.watch":"Ver operação ao vivo →",
-    "term.title":"tvs — sistema operativo",
-    "int.tag":"// Skills & External Integrations","int.title":"1.997 Skills · 10 Coleções","int.sub":"9 repositórios externos integrados como coleções de skills no SkillsRegistry. Instaláveis com npm run skills:install.",
-    "int.hRepo":"Repositório","int.hSkills":"Skills","int.hLic":"Licença","int.hDesc":"O que traz",
-    "int.graphify":"Knowledge graph operativo (query/path/explain)","int.anthropic":"Plugins/skills oficiais da Anthropic","int.composio":"Coleção da comunidade (produtividade/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memória, AgentShield","int.super":"Skill system multi-harness","int.crm":"Comp AI CRM — CRM agentic-first","int.comp":"Compliance AI-native (SOC2/GDPR/ISO27001)","int.tutor":"Tutor lifelong personalizado (memória L1/L2/L3)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// Estado do Sistema","status.title":"Validação ao vivo",    "status.sub":"Dados reais via /api/status (System of Truth), /api/health e /api/revenue/readiness. Sem cifras inventadas.",
-    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Skills indexadas","valid.revenue":"Receita pronta",
-    "status.api":"API Core","status.api.desc":"REST API + Socket.IO em produção. Health check, auth, billing, messaging.",
-    "status.db":"Postgres Neon","status.db.desc":"10 tabelas migradas: tenants, users, usage_events e billing. usage_events a registar atividade.",
-    "status.billing.desc":"Checkout ao vivo com webhook HMAC assinado. Core $29 / Pro $99 / Enterprise $499.",
-    "status.gmail.desc":"Agente de atendimento envia emails reais — verify, reset, faturas e suporte.",
-    "status.domain":"Domínio",
-    "status.infra":"Infraestrutura","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
-    "status.pdf.title":"Relatório de Estado + Mapa do Site","status.pdf.desc":"Estado completo do sistema e guia de operação — testes, infraestrutura, pendências e o que podes fazer agora.",
-    "btn.pdf":"Relatório PDF","btn.map":"Mapa do Site",
-    "pricing.tag":"// Planos","pricing.title":"Escolhe o teu Plano","pricing.sub":"Acesso à superinteligência em operação. Cobranças reais via Avirato. Cancela quando quiseres.",
-    "plan.core.name":"Plan Core","plan.core.sub":"Para startups e developers","plan.core.f1":"1 workspace, 5 agentes ativos","plan.core.f2":"100 tarefas IA/dia","plan.core.f3":"API REST completa","plan.core.f4":"Ollama local + 3 providers cloud","plan.core.f5":"Suporte por email","plan.core.f6":"Esquadrões personalizados","plan.core.f7":"Multi-tenant",
-    "plan.pro.name":"Plan Pro","plan.pro.sub":"Para empresas em crescimento","plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tarefas/dia","plan.pro.f3":"Esquadrões AIOX configurados","plan.pro.f4":"Todos os providers IA","plan.pro.f5":"JARVIS Chat avançado","plan.pro.f6":"Messaging E2E cifrado","plan.pro.f7":"Suporte prioritário",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizações","plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Esquadrões AIOX custom + white-label","plan.ent.f4":"SLA 99.9% + suporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialização de API","plan.ent.f7":"Integração Composio + RCS",
-    "plan.btn.start":"Começar","plan.btn.contact":"Contactar",
-    "dl.tag":"// Downloads","dl.title":"Instala o TVS","dl.sub":"Disponível para todas as plataformas. Funciona com Ollama local, sem API key.",
-    "dl.apk.desc":"App nativa Android. Interface mobile do TVS OS (também o Jogo VISERON embutido).","dl.exe.desc":"Instalador Windows (Setup.exe) com o APK + atalhos. Não precisa de Node.js.","dl.docker.desc":"Imagem Docker para deploy em qualquer cloud ou servidor self-hosted.","dl.docs.title":"Documentação","dl.docs.desc":"Manuais, PDFs de pitch, roadmap, mapa do site e guia completo de comandos.",
-    "dl.btn":"Descarregar APK","dl.btn.exe":"Descarregar EXE","dl.btn.code":"Ver Código","dl.btn.docs":"Ver PDFs",
-    "cmd.tag":"// Comandos","cmd.title":"Controlo do TVS OS","cmd.sub":"Comandos reais do sistema — o Mapa do Site (PDF) lista os 144 comandos npm + endpoints da API.",
-    "cmd.dev":"Modo dev com hot reload","cmd.build":"Compila TypeScript para dist/","cmd.start":"Executa o sistema completo","cmd.restart":"Reinício anti-congelamento (mata servidor + órfãos)","cmd.test":"Executa todos os testes (core/web/omega/os/restart)","cmd.scan":"Scan real do sistema","cmd.tvs":"Estado do TVS OS (kernel, agentes, watchdog)","cmd.map":"Gera o Mapa do Site PDF","cmd.pdfs":"Gera todos os PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"Demo JARVIS IA","cmd.backup":"Backup automático",
-    "footer.desc":"Infraestrutura operacional de IA autónoma, evolutiva e auditada. Não é um chatbot: é um sistema operativo AI-native com agentes, memória, auditoria e evolução contínua.",
-    "footer.paginas":"Páginas","footer.docs":"Docs","footer.contact":"Contacto","footer.plans":"Ver Planos","footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)","footer.rights":"Todos os direitos reservados. Autoria e propriedade intelectual."
-  },
-  en:{
-    "hero.badge":"v5.0 · AI-Native Operating System · LIVE",
-    "hero.sub1":"Autonomous, evolvable and auditable AI operational infrastructure.",
-    "hero.sub2":"Not a chatbot.",
-    "hero.sub3":" Coordinates specialized agents, persistent memory, structured knowledge, tools, business integrations and AI models in a single architecture.",
-    "hero.authority":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen).",
-    "hero.btn1":"Explore the System","hero.btnMap":"Site Map (PDF)","hero.btnOs":"Open the System",
-    "stat.omega":"OMEGA tests","stat.core":"CORE tests","stat.web":"WEB tests","stat.skills":"Skills (10 collections)","stat.integ":"Integrations","stat.revenue":"Revenue ready",
-    "api.api":"API","api.tenants":"Tenants","api.users":"Users","api.billing":"Billing",
-    "nav.paginas":"Pages","nav.sistema":"System","nav.arquitectura":"Architecture","nav.integraciones":"Integrations","nav.estado":"Status","nav.planos":"Plans","nav.cta":"Open System",
-    "pages.tag":"// Site Map","pages.title":"All System Pages","pages.sub":"Every TVS page — direct access with real buttons. No decoration: everything works.",
-    "page.dash":"Dashboard","page.dash.desc":"Authenticated platform panel — auth, billing, onboarding, E2E messaging.","page.open":"Open Dashboard",
-    "page.os":"TVS OS — Desktop","page.os.desc":"AI-native operating system: Process Manager, Virtual FS, App Store, Package Manager, Security Center.","page.openOs":"Open TVS OS",
-    "page.viseron":"VISERON — HUD","page.viseron.desc":"Voice superintelligence (Stark). Wake words, TTS/STT, AIOX supervision and biblical governance.","page.openViseron":"Open VISERON",
-    "page.atlas":"ATLAS — English Tutor","page.atlas.desc":"Personal English tutor with voice (explains in ES/PT), 7-day plan and immediate correction.","page.openAtlas":"Open ATLAS",
-    "page.operate":"SEE VISERON OPERATE","page.operate.desc":"E2E task pipeline with real OMEGA events (SSE) live: INTENT → PLAN → AUTHORIZE → EXECUTE → VERIFY.","page.openOperate":"Watch Operation",
-    "page.command":"Command Center","page.command.desc":"Operational panel: health, autonomy, revenue, agents, execution, integrations, activity and evolution.","page.openCommand":"Open Command Center",
-    "page.game":"VISERON Game","page.game.desc":"Trilingual Canvas 2D platformer (ES/PT/EN). MARIO, MEGAMAN, NARUTO, DRAGON BALL, CDZ, NASA transformations. ?demo = autonomous.","page.openGame":"Play",
-    "page.cosmos":"Viseron Cosmos","page.cosmos.desc":"Real tokens $VSR (300M) and $TRIN (420.69M) on Ethereum/BSC/Solana. Trilingual interplanetary site.","page.openCosmos":"Open Cosmos",
-    "page.meta":"Cosmos Metaverse","page.meta.desc":"Navigate the TVS module planets, collect minds and earn $VSR/$TRIN. Touch + keyboard + autonomous.","page.openMeta":"Enter Metaverse",
-    "page.blog":"Blog","page.blog.desc":"System content generated by the content agent (every 120 min).","page.openBlog":"Open Blog",
-    "page.api":"API Health","page.api.desc":"Real API status: db, billing, email, messaging, tenants and users.","page.openApi":"View API",
-    "page.map":"Site Map (PDF)","page.map.desc":"All pages, OS commands, API endpoints, integrations and how to operate the system.","page.openMap":"Download Map",
-    "map.title":"Complete operation guide in PDF","map.desc":"The Site Map shows ALL pages, TVS OS control, npm commands, API endpoints and the 9 integrations — to operate the system confidently.","map.btn":"Viseron_Mapa_Site.pdf",
-    "squads.tag":"// AIOX Audit","squads.title":"Are we really improving?","squads.sub":"The AIOX squad audits code, architecture, agents, memory, security and results. 6 core squads with full autonomy. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
-    "squad.eng.name":"Engineering Squad","squad.eng.desc":"Software architecture, TypeScript development, deployment and cloud infrastructure. Builds and maintains the TVS core.",
-    "squad.sec.name":"Security Squad","squad.sec.desc":"Continuous audit, JWT, HMAC, x25519+AES-256-GCM, compliance and data protection. Least privilege + explicit authorization.",
-    "squad.biz.name":"Business Squad","squad.biz.desc":"Sales pipeline, CRM, Avirato billing (real), proposals, follow-up and recurring revenue management (MRR).",
-    "squad.ops.name":"Operations Squad","squad.ops.desc":"Monitoring, alerts, automatic backup, anti-freeze restart, GitHub/Vercel/Render deployment and watchdog.",
-    "squad.res.name":"Research Squad","squad.res.desc":"Advanced AI, new models, HyperLearning, AutoEvolution, graph memory, market analysis and innovation.",
-    "squad.evo.name":"Evolution Squad","squad.evo.desc":"Continuous evolution cycles: OBSERVE → MEASURE → LEARN → PROPOSE → EXPERIMENT → TEST → AUDIT → VERIFY → PROMOTE. If nothing improves: no promotion.",
-    "kpi.tests":"Green tests","kpi.ts":"TypeScript","kpi.vulns":"Vulnerabilities","kpi.crypto":"E2E Crypto","kpi.plans":"Plans /mo","kpi.billing":"Avirato real","kpi.targets":"Watched targets","kpi.selfheal":"Self-Heal","kpi.cycles":"Auto cycles","kpi.learning":"Learning","kpi.agents":"Core agents","kpi.evol":"Safe evolution",
-    "command.label":"// Supreme Command","command.title":"Pedro Costa","command.and":"&","command.desc":"Supreme Commander & Chief Evolution Officer — Final decisions, direction, priorities and go-lives. All project rights belong to Pedro and Trinnity.",
-    "cmd.badge1":"Pedro Costa — Commander","cmd.badge2":"Trinnity Hurtado — Queen",
-    "omega.tag":"// Architecture","omega.title":"Intelligence + Memory + Audit + Evolution","omega.sub":"Intelligence hierarchy: PEDRO → TRINNITY → VISERON CORE → AIOX · GRAPHIFY · MEMORY → Orchestration → Agents · Skills · Tools → Execution → Business.",
-    "omega.kernel":"Kernel + EventBus","omega.kernel.desc":"Core with typed event bus, persistent task queue (TaskQueue) and E2E verification (TaskVerifier).",
-    "omega.runtime":"Agent Runtime","omega.runtime.desc":"10 core agents (CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution) with JSON specs and offline fallback.",
-    "omega.memory":"Memory Architecture","omega.memory.desc":"SHORT-TERM → WORKING → LONG-TERM → KNOWLEDGE → GRAPH. Persistent memory independent of the physical server.",
-    "omega.router":"AI Router","omega.router.desc":"Routing by quality, cost, latency, context and privacy: local Ollama · OpenAI · Anthropic · Gemini · Grok · DeepSeek · Mistral.",
-    "omega.autonomy":"AutonomyOS","omega.autonomy.desc":"Graduated autonomy L0-OBSERVE → L5-AUTHORIZED AUTONOMY. More autonomy with more control, evidence and auditability.",
-    "omega.portable":"Portability","omega.portable.desc":"VISERON cannot depend on a machine's lifespan. SERVER → SNAPSHOT → BACKUP → NEW SERVER → BOOTSTRAP → RESTORE → AIOX → VERIFY → PROMOTE.",
-    "omega.api.title":"Command Center","omega.api.desc":"Observable indicators: system health, autonomy, revenue, agents, execution, knowledge, operations, integrations, activity and evolution. VISERON is an observable platform, not a black box.",
-    "omega.watch":"Watch live operation →",
-    "term.title":"tvs — operating system",
-    "int.tag":"// Skills & External Integrations","int.title":"1,997 Skills · 10 Collections","int.sub":"9 external repositories integrated as skill collections in the SkillsRegistry. Installable with npm run skills:install.",
-    "int.hRepo":"Repository","int.hSkills":"Skills","int.hLic":"License","int.hDesc":"What it brings",
-    "int.graphify":"Operational knowledge graph (query/path/explain)","int.anthropic":"Official Anthropic plugins/skills","int.composio":"Community collection (productivity/marketing/dev)","int.ecc":"Harness OS: 67 agents, hooks, memory, AgentShield","int.super":"Multi-harness skill system","int.crm":"Comp AI CRM — agentic-first CRM","int.comp":"AI-native compliance (SOC2/GDPR/ISO27001)","int.tutor":"Personalized lifelong tutor (L1/L2/L3 memory)","int.loop":"Loop engineering: patterns/starters/audit/init/cost",
-    "status.tag":"// System Status","status.title":"Live Validation",    "status.sub":"Real data via /api/status (System of Truth), /api/health and /api/revenue/readiness. No invented numbers.",
-    "valid.omega":"OMEGA tests PASS","valid.core":"CORE tests PASS","valid.web":"WEB tests PASS","valid.ts":"TypeScript check","valid.skills":"Indexed skills","valid.revenue":"Revenue ready",
-    "status.api":"Core API","status.api.desc":"REST API + Socket.IO in production. Health check, auth, billing, messaging.",
-    "status.db":"Neon Postgres","status.db.desc":"10 migrated tables: tenants, users, usage_events and billing. usage_events logging activity.",
-    "status.billing.desc":"Live subscription checkout with signed HMAC webhook. Core $29 / Pro $99 / Enterprise $499.",
-    "status.gmail.desc":"Service agent sends real emails — verify, reset, invoices and support.",
-    "status.domain":"Domain",
-    "status.infra":"Infrastructure","status.infra.desc":"AMD EPYC 7542 · 32C/64T · 256 GB · Windows Server 2025 — Primary Node.",
-    "status.pdf.title":"Status Report + Site Map","status.pdf.desc":"Full system status and operation guide — tests, infrastructure, pending items and what you can do now.",
-    "btn.pdf":"Status PDF","btn.map":"Site Map",
-    "pricing.tag":"// Plans","pricing.title":"Choose your Plan","pricing.sub":"Access to the superintelligence in operation. Real billing via Avirato. Cancel anytime.",
-    "plan.core.name":"Core Plan","plan.core.sub":"For startups and developers","plan.core.f1":"1 workspace, 5 active agents","plan.core.f2":"100 AI tasks/day","plan.core.f3":"Full REST API","plan.core.f4":"Local Ollama + 3 cloud providers","plan.core.f5":"Email support","plan.core.f6":"Custom squads","plan.core.f7":"Multi-tenant",
-    "plan.pro.name":"Pro Plan","plan.pro.sub":"For growing companies","plan.pro.f1":"5 workspaces, 50 agents","plan.pro.f2":"1000 tasks/day","plan.pro.f3":"Configured AIOX Squads","plan.pro.f4":"All AI providers","plan.pro.f5":"Advanced JARVIS Chat","plan.pro.f6":"E2E encrypted messaging","plan.pro.f7":"Priority support",
-    "plan.ent.name":"Enterprise","plan.ent.sub":"For large organizations","plan.ent.f1":"Unlimited workspaces","plan.ent.f2":"Unlimited agents + customer factory","plan.ent.f3":"Custom AIOX Squads + white-label","plan.ent.f4":"SLA 99.9% + dedicated support","plan.ent.f5":"On-premise deployment","plan.ent.f6":"API commercialization","plan.ent.f7":"Composio + RCS integration",
-    "plan.btn.start":"Get Started","plan.btn.contact":"Contact Us",
-    "dl.tag":"// Downloads","dl.title":"Install TVS","dl.sub":"Available for all platforms. Works with local Ollama, no API key.",
-    "dl.apk.desc":"Native Android app. Mobile interface of TVS OS (also embeds the VISERON Game).","dl.exe.desc":"Windows installer (Setup.exe) with the APK + shortcuts. No Node.js required.","dl.docker.desc":"Docker image for deployment on any cloud or self-hosted server.","dl.docs.title":"Documentation","dl.docs.desc":"Manuals, pitch PDFs, roadmap, site map and complete command guide.",
-    "dl.btn":"Download APK","dl.btn.exe":"Download EXE","dl.btn.code":"View Code","dl.btn.docs":"View PDFs",
-    "cmd.tag":"// Commands","cmd.title":"TVS OS Control","cmd.sub":"Real system commands — the Site Map (PDF) lists the 144 npm commands + API endpoints.",
-    "cmd.dev":"Dev mode with hot reload","cmd.build":"Compile TypeScript to dist/","cmd.start":"Run the complete system","cmd.restart":"Anti-freeze restart (kills server + orphans)","cmd.test":"Run all tests (core/web/omega/os/restart)","cmd.scan":"Real system scan","cmd.tvs":"TVS OS status (kernel, agents, watchdog)","cmd.map":"Generate the Site Map PDF","cmd.pdfs":"Generate all PDFs","cmd.deploy":"Deploy GitHub + Vercel + Render","cmd.jarvis":"JARVIS AI demo","cmd.backup":"Automatic backup",
-    "footer.desc":"Autonomous, evolvable and auditable AI operational infrastructure. Not a chatbot: an AI-native operating system with agents, memory, audit and continuous evolution.",
-    "footer.paginas":"Pages","footer.docs":"Docs","footer.contact":"Contact","footer.plans":"View Plans","footer.auth":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen)","footer.rights":"All rights reserved. Authorship and intellectual property."
-  }
+/* ============ DATOS REALES DEL PROYECTO ============ */
+const AGENTES = [
+ {id:"aiox-master",icon:"&#129302;",nombre:"AIOX Master",rol:"Coordinador global + memoria del batallon",cmds:["*orquestar","*memoria"],activo:true},
+ {id:"architect",icon:"&#127959;",nombre:"Architect",rol:"Arquitectura del sistema y decisiones tecnicas",cmds:["/architect"],activo:true},
+ {id:"dev",icon:"&#128295;",nombre:"Dev (Dex Builder)",rol:"Construccion de stories y features",cmds:["/dev"],activo:true},
+ {id:"qa",icon:"&#128737;",nombre:"QA Gate",rol:"Quality gates L1/L2/L3, tests y evidencias",cmds:["/qa"],activo:true},
+ {id:"devops",icon:"&#128421;",nombre:"DevOps",rol:"CI/CD, deploys, GitHub, infraestructura",cmds:["/devops"],activo:true},
+ {id:"data-engineer",icon:"&#128202;",nombre:"Data Engineer",rol:"Bases de datos, Supabase, RLS, migraciones",cmds:["*snapshot"],activo:true},
+ {id:"analyst",icon:"&#128200;",nombre:"Analyst",rol:"Investigacion, mercado y competencia",cmds:["/analyst"],activo:true},
+ {id:"pm",icon:"&#128188;",nombre:"PM",rol:"Gestion de producto y PRDs",cmds:["/pm"],activo:true},
+ {id:"po",icon:"&#127919;",nombre:"PO",rol:"Backlog, stories y ClickUp",cmds:["/po"],activo:true},
+ {id:"sm",icon:"&#9889;",nombre:"SM",rol:"Scrum master y facilitacion",cmds:["/sm"],activo:true},
+ {id:"ux-design-expert",icon:"&#127912;",nombre:"UX Design Expert",rol:"Design system, tokens, accesibilidad WCAG",cmds:["/ux"],activo:true},
+ {id:"squad-creator",icon:"&#128640;",nombre:"Squad Creator",rol:"Crea y publica squads y skills",cmds:["/squad"],activo:true}
+];
+const ESTADO = {
+ version:"5.3.0", server:"UpCloud 194.62.96.26", node:"v24.19.0", n8n:"v2.34.6",
+ manifests:"12 agentes / 199 workers / 215 tareas", audit:"VERDE - operativo",
+ skills:"16 skills workflow + 12 skills codex", ideSync:"137 archivos, 0 drift",
+ backups:"golden backup 13 carpetas", disk:"232 GB libres"
 };
+const SKILLS = [
+ "aiox-commit","apply-qa-fixes","architect-first","checklist-runner","close-story","coderabbit-review",
+ "develop-story","full-sdc","mcp-builder","review-story","skill-creator","synapse","tech-search",
+ "validate-story-draft","wave-execute","graphify","aiox-architect","aiox-dev","aiox-qa","aiox-pm",
+ "aiox-po","aiox-sm","aiox-analyst","aiox-devops","aiox-data-engineer","aiox-ux","aiox-squad-creator","aiox-master"
+];
+const ARBOL = [
+ ["d","trinnity-viseron-system"],
+ ["d","  agents"],["f","    *.agent.md (Copilot)"],
+ ["d","  config"],["d","  contracts"],["f","    sol/ViseronCrown.sol"],["f","    sol/Trinnity.sol"],["f","    sol/ViseronGovernance.sol"],["f","    sol/ViseronStaking.sol"],["f","    tokenomics.json"],["f","    solana-go-live.mjs"],
+ ["d","  core"],["f","    ViseronCore / ATLAS / VISERON / OmniRoute"],
+ ["d","  data"],["d","  docs"],["d","  electron"],["d","  mobile"],
+ ["d","  packages"],["f","    gemini-aiox-extension (en desarrollo)"],
+ ["d","  prototype"],["d","  scripts"],["d","  skills"],["d","  src"],["d","  tests"],["d","  tools"],
+ ["d","  trinnityviseron.com"],["f","    (redirect -> .io)"],
+ ["d","  trinnityviseronsystem.io"],["f","    index.html (TVS OS)"],["f","    cosmos.html + cosmos/ (VSR, TRIN, metaverso)"],["f","    game/ (3 juegos)"],["f","    jarvis-chat.js"],["f","    voice-widget.js"]
+];
+const MISIONES = [
+ ["M01","Génesis","Primera conexión al TVS OS","1",10],
+ ["M02","Génesis","Completa el boot y entra al escritorio","1",10],
+ ["M03","Génesis","Abre la terminal y ejecuta `whoami`","1",15],
+ ["M04","Génesis","Ejecuta `status` y lee el estado del batallón","1",15],
+ ["M05","Génesis","Ejecuta `agentes` y conoce a las 12 mentes","1",20],
+ ["M06","Génesis","Abre el Agente Central y activa una squad","2",25],
+ ["M07","Génesis","Crea tu alias en la terminal con `alias`","2",20],
+ ["M08","Génesis","Ejecuta `arbol` y recorre el proyecto","2",25],
+ ["M09","Génesis","Abre el Monitor y observa 30 segundos","2",20],
+ ["M10","Génesis","Ejecuta `roadmap` y lee las 4 fases","1",15],
+ ["M11","Exploración","Visita el Cosmos (cosmos.html)","1",20],
+ ["M12","Exploración","Entra al metaverso del cosmos","2",30],
+ ["M13","Exploración","Ejecuta `tokens` y aprende VSR y TRIN","1",15],
+ ["M14","Exploración","Encuentra la imagen de VSR en cosmos/img","2",20],
+ ["M15","Exploración","Abre el explorador y navega hasta contracts/","2",30],
+ ["M16","Exploración","Ejecuta `github` y visita el repositorio","1",15],
+ ["M17","Exploración","Lee el README del proyecto en GitHub","2",25],
+ ["M18","Exploración","Encuentra el tokenomics.json en el explorador","2",30],
+ ["M19","Exploración","Ejecuta `skills` y cuenta las skills","1",15],
+ ["M20","Exploración","Encuentra la skill `full-sdc` en el listado","2",20],
+ ["M21","Construcción","Gana tu primera partida a Asteroid Miner","3",50],
+ ["M22","Construcción","Supera 500 puntos en Cosmos Runner","3",50],
+ ["M23","Construcción","Aprueba el Quiz del Batallón (7/10)","2",40],
+ ["M24","Construcción","Cumple 10 misiones","2",60],
+ ["M25","Construcción","Cumple 25 misiones","3",150],
+ ["M26","Construcción","Acumula 500 TRIN","3",100],
+ ["M27","Construcción","Ejecuta `auditoria` y verifica el semáforo","2",25],
+ ["M28","Construcción","Revisa los manifests en la terminal (`manifests`)","3",30],
+ ["M29","Construcción","Abre la ventana Red y comprueba GitHub en vivo","3",40],
+ ["M30","Construcción","Prueba el Jarvis Chat (esquina inferior)","2",30],
+ ["M31","Cosmos","Aprende la PoM: gobernanza con VSR","2",30],
+ ["M32","Cosmos","Conoce el staking VSR → TRIN","2",30],
+ ["M33","Cosmos","Lee la quema del 2% de TRIN","1",15],
+ ["M34","Cosmos","Memoriza los supplies: 300M VSR, 420.69M TRIN","2",25],
+ ["M35","Cosmos","Encuentra las 4 fases del roadmap","1",20],
+ ["M36","Cosmos","Identifica las 3 redes de los tokens","2",20],
+ ["M37","Cosmos","Ejecuta `firma` y conoce a los creadores","1",20],
+ ["M38","Cosmos","Completa el Quiz con puntuación perfecta","4",120],
+ ["M39","Cosmos","Cumple 40 misiones","4",250],
+ ["M40","Cosmos","Acumula 2.000 TRIN","4",300],
+ ["M41","Comunidad","Comparte el TVS OS con un amigo","2",40],
+ ["M42","Comunidad","Sigue el repositorio en GitHub (estrella)","2",50],
+ ["M43","Comunidad","Únete al Telegram del Viseron Cosmos","2",40],
+ ["M44","Comunidad","Propón una misión nueva (sugerencia)","3",60],
+ ["M45","Comunidad","Envía feedback desde Jarvis Chat","2",35],
+ ["M46","Cripto","Explica qué hace `setLaunchPool`","3",60],
+ ["M47","Cripto","Entiende el anti-whale: max wallet 3% VSR","2",40],
+ ["M48","Cripto","Entiende el anti-bot: max tx 0,5% TRIN","2",40],
+ ["M49","Cripto","Ubica las 3 DEX del plan: Uniswap, PancakeSwap, Raydium","3",70],
+ ["M50","Cripto","Cumple las 50 misiones — Mente Cósmica","5",1000]
+];
+const ROADMAP = [
+ ["1","Génesis","Deploy de contratos, liquidity pools en DEX, lock de liquidez, sitio y comunidad."],
+ ["2","Ascensión","Staking y gobernanza en vivo, metaverso Viseron Cosmos jugable, airdrops."],
+ ["3","Exchange","Indexación CoinGecko/CMC, CEXs regionales, auditoría Hacken."],
+ ["4","Cosmos Mainnet","Bridge ETH-BSC-Solana, L2 propio, apps TVS integradas."]
+];
+const TOKENS = [
+ {s:"VSR",n:"Viseron Crown",tipo:"Governance / Utility",supply:"300.000.000",mec:"burn 1% + security 1% · max wallet 3% · ERC20Votes · staking→TRIN",redes:"ETH · BSC · SOL"},
+ {s:"TRIN",n:"Trinnity",tipo:"Interplanetary Memecoin",supply:"420.690.000",mec:"burn 2% · max tx 0.5% (anti-bot) · bloqueo pre-lanzamiento",redes:"ETH · BSC · SOL"}
+];
+</script>
 
-let currentLang = 'es';
-function setLang(l) {
-  currentLang = l;
-  const d = LANG[l] || LANG['es'];
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    if(d[key]) el.textContent = d[key];
-  });
-  ['es','pt','en'].forEach(lx=>{
-    const btn = document.getElementById('lb-'+lx);
-    if(btn) btn.classList.toggle('active', lx===l);
-  });
-  document.documentElement.lang = l;
-  try { localStorage.setItem('tvs-lang', l); } catch(e){}
+<script>
+/* ============ STARFIELD REALISTA ============ */
+(function(){
+  var c=document.getElementById('bgstars'),x=c.getContext('2d'),W,H,stars=[],neb=[];
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;stars=[];for(var i=0;i<380;i++)stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*1+0.15,r:Math.random()*1.4+0.3,h:Math.random()<0.12});}
+  rs();addEventListener('resize',rs);
+  function nube(cx,cy,r,c1,c2){var g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,c1);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(cx-r,cy-r,r*2,r*2);}
+  var t=0;
+  function loop(){
+    t+=0.0025;x.clearRect(0,0,W,H);
+    nube(W*0.22+Math.sin(t*0.6)*30,H*0.3,r=220,'rgba(0,120,190,0.05)');
+    nube(W*0.75+Math.cos(t*0.5)*40,H*0.62,280,'rgba(120,40,220,0.05)');
+    nube(W*0.5,H*0.8,300,'rgba(255,90,10,0.03)');
+    x.fillStyle='rgba(255,255,255,.9)';
+    for(var i=0;i<stars.length;i++){var s=stars[i];s.z-=0.0018;if(s.z<=0.05){s.z=1;s.x=Math.random()*W;s.y=Math.random()*H;}
+      var px=(s.x-W/2)/s.z+W/2,py=(s.y-H/2)/s.z+H/2;if(px<0||px>W||py<0||py>H)continue;
+      x.globalAlpha=Math.min(1,(1-s.z)*1.2);x.beginPath();x.arc(px,py,s.r/s.z,0,6.29);x.fill();
+      if(s.h){x.strokeStyle='rgba(150,220,255,'+Math.min(0.5,(1-s.z))+')';x.lineWidth=1;x.beginPath();x.moveTo(px-8/s.z,py+6/s.z);x.lineTo(px,py);x.stroke();}}
+    x.globalAlpha=1;
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============ BOOT ============ */
+var BOOTLOG=[
+ ["TRINNITY VISERON SYSTEM v5.0","ok"],
+ ["BIOS: ViseronCore v5.0 ............ OK","ok"],
+ ["RAM: 5000+ minds detectadas ....... OK","ok"],
+ ["Cargando ViseronCore ............. OK","ok"],
+ ["Cargando ATLAS ................... OK","ok"],
+ ["Cargando OmniRoute ............... OK","ok"],
+ ["Cargando AIOX (12 squads) ........ OK","ok"],
+ ["Cargando skills (28+16) .......... OK","ok"],
+ ["Cargando memoria (aiox-kb) ....... OK","ok"],
+ ["Conectando con n8n (5678) ........ online","w"],
+ ["Auditoria de seguridad ........... VERDE","ok"],
+ ["Firma: Pedro (Comandante) & Trinnity (Reina)","ok"]
+];
+(function(){
+  var log=document.getElementById('bootlog'),bar=document.getElementById('bootbar'),i=0;
+  function paso(){
+    if(i<BOOTLOG.length){
+      var l=BOOTLOG[i];var d=document.createElement('div');d.className=l[1];
+      d.textContent='[ '+String(i+1).padStart(2,'0')+' ] '+l[0];log.appendChild(d);
+      bar.style.width=((i+1)/BOOTLOG.length*100)+'%';i++;setTimeout(paso,180+i*22);
+    }else{setTimeout(function(){document.getElementById('boot').style.display='none';document.getElementById('desktop').style.display='block';document.getElementById('taskbar').style.display='flex';abrirWin('terminal','TVS Terminal','&#9000;',termHTML(),{x:70,y:80,w:660,h:430});},400);}
+  }
+  setTimeout(paso,600);
+})();
+
+/* ============ GESTOR DE VENTANAS ============ */
+var winsEl=document.getElementById('wins'),taskbar=document.getElementById('taskbar'),wins={},zTop=100;
+function abrirWin(id,titulo,ico,html,geo){
+  geo=geo||{x:120+Object.keys(wins).length*36,y:90+Object.keys(wins).length*28,w:640,h:460};
+  if(wins[id]){focoWin(id);return;}
+  var w=document.createElement('div');w.className='win open';w.id='win-'+id;
+  w.style.cssText='left:'+geo.x+'px;top:'+geo.y+'px;width:'+geo.w+'px;height:'+geo.h+'px;z-index:'+(++zTop);
+  w.innerHTML='<div class="tbar"><span class="ttl">'+ico+' '+titulo+'</span>'+
+    '<button onclick="minWin(\''+id+'\')">&#8211;</button>'+
+    '<button onclick="maxWin(\''+id+'\')">&#9744;</button>'+
+    '<button class="cl" onclick="cerrarWin(\''+id+'\')">&#10005;</button></div>'+
+    '<div class="body">'+html+'</div>';
+  winsEl.appendChild(w);wins[id]=w;
+  var tb=document.createElement('button');tb.className='tbtn on';tb.id='tb-'+id;
+  tb.innerHTML=ico+' '+titulo;tb.onclick=function(){focoWin(id);};
+  var clock=document.getElementById('clock');taskbar.insertBefore(tb,clock);
+  dragWin(w);
+  return w;
+}
+function focoWin(id){var w=wins[id];if(!w)return;w.style.display='flex';w.classList.remove('max');w.style.zIndex=++zTop;
+  var t=document.getElementById('tb-'+id);document.querySelectorAll('.tbtn').forEach(function(b){b.classList.remove('on')});if(t)t.classList.add('on');}
+function minWin(id){wins[id].style.display='none';var t=document.getElementById('tb-'+id);if(t)t.classList.remove('on');}
+function maxWin(id){var w=wins[id];w.classList.toggle('max');}
+function cerrarWin(id){var w=wins[id];if(w)w.remove();delete wins[id];var t=document.getElementById('tb-'+id);if(t)t.remove();}
+function dragWin(w){
+  var tb=w.querySelector('.tbar'),ox,oy;
+  tb.addEventListener('mousedown',function(e){if(e.target.tagName==='BUTTON')return;if(w.classList.contains('max'))return;
+    ox=e.clientX-w.offsetLeft;oy=e.clientY-w.offsetTop;
+    function mv(ev){w.style.left=(ev.clientX-ox)+'px';w.style.top=Math.max(0,ev.clientY-oy)+'px';}
+    function up(){removeEventListener('mousemove',mv);removeEventListener('mouseup',up);}
+    addEventListener('mousemove',mv);addEventListener('mouseup',up);});
+}
+/* RELOJ */
+setInterval(function(){var c=document.getElementById('clock');if(c)c.textContent=new Date().toLocaleString('es-ES',{dateStyle:'short',timeStyle:'medium'});},1000);
+
+/* ============ ICONOS DE ESCRITORIO ============ */
+var ICONOS=[
+ ["terminal","Terminal","&#9000;"],["agentes","Squads AIOX","&#129302;"],["monitor","Monitor","&#128202;"],
+ ["explorador","Explorador","&#128193;"],["misiones","Misiones","&#127919;"],["cripto","VSR / TRIN","&#128142;"],
+ ["red","Red / GitHub","&#127760;"],["ayuda","Ayuda","&#128209;"],["juegos","Juegos","&#127918;"],["cosmos","Cosmos","&#129680;"]
+];
+ICONOS.forEach(function(ic){
+  var d=document.createElement('div');d.className='dicon';d.innerHTML='<div class="ico">'+ic[2]+'</div><div class="nm">'+ic[1]+'</div>';
+  d.onclick=function(){abrirApp(ic[0]);};document.getElementById('icons').appendChild(d);
+});
+function abrirApp(a){
+  if(a==='terminal')abrirWin('terminal','TVS Terminal','&#9000;',termHTML(),{x:70,y:80,w:680,h:440});
+  if(a==='agentes')abrirWin('agentes','Agente Central - Squads','&#129302;',agentesHTML(),{x:90,y:70,w:720,h:520});
+  if(a==='monitor')abrirWin('monitor','Monitor del Sistema','&#128202;',monitorHTML(),{x:120,y:90,w:560,h:430});
+  if(a==='explorador')abrirWin('explorador','Explorador del Proyecto','&#128193;',arbolHTML(),{x:140,y:110,w:560,h:440});
+  if(a==='misiones')abrirWin('misiones','Programa de Misiones','&#127919;',misionesHTML(),{x:60,y:60,w:860,h:560});
+  if(a==='cripto')abrirWin('cripto','Tokens VSR / TRIN','&#128142;',criptoHTML(),{x:160,y:80,w:640,h:500});
+  if(a==='red')abrirWin('red','Red y GitHub','&#127760;',redHTML(),{x:130,y:70,w:560,h:440});
+  if(a==='ayuda')abrirWin('ayuda','Ayuda','&#128209;',ayudaHTML(),{x:180,y:100,w:520,h:460});
+  if(a==='juegos')location.href='game/index.html';
+  if(a==='cosmos')location.href='cosmos.html';
 }
 
-// ═══ RESTAURAR IDIOMA (padrão es) ═══
-try { const saved = localStorage.getItem('tvs-lang'); if(saved && LANG[saved]) setLang(saved); } catch(e){}
+/* ============ TERMINAL ============ */
+var aliasUser=null;
+function termHTML(){return '<div class="term" id="termOut"></div><div class="term in" style="margin-top:8px"><span class="p" id="termPrompt">viseron@tvs:~$</span><input id="termIn" autocomplete="off" spellcheck="false"></div>';}
+function termPrint(s,cls){var o=document.getElementById('termOut');if(!o)return;var d=document.createElement('div');d.className=cls||'';d.innerHTML=s||' ';o.appendChild(d);o.parentElement.scrollTop=9e9;}
+function termPrompt(){var p=document.getElementById('termPrompt');if(p)p.textContent=(aliasUser||'viseron')+'@tvs:~$';}
+function updatePrompt(){termPrompt();}
+function ejecutar(cmd){
+  var c=cmd.trim();termPrint('<span class="p">'+((aliasUser||'viseron')+'@tvs:~$</span> '+(c||'')),'');
+  var a=c.toLowerCase().split(/\s+/),base=a[0],args=a.slice(1);
+  var out={
+   help:function(){termPrint('<span class="c">COMANDOS DISPONIBLES</span>\n  whoami · status · version · agentes · skills · trabajadores · tareas\n  misiones · juegos · tokens · roadmap · arbol · github · auditoria\n  firma · cosmos · alias &lt;nombre&gt; · fecha · limpiar · reiniciar · salir');},
+   whoami:function(){termPrint('TVS OS v5.0 — '+ESTADO.server+'\nRol: <span class="c">Comandante de la nave</span> · Misiones: '+(misionesHechas().length)+'/50 · TRIN: '+trinTotal());},
+   status:function(){termPrint('<span class="c">ESTADO DEL BATALLON</span>');for(var k in ESTADO){termPrint('  '+k+': <span class="w">'+ESTADO[k]+'</span>');}},
+   version:function(){termPrint('TVS OS v5.0 · AIOX '+ESTADO.version+' · Node '+ESTADO.node);},
+   fecha:function(){termPrint(new Date().toLocaleString('es-ES'));},
+   agentes:function(){termPrint('<span class="c">12 SQUADS ACTIVAS</span>');AGENTES.forEach(function(a){termPrint('  ['+(a.activo?'<span class="w">ON</span>':'OFF')+'] '+a.id+' — '+a.rol);});},
+   skills:function(){termPrint('<span class="c">'+SKILLS.length+' SKILLS</span>\n  '+SKILLS.join(' · '));},
+   trabajadores:function(){termPrint('199 workers registrados en el registry (ver manifiesto workers.csv)');},
+   tareas:function(){termPrint('215 tareas en development/tasks (ver manifiesto tasks.csv)');},
+   manifests:function(){termPrint('manifests: agents.csv=12 · workers.csv=199 · tasks.csv=215 — <span class="ok" style="color:#00ff87">VALIDOS</span>');},
+   misiones:function(){var m=misionesHechas();termPrint('Misiones cumplidas: <span class="c">'+m.length+'/50</span> · TRIN acumulados: <span class="c">'+trinTotal()+'</span>\nAbre la app Misiones para continuar.');},
+   juegos:function(){termPrint('3 juegos: Asteroid Miner · Cosmos Runner · Quiz del Batallon\nEjecuta `abrir juegos` para saltar a la sala.');},
+   tokens:function(){TOKENS.forEach(function(t){termPrint('<span class="c">'+t.s+'</span> — '+t.n+' ('+t.tipo+')\n  supply '+t.supply+' · '+t.mec+'\n  redes: '+t.redes);});},
+   roadmap:function(){ROADMAP.forEach(function(r){termPrint('<span class="w">FASE '+r[0]+'</span> '+r[1]+' — '+r[2]);});},
+   arbol:function(){termPrint('<span class="c">ARBOL DEL PROYECTO</span>');ARBOL.forEach(function(n){termPrint('<span class="'+(n[0]==='d'?'c':'m')+'">'+n[1]+'</span>');});},
+   explorar:function(){abrirApp('explorador');termPrint('Explorador abierto.');},
+   github:function(){window.open('https://github.com/ViseronSystem/trinnity-viseron-system','_blank');termPrint('Abriendo repositorio en GitHub...');},
+   auditoria:function(){termPrint('<span class="c">AUDITORIA 17/08/2026</span>\n  Framework: <span class="w">VERDE</span> · Manifests: <span class="w">VERDE</span> · Squads: <span class="w">VERDE (7 IDEs)</span>\n  n8n: <span class="w">VERDE</span> · Docker: <span class="w">AMARILLO (virt anidada)</span>\n  Seguridad: <span class="e">P0 pendiente (rotar clave + usuario n8n)</span>');},
+   firma:function(){termPrint('<span class="c">TVS — AUTORIDAD</span>\n  Pedro Costa — Comandante\n  Trinnity Hurtado — Reina\n  Decisiones finales: ellos. © 2026.');},
+   cosmos:function(){location.href='cosmos.html';},
+   alias:function(){if(args[0]){aliasUser=args[0];termPrint('Alias establecido: <span class="c">'+args[0]+'</span>');updatePrompt();}else termPrint('Uso: alias &lt;nombre&gt;');},
+   abrir:function(){if(args[0])abrirApp(args[0]);else termPrint('Uso: abrir &lt;app&gt;');},
+   limpiar:function(){var o=document.getElementById('termOut');if(o)o.innerHTML='';},
+   reiniciar:function(){location.reload();},
+   salir:function(){cerrarWin('terminal');},
+   pedro:function(){termPrint('El Comandante observa. Las misiones continuan.');},
+   trinnity:function(){termPrint('La Reina observa. El cosmos os protege.');},
+   viseron:function(){termPrint('<span class="c">5000+ mentes conectadas. PoM activa.</span>');}
+  };
+  if(out[base]){out[base]();}
+  else if(base===''){}
+  else{termPrint('<span class="e">comando no reconocido: '+base+'</span>\nEscribe <span class="c">help</span> para la lista de comandos.');}
+}
+function bindTerm(){var inp=document.getElementById('termIn');if(!inp)return;inp.focus();
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){ejecutar(inp.value);inp.value='';}
+    if(e.key==='ArrowUp'){/* historial basico omitido */}});
+}
+</script>
 
-// ═══ LIVE API FETCH (System of Truth: /api/health + /api/status) ═══
-(async function(){
-  const el = id => document.getElementById(id);
-  const setTxt = (id, txt, color) => { const e = el(id); if(e){ e.textContent = txt; if(color) e.style.color = color; } };
-  try {
-    const h = await (await fetch('/api/health', {signal:AbortSignal.timeout(12000)})).json();
-    setTxt('api-status-txt','Operacional','var(--neon4)');
-    setTxt('api-tenants', h.tenants ?? '0');
-    setTxt('api-users', h.users ?? '0');
-    setTxt('api-billing', h.billing ?? 'avirato');
-  } catch(e){
-    setTxt('api-status-txt','offline (local build ok)','var(--neon2)');
+<script>
+/* ============ APP: SQUADS ============ */
+function agentesHTML(){
+  var h='<p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">12 mentes del batallon, sincronizadas en 7 IDEs (137 archivos, 0 drift). Activa o desactiva cada squad — el estado se guarda en tu nave.</p><div class="grid2">';
+  AGENTES.forEach(function(a){
+    h+='<div class="card"><h4>'+a.icon+' '+a.nombre+' <span class="badge bg">ACTIVA</span></h4>'+
+       '<p style="font-size:.74rem;color:var(--muted);margin-bottom:6px">'+a.rol+'</p>'+
+       '<div style="font-size:.68rem;color:var(--cyan);font-family:var(--mono)">id: '+a.id+'</div>'+
+       '<div style="margin-top:8px">'+a.cmds.map(function(c){return '<span class="chip">'+c+'</span>'}).join('')+'</div>'+
+       '<button class="tbtn" style="margin-top:10px;width:100%;justify-content:center;cursor:pointer" onclick="termPrintActivar(\''+a.id+'\')">Desplegar squad</button></div>';
+  });
+  return h+'</div>';
+}
+function termPrintActivar(id){
+  var a=AGENTES.find(function(x){return x.id===id});
+  abrirWin('terminal','TVS Terminal','&#9000;',termHTML(),{x:70,y:80,w:680,h:440});
+  setTimeout(function(){termPrint('<span class="c">Squad '+a.nombre+' desplegada.</span>\n  rol: '+a.rol+'\n  comandos: '+a.cmds.join(', ')+'\n  Escribe `help` para ver todo el arsenal.');bindTerm();},80);
+}
+
+/* ============ APP: MONITOR ============ */
+var monTimer=null;
+function monitorHTML(){
+  return '<div class="mon">'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">AGENTES ACTIVOS</div><canvas id="mc1"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">CICLOS DE APRENDIZAJE</div><canvas id="mc2"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">TRANSFERENCIAS (n8n)</div><canvas id="mc3"></canvas></div>'+
+    '<div><div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">RED (GitHub API)</div><canvas id="mc4"></canvas></div>'+
+    '</div>'+
+    '<div class="card" style="margin-top:12px"><h4>Servicios del batallon</h4>'+
+    '<table class="g"><tr><th>Servicio</th><th>Estado</th></tr>'+
+    '<tr><td>TVS OS (web)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>n8n automations</td><td><span class="badge bg">ONLINE :5678</span></td></tr>'+
+    '<tr><td>AIOX framework v'+ESTADO.version+'</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>Ollama (qwen 7b/3b)</td><td><span class="badge bg">ONLINE</span></td></tr>'+
+    '<tr><td>Docker/WSL</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+    '</table></div>';
+}
+function dibujarMon(cvId,color,base,amp){
+  var cv=document.getElementById(cvId);if(!cv)return;
+  cv.width=cv.clientWidth*2;cv.height=110*2;
+  var x=cv.getContext('2d'),datos=[];
+  for(var i=0;i<60;i++)datos.push(base);
+  function paso(){
+    var ult=datos[datos.length-1];var n=Math.max(0,Math.min(1,ult+(Math.random()-0.5)*0.25+((base-ult)*0.05)));
+    datos.push(n);datos.shift();
+    x.clearRect(0,0,cv.width,cv.height);
+    x.strokeStyle='rgba(255,255,255,.06)';x.lineWidth=1;
+    for(var g=0;g<4;g++){x.beginPath();x.moveTo(0,g*cv.height/4);x.lineTo(cv.width,g*cv.height/4);x.stroke();}
+    x.beginPath();
+    for(var i=0;i<datos.length;i++){var px=i/datos.length*cv.width,py=cv.height-(datos[i]*amp+0.2)*cv.height;if(i===0)x.moveTo(px,py);else x.lineTo(px,py);}
+    x.strokeStyle=color;x.lineWidth=3;x.shadowColor=color;x.shadowBlur=8;x.stroke();
   }
-  try {
-    const s = await (await fetch('/api/status', {signal:AbortSignal.timeout(12000)})).json();
-    const lf = s.lastFullCheck;
-    const t = s.tests || lf?.tests || null;
-    if (t) {
-      const tot = t.totals || (t.web && t.omega && t.core);
-      if (tot && tot.total) setTxt('kpi-tests', `${tot.passed ?? tot.total}/${tot.total}`);
-      else if (t.omega && t.omega.total) setTxt('kpi-tests', `${t.omega.passed}/${t.omega.total}`);
-    }
-    const ts = s.typeScript || lf?.typeScript;
-    if (ts) setTxt('kpi-ts', ts.clean ? 'CLEAN' : `${ts.errors ?? 'ERR'} ERR`, ts.clean ? 'var(--neon)' : '#ef4444');
-    const sec = s.security || lf?.security;
-    if (sec) { const hv = (sec.vulnerabilities?.high || 0) + (sec.vulnerabilities?.critical || 0); setTxt('kpi-vulns', String(hv || (sec.total ?? 0)), hv ? '#ef4444' : 'var(--neon3)'); }
-    if ((s.agents || lf?.agents)?.core) setTxt('kpi-agents', String((s.agents || lf?.agents).core));
-    const sk = s.skills || lf?.skills;
-    if (sk?.total) setTxt('stat-skills', sk.total.toLocaleString());
-    if (sk?.collections) setTxt('stat-integ', String(sk.collections));
-    const badge = document.getElementById('sot-badge');
-    if (badge && lf?.at) badge.textContent = 'System of Truth · ' + new Date(lf.at).toLocaleString();
-  } catch(e){ /* /api/status opcional — mantém KPIs estáticos */ }
-})();
+  paso();
+  var id=setInterval(paso,600);
+  return id;
+}
+
+/* ============ APP: EXPLORADOR ============ */
+function arbolHTML(){
+  var pre='';
+  ARBOL.forEach(function(n){pre+='<span class="'+(n[0]==='d'?'d':'f')+'">'+n[1]+'</span>\n';});
+  return '<div class="card"><h4>Repositorio: ViseronSystem/trinnity-viseron-system</h4>'+
+    '<p style="font-size:.72rem;color:var(--muted)">Datos vivos de GitHub (se cargan en tiempo real):</p>'+
+    '<div id="ghlive" style="font-family:var(--mono);font-size:.72rem;margin:8px 0"><span class="w">cargando...</span></div></div>'+
+    '<div class="arbol">'+pre+'</div>';
+}
+function cargarGitHubLive(){
+  fetch('https://api.github.com/repos/ViseronSystem/trinnity-viseron-system')
+  .then(function(r){return r.json()})
+  .then(function(j){
+    var el=document.getElementById('ghlive');
+    if(el&&j.full_name)el.innerHTML='<span class="c">'+j.full_name+'</span> · &#9733; '+j.stargazers_count+
+      ' · forks '+j.forks_count+' · issues '+j.open_issues_count+
+      '<br>rama: '+j.default_branch+' · creado: '+j.created_at.slice(0,10)+' · actualizado: '+j.updated_at.slice(0,10);
+  })
+  .catch(function(){var el=document.getElementById('ghlive');if(el)el.innerHTML='<span class="e">sin conexion con GitHub API</span>';});
+}
+
+/* ============ APP: MISIONES ============ */
+var CATS=["Todas","Génesis","Exploración","Construcción","Cosmos","Comunidad","Cripto"];
+function misionesLS(){try{return JSON.parse(localStorage.getItem('tvs_misiones')||'[]')}catch(e){return[]}}
+function guardarMisiones(a){localStorage.setItem('tvs_misiones',JSON.stringify(a))}
+function misionesHechas(){return misionesLS()}
+function trinTotal(){return MISIONES.filter(function(m){return misionesLS().indexOf(m[0])>=0}).reduce(function(s,m){return s+m[4]},0)}
+function misionesHTML(){
+  var h='<div class="prog"><div style="font-size:.72rem;color:var(--muted)" id="mpg">progreso</div><div class="bar" style="height:8px;background:rgba(255,255,255,.07);border-radius:99px"><div id="mfill"></div></div></div>';
+  h+='<div class="filtros">'+CATS.map(function(c,i){return '<button data-c="'+c+'" class="'+(i===0?'on':'')+'">'+c+'</button>'}).join('')+'</div>';
+  h+='<div class="grid2 misiones" id="mgrid"></div>';
+  return h;
+}
+function pintarMisiones(cat){
+  var g=document.getElementById('mgrid');if(!g)return;
+  var hechas=misionesLS();var filt=MISIONES.filter(function(m){return cat==='Todas'||m[1]===cat});
+  g.innerHTML='';
+  filt.forEach(function(m){
+    var done=hechas.indexOf(m[0])>=0;
+    var d=document.createElement('div');d.className='m'+(done?' done':'');
+    d.innerHTML='<div class="row"><span style="color:var(--purple);font-family:var(--mono)">'+m[0]+'</span><span style="color:var(--orange)">'+('&#9733;'.repeat(m[3]))+'</span></div>'+
+      '<h5>'+m[2]+'</h5><p>'+m[2]+' — '+m[1]+'</p>'+
+      '<div class="row"><span>Dificultad '+m[3]+'/5</span><span class="trin">+'+m[4]+' TRIN</span></div>'+
+      '<button class="'+(done?'ok':'')+'">'+(done?'&#10003; CUMPLIDA':'CUMPLIR MISION')+'</button>';
+    d.querySelector('button').onclick=function(){
+      if(done)return;
+      var arr=misionesLS();arr.push(m[0]);guardarMisiones(arr);
+      pintarMisiones(cat);pintarProgreso();
+      if(aliasUser!==null){} 
+    };
+    g.appendChild(d);
+  });
+  pintarProgreso();
+}
+function pintarProgreso(){
+  var hechas=misionesLS();
+  var p=document.getElementById('mpg');if(p)p.textContent=hechas.length+' de 50 misiones cumplidas · '+trinTotal()+' TRIN';
+  var f=document.getElementById('mfill');if(f){f.style.background='linear-gradient(90deg,var(--cyan),var(--green))';f.style.width=(hechas.length/50*100)+'%';f.style.height='100%';}
+}
+function bindMisiones(){
+  var g=document.getElementById('mgrid');if(!g)return;
+  pintarMisiones('Todas');
+  document.querySelectorAll('#win-misiones .filtros button').forEach(function(b){
+    b.onclick=function(){document.querySelectorAll('#win-misiones .filtros button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');pintarMisiones(b.dataset.c);};
+  });
+}
+
+/* ============ APP: CRIPTO ============ */
+function criptoHTML(){
+  var h='<div class="grid2">';
+  TOKENS.forEach(function(t){
+    h+='<div class="card"><h4>'+t.s+' — '+t.n+'</h4>'+
+      '<p style="font-size:.72rem;color:var(--muted)">'+t.tipo+'</p>'+
+      '<table class="g" style="margin-top:8px"><tr><th>Dato</th><th>Valor</th></tr>'+
+      '<tr><td>Supply</td><td>'+t.supply+'</td></tr><tr><td>Mecanica</td><td>'+t.mec+'</td></tr><tr><td>Redes</td><td>'+t.redes+'</td></tr></table></div>';
+  });
+  h+='</div><div class="card"><h4>Estado de salida a DEX</h4>'+
+  '<table class="g"><tr><th>Etapa</th><th>Estado</th></tr>'+
+  '<tr><td>Contratos (ViseronCrown, Trinnity, Gov, Staking)</td><td><span class="badge bg">LISTOS</span></td></tr>'+
+  '<tr><td>Deploy mainnet (BSC/EVM)</td><td><span class="badge by">PENDIENTE DE EJECUCION</span></td></tr>'+
+  '<tr><td>Liquidity pool (Uniswap/PancakeSwap/Raydium)</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+  '<tr><td>Lock de liquidez</td><td><span class="badge by">PENDIENTE</span></td></tr>'+
+  '<tr><td>Indexacion CoinGecko/CMC</td><td><span class="badge by">FASE 3</span></td></tr></table></div>'+
+  '<div class="card"><h4>Roadmap</h4>'+ROADMAP.map(function(r){return '<p style="font-size:.76rem;margin:6px 0"><span class="chip">FASE '+r[0]+'</span> <b style="color:var(--cyan)">'+r[1]+'</b> — '+r[2]+'</p>'}).join('')+'</div>';
+  return h;
+}
+
+/* ============ APP: RED ============ */
+function redHTML(){
+  return '<div class="card"><h4>GitHub — tiempo real</h4><div id="redgh" style="font-family:var(--mono);font-size:.72rem"><span class="w">consultando api.github.com...</span></div></div>'+
+  '<div class="card"><h4>Conexiones del batallon</h4>'+
+  '<table class="g"><tr><th>Destino</th><th>Rol</th><th>Estado</th></tr>'+
+  '<tr><td>github.com/ViseronSystem</td><td>Codigo fuente</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>vercel.com (2 sitios)</td><td>Produccion web</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>UpCloud 194.62.96.26</td><td>Servidor principal</td><td><span class="badge bg">ACTIVO</span></td></tr>'+
+  '<tr><td>n8n :5678</td><td>Automatizaciones</td><td><span class="badge bg">ACTIVO</span></td></tr></table></div>';
+}
+function cargarRed(){
+  fetch('https://api.github.com/rate_limit').then(function(r){return r.json()}).then(function(j){
+    var el=document.getElementById('redgh');
+    if(el&&j.rate)el.innerHTML='<span class="c">API GitHub OK</span> · '+j.rate.remaining+' peticiones restantes';
+  }).catch(function(){var el=document.getElementById('redgh');if(el)el.innerHTML='<span class="e">API GitHub inaccesible</span>';});
+}
+
+/* ============ APP: AYUDA ============ */
+function ayudaHTML(){
+  return '<div class="card"><h4>TVS OS — manual rapido</h4>'+
+  '<p style="font-size:.76rem;color:var(--muted)">Esto no es una pagina: es la consola web del sistema real.</p>'+
+  '<table class="g"><tr><th>Ventana</th><th>Que hace</th></tr>'+
+  '<tr><td>Terminal</td><td>Comandos reales sobre el proyecto (help, status, agentes, arbol...)</td></tr>'+
+  '<tr><td>Squads AIOX</td><td>Las 12 mentes con sus roles y comandos de activacion</td></tr>'+
+  '<tr><td>Monitor</td><td>Telemetria simulada + estado real de servicios</td></tr>'+
+  '<tr><td>Explorador</td><td>Arbol real del repositorio + datos vivos de GitHub</td></tr>'+
+  '<tr><td>Misiones</td><td>50 misiones con recompensas TRIN (progreso guardado)</td></tr>'+
+  '<tr><td>VSR/TRIN</td><td>Tokenomics y estado real de salida a DEX</td></tr>'+
+  '<tr><td>Red</td><td>Estado de GitHub API y conexiones</td></tr></table>'+
+  '<p style="font-size:.72rem;color:var(--muted);margin-top:10px">Trucos de terminal: <span class="chip">pedro</span> <span class="chip">trinnity</span> <span class="chip">vison</span></p></div>';
+}
+
+/* ============ INIT DE APPS ============ */
+var appInits={terminal:bindTerm,monitor:function(){monTimer=dibujarMon('mc1','#00f0ff',0.6,0.55);dibujarMon('mc2','#bf5af2',0.5,0.6);dibujarMon('mc3','#ff9f0a',0.45,0.5);dibujarMon('mc4','#00ff87',0.55,0.5);},
+ explorador:function(){cargarGitHubLive()},misiones:bindMisiones,red:function(){cargarRed()}};
+var _origAbrir=abrirWin;
+abrirWin=function(id,titulo,ico,html,geo){
+  var w=_origAbrir(id,titulo,ico,html,geo);
+  setTimeout(function(){if(appInits[id]){try{appInits[id]()}catch(e){}}},60);
+  return w;
+};
+window.addEventListener('load',function(){
+  var tb=document.getElementById('taskbar');
+  var c=document.createElement('div');c.id='clock';tb.appendChild(c);
+  c.textContent=new Date().toLocaleString('es-ES',{dateStyle:'short',timeStyle:'medium'});
+});
 </script>
 </body>
 </html>
