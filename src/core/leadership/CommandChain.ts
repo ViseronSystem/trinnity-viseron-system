@@ -58,6 +58,11 @@ export class CommandChain {
             commandLevel: "supreme",
             timestamp: Date.now()
           },
+          artifact: {
+            type: "directive-report",
+            description: `Directiva ejecutada: ${task}`,
+            data: { authority: "absolute", clearance: "tvs_creator", issuedAt: Date.now(), status: "executed" }
+          },
           executionTimeMs: Date.now() - start
         };
       }
@@ -96,6 +101,11 @@ export class CommandChain {
             clearance: "tvs_architect",
             domain: "technical_sovereignty",
             timestamp: Date.now()
+          },
+          artifact: {
+            type: "architecture-blueprint",
+            description: `Blueprint generado: ${task}`,
+            data: { authority: "architectural", clearance: "tvs_architect", issuedAt: Date.now(), status: "generated" }
           },
           executionTimeMs: Date.now() - start
         };

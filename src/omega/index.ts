@@ -309,6 +309,7 @@ export class OmegaPlatform {
           },
           latencyMs,
           cost: +(latencyMs * 0.00002).toFixed(6),
+          artifact: (result as any)?.artifact ?? ((result as any)?.data ? { type: "agent-output", description: String(result?.output ?? "").slice(0, 120), data: (result as any).data } : undefined),
         };
       });
     }
