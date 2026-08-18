@@ -1,0 +1,21 @@
+{
+  "id": "task_msxugryd_dz2w0p",
+  "timestamp": "2026-08-17T23:07:50.568Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c82189a4b1621078ce6b2afa5f658e64b4838eb399ca4ce1c81995194d64b6a8"
+}

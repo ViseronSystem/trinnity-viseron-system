@@ -1,0 +1,21 @@
+{
+  "id": "task_msxrblu2_okx6l1",
+  "timestamp": "2026-08-17T21:39:50.505Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2b8383ce54040a45914b89df1347afd1758e6028ee0f2ae192d22ed0477ef2d6"
+}

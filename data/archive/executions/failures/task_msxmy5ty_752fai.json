@@ -1,0 +1,21 @@
+{
+  "id": "task_msxmy5ty_752fai",
+  "timestamp": "2026-08-17T19:37:24.770Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "d2aaa54cfb43d9d600b0a90e5168df222560709b8a7d9fe84b22c9a2295776fc"
+}

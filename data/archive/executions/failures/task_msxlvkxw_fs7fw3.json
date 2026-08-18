@@ -1,0 +1,21 @@
+{
+  "id": "task_msxlvkxw_fs7fw3",
+  "timestamp": "2026-08-17T19:07:24.766Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "75ea7a76be5c7a9831e70f9223523cda3f389ad790b72e5811f9ae1662125f73"
+}

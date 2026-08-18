@@ -1,0 +1,21 @@
+{
+  "id": "task_msxvtn8r_6w6rsy",
+  "timestamp": "2026-08-17T23:45:50.610Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "36929e47885e2185c6be2ae48b2f4af16cf4c66d8d3900c01c4b1c87f5c9d85d"
+}

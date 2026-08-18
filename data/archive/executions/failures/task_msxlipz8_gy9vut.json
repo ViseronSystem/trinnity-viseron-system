@@ -1,0 +1,21 @@
+{
+  "id": "task_msxlipz8_gy9vut",
+  "timestamp": "2026-08-17T18:57:24.768Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "607ecd4d8c446a5c6b73f7975b5535677f3a17ad868f8ab2fa33c3b1ad02f458"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msxkvkn4_3xgnvm",
+  "timestamp": "2026-08-17T18:39:24.765Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "2e589901d99e8eb22ed41e8fa23656a799155a77e475735d65b7f942a5c76f17"
+}

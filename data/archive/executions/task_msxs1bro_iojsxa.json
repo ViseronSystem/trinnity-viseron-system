@@ -1,0 +1,21 @@
+{
+  "id": "task_msxs1bro_iojsxa",
+  "timestamp": "2026-08-17T21:59:50.517Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "60f4d04a57c2fdf64f42a566cd183a781fe36d54a15c864738bc2717a8a3bced"
+}

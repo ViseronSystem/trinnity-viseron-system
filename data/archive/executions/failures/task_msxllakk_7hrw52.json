@@ -1,0 +1,21 @@
+{
+  "id": "task_msxllakk_7hrw52",
+  "timestamp": "2026-08-17T18:59:24.770Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "db511f895daae88fad9dfc41eed3481efd58a8bebdfd1a2450676745984cd231"
+}

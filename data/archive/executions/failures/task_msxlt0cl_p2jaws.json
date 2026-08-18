@@ -1,0 +1,21 @@
+{
+  "id": "task_msxlt0cl_p2jaws",
+  "timestamp": "2026-08-17T19:05:24.769Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "a8efe41054331247fe97f8f4dbe0a2d23174961ac4fcfa278375e7547de5aa0d"
+}

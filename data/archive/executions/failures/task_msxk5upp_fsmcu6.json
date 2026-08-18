@@ -1,0 +1,21 @@
+{
+  "id": "task_msxk5upp_fsmcu6",
+  "timestamp": "2026-08-17T18:19:24.764Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "de0e0ca8b4ff9143f2e8ea21b82601c0577bc8c825dd5b392547d5946123e1b1"
+}

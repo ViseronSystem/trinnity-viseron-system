@@ -1,0 +1,21 @@
+{
+  "id": "task_msxkazwe_hk5t40",
+  "timestamp": "2026-08-17T18:23:24.763Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "8ff728a8409ea0dddf058e16925ff9dd85d84241989cd4399147bd99d85dcb94"
+}

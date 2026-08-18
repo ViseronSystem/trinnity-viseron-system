@@ -5,7 +5,7 @@
 
 import { TelemetryEngine } from "../../omega/telemetry/TelemetryEngine";
 import { EvolutionEngine } from "../../omega/evolution/EvolutionEngine";
-import { RAGPipeline } from "./RAGPipeline";
+import { RAGPipeline } from "../../core/memory/RAGPipeline";
 import * as fs from "fs";
 import * as path from "path";
 

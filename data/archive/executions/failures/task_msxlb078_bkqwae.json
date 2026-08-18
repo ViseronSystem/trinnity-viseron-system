@@ -1,0 +1,21 @@
+{
+  "id": "task_msxlb078_bkqwae",
+  "timestamp": "2026-08-17T18:51:24.766Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "6ab9c768cbc191ca10f311807889753c8c137980a1d044aca2b920e06c19acbb"
+}
