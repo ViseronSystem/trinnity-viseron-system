@@ -48,6 +48,7 @@ export interface OmegaOptions {
 }
 
 export interface OmegaPlatformStatus {
+  telemetry?: any;
   kernel: ReturnType<Kernel["status"]>;
   runtime: ReturnType<AgentRuntime["status"]>;
   graph: ReturnType<KnowledgeGraph["getStats"]>;
@@ -625,7 +626,7 @@ export class OmegaPlatform {
       if (trace?.traceId) {
         const crypto = require("crypto");
         const hash = crypto.createHash("sha256").update(JSON.stringify(trace)).digest("hex");
-        this.archive.record(
+        (this.archive as any).record(
           `cognitive_trace_${trace.traceId}`,
           `Cognitive Trace: ${trace.source} — ${trace.result?.success ? "SUCCESS" : "FAILED"}`,
           {

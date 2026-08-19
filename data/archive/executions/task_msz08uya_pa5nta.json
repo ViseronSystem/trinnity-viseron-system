@@ -1,0 +1,21 @@
+{
+  "id": "task_msz08uya_pa5nta",
+  "timestamp": "2026-08-18T18:37:25.098Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5794542353845f47c68fae754b92b7bb60dcc01240cf16f628c72976ddc4fb8c"
+}

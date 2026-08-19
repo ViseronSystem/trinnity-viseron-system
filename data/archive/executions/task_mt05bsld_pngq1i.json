@@ -1,0 +1,21 @@
+{
+  "id": "task_mt05bsld_pngq1i",
+  "timestamp": "2026-08-19T13:47:26.283Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "12e6344ec9b36603f9d1c091d9e4bcb2d9afffaf2c66557307bd11de63faf1df"
+}

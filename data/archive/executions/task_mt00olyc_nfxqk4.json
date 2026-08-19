@@ -1,0 +1,21 @@
+{
+  "id": "task_mt00olyc_nfxqk4",
+  "timestamp": "2026-08-19T11:37:26.125Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "674ec491dac8573b39e273c05e2be815f4110c5cbf7746d2a15e82e80db24808"
+}

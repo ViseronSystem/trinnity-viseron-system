@@ -1,0 +1,21 @@
+{
+  "id": "task_msyw8tpi_3hqnap",
+  "timestamp": "2026-08-18T16:45:25.018Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c83f061e82de83512d0ad0012dbe0c73b2bba96ef76a28902e357684b3c0788a"
+}

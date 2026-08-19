@@ -1,0 +1,21 @@
+{
+  "id": "task_msyt130g_1eqyun",
+  "timestamp": "2026-08-18T15:15:24.986Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fb5a7e86fe24ce943231bc54024f9043a064540b3b34c319062a177f66976237"
+}

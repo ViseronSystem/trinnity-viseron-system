@@ -1,0 +1,21 @@
+{
+  "id": "task_msymqqpm_yaxdft",
+  "timestamp": "2026-08-18T12:19:24.778Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dc177cfa6ec498bdbf22095e5bbc9718ed0e0f7627625955f12a6109979c9994"
+}

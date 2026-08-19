@@ -1,0 +1,21 @@
+{
+  "id": "task_mszwguty_y8y86o",
+  "timestamp": "2026-08-19T09:39:25.918Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7957c1fca11f0c5e555cde76aa036be16edc57888f5bf21eec6ef58daf34cd1b"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mszvokap_j8cnv4",
+  "timestamp": "2026-08-19T09:17:25.896Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "863d389092ac1f337fecf640c635a1dfdcc66738edcc98b9aaf0152f7cee5751"
+}

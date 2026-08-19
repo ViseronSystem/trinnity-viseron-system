@@ -115,7 +115,7 @@ export class AutoEvolutionEngine {
 
     const newCapabilities = this.generateNewCapabilities(agent);
 
-    const record: EvolutionRecord = {
+    const record: any = {
       agentId: agent.id,
       agentName: agent.name,
       cycle: this.evolutionCycle,
@@ -129,7 +129,7 @@ export class AutoEvolutionEngine {
     const evolutionData = {
       cycle: this.evolutionCycle,
       knowledgeGained,
-      wisdomScore: newWisdom,
+      wisdomScore: legacyWisdom,
       capabilities: agent.capabilities,
       newCapabilities,
       knowledgeSources: enriched.map((k: SuperMindKnowledge) => ({ topic: k.topic, relevance: k.relevance, source: k.source }))
@@ -151,13 +151,13 @@ export class AutoEvolutionEngine {
       agent.capabilities.push(...newCapabilities);
     }
 
-    const insightVector = this.evolutionInsightToVector(knowledgeGained, newWisdom, newCapabilities.length);
+    const insightVector = this.evolutionInsightToVector(knowledgeGained, legacyWisdom, newCapabilities.length);
     await this.memoryEngine.storeVector(insightVector, {
       agentId: agent.id,
       agentName: agent.name,
       cycle: this.evolutionCycle,
       knowledgeGained,
-      wisdomScore: newWisdom,
+      wisdomScore: legacyWisdom,
       newCapabilities: newCapabilities.length,
       timestamp: Date.now()
     });

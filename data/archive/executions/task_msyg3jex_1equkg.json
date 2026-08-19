@@ -1,0 +1,21 @@
+{
+  "id": "task_msyg3jex_1equkg",
+  "timestamp": "2026-08-18T09:13:24.533Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f43c902db75d43215752b20d1b95c021e635691b80b74129cd3964c0f5047b86"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msyugivp_l4stcp",
+  "timestamp": "2026-08-18T15:55:25.001Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d01c5c48729b630fd4a7915f9ff2e206c969e392d75270104b5b4c4aff7474e6"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msynbbgw_a54moh",
+  "timestamp": "2026-08-18T12:35:24.798Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d458c8d27d570685806faa4ec8bdeeb6de98a32d542767b146fea36b98399274"
+}

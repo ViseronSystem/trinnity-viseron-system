@@ -1,0 +1,21 @@
+{
+  "id": "task_msys8sha_z11r9a",
+  "timestamp": "2026-08-18T14:53:24.961Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6f91411ff37734299e1d4689697fef36c8592bc24d57fe905c1f5a8598a09e59"
+}

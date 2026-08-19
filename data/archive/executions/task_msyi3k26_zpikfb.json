@@ -1,0 +1,21 @@
+{
+  "id": "task_msyi3k26_zpikfb",
+  "timestamp": "2026-08-18T10:09:24.602Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5361ce3ab0810f41a9ffb7f042557aaf3c54058bbab7ade0fa173ede9d27580f"
+}

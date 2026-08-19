@@ -1,0 +1,21 @@
+{
+  "id": "task_mszvbpbt_8nrlpx",
+  "timestamp": "2026-08-19T09:07:25.891Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f532609c5c2abb183e735ab2f4ec50b223cffe4737496b5c5a7ded13162f43fb"
+}

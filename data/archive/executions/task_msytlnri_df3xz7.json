@@ -1,0 +1,21 @@
+{
+  "id": "task_msytlnri_df3xz7",
+  "timestamp": "2026-08-18T15:31:24.995Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c88dd5e796245624c7358ee310e2172127d8402d93fdf132af0a00da90e3d421"
+}

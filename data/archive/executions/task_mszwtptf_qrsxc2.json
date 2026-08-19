@@ -1,0 +1,21 @@
+{
+  "id": "task_mszwtptf_qrsxc2",
+  "timestamp": "2026-08-19T09:49:25.950Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e49dd2d036aaf77dfd5e8a77c91204a0dc85b579a0c245c5483932047274688e"
+}

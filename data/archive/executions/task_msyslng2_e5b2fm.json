@@ -1,0 +1,21 @@
+{
+  "id": "task_msyslng2_e5b2fm",
+  "timestamp": "2026-08-18T15:03:24.973Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cf89540306e35462b8efc7c88b6a7339e2aa85260009450e7998bb5212e0a8fc"
+}

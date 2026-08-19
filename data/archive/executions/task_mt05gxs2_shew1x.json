@@ -1,0 +1,21 @@
+{
+  "id": "task_mt05gxs2_shew1x",
+  "timestamp": "2026-08-19T13:51:26.288Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e4b5e1e21471461b958dbb1ad91759b18dee266e5c640e0feff537e7526d7cc1"
+}

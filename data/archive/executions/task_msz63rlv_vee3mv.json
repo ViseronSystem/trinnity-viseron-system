@@ -1,0 +1,21 @@
+{
+  "id": "task_msz63rlv_vee3mv",
+  "timestamp": "2026-08-18T21:21:25.180Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b90373650ece0b1a65843546c2834663b85c3db2fc2ec5c19b6b27a19760efdf"
+}

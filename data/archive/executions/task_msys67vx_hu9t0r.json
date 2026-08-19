@@ -1,0 +1,21 @@
+{
+  "id": "task_msys67vx_hu9t0r",
+  "timestamp": "2026-08-18T14:51:24.973Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "386a632f5127ccac26a39aa7612105057ab6113e68eac1ce6d2ea3df0ebbcacf"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msysj2up_0phdst",
+  "timestamp": "2026-08-18T15:01:24.968Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e24854a384d696a5a590b2cd0eae8e844ee5d069a6b6f99c163e95c0892eab17"
+}

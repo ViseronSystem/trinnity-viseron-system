@@ -1,0 +1,21 @@
+{
+  "id": "task_msymo64b_mlw12z",
+  "timestamp": "2026-08-18T12:17:24.780Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "da44372dec3c64647d6ad78d439e5f0dc77742caca886238766b8b7ebd094578"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msyht9oj_w3rmap",
+  "timestamp": "2026-08-18T10:01:24.593Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8fcc124c6a6f7f4ed400a3fcd9d337dd4c22e5cc9471b235f3076d264fb64f9d"
+}

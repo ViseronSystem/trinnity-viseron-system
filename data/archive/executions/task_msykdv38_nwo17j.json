@@ -1,0 +1,21 @@
+{
+  "id": "task_msykdv38_nwo17j",
+  "timestamp": "2026-08-18T11:13:24.692Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4c4e3d9a2a599c28f00195ef7ed822c40a9a702cb399c402cb830ebb9133e69b"
+}

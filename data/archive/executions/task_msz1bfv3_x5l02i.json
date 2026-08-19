@@ -1,0 +1,21 @@
+{
+  "id": "task_msz1bfv3_x5l02i",
+  "timestamp": "2026-08-18T19:07:25.131Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8cba000b794fe9ca9130425ec3e45c6c43ce6a9646cd4caf5a13b1bd2a25205c"
+}

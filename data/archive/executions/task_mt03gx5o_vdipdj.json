@@ -1,0 +1,21 @@
+{
+  "id": "task_mt03gx5o_vdipdj",
+  "timestamp": "2026-08-19T12:55:26.248Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "72f90d2e8e1642d55eef210d01f17b4d201e9a52e7b0357273913d16d80e7c2d"
+}

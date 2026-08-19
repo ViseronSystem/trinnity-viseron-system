@@ -1,0 +1,21 @@
+{
+  "id": "task_msyzqusp_r2efnj",
+  "timestamp": "2026-08-18T18:23:25.087Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b6095926c22e3a79f664d0c7d5167e82e56ce2aebed538e38d626f5f3a4ec0f6"
+}

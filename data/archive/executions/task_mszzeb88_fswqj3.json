@@ -1,0 +1,21 @@
+{
+  "id": "task_mszzeb88_fswqj3",
+  "timestamp": "2026-08-19T11:01:26.055Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c73476ef6d11047f04bf756f055922275b1fcc125a87b359a0c163649fe38f5d"
+}

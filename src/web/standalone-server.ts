@@ -1,4 +1,4 @@
-﻿import "dotenv/config";
+import "dotenv/config";
 import express from "express";
 import http from "http";
 import path from "path";
@@ -383,10 +383,10 @@ export class ViseronWebServer {
           tenantId: "publico",
           successUrl: base + "/dashboard?checkout=success&plan=" + plan,
           cancelUrl: base + "/dashboard?checkout=cancel",
-        });
+        } as any);
         if (session.url) { return res.redirect(session.url); }
         res.status(400).json({ ok: false, error: "sin sesion" });
-      } catch (e) {
+      } catch (e: any) {
         res.status(500).json({ ok: false, error: String(e.message || e) });
       }
     });

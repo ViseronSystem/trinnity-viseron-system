@@ -1,0 +1,21 @@
+{
+  "id": "task_msz917xc_lednil",
+  "timestamp": "2026-08-18T22:43:25.212Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dc9afae3ee6e972b8dcdfc0189c5cbbd54ff0d6fd198b24d2531a1bcb22b0c2c"
+}

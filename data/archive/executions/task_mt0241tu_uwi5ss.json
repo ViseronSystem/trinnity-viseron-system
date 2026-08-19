@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0241tu_uwi5ss",
+  "timestamp": "2026-08-19T12:17:26.158Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0e70fa7cc13562277c18e6c17d9b80b9f420cba933bd9fdccb56d6b3990cd04d"
+}
