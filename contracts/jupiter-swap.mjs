@@ -59,6 +59,14 @@ async function quoteAndMaybeSwap(kp, amountLamports, live) {
   return { live: true, sig, outUsdc: outUsdc.toFixed(4) };
 }
 
+const SWAPS_LOG = path.join(__dirname, "..", "data", "crypto", "swaps.jsonl");
+function logSwap(entry) {
+  try {
+    fs.mkdirSync(path.dirname(SWAPS_LOG), { recursive: true });
+    fs.appendFileSync(SWAPS_LOG, JSON.stringify({ ts: new Date().toISOString(), ...entry }) + "\n");
+  } catch {}
+}
+
 const list = target === "all" ? entries : [entries[parseInt(target, 10)]].filter(Boolean);
 console.log(`=== JUPITER EXECUTOR (${mode.toUpperCase()}) — ${new Date().toISOString()} ===`);
 let ok = 0, fail = 0;
@@ -84,6 +92,7 @@ for (const e of list) {
     }
     const r = await quoteAndMaybeSwap(kp, amt, mode === "live");
     console.log(`${mode === "live" ? "[LIVE]" : "[DRY]"} ${kp.publicKey.toBase58()} -> ${r.outUsdc} USDC ${r.sig ? `sig=${r.sig}` : "(sin enviar)"}`);
+    if (mode === "live") logSwap({ address: kp.publicKey.toBase58(), mode, amountLamports: amt, outUsdc: r.outUsdc, sig: r.sig ?? null });
     ok++;
   } catch (err) {
     console.error(`ERROR ${e.address}: ${err.message}`);

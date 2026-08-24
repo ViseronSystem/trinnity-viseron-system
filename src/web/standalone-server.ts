@@ -44,6 +44,12 @@ import { CryptoDeps, createCryptoDeps } from "./crypto/deps";
 import { createCryptoRouter } from "./crypto/routes";
 import { RcsEngine } from "../core/rcs/RcsEngine";
 import { createRcsRouter } from "./rcs/routes";
+import { createProspectionDeps, createProspectionRouter } from "./prospection/routes";
+import { LicitacionStore } from "../core/licitaciones";
+import { createLicitacionesRouter } from "./licitaciones/routes";
+import { AgentActivationEngine } from "../omega/activation/AgentActivationEngine";
+import { createAgentRouter } from "./agents/routes";
+import { createCriptoRouter } from "./cripto/routes";
 import { createOmegaGateway, createOmegaGatewayPlaceholder } from "../omega/gateway";
 import { bridgeSocketIO } from "../omega/kernel/EventBridge";
 import { requireAuth } from "./auth/middleware";
@@ -61,6 +67,7 @@ export class ViseronWebServer {
   private blog: BlogStorage;
   private contentAgent: ContentAgent;
   private accounts: AccountStore;
+  private version: string;
   private logger: ILogger;
   private metrics: IMetrics;
   private billing: BillingProvider;
@@ -75,7 +82,10 @@ export class ViseronWebServer {
   private composio: ComposioBridge;
   private crypto: CryptoDeps;
   private rcs: RcsEngine;
+  private prospection: ReturnType<typeof createProspectionDeps>;
+  private licitaciones: LicitacionStore;
   private os: TVSOs;
+  private agentEngine: AgentActivationEngine;
   private osRouter!: express.Router;
   private omegaRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
@@ -90,6 +100,14 @@ export class ViseronWebServer {
   constructor(options?: { dataDir?: string; port?: number; disablePostgresAccounts?: boolean }) {
     this.app = express();
     this.server = http.createServer(this.app);
+    this.version = (() => {
+      try {
+        const pkg = require("../../package.json") as { version?: string };
+        return pkg.version || "7.0.0";
+      } catch {
+        return "7.0.0";
+      }
+    })();
     this.io = new Server(this.server, {
       path: "/api/socket.io",
       cors: { origin: "*", methods: ["GET", "POST"] }
@@ -121,8 +139,16 @@ export class ViseronWebServer {
     this.composio = new ComposioBridge();
     this.crypto = createCryptoDeps(this.dataDir, this.accounts, this.logger);
     this.rcs = new RcsEngine({ dataDir: this.dataDir });
+    this.prospection = createProspectionDeps(this.dataDir, this.email);
+    this.licitaciones = new LicitacionStore(this.dataDir);
     this.os = new TVSOs({ baseDir: path.join(this.dataDir, "tvs-os") });
     this.os.boot();
+    const specsDir = path.resolve(__dirname, "..", "omega", "agent-runtime", "specs");
+    this.agentEngine = new AgentActivationEngine(specsDir, this.dataDir);
+    this.agentEngine.loadAll().then(n => {
+      console.log(`[Web] Agent Activation Engine: ${n} agentes vivos`);
+      this.agentEngine.startAllAutonomyCycles(900_000); // ciclo autónomo a cada 15 min, escalonado (1 agente de cada vez)
+    }).catch(err => console.warn(`[Web] Agent Activation falhou: ${err.message}`));
     this.workspace = new WorkspaceStore(this.dataDir);
     this.workspaceOrchestrator = new UserTaskOrchestrator(this.workspace);
 
@@ -244,7 +270,7 @@ export class ViseronWebServer {
         status: "OK",
         timestamp: Date.now(),
         mode: "web-standalone",
-        version: "5.0.0",
+        version: this.version,
         db: this.db.enabled ? "postgres" : "json-fallback",
         usage_events: usage,
         billing: this.billing.enabled ? this.billing.name : "manual",
@@ -271,7 +297,7 @@ export class ViseronWebServer {
       const counts = await this.accounts.count();
       res.json({
         system: "Trinnity Viseron System",
-        version: "5.0.0",
+        version: this.version,
         status: "OK",
         verifiedAt: new Date().toISOString(),
         uptime: Math.floor(process.uptime()),
@@ -364,7 +390,7 @@ export class ViseronWebServer {
     this.app.get("/api/system/status", async (_req, res) => {
       const counts = await this.accounts.count();
       res.json({
-        version: "5.0.0",
+        version: this.version,
         name: "Viseron Web",
         mode: "standalone",
         blog: this.blog.count(),
@@ -439,6 +465,8 @@ export class ViseronWebServer {
     this.app.use("/api", createComposioRouter(this.composio));
     this.app.use("/api", createCryptoRouter(this.crypto.payments));
     this.app.use("/api", createRcsRouter(this.rcs));
+    this.app.use("/api", createProspectionRouter(this.prospection, this.logger));
+    this.app.use("/api", createLicitacionesRouter(this.licitaciones, this.logger));
 
     // ── REAL USER VERTICAL SLICE — workspace (auth → project → task → kernel E2E)
     this.app.use("/api", createWorkspaceRouter({
@@ -459,6 +487,8 @@ export class ViseronWebServer {
     // do mesmo router quando o kernel OMEGA carrega (padrão do /api/os).
     this.omegaRouter = createOmegaGatewayPlaceholder();
     this.app.use("/api/omega", this.omegaRouter);
+    this.app.use("/api/agents", createAgentRouter(this.agentEngine));
+    this.app.use("/api/cripto", createCriptoRouter());
 
     // TVS Desktop — página do sistema operativo
     this.app.get("/os", (_req, res) => {
@@ -474,6 +504,11 @@ export class ViseronWebServer {
     // ATLAS — Tutor de Inglês com voz
     this.app.get("/atlas", (_req, res) => {
       res.sendFile(path.join(PUBLIC_DIR, "atlas.html"));
+    });
+
+    // CRIPTO OS — painel live de farming/transações/oportunidades (on-chain real)
+    this.app.get("/cripto", (_req, res) => {
+      res.sendFile(path.join(PUBLIC_DIR, "cripto.html"));
     });
 
     // WORKSPACE — Real User Vertical Slice (auth → project → task → resultado real)
@@ -613,6 +648,7 @@ export class ViseronWebServer {
   stop(): void {
     this.contentAgent.stop();
     if (this.autoMonetizeTimer) clearInterval(this.autoMonetizeTimer);
+    this.agentEngine.stopAllAutonomyCycles();
     this.server.close();
   }
 
