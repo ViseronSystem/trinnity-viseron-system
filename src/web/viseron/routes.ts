@@ -19,6 +19,7 @@ export function createViseronRouter(ctx: {
   composio: any;
   agency: any;
   rcs?: any;
+  skillBridge?: any;
   logger: ILogger;
   metrics: IMetrics;
 }): Router {

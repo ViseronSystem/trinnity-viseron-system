@@ -161,7 +161,7 @@ export class Wan21Provider {
     const taskMap = { t2v: "t2v", i2v: "i2v", t2i: "t2i" };
     const modelArg = req.modelSize === "14B" ? `t2v-14B` : `t2v-1.3B`;
     const ckptDir = env.modelPath || `./Wan2.1-${modelArg === "t2v-14B" ? "T2V-14B" : "T2V-1.3B"}`;
-    const outputFile = req.outputPath || path.join(DATA_DIR, "..", "data", "creative", `wan2.1_output_${Date.now()}.mp4`);
+    const outputFile = req.outputPath || path.join(__dirname, "..", "..", "..", "data", "creative", `wan2.1_output_${Date.now()}.mp4`);
 
     const cmd = `python ${env.wan21Path} --task ${modelArg} --size ${req.size} --ckpt_dir ${ckptDir} --prompt "${req.prompt}" --offload_model True --t5_cpu --sample_guide_scale 6`;
     let stdout = "";

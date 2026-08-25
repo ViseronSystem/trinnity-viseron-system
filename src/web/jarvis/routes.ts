@@ -10,6 +10,7 @@ import { JarvisAgent } from "./agent";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { AgencyDeps } from "../agency/routes";
 import { RcsEngine } from "../../core/rcs/RcsEngine";
+import { SkillBridge } from "../../core/intelligence/SkillBridge";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
 
@@ -23,6 +24,7 @@ export function createJarvisRouter(ctx: {
   composio: ComposioBridge;
   agency: AgencyDeps;
   rcs?: RcsEngine;
+  skillBridge?: SkillBridge;
   logger: ILogger;
   metrics: IMetrics;
 }): Router {

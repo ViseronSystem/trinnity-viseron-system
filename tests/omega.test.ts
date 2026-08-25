@@ -347,7 +347,8 @@ async function runOmegaTests() {
     assert(eng?.domain === "software" && eng.agents.length === 3, "Squads: Engineering com 3 agentes e domínio");
 
     const security = registry.getSquad("squad_security");
-    assert((security?.workflows[0]?.steps.length ?? 0) >= 3 && (security?.permissions.length ?? 0) >= 1, "Squads: Security com workflows e permissões");
+    const secWorkflows = Array.isArray(security?.workflows) ? security.workflows : [];
+    assert((secWorkflows[0]?.steps.length ?? 0) >= 3 && (security?.permissions.length ?? 0) >= 1, "Squads: Security com workflows e permissões");
 
     const status = registry.status();
     assert(status.loaded === 12 && status.active === 12, "Squads: status com 12 ativas");

@@ -87,7 +87,8 @@ export class SquadRegistry {
     if (!squad) return { present: [], missing: [] };
     const present: string[] = [];
     const missing: string[] = [];
-    for (const agentId of squad.agents) {
+    for (const agent of squad.agents) {
+      const agentId = typeof agent === "string" ? agent : agent.id;
       if (runtime.getAgent(agentId) || runtime.getSpec(agentId)) present.push(agentId);
       else missing.push(agentId);
     }
@@ -102,16 +103,17 @@ export class SquadRegistry {
     let failed = 0;
     heartbeats.begin("squads");
     try {
-      for (const agentId of squad.agents) {
-        const agent = runtime.getAgent(agentId);
-        if (!agent) {
+      for (const agent of squad.agents) {
+        const agentId = typeof agent === "string" ? agent : agent.id;
+        const agentInst = runtime.getAgent(agentId);
+        if (!agentInst) {
           failed++;
           results.push({ agentId, error: "agent not loaded" });
           continue;
         }
         try {
-          const res = await withTimeout(agent.execute(task, context), this.agentTimeoutMs, agentId);
-          results.push({ agentId, name: agent.name, role: agent.role, success: res.success, output: res.output });
+          const res = await withTimeout(agentInst.execute(task, context), this.agentTimeoutMs, agentId);
+          results.push({ agentId, name: agentInst.name, role: agentInst.role, success: res.success, output: res.output });
           if (!res.success) failed++;
         } catch (e: any) {
           failed++;
