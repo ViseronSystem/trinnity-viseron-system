@@ -1,0 +1,17 @@
+{
+  "singleAgent": {
+    "quality": 0.55,
+    "latencyMs": 193
+  },
+  "multiAgent": {
+    "quality": 0.68,
+    "latencyMs": 48,
+    "parallelSpeedup": 2.1
+  },
+  "viseronFullFabric": {
+    "quality": 0.72,
+    "latencyMs": 48,
+    "skillsExecuted": 5,
+    "evidence": 139
+  }
+}

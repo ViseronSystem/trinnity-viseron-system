@@ -1,0 +1,79 @@
+{
+  "date": "2026-08-11",
+  "dayOfWeek": "Miércoles",
+  "weekNumber": 33,
+  "schedule": [
+    "06:30 — WAKE UP",
+    "06:45 — Agua + movilidad suave (10 min)",
+    "07:00 — EJERCICIO (ver detalle abajo)",
+    "08:00 — DESAYUNO",
+    "08:30 — DAILY REVIEW: revisar plan, prioridades, energía del día",
+    "09:00 — DEEP WORK #1 (MISSION 1 — sin interrupciones)",
+    "11:00 — BREAK (10 min: caminar, agua, descanso visual)",
+    "11:15 — DEEP WORK #2 (MISSION 2 — sin interrupciones)",
+    "13:00 — ALMUERZO",
+    "14:00 — BUSINESS / COMUNICACIÓN (emails, clientes, partnerships)",
+    "15:00 — VISERON ENGINEERING (MISSION 3)",
+    "17:00 — BREAK / WALK (15 min)",
+    "17:30 — RESEARCH / LEARNING (30-45 min)",
+    "18:30 — LANGUAGE SESSION (20-30 min)",
+    "19:00 — CENA",
+    "20:00 — STRATEGIC REVIEW / LIGHT WORK (revisar progreso del día)",
+    "21:00 — PERSONAL TIME (familia, descanso, reflexión)",
+    "22:00 — WIND DOWN (sin pantallas, lectura, preparar mañana)",
+    "23:00 — SLEEP TARGET"
+  ],
+  "top3": [
+    {
+      "mission": 1,
+      "result": "VISERON: Avanzar una capacidad crítica (agent execution / knowledge ingestion / enterprise feature)",
+      "why": "Cada capacidad nueva de VISERON desbloquea revenue y autonomía futura",
+      "estimatedMinutes": 120,
+      "definitionOfDone": "Código compilado, testeado, funcionalidad documentada"
+    },
+    {
+      "mission": 2,
+      "result": "BUSINESS: Avanzar un resultado de negocio (demo a cliente, contenido de marketing, propuesta, partnership)",
+      "why": "Sin revenue, VISERON es un proyecto; con revenue, es una empresa",
+      "estimatedMinutes": 90,
+      "definitionOfDone": "Acción completada: email enviado, propuesta entregada, demo hecha"
+    },
+    {
+      "mission": 3,
+      "result": "LEARNING: Estudiar un concepto de IA/engineering/space que desbloquee la siguiente fase",
+      "why": "El fundador que deja de aprender deja de liderar",
+      "estimatedMinutes": 60,
+      "definitionOfDone": "Notas escritas, concepto entendido, aplicable a VISERON"
+    }
+  ],
+  "deepWork": {
+    "blocks": 3,
+    "totalMinutes": 315
+  },
+  "exercise": {
+    "type": "Walk + Mobility (45 min)",
+    "minutes": 45
+  },
+  "learning": {
+    "topic": "Space Systems & Aerospace",
+    "language": "Inglés (business vocabulary)",
+    "minutes": 30
+  },
+  "personal": {
+    "protectedTime": "21:00–23:00 — familia, descanso, reflexión"
+  },
+  "energyBaseline": {
+    "energy": 8,
+    "focus": 8,
+    "availableHours": 10
+  },
+  "delegateToViseron": [
+    "AIOX: monitoriza builds, tests e deploys automáticamente",
+    "JARVIS: responde a preguntas de clientes/leads (agency + support)",
+    "Content Agent: genera y publica contenido automático"
+  ],
+  "biggestRisk": "Perder foco en productos que generan revenue",
+  "biggestOpportunity": "VISERON Enterprise — automatización para empresas",
+  "successCriteria": "3 missions completadas · 3 bloques deep work · ejercicio hecho · aprendizaje registrado",
+  "founderRule": "No confundir actividad con progreso. Medir resultados, no horas."
+}

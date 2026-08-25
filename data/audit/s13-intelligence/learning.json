@@ -1,0 +1,162 @@
+[
+  {
+    "id": "learn_p01_0",
+    "projectId": "p01",
+    "bestAgent": "research",
+    "bestSkill": "awesome-claude-skills:securitytrails-automation",
+    "bestSkillCombination": [
+      "awesome-claude-skills:securitytrails-automation",
+      "comp-ai:security-review"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p02_1",
+    "projectId": "p02",
+    "bestAgent": "research",
+    "bestSkill": "ecc:architecture-decision-records",
+    "bestSkillCombination": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p03_2",
+    "projectId": "p03",
+    "bestAgent": "research",
+    "bestSkill": "claude-plugins-official:agent-development",
+    "bestSkillCombination": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:command-development"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p04_3",
+    "projectId": "p04",
+    "bestAgent": "research",
+    "bestSkill": "awesome-claude-skills:Attio Automation",
+    "bestSkillCombination": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Capsule CRM Automation"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p05_4",
+    "projectId": "p05",
+    "bestAgent": "research",
+    "bestSkill": "ecc:finance-billing-ops",
+    "bestSkillCombination": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p06_5",
+    "projectId": "p06",
+    "bestAgent": "research",
+    "bestSkill": "awesome-claude-skills:salesforce-marketing-cloud-automation",
+    "bestSkillCombination": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:salesforce-service-cloud-automation"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p07_6",
+    "projectId": "p07",
+    "bestAgent": "research",
+    "bestSkill": "ecc:logistics-exception-management",
+    "bestSkillCombination": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p08_7",
+    "projectId": "p08",
+    "bestAgent": "research",
+    "bestSkill": "ecc:knowledge-ops",
+    "bestSkillCombination": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p09_8",
+    "projectId": "p09",
+    "bestAgent": "research",
+    "bestSkill": "awesome-claude-skills:artifacts-builder",
+    "bestSkillCombination": [
+      "awesome-claude-skills:artifacts-builder",
+      "comp-crm:typescript-advanced-types"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  },
+  {
+    "id": "learn_p10_9",
+    "projectId": "p10",
+    "bestAgent": "research",
+    "bestSkill": "ecc:research-ops",
+    "bestSkillCombination": [
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "bestTool": "memory_engine",
+    "bestProvider": "ollama",
+    "bestSquad": "research",
+    "bestStrategy": "skill_selection_by_domain",
+    "qualityDelta": 0.99,
+    "timestamp": "2026-08-11T23:36:50.932Z"
+  }
+]

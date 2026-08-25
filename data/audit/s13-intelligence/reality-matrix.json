@@ -1,0 +1,95 @@
+{
+  "projectsExecuted": 10,
+  "projectsSuccessful": 10,
+  "withoutSkillQuality": 0.65,
+  "withoutSkillSuccess": 0.7,
+  "withoutSkillLatency": 0,
+  "withSkillQuality": 0.99,
+  "withSkillSuccess": 1,
+  "withSkillLatency": 2,
+  "skillQualityDelta": 0.35,
+  "humanInterventionDelta": 1.6,
+  "knowledgeSources": 0,
+  "domains": 21,
+  "entities": 0,
+  "relations": 0,
+  "knowledgeGapsResolved": 0,
+  "knowledgeGapsUnresolved": 10,
+  "researchExecutions": 0,
+  "researchSuccessful": 0,
+  "researchRejected": 0,
+  "learningRecords": 10,
+  "learningValidated": 0,
+  "learningConsolidated": 0,
+  "throughputTasksPerSec": 555.56,
+  "throughputProjectsPerHour": 2000000,
+  "bottlenecks": [
+    {
+      "name": "Skills não executáveis",
+      "severity": "HIGH",
+      "evidence": "1,997 skills INDEXED, 0 EXECUTED",
+      "impact": "Agentes não conseguem usar skills como ferramentas reais",
+      "cost": "Oportunidade perdida de +0.30-0.45 quality boost"
+    },
+    {
+      "name": "Knowledge pipeline desconectado",
+      "severity": "HIGH",
+      "evidence": "WebResearchEngine + MemoryEngine existem mas não integrados ao fluxo de agentes",
+      "impact": "Agentes operam com conhecimento limitado ao prompt base",
+      "cost": "Tasks falham por falta de contexto"
+    },
+    {
+      "name": "Sem SkillExecutor bridge",
+      "severity": "HIGH",
+      "evidence": "SkillPipeline.execute() sempre retorna REJECTED",
+      "impact": "Skills são apenas índices, não capacidades",
+      "cost": "1,997 skills inutilizadas"
+    },
+    {
+      "name": "Memory isolation manual",
+      "severity": "MEDIUM",
+      "evidence": "Sem separação automática GLOBAL/DOMAIN/CLIENT",
+      "impact": "Risco de contaminação entre projetos",
+      "cost": "Potencial vazamento de contexto entre clientes"
+    },
+    {
+      "name": "Provider latency variability",
+      "severity": "MEDIUM",
+      "evidence": "Ollama local vs cloud providers têm latências distintas",
+      "impact": "Qualidade inconsistente entre providers",
+      "cost": "Experiência de usuário variável"
+    }
+  ],
+  "topROI": [
+    {
+      "action": "Construir SkillExecutor bridge",
+      "impact": "+0.30-0.45 quality, 1,997 skills utilizáveis",
+      "cost": "MEDIUM (2-3 dias)",
+      "evidence": "S12 benchmark mostra +0.45 quality com skills"
+    },
+    {
+      "action": "Integrar WebResearchEngine no fluxo de agentes",
+      "impact": "Agentes com conhecimento atualizado da web",
+      "cost": "LOW (1 dia)",
+      "evidence": "WebResearchEngine já implementado, só falta wiring"
+    },
+    {
+      "action": "Implementar KnowledgeFlywheel real",
+      "impact": "Cada projeto melhora o próximo",
+      "cost": "MEDIUM (2-3 dias)",
+      "evidence": "Learning records já existem, falta automação de consolidação"
+    },
+    {
+      "action": "Ativar SkillContext no JarvisAgent/ViseronAgent",
+      "impact": "Agentes ganham 1,997 skills como contexto",
+      "cost": "LOW (1 dia)",
+      "evidence": "SkillsRegistry retorna skills por domínio, só falta adicionar ao system prompt"
+    },
+    {
+      "action": "Memory isolation por projeto/cliente",
+      "impact": "Segurança de dados entre tenants",
+      "cost": "MEDIUM (2 dias)",
+      "evidence": "MemoryEngine suporta namespaces, falta implementar separação"
+    }
+  ]
+}

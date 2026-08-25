@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msp45ren_0o10uf",
+  "timestamp": 1786480157183,
+  "source": "research",
+  "input": {
+    "text": "VISERON research production readiness"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "1 accepted, 0 rejected, 1 chunks",
+    "latencyMs": 200,
+    "sources": [
+      "https://example.com"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "1 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "2a999a6f708417e9987753adc34871fa618e4dbd2b884ea21cff74aea8826355"
+}

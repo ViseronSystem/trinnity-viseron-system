@@ -1,0 +1,23 @@
+{
+  "ollama": {
+    "installed": true,
+    "version": "0.32.5",
+    "available": true,
+    "model": "qwen2.5:3b",
+    "responseModel": "qwen2.5:3b",
+    "latencyMs": 8896,
+    "responsePreview": "An autonomous AI agent is an intelligent system capable of performing tasks without human interventi"
+  },
+  "openai": {
+    "configured": false
+  },
+  "claude": {
+    "configured": false
+  },
+  "gemini": {
+    "configured": false
+  },
+  "grok": {
+    "configured": false
+  }
+}

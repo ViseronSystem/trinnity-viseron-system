@@ -1,0 +1,60 @@
+{
+  "node": {
+    "id": "VISERON-PROD-01",
+    "role": "PRIMARY_PRODUCTION",
+    "version": "7.0.0",
+    "owner": "Pedro Costa & Trinnity Hurtado",
+    "server": "UpCloud — AMD EPYC 7542, 32C/64T, 256GB RAM, Windows Server 2025",
+    "deployed": "2026-08-12 (planned)"
+  },
+  "architecture": {
+    "runtime": {
+      "visoronWeb": { "port": 32123, "ram": "4-8GB", "cpu": "4 cores", "purpose": "API server, dashboard, all web endpoints" },
+      "ollamaServer": { "port": 11434, "ram": "50-100GB", "cpu": "8 cores", "purpose": "LLM inference: qwen2.5:3b (2GB), qwen2.5:7b (5GB), llama3.1:8b (8GB), qwen2.5:14b (9GB), qwen2.5:32b (20GB)" },
+      "postgres": { "port": 5432, "ram": "4-8GB", "cpu": "2 cores", "purpose": "Production database (migrate from Neon cloud)" },
+      "redis": { "port": 6379, "ram": "2GB", "cpu": "1 core", "purpose": "Session cache, rate limiting, event queue (optional)" }
+    },
+    "agents": {
+      "executive": { "squad": "executive-intelligence", "agents": 5, "ram": "2GB", "purpose": "CEO, Strategy, Market, Investor, Legal" },
+      "engineering": { "squad": "advanced-engineering", "agents": 7, "ram": "2GB", "purpose": "Architect, Backend, Frontend, AI, ML, DevOps, QA" },
+      "engineering2": { "squad": "engineering-intelligence", "agents": 5, "ram": "2GB", "purpose": "CTO, Developer, QA, Security, Architect" },
+      "creative": { "squad": "creative-intelligence", "agents": 5, "ram": "2GB", "purpose": "Video, 3D, Design, Branding, Simulation" },
+      "aerospace": { "squad": "aerospace-intelligence", "agents": 4, "ram": "2GB", "purpose": "Aerospace, Physics, Robotics, Materials" },
+      "security": { "squad": "security-intelligence", "agents": 4, "ram": "2GB", "purpose": "Security, Audit, Compliance, Defense" }
+    },
+    "memory": {
+      "totalRAM": "256GB",
+      "allocation": {
+        "ollamaModels": "100GB (multiple models in memory)",
+        "visoronServer": "8GB",
+        "postgresBuffer": "8GB",
+        "osOverhead": "16GB",
+        "agentContext": "12GB (30 agents, 400MB each)",
+        "skillRegistry": "2GB (1,997 skills in memory)",
+        "freeForGrowth": "110GB (future models, experimentation)"
+      }
+    },
+    "storage": {
+      "osAndApps": "50GB",
+      "visoronCode": "1GB",
+      "nodeModules": "2GB",
+      "ollamaModels": "100GB (3B: 2GB, 7B: 5GB, 14B: 9GB, 32B: 20GB, 70B: 40GB + variants)",
+      "visoronData": "50GB (audit history, evidence, experiences, reports, backups)",
+      "wan21Models": "30GB",
+      "comfyUIModels": "100GB (optional, depends on GPU)",
+      "totalRecommended": "500GB-1TB NVMe SSD"
+    },
+    "gpu": {
+      "status": "RECOMMENDED but not yet purchased",
+      "target": "NVIDIA RTX 4090 (24GB) or RTX 5090 (32GB)",
+      "unlocks": "Wan2.1 video generation, ComfyUI, SDXL, Flux, GPU-accelerated Ollama"
+    },
+    "monitoring": {
+      "health": "GET /api/health — every 30s",
+      "logs": "data/logs/ — Winston structured logging",
+      "metrics": "GET /api/metrics — usage counters",
+      "alerts": "Task Scheduler or PM2 to restart on crash",
+      "backup": "Daily backup via npm run backup (Task Scheduler)"
+    }
+  }
+}

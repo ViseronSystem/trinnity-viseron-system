@@ -1,0 +1,43 @@
+{
+  "runpod": {
+    "gpus": {
+      "rtx4090": "$0.44/hr ($317/mo 24/7, $105/mo 8hr/day)",
+      "a6000": "$0.79/hr ($570/mo 24/7)",
+      "h100": "$2.49/hr ($1,793/mo 24/7)"
+    },
+    "storage": "$0.07/GB/mo",
+    "verdict": "BEST FOR STARTUP — cheapest GPU rental. No commitment. Start here before buying hardware.",
+    "pros": "Cheapest. No minimum. Instant provisioning. Good for prototyping and burst workloads.",
+    "cons": "GPU availability can vary. Queued during peak demand."
+  },
+  "lambda": {
+    "gpus": {
+      "h100": "$1.99/hr",
+      "a6000": "$0.80/hr"
+    },
+    "storage": "$0.10/GB/mo",
+    "verdict": "GOOD FOR TRAINING — NVIDIA-focused. Reserved instances available.",
+    "pros": "NVIDIA partnership. Good for ML training clusters. Reserved pricing.",
+    "cons": "No RTX 4090. Higher minimum than RunPod."
+  },
+  "aws": {
+    "gpus": {
+      "a10g": "~$0.75/hr",
+      "a100": "~$3.00/hr",
+      "h100": "~$5.00/hr"
+    },
+    "verdict": "ENTERPRISE ONLY — 3-5x RunPod prices. Use only if already on AWS with credits.",
+    "pros": "Massive ecosystem (S3, Lambda, SageMaker). Enterprise compliance. Global regions.",
+    "cons": "EXPENSIVE. Complex pricing. Egress fees. GPU availability limited."
+  },
+  "gcp": {
+    "gpus": {
+      "l4": "$0.60/hr",
+      "a100": "$2.50/hr",
+      "h100": "$3.50/hr ($0.35/hr spot)"
+    },
+    "verdict": "GOOD FOR SPOT — 90% off with spot instances. Cheapest H100 if you handle preemption.",
+    "pros": "TPU unique. Spot instances up to 90% off. Best storage pricing ($0.04/GB).",
+    "cons": "Spot instances can terminate any time. GPU availability varies by region."
+  }
+}

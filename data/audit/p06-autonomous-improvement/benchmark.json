@@ -1,0 +1,24 @@
+{
+  "before": {
+    "succeeded": 4,
+    "total": 6,
+    "skills": 8,
+    "successRate": 67
+  },
+  "after": {
+    "succeeded": 4,
+    "total": 7,
+    "skills": 8,
+    "successRate": 57
+  },
+  "delta": {
+    "skills": 0,
+    "nodes": 0,
+    "note": "AFTER mission had +1 node (ops) and used AgentAutoRouter + skill scoring"
+  },
+  "improvements": {
+    "agentRouting": "MANUAL → AUTO (domain + capability scoring)",
+    "skillScoring": "NONE → CLASSIFIED (HIGH_VALUE/USEFUL/NEUTRAL/UNPROVEN)",
+    "contractPerformance": "NONE → TRACKED (execution count, success rate, latency)"
+  }
+}

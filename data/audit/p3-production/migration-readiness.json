@@ -1,0 +1,80 @@
+{
+  "paths": {
+    "absolutePaths": 0,
+    "processCwd": 44,
+    "dirname": 23,
+    "status": "READY — all relative, portable"
+  },
+  "env": {
+    "totalReferenced": 76,
+    "configuredInDotEnv": 36,
+    "missingFromDotEnv": [
+      "ANTHROPIC_API_KEY",
+      "ELEVENLABS_API_KEY",
+      "ELEVENLABS_VOICE_PEDRO",
+      "ELEVENLABS_VOICE_STARK",
+      "ELEVENLABS_VOICE_TRINNITY",
+      "HOME_ASSISTANT_TOKEN",
+      "HOME_ASSISTANT_URL",
+      "KRAKEN_API_KEY",
+      "KRAKEN_API_SECRET",
+      "BINANCE_API_KEY",
+      "BINANCE_API_SECRET",
+      "COINBASE_CDP_NAME",
+      "COINBASE_CDP_PRIVATE_KEY",
+      "MONGODB_URI",
+      "OPENAI_API_KEY",
+      "QDRANT_HOST",
+      "RESEND_API_KEY",
+      "SENDGRID_API_KEY",
+      "SMARTTHINGS_TOKEN",
+      "SMTP_HOST",
+      "SMTP_PASS",
+      "SMTP_PORT",
+      "SMTP_SECURE",
+      "SMTP_USER",
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET",
+      "TWILIO_MESSAGING_SERVICE_SID",
+      "TWILIO_RCS_CONTENT_SID",
+      "TWILIO_RCS_SERVICE_SID",
+      "TVS_PYTHON",
+      "TVS_PYTHON_SCRIPTS",
+      "XAI_API_KEY",
+      "GEMINI_API_KEY",
+      "JWT_SECRET",
+      "MINILM_ENDPOINT"
+    ],
+    "note": "Missing keys are optional capabilities (cloud AI, voice, smart home, exchanges, secondary providers). Core functions work with 36 configured keys."
+  },
+  "databases": {
+    "postgres": {
+      "env": "DATABASE_URL",
+      "status": "CONFIGURED (Neon cloud)"
+    },
+    "memoryLtm": {
+      "path": "database/memory/ltm.json",
+      "status": "LOCAL — migrates with backup"
+    },
+    "knowledgeGraph": {
+      "path": "graphify-out/",
+      "status": "LOCAL — migrates with backup"
+    },
+    "experience": {
+      "path": "data/state/experience-index.jsonl",
+      "status": "LOCAL — migrates with backup"
+    }
+  },
+  "checklist": [
+    "✓ Golden backup verified (22,920 files, SHA-256 100%)",
+    "✓ No absolute paths in source",
+    "✓ All env vars documented (76 referenced, 36 configured)",
+    "✓ Laptop continues working during migration",
+    "✓ New server receives complete clone",
+    "✓ No intelligence/history/memory loss risk",
+    "⧖ Transfer .env manually (secure channel)",
+    "⧖ Reinstall skills/vendor on target (or restore from backup)",
+    "⧖ Pull Ollama models on target",
+    "⧖ Rotate AVIRATO_CLIENT_SECRET + GMAIL_REFRESH_TOKEN on target"
+  ]
+}

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISERON — Workspace · Vertical Slice</title>
+<style>
+  :root{
+    --bg:#05070d; --panel:#0a0f1c; --panel2:#0d1526; --border:#1c2740;
+    --neon:#00f0ff; --neon2:#30d158; --violet:#bf5af2; --amber:#ff9f0a; --red:#ff453a;
+    --text:#e8f1ff; --text2:#a9bdd9; --text3:#5f7396;
+    --mono:'JetBrains Mono','Consolas',monospace;
+    --sans:'Inter','Segoe UI',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding-bottom:80px}
+  a{color:var(--neon);text-decoration:none}
+  header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:12px 22px;background:rgba(5,7,13,0.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  header .logo{font-weight:800;letter-spacing:1px}
+  header .logo b{color:var(--neon)}
+  header .tag{font-family:var(--mono);font-size:11px;color:var(--text3)}
+  header .spacer{flex:1}
+  .lang-btn{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer}
+  .lang-btn.active{background:var(--neon);color:var(--bg);border-color:var(--neon);font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--neon);color:var(--bg);border:none;border-radius:8px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer}
+  .btn:disabled{opacity:0.5;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--neon);border:1px solid var(--neon)}
+  .btn.green{background:var(--neon2);color:#04120a}
+  .btn.violet{background:var(--violet);color:#14031f}
+  .btn.red{background:var(--red);color:#fff}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .grid.full{grid-template-columns:1fr}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
+  .card h3{font-size:15px;letter-spacing:0.5px;margin-bottom:14px;color:var(--neon)}
+  .card h3 .dim{color:var(--text3);font-weight:400}
+  label{display:block;font-size:12px;color:var(--text2);margin:12px 0 5px}
+  input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-size:14px;font-family:var(--mono)}
+  textarea{resize:vertical;min-height:70px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .stat{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-family:var(--mono);font-size:12px;color:var(--text2)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--text3);display:inline-block}
+  .dot.on{background:var(--neon2);box-shadow:0 0 8px var(--neon2)}
+  .dot.off{background:var(--red)}
+  .item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+  .item .t{font-weight:600;font-size:14px}
+  .item .d{font-size:12px;color:var(--text3);margin-top:2px}
+  .pill{font-family:var(--mono);font-size:11px;border-radius:999px;padding:3px 10px;border:1px solid var(--border);color:var(--text2);white-space:nowrap}
+  .pill.PENDING{color:var(--amber);border-color:rgba(255,159,10,0.4)}
+  .pill.PLANNING,.pill.EXECUTING,.pill.TESTING,.pill.VERIFYING{color:var(--neon);border-color:rgba(0,240,255,0.4)}
+  .pill.COMPLETED{color:var(--neon2);border-color:rgba(48,209,88,0.4)}
+  .pill.FAILED,.pill.CANCELLED{color:var(--red);border-color:rgba(255,69,58,0.4)}
+  .chain{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .step{font-family:var(--mono);font-size:10px;color:var(--text3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;background:var(--panel2)}
+  .step.done{color:var(--neon2);border-color:rgba(48,209,88,0.5)}
+  .step.active{color:var(--neon);border-color:var(--neon);box-shadow:0 0 10px rgba(0,240,255,0.25)}
+  .step.err{color:var(--red);border-color:rgba(255,69,58,0.5)}
+  pre{background:#060913;border:1px solid var(--border);border-radius:10px;padding:14px;font-family:var(--mono);font-size:12px;color:var(--text2);overflow:auto;max-height:340px;white-space:pre-wrap;word-break:break-word}
+  .hidden{display:none}
+  .err-banner{background:rgba(255,69,58,0.1);border:1px solid rgba(255,69,58,0.4);color:#ff9d94;border-radius:10px;padding:12px 14px;margin:10px 0;font-size:13px}
+  .ok-banner{background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.4);color:#a6f0c0;border-radius:10px;padding:12px 14px;margin:10px 0;font-size:13px}
+  .chain-flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 14px}
+  .chain-flow span{font-family:var(--mono);font-size:10px;color:var(--text3)}
+  .chain-flow .step-done{color:var(--neon2)}
+  .chain-flow .step-active{color:var(--neon);font-weight:700}
+  .muted{color:var(--text3);font-size:12px}
+  .kv{font-family:var(--mono);font-size:12px;color:var(--text2);margin:3px 0}
+  .kv b{color:var(--text)}
+  footer{margin-top:40px;text-align:center;font-size:12px;color:var(--text3)}
+  .check{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--text2)}
+  .check input{width:auto}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TRINNITY <b>VISERON</b> SYSTEM</div>
+  <span class="tag">/workspace · real user vertical slice</span>
+  <div class="spacer"></div>
+  <span class="stat"><span class="dot" id="statusDot"></span><span id="statusMode">comprobando…</span></span>
+  <button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn hidden" id="logoutBtn" onclick="logout()">CERRAR</button>
+</header>
+
+<div class="wrap">
+
+  <!-- ═══ AUTH ═══ -->
+  <section id="authPanel" class="card" style="max-width:460px;margin:40px auto;">
+    <h3 data-t="authTitle">Entrar en el VISERON</h3>
+    <p class="muted" data-t="authSub">Una persona real → un proyecto real → una tarea real ejecutada por el VISERON de punta a punta.</p>
+    <div class="err-banner hidden" id="authErr"></div>
+    <div class="row" style="margin:14px 0 4px;">
+      <button class="btn green" id="tabLogin" onclick="switchTab('login')" data-t="tabLogin">Entrar</button>
+      <button class="btn ghost" id="tabRegister" onclick="switchTab('register')" data-t="tabRegister">Crear cuenta</button>
+    </div>
+
+    <form id="loginForm">
+      <label data-t="l.email">Email</label>
+      <input type="email" id="loginEmail" placeholder="you@corp.com" required>
+      <label data-t="l.pass">Contraseña</label>
+      <input type="password" id="loginPass" required>
+      <div style="margin-top:16px;"><button class="btn" style="width:100%" type="submit" data-t="l.submit">Entrar</button></div>
+    </form>
+
+    <form id="registerForm" class="hidden">
+      <label data-t="r.name">Nombre</label>
+      <input type="text" id="regName" required>
+      <label data-t="r.org">Organización</label>
+      <input type="text" id="regOrg" placeholder="Mi Empresa" required>
+      <label data-t="l.email">Email</label>
+      <input type="email" id="regEmail" required>
+      <label data-t="l.pass">Contraseña</label>
+      <input type="password" id="regPass" required>
+      <div style="margin-top:16px;"><button class="btn green" style="width:100%" type="submit" data-t="r.submit">Crear cuenta</button></div>
+    </form>
+  </section>
+
+  <!-- ═══ WORKSPACE ═══ -->
+  <section id="appPanel" class="hidden">
+    <div class="ok-banner" id="helloBanner"></div>
+
+    <div class="grid">
+      <!-- Projects -->
+      <div class="card">
+        <h3 data-t="projTitle">Proyectos</h3>
+        <form id="projectForm" class="row">
+          <input type="text" id="projName" style="flex:1" data-ph="projName" placeholder="Nombre del proyecto" required>
+          <button class="btn" type="submit" data-t="projCreate">Crear</button>
+        </form>
+        <div style="margin-top:14px" id="projectList"></div>
+      </div>
+
+      <!-- Tasks -->
+      <div class="card">
+        <h3 data-t="taskTitle">Nueva tarea para el VISERON</h3>
+        <form id="taskForm">
+          <label data-t="taskSel">Proyecto destino</label>
+          <select id="taskProject" required></select>
+          <label data-t="taskTitleL">Título de la tarea</label>
+          <input type="text" id="taskTitle" data-ph="taskTitle" placeholder="Ej: Crea el README del proyecto" required>
+          <label data-t="taskDesc">Descripción / instrucciones para la IA</label>
+          <textarea id="taskDesc" data-ph="taskDesc" placeholder="Describe qué debe hacer el VISERON…"></textarea>
+
+          <div class="check"><input type="checkbox" id="useFs" checked><span data-t="useFs">Escribir fichero real (workspace_fs_write)</span></div>
+          <label data-t="fsFile">Nombre del fichero</label>
+          <input type="text" id="fsFileName" value="README.md">
+          <label data-t="fsContent">Contenido del fichero</label>
+          <textarea id="fsContent" placeholder="# Mi proyecto&#10;Generado por el VISERON."></textarea>
+
+          <div class="check"><input type="checkbox" id="useTest" checked><span data-t="useTest">Ejecutar test real (workspace_test_run, node -e)</span></div>
+          <label data-t="testScript">Script del test</label>
+          <textarea id="testScript" style="min-height:90px">const fs=require('fs');&#10;const out=fs.readFileSync('README.md','utf8');&#10;console.log('fichero leído:', out.length, 'bytes');&#10;console.log('TEST OK');</textarea>
+
+          <div style="margin-top:16px;" class="row">
+            <button class="btn green" type="submit" data-t="taskRun">⚡ Ejecutar tarea real</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Live pipeline -->
+    <div class="grid full" style="margin-top:22px;">
+      <div class="card">
+        <h3>⚡ <span data-t="liveTitle">Pipeline en vivo (eventos reales del kernel OMEGA)</span> <span class="muted">task.* · tool.* · verification.*</span></h3>
+        <div class="chain-flow" id="liveChain"></div>
+        <div id="liveLog"></div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="grid full" style="margin-top:22px;">
+      <div class="card">
+        <h3>📦 <span data-t="resTitle">Resultado de la tarea</span> <span id="taskPill" class="pill PENDING">PENDING</span></h3>
+        <div id="taskMeta"></div>
+        <div id="taskError" class="err-banner hidden"></div>
+        <h3 style="margin-top:18px;" data-t="resOutput">Output del agente VISERON BUILDER (texto real del modelo)</h3>
+        <pre id="taskOutput">—</pre>
+        <h3 style="margin-top:18px;" data-t="resModel">Modelo utilizado (router real)</h3>
+        <pre id="taskModel">—</pre>
+        <h3 style="margin-top:18px;" data-t="resTools">Herramientas ejecutadas</h3>
+        <pre id="taskTools">—</pre>
+        <h3 style="margin-top:18px;" data-t="resEvents">Eventos auditables del kernel</h3>
+        <pre id="taskEvents">—</pre>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>© Pedro Costa (Comandante) · Trinnity Hurtado (Reina) — Trinnity Viseron System v5.0. <span data-t="foot">Nada de mock: si el kernel OMEGA u Ollama no está disponible, la tarea falla de forma honesta.</span></footer>
+
+<script>
+const I18N = {
+  es:{authTitle:"Entrar en el VISERON",authSub:"Una persona real → un proyecto real → una tarea real ejecutada por el VISERON de punta a punta.",tabLogin:"Entrar",tabRegister:"Crear cuenta",lEmail:"Email",lPass:"Contraseña",lSubmit:"Entrar",rName:"Nombre",rOrg:"Organización",rSubmit:"Crear cuenta",projTitle:"Proyectos",projName:"Nombre del proyecto",projCreate:"Crear",taskTitle:"Nueva tarea para el VISERON",taskSel:"Proyecto destino",taskTitleL:"Título de la tarea",taskDesc:"Descripción / instrucciones para la IA",useFs:"Escribir fichero real (workspace_fs_write)",fsFile:"Nombre del fichero",fsContent:"Contenido del fichero",useTest:"Ejecutar test real (workspace_test_run, node -e)",testScript:"Script del test",taskRun:"⚡ Ejecutar tarea real",liveTitle:"Pipeline en vivo (eventos reales del kernel OMEGA)",resTitle:"Resultado de la tarea",resOutput:"Output del agente VISERON BUILDER (texto real del modelo)",resModel:"Modelo utilizado (router real)",resTools:"Herramientas ejecutadas",resEvents:"Eventos auditables del kernel",foot:"Nada de mock: si el kernel OMEGA u Ollama no está disponible, la tarea falla de forma honesta.",langLogin:"ENTRAR",langOut:"CERRAR",hello:"Hola",noProj:"No hay proyectos todavía. Crea el primero.",projEmpty:"(sin proyectos)",openProj:"→",cancel:"Cancelar tarea",selectProj:"Selecciona un proyecto…"},
+  pt:{authTitle:"Entrar no VISERON",authSub:"Uma pessoa real → um projeto real → uma tarefa real executada pelo VISERON de ponta a ponta.",tabLogin:"Entrar",tabRegister:"Criar conta",lEmail:"Email",lPass:"Palavra-passe",lSubmit:"Entrar",rName:"Nome",rOrg:"Organização",rSubmit:"Criar conta",projTitle:"Projetos",projName:"Nome do projeto",projCreate:"Criar",taskTitle:"Nova tarefa para o VISERON",taskSel:"Projeto destino",taskTitleL:"Título da tarefa",taskDesc:"Descrição / instruções para a IA",useFs:"Escrever ficheiro real (workspace_fs_write)",fsFile:"Nome do ficheiro",fsContent:"Conteúdo do ficheiro",useTest:"Executar teste real (workspace_test_run, node -e)",testScript:"Script do teste",taskRun:"⚡ Executar tarefa real",liveTitle:"Pipeline em direto (eventos reais do kernel OMEGA)",resTitle:"Resultado da tarefa",resOutput:"Output do agente VISERON BUILDER (texto real do modelo)",resModel:"Modelo usado (router real)",resTools:"Ferramentas executadas",resEvents:"Eventos auditáveis do kernel",foot:"Nada de mock: se o kernel OMEGA ou o Ollama não estiverem disponíveis, a tarefa falha de forma honesta.",langLogin:"ENTRAR",langOut:"SAIR",hello:"Olá",noProj:"Ainda não há projetos. Cria o primeiro.",projEmpty:"(sem projetos)",openProj:"→",cancel:"Cancelar tarefa",selectProj:"Seleciona um projeto…"},
+  en:{authTitle:"Sign in to VISERON",authSub:"A real person → a real project → a real task executed end-to-end by VISERON.",tabLogin:"Sign in",tabRegister:"Create account",lEmail:"Email",lPass:"Password",lSubmit:"Sign in",rName:"Name",rOrg:"Organization",rSubmit:"Create account",projTitle:"Projects",projName:"Project name",projCreate:"Create",taskTitle:"New task for VISERON",taskSel:"Target project",taskTitleL:"Task title",taskDesc:"Description / instructions for the AI",useFs:"Write real file (workspace_fs_write)",fsFile:"File name",fsContent:"File content",useTest:"Run real test (workspace_test_run, node -e)",testScript:"Test script",taskRun:"⚡ Run real task",liveTitle:"Live pipeline (real OMEGA kernel events)",resTitle:"Task result",resOutput:"VISERON BUILDER agent output (real model text)",resModel:"Model used (real router)",resTools:"Tools executed",resEvents:"Auditable kernel events",foot:"No mock: if the OMEGA kernel or Ollama is unavailable, the task fails honestly.",langLogin:"SIGN IN",langOut:"LOGOUT",hello:"Hello",noProj:"No projects yet. Create the first one.",projEmpty:"(no projects)",openProj:"→",cancel:"Cancel task",selectProj:"Select a project…"}
+};
+let LANG = localStorage.getItem('tvs_lang') || 'es';
+let TOKEN = localStorage.getItem('tvs_token') || '';
+let CURRENT_PROJECT = null;
+let CURRENT_TASK = null;
+let POLL = null;
+let SSE = null;
+
+function t(key){ return (I18N[LANG] && I18N[LANG][key]) || key; }
+function setLang(l){ LANG=l; localStorage.setItem('tvs_lang',l); document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l)); applyI18n(); }
+function applyI18n(){ document.querySelectorAll('[data-t]').forEach(el=>el.textContent = t(el.dataset.t)); }
+document.querySelectorAll('[data-ph]').forEach(el=>el.placeholder=t(el.dataset.ph));
+
+async function api(path, method='GET', body=null){
+  const headers = {'Content-Type':'application/json'};
+  if (TOKEN) headers['Authorization'] = 'Bearer '+TOKEN;
+  const res = await fetch(path, {method, headers, body: body?JSON.stringify(body):null});
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok){ const e = new Error(data.error || ('HTTP '+res.status)); e.status = res.status; throw e; }
+  return data;
+}
+
+function showAuthErr(msg){ const el=document.getElementById('authErr'); el.textContent=msg; el.classList.remove('hidden'); }
+
+function switchTab(which){
+  document.getElementById('loginForm').classList.toggle('hidden', which!=='login');
+  document.getElementById('registerForm').classList.toggle('hidden', which!=='register');
+  document.getElementById('tabLogin').classList.toggle('green', which==='login');
+  document.getElementById('tabRegister').classList.toggle('green', which==='register');
+}
+
+document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  try{
+    const d = await api('/api/auth/login','POST',{email:document.getElementById('loginEmail').value, password:document.getElementById('loginPass').value});
+    TOKEN = d.token; localStorage.setItem('tvs_token', d.token);
+    localStorage.setItem('tvs_user', JSON.stringify(d.user||{}));
+    enterApp();
+  }catch(err){ showAuthErr(err.message); }
+});
+
+document.getElementById('registerForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  try{
+    const d = await api('/api/auth/register','POST',{name:document.getElementById('regName').value, email:document.getElementById('regEmail').value, password:document.getElementById('regPass').value, org:document.getElementById('regOrg').value});
+    TOKEN = d.token; localStorage.setItem('tvs_token', d.token);
+    localStorage.setItem('tvs_user', JSON.stringify(d.user||{}));
+    enterApp();
+  }catch(err){ showAuthErr(err.message); }
+});
+
+function logout(){ TOKEN=''; localStorage.removeItem('tvs_token'); localStorage.removeItem('tvs_user'); location.reload(); }
+
+async function checkStatus(){
+  try{
+    const s = await api('/api/workspace/status');
+    const dot = document.getElementById('statusDot');
+    const txt = document.getElementById('statusMode');
+    dot.className = 'dot ' + (s.omegaLoaded ? 'on' : 'off');
+    txt.textContent = s.omegaLoaded ? ('OMEGA REAL · kernel tasks='+(s.kernel?.tasks??0)) : 'OMEGA no cargado (modo honesto)';
+  }catch(e){ document.getElementById('statusMode').textContent = 'API no disponible'; }
+}
+
+function enterApp(){
+  const user = JSON.parse(localStorage.getItem('tvs_user')||'{}');
+  document.getElementById('authPanel').classList.add('hidden');
+  document.getElementById('appPanel').classList.remove('hidden');
+  document.getElementById('logoutBtn').classList.remove('hidden');
+  document.getElementById('helloBanner').textContent = t('hello')+' '+user.name+' — © Pedro Costa (Comandante) · Trinnity Hurtado (Reina)';
+  loadProjects();
+}
+
+document.getElementById('projectForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('projName').value;
+  try{
+    await api('/api/workspace/projects','POST',{name});
+    document.getElementById('projName').value='';
+    loadProjects();
+  }catch(err){ alert(err.message); }
+});
+
+async function loadProjects(){
+  const {projects} = await api('/api/workspace/projects');
+  const list = document.getElementById('projectList');
+  const sel = document.getElementById('taskProject');
+  sel.innerHTML = '';
+  if(!projects || projects.length===0){
+    list.innerHTML = '<p class="muted">'+t('noProj')+'</p>';
+    return;
+  }
+  list.innerHTML = '';
+  projects.forEach(p=>{
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = '<div><div class="t">'+esc(p.name)+'</div><div class="d">'+p.id+' · '+p.createdAt.slice(0,16).replace('T',' ')+'</div></div><button class="btn ghost" onclick="openProject(\''+p.id+'\')">'+t('openProj')+'</button>';
+    list.appendChild(item);
+    const opt = document.createElement('option');
+    opt.value = p.id; opt.textContent = p.name;
+    sel.appendChild(opt);
+  });
+}
+
+async function openProject(id){
+  CURRENT_PROJECT = id;
+  const {project, tasks} = await api('/api/workspace/projects/'+id);
+  if(CURRENT_TASK){
+    const isIn = tasks.some(x=>x.id===CURRENT_TASK);
+    if(!isIn) stopTracking();
+  }
+  renderTasks(tasks);
+  if(tasks.length>0) trackTask(tasks[0].id);
+}
+
+function renderTasks(tasks){
+  const log = document.getElementById('liveLog');
+  if(!tasks || tasks.length===0){ log.innerHTML = '<p class="muted">'+t('projEmpty')+'</p>'; return; }
+  log.innerHTML = '';
+  tasks.forEach(task=>{
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = '<div style="cursor:pointer" onclick="trackTask(\''+task.id+'\')"><div class="t">'+esc(task.title)+'</div><div class="d">'+task.id+' · '+task.createdAt.slice(0,16).replace('T',' ')+'</div></div><div style="display:flex;gap:8px;align-items:center"><span class="pill '+task.stage+'">'+task.stage+'</span></div>';
+    log.appendChild(item);
+  });
+}
+
+async function trackTask(taskId){
+  stopTracking();
+  CURRENT_TASK = taskId;
+  document.getElementById('taskPill').textContent = '…';
+  await refreshTask();
+  POLL = setInterval(refreshTask, 2000);
+  try{ SSE = new EventSource('/api/omega/events?topic=task.*,tool.*,verification.*'); }
+  catch(e){ SSE=null; }
+  if(SSE){
+    SSE.onmessage = (ev)=>{ onLiveEvent(ev.data); };
+  }
+}
+
+function onLiveEvent(raw){
+  try{
+    const d = JSON.parse(raw);
+    const p = d.payload || {};
+    const taskId = p.id || p.taskId || null;
+    if(taskId && CURRENT_TASK){
+      // refresh whenever the event belongs to our task (cheap poll handles the rest)
+      if(p.id===CURRENT_TASK || p.taskId===CURRENT_TASK) refreshTask();
+    }
+  }catch(e){ /* ignore malformed */ }
+}
+
+function stopTracking(){
+  if(POLL){ clearInterval(POLL); POLL=null; }
+  if(SSE){ SSE.close(); SSE=null; }
+}
+
+async function refreshTask(){
+  if(!CURRENT_TASK) return;
+  let data;
+  try{ data = await api('/api/workspace/tasks/'+CURRENT_TASK); }
+  catch(e){ return; }
+  const task = data.task;
+  if(!task) return;
+  document.getElementById('taskPill').textContent = task.stage;
+  document.getElementById('taskPill').className = 'pill '+task.stage;
+  document.getElementById('taskMeta').innerHTML =
+    '<div class="kv"><b>id</b> '+esc(task.id||'')+'</div>'+
+    '<div class="kv"><b>kernelTaskId</b> '+esc(task.kernelTaskId||'—')+'</div>'+
+    '<div class="kv"><b>título</b> '+esc(task.title||'')+'</div>'+
+    '<div class="kv"><b>tenant</b> '+esc(task.tenantId||'')+'</div>'+
+    '<div class="kv"><b>authorizedBy</b> '+esc(task.authorizedBy||'')+' (envío = autorización de tools)</div>';
+  const errEl = document.getElementById('taskError');
+  if(task.error){ errEl.textContent = 'ERROR: '+task.error; errEl.classList.remove('hidden'); }
+  else errEl.classList.add('hidden');
+  const res = task.result || {};
+  const output = typeof res.output === 'string' ? res.output : (res.output? JSON.stringify(res.output,null,2) : '—');
+  document.getElementById('taskOutput').textContent = output;
+  document.getElementById('taskModel').textContent = res.model ? JSON.stringify(res.model,null,2) : '—';
+  document.getElementById('taskTools').textContent = res.tools ? JSON.stringify(res.tools,null,2) : '—';
+  document.getElementById('taskEvents').textContent = task.events ? JSON.stringify(task.events,null,2) : '—';
+  renderChain(task.stage, task.error);
+}
+
+function renderChain(stage, hasError){
+  const steps = ['AUTH','WORKSPACE','PROJECT','TASK','MODEL ROUTER','OLLAMA','AGENT','TOOL','EXECUTION','TEST','VERIFY','MEMORY','RESULT'];
+  const order = {PENDING:0, PLANNING:3, EXECUTING:7, TESTING:9, VERIFYING:10, COMPLETED:13, FAILED:13, CANCELLED:13};
+  const idx = order[stage] ?? 0;
+  const chain = document.getElementById('liveChain');
+  chain.innerHTML = '';
+  steps.forEach((s,i)=>{
+    const span = document.createElement('span');
+    span.textContent = s;
+    if(hasError && i>=idx) span.className='step-active';
+    else if(i<idx) span.className='step-done';
+    else if(i===idx && stage!=='PENDING' && stage!=='FAILED') span.className='step-active';
+    chain.appendChild(span);
+    if(i<steps.length-1){ const a=document.createElement('span'); a.textContent='→'; chain.appendChild(a); }
+  });
+}
+
+document.getElementById('taskForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const projectId = document.getElementById('taskProject').value;
+  if(!projectId){ alert(t('selectProj')); return; }
+  const tools = [];
+  if(document.getElementById('useFs').checked){
+    tools.push({id:'workspace_fs_write', name:'Workspace File Write', input:{fileName:document.getElementById('fsFileName').value, content:document.getElementById('fsContent').value}});
+  }
+  if(document.getElementById('useTest').checked){
+    tools.push({id:'workspace_test_run', name:'Workspace Test Run', input:{script:document.getElementById('testScript').value}});
+  }
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  try{
+    const d = await api('/api/workspace/projects/'+projectId+'/tasks','POST',{
+      title: document.getElementById('taskTitle').value,
+      description: document.getElementById('taskDesc').value,
+      tools
+    });
+    document.getElementById('taskTitle').value='';
+    document.getElementById('taskDesc').value='';
+    openProject(projectId);
+    trackTask(d.task.id);
+  }catch(err){ alert(err.message); }
+  finally{ btn.disabled = false; }
+});
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// boot
+setLang(LANG);
+checkStatus();
+if(TOKEN){
+  try{
+    const me = await api('/api/auth/me');
+    localStorage.setItem('tvs_user', JSON.stringify(me.user||{}));
+    enterApp();
+  }catch(e){ TOKEN=''; localStorage.removeItem('tvs_token'); }
+}
+</script>
+</body>
+</html>

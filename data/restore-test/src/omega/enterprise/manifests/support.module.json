@@ -1,0 +1,22 @@
+{
+  "id": "module_support",
+  "name": "Support Module",
+  "domain": "support",
+  "description": "Atendimento ao cliente, resolução de incidentes e satisfação (NPS).",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_sup_ttr", "description": "Reduzir tempo de resposta", "metric": "avg_response_time_min", "target": 15 },
+    { "id": "obj_sup_nps", "description": "Aumentar satisfação do cliente", "metric": "nps", "target": 50 }
+  ],
+  "kpis": ["nps", "avg_response_time_min", "ticket_resolution_rate", "csat"],
+  "workflows": [
+    { "id": "wf_ticket", "name": "Ticket Resolution", "steps": ["intake", "triage", "resolve", "verify"] },
+    { "id": "wf_escalation", "name": "Escalation", "steps": ["detect", "escalate", "resolve", "report"] }
+  ],
+  "tools": [
+    { "id": "ticketing", "name": "Ticketing", "description": "gestão de tickets" },
+    { "id": "knowledge_base", "name": "Knowledge Base", "description": "base de conhecimento" }
+  ],
+  "agents": ["agent_support"],
+  "reportIntervalMinutes": 60
+}

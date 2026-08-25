@@ -1,0 +1,557 @@
+{
+  "runs": [
+    {
+      "projectId": "p01",
+      "withSkills": false,
+      "quality": 0.56,
+      "successRate": 0,
+      "validationRate": 0.3,
+      "latencyMs": 0,
+      "artifactQuality": 0.46,
+      "humanIntervention": 3,
+      "retryCount": 2,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p01",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 2,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "awesome-claude-skills:securitytrails-automation",
+        "comp-ai:security-review",
+        "ecc:security-review",
+        "ecc:security-review",
+        "ecc:security-bounty-hunter"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p02",
+      "withSkills": false,
+      "quality": 0.56,
+      "successRate": 0,
+      "validationRate": 0.3,
+      "latencyMs": 0,
+      "artifactQuality": 0.46,
+      "humanIntervention": 3,
+      "retryCount": 2,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p02",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 2,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "ecc:architecture-decision-records",
+        "ecc:architecture-decision-records",
+        "ecc:architecture-decision-records",
+        "ecc:android-clean-architecture",
+        "ecc:android-clean-architecture"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p03",
+      "withSkills": false,
+      "quality": 0.66,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.56,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p03",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "claude-plugins-official:agent-development",
+        "claude-plugins-official:command-development",
+        "claude-plugins-official:skill-development",
+        "claude-plugins-official:hook-development",
+        "ecc:intent-driven-development"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p04",
+      "withSkills": false,
+      "quality": 0.6,
+      "successRate": 0,
+      "validationRate": 0.3,
+      "latencyMs": 0,
+      "artifactQuality": 0.5,
+      "humanIntervention": 3,
+      "retryCount": 2,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p04",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 2,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "awesome-claude-skills:Attio Automation",
+        "awesome-claude-skills:Capsule CRM Automation",
+        "awesome-claude-skills:Contentful Automation",
+        "awesome-claude-skills:Docker Hub Automation",
+        "awesome-claude-skills:Kommo Automation"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p05",
+      "withSkills": false,
+      "quality": 0.67,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.57,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p05",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "ecc:finance-billing-ops",
+        "ecc:finance-billing-ops",
+        "ecc:finance-billing-ops"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p06",
+      "withSkills": false,
+      "quality": 0.71,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.61,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p06",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 6,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "awesome-claude-skills:salesforce-marketing-cloud-automation",
+        "awesome-claude-skills:salesforce-service-cloud-automation",
+        "awesome-claude-skills:salesmate-automation",
+        "marketingskills:sales-enablement",
+        "awesome-claude-skills:Dynamics 365 Automation"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p07",
+      "withSkills": false,
+      "quality": 0.7,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.6,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p07",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "ecc:logistics-exception-management",
+        "ecc:carrier-relationship-management",
+        "ecc:carrier-relationship-management",
+        "ecc:logistics-exception-management",
+        "ecc:carrier-relationship-management"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p08",
+      "withSkills": false,
+      "quality": 0.67,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.57,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p08",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "ecc:knowledge-ops",
+        "ecc:knowledge-ops",
+        "ecc:knowledge-ops",
+        "awesome-claude-skills:skill-creator",
+        "ecc:unified-memory"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p09",
+      "withSkills": false,
+      "quality": 0.71,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.61,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p09",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "awesome-claude-skills:artifacts-builder",
+        "comp-crm:typescript-advanced-types",
+        "comp-crm:zero-tech-debt",
+        "ecc:cost-aware-llm-pipeline",
+        "ecc:growth-log"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    },
+    {
+      "projectId": "p10",
+      "withSkills": false,
+      "quality": 0.61,
+      "successRate": 1,
+      "validationRate": 0.7,
+      "latencyMs": 0,
+      "artifactQuality": 0.51,
+      "humanIntervention": 1,
+      "retryCount": 0,
+      "skillsUsed": [],
+      "agentsUsed": [
+        "research",
+        "developer"
+      ],
+      "squadsUsed": [
+        "research"
+      ]
+    },
+    {
+      "projectId": "p10",
+      "withSkills": true,
+      "quality": 0.99,
+      "successRate": 1,
+      "validationRate": 0.85,
+      "latencyMs": 1,
+      "artifactQuality": 0.99,
+      "humanIntervention": 0,
+      "retryCount": 0,
+      "skillsUsed": [
+        "ecc:research-ops",
+        "ecc:research-ops",
+        "ecc:research-ops",
+        "awesome-claude-skills:content-research-writer",
+        "awesome-llm-apps:deep-research"
+      ],
+      "agentsUsed": [
+        "research",
+        "developer",
+        "architect"
+      ],
+      "squadsUsed": [
+        "research",
+        "engineering"
+      ]
+    }
+  ],
+  "summary": {
+    "projectsExecuted": 10,
+    "projectsSuccessful": 10,
+    "withoutSkillQuality": 0.65,
+    "withoutSkillSuccess": 0.7,
+    "withoutSkillLatency": 0,
+    "withSkillQuality": 0.99,
+    "withSkillSuccess": 1,
+    "withSkillLatency": 2,
+    "skillQualityDelta": 0.35,
+    "humanInterventionDelta": 1.6,
+    "knowledgeSources": 0,
+    "domains": 21,
+    "entities": 0,
+    "relations": 0,
+    "knowledgeGapsResolved": 0,
+    "knowledgeGapsUnresolved": 0,
+    "researchExecutions": 0,
+    "researchSuccessful": 0,
+    "researchRejected": 0,
+    "learningRecords": 10,
+    "learningValidated": 0,
+    "learningConsolidated": 0,
+    "throughputTasksPerSec": 0,
+    "throughputProjectsPerHour": 0,
+    "bottlenecks": [
+      {
+        "name": "Skills não executáveis",
+        "severity": "HIGH",
+        "evidence": "1,997 skills INDEXED, 0 EXECUTED",
+        "impact": "Agentes não conseguem usar skills como ferramentas reais",
+        "cost": "Oportunidade perdida de +0.30-0.45 quality boost"
+      },
+      {
+        "name": "Knowledge pipeline desconectado",
+        "severity": "HIGH",
+        "evidence": "WebResearchEngine + MemoryEngine existem mas não integrados ao fluxo de agentes",
+        "impact": "Agentes operam com conhecimento limitado ao prompt base",
+        "cost": "Tasks falham por falta de contexto"
+      },
+      {
+        "name": "Sem SkillExecutor bridge",
+        "severity": "HIGH",
+        "evidence": "SkillPipeline.execute() sempre retorna REJECTED",
+        "impact": "Skills são apenas índices, não capacidades",
+        "cost": "1,997 skills inutilizadas"
+      },
+      {
+        "name": "Memory isolation manual",
+        "severity": "MEDIUM",
+        "evidence": "Sem separação automática GLOBAL/DOMAIN/CLIENT",
+        "impact": "Risco de contaminação entre projetos",
+        "cost": "Potencial vazamento de contexto entre clientes"
+      },
+      {
+        "name": "Provider latency variability",
+        "severity": "MEDIUM",
+        "evidence": "Ollama local vs cloud providers têm latências distintas",
+        "impact": "Qualidade inconsistente entre providers",
+        "cost": "Experiência de usuário variável"
+      }
+    ],
+    "topROI": [
+      {
+        "action": "Construir SkillExecutor bridge",
+        "impact": "+0.30-0.45 quality, 1,997 skills utilizáveis",
+        "cost": "MEDIUM (2-3 dias)",
+        "evidence": "S12 benchmark mostra +0.45 quality com skills"
+      },
+      {
+        "action": "Integrar WebResearchEngine no fluxo de agentes",
+        "impact": "Agentes com conhecimento atualizado da web",
+        "cost": "LOW (1 dia)",
+        "evidence": "WebResearchEngine já implementado, só falta wiring"
+      },
+      {
+        "action": "Implementar KnowledgeFlywheel real",
+        "impact": "Cada projeto melhora o próximo",
+        "cost": "MEDIUM (2-3 dias)",
+        "evidence": "Learning records já existem, falta automação de consolidação"
+      },
+      {
+        "action": "Ativar SkillContext no JarvisAgent/ViseronAgent",
+        "impact": "Agentes ganham 1,997 skills como contexto",
+        "cost": "LOW (1 dia)",
+        "evidence": "SkillsRegistry retorna skills por domínio, só falta adicionar ao system prompt"
+      },
+      {
+        "action": "Memory isolation por projeto/cliente",
+        "impact": "Segurança de dados entre tenants",
+        "cost": "MEDIUM (2 dias)",
+        "evidence": "MemoryEngine suporta namespaces, falta implementar separação"
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "backup": "VISERON v7.0 GOLDEN BACKUP FINAL",
+  "timestamp": "2026-08-12",
+  "version": "v7.0-pre-migration",
+  "manifest": {
+    "location": "backups/golden-final-v70",
+    "totalFiles": 22948,
+    "totalSizeMB": 908,
+    "sha256Verified": "22948/22948 (100%)",
+    "verificationVerdict": "MIGRATION-READY — 14/14 checks passed"
+  },
+  "contents": {
+    "sourceCode": { "count": 249, "path": "src/", "status": "INCLUDED" },
+    "cliScripts": { "count": 109, "path": "scripts/", "status": "INCLUDED" },
+    "tests": { "count": 7, "path": "tests/", "status": "INCLUDED" },
+    "agentSpecs": { "count": 10, "path": "src/omega/agent-runtime/specs/", "status": "INCLUDED" },
+    "squadManifests": { "count": 12, "path": "src/omega/squads/manifests/", "status": "INCLUDED" },
+    "skills": { "count": 1997, "path": "skills/vendor/", "status": "INCLUDED (10 collections)" },
+    "skillContracts": { "count": 4, "path": "src/core/intelligence/SkillContractRegistry.ts", "status": "INCLUDED (built-in)" },
+    "memoryLtm": { "records": 20000, "path": "database/memory/", "status": "INCLUDED" },
+    "knowledgeGraph": { "nodes": 4278, "edges": 8275, "path": "graphify-out/", "status": "INCLUDED" },
+    "experienceRecords": { "sizeKB": 177, "path": "data/state/experience-index.jsonl", "status": "INCLUDED" },
+    "auditReports": { "dirs": 43, "path": "data/audit/", "status": "INCLUDED" },
+    "configTemplates": { "count": 1, "path": ".env.example", "status": "INCLUDED" },
+    "migrationFiles": { "scripts": 3, "path": "scripts/migration/", "status": "INCLUDED (backup/restore/verify)" },
+    "reports": { "count": 20, "path": "data/*.md", "status": "INCLUDED" }
+  },
+  "securityExclusions": {
+    "envReal": { "file": ".env", "status": "EXCLUDED — manual secure transfer" },
+    "solanaKeypair": { "file": "contracts/solana-keypair.json", "status": "EXCLUDED — manual secure transfer" },
+    "solanaSeed": { "file": "contracts/solana-seed.txt", "status": "EXCLUDED — manual secure transfer" },
+    "walletFactory": { "file": "contracts/wallets/", "status": "EXCLUDED — manual secure transfer" },
+    "walletAccessDocs": { "file": "data/Viseron_Cosmos_Wallet_ACESSO.txt", "status": "EXCLUDED — manual secure transfer" },
+    "verification": "Security scan confirmed: 0 secrets in backup"
+  },
+  "restoreTest": {
+    "environment": "C:\\Users\\MySystem\\AppData\\Local\\Temp\\opencode\\visoron-restore-test",
+    "result": "PASSED",
+    "checks": {
+      "sourceCodeRestored": true,
+      "tsFileCount": 249,
+      "skillsCollections": 10,
+      "auditDirectories": 43,
+      "memoryDatabase": true,
+      "knowledgeGraph": true,
+      "packageJson": true,
+      "tsconfigJson": true
+    }
+  }
+}

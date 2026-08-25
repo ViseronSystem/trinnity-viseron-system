@@ -1,0 +1,37 @@
+{
+  "learningId": "learn_msoy9yzi_e5kz",
+  "sourceExperienceIds": [
+    "AUDITMSOY9YZG_B1"
+  ],
+  "taskIds": [
+    "audit_task_AUDITMSOY9YZG"
+  ],
+  "agentIds": [
+    "agent_ceo"
+  ],
+  "traceIds": [
+    "audit_trace_AUDITMSOY9YZG"
+  ],
+  "inputContext": "knowledge graph entity density audit",
+  "previousBehavior": "no density tracking",
+  "newBehavior": "kg entity density monitored per task execution",
+  "performanceBefore": 1,
+  "performanceAfter": 2.5,
+  "performanceDelta": 1.5,
+  "validation": "PASS",
+  "confidence": 0.95,
+  "relevanceScore": 0.8,
+  "scope": "AGENT_ONLY",
+  "status": "CONSOLIDATED",
+  "evidence": [
+    "experience:AUDITMSOY9YZG_B1",
+    "artifact:AUDITMSOY9YZG_B1_audit_report",
+    "validation:PASS",
+    "tools:kg_query,density_analysis"
+  ],
+  "conflicts": [],
+  "createdAt": 1786470275934,
+  "updatedAt": 1786470275935,
+  "consolidatedAt": 1786470275935,
+  "archiveHash": "797426b33726371cd661388d97ba4f9a2c6f474857f2ea1c861faedf75ecf80b"
+}

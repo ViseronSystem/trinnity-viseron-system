@@ -1,4 +1,5 @@
 import { SkillDetail, SkillInfo, skillsRegistry } from "./SkillsRegistry";
+import type { SkillExecutor, ExecutionRequest } from "../intelligence/SkillExecutor";
 
 // Skill Pipeline — REALITY HARDENING
 // As 1.997 skills indexadas (10 coleções, skills/vendor) estão classificadas como
@@ -72,6 +73,17 @@ export const SKILL_PERMISSION_RULES: Array<{ id: string; label: string; test: (s
 ];
 
 export class SkillPipeline {
+  private executor: SkillExecutor | null = null;
+
+  /** Attach a real SkillExecutor to make skills executable. Without this, execute() returns REJECTED. */
+  public setExecutor(executor: SkillExecutor): void {
+    this.executor = executor;
+  }
+
+  public hasExecutor(): boolean {
+    return this.executor !== null;
+  }
+
   /**
    * Estado atual de uma skill: por omissão está INDEXED (etapa SKILL).
    * Apenas skills com autorização explícita avançam — nunca por código.
@@ -118,21 +130,47 @@ export class SkillPipeline {
   }
 
   /**
-   * Execução de uma skill. CONTRATO: nenhuma skill é executada pelo TVS ainda.
-   * Se este método for chamado, devolve REJECTED com a razão real — nunca simula
-   * execução bem-sucedida.
+   * Execução de uma skill via SkillExecutor (S14).
+   * Sem executor → REJECTED. Com executor → execução real via ToolManager/Provider.
    */
-  public async execute(id: string): Promise<SkillPipelineResult> {
-    return { id, stage: "EXECUTION", status: "REJECTED", allowed: false, reason: "execução de skills não implementada (EXECUTION é um contrato futuro)" };
+  public async execute(id: string, input?: Record<string, any>, agentId?: string): Promise<SkillPipelineResult> {
+    if (!this.executor) {
+      return { id, stage: "EXECUTION", status: "REJECTED", allowed: false, reason: "SkillExecutor não configurado — sem execution fabric" };
+    }
+    try {
+      const req: ExecutionRequest = {
+        executionId: `exec_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
+        skillId: id,
+        agentId: agentId || "system",
+        input: input || {},
+      };
+      const result = await this.executor.execute(req);
+      return {
+        id,
+        stage: result.ok ? "RESULT" : "EXECUTION",
+        status: result.ok ? "EXECUTED" : "REJECTED",
+        allowed: result.ok,
+        reason: result.validationReason || (result.ok ? "executed" : "failed"),
+      };
+    } catch (e: any) {
+      return { id, stage: "EXECUTION", status: "REJECTED", allowed: false, reason: `execution error: ${e.message}` };
+    }
   }
 
   /** Contagem real por estado: quantas skills estão INDEXED agora. */
-  public async summary(): Promise<{ total: number; indexed: number; status: Record<string, number> }> {
+  public async summary(): Promise<{ total: number; indexed: number; executed: number; status: Record<string, number> }> {
     const all = await skillsRegistry.listSkills();
+    const status: Record<string, number> = { INDEXED: all.length };
+    if (this.executor) {
+      const stats = this.executor.getStats();
+      status.EXECUTED = stats.succeeded;
+      status.FAILED = stats.failed;
+    }
     return {
       total: all.length,
       indexed: all.length,
-      status: { INDEXED: all.length },
+      executed: this.executor ? this.executor.getStats().succeeded : 0,
+      status,
     };
   }
 }

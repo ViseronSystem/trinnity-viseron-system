@@ -1,0 +1,56 @@
+{
+  "migrationPackage": {
+    "name": "VISERON v7.0 MIGRATION PACKAGE",
+    "version": "v7.0-pre-migration",
+    "createdAt": "2026-08-12",
+    "contents": [
+      {
+        "item": "Golden Backup",
+        "path": "backups/golden-final-v70",
+        "size": "908 MB",
+        "files": 22948,
+        "transferMethod": "SFTP/SCP or cloud storage",
+        "required": true
+      },
+      {
+        "item": "Secret Package (manual)",
+        "path": "5 files (.env, keypair, seed, wallets, access)",
+        "size": "~7KB",
+        "transferMethod": "Encrypted channel (separate from backup)",
+        "required": true
+      },
+      {
+        "item": "Restore Script",
+        "path": "scripts/migration/restore.ps1",
+        "size": "2KB",
+        "transferMethod": "Included in backup",
+        "required": true
+      },
+      {
+        "item": "Verify Script",
+        "path": "scripts/migration/verify.ps1",
+        "size": "2KB",
+        "transferMethod": "Included in backup",
+        "required": true
+      },
+      {
+        "item": "Migration Documentation",
+        "path": "data/audit/p23-server-migration/ + p4-production/ + v70-golden-backup/",
+        "size": "~50KB",
+        "transferMethod": "Included in backup",
+        "required": true
+      }
+    ],
+    "transferPlan": {
+      "step1": "Transfer golden backup (908MB) via SFTP or encrypted cloud storage",
+      "step2": "Transfer 5 secret files via encrypted channel (SEPARATE)",
+      "step3": "On target: run restore.ps1 -BackupDir <backup> -TargetRoot C:\\tvs",
+      "step4": "Place secrets in C:\\tvs (matching paths)",
+      "step5": "npm install && npm run build",
+      "step6": "ollama pull qwen2.5:3b && ollama pull qwen2.5:7b",
+      "step7": "npm test — 67 tests must pass",
+      "step8": "Rotate 3 secrets (Avirato, Gmail, JWT)"
+    },
+    "approvalRequired": "Commander Pedro Costa must approve before transfer begins"
+  }
+}

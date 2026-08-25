@@ -1,0 +1,147 @@
+{
+  "id": "security-intelligence",
+  "name": "Security Intelligence Squad",
+  "domain": "security",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_sec_eng",
+      "name": "Security Engineer",
+      "role": "Security Lead",
+      "domain": "security",
+      "responsibilities": [
+        "threat_modeling",
+        "pentesting",
+        "incident_response"
+      ],
+      "capabilities": [
+        "threat_modeling",
+        "pentesting",
+        "incident_response"
+      ],
+      "skills": [
+        "security-audit",
+        "vuln-discovery"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_audit",
+      "name": "Audit Agent",
+      "role": "Compliance Auditor",
+      "domain": "security",
+      "responsibilities": [
+        "compliance_check",
+        "audit_trail",
+        "evidence_collection"
+      ],
+      "capabilities": [
+        "compliance_check",
+        "audit_trail",
+        "evidence_collection"
+      ],
+      "skills": [
+        "security-audit",
+        "audit-design-system"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_compliance",
+      "name": "Compliance Agent",
+      "role": "GRC Specialist",
+      "domain": "security",
+      "responsibilities": [
+        "soc2",
+        "gdpr",
+        "iso27001",
+        "regulatory"
+      ],
+      "capabilities": [
+        "soc2",
+        "gdpr",
+        "iso27001",
+        "regulatory"
+      ],
+      "skills": [
+        "security-audit",
+        "audit-hooks"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_defense",
+      "name": "Defensive Research",
+      "role": "Defense Researcher",
+      "domain": "research",
+      "responsibilities": [
+        "threat_intelligence",
+        "vulnerability_research",
+        "adversary_simulation"
+      ],
+      "capabilities": [
+        "threat_intelligence",
+        "vulnerability_research",
+        "adversary_simulation"
+      ],
+      "skills": [
+        "vuln-discovery",
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_vulnerabilities_found",
+      "metric": "vulnerabilities_found",
+      "target": "per_scan",
+      "frequency": "per_mission"
+    },
+    {
+      "id": "obj_compliance_score",
+      "metric": "compliance_score",
+      "target": "> 95%",
+      "frequency": "per_mission"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [],
+    "isolated_per_project": true
+  }
+}

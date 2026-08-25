@@ -1,0 +1,30 @@
+{
+  "traceId": "cog_msp0f9ua_a9obp6",
+  "timestamp": 1786473882514,
+  "source": "research",
+  "input": {
+    "text": "VISERON project architecture"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "2 accepted, 0 rejected, 3 chunks",
+    "latencyMs": 818,
+    "sources": [
+      "https://example.com",
+      "https://httpbin.org/html"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "2 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "e76b51a101f02a3d720fef9310bd6ed2e04c119468a473fd676425ee1a04186e"
+}

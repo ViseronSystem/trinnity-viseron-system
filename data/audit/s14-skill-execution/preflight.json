@@ -1,0 +1,61 @@
+{
+  "audit": "S14 Preflight — Execution Component Classification",
+  "timestamp": "2026-08-12",
+  "components": {
+    "skills": {
+      "SkillsRegistry": { "status": "REAL", "note": "1,997 skills indexed from 10 collections. Search/read works. Purely a catalog." },
+      "SkillPipeline.execute": { "status": "PLACEHOLDER", "note": "Hardcoded REJECTED. One-line body: 'return REJECTED'. Zero execution code." },
+      "SkillPipeline.validate": { "status": "REAL", "note": "Checks frontmatter rules (has_skill_md, has_description)." },
+      "SkillPipeline.permission": { "status": "REAL", "note": "Checks governance_approval (hardcoded false) + no_secrets_in_skill." },
+      "SkillBridge": { "status": "UNUSED", "note": "buildSkillContext() works but 0 imports across entire codebase. Orphaned." },
+      "S13IntelligenceEngine.benchmark": { "status": "PLACEHOLDER", "note": "Quality metrics are Math.random() fabrication. Engine admits this in own report." }
+    },
+    "execution": {
+      "Kernel": { "status": "REAL", "note": "executeTool/runTask/dispatchAgent all wired via OmegaPlatform. 5 adapters attached." },
+      "TaskQueue": { "status": "REAL", "note": "9 states, retry, persistence, concurrency scheduling. Fully implemented." },
+      "EventBus": { "status": "REAL", "note": "Wildcards, source filtering, retry, handler isolation, ring buffer replay." },
+      "Permissions": { "status": "REAL", "note": "8 roles with wildcard matching. Enforced in Kernel.runTask/dispatchAgent." },
+      "TaskVerifier": { "status": "REAL", "note": "5 built-in rules, per-task-type rulesets. Wired via kernel.tasks.setVerifier()." }
+    },
+    "agents": {
+      "SmartAgent.execute": { "status": "REAL", "note": "Calls LLM via ProviderFactory+ModelRouter with fallback chain. Produces real text." },
+      "AgentFactory": { "status": "REAL", "note": "7 agent blueprints producing SmartAgent instances. No skill/tool injection." },
+      "SquadRegistry.runSquad": { "status": "PARTIAL", "note": "Real iterative dispatch with timeouts. Agents produce LLM text only." },
+      "ParallelOrchestrator": { "status": "PARTIAL", "note": "Fully coded DAG executor. 0 instantiations. Ready to wire." },
+      "JarvisAgent.toolComposioExecute": { "status": "REAL", "note": "Complete MCP pipeline: search→schema→build args→execute on connected apps." }
+    },
+    "tools": {
+      "ToolManager": { "status": "REAL", "note": "Generic delegation framework. executeTool() delegates to registered ITool handlers." },
+      "ComposioBridge.registerTools": { "status": "REAL", "note": "Registers Composio MCP tools with real API-calling handlers." }
+    },
+    "providers": {
+      "ProviderFactory": { "status": "REAL", "note": "6 providers (Ollama/OpenAI/Claude/Gemini/Grok/OmniRoute). 10 instantiations." },
+      "ViseronModelRouter": { "status": "REAL", "note": "Dynamic provider chain with health caching. Honest failure (NOT_IMPLEMENTED)." }
+    },
+    "memory": {
+      "MemoryEngine": { "status": "REAL", "note": "STM+LTM+KB+Vector all active. TF-IDF search, consolidation. 6 instantiations." },
+      "ExperienceStore": { "status": "UNUSED", "note": "Complete task-contextual experience retrieval. 0 instantiations everywhere." }
+    },
+    "knowledge": {
+      "WebResearchEngine": { "status": "REAL", "note": "Full pipeline: fetch→register→quality gate→chunk→index. Real HTTP fetch." },
+      "KnowledgeIngestion.SourceRegistry": { "status": "REAL", "note": "JSONL persistence, SHA256 dedup. Real." },
+      "KnowledgeIngestion.WebFetcher": { "status": "REAL", "note": "Real Node.js http/https requests with title extraction and hash." }
+    },
+    "learning": {
+      "AutoLearningEngine": { "status": "PARTIAL", "note": "Real cron + metrics pipeline + persistence. 'Learning' is metric aggregation, not ML." }
+    },
+    "support": {
+      "TelemetryEngine": { "status": "REAL", "note": "Traces→persist→archive→stats→insights. Wired in OmegaPlatform." },
+      "SelfHealWatchdog": { "status": "REAL", "note": "5 targets registered, tick-based health, AI-assisted recovery." },
+      "BibleGovernance": { "status": "REAL", "note": "9 principles + regex-based blocking. Integrated in ViseronAgent." }
+    }
+  },
+  "verdict": {
+    "realCount": 17,
+    "partialCount": 4,
+    "placeholderCount": 2,
+    "unusedCount": 2,
+    "rootCause": "SkillPipeline.execute() is hardcoded to REJECT. SkillBridge is orphaned (0 imports). No component injects skills into agent context. ToolManager works but skills never reach it.",
+    "fix": "1. Build SkillExecutor that replaces hardcoded reject 2. Wire SkillBridge into agent context 3. Map skill→tool→provider→result 4. Integrate with existing Kernel/EventBus/Telemetry/Verifier 5. Activate ParallelOrchestrator and ExperienceStore"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "id": "creative-intelligence",
+  "name": "Creative Intelligence Squad",
+  "domain": "creative",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_video",
+      "name": "Video Generation",
+      "role": "Video Producer",
+      "domain": "general",
+      "responsibilities": [
+        "video_synthesis",
+        "motion_graphics",
+        "editing"
+      ],
+      "capabilities": [
+        "video_synthesis",
+        "motion_graphics",
+        "editing"
+      ],
+      "skills": [
+        "canvas-design"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_3d",
+      "name": "3D Modeling",
+      "role": "3D Artist",
+      "domain": "general",
+      "responsibilities": [
+        "3d_modeling",
+        "rendering",
+        "animation"
+      ],
+      "capabilities": [
+        "3d_modeling",
+        "rendering",
+        "animation"
+      ],
+      "skills": [
+        "canvas-design"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_design",
+      "name": "Design",
+      "role": "UI/UX Designer",
+      "domain": "general",
+      "responsibilities": [
+        "ui_design",
+        "branding",
+        "typography"
+      ],
+      "capabilities": [
+        "ui_design",
+        "branding",
+        "typography"
+      ],
+      "skills": [
+        "canvas-design",
+        "brand-guidelines"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_branding",
+      "name": "Branding",
+      "role": "Brand Strategist",
+      "domain": "sales",
+      "responsibilities": [
+        "brand_strategy",
+        "visual_identity",
+        "messaging"
+      ],
+      "capabilities": [
+        "brand_strategy",
+        "visual_identity",
+        "messaging"
+      ],
+      "skills": [
+        "brand-guidelines",
+        "marketing"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_simulation",
+      "name": "Simulation",
+      "role": "Simulation Engineer",
+      "domain": "research",
+      "responsibilities": [
+        "physics_simulation",
+        "digital_twin",
+        "scenario_modeling"
+      ],
+      "capabilities": [
+        "physics_simulation",
+        "digital_twin",
+        "scenario_modeling"
+      ],
+      "skills": [
+        "research",
+        "prototype"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_creatives_generated",
+      "metric": "creatives_generated",
+      "target": "weekly",
+      "frequency": "per_mission"
+    },
+    {
+      "id": "obj_brand_consistency",
+      "metric": "brand_consistency",
+      "target": "> 90%",
+      "frequency": "per_mission"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [],
+    "isolated_per_project": true
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-11T18:10:39.413Z",
+  "timestamp": "2026-08-11T18:19:29.636Z",
   "summary": {
     "real": 10,
     "partial": 0,
@@ -19,7 +19,7 @@
         "synthesis",
         "coordination"
       ],
-      "latencyMs": 2,
+      "latencyMs": 6,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -36,7 +36,7 @@
         "filesystem_read",
         "architecture_analysis"
       ],
-      "latencyMs": 8,
+      "latencyMs": 9,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -70,7 +70,7 @@
         "infrastructure_audit",
         "config_inspection"
       ],
-      "latencyMs": 1,
+      "latencyMs": 2,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -87,7 +87,7 @@
         "metrics_analysis",
         "cost_estimation"
       ],
-      "latencyMs": 13,
+      "latencyMs": 6,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -98,7 +98,7 @@
       "probe": "Research cognitive architecture patterns and produce finding",
       "success": true,
       "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\research_findings.md",
-      "artifactHash": "b998c4be2d552d233504e2376f35a18ceadc1cafc0d7780d71a0300ed97db7c5",
+      "artifactHash": "6f7cf1d49d599c74193f5d8e637de30ea793b66722c8ca6046006a7ff24a6476",
       "artifactSize": 117,
       "toolsUsed": [
         "kg_analysis",
@@ -121,7 +121,7 @@
         "value_analysis",
         "market_positioning"
       ],
-      "latencyMs": 2,
+      "latencyMs": 1,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -155,7 +155,7 @@
         "documentation_analysis",
         "guide_generation"
       ],
-      "latencyMs": 26,
+      "latencyMs": 2,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -172,7 +172,7 @@
         "strategy_analysis",
         "roadmap_synthesis"
       ],
-      "latencyMs": 2,
+      "latencyMs": 1,
       "traceCreated": true,
       "evidenceRecorded": true,
       "classification": "REAL"
@@ -184,42 +184,42 @@
       "expected": "agent_cto",
       "selected": "agent_ceo",
       "correct": false,
-      "score": 0.5
+      "score": 0.30000000000000004
     },
     {
       "domain": "security",
       "expected": "agent_security",
       "selected": "agent_security",
       "correct": true,
-      "score": 0.8
+      "score": 0.7
     },
     {
       "domain": "finance",
       "expected": "agent_finance",
       "selected": "agent_finance",
       "correct": true,
-      "score": 0.6499999999999999
+      "score": 0.6
     },
     {
       "domain": "research",
       "expected": "agent_research",
       "selected": "agent_research",
       "correct": true,
-      "score": 0.8
+      "score": 0.7
     },
     {
       "domain": "operations",
       "expected": "agent_devops",
       "selected": "agent_ceo",
       "correct": false,
-      "score": 0.5
+      "score": 0.30000000000000004
     },
     {
       "domain": "development",
       "expected": "agent_developer",
       "selected": "agent_sales",
       "correct": false,
-      "score": 0.6499999999999999
+      "score": 0.6
     }
   ]
 }

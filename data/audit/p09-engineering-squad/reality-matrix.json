@@ -1,0 +1,8 @@
+{
+  "EngineeringSquad": "REAL (5 agents, manifest + workflow execution)",
+  "AgentAutoRouter": "REAL (domain-based routing for squad agents)",
+  "SkillBridge": "REAL (domain context per phase)",
+  "SkillExecutor": "REAL (8 skills with real Ollama provider)",
+  "SkillContractRegistry": "REAL (auto-infer per phase)",
+  "ExperienceStore": "REAL (wired to executor)"
+}

@@ -1,0 +1,44 @@
+{
+  "rtx4090": {
+    "vram": "24GB GDDR6X",
+    "cudaCores": 16384,
+    "tflopsFP16": 330,
+    "price": "$1,600",
+    "power": "450W",
+    "monthlyElectricity": "$65 (24/7 at $0.20/kWh)",
+    "roi": "EXCELLENT",
+    "verdict": "BEST LOCAL GPU for AI startup. Runs Wan2.1 1.3B (4min/video), 14B (8min), Ollama 14B, SDXL, Flux, ComfyUI. Sweet spot for price/performance.",
+    "canRun": ["Ollama 3B/7B/14B", "Wan2.1 1.3B/14B", "SDXL", "Flux", "ComfyUI", "XTTS-v2", "Whisper"],
+    "limitations": "Cannot run multiple 14B models simultaneously. Training large models needs cloud H100."
+  },
+  "rtx5090": {
+    "vram": "32GB GDDR7",
+    "cudaCores": 21760,
+    "tflopsFP16": 419,
+    "price": "$2,000",
+    "power": "575W",
+    "monthlyElectricity": "$83 (24/7)",
+    "roi": "EXCELLENT (future)",
+    "verdict": "FUTURE-PROOF upgrade from 4090. 33% more VRAM, 27% faster. Worth the $400 premium if buying new."
+  },
+  "a6000": {
+    "vram": "48GB GDDR6",
+    "cudaCores": 10752,
+    "tflopsFP16": 310,
+    "price": "$4,600",
+    "power": "300W",
+    "monthlyElectricity": "$43 (24/7)",
+    "roi": "GOOD (enterprise)",
+    "verdict": "ENTERPRISE choice. 48GB VRAM for multi-model serving. Lower power. But 2.9x the price of 4090 for similar performance."
+  },
+  "h100": {
+    "vram": "80GB HBM3",
+    "cudaCores": 18432,
+    "tflopsFP16": 1979,
+    "price": "$30,000",
+    "power": "700W",
+    "monthlyElectricity": "$101 (24/7)",
+    "roi": "POOR (rent, don't buy)",
+    "verdict": "DATA CENTER GPU — DO NOT BUY. Rent via RunPod ($2.49/hr) when needed for training. 6x faster than 4090 but $1,600 vs $30,000."
+  }
+}

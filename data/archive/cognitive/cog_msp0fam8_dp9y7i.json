@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msp0fam8_dp9y7i",
+  "timestamp": 1786473883520,
+  "source": "research",
+  "input": {
+    "text": "empty test"
+  },
+  "processing": {},
+  "result": {
+    "success": false,
+    "output": "0 accepted, 1 rejected, 0 chunks",
+    "latencyMs": 139,
+    "sources": [
+      "https://httpbin.org/status/404"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "FAIL",
+    "reasons": [
+      "0 accepted, 1 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": false
+  },
+  "archiveHash": "04ea39a1dd8b5ada9caf7a30c1b08bf19eb709790fb216279f48f288c6123a92"
+}

@@ -1,0 +1,602 @@
+﻿[
+    {
+        "name":  "PancakeSwap AMM",
+        "tvl":  1927.4,
+        "chain":  "Binance,Ethereum,Aptos,Base,zkSync Era,Arbitrum,Op_Bnb,Robinhood Chain,Linea,Monad,Polygon zkEVM"
+    },
+    {
+        "name":  "Uniswap V3",
+        "tvl":  1512.6,
+        "chain":  "Ethereum,Base,Arbitrum,Binance,Robinhood Chain,Polygon,X Layer,Optimism,Plasma,Unichain,xDai,Avalanche,Celo,Monad,RSK,World Chain,0G,Boba,Filecoin,zkSync Era,Mantle,Etherlink,Goat,Sei,BOB,XDC,Nibiru,Telos,Lens,Sonic,Redbelly,Scroll,Linea,Blast,Hemi,Taiko,Lisk,MegaETH,Tempo,Manta,LightLink,Moonbeam,Polygon zkEVM,Corn,Saga"
+    },
+    {
+        "name":  "Curve DEX",
+        "tvl":  1338.5,
+        "chain":  "Ethereum,Fraxtal,Base,Arbitrum,Etherlink,Monad,Polygon,Plasma,Avalanche,xDai,Optimism,Fantom,Unichain,Binance,X Layer,Robinhood Chain,Hyperliquid L1,Celo,Sonic,Kava,XDC,Aurora,TAC,Plume Mainnet,Ink,Taiko,Stable,Moonbeam,Corn,Harmony,Mantle"
+    },
+    {
+        "name":  "Raydium AMM",
+        "tvl":  1052.5,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Uniswap V2",
+        "tvl":  942.5,
+        "chain":  "Ethereum,Base,Polygon,Robinhood Chain,Arbitrum,Binance,X Layer,Monad,Optimism,Avalanche,Tempo,Unichain,Zora,Celo"
+    },
+    {
+        "name":  "Uniswap V4",
+        "tvl":  899.1,
+        "chain":  "Ethereum,Base,Robinhood Chain,Binance,Arbitrum,Monad,Polygon,Unichain,Soneium,Optimism,Avalanche,X Layer,World Chain,Tempo,Ink,MegaETH,Blast,Zora"
+    },
+    {
+        "name":  "PumpSwap",
+        "tvl":  326.5,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "PancakeSwap AMM V3",
+        "tvl":  306.6,
+        "chain":  "Binance,Ethereum,Base,Solana,Arbitrum,Monad,zkSync Era,Linea,Robinhood Chain,Op_Bnb,Polygon zkEVM"
+    },
+    {
+        "name":  "Fluid DEX",
+        "tvl":  304.7,
+        "chain":  "Ethereum,Plasma,Arbitrum,Base,Polygon"
+    },
+    {
+        "name":  "Orca DEX",
+        "tvl":  260.3,
+        "chain":  "Solana,Eclipse"
+    },
+    {
+        "name":  "SUNSwap V3",
+        "tvl":  218.7,
+        "chain":  "Tron"
+    },
+    {
+        "name":  "Meteora DLMM",
+        "tvl":  211.5,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "RocketSwap Anubis",
+        "tvl":  188.4,
+        "chain":  "Anubis"
+    },
+    {
+        "name":  "Sanctum Infinity",
+        "tvl":  185.1,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Quickswap Dex",
+        "tvl":  171.5,
+        "chain":  "Polygon,Base"
+    },
+    {
+        "name":  "Hyperliquid Spot Orderbook",
+        "tvl":  142.9,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "Aerodrome Slipstream",
+        "tvl":  128.5,
+        "chain":  "Base"
+    },
+    {
+        "name":  "Aerodrome V1",
+        "tvl":  121.9,
+        "chain":  "Base"
+    },
+    {
+        "name":  "VVS Standard",
+        "tvl":  106.2,
+        "chain":  "Cronos"
+    },
+    {
+        "name":  "SoSoValue Indexes",
+        "tvl":  100.7,
+        "chain":  "Bitcoin,Ethereum,Hyperliquid L1,Binance,Ripple,Solana,Doge,Cardano"
+    },
+    {
+        "name":  "Enzyme Finance",
+        "tvl":  92.1,
+        "chain":  "Ethereum,Polygon,Arbitrum"
+    },
+    {
+        "name":  "PancakeSwap Infinity",
+        "tvl":  68.6,
+        "chain":  "Binance,Base"
+    },
+    {
+        "name":  "PulseX V1",
+        "tvl":  67.8,
+        "chain":  "Pulse"
+    },
+    {
+        "name":  "THORChain DEX",
+        "tvl":  62.2,
+        "chain":  "Thorchain,Bitcoin,Ethereum,Binance,Bitcoincash,Avalanche,Doge,Ripple,Litecoin,Tron,Cosmos,Base,Solana"
+    },
+    {
+        "name":  "SUNSwap V1",
+        "tvl":  58.4,
+        "chain":  "Tron"
+    },
+    {
+        "name":  "Aquarius Stellar",
+        "tvl":  51.2,
+        "chain":  "Stellar"
+    },
+    {
+        "name":  "Nado Spot",
+        "tvl":  50.3,
+        "chain":  "Ink"
+    },
+    {
+        "name":  "SushiSwap V3",
+        "tvl":  46.4,
+        "chain":  "Ethereum,Katana,Hemi,Base,Robinhood Chain,Arbitrum,Polygon,RSK,Filecoin,Optimism,ThunderCore,Binance,Avalanche,Scroll,xDai,Europa,Linea,Arbitrum Nova,Sonic,CORE,Metis,Blast,Fantom,ZetaChain,Kava,Fuse,Bittorrent,Moonbeam,Moonriver,Polygon zkEVM"
+    },
+    {
+        "name":  "Project X",
+        "tvl":  45.8,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "Meteora DAMM V1",
+        "tvl":  44.3,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "SushiSwap",
+        "tvl":  39.9,
+        "chain":  "Ethereum,Polygon,Arbitrum,Base,Boba,xDai,Binance,Celo,Arbitrum Nova,Avalanche,Fantom,Harmony,Fuse,Scroll,Optimism,Katana,OKExChain,Linea,Filecoin,CORE,Palm,RSK,Hemi,Blast,Bittorrent,Telos,Europa,ZetaChain,Sonic,Metis,ThunderCore,Kava,HAQQ,Moonriver,Heco,Boba_Bnb,Moonbeam,Polygon zkEVM"
+    },
+    {
+        "name":  "XRPL DEX",
+        "tvl":  39.6,
+        "chain":  "Ripple"
+    },
+    {
+        "name":  "IDEX V1",
+        "tvl":  39.2,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "Lista DEX",
+        "tvl":  39.1,
+        "chain":  "Binance,Ethereum"
+    },
+    {
+        "name":  "Reserve Protocol",
+        "tvl":  36.8,
+        "chain":  "Ethereum,Base,Arbitrum,Binance"
+    },
+    {
+        "name":  "Balancer V2",
+        "tvl":  33.9,
+        "chain":  "Ethereum,Polygon,Arbitrum,Base,xDai,Avalanche,Mode,Fraxtal,Polygon zkEVM"
+    },
+    {
+        "name":  "PulseX V2",
+        "tvl":  31.9,
+        "chain":  "Pulse"
+    },
+    {
+        "name":  "Rhea Dex",
+        "tvl":  29.0,
+        "chain":  "Near"
+    },
+    {
+        "name":  "Hydration DEX",
+        "tvl":  27.3,
+        "chain":  "HydraDX"
+    },
+    {
+        "name":  "Balancer V3",
+        "tvl":  26.9,
+        "chain":  "Ethereum,Monad,Hyperliquid L1,Base,Arbitrum,Avalanche,Optimism,xDai,Plasma"
+    },
+    {
+        "name":  "STON.fi",
+        "tvl":  26.8,
+        "chain":  "TON"
+    },
+    {
+        "name":  "Ekubo",
+        "tvl":  25.7,
+        "chain":  "Starknet,Ethereum,Robinhood Chain"
+    },
+    {
+        "name":  "Cetus CLMM",
+        "tvl":  24.7,
+        "chain":  "Sui,Aptos"
+    },
+    {
+        "name":  "Chamber Vaults",
+        "tvl":  24.1,
+        "chain":  "Base,Optimism,Polygon,Arbitrum,Hyperliquid L1,Ethereum,Plasma"
+    },
+    {
+        "name":  "Meteora DAMM V2",
+        "tvl":  24.0,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Velodrome V3",
+        "tvl":  23.8,
+        "chain":  "Ink,Optimism,Unichain,Fraxtal,Soneium,Celo,Lisk,Superseed,Mode,Swellchain"
+    },
+    {
+        "name":  "KlaySwap V1",
+        "tvl":  19.9,
+        "chain":  "Klaytn"
+    },
+    {
+        "name":  "Bluefin Spot",
+        "tvl":  18.7,
+        "chain":  "Sui"
+    },
+    {
+        "name":  "Manifest Trade",
+        "tvl":  18.1,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "nest CL",
+        "tvl":  17.9,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "Quickswap V3",
+        "tvl":  17.6,
+        "chain":  "Immutable zkEVM,Polygon,Manta,Soneium,X Layer,Dogechain,Polygon zkEVM,Astar zkEVM"
+    },
+    {
+        "name":  "Pharaoh V3",
+        "tvl":  17.2,
+        "chain":  "Avalanche"
+    },
+    {
+        "name":  "Bancor V3",
+        "tvl":  16.6,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "Velodrome V2",
+        "tvl":  16.5,
+        "chain":  "Optimism,Ink,Fraxtal,BOB,Mode,Lisk,Soneium,Celo,Unichain,Superseed,Swellchain"
+    },
+    {
+        "name":  "Agni Finance",
+        "tvl":  16.4,
+        "chain":  "Mantle"
+    },
+    {
+        "name":  "Serum",
+        "tvl":  16.0,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Kodiak V3",
+        "tvl":  16.0,
+        "chain":  "Berachain"
+    },
+    {
+        "name":  "SparkDEX V4",
+        "tvl":  15.7,
+        "chain":  "Flare"
+    },
+    {
+        "name":  "Stellar DEX",
+        "tvl":  15.3,
+        "chain":  "Stellar"
+    },
+    {
+        "name":  "Minswap DEX",
+        "tvl":  15.0,
+        "chain":  "Cardano"
+    },
+    {
+        "name":  "Camelot V3",
+        "tvl":  14.8,
+        "chain":  "Arbitrum,ApeChain,Superposition,Gravity,Plume Mainnet,EDU Chain,Rari,Reya Network,Xai,DuckChain,Corn,WINR"
+    },
+    {
+        "name":  "Pharaoh DLMM",
+        "tvl":  14.4,
+        "chain":  "Avalanche"
+    },
+    {
+        "name":  "Futarchy AMM",
+        "tvl":  14.1,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Index Coop",
+        "tvl":  13.8,
+        "chain":  "Ethereum,Arbitrum,Base"
+    },
+    {
+        "name":  "Osmosis DEX",
+        "tvl":  13.3,
+        "chain":  "Osmosis"
+    },
+    {
+        "name":  "Chainge Finance",
+        "tvl":  13.2,
+        "chain":  "Rollux,Fusion"
+    },
+    {
+        "name":  "Byreal",
+        "tvl":  12.8,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "DODO AMM",
+        "tvl":  12.5,
+        "chain":  "Binance,Ethereum,Polygon,Avalanche,Arbitrum,Base,Aurora,Manta,Zircuit,Scroll,Optimism,Linea,Hemi,HashKey Chain,Mantle"
+    },
+    {
+        "name":  "Set Protocol",
+        "tvl":  12.5,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "DeepBook V3",
+        "tvl":  12.4,
+        "chain":  "Sui"
+    },
+    {
+        "name":  "HyperSwap V3",
+        "tvl":  12.4,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "FstSwap",
+        "tvl":  12.1,
+        "chain":  "Binance"
+    },
+    {
+        "name":  "Merchant Moe Liquidity Book",
+        "tvl":  12.0,
+        "chain":  "Mantle"
+    },
+    {
+        "name":  "Tempo Stablecoin Dex",
+        "tvl":  11.5,
+        "chain":  "Tempo"
+    },
+    {
+        "name":  "Kumbaya",
+        "tvl":  11.0,
+        "chain":  "MegaETH"
+    },
+    {
+        "name":  "Frax Swap",
+        "tvl":  10.4,
+        "chain":  "Fraxtal,Ethereum,Binance,Avalanche,Polygon,Optimism,Dogechain,Arbitrum,Fantom,Moonbeam"
+    },
+    {
+        "name":  "SyncSwap",
+        "tvl":  9.9,
+        "chain":  "zkSync Era,Linea,Scroll,Sophon"
+    },
+    {
+        "name":  "Bancor V2.1",
+        "tvl":  9.9,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "MetalX Swap",
+        "tvl":  9.9,
+        "chain":  "Proton"
+    },
+    {
+        "name":  "Joe DEX",
+        "tvl":  9.7,
+        "chain":  "Avalanche,Monad,Arbitrum,Binance"
+    },
+    {
+        "name":  "Astroport",
+        "tvl":  9.7,
+        "chain":  "Neutron,Terra2,Injective,Osmosis,Sei"
+    },
+    {
+        "name":  "Saphyre V3",
+        "tvl":  9.6,
+        "chain":  "Sei"
+    },
+    {
+        "name":  "ApeSwap AMM",
+        "tvl":  9.5,
+        "chain":  "Binance,Polygon,Arbitrum,Telos,Ethereum"
+    },
+    {
+        "name":  "Chainflip AMM",
+        "tvl":  9.5,
+        "chain":  "Chainflip,Ethereum"
+    },
+    {
+        "name":  "SaucerSwap V1",
+        "tvl":  9.4,
+        "chain":  "Hedera"
+    },
+    {
+        "name":  "Katana DEX",
+        "tvl":  9.3,
+        "chain":  "Ronin"
+    },
+    {
+        "name":  "Stellar AMM",
+        "tvl":  8.6,
+        "chain":  "Stellar"
+    },
+    {
+        "name":  "Sovryn Dex",
+        "tvl":  8.2,
+        "chain":  "RSK,BOB"
+    },
+    {
+        "name":  "BulbaSwap V3",
+        "tvl":  8.1,
+        "chain":  "Morph"
+    },
+    {
+        "name":  "Jupiter Lend DEX",
+        "tvl":  8.1,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "Sushi Stellar",
+        "tvl":  8.0,
+        "chain":  "Stellar"
+    },
+    {
+        "name":  "Enosys AMM V3",
+        "tvl":  7.6,
+        "chain":  "Flare,Songbird"
+    },
+    {
+        "name":  "MerlinSwap",
+        "tvl":  7.3,
+        "chain":  "Merlin"
+    },
+    {
+        "name":  "SparkDEX V3.1",
+        "tvl":  7.3,
+        "chain":  "Flare"
+    },
+    {
+        "name":  "Balancer V1",
+        "tvl":  7.2,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "Swaap Maker V2",
+        "tvl":  7.2,
+        "chain":  "Ethereum,Base,Arbitrum,Binance,Polygon,Optimism,Mode,Scroll,Linea,Mantle,Monad"
+    },
+    {
+        "name":  "SaucerSwap V2",
+        "tvl":  6.9,
+        "chain":  "Hedera"
+    },
+    {
+        "name":  "HyperSwap V2",
+        "tvl":  6.7,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "PotatoSwap V2",
+        "tvl":  6.4,
+        "chain":  "X Layer"
+    },
+    {
+        "name":  "FermiSwap",
+        "tvl":  6.2,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "ShibaSwap V1",
+        "tvl":  6.0,
+        "chain":  "Ethereum,Shibarium"
+    },
+    {
+        "name":  "Tigris Mezo V3",
+        "tvl":  5.8,
+        "chain":  "Mezo"
+    },
+    {
+        "name":  "Biswap V2",
+        "tvl":  5.8,
+        "chain":  "Binance"
+    },
+    {
+        "name":  "Angstrom",
+        "tvl":  5.8,
+        "chain":  "Ethereum"
+    },
+    {
+        "name":  "Tinyman",
+        "tvl":  5.7,
+        "chain":  "Algorand"
+    },
+    {
+        "name":  "Camelot V2",
+        "tvl":  5.5,
+        "chain":  "Arbitrum,ApeChain,Superposition,Xai,Rari,Reya Network,Gravity,EDU Chain,DuckChain"
+    },
+    {
+        "name":  "Hydrex Integral",
+        "tvl":  5.4,
+        "chain":  "Base"
+    },
+    {
+        "name":  "BSCSwap",
+        "tvl":  5.3,
+        "chain":  "Binance"
+    },
+    {
+        "name":  "Quickswap V4",
+        "tvl":  5.3,
+        "chain":  "Base,Soneium,Mantra,Polygon,Somnia,X Layer"
+    },
+    {
+        "name":  "Valantis STEX",
+        "tvl":  5.3,
+        "chain":  "Hyperliquid L1"
+    },
+    {
+        "name":  "MetalX Dex",
+        "tvl":  5.2,
+        "chain":  "Proton"
+    },
+    {
+        "name":  "Icarus CL",
+        "tvl":  5.2,
+        "chain":  "RISE"
+    },
+    {
+        "name":  "DOOAR V2",
+        "tvl":  5.2,
+        "chain":  "Solana,Binance"
+    },
+    {
+        "name":  "Ramses CL V2",
+        "tvl":  5.1,
+        "chain":  "Hyperliquid L1,Robinhood Chain,Polygon,Arbitrum"
+    },
+    {
+        "name":  "ViteX",
+        "tvl":  4.9,
+        "chain":  "Vite"
+    },
+    {
+        "name":  "Temple",
+        "tvl":  4.9,
+        "chain":  "Canton"
+    },
+    {
+        "name":  "Saber",
+        "tvl":  4.9,
+        "chain":  "Solana"
+    },
+    {
+        "name":  "DeDust",
+        "tvl":  4.8,
+        "chain":  "TON"
+    },
+    {
+        "name":  "Metric V2",
+        "tvl":  4.8,
+        "chain":  "Ethereum,Base,Binance,Hyperliquid L1,Arbitrum,Polygon,Monad,Avalanche,MegaETH"
+    },
+    {
+        "name":  "Splash Protocol",
+        "tvl":  4.8,
+        "chain":  "Cardano"
+    }
+]

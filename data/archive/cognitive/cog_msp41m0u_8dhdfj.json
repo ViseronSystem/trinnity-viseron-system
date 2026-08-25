@@ -1,0 +1,30 @@
+{
+  "traceId": "cog_msp41m0u_8dhdfj",
+  "timestamp": 1786479963582,
+  "source": "research",
+  "input": {
+    "text": "VISERON system architecture autonomous agents"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "2 accepted, 0 rejected, 3 chunks",
+    "latencyMs": 860,
+    "sources": [
+      "https://example.com",
+      "https://httpbin.org/html"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "2 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "b78a9662d118742106b26d0d766bcb05b71442bd6185d59d577fb2bfb002efc4"
+}

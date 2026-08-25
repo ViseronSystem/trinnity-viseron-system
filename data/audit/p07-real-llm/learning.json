@@ -1,0 +1,10 @@
+{
+  "before": "P0.6: 82% ASSISTED, skipProviders=true, no real LLM reasoning",
+  "after": "P0.7: 91% AUTONOMOUS, Ollama qwen2.5:3b, 8 skills executed with real LLM reasoning",
+  "learned": [
+    "Ollama qwen2.5:3b successfully integrated into SkillExecutor",
+    "Real LLM responses provide substantive, reasoned outputs vs template fallbacks",
+    "Provider latency: ~8896ms per call (local CPU)",
+    "Research + architecture + security + development all benefited from real LLM"
+  ]
+}

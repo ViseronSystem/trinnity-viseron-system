@@ -1,0 +1,26 @@
+{
+  "id": "squad_operations",
+  "name": "Operations Squad",
+  "description": "Automação, monitorização, execução e atendimento operacional contínuo.",
+  "domain": "operations",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_uptime", "description": "Garantir disponibilidade do sistema", "metric": "uptime_pct", "target": 99.9 },
+    { "id": "obj_support", "description": "Resolver pedidos de suporte", "metric": "first_response_min", "target": 15 }
+  ],
+  "tools": [
+    { "id": "monitoring", "name": "Monitoring", "description": "saúde, métricas, alertas" },
+    { "id": "automation", "name": "Automation", "description": "workflows n8n e cron" },
+    { "id": "support", "name": "Support", "description": "tickets e atendimento" }
+  ],
+  "workflows": [
+    { "id": "wf_monitor", "name": "Monitor Cycle", "steps": ["health", "detect", "respond", "report"] },
+    { "id": "wf_support", "name": "Support Flow", "steps": ["receive", "triage", "resolve", "followup"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": false },
+  "permissions": [
+    { "resource": "monitoring", "actions": ["read", "write"] },
+    { "resource": "support", "actions": ["read", "write"] }
+  ],
+  "agents": ["agent_ceo", "agent_support"]
+}

@@ -28,6 +28,10 @@ import { ReportServer } from "./reporting/ReportServer";
 import { BattalionRegistry, battalionRegistry, LineageTracker, DirectiveEngine } from "./standard";
 import { VoiceBridge } from "../voice/VoiceBridge";
 import { ComposioBridge } from "./composio/ComposioBridge";
+import { SkillExecutor } from "./intelligence/SkillExecutor";
+import { SkillContractRegistry } from "./intelligence/SkillContractRegistry";
+import { ExperienceStore } from "./memory/ExperienceStore";
+import { skillPipeline } from "./skills/SkillPipeline";
 
 export class ViseronCore {
   public name: string = "Trinnity Viseron System v5.0 Multiversal";
@@ -90,6 +94,11 @@ export class ViseronCore {
 
   // Composio (consumo MCP)
   public composioBridge: ComposioBridge;
+
+  // P0.2 Skill Execution Fabric
+  public skillExecutor: SkillExecutor;
+  public skillContractRegistry: SkillContractRegistry;
+  public experienceStore: ExperienceStore;
 
   constructor() {
     this.archetypes = getAllArchetypes();
@@ -174,6 +183,19 @@ export class ViseronCore {
 
     // Composio (consumo MCP) - ferramentas externas (Gmail/Slack/GitHub/...) para os agentes
     this.composioBridge = new ComposioBridge();
+
+    // P0.2 Skill Execution Fabric — wires dead code into the execution chain
+    this.experienceStore = new ExperienceStore("data");
+    this.skillExecutor = new SkillExecutor({
+      toolManager: this.toolManager,
+      providerFactory: this.providerFactory,
+      memoryEngine: this.memoryEngine,
+      experienceStore: this.experienceStore,
+      dataDir: "data",
+      skipProviders: false,
+    });
+    this.skillContractRegistry = new SkillContractRegistry("data");
+    skillPipeline.setExecutor(this.skillExecutor);
   }
 
   /**

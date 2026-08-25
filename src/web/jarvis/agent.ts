@@ -11,6 +11,7 @@ import { ViseronModelRouter } from "../../core/model-router/ViseronModelRouter";
 import { ComposioBridge } from "../../core/composio/ComposioBridge";
 import { AgencyDeps } from "../agency/routes";
 import { RcsEngine } from "../../core/rcs/RcsEngine";
+import { SkillBridge } from "../../core/intelligence/SkillBridge";
 import { capacityIndicators, projectionTable, AGENCY_PACKAGES, LEGACY_FEE, NEW_FEE } from "../../core/agency/finance";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
@@ -119,6 +120,7 @@ export class JarvisAgent {
   private composio: ComposioBridge;
   private agency: AgencyDeps;
   private rcs?: RcsEngine;
+  private skillBridge?: SkillBridge;
 
   constructor(ctx: {
     dataDir: string;
@@ -132,6 +134,7 @@ export class JarvisAgent {
     composio: ComposioBridge;
     agency: AgencyDeps;
     rcs?: RcsEngine;
+    skillBridge?: SkillBridge;
     persona?: string;
   }) {
     this.dataDir = ctx.dataDir;
@@ -145,6 +148,7 @@ export class JarvisAgent {
     this.composio = ctx.composio;
     this.agency = ctx.agency;
     this.rcs = ctx.rcs;
+    this.skillBridge = ctx.skillBridge;
     this.persona = ctx.persona;
     this.providerFactory = new ProviderFactory();
     this.modelRouter = new ViseronModelRouter(this.providerFactory);
@@ -269,7 +273,15 @@ export class JarvisAgent {
 
     const history = session.messages.slice(-6).map((m) => `${m.role}: ${m.content}`).join("\n");
     const memoryCtx = this.recall(4).map((r) => `[${(r.ts || "").slice(0, 10)}] ${r.tool || r.type}: ${(r.detail || r.message || "").slice(0, 120)}`).join("\n");
-    const systemPrompt = this.buildSystemPrompt();
+
+    // P0.1: SkillBridge integration — inject relevant skills
+    let skillContext = "";
+    if (this.skillBridge) {
+      const ctx = await this.skillBridge.buildSkillContext(message);
+      skillContext = ctx.promptExtension;
+    }
+
+    const systemPrompt = this.buildSystemPrompt(skillContext);
     const prompt = this.buildPrompt(message, intent, toolResult, history, lang, memoryCtx);
 
     const ai = await this.generateRealAI(prompt, systemPrompt);
@@ -297,8 +309,8 @@ export class JarvisAgent {
     return { text: null, provider: "rule", model: "tvs-fallback" };
   }
 
-  private buildSystemPrompt(): string {
-    return [
+  private buildSystemPrompt(skillContext = ""): string {
+    const base = [
       this.persona ? `PERSONALITY OVERRIDE — VISERON CORE:\n${this.persona}` : "",
       "You are JARVIS, the assistant of the Trinnity Viseron System (TVS) — a multi-agent AI operating system.",
       "You speak Portuguese (pt), English and Spanish. ALWAYS reply in the language the user writes. For Pedro Costa and Trinnity Hurtado (the owners) default is SPANISH.",
@@ -309,8 +321,10 @@ export class JarvisAgent {
       "Composio autonomy: when the user asks to post/send/create/comment/schedule in a connected app, you ACTUALLY execute the real tool (search tool, build args, execute) and then summarize what happened. Example: 'publica no slack que lançámos a 5.1'.",
       "RCS: when the user asks to send a branded message/RCS/SMS with the VISERON logo to phone numbers (e.g. 'envía un RCS a +351...'), ACTUALLY send it and summarize the result (mode live or mock).",
       "Web API: https://viseron-web.onrender.com. GitHub: github.com/ViseronSystem/trinnity-viseron-system.",
-      "If a tool ran, summarize its result naturally. Never invent numbers: use only the tool data given.",
-    ].join("\n");
+    ];
+    if (skillContext) base.push(skillContext);
+    base.push("If a tool ran, summarize its result naturally. Never invent numbers: use only the tool data given.");
+    return base.join("\n");
   }
 
   private buildPrompt(message: string, intent: string, toolResult: JarvisAction | null, history: string, lang: string, memoryCtx: string): string {

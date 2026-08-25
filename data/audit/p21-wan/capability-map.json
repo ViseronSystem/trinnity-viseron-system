@@ -1,0 +1,19 @@
+{
+  "provider": "Wan2.1",
+  "status": "BLOCKED",
+  "env": {
+    "pythonAvailable": true,
+    "pythonVersion": "Python 3.13.14",
+    "pytorchAvailable": false,
+    "cudaAvailable": false,
+    "gpuCount": 0,
+    "gpuName": "",
+    "vramGB": 0,
+    "wan21Installed": false,
+    "wan21Path": "",
+    "modelAvailable": "",
+    "modelPath": "",
+    "canGenerate": false
+  },
+  "integration": "Provider + CLI + SkillContract ready. GPU/Model needed for execution."
+}

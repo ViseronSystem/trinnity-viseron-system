@@ -1,0 +1,72 @@
+[
+  {
+    "type": "node_start",
+    "nodeId": "dag_research",
+    "ts": 1786497934688,
+    "dependencies": []
+  },
+  {
+    "type": "node_start",
+    "nodeId": "dag_arch",
+    "ts": 1786497934688,
+    "dependencies": []
+  },
+  {
+    "type": "node_start",
+    "nodeId": "dag_security",
+    "ts": 1786497934688,
+    "dependencies": []
+  },
+  {
+    "type": "node_start",
+    "nodeId": "dag_dev",
+    "ts": 1786497934688,
+    "dependencies": []
+  },
+  {
+    "type": "node_end",
+    "nodeId": "dag_security",
+    "ts": 1786497934707,
+    "status": "BLOCKED",
+    "durationMs": 19
+  },
+  {
+    "type": "node_end",
+    "nodeId": "dag_arch",
+    "ts": 1786497934707,
+    "status": "SUCCEEDED",
+    "durationMs": 19
+  },
+  {
+    "type": "node_end",
+    "nodeId": "dag_dev",
+    "ts": 1786497934707,
+    "status": "BLOCKED",
+    "durationMs": 19
+  },
+  {
+    "type": "node_end",
+    "nodeId": "dag_research",
+    "ts": 1786497934972,
+    "status": "SUCCEEDED",
+    "durationMs": 284
+  },
+  {
+    "type": "node_start",
+    "nodeId": "dag_integration",
+    "ts": 1786497934972,
+    "dependencies": [
+      "dag_research",
+      "dag_arch",
+      "dag_security",
+      "dag_dev"
+    ]
+  },
+  {
+    "type": "node_end",
+    "nodeId": "dag_integration",
+    "ts": 1786497934977,
+    "status": "SUCCEEDED",
+    "durationMs": 5
+  }
+]

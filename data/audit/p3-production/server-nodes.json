@@ -1,0 +1,61 @@
+{
+  "node01": {
+    "id": "VISERON-NODE-01",
+    "role": "PRIMARY (UpCloud EPYC 7542, 256GB RAM)",
+    "responsibilities": [
+      "Ollama Server (3B/7B/14B/32B)",
+      "Agent Runtime (30 agents)",
+      "Memory Runtime (LTM 20K)",
+      "Knowledge Runtime (graph)",
+      "Skill Runtime (1,997 skills)",
+      "API Gateway (188+ endpoints)",
+      "Monitoring",
+      "Auto-backup"
+    ],
+    "status": "PLANNED"
+  },
+  "node02": {
+    "id": "VISERON-NODE-02",
+    "role": "GPU COMPUTE (RTX 4090/5090)",
+    "responsibilities": [
+      "Wan2.1 video generation",
+      "ComfyUI creative pipeline",
+      "Image/3D/audio generation",
+      "GPU-accelerated inference"
+    ],
+    "status": "PLANNED"
+  },
+  "node03": {
+    "id": "VISERON-NODE-03",
+    "role": "DATA & KNOWLEDGE (Postgres + Vector DB)",
+    "responsibilities": [
+      "PostgreSQL (migrate from Neon)",
+      "Qdrant vector store",
+      "Knowledge graph service",
+      "Data warehouse"
+    ],
+    "status": "PLANNED"
+  },
+  "node04": {
+    "id": "VISERON-NODE-04",
+    "role": "EDGE & INTEGRATIONS",
+    "responsibilities": [
+      "Twilio/RCS gateway",
+      "Gmail/email service",
+      "Composio MCP bridge",
+      "Telegram/WhatsApp bots"
+    ],
+    "status": "PLANNED"
+  },
+  "node05": {
+    "id": "VISERON-NODE-05",
+    "role": "BACKUP & DISASTER RECOVERY",
+    "responsibilities": [
+      "Daily golden backup",
+      "Off-site replication",
+      "Monitoring alerts",
+      "Failover standby"
+    ],
+    "status": "PLANNED"
+  }
+}

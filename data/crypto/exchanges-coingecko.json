@@ -1,0 +1,2252 @@
+﻿[
+    {
+        "id":  "gdax",
+        "name":  "Coinbase Exchange",
+        "trust_score":  10,
+        "trust_rank":  1,
+        "year":  2012,
+        "country":  "United States",
+        "trade_vol_24h_btc":  34826.1
+    },
+    {
+        "id":  "binance",
+        "name":  "Binance",
+        "trust_score":  10,
+        "trust_rank":  2,
+        "year":  2017,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  180223.3
+    },
+    {
+        "id":  "kraken",
+        "name":  "Kraken",
+        "trust_score":  10,
+        "trust_rank":  3,
+        "year":  2011,
+        "country":  "United States",
+        "trade_vol_24h_btc":  20102.2
+    },
+    {
+        "id":  "okex",
+        "name":  "OKX",
+        "trust_score":  10,
+        "trust_rank":  4,
+        "year":  2017,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  33644.1
+    },
+    {
+        "id":  "bitget",
+        "name":  "Bitget",
+        "trust_score":  10,
+        "trust_rank":  5,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  17632.7
+    },
+    {
+        "id":  "gate",
+        "name":  "Gate",
+        "trust_score":  10,
+        "trust_rank":  6,
+        "year":  2013,
+        "country":  "Panama",
+        "trade_vol_24h_btc":  36805.8
+    },
+    {
+        "id":  "bitstamp",
+        "name":  "Bitstamp by Robinhood",
+        "trust_score":  9,
+        "trust_rank":  7,
+        "year":  2011,
+        "country":  "Luxembourg",
+        "trade_vol_24h_btc":  7806.4
+    },
+    {
+        "id":  "bybit_spot",
+        "name":  "Bybit",
+        "trust_score":  9,
+        "trust_rank":  8,
+        "year":  2018,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  31498.8
+    },
+    {
+        "id":  "mxc",
+        "name":  "MEXC",
+        "trust_score":  9,
+        "trust_rank":  9,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  22925.8
+    },
+    {
+        "id":  "toobit",
+        "name":  "Toobit",
+        "trust_score":  9,
+        "trust_rank":  10,
+        "year":  2022,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  29694.6
+    },
+    {
+        "id":  "crypto_com",
+        "name":  "Crypto.com Exchange",
+        "trust_score":  9,
+        "trust_rank":  11,
+        "year":  2019,
+        "country":  "Malta",
+        "trade_vol_24h_btc":  18464.2
+    },
+    {
+        "id":  "kucoin",
+        "name":  "KuCoin",
+        "trust_score":  9,
+        "trust_rank":  12,
+        "year":  2017,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  19862.8
+    },
+    {
+        "id":  "bitso",
+        "name":  "Bitso",
+        "trust_score":  9,
+        "trust_rank":  13,
+        "year":  2014,
+        "country":  "Gibraltar",
+        "trade_vol_24h_btc":  173.8
+    },
+    {
+        "id":  "bitunix",
+        "name":  "Bitunix",
+        "trust_score":  9,
+        "trust_rank":  14,
+        "year":  2021,
+        "country":  "Saint Vincent and the Grenadines",
+        "trade_vol_24h_btc":  6714.0
+    },
+    {
+        "id":  "lbank",
+        "name":  "LBank",
+        "trust_score":  9,
+        "trust_rank":  15,
+        "year":  2015,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  34294.5
+    },
+    {
+        "id":  "binance_us",
+        "name":  "Binance US",
+        "trust_score":  9,
+        "trust_rank":  16,
+        "year":  2019,
+        "country":  "United States",
+        "trade_vol_24h_btc":  462.5
+    },
+    {
+        "id":  "bingx",
+        "name":  "BingX",
+        "trust_score":  9,
+        "trust_rank":  17,
+        "year":  2018,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  7842.0
+    },
+    {
+        "id":  "bitvavo",
+        "name":  "Bitvavo",
+        "trust_score":  9,
+        "trust_rank":  18,
+        "year":  2018,
+        "country":  "Netherlands",
+        "trade_vol_24h_btc":  4383.8
+    },
+    {
+        "id":  "hashkey_exchange",
+        "name":  "HashKey Exchange",
+        "trust_score":  9,
+        "trust_rank":  19,
+        "year":  2018,
+        "country":  "Hong Kong",
+        "trade_vol_24h_btc":  2637.8
+    },
+    {
+        "id":  "bullish_com",
+        "name":  "Bullish",
+        "trust_score":  8,
+        "trust_rank":  20,
+        "year":  2021,
+        "country":  "Gibraltar",
+        "trade_vol_24h_btc":  36376.5
+    },
+    {
+        "id":  "osl-exchange",
+        "name":  "OSL Exchange",
+        "trust_score":  8,
+        "trust_rank":  21,
+        "year":  2018,
+        "country":  "Hong Kong",
+        "trade_vol_24h_btc":  3551.9
+    },
+    {
+        "id":  "whitebit",
+        "name":  "WhiteBIT",
+        "trust_score":  8,
+        "trust_rank":  22,
+        "year":  2018,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  16155.6
+    },
+    {
+        "id":  "luno",
+        "name":  "Luno",
+        "trust_score":  8,
+        "trust_rank":  23,
+        "year":  2013,
+        "country":  "Singapore",
+        "trade_vol_24h_btc":  187.4
+    },
+    {
+        "id":  "bitkub",
+        "name":  "Bitkub",
+        "trust_score":  8,
+        "trust_rank":  24,
+        "year":  2018,
+        "country":  "Thailand",
+        "trade_vol_24h_btc":  809.5
+    },
+    {
+        "id":  "gemini",
+        "name":  "Gemini",
+        "trust_score":  8,
+        "trust_rank":  25,
+        "year":  2014,
+        "country":  "United States",
+        "trade_vol_24h_btc":  1057.5
+    },
+    {
+        "id":  "upbit",
+        "name":  "Upbit",
+        "trust_score":  8,
+        "trust_rank":  26,
+        "year":  2017,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  19461.8
+    },
+    {
+        "id":  "bitbank",
+        "name":  "Bitbank",
+        "trust_score":  8,
+        "trust_rank":  27,
+        "year":  2016,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  680.1
+    },
+    {
+        "id":  "niza-global",
+        "name":  "Niza.io",
+        "trust_score":  8,
+        "trust_rank":  28,
+        "year":  2021,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  4587.6
+    },
+    {
+        "id":  "coinw",
+        "name":  "CoinW",
+        "trust_score":  8,
+        "trust_rank":  29,
+        "year":  2017,
+        "country":  null,
+        "trade_vol_24h_btc":  63239.5
+    },
+    {
+        "id":  "bit2me",
+        "name":  "Bit2Me",
+        "trust_score":  8,
+        "trust_rank":  30,
+        "year":  2014,
+        "country":  "Spain",
+        "trade_vol_24h_btc":  3217.3
+    },
+    {
+        "id":  "hashkey-global",
+        "name":  "HashKey Global",
+        "trust_score":  8,
+        "trust_rank":  31,
+        "year":  2018,
+        "country":  "Bermuda",
+        "trade_vol_24h_btc":  3.9
+    },
+    {
+        "id":  "ourbit",
+        "name":  "Ourbit",
+        "trust_score":  8,
+        "trust_rank":  32,
+        "year":  2020,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  24949.9
+    },
+    {
+        "id":  "bybit-eu",
+        "name":  "Bybit EU",
+        "trust_score":  8,
+        "trust_rank":  33,
+        "year":  2025,
+        "country":  "Austria",
+        "trade_vol_24h_btc":  369.8
+    },
+    {
+        "id":  "bitfinex",
+        "name":  "Bitfinex",
+        "trust_score":  8,
+        "trust_rank":  34,
+        "year":  2012,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  5509.2
+    },
+    {
+        "id":  "byte-exchange",
+        "name":  "Byte Exchange",
+        "trust_score":  8,
+        "trust_rank":  35,
+        "year":  2021,
+        "country":  "Estonia",
+        "trade_vol_24h_btc":  1358.9
+    },
+    {
+        "id":  "grovex",
+        "name":  "GroveX",
+        "trust_score":  8,
+        "trust_rank":  36,
+        "year":  2022,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  14661.2
+    },
+    {
+        "id":  "weex",
+        "name":  "WEEX",
+        "trust_score":  8,
+        "trust_rank":  37,
+        "year":  2018,
+        "country":  "Singapore",
+        "trade_vol_24h_btc":  38661.1
+    },
+    {
+        "id":  "zoomex",
+        "name":  "Zoomex",
+        "trust_score":  8,
+        "trust_rank":  38,
+        "year":  2021,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  7489.7
+    },
+    {
+        "id":  "digifinex",
+        "name":  "DigiFinex",
+        "trust_score":  8,
+        "trust_rank":  39,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  27168.0
+    },
+    {
+        "id":  "bitopro",
+        "name":  "BitoPro",
+        "trust_score":  8,
+        "trust_rank":  40,
+        "year":  2018,
+        "country":  "Taiwan",
+        "trade_vol_24h_btc":  278.9
+    },
+    {
+        "id":  "bitkan",
+        "name":  "BitKan",
+        "trust_score":  8,
+        "trust_rank":  41,
+        "year":  2012,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  1958.4
+    },
+    {
+        "id":  "coinstore",
+        "name":  "Coinstore",
+        "trust_score":  8,
+        "trust_rank":  42,
+        "year":  2020,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  2170.7
+    },
+    {
+        "id":  "valr",
+        "name":  "VALR",
+        "trust_score":  8,
+        "trust_rank":  43,
+        "year":  2018,
+        "country":  "South Africa",
+        "trade_vol_24h_btc":  419.1
+    },
+    {
+        "id":  "bitazza",
+        "name":  "Bitazza",
+        "trust_score":  8,
+        "trust_rank":  44,
+        "year":  2021,
+        "country":  "Thailand",
+        "trade_vol_24h_btc":  321.9
+    },
+    {
+        "id":  "cointr",
+        "name":  "CoinTR",
+        "trust_score":  8,
+        "trust_rank":  45,
+        "year":  2022,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  2342.6
+    },
+    {
+        "id":  "levex",
+        "name":  "LeveX",
+        "trust_score":  8,
+        "trust_rank":  46,
+        "year":  2023,
+        "country":  "Panama",
+        "trade_vol_24h_btc":  443.8
+    },
+    {
+        "id":  "pionex",
+        "name":  "Pionex",
+        "trust_score":  8,
+        "trust_rank":  47,
+        "year":  2019,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  69924.2
+    },
+    {
+        "id":  "bitrue",
+        "name":  "Bitrue",
+        "trust_score":  7,
+        "trust_rank":  49,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  14463.7
+    },
+    {
+        "id":  "coinspro",
+        "name":  "Coins.ph",
+        "trust_score":  7,
+        "trust_rank":  50,
+        "year":  2014,
+        "country":  "Philippines",
+        "trade_vol_24h_btc":  845.0
+    },
+    {
+        "id":  "bithumb",
+        "name":  "Bithumb",
+        "trust_score":  7,
+        "trust_rank":  51,
+        "year":  2014,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  10968.8
+    },
+    {
+        "id":  "gmo_japan",
+        "name":  "GMO Coin Japan",
+        "trust_score":  7,
+        "trust_rank":  52,
+        "year":  2017,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  1110.5
+    },
+    {
+        "id":  "okcoin-japan",
+        "name":  "OKJ",
+        "trust_score":  7,
+        "trust_rank":  53,
+        "year":  2017,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  126.4
+    },
+    {
+        "id":  "bydfi",
+        "name":  "BYDFi",
+        "trust_score":  7,
+        "trust_rank":  54,
+        "year":  2020,
+        "country":  "Canada",
+        "trade_vol_24h_btc":  3779.8
+    },
+    {
+        "id":  "bitlo",
+        "name":  "Bitlo",
+        "trust_score":  7,
+        "trust_rank":  55,
+        "year":  2018,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  21.6
+    },
+    {
+        "id":  "backpack_exchange",
+        "name":  "Backpack Exchange ",
+        "trust_score":  7,
+        "trust_rank":  56,
+        "year":  2023,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  263.8
+    },
+    {
+        "id":  "bittime",
+        "name":  "Bittime",
+        "trust_score":  7,
+        "trust_rank":  57,
+        "year":  2022,
+        "country":  "Indonesia",
+        "trade_vol_24h_btc":  188.9
+    },
+    {
+        "id":  "biconomy",
+        "name":  "Biconomy.com",
+        "trust_score":  7,
+        "trust_rank":  58,
+        "year":  2019,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  37150.1
+    },
+    {
+        "id":  "bitflyer",
+        "name":  "bitFlyer",
+        "trust_score":  7,
+        "trust_rank":  59,
+        "year":  2014,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  635.6
+    },
+    {
+        "id":  "huobi_japan",
+        "name":  "BitTrade",
+        "trust_score":  7,
+        "trust_rank":  60,
+        "year":  2016,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  67.5
+    },
+    {
+        "id":  "phemex",
+        "name":  "Phemex",
+        "trust_score":  7,
+        "trust_rank":  61,
+        "year":  2019,
+        "country":  "Samoa",
+        "trade_vol_24h_btc":  11898.3
+    },
+    {
+        "id":  "korbit",
+        "name":  "Korbit",
+        "trust_score":  7,
+        "trust_rank":  62,
+        "year":  2013,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  252.1
+    },
+    {
+        "id":  "nonkyc_io",
+        "name":  "Nonkyc.io",
+        "trust_score":  7,
+        "trust_rank":  63,
+        "year":  2023,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  623.4
+    },
+    {
+        "id":  "p2pb2b",
+        "name":  "P2B",
+        "trust_score":  7,
+        "trust_rank":  64,
+        "year":  2018,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  9888.9
+    },
+    {
+        "id":  "koinpark",
+        "name":  "Koinpark",
+        "trust_score":  7,
+        "trust_rank":  65,
+        "year":  2023,
+        "country":  "India",
+        "trade_vol_24h_btc":  255.0
+    },
+    {
+        "id":  "bitpanda",
+        "name":  "One Trading",
+        "trust_score":  7,
+        "trust_rank":  66,
+        "year":  2019,
+        "country":  "Italy",
+        "trade_vol_24h_btc":  7.6
+    },
+    {
+        "id":  "max_maicoin",
+        "name":  "Max Maicoin",
+        "trust_score":  7,
+        "trust_rank":  67,
+        "year":  2018,
+        "country":  "Taiwan",
+        "trade_vol_24h_btc":  199.7
+    },
+    {
+        "id":  "difx",
+        "name":  "DIFX",
+        "trust_score":  7,
+        "trust_rank":  68,
+        "year":  2021,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  1838.6
+    },
+    {
+        "id":  "btcturk",
+        "name":  "BtcTurk | Kripto",
+        "trust_score":  7,
+        "trust_rank":  69,
+        "year":  2013,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  1655.0
+    },
+    {
+        "id":  "ondo_global_markets",
+        "name":  "Ondo Stocks",
+        "trust_score":  7,
+        "trust_rank":  70,
+        "year":  2025,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  259.0
+    },
+    {
+        "id":  "hibt",
+        "name":  "Hibt",
+        "trust_score":  7,
+        "trust_rank":  71,
+        "year":  2021,
+        "country":  "Canada",
+        "trade_vol_24h_btc":  11164.7
+    },
+    {
+        "id":  "websea",
+        "name":  "Websea",
+        "trust_score":  7,
+        "trust_rank":  72,
+        "year":  2023,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  13705.1
+    },
+    {
+        "id":  "xt",
+        "name":  "XT.COM",
+        "trust_score":  7,
+        "trust_rank":  73,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  30263.6
+    },
+    {
+        "id":  "deribit_spot",
+        "name":  "Deribit Spot",
+        "trust_score":  7,
+        "trust_rank":  74,
+        "year":  2016,
+        "country":  "Panama",
+        "trade_vol_24h_btc":  2428.9
+    },
+    {
+        "id":  "coinone",
+        "name":  "Coinone",
+        "trust_score":  7,
+        "trust_rank":  75,
+        "year":  2016,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  623.6
+    },
+    {
+        "id":  "cex",
+        "name":  "CEX.IO",
+        "trust_score":  7,
+        "trust_rank":  76,
+        "year":  2013,
+        "country":  "United Kingdom",
+        "trade_vol_24h_btc":  546.2
+    },
+    {
+        "id":  "bitmex_spot",
+        "name":  "BitMEX",
+        "trust_score":  7,
+        "trust_rank":  77,
+        "year":  2022,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  0.0
+    },
+    {
+        "id":  "webot",
+        "name":  "Webot",
+        "trust_score":  7,
+        "trust_rank":  78,
+        "year":  2022,
+        "country":  "United States",
+        "trade_vol_24h_btc":  143.7
+    },
+    {
+        "id":  "tapbit",
+        "name":  "Tapbit",
+        "trust_score":  6,
+        "trust_rank":  79,
+        "year":  2019,
+        "country":  "United States",
+        "trade_vol_24h_btc":  46534.6
+    },
+    {
+        "id":  "coinex",
+        "name":  "CoinEx",
+        "trust_score":  6,
+        "trust_rank":  80,
+        "year":  2017,
+        "country":  "Samoa",
+        "trade_vol_24h_btc":  1150.6
+    },
+    {
+        "id":  "pointpay",
+        "name":  "PointPay",
+        "trust_score":  6,
+        "trust_rank":  81,
+        "year":  2018,
+        "country":  "Saint Vincent and the Grenadines",
+        "trade_vol_24h_btc":  1093.2
+    },
+    {
+        "id":  "blofin_spot",
+        "name":  "BloFin",
+        "trust_score":  6,
+        "trust_rank":  82,
+        "year":  2023,
+        "country":  "Marshall Islands",
+        "trade_vol_24h_btc":  12943.3
+    },
+    {
+        "id":  "independent_reserve",
+        "name":  "Independent Reserve",
+        "trust_score":  6,
+        "trust_rank":  83,
+        "year":  2013,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  96.4
+    },
+    {
+        "id":  "huobi",
+        "name":  "HTX",
+        "trust_score":  6,
+        "trust_rank":  84,
+        "year":  2013,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  9681.0
+    },
+    {
+        "id":  "tokpie",
+        "name":  "Tokpie",
+        "trust_score":  6,
+        "trust_rank":  85,
+        "year":  2018,
+        "country":  "Hong Kong",
+        "trade_vol_24h_btc":  174.0
+    },
+    {
+        "id":  "gate_us",
+        "name":  "Gate US",
+        "trust_score":  6,
+        "trust_rank":  86,
+        "year":  2020,
+        "country":  "United States",
+        "trade_vol_24h_btc":  0.3
+    },
+    {
+        "id":  "tdax",
+        "name":  "Orbix",
+        "trust_score":  6,
+        "trust_rank":  87,
+        "year":  2017,
+        "country":  "Thailand",
+        "trade_vol_24h_btc":  8.6
+    },
+    {
+        "id":  "kcex",
+        "name":  "KCEX",
+        "trust_score":  6,
+        "trust_rank":  88,
+        "year":  2021,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  34149.8
+    },
+    {
+        "id":  "dextrade",
+        "name":  "Dex-Trade",
+        "trust_score":  6,
+        "trust_rank":  89,
+        "year":  2017,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  26.2
+    },
+    {
+        "id":  "coincheck",
+        "name":  "Coincheck",
+        "trust_score":  6,
+        "trust_rank":  90,
+        "year":  2014,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  1168.6
+    },
+    {
+        "id":  "poloniex",
+        "name":  "Poloniex",
+        "trust_score":  6,
+        "trust_rank":  91,
+        "year":  2014,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  14351.3
+    },
+    {
+        "id":  "hotcoin_global",
+        "name":  "Hotcoin",
+        "trust_score":  6,
+        "trust_rank":  92,
+        "year":  2017,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  29097.0
+    },
+    {
+        "id":  "hata",
+        "name":  "Hata",
+        "trust_score":  6,
+        "trust_rank":  93,
+        "year":  2023,
+        "country":  "Malaysia",
+        "trade_vol_24h_btc":  6.2
+    },
+    {
+        "id":  "xbo_com",
+        "name":  "XBO.com",
+        "trust_score":  6,
+        "trust_rank":  94,
+        "year":  2022,
+        "country":  "Isle of Man",
+        "trade_vol_24h_btc":  314.9
+    },
+    {
+        "id":  "bitdelta",
+        "name":  "BitDelta",
+        "trust_score":  6,
+        "trust_rank":  95,
+        "year":  2023,
+        "country":  "Vanuatu",
+        "trade_vol_24h_btc":  28287.6
+    },
+    {
+        "id":  "btse",
+        "name":  "BTSE",
+        "trust_score":  6,
+        "trust_rank":  96,
+        "year":  2018,
+        "country":  "Costa Rica",
+        "trade_vol_24h_btc":  2275.0
+    },
+    {
+        "id":  "bitmart",
+        "name":  "BitMart",
+        "trust_score":  5,
+        "trust_rank":  97,
+        "year":  2017,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  3381.9
+    },
+    {
+        "id":  "coindcx",
+        "name":  "CoinDCX",
+        "trust_score":  5,
+        "trust_rank":  98,
+        "year":  2018,
+        "country":  "Singapore",
+        "trade_vol_24h_btc":  28.4
+    },
+    {
+        "id":  "wazirx",
+        "name":  "WazirX",
+        "trust_score":  5,
+        "trust_rank":  100,
+        "year":  2018,
+        "country":  "India",
+        "trade_vol_24h_btc":  8.5
+    },
+    {
+        "id":  "emirex",
+        "name":  "Emirex",
+        "trust_score":  5,
+        "trust_rank":  101,
+        "year":  2014,
+        "country":  "United Arab Emirates",
+        "trade_vol_24h_btc":  52.8
+    },
+    {
+        "id":  "coinjar",
+        "name":  "CoinJar Exchange",
+        "trust_score":  5,
+        "trust_rank":  102,
+        "year":  2013,
+        "country":  "United Kingdom",
+        "trade_vol_24h_btc":  65.0
+    },
+    {
+        "id":  "coinzoom",
+        "name":  "Coinzoom",
+        "trust_score":  5,
+        "trust_rank":  103,
+        "year":  2020,
+        "country":  "United States",
+        "trade_vol_24h_btc":  45.4
+    },
+    {
+        "id":  "figure_markets",
+        "name":  "Figure Markets",
+        "trust_score":  5,
+        "trust_rank":  104,
+        "year":  2018,
+        "country":  "United States",
+        "trade_vol_24h_btc":  262.4
+    },
+    {
+        "id":  "indodax",
+        "name":  "Indodax",
+        "trust_score":  5,
+        "trust_rank":  105,
+        "year":  2014,
+        "country":  "Indonesia",
+        "trade_vol_24h_btc":  228.2
+    },
+    {
+        "id":  "blockchain_com",
+        "name":  "Blockchain.com",
+        "trust_score":  5,
+        "trust_rank":  106,
+        "year":  2012,
+        "country":  "United Kingdom",
+        "trade_vol_24h_btc":  0.2
+    },
+    {
+        "id":  "bigone",
+        "name":  "BigONE",
+        "trust_score":  5,
+        "trust_rank":  107,
+        "year":  2017,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  17916.6
+    },
+    {
+        "id":  "azbit",
+        "name":  "Azbit",
+        "trust_score":  5,
+        "trust_rank":  108,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  23849.3
+    },
+    {
+        "id":  "foxbit",
+        "name":  "Foxbit",
+        "trust_score":  5,
+        "trust_rank":  109,
+        "year":  2014,
+        "country":  "Brazil",
+        "trade_vol_24h_btc":  1192.7
+    },
+    {
+        "id":  "zaif",
+        "name":  "Zaif",
+        "trust_score":  5,
+        "trust_rank":  110,
+        "year":  2015,
+        "country":  "Japan",
+        "trade_vol_24h_btc":  8.9
+    },
+    {
+        "id":  "earnbit",
+        "name":  "EarnBIT",
+        "trust_score":  5,
+        "trust_rank":  111,
+        "year":  2022,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  83.9
+    },
+    {
+        "id":  "cryptology",
+        "name":  "Tothemoon",
+        "trust_score":  5,
+        "trust_rank":  112,
+        "year":  2018,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  1658.6
+    },
+    {
+        "id":  "toko_crypto",
+        "name":  "TokoCrypto",
+        "trust_score":  5,
+        "trust_rank":  113,
+        "year":  2017,
+        "country":  "Indonesia",
+        "trade_vol_24h_btc":  105.0
+    },
+    {
+        "id":  "bitcoin_com",
+        "name":  "FMFW.io",
+        "trust_score":  5,
+        "trust_rank":  114,
+        "year":  2019,
+        "country":  "Bahamas",
+        "trade_vol_24h_btc":  1853.3
+    },
+    {
+        "id":  "deepcoin",
+        "name":  "Deepcoin",
+        "trust_score":  5,
+        "trust_rank":  115,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  17801.1
+    },
+    {
+        "id":  "mercado_bitcoin",
+        "name":  "Mercado Bitcoin",
+        "trust_score":  5,
+        "trust_rank":  116,
+        "year":  2013,
+        "country":  "Brazil",
+        "trade_vol_24h_btc":  84.2
+    },
+    {
+        "id":  "imbx",
+        "name":  "IMBX",
+        "trust_score":  5,
+        "trust_rank":  117,
+        "year":  2023,
+        "country":  "El Salvador",
+        "trade_vol_24h_btc":  5256.2
+    },
+    {
+        "id":  "secondbtc",
+        "name":  "SecondBTC",
+        "trust_score":  4,
+        "trust_rank":  119,
+        "year":  2018,
+        "country":  "India",
+        "trade_vol_24h_btc":  850.6
+    },
+    {
+        "id":  "wootrade",
+        "name":  "WOO X",
+        "trust_score":  4,
+        "trust_rank":  120,
+        "year":  2019,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  5.7
+    },
+    {
+        "id":  "kanga",
+        "name":  "Kanga Global",
+        "trust_score":  4,
+        "trust_rank":  121,
+        "year":  2018,
+        "country":  "Costa Rica",
+        "trade_vol_24h_btc":  77.3
+    },
+    {
+        "id":  "bitexlive",
+        "name":  "Bitexlive",
+        "trust_score":  4,
+        "trust_rank":  122,
+        "year":  2017,
+        "country":  "Germany",
+        "trade_vol_24h_btc":  32.9
+    },
+    {
+        "id":  "delta_spot",
+        "name":  "Delta Exchange",
+        "trust_score":  4,
+        "trust_rank":  123,
+        "year":  2018,
+        "country":  "Jamaica",
+        "trade_vol_24h_btc":  0.0
+    },
+    {
+        "id":  "btcmarkets",
+        "name":  "BTCMarkets",
+        "trust_score":  4,
+        "trust_rank":  124,
+        "year":  2013,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  47.2
+    },
+    {
+        "id":  "orangex",
+        "name":  "OrangeX",
+        "trust_score":  4,
+        "trust_rank":  125,
+        "year":  2021,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  28520.7
+    },
+    {
+        "id":  "changelly",
+        "name":  "Changelly PRO",
+        "trust_score":  4,
+        "trust_rank":  126,
+        "year":  2020,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  1651.3
+    },
+    {
+        "id":  "bitexen",
+        "name":  "Bitexen",
+        "trust_score":  4,
+        "trust_rank":  127,
+        "year":  2018,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  6.0
+    },
+    {
+        "id":  "digitalexchange_id",
+        "name":  "Digitalexchange.id",
+        "trust_score":  4,
+        "trust_rank":  128,
+        "year":  2018,
+        "country":  "Indonesia",
+        "trade_vol_24h_btc":  0.0
+    },
+    {
+        "id":  "gopax",
+        "name":  "GoPax",
+        "trust_score":  4,
+        "trust_rank":  129,
+        "year":  2016,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  5.6
+    },
+    {
+        "id":  "young-platform",
+        "name":  "Young Platform",
+        "trust_score":  4,
+        "trust_rank":  130,
+        "year":  2019,
+        "country":  "Italy",
+        "trade_vol_24h_btc":  4.2
+    },
+    {
+        "id":  "inex",
+        "name":  "INEX",
+        "trust_score":  4,
+        "trust_rank":  131,
+        "year":  2022,
+        "country":  "South Korea",
+        "trade_vol_24h_btc":  1.0
+    },
+    {
+        "id":  "giottus",
+        "name":  "Giottus",
+        "trust_score":  4,
+        "trust_rank":  132,
+        "year":  2018,
+        "country":  "India",
+        "trade_vol_24h_btc":  4.4
+    },
+    {
+        "id":  "bitci",
+        "name":  "SAFEbit",
+        "trust_score":  3,
+        "trust_rank":  135,
+        "year":  2018,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  1462.9
+    },
+    {
+        "id":  "btc_alpha",
+        "name":  "ALP.COM",
+        "trust_score":  3,
+        "trust_rank":  136,
+        "year":  2016,
+        "country":  "El Salvador",
+        "trade_vol_24h_btc":  3451.5
+    },
+    {
+        "id":  "paymium",
+        "name":  "Paymium",
+        "trust_score":  3,
+        "trust_rank":  137,
+        "year":  2011,
+        "country":  "France",
+        "trade_vol_24h_btc":  3.7
+    },
+    {
+        "id":  "chainex",
+        "name":  "ChainEX",
+        "trust_score":  3,
+        "trust_rank":  138,
+        "year":  2018,
+        "country":  "South Africa",
+        "trade_vol_24h_btc":  0.0
+    },
+    {
+        "id":  "aivora-exchange",
+        "name":  "Aivora Exchange",
+        "trust_score":  3,
+        "trust_rank":  140,
+        "year":  2023,
+        "country":  "United Arab Emirates",
+        "trade_vol_24h_btc":  17181.1
+    },
+    {
+        "id":  "cube",
+        "name":  "Cube",
+        "trust_score":  3,
+        "trust_rank":  141,
+        "year":  2023,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  0.1
+    },
+    {
+        "id":  "hitbtc",
+        "name":  "HitBTC",
+        "trust_score":  3,
+        "trust_rank":  142,
+        "year":  2013,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  1878.3
+    },
+    {
+        "id":  "upbit_indonesia",
+        "name":  "Upbit Indonesia ",
+        "trust_score":  3,
+        "trust_rank":  143,
+        "year":  2018,
+        "country":  "Indonesia",
+        "trade_vol_24h_btc":  17.6
+    },
+    {
+        "id":  "bitcastle",
+        "name":  "bitcastle",
+        "trust_score":  3,
+        "trust_rank":  144,
+        "year":  2019,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  11360.7
+    },
+    {
+        "id":  "fameex",
+        "name":  "FameEX",
+        "trust_score":  3,
+        "trust_rank":  145,
+        "year":  2020,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  19159.8
+    },
+    {
+        "id":  "inx_one",
+        "name":  "INX One",
+        "trust_score":  3,
+        "trust_rank":  146,
+        "year":  2020,
+        "country":  "Canada",
+        "trade_vol_24h_btc":  0.6
+    },
+    {
+        "id":  "bitbaby-exchange",
+        "name":  "Bitbaby",
+        "trust_score":  3,
+        "trust_rank":  147,
+        "year":  2024,
+        "country":  "United Arab Emirates",
+        "trade_vol_24h_btc":  5037.9
+    },
+    {
+        "id":  "paribu",
+        "name":  "Paribu",
+        "trust_score":  3,
+        "trust_rank":  148,
+        "year":  2017,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  1458.7
+    },
+    {
+        "id":  "exmo",
+        "name":  "EXMO",
+        "trust_score":  3,
+        "trust_rank":  150,
+        "year":  2014,
+        "country":  "Poland",
+        "trade_vol_24h_btc":  0.2
+    },
+    {
+        "id":  "icrypex",
+        "name":  "Icrypex",
+        "trust_score":  3,
+        "trust_rank":  151,
+        "year":  2018,
+        "country":  "Turkey",
+        "trade_vol_24h_btc":  342.5
+    },
+    {
+        "id":  "btcc",
+        "name":  "BTCC",
+        "trust_score":  3,
+        "trust_rank":  152,
+        "year":  2011,
+        "country":  "Lithuania",
+        "trade_vol_24h_btc":  115586.2
+    },
+    {
+        "id":  "koinbazar",
+        "name":  "KoinBX",
+        "trust_score":  3,
+        "trust_rank":  153,
+        "year":  2020,
+        "country":  "India",
+        "trade_vol_24h_btc":  313.7
+    },
+    {
+        "id":  "bitvenus_spot",
+        "name":  "BVOX",
+        "trust_score":  3,
+        "trust_rank":  154,
+        "year":  2018,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  22488.5
+    },
+    {
+        "id":  "latoken",
+        "name":  "LATOKEN",
+        "trust_score":  3,
+        "trust_rank":  155,
+        "year":  2017,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  1558.1
+    },
+    {
+        "id":  "mudrex",
+        "name":  "Mudrex",
+        "trust_score":  3,
+        "trust_rank":  157,
+        "year":  2018,
+        "country":  "India",
+        "trade_vol_24h_btc":  30.9
+    },
+    {
+        "id":  "zebpay",
+        "name":  "ZebPay",
+        "trust_score":  3,
+        "trust_rank":  158,
+        "year":  2014,
+        "country":  "India",
+        "trade_vol_24h_btc":  9.4
+    },
+    {
+        "id":  "bit2c",
+        "name":  "Bit2c",
+        "trust_score":  3,
+        "trust_rank":  159,
+        "year":  2013,
+        "country":  "Israel",
+        "trade_vol_24h_btc":  1.9
+    },
+    {
+        "id":  "bitbns",
+        "name":  "BitBNS",
+        "trust_score":  3,
+        "trust_rank":  160,
+        "year":  2017,
+        "country":  "Estonia",
+        "trade_vol_24h_btc":  0.2
+    },
+    {
+        "id":  "buda",
+        "name":  "Buda",
+        "trust_score":  3,
+        "trust_rank":  161,
+        "year":  2015,
+        "country":  "Chile",
+        "trade_vol_24h_btc":  17.7
+    },
+    {
+        "id":  "nbx",
+        "name":  "NBX",
+        "trust_score":  3,
+        "trust_rank":  162,
+        "year":  2018,
+        "country":  "Norway",
+        "trade_vol_24h_btc":  3.1
+    },
+    {
+        "id":  "catex",
+        "name":  "Catex",
+        "trust_score":  2,
+        "trust_rank":  164,
+        "year":  2018,
+        "country":  "China",
+        "trade_vol_24h_btc":  1254.1
+    },
+    {
+        "id":  "cryptal",
+        "name":  "Cryptal",
+        "trust_score":  2,
+        "trust_rank":  165,
+        "year":  2020,
+        "country":  "Georgia",
+        "trade_vol_24h_btc":  10.6
+    },
+    {
+        "id":  "bitbegin",
+        "name":  "Bitbegin",
+        "trust_score":  2,
+        "trust_rank":  166,
+        "year":  2018,
+        "country":  "Georgia",
+        "trade_vol_24h_btc":  29.1
+    },
+    {
+        "id":  "vindax",
+        "name":  "Vindax",
+        "trust_score":  2,
+        "trust_rank":  167,
+        "year":  2019,
+        "country":  "Vietnam",
+        "trade_vol_24h_btc":  376.3
+    },
+    {
+        "id":  "safe_trade",
+        "name":  "SafeTrade",
+        "trust_score":  2,
+        "trust_rank":  168,
+        "year":  2018,
+        "country":  "Saint Vincent and the Grenadines",
+        "trade_vol_24h_btc":  7.2
+    },
+    {
+        "id":  "btc_trade_ua",
+        "name":  "BTC Trade UA",
+        "trust_score":  2,
+        "trust_rank":  170,
+        "year":  2014,
+        "country":  "Ukraine",
+        "trade_vol_24h_btc":  0.0
+    },
+    {
+        "id":  "bilaxy",
+        "name":  "Bilaxy",
+        "trust_score":  2,
+        "trust_rank":  171,
+        "year":  2018,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  233.2
+    },
+    {
+        "id":  "coinbase_international",
+        "name":  "Coinbase International Exchange",
+        "trust_score":  2,
+        "trust_rank":  172,
+        "year":  2023,
+        "country":  "United States",
+        "trade_vol_24h_btc":  27946.9
+    },
+    {
+        "id":  "pancakeswap-v3-bsc",
+        "name":  "PancakeSwap V3 (BSC)",
+        "trust_score":  2,
+        "trust_rank":  173,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  10314.7
+    },
+    {
+        "id":  "uniswap_v3",
+        "name":  "Uniswap V3 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  174,
+        "year":  2018,
+        "country":  null,
+        "trade_vol_24h_btc":  6359.0
+    },
+    {
+        "id":  "uniswap-v4-ethereum",
+        "name":  "Uniswap V4 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  175,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  5932.3
+    },
+    {
+        "id":  "orca",
+        "name":  "Orca",
+        "trust_score":  2,
+        "trust_rank":  176,
+        "year":  2021,
+        "country":  null,
+        "trade_vol_24h_btc":  5728.9
+    },
+    {
+        "id":  "aerodrome-slipstream-3",
+        "name":  "Aerodrome Slipstream 3",
+        "trust_score":  2,
+        "trust_rank":  177,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  4693.7
+    },
+    {
+        "id":  "meteora",
+        "name":  "Meteora",
+        "trust_score":  2,
+        "trust_rank":  178,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  4438.7
+    },
+    {
+        "id":  "uniswap-v3-base",
+        "name":  "Uniswap V3 (Base)",
+        "trust_score":  2,
+        "trust_rank":  179,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  3904.3
+    },
+    {
+        "id":  "uniswap-v3-robinhood",
+        "name":  "Uniswap V3 (Robinhood)",
+        "trust_score":  2,
+        "trust_rank":  180,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  3843.5
+    },
+    {
+        "id":  "hyperliquid-spot",
+        "name":  "Hyperliquid",
+        "trust_score":  2,
+        "trust_rank":  181,
+        "year":  2024,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  3543.8
+    },
+    {
+        "id":  "pancakeswap-v3-base",
+        "name":  "PancakeSwap V3 (Base)",
+        "trust_score":  2,
+        "trust_rank":  182,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  2985.8
+    },
+    {
+        "id":  "aerodrome-slipstream",
+        "name":  "Aerodrome SlipStream",
+        "trust_score":  2,
+        "trust_rank":  183,
+        "year":  2024,
+        "country":  null,
+        "trade_vol_24h_btc":  2732.7
+    },
+    {
+        "id":  "uniswap_v3_arbitrum",
+        "name":  "Uniswap V3 (Arbitrum One)",
+        "trust_score":  2,
+        "trust_rank":  184,
+        "year":  2021,
+        "country":  null,
+        "trade_vol_24h_btc":  2721.9
+    },
+    {
+        "id":  "manifest",
+        "name":  "Manifest",
+        "trust_score":  2,
+        "trust_rank":  185,
+        "year":  2024,
+        "country":  "Unknown or Invalid Region",
+        "trade_vol_24h_btc":  2230.2
+    },
+    {
+        "id":  "project-x",
+        "name":  "Project X",
+        "trust_score":  2,
+        "trust_rank":  186,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  2154.4
+    },
+    {
+        "id":  "curve_ethereum",
+        "name":  "Curve (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  187,
+        "year":  2020,
+        "country":  null,
+        "trade_vol_24h_btc":  2108.8
+    },
+    {
+        "id":  "pancakeswap-infinity-clmm",
+        "name":  "Pancakeswap Infinity CLMM (BSC)",
+        "trust_score":  2,
+        "trust_rank":  188,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  2017.8
+    },
+    {
+        "id":  "uniswap-v4-bsc",
+        "name":  "Uniswap V4 (BSC)",
+        "trust_score":  2,
+        "trust_rank":  189,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  1505.7
+    },
+    {
+        "id":  "alphax-spot",
+        "name":  "AlphaX",
+        "trust_score":  2,
+        "trust_rank":  190,
+        "year":  2025,
+        "country":  "Australia",
+        "trade_vol_24h_btc":  1489.0
+    },
+    {
+        "id":  "raydium-clmm",
+        "name":  "Raydium (CLMM)",
+        "trust_score":  2,
+        "trust_rank":  191,
+        "year":  2022,
+        "country":  null,
+        "trade_vol_24h_btc":  1474.8
+    },
+    {
+        "id":  "fluid",
+        "name":  "Fluid (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  192,
+        "year":  2024,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  1173.1
+    },
+    {
+        "id":  "pumpswap",
+        "name":  "PumpSwap",
+        "trust_score":  2,
+        "trust_rank":  193,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  1123.1
+    },
+    {
+        "id":  "uniswap-v4-base",
+        "name":  "Uniswap V4 (Base)",
+        "trust_score":  2,
+        "trust_rank":  194,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  1102.3
+    },
+    {
+        "id":  "pharaoh-dlmm",
+        "name":  "Pharaoh DLMM",
+        "trust_score":  2,
+        "trust_rank":  195,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  1036.7
+    },
+    {
+        "id":  "alphaq",
+        "name":  "AlphaQ",
+        "trust_score":  2,
+        "trust_rank":  196,
+        "year":  2025,
+        "country":  "United States",
+        "trade_vol_24h_btc":  991.6
+    },
+    {
+        "id":  "near-intents",
+        "name":  "Near Intents",
+        "trust_score":  2,
+        "trust_rank":  197,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  839.8
+    },
+    {
+        "id":  "uniswap-v4-robinhood",
+        "name":  "Uniswap V4 (Robinhood)",
+        "trust_score":  2,
+        "trust_rank":  198,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  798.1
+    },
+    {
+        "id":  "pancakeswap_new",
+        "name":  "PancakeSwap (v2)",
+        "trust_score":  2,
+        "trust_rank":  199,
+        "year":  2020,
+        "country":  null,
+        "trade_vol_24h_btc":  657.6
+    },
+    {
+        "id":  "zerofi",
+        "name":  "ZeroFi",
+        "trust_score":  2,
+        "trust_rank":  200,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  631.2
+    },
+    {
+        "id":  "uniswap-bsc",
+        "name":  "Uniswap V3 (BSC)",
+        "trust_score":  2,
+        "trust_rank":  201,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  589.0
+    },
+    {
+        "id":  "dexalot",
+        "name":  "Dexalot",
+        "trust_score":  2,
+        "trust_rank":  202,
+        "year":  2021,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  584.1
+    },
+    {
+        "id":  "subnet-tokens",
+        "name":  "Subnet Tokens",
+        "trust_score":  2,
+        "trust_rank":  203,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  572.2
+    },
+    {
+        "id":  "pancakeswap-v3-solana",
+        "name":  "Pancakeswap V3 (Solana)",
+        "trust_score":  2,
+        "trust_rank":  204,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  534.9
+    },
+    {
+        "id":  "origin-arm",
+        "name":  "Origin ARM",
+        "trust_score":  2,
+        "trust_rank":  205,
+        "year":  2017,
+        "country":  "United States",
+        "trade_vol_24h_btc":  464.0
+    },
+    {
+        "id":  "uniswap-v4-arbitrum",
+        "name":  "Uniswap V4 (Arbitrum)",
+        "trust_score":  2,
+        "trust_rank":  206,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  453.1
+    },
+    {
+        "id":  "uniswap-v4-monad",
+        "name":  "Uniswap V4 (Monad)",
+        "trust_score":  2,
+        "trust_rank":  207,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  443.3
+    },
+    {
+        "id":  "uniswap_v3_polygon_pos",
+        "name":  "Uniswap V3 (Polygon)",
+        "trust_score":  2,
+        "trust_rank":  208,
+        "year":  2021,
+        "country":  null,
+        "trade_vol_24h_btc":  431.9
+    },
+    {
+        "id":  "pharaoh-exchange-v3",
+        "name":  "Pharaoh Exchange",
+        "trust_score":  2,
+        "trust_rank":  209,
+        "year":  2025,
+        "country":  "Unknown or Invalid Region",
+        "trade_vol_24h_btc":  430.7
+    },
+    {
+        "id":  "nest",
+        "name":  "Nest",
+        "trust_score":  2,
+        "trust_rank":  210,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  428.2
+    },
+    {
+        "id":  "sunswap-v3",
+        "name":  "SunSwap V3",
+        "trust_score":  2,
+        "trust_rank":  211,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  389.1
+    },
+    {
+        "id":  "uniswap-v4-polygon",
+        "name":  "Uniswap V4 (Polygon)",
+        "trust_score":  2,
+        "trust_rank":  212,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  378.5
+    },
+    {
+        "id":  "ref_finance",
+        "name":  "Rhea Finance",
+        "trust_score":  2,
+        "trust_rank":  213,
+        "year":  2021,
+        "country":  null,
+        "trade_vol_24h_btc":  372.9
+    },
+    {
+        "id":  "openocean_finance",
+        "name":  "De¹",
+        "trust_score":  2,
+        "trust_rank":  214,
+        "year":  2020,
+        "country":  null,
+        "trade_vol_24h_btc":  352.8
+    },
+    {
+        "id":  "native",
+        "name":  "Native",
+        "trust_score":  2,
+        "trust_rank":  215,
+        "year":  2023,
+        "country":  "Singapore",
+        "trade_vol_24h_btc":  346.0
+    },
+    {
+        "id":  "thorchain",
+        "name":  "THORChain",
+        "trust_score":  2,
+        "trust_rank":  216,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  314.4
+    },
+    {
+        "id":  "topaz",
+        "name":  "Topaz",
+        "trust_score":  2,
+        "trust_rank":  217,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  313.3
+    },
+    {
+        "id":  "uniswap_v2",
+        "name":  "Uniswap V2 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  218,
+        "year":  2018,
+        "country":  null,
+        "trade_vol_24h_btc":  300.8
+    },
+    {
+        "id":  "cetus",
+        "name":  "Cetus",
+        "trust_score":  2,
+        "trust_rank":  219,
+        "year":  2022,
+        "country":  null,
+        "trade_vol_24h_btc":  274.1
+    },
+    {
+        "id":  "aster-spot",
+        "name":  "Aster",
+        "trust_score":  2,
+        "trust_rank":  220,
+        "year":  2025,
+        "country":  "Seychelles",
+        "trade_vol_24h_btc":  270.4
+    },
+    {
+        "id":  "thalaswap-cl",
+        "name":  "ThalaSwap CL",
+        "trust_score":  2,
+        "trust_rank":  221,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  259.0
+    },
+    {
+        "id":  "lighter-spot",
+        "name":  "Lighter (Spot)",
+        "trust_score":  2,
+        "trust_rank":  222,
+        "year":  2025,
+        "country":  "United States",
+        "trade_vol_24h_btc":  243.5
+    },
+    {
+        "id":  "ekubo-v3-ethereum",
+        "name":  "Ekubo V3 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  223,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  218.0
+    },
+    {
+        "id":  "hyperswap-v3",
+        "name":  "HyperSwap V3",
+        "trust_score":  2,
+        "trust_rank":  224,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  193.2
+    },
+    {
+        "id":  "changenow",
+        "name":  "ChangeNOW",
+        "trust_score":  2,
+        "trust_rank":  225,
+        "year":  2017,
+        "country":  "Saint Vincent and the Grenadines",
+        "trade_vol_24h_btc":  181.6
+    },
+    {
+        "id":  "aerodrome-base",
+        "name":  "Aerodrome (Base)",
+        "trust_score":  2,
+        "trust_rank":  226,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  176.4
+    },
+    {
+        "id":  "byreal",
+        "name":  "Byreal",
+        "trust_score":  2,
+        "trust_rank":  227,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  160.6
+    },
+    {
+        "id":  "velodrome-finance-slipstream",
+        "name":  "Velodrome SlipStream (Optimism)",
+        "trust_score":  2,
+        "trust_rank":  228,
+        "year":  2024,
+        "country":  null,
+        "trade_vol_24h_btc":  160.0
+    },
+    {
+        "id":  "ramses-v3-polygon",
+        "name":  "Ramses V3 (Polygon)",
+        "trust_score":  2,
+        "trust_rank":  229,
+        "year":  2025,
+        "country":  "Unknown or Invalid Region",
+        "trade_vol_24h_btc":  153.1
+    },
+    {
+        "id":  "camelot-v3",
+        "name":  "Camelot V3",
+        "trust_score":  2,
+        "trust_rank":  230,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  152.8
+    },
+    {
+        "id":  "first-ledger",
+        "name":  "First Ledger",
+        "trust_score":  2,
+        "trust_rank":  231,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  146.3
+    },
+    {
+        "id":  "hydrex-integral",
+        "name":  "Hydrex Integral",
+        "trust_score":  2,
+        "trust_rank":  232,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  141.3
+    },
+    {
+        "id":  "aerodrome-slipstream-2",
+        "name":  "Aerodrome Slipstream 2",
+        "trust_score":  2,
+        "trust_rank":  233,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  140.9
+    },
+    {
+        "id":  "fluid-arbitrum",
+        "name":  "Fluid (Arbitrum)",
+        "trust_score":  2,
+        "trust_rank":  234,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  140.4
+    },
+    {
+        "id":  "quickswap",
+        "name":  "Quickswap",
+        "trust_score":  2,
+        "trust_rank":  235,
+        "year":  2020,
+        "country":  null,
+        "trade_vol_24h_btc":  135.6
+    },
+    {
+        "id":  "pancakeswap-v3-arbitrum",
+        "name":  "PancakeSwap V3 (Arbitrum)",
+        "trust_score":  2,
+        "trust_rank":  236,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  133.7
+    },
+    {
+        "id":  "turbos-finance",
+        "name":  "Turbos Finance",
+        "trust_score":  2,
+        "trust_rank":  237,
+        "year":  2023,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  132.9
+    },
+    {
+        "id":  "ramses-v3-hyperevm",
+        "name":  "Ramses V3 (HyperEVM)",
+        "trust_score":  2,
+        "trust_rank":  238,
+        "year":  2025,
+        "country":  "United States",
+        "trade_vol_24h_btc":  131.3
+    },
+    {
+        "id":  "uniswap-v3-x-layer",
+        "name":  "Uniswap V3 (x Layer)",
+        "trust_score":  2,
+        "trust_rank":  239,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  126.5
+    },
+    {
+        "id":  "yellow",
+        "name":  "Yellow PRO",
+        "trust_score":  2,
+        "trust_rank":  240,
+        "year":  2026,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  122.5
+    },
+    {
+        "id":  "uniswap-v3-avalanche",
+        "name":  "Uniswap V3 (Avalanche)",
+        "trust_score":  2,
+        "trust_rank":  241,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  119.4
+    },
+    {
+        "id":  "uniswap-v3-unichain",
+        "name":  "Uniswap V3 (Unichain)",
+        "trust_score":  2,
+        "trust_rank":  242,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  117.6
+    },
+    {
+        "id":  "pancakeswap-v3-ethereum",
+        "name":  "PancakeSwap V3 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  243,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  114.5
+    },
+    {
+        "id":  "uniswap-v3-monad",
+        "name":  "Uniswap V3 (Monad)",
+        "trust_score":  2,
+        "trust_rank":  244,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  112.5
+    },
+    {
+        "id":  "aftermath_finance",
+        "name":  "Aftermath Finance",
+        "trust_score":  2,
+        "trust_rank":  245,
+        "year":  2023,
+        "country":  "Panama",
+        "trade_vol_24h_btc":  109.9
+    },
+    {
+        "id":  "bluefin",
+        "name":  "Bluefin",
+        "trust_score":  2,
+        "trust_rank":  246,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  109.9
+    },
+    {
+        "id":  "ekubo-v2-ethereum",
+        "name":  "Ekubo V2 (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  247,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  108.2
+    },
+    {
+        "id":  "blackhole-v3",
+        "name":  "Blackhole V3",
+        "trust_score":  2,
+        "trust_rank":  248,
+        "year":  2024,
+        "country":  "Cayman Islands",
+        "trade_vol_24h_btc":  103.2
+    },
+    {
+        "id":  "uniswap_v3_optimism",
+        "name":  "Uniswap V3 (Optimism)",
+        "trust_score":  2,
+        "trust_rank":  249,
+        "year":  2021,
+        "country":  null,
+        "trade_vol_24h_btc":  101.3
+    },
+    {
+        "id":  "uniswap-v4-unichain",
+        "name":  "Uniswap V4 (Unichain)",
+        "trust_score":  2,
+        "trust_rank":  250,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  100.4
+    },
+    {
+        "id":  "tokenlon",
+        "name":  "Tokenlon",
+        "trust_score":  2,
+        "trust_rank":  251,
+        "year":  2019,
+        "country":  "British Virgin Islands",
+        "trade_vol_24h_btc":  98.3
+    },
+    {
+        "id":  "oku-trade-plasma",
+        "name":  "Oku Trade (Plasma)",
+        "trust_score":  2,
+        "trust_rank":  252,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  97.4
+    },
+    {
+        "id":  "dodo",
+        "name":  "DODO (Ethereum)",
+        "trust_score":  2,
+        "trust_rank":  253,
+        "year":  2020,
+        "country":  null,
+        "trade_vol_24h_btc":  97.3
+    },
+    {
+        "id":  "up-v3",
+        "name":  "Up V3",
+        "trust_score":  2,
+        "trust_rank":  254,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  96.8
+    },
+    {
+        "id":  "native-bsc",
+        "name":  "Native (BSC)",
+        "trust_score":  2,
+        "trust_rank":  255,
+        "year":  2023,
+        "country":  "Singapore",
+        "trade_vol_24h_btc":  96.6
+    },
+    {
+        "id":  "nomiswap_stable",
+        "name":  "Nomiswap (Stable)",
+        "trust_score":  2,
+        "trust_rank":  256,
+        "year":  2019,
+        "country":  null,
+        "trade_vol_24h_btc":  94.4
+    },
+    {
+        "id":  "ekubo",
+        "name":  "Ekubo (Starknet)",
+        "trust_score":  2,
+        "trust_rank":  257,
+        "year":  2023,
+        "country":  null,
+        "trade_vol_24h_btc":  93.7
+    },
+    {
+        "id":  "sologenic",
+        "name":  "Sologenic",
+        "trust_score":  2,
+        "trust_rank":  258,
+        "year":  2018,
+        "country":  null,
+        "trade_vol_24h_btc":  85.0
+    },
+    {
+        "id":  "velodrome-finance-slipstream-ink",
+        "name":  "Velodrome Finance Slipstream (Ink)",
+        "trust_score":  2,
+        "trust_rank":  259,
+        "year":  null,
+        "country":  null,
+        "trade_vol_24h_btc":  76.5
+    },
+    {
+        "id":  "uniswap-v2-base",
+        "name":  "Uniswap V2 (Base)",
+        "trust_score":  2,
+        "trust_rank":  260,
+        "year":  2024,
+        "country":  null,
+        "trade_vol_24h_btc":  74.3
+    }
+]

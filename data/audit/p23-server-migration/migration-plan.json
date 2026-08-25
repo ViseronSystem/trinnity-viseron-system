@@ -1,0 +1,74 @@
+{
+  "plan": "VISERON P2.3 — Production Server Migration Plan",
+  "target": "UpCloud — AMD EPYC 7542 (32C/64T), 256GB RAM, Windows Server 2025 Standard",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "PRE-MIGRATION (current laptop)",
+      "steps": [
+        "Run npm test — verify all 67 tests pass",
+        "Run npm run lint — verify TypeScript compiles",
+        "Create backup: 7z a viseron-backup.7z . -x!node_modules -x!.git -x!.env",
+        "Export .env for manual transfer (NOT in backup)",
+        "Run npm run backup — existing backup script",
+        "Copy backup to cloud storage or USB drive",
+        "Verify backup integrity: test extract on different machine"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "TARGET SETUP (UpCloud server)",
+      "steps": [
+        "Install Node.js v24 LTS (https://nodejs.org)",
+        "Install Python 3.10+ (winget install python or from python.org)",
+        "Install Git (winget install Git.Git)",
+        "Install Ollama (winget install Ollama.Ollama)",
+        "Pull models: ollama pull qwen2.5:3b && ollama pull qwen2.5:7b",
+        "Install 7-Zip for backup extraction",
+        "Create C:\\tvs directory",
+        "Extract viseron-backup.7z to C:\\tvs",
+        "Copy .env to C:\\tvs\\.env (manual secure transfer)",
+        "npm install",
+        "npm run build",
+        "npm run skills:install (reinstall 10 skill collections)",
+        "npm start — verify web server starts on port 32123",
+        "npm test — verify all 67 tests pass"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "VALIDATION",
+      "steps": [
+        "Verify all API endpoints respond (GET /api/health)",
+        "Verify JARVIS responds (POST /api/jarvis/chat)",
+        "Verify VISERON responds (POST /api/viseron/chat)",
+        "Verify Founder OS (npm run founder status)",
+        "Verify SkillRegistry (npm run skills:list — 1,997+ skills)",
+        "Run Engineering Squad (npm run p09)",
+        "Verify Ollama health (ollama list)",
+        "Check logs for errors (data/logs/)"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "PRODUCTION HARDENING",
+      "steps": [
+        "Set up Windows Firewall: allow ports 32123 (API), 11434 (Ollama)",
+        "Configure IIS/nginx reverse proxy if needed",
+        "Set up PM2 or Task Scheduler for auto-restart on boot",
+        "Configure daily backup schedule",
+        "Set up monitoring (health endpoint polling)",
+        "Update DNS to point trinnityviseronsystem.io to new server",
+        "SSL/TLS via Cloudflare or Let's Encrypt"
+      ]
+    }
+  ],
+  "estimatedDowntime": "4-6 hours (backup + transfer + install + validate)",
+  "rollbackPlan": "Old laptop remains operational during migration. If target fails, revert DNS to old server.",
+  "riskMatrix": {
+    "dataLoss": "LOW — backup + manual .env transfer + git remote",
+    "downtime": "LOW — old laptop continues serving during migration",
+    "compatibility": "LOW — Node.js is cross-platform, same Windows OS family",
+    "secretExposure": "MEDIUM — must ensure secure .env transfer channel"
+  }
+}

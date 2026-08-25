@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "id": "skill_registry",
+      "type": "index",
+      "status": "REAL",
+      "metrics": {
+        "total": 1997,
+        "searchable": true
+      }
+    },
+    {
+      "id": "skill_pipeline",
+      "type": "pipeline",
+      "status": "REAL",
+      "note": "execute() now delegates to SkillExecutor"
+    },
+    {
+      "id": "skill_executor",
+      "type": "executor",
+      "status": "REAL",
+      "metrics": {
+        "total": 80,
+        "succeeded": 32,
+        "failed": 31,
+        "rejected": 0,
+        "timeout": 0,
+        "avgLatencyMs": 8295,
+        "bySkill": {
+          "awesome-claude-skills:securitytrails-automation": 3,
+          "comp-ai:security-review": 3,
+          "ecc:security-review": 3,
+          "ecc:architecture-decision-records": 10,
+          "claude-plugins-official:agent-development": 2,
+          "claude-plugins-official:command-development": 2,
+          "claude-plugins-official:skill-development": 2,
+          "awesome-claude-skills:Attio Automation": 2,
+          "awesome-claude-skills:Capsule CRM Automation": 2,
+          "awesome-claude-skills:Contentful Automation": 2,
+          "ecc:finance-billing-ops": 9,
+          "awesome-claude-skills:salesforce-marketing-cloud-automation": 2,
+          "awesome-claude-skills:salesforce-service-cloud-automation": 2,
+          "awesome-claude-skills:salesmate-automation": 2,
+          "ecc:logistics-exception-management": 3,
+          "ecc:carrier-relationship-management": 6,
+          "ecc:knowledge-ops": 9,
+          "awesome-claude-skills:artifacts-builder": 2,
+          "comp-crm:typescript-advanced-types": 2,
+          "comp-crm:zero-tech-debt": 3,
+          "ecc:research-ops": 9
+        },
+        "byDomain": {},
+        "byMode": {},
+        "byRiskLevel": {},
+        "activeExecutions": 0
+      }
+    },
+    {
+      "id": "skill_bridge",
+      "type": "bridge",
+      "status": "REAL",
+      "note": "Wired into benchmark; pending agent integration"
+    },
+    {
+      "id": "tool_manager",
+      "type": "tools",
+      "status": "REAL"
+    },
+    {
+      "id": "provider_factory",
+      "type": "providers",
+      "status": "REAL",
+      "providers": 6
+    },
+    {
+      "id": "experience_store",
+      "type": "memory",
+      "status": "REAL",
+      "note": "Now wired in SkillExecutor"
+    }
+  ],
+  "edges": [
+    {
+      "from": "skill_registry",
+      "to": "skill_pipeline",
+      "relation": "lookup"
+    },
+    {
+      "from": "skill_pipeline",
+      "to": "skill_executor",
+      "relation": "delegate"
+    },
+    {
+      "from": "skill_executor",
+      "to": "tool_manager",
+      "relation": "execute_via"
+    },
+    {
+      "from": "skill_executor",
+      "to": "provider_factory",
+      "relation": "execute_via"
+    },
+    {
+      "from": "skill_executor",
+      "to": "experience_store",
+      "relation": "record"
+    },
+    {
+      "from": "skill_bridge",
+      "to": "skill_registry",
+      "relation": "search"
+    }
+  ]
+}

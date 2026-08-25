@@ -52,5 +52,833 @@
     "timestamp": "2026-08-11T13:29:33.461Z",
     "success": true,
     "latencyMs": 10
+  },
+  {
+    "traceId": "cog_msopl2q8_i8lctz",
+    "hash": "42d89de9c2975dd5ff4a9dda395046642dcc3d309bc4956dcce7e8d59cccb166",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T13:41:17.456Z",
+    "success": true,
+    "latencyMs": 149
+  },
+  {
+    "traceId": "cog_msopl2uw_3jqhn5",
+    "hash": "00786337fb114324036df94d777396b0428f236f8459efff263fd73370d70dbd",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T13:41:17.624Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msopl2uy_rxgnxs",
+    "hash": "e0face218b95f8a66f400c5f3e36d51ca76d8c6c0c5144c7c079456dd9b696fe",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T13:41:17.626Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msopl2ug_cjutsi",
+    "hash": "47cf2821d39f6e0d7c2803c4e9ce334e592593b0f242a5f35d34978ff3ef704b",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T13:41:17.608Z",
+    "success": true,
+    "latencyMs": 21
+  },
+  {
+    "traceId": "cog_msopl2v2_zbsp1t",
+    "hash": "b19440d9489bb6bfe91a5af197872dcea24613694b0930d89eeaf5079b8792bc",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T13:41:17.630Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msopl2v5_m5st3b",
+    "hash": "9e31553f8f237a013b83c4d80d4aaa9906e124737d0d350c995ccdb6677a6f05",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T13:41:17.633Z",
+    "success": true,
+    "latencyMs": 31
+  },
+  {
+    "traceId": "cog_msopl2wk_q1ccik",
+    "hash": "c593d3cfb233e8dfb3ffdb784337a646c3779486dac49aca62923d4cbb39f552",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T13:41:17.684Z",
+    "success": true,
+    "latencyMs": 123
+  },
+  {
+    "traceId": "cog_msotd9sx_mb46k6",
+    "hash": "504933e316facf576b968f791ccaa8deafa470e8334c38302b5d783e38527c74",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:27:11.841Z",
+    "success": true,
+    "latencyMs": 208
+  },
+  {
+    "traceId": "cog_msotd9zf_0blem3",
+    "hash": "0cccc137ecef5bc9ee19d7965efa9e74d06c0ce33b9f926978514d4b7498a3eb",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:27:12.075Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msotd9zi_2nzee0",
+    "hash": "7a3649b8f049b00d3624ef79333a8a4e5b582ab85ac376f1afe3a0341173bc1d",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:27:12.078Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msotd9yt_hx25jh",
+    "hash": "c8548c861ce68b842778eae7d16388ab9ccaded5b2ade18875dbf1b842932252",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:27:12.053Z",
+    "success": true,
+    "latencyMs": 29
+  },
+  {
+    "traceId": "cog_msotd9zn_8e59ae",
+    "hash": "3b3b4c303ea19c4b5396420bdd70085c083adcb152f855a6c7a0a32c5041467d",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:27:12.083Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msotd9zp_cg8pwa",
+    "hash": "0049c935dbc23b8b2cef5355062e8125f09846611cf37a21c7d59abb5cc265dc",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:27:12.085Z",
+    "success": true,
+    "latencyMs": 29
+  },
+  {
+    "traceId": "cog_msotda14_8vjn5s",
+    "hash": "b23033e57ba39e4e3b95176771fd77da138f758bb9619af0faf4130658f9e827",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:27:12.136Z",
+    "success": true,
+    "latencyMs": 141
+  },
+  {
+    "traceId": "cog_msoub7d7_hgv9s5",
+    "hash": "7e3f160b6e00fa8583e6fa69e1c0cb5a75242b62e3c3f88ff65c1f61d9c11777",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:53:34.987Z",
+    "success": true,
+    "latencyMs": 136
+  },
+  {
+    "traceId": "cog_msoub7hk_x0wu6o",
+    "hash": "7102208fdbf136d9370b9badf47eeb7a4637a481d2b651d7d4c511294f24503b",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:53:35.144Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoub7hl_xep2iw",
+    "hash": "b3ce5620928e5ce7a99c129f8d6dd7289f3e6b17a3a421d10b3079c90cbd6be8",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:53:35.145Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoub7h3_lbm31o",
+    "hash": "4ebfee3dad3e2c8c5b1b6b146df34fd6c2b4872a77dd5219266d05fd3b7047fb",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:53:35.127Z",
+    "success": true,
+    "latencyMs": 22
+  },
+  {
+    "traceId": "cog_msoub7hq_6s7b79",
+    "hash": "be6673265694ae55132874c045c49d9bf8463bf542219b7c5c694b918fd5f4a1",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:53:35.150Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoub7ht_jpwj5e",
+    "hash": "8f06df02237c4a7f64e277488d3bf395cee0b6c9043073a674312b6b86684ed4",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:53:35.153Z",
+    "success": true,
+    "latencyMs": 29
+  },
+  {
+    "traceId": "cog_msoub7j1_funm3q",
+    "hash": "1de6a6c5253803c294dccd30645279d46e937b5a3139a7a0be75e1c716f15a29",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:53:35.197Z",
+    "success": true,
+    "latencyMs": 138
+  },
+  {
+    "traceId": "cog_msoudern_fcxfeo",
+    "hash": "6df8c3d8ba8accfa3dd510307d811ef3e8651e0ab5927b56d7753deadc7d4e0e",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:55:17.891Z",
+    "success": true,
+    "latencyMs": 192
+  },
+  {
+    "traceId": "cog_msoudey9_lnd19w",
+    "hash": "4f41be6c6fae39075d82fd4b8948e8e07c3a6aeb3258576cbf7333bcdb118ba7",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:18.129Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoudeyd_76h5fh",
+    "hash": "03175721acdbdf9f4d1ce42a3fe346ce254cd6c374bd9ff481afc09b71c5f500",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:18.133Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoue6e7_kvl00b",
+    "hash": "11006475ecb13920f90ac714cde0531a0d12cb78bfd4f9dae9965ee467d8df23",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:55:53.695Z",
+    "success": true,
+    "latencyMs": 176
+  },
+  {
+    "traceId": "cog_msoue6jn_th4pnz",
+    "hash": "ef8d8217dff0fa94ef7bc9eddc1889c0a1877018f87c84a33a424730889d5bfd",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:53.891Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoue6jp_8zs7zo",
+    "hash": "81990ef63530fff59d26183b8445cb4a5d5dd571da3f735fb4b328a16c89a3d8",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:53.893Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoue6j6_kxvyoi",
+    "hash": "12470afe18b2531610aef66854d4aa93e16e07e8a7ec1f4b8492ceb8fbd0e504",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:55:53.874Z",
+    "success": true,
+    "latencyMs": 21
+  },
+  {
+    "traceId": "cog_msoue6js_dz38ov",
+    "hash": "190ca3094806396a7729e935ed99f7da67a2a719a4f0d691ae047e311993f91b",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:53.896Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoue6jt_hjqwgu",
+    "hash": "dd4afd4ff79bd58c04ec011635e94a0f5a732c5d7eefd0aa211022f28f4b8ece",
+    "source": "consolidation",
+    "timestamp": "2026-08-11T15:55:53.897Z",
+    "success": true,
+    "latencyMs": 25
+  },
+  {
+    "traceId": "cog_msoue6kz_2n9rgy",
+    "hash": "2ac703b35a85bbb377eb8892c8a5836b681465148e5a2fb242d8c7838192b49a",
+    "source": "learning-exp",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T15:55:53.939Z",
+    "success": true,
+    "latencyMs": 122
+  },
+  {
+    "traceId": "cog_msoz4ygb_bklm5a",
+    "hash": "31208d9d0f2fee57301fe067753e7bb3eb3d021ab802f9d13fea1d2436c47b5e",
+    "source": "agent-probe",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T18:08:41.579Z",
+    "success": true,
+    "latencyMs": 4
+  },
+  {
+    "traceId": "cog_msoz4ygs_dw3rri",
+    "hash": "9c6774e361e7648427ef7a7dd970e24313ede7449fbfcd48758f8e309b752359",
+    "source": "agent-probe",
+    "agentId": "agent_cto",
+    "timestamp": "2026-08-11T18:08:41.596Z",
+    "success": true,
+    "latencyMs": 10
+  },
+  {
+    "traceId": "cog_msoz4ygv_hxdnmq",
+    "hash": "d3b75ad315fb9648501993c30cfc5916d6c7c5f1f467c897bf2838c89212485d",
+    "source": "agent-probe",
+    "agentId": "agent_developer",
+    "timestamp": "2026-08-11T18:08:41.599Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz4ygx_8erxt1",
+    "hash": "5fe7fe2c8bf47905c9c92463b6931d462a705799cdbef4ee0a00b8e4443645ec",
+    "source": "agent-probe",
+    "agentId": "agent_devops",
+    "timestamp": "2026-08-11T18:08:41.601Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz4yh5_hx1vc5",
+    "hash": "7b817ea299b68357bf486b4cdc4d220c4fc06997b8c66458e918bb47e472e16a",
+    "source": "agent-probe",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T18:08:41.609Z",
+    "success": true,
+    "latencyMs": 8
+  },
+  {
+    "traceId": "cog_msoz4yho_nc2s52",
+    "hash": "dc28ee794ef1b1371a85cd6f9f140ec89acb9213af4057d8475137f2a5e7f960",
+    "source": "agent-probe",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T18:08:41.628Z",
+    "success": true,
+    "latencyMs": 13
+  },
+  {
+    "traceId": "cog_msoz4yhr_5d8vgy",
+    "hash": "dd4e35bae00b9539d63d6fb48a533130178cb587ef7826a9066ddaeeed6561d7",
+    "source": "agent-probe",
+    "agentId": "agent_sales",
+    "timestamp": "2026-08-11T18:08:41.631Z",
+    "success": true,
+    "latencyMs": 2
+  },
+  {
+    "traceId": "cog_msoz4yhw_qxz8hq",
+    "hash": "871f901f7e807f9e6bed3a07c5d89384f3aa5b3e0a709c011ffd824a3aa30274",
+    "source": "agent-probe",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T18:08:41.636Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz4yi1_cv19s8",
+    "hash": "b66cd12e9c73fabc79e686d32973aa592651f4389d84219ee01bedafc55a9b53",
+    "source": "agent-probe",
+    "agentId": "agent_support",
+    "timestamp": "2026-08-11T18:08:41.641Z",
+    "success": true,
+    "latencyMs": 5
+  },
+  {
+    "traceId": "cog_msoz4yi8_kko6cp",
+    "hash": "64d86f8a22ef45f8f4a22bfe9aa543b28c4367bdd649903e8c6acf58e1138a82",
+    "source": "agent-probe",
+    "agentId": "agent_vision",
+    "timestamp": "2026-08-11T18:08:41.649Z",
+    "success": true,
+    "latencyMs": 2
+  },
+  {
+    "traceId": "cog_msoz6alz_6asddy",
+    "hash": "afc2facead771a622597625f5b68cfbb2a422e1125758a698185da36f593f579",
+    "source": "agent-probe",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T18:09:43.991Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6am9_2kqlgk",
+    "hash": "7b41830b74a3cce48af35726efde8d9ffff3e6a73344244c6b4a9840ca07501f",
+    "source": "agent-probe",
+    "agentId": "agent_cto",
+    "timestamp": "2026-08-11T18:09:44.001Z",
+    "success": true,
+    "latencyMs": 8
+  },
+  {
+    "traceId": "cog_msoz6amb_e1vhq3",
+    "hash": "fe6d76c1a2e737fb6e310664d499ca8720d0d0f662b687778e04a7115fc7a44b",
+    "source": "agent-probe",
+    "agentId": "agent_developer",
+    "timestamp": "2026-08-11T18:09:44.003Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6amd_eflyjo",
+    "hash": "5c3420a8f3b4ad12a6488b0bf2d5af86520925152a170e045b785fd668111ee6",
+    "source": "agent-probe",
+    "agentId": "agent_devops",
+    "timestamp": "2026-08-11T18:09:44.005Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6amo_jap4da",
+    "hash": "120749691ab7024974977912e426358f1e8c3556be674da3ce8a2becb55462d9",
+    "source": "agent-probe",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T18:09:44.016Z",
+    "success": true,
+    "latencyMs": 9
+  },
+  {
+    "traceId": "cog_msoz6amu_3eika0",
+    "hash": "99e198e767e0b02ca08b82801601bb703f4e92ad366326e0a5aaf35b301924ea",
+    "source": "agent-probe",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T18:09:44.022Z",
+    "success": true,
+    "latencyMs": 4
+  },
+  {
+    "traceId": "cog_msoz6amw_iv25ti",
+    "hash": "18f8d182a29bff4657d18c75139b764fba94574406950995920a46da9420d210",
+    "source": "agent-probe",
+    "agentId": "agent_sales",
+    "timestamp": "2026-08-11T18:09:44.024Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6amy_2wpmyw",
+    "hash": "ceaa124825a6257703f6a0770700028f07f2d28b0b1fb0c5fec9a685167270ff",
+    "source": "agent-probe",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T18:09:44.026Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6an0_bq2wx3",
+    "hash": "4bc857caa77d9260a3e1546f87608341a02dfea16d4acd7f1bb6dcc09f71111c",
+    "source": "agent-probe",
+    "agentId": "agent_support",
+    "timestamp": "2026-08-11T18:09:44.028Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6an2_a917u7",
+    "hash": "966c0b69abc921566e50df9f76891a0f1808957011b977a0494e1325fd8b8427",
+    "source": "agent-probe",
+    "agentId": "agent_vision",
+    "timestamp": "2026-08-11T18:09:44.030Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6k2r_qpgsp8",
+    "hash": "67485671486ec2808e69290290953fa2b25dffdcf765a8c3f5808a6abd680f3e",
+    "source": "agent-probe",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T18:09:56.259Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6k31_7hdcvt",
+    "hash": "cf09dc3d136f2ab8e9b1852d4aac213641fac3ab52ff9bb464e4083d58dfd8b0",
+    "source": "agent-probe",
+    "agentId": "agent_cto",
+    "timestamp": "2026-08-11T18:09:56.269Z",
+    "success": true,
+    "latencyMs": 8
+  },
+  {
+    "traceId": "cog_msoz6k33_xcya58",
+    "hash": "73b9e7f0991cd5857db8c8ce440cdb16e2ea4b52c4c049af93e2d7ca6ef5dc70",
+    "source": "agent-probe",
+    "agentId": "agent_developer",
+    "timestamp": "2026-08-11T18:09:56.271Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6k36_eps64w",
+    "hash": "e72c702dd4898153971d0d3bd5bbe06b54c36d0714685c68729d051fdcc62259",
+    "source": "agent-probe",
+    "agentId": "agent_devops",
+    "timestamp": "2026-08-11T18:09:56.274Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6k3j_umzocf",
+    "hash": "d41ec4bb2cde4d78fc79f9d8419184d7d461d68d13abae7b335c164d02fe557a",
+    "source": "agent-probe",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T18:09:56.287Z",
+    "success": true,
+    "latencyMs": 11
+  },
+  {
+    "traceId": "cog_msoz6k3s_rn9upm",
+    "hash": "51b227079d199b42b652079c7ec2a945581aef0ce8e5cd6727064635d91cacaf",
+    "source": "agent-probe",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T18:09:56.296Z",
+    "success": true,
+    "latencyMs": 8
+  },
+  {
+    "traceId": "cog_msoz6k3v_2hga5x",
+    "hash": "60e76c4d3fef987e9f8701c3b5c567a3c3348a0dc1d28e81c1945a3b8125db28",
+    "source": "agent-probe",
+    "agentId": "agent_sales",
+    "timestamp": "2026-08-11T18:09:56.299Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz6k3x_0h2yqj",
+    "hash": "9dfc40490911405ace873486f39d9399627d6f656dd9a76a4b74bf8ed096742d",
+    "source": "agent-probe",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T18:09:56.301Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz6k40_2qxvmj",
+    "hash": "118c2de9fb24bdb56128e4bb4b4c9865946726873407f256c523aab6c6a7cab6",
+    "source": "agent-probe",
+    "agentId": "agent_support",
+    "timestamp": "2026-08-11T18:09:56.304Z",
+    "success": true,
+    "latencyMs": 2
+  },
+  {
+    "traceId": "cog_msoz6k44_i7jmjj",
+    "hash": "f1ea50e2ee5e28862cabcc216982d059b715a6b5af85a0e87093045527ccad80",
+    "source": "agent-probe",
+    "agentId": "agent_vision",
+    "timestamp": "2026-08-11T18:09:56.308Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz7hbk_syp8ps",
+    "hash": "8f69045962f5c53ec19280735ccc02b0ca8e92c092a00db2f57fdab7ef07dbad",
+    "source": "agent-probe",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T18:10:39.344Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz7hbu_so7l9p",
+    "hash": "4ac317e8cbf96b65faf1869c9f904d35e0202c23f091a615a0af63ee06fbc72e",
+    "source": "agent-probe",
+    "agentId": "agent_cto",
+    "timestamp": "2026-08-11T18:10:39.354Z",
+    "success": true,
+    "latencyMs": 7
+  },
+  {
+    "traceId": "cog_msoz7hbw_p7v1e0",
+    "hash": "ff1ff4131686e2275e06e961fd1ac325636e3fa4b7acc0c4fa2a6805e1f2f8e5",
+    "source": "agent-probe",
+    "agentId": "agent_developer",
+    "timestamp": "2026-08-11T18:10:39.356Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz7hbx_sqstje",
+    "hash": "018fec5c90285dfb375b54828e23bbde303e8f4424e04165895fc12671477a1f",
+    "source": "agent-probe",
+    "agentId": "agent_devops",
+    "timestamp": "2026-08-11T18:10:39.357Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz7hc9_958bht",
+    "hash": "13134ef02207c59f30ed773a0bf5a52c71a97aca4604039930b34ff15ce0de6e",
+    "source": "agent-probe",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T18:10:39.369Z",
+    "success": true,
+    "latencyMs": 11
+  },
+  {
+    "traceId": "cog_msoz7hch_xoj5o4",
+    "hash": "19cef366e1a06e8e20909579a75c8636257ccc123d0203443bcec6cdfb6607d9",
+    "source": "agent-probe",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T18:10:39.377Z",
+    "success": true,
+    "latencyMs": 6
+  },
+  {
+    "traceId": "cog_msoz7hcj_nkqv1k",
+    "hash": "904b53bdf00f9b2395d1a723e2ee6c34d839c7ea97cf62d00ef0b9a4e30f737f",
+    "source": "agent-probe",
+    "agentId": "agent_sales",
+    "timestamp": "2026-08-11T18:10:39.379Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz7hcl_wi4ky0",
+    "hash": "293116d6023c5f9b0495bc0a6595b837b94f3941be2cfef764bac9855846d1a3",
+    "source": "agent-probe",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T18:10:39.381Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoz7hco_3bktnq",
+    "hash": "3668a320b06adf1b57cc83fcae3de7350d55a9a0effd4d5f7654daff579e5a89",
+    "source": "agent-probe",
+    "agentId": "agent_support",
+    "timestamp": "2026-08-11T18:10:39.384Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoz7hdd_0ravas",
+    "hash": "e808a7fbce820495a410bfc02b0eac93c140f82f5f02e39c904f9296484d7dd1",
+    "source": "agent-probe",
+    "agentId": "agent_vision",
+    "timestamp": "2026-08-11T18:10:39.409Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoziugv_42up6i",
+    "hash": "2e4fd4f559b72c6bf34e8088049200623170ceaa9a9784acc3041684e7c74301",
+    "source": "agent-probe",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T18:19:29.599Z",
+    "success": true,
+    "latencyMs": 3
+  },
+  {
+    "traceId": "cog_msoziuh6_efyr7c",
+    "hash": "e154c66506a3dd077e22891612e415d6f58cfb0c1970a7c7f240748abe70ce42",
+    "source": "agent-probe",
+    "agentId": "agent_cto",
+    "timestamp": "2026-08-11T18:19:29.610Z",
+    "success": true,
+    "latencyMs": 8
+  },
+  {
+    "traceId": "cog_msoziuh8_gmsa9t",
+    "hash": "d66f50fc076ab2584a60e05611f4ae960576723989934b3aa9f0772ab79ce4a2",
+    "source": "agent-probe",
+    "agentId": "agent_developer",
+    "timestamp": "2026-08-11T18:19:29.612Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoziuha_adq3jy",
+    "hash": "507e5b2f4e04ef3463d2f18c807663f4d979bf446a93261a59fd6da424f919b6",
+    "source": "agent-probe",
+    "agentId": "agent_devops",
+    "timestamp": "2026-08-11T18:19:29.614Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoziuhg_g9ky7y",
+    "hash": "a67dd3baea3e665a9b2e4a0c1f9b02f6321f37521c479c094ca47c287a8f8b99",
+    "source": "agent-probe",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T18:19:29.620Z",
+    "success": true,
+    "latencyMs": 5
+  },
+  {
+    "traceId": "cog_msoziuhm_rqoy7t",
+    "hash": "448fba06551bd66d45c15e4283064c07aefbd138371a5b1eca57239e06a100e4",
+    "source": "agent-probe",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T18:19:29.626Z",
+    "success": true,
+    "latencyMs": 5
+  },
+  {
+    "traceId": "cog_msoziuho_v91e6l",
+    "hash": "e6f01c95adf682e4e454ee6c1a4c3d8d0805f2604b83f74e0e8d0f38b61c8a65",
+    "source": "agent-probe",
+    "agentId": "agent_sales",
+    "timestamp": "2026-08-11T18:19:29.628Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msoziuhq_8lde1p",
+    "hash": "78b1d8e45eae00a3799c9192bae56c75dd8faa3b293621f8474ee6260c5b2a43",
+    "source": "agent-probe",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T18:19:29.630Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoziuhs_vn42ob",
+    "hash": "bb835f03d0a0ccde846b1ea81a7b330a0f6608649e944ee852f2ade43301cfb7",
+    "source": "agent-probe",
+    "agentId": "agent_support",
+    "timestamp": "2026-08-11T18:19:29.632Z",
+    "success": true,
+    "latencyMs": 1
+  },
+  {
+    "traceId": "cog_msoziuht_wcjzb3",
+    "hash": "8b62f478edad664cd090a7ea06ff7f837837498859bec5bec73c1c3c0feb07ca",
+    "source": "agent-probe",
+    "agentId": "agent_vision",
+    "timestamp": "2026-08-11T18:19:29.633Z",
+    "success": true,
+    "latencyMs": 0
+  },
+  {
+    "traceId": "cog_msp0f9ua_a9obp6",
+    "hash": "e76b51a101f02a3d720fef9310bd6ed2e04c119468a473fd676425ee1a04186e",
+    "source": "research",
+    "timestamp": "2026-08-11T18:44:42.514Z",
+    "success": true,
+    "latencyMs": 818
+  },
+  {
+    "traceId": "cog_msp0fah6_yzclka",
+    "hash": "15f3b26eba4d8c5082cb4d0460e4ffeb5d8df9bac05d0363da21faaa6993bd67",
+    "source": "research",
+    "timestamp": "2026-08-11T18:44:43.338Z",
+    "success": false,
+    "latencyMs": 68
+  },
+  {
+    "traceId": "cog_msp0faj5_zw9x72",
+    "hash": "3cf52cb0032e759ad6ee375e9f129c04174a2bacaeed7037bcb627150af7d844",
+    "source": "research",
+    "timestamp": "2026-08-11T18:44:43.409Z",
+    "success": true,
+    "latencyMs": 109
+  },
+  {
+    "traceId": "cog_msp0fam8_dp9y7i",
+    "hash": "04ea39a1dd8b5ada9caf7a30c1b08bf19eb709790fb216279f48f288c6123a92",
+    "source": "research",
+    "timestamp": "2026-08-11T18:44:43.520Z",
+    "success": false,
+    "latencyMs": 139
+  },
+  {
+    "traceId": "cog_msp41m0u_8dhdfj",
+    "hash": "b78a9662d118742106b26d0d766bcb05b71442bd6185d59d577fb2bfb002efc4",
+    "source": "research",
+    "timestamp": "2026-08-11T20:26:03.582Z",
+    "success": true,
+    "latencyMs": 860
+  },
+  {
+    "traceId": "cog_msp45rem_q8qsbi",
+    "hash": "ea5e689416cec4a804413f7cd2f40d9a6b3c968912df6080af9b864709384696",
+    "source": "research",
+    "timestamp": "2026-08-11T20:29:17.182Z",
+    "success": true,
+    "latencyMs": 191
+  },
+  {
+    "traceId": "cog_msp45ren_4vcm0m",
+    "hash": "5209f03eef6e4a474f2a6c2950aba12ee04ad33d354ae8d8acb16d12b2b63923",
+    "source": "research",
+    "timestamp": "2026-08-11T20:29:17.183Z",
+    "success": true,
+    "latencyMs": 193
+  },
+  {
+    "traceId": "cog_msp45ren_0o10uf",
+    "hash": "2a999a6f708417e9987753adc34871fa618e4dbd2b884ea21cff74aea8826355",
+    "source": "research",
+    "timestamp": "2026-08-11T20:29:17.183Z",
+    "success": true,
+    "latencyMs": 200
+  },
+  {
+    "traceId": "cog_msp58rdn_5s17ef",
+    "hash": "489bfcabdc7e893cb0d38b80727c18e9a541e08beb9514c0bb5f723f04a4ffd8",
+    "source": "integration-gate",
+    "agentId": "agent_research",
+    "timestamp": "2026-08-11T20:59:36.731Z",
+    "success": true,
+    "latencyMs": 33
+  },
+  {
+    "traceId": "cog_msp58rep_r4mohe",
+    "hash": "b9c970df6d7befd62776fdbafe045530b1ae1560966e7f0fa42a0366c931fc0f",
+    "source": "integration-gate",
+    "agentId": "agent_security",
+    "timestamp": "2026-08-11T20:59:36.769Z",
+    "success": true,
+    "latencyMs": 4
+  },
+  {
+    "traceId": "cog_msp58rev_ra6obm",
+    "hash": "423ada00bfb846a0996d943ca76c61c081c9b4f70c2bf8a8adb54c00153ac9fc",
+    "source": "integration-gate",
+    "agentId": "agent_finance",
+    "timestamp": "2026-08-11T20:59:36.775Z",
+    "success": true,
+    "latencyMs": 7
+  },
+  {
+    "traceId": "cog_msp58rf4_lz708h",
+    "hash": "7343633268fbeb94519fd10cabb56bf599fd51e05f3cbaf5bb02a7b0b036813a",
+    "source": "integration-gate",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T20:59:36.784Z",
+    "success": true,
+    "latencyMs": 4
+  },
+  {
+    "traceId": "cog_msp58rfa_h8ke4m",
+    "hash": "c6f752aaa25170675cf51d3af22e2a680aa0b64069a650932d59defbe48af826",
+    "source": "integration-gate",
+    "agentId": "agent_ceo",
+    "timestamp": "2026-08-11T20:59:36.790Z",
+    "success": true,
+    "latencyMs": 4
+  },
+  {
+    "traceId": "cog_msp6bm5w_uiabse",
+    "hash": "324ba4297062dae254c16a05d9e32d4abf1c05e78cb9e1d47d9b87de8d34faf8",
+    "source": "research",
+    "timestamp": "2026-08-11T21:29:49.556Z",
+    "success": true,
+    "latencyMs": 286
   }
 ]

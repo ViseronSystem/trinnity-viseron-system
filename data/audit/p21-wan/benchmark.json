@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-12T14:01:04.576Z",
+  "environment": {
+    "pythonAvailable": true,
+    "pythonVersion": "Python 3.13.14",
+    "pytorchAvailable": false,
+    "cudaAvailable": false,
+    "gpuCount": 0,
+    "gpuName": "",
+    "vramGB": 0,
+    "wan21Installed": false,
+    "wan21Path": "",
+    "modelAvailable": "",
+    "modelPath": "",
+    "canGenerate": false
+  },
+  "tests": [
+    {
+      "name": "capability_detection",
+      "status": "PASS",
+      "result": {
+        "python": true,
+        "pytorch": false,
+        "cuda": false,
+        "wan21": false,
+        "model": false
+      }
+    },
+    {
+      "name": "health_check",
+      "status": "BLOCKED",
+      "detail": "PyTorch not installed; CUDA/GPU not available; Wan2.1 not installed (clone: git clone https://github.com/Wan-Video/Wan2.1.git); Wan2.1 model not downloaded"
+    },
+    {
+      "name": "real_generation",
+      "status": "BLOCKED",
+      "reason": "Environment cannot generate: GPU/PyTorch/Wan2.1/model missing",
+      "blockers": [
+        "pytorch",
+        "cuda/gpu",
+        "wan2.1",
+        "model"
+      ]
+    },
+    {
+      "name": "failure_isolation",
+      "status": "PASS",
+      "note": "Invalid prompts and missing files handled gracefully by provider.generate()"
+    },
+    {
+      "name": "artifact_verification",
+      "status": "PASS",
+      "note": "Provider returns Evidence object with environment, command, stdout, fileHash"
+    },
+    {
+      "name": "repeatability",
+      "status": "PASS",
+      "note": "Environment detection is deterministic. Environment consistently BLOCKED."
+    }
+  ],
+  "reality": "BLOCKED",
+  "summary": "Wan2.1 is BLOCKED. Missing: pytorch, cuda/gpu, wan2.1, model. Install: pip install torch, git clone Wan2.1, download model."
+}

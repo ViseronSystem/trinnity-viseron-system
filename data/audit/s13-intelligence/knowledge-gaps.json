@@ -1,0 +1,82 @@
+[
+  {
+    "id": "gap_p01",
+    "project": "Code Review Security Audit",
+    "requiredKnowledge": "Auditar código em busca de vulnerabilidades de segurança (SQL injection, XSS, hardcoded secrets)",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.00",
+    "missingKnowledge": "Confiança de cobertura: 0.00",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p02",
+    "project": "API Architecture Design",
+    "requiredKnowledge": "Desenhar arquitetura de API REST para um sistema multi-tenant com rate limiting e versionamento",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.56",
+    "missingKnowledge": "Confiança de cobertura: 0.56",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p03",
+    "project": "Node.js Performance Optimization",
+    "requiredKnowledge": "Otimizar performance de uma aplicação Node.js: memory leaks, event loop, pooling de conexões",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.56",
+    "missingKnowledge": "Confiança de cobertura: 0.56",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p04",
+    "project": "Deployment Pipeline Setup",
+    "requiredKnowledge": "Configurar pipeline CI/CD com testes automatizados, build e deploy para staging/production",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.56",
+    "missingKnowledge": "Confiança de cobertura: 0.56",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p05",
+    "project": "Financial Model Projection",
+    "requiredKnowledge": "Construir modelo financeiro com projeção MRR/ARR, custos, break-even para SaaS B2B",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.00",
+    "missingKnowledge": "Confiança de cobertura: 0.00",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p06",
+    "project": "Sales Strategy Document",
+    "requiredKnowledge": "Criar estratégia de vendas outbound para empresa SaaS: ICP, canais, scripts, metas",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.00",
+    "missingKnowledge": "Confiança de cobertura: 0.00",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p07",
+    "project": "Team Management Framework",
+    "requiredKnowledge": "Criar framework de gestão de equipe remota: OKRs, 1:1s, feedback, ferramentas, cadências",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.48",
+    "missingKnowledge": "Confiança de cobertura: 0.48",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p08",
+    "project": "Knowledge Base Construction",
+    "requiredKnowledge": "Construir base de conhecimento sobre IA generativa: LLMs, RAG, agentes, embeddings",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.48",
+    "missingKnowledge": "Confiança de cobertura: 0.48",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p09",
+    "project": "Multi-Domain System Design",
+    "requiredKnowledge": "Desenhar sistema que integra IA + pagamentos + mensageria + autenticação em arquitetura distribuída",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.00",
+    "missingKnowledge": "Confiança de cobertura: 0.00",
+    "status": "OPEN"
+  },
+  {
+    "id": "gap_p10",
+    "project": "Research Paper Analysis",
+    "requiredKnowledge": "Analisar 3 papers sobre agentes autónomos e extrair princípios aplicáveis ao VISERON",
+    "availableKnowledge": "insufficient: 1 gaps (insufficient existing knowledge), confidence=0.00",
+    "missingKnowledge": "Confiança de cobertura: 0.00",
+    "status": "OPEN"
+  }
+]

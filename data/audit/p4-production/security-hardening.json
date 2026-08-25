@@ -1,0 +1,65 @@
+{
+  "firewall": [
+    {
+      "port": 32123,
+      "rule": "Allow public (VISERON API)",
+      "status": "REQUIRED"
+    },
+    {
+      "port": 11434,
+      "rule": "Deny external (Ollama localhost only)",
+      "status": "REQUIRED"
+    },
+    {
+      "port": 3389,
+      "rule": "VPN-only (RDP)",
+      "status": "REQUIRED"
+    },
+    {
+      "port": 5432,
+      "rule": "Deny external (Postgres)",
+      "status": "REQUIRED"
+    }
+  ],
+  "users": [
+    {
+      "account": "Administrator",
+      "action": "Rename + strong password + MFA",
+      "status": "REQUIRED"
+    },
+    {
+      "account": "visoron-service",
+      "action": "Dedicated service account (no admin)",
+      "status": "RECOMMENDED"
+    }
+  ],
+  "secretRotation": [
+    {
+      "key": "TVS_JWT_SECRET",
+      "action": "Generate new on target",
+      "status": "REQUIRED"
+    },
+    {
+      "key": "GMAIL_REFRESH_TOKEN",
+      "action": "Re-authorize OAuth on target",
+      "status": "REQUIRED"
+    },
+    {
+      "key": "AVIRATO_CLIENT_SECRET",
+      "action": "Rotate in Avirato dashboard",
+      "status": "REQUIRED"
+    },
+    {
+      "key": "TWILIO_AUTH_TOKEN",
+      "action": "Rotate in Twilio console",
+      "status": "RECOMMENDED"
+    }
+  ],
+  "hardening": [
+    "Windows Update fully patched",
+    "Windows Defender active",
+    "Disable SMBv1",
+    "RDP behind VPN only",
+    "PowerShell logging enabled"
+  ]
+}

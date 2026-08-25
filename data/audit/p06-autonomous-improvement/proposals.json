@@ -1,0 +1,39 @@
+[
+  {
+    "id": "prop_01",
+    "objective": "AgentRegistry auto-routing",
+    "files": [
+      "src/core/intelligence (new: AgentAutoRouter)",
+      "StandaloneParallelOrchestrator"
+    ],
+    "plan": "Wire AgentAutoRouter into StandaloneParallelOrchestrator.executeDAG(). Replace manual 'agent_' + domain pattern with domain/capability-based scoring.",
+    "risk": "LOW_RISK",
+    "rollback": "Revert to manual agent_ prefix assignment",
+    "benefit": "+10% autonomy: agents matched to tasks by domain + capability overlap",
+    "validation": "Verify each DAG node gets the best-scored agent for its domain"
+  },
+  {
+    "id": "prop_02",
+    "objective": "Skill effectiveness measurement",
+    "files": [
+      "src/core/intelligence (new: analyzeSkillEffectiveness)"
+    ],
+    "plan": "Analyze executor.getHistory() records. Classify skills by success rate into HIGH_VALUE/USEFUL/NEUTRAL/UNPROVEN. Feed back into SkillBridge ranking.",
+    "risk": "LOW_RISK",
+    "rollback": "Revert to uniform skill ranking",
+    "benefit": "+5% autonomy: better skill selection improves execution quality",
+    "validation": "HIGH_VALUE skills should show >0.8 success rate with >3 executions"
+  },
+  {
+    "id": "prop_03",
+    "objective": "Founder OS live data integration",
+    "files": [
+      "src/web/founder/FounderAgent.ts"
+    ],
+    "plan": "Add executor stats, agent activity, and skill effectiveness data to FounderAgent.getStatus() output. Read from executor.getStats() and router state.",
+    "risk": "LOW_RISK",
+    "rollback": "Revert to static template output",
+    "benefit": "+3% autonomy: Pedro sees operational evidence",
+    "validation": "getStatus() output includes real executor counts and agent routing data"
+  }
+]

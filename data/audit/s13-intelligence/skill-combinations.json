@@ -1,0 +1,932 @@
+[
+  {
+    "skills": [
+      "awesome-claude-skills:securitytrails-automation",
+      "comp-ai:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:securitytrails-automation",
+      "ecc:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:securitytrails-automation",
+      "ecc:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:securitytrails-automation",
+      "ecc:security-bounty-hunter"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-ai:security-review",
+      "ecc:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-ai:security-review",
+      "ecc:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-ai:security-review",
+      "ecc:security-bounty-hunter"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:security-review",
+      "ecc:security-review"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:security-review",
+      "ecc:security-bounty-hunter"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:security-review",
+      "ecc:security-bounty-hunter"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:architecture-decision-records",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:android-clean-architecture",
+      "ecc:android-clean-architecture"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:command-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:skill-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:hook-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:agent-development",
+      "ecc:intent-driven-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:command-development",
+      "claude-plugins-official:skill-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:command-development",
+      "claude-plugins-official:hook-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:command-development",
+      "ecc:intent-driven-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:skill-development",
+      "claude-plugins-official:hook-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:skill-development",
+      "ecc:intent-driven-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "claude-plugins-official:hook-development",
+      "ecc:intent-driven-development"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Capsule CRM Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Contentful Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Docker Hub Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Kommo Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Capsule CRM Automation",
+      "awesome-claude-skills:Contentful Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Capsule CRM Automation",
+      "awesome-claude-skills:Docker Hub Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Capsule CRM Automation",
+      "awesome-claude-skills:Kommo Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Contentful Automation",
+      "awesome-claude-skills:Docker Hub Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Contentful Automation",
+      "awesome-claude-skills:Kommo Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:Docker Hub Automation",
+      "awesome-claude-skills:Kommo Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 2,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:salesforce-service-cloud-automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:salesmate-automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "marketingskills:sales-enablement"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:Dynamics 365 Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-service-cloud-automation",
+      "awesome-claude-skills:salesmate-automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-service-cloud-automation",
+      "marketingskills:sales-enablement"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesforce-service-cloud-automation",
+      "awesome-claude-skills:Dynamics 365 Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesmate-automation",
+      "marketingskills:sales-enablement"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:salesmate-automation",
+      "awesome-claude-skills:Dynamics 365 Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "marketingskills:sales-enablement",
+      "awesome-claude-skills:Dynamics 365 Automation"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 6,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:logistics-exception-management",
+      "ecc:logistics-exception-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:carrier-relationship-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:carrier-relationship-management",
+      "ecc:logistics-exception-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:carrier-relationship-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:carrier-relationship-management",
+      "ecc:logistics-exception-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:carrier-relationship-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "awesome-claude-skills:skill-creator"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:unified-memory"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "awesome-claude-skills:skill-creator"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:unified-memory"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "awesome-claude-skills:skill-creator"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:knowledge-ops",
+      "ecc:unified-memory"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:skill-creator",
+      "ecc:unified-memory"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:artifacts-builder",
+      "comp-crm:typescript-advanced-types"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:artifacts-builder",
+      "comp-crm:zero-tech-debt"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:artifacts-builder",
+      "ecc:cost-aware-llm-pipeline"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:artifacts-builder",
+      "ecc:growth-log"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-crm:typescript-advanced-types",
+      "comp-crm:zero-tech-debt"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-crm:typescript-advanced-types",
+      "ecc:cost-aware-llm-pipeline"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-crm:typescript-advanced-types",
+      "ecc:growth-log"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-crm:zero-tech-debt",
+      "ecc:cost-aware-llm-pipeline"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "comp-crm:zero-tech-debt",
+      "ecc:growth-log"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:cost-aware-llm-pipeline",
+      "ecc:growth-log"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-claude-skills:content-research-writer"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-llm-apps:deep-research"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-claude-skills:content-research-writer"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-llm-apps:deep-research"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-claude-skills:content-research-writer"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "ecc:research-ops",
+      "awesome-llm-apps:deep-research"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  },
+  {
+    "skills": [
+      "awesome-claude-skills:content-research-writer",
+      "awesome-llm-apps:deep-research"
+    ],
+    "quality": 0.99,
+    "success": 1,
+    "latency": 1,
+    "domain": "development"
+  }
+]

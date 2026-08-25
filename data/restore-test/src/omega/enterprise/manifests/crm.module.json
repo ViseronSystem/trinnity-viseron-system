@@ -1,0 +1,22 @@
+{
+  "id": "module_crm",
+  "name": "CRM Module",
+  "domain": "crm",
+  "description": "Gestão de contactos, oportunidades, pipeline e relacionamento com clientes.",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_crm_retention", "description": "Reduzir churn e aumentar retenção", "metric": "retention_rate", "target": 90 },
+    { "id": "obj_crm_pipeline", "description": "Manter pipeline atualizado e saudável", "metric": "pipeline_health", "target": 80 }
+  ],
+  "kpis": ["retention_rate", "churn_rate", "active_accounts", "pipeline_health"],
+  "workflows": [
+    { "id": "wf_account", "name": "Account Management", "steps": ["identify", "engage", "nurture", "retain"] },
+    { "id": "wf_renewal", "name": "Renewal", "steps": ["monitor", "propose", "close"] }
+  ],
+  "tools": [
+    { "id": "crm", "name": "CRM", "description": "contactos, oportunidades, pipeline" },
+    { "id": "segmentation", "name": "Segmentation", "description": "segmentação de clientes" }
+  ],
+  "agents": ["agent_sales", "agent_support"],
+  "reportIntervalMinutes": 60
+}

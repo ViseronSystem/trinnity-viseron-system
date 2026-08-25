@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viseron Cosmos — $VSR · $TRIN | La Ascensión</title>
+<meta name="description" content="Viseron Cosmos: los tokens del batallón TVS. VSR (gobernanza) + TRIN (memecoin interplanetaria). Ethereum · BSC · Solana. Staking, metaverso, juego, comunidad. © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)">
+<style>
+  :root { --star:#ffd166; --violet:#7c3aed; --pink:#f43f5e; --cyan:#22d3ee; --bg:#050510; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:#e2e8f0; overflow-x:hidden; }
+  a { color:var(--cyan); text-decoration:none; }
+  .space { position:fixed; inset:0; z-index:-2; background:radial-gradient(ellipse at 70% 10%, #1e1b4b 0%, #050510 55%); }
+  #stars { position:fixed; inset:0; z-index:-1; pointer-events:none; }
+  .top { position:fixed; top:0; left:0; right:0; z-index:10; display:flex; justify-content:space-between; align-items:center; padding:14px 28px; background:linear-gradient(#050510ee, transparent); }
+  .brand { font-weight:800; font-size:18px; letter-spacing:1px; }
+  .brand b { color:var(--star); }
+  nav a { margin-left:18px; font-size:13px; font-weight:600; color:#cbd5e1; }
+  nav a:hover { color:var(--star); }
+  .lang { position:fixed; top:14px; right:8px; z-index:11; display:flex; gap:4px; }
+  .lang button { background:#0f172acc; color:#94a3b8; border:1px solid #334155; border-radius:6px; padding:2px 7px; font-size:10px; cursor:pointer; }
+  .lang button.on { color:#050510; background:var(--star); border-color:var(--star); font-weight:800; }
+  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:80px 20px 40px; position:relative; }
+  .hero .astronaut { font-size:80px; animation:float 5s ease-in-out infinite; filter:drop-shadow(0 0 24px var(--violet)); }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+  h1 { font-size:clamp(34px,7vw,72px); font-weight:900; letter-spacing:1px; line-height:1.05; margin:18px 0 10px; background:linear-gradient(90deg,var(--star),var(--pink),var(--violet),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { font-size:clamp(14px,2.4vw,20px); color:#94a3b8; max-width:680px; margin:0 auto 22px; }
+  .cta { display:inline-block; background:linear-gradient(90deg,var(--violet),var(--pink)); color:#fff; font-weight:800; padding:15px 34px; border-radius:999px; font-size:16px; box-shadow:0 0 30px #7c3aed66; transition:.25s; }
+  .cta:hover { transform:translateY(-3px); box-shadow:0 0 44px #f43f5e88; }
+  .cta2 { display:inline-block; border:1px solid #334155; color:#cbd5e1; font-weight:700; padding:14px 28px; border-radius:999px; margin-left:12px; font-size:15px; }
+  .tick { margin-top:26px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .tick span { background:#0f172acc; border:1px solid #334155; border-radius:999px; padding:6px 14px; font-size:12px; color:#94a3b8; }
+  .tick b { color:var(--star); }
+  section { max-width:1100px; margin:0 auto; padding:90px 22px; }
+  h2 { font-size:clamp(24px,4vw,38px); font-weight:800; text-align:center; margin-bottom:12px; }
+  h2 small { display:block; color:#64748b; font-weight:600; font-size:14px; margin-top:6px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:40px; }
+  .card { background:#0b0d1fcc; border:1px solid #1e293b; border-radius:18px; padding:26px; transition:.25s; }
+  .card:hover { border-color:var(--violet); transform:translateY(-4px); }
+  .card .ico { font-size:34px; }
+  .card h3 { margin:10px 0 8px; font-size:19px; }
+  .card p { color:#94a3b8; font-size:13.5px; line-height:1.6; }
+  .token { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media(max-width:800px){ .token{grid-template-columns:1fr} }
+  .tcard { background:linear-gradient(160deg,#0b0d1f, #131235); border:1px solid #1e293b; border-radius:20px; padding:30px; position:relative; overflow:hidden; }
+  .tcard.vsr { border-color:#7c3aed66; }
+  .tcard.trin { border-color:#f43f5e66; }
+  .tcard .sym { font-size:44px; font-weight:900; display:flex; align-items:center; gap:12px; }
+.tcard .sym img.tlogo { width:52px; height:52px; border-radius:12px; box-shadow:0 0 18px rgba(124,58,237,.35); }
+  .vsr .sym { color:var(--violet); } .trin .sym { color:var(--pink); }
+  .tcard .nm { color:#64748b; font-size:14px; margin-top:4px; }
+  .tcard .sup { font-size:30px; font-weight:800; margin:16px 0 4px; }
+  .tcard ul { list-style:none; margin-top:14px; }
+  .tcard li { font-size:13px; color:#94a3b8; padding:6px 0; border-bottom:1px dashed #1e293b; }
+  .tcard li b { color:#cbd5e1; }
+  .price-strip { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:26px; }
+  .price { background:#0f172a; border:1px solid #334155; border-radius:12px; padding:10px 20px; font-size:13px; }
+  .price b { color:var(--star); font-size:16px; }
+  .roadmap { margin-top:44px; }
+  .rm { display:flex; gap:16px; margin-bottom:16px; align-items:flex-start; }
+  .rm .n { background:linear-gradient(135deg,var(--violet),var(--pink)); color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+  .rm h4 { font-size:16px; }
+  .rm p { color:#94a3b8; font-size:13.5px; margin-top:3px; }
+  .links { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:30px; }
+  .links a { background:#0f172a; border:1px solid #334155; border-radius:12px; padding:12px 20px; font-size:14px; font-weight:700; }
+  .links a:hover { border-color:var(--star); color:var(--star); }
+  .gridlinks { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:30px; }
+  .g { background:#0b0d1f; border:1px solid #1e293b; border-radius:16px; padding:22px; }
+  .g .ico { font-size:30px; } .g h4 { margin:8px 0 6px; } .g p { color:#94a3b8; font-size:13px; }
+  footer { border-top:1px solid #1e293b; padding:34px 20px; text-align:center; color:#475569; font-size:12.5px; line-height:1.8; }
+  footer b { color:var(--star); }
+  .mint { text-align:center; }
+  .hint { color:#475569; font-size:12px; margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="space"></div>
+<canvas id="stars"></canvas>
+
+<div class="top">
+  <div class="brand">VISERON <b>COSMOS</b></div>
+  <nav>
+    <a href="#home" data-t="home">Home</a>
+    <a href="#tokens" data-t="tokens">Tokens</a>
+    <a href="#roadmap" data-t="roadmap">Roadmap</a>
+    <a href="#metaverse" data-t="metaverse">Metaverso</a>
+    <a href="#community" data-t="community">Comunidad</a>
+  </nav>
+</div>
+<div class="lang">
+  <button data-l="es" class="on">ES</button><button data-l="pt">PT</button><button data-l="en">EN</button>
+</div>
+
+<div class="hero" id="home">
+  <div class="astronaut">👨‍🚀</div>
+  <h1 data-t="heroTitle">Soy VISERON. Viseron Cosmos.</h1>
+  <p class="sub" data-t="heroSub">Perdiste el DOGE en la luna y la ELON en Marte? Únete a la misión del batallón TVS: 5000+ mentes hacia las estrellas.</p>
+  <div>
+    <a class="cta" href="https://app.uniswap.org" data-t="cta1">Unirse a la misión</a>
+    <a class="cta2" href="https://t.me/ViseronCosmos" data-t="cta2">Telegram</a>
+  </div>
+  <div class="tick">
+    <span>Ethereum <b>·</b> BSC <b>·</b> Solana</span>
+    <span data-t="t1">VSR 300M</span>
+    <span data-t="t2">TRIN 420.69M</span>
+    <span data-t="t3">Burn deflacionario</span>
+  </div>
+  <div class="price-strip">
+    <div class="price">VSR <b>—</b> <span data-t="ph">precio tras DEX</span></div>
+    <div class="price">TRIN <b>—</b> <span data-t="ph2">precio tras DEX</span></div>
+  </div>
+</div>
+
+<section id="tokens">
+  <h2 data-t="tokTitle">Dos monedas. Una constelación.<small data-t="tokSub">Nacidas del Trinnity Viseron System, listas para el mercado.</small></h2>
+  <div class="token">
+    <div class="tcard vsr">
+      <div class="sym"><img class="tlogo" src="img/vsr.png" alt="VSR">VSR</div>
+      <div class="nm">Viseron Crown · Prueba de Mandato (PoM)</div>
+      <div class="sup">300,000,000</div>
+      <ul>
+        <li data-t="v1"><b>Gobernanza:</b> 1 VSR = 1 voto on-chain</li>
+        <li data-t="v2"><b>Burn:</b> 1% por transferencia</li>
+        <li data-t="v3"><b>Anti-whale:</b> máx. 3% por cartera</li>
+        <li data-t="v4"><b>Staking:</b> bloquea VSR → ganas TRIN</li>
+        <li data-t="v5"><b>Redes:</b> Ethereum · BSC · Solana</li>
+      </ul>
+    </div>
+    <div class="tcard trin">
+      <div class="sym"><img class="tlogo" src="img/trin.png" alt="TRIN">TRIN</div>
+      <div class="nm">Trinnity · moneda de viaje interplanetaria</div>
+      <div class="sup">420,690,000</div>
+      <ul>
+        <li data-t="r1"><b>Deflación:</b> 2% quemado por transferencia</li>
+        <li data-t="r2"><b>Anti-bot:</b> máx. 0.5% por transacción</li>
+        <li data-t="r3"><b>Lock pre-launch:</b> mercado se abre con liquidez</li>
+        <li data-t="r4"><b>Cultura:</b> la ELON del batallón TVS</li>
+        <li data-t="r5"><b>Redes:</b> Ethereum · BSC · Solana</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <h2 data-t="rmTitle">Hoja de ruta a las estrellas<small data-t="rmSub">Cada fase construye el valor real.</small></h2>
+  <div class="roadmap">
+    <div class="rm"><div class="n">1</div><div><h4 data-t="rm1t">Génesis</h4><p data-t="rm1d">Deploy de contratos, liquidez (Uniswap/PancakeSwap/Raydium), lock, sitio y Telegram.</p></div></div>
+    <div class="rm"><div class="n">2</div><div><h4 data-t="rm2t">Ascensión</h4><p data-t="rm2d">Staking y gobernanza en vivo, metaverso jugable, airdrops, juego token.</p></div></div>
+    <div class="rm"><div class="n">3</div><div><h4 data-t="rm3t">Exchange</h4><p data-t="rm3d">CoinGecko/CMC, CEXs regionales, auditoría Hacken, press kit.</p></div></div>
+    <div class="rm"><div class="n">4</div><div><h4 data-t="rm4t">Cosmos Mainnet</h4><p data-t="rm4d">Bridge ETH↔BSC↔Solana, L2 propio, apps TVS integradas.</p></div></div>
+  </div>
+</section>
+
+<section id="metaverse">
+  <h2 data-t="mvTitle">Metaverso Viseron Cosmos<small data-t="mvSub">Los planetas son los módulos del TVS. Juega y gana.</small></h2>
+  <div class="gridlinks">
+    <div class="g"><div class="ico">🪐</div><h4 data-t="mv1t">Planeta AIOX</h4><p data-t="mv1d">El squad que supervisa todo el sistema.</p></div>
+    <div class="g"><div class="ico">📡</div><h4 data-t="mv2t">Planeta RCS</h4><p data-t="mv2d">Mensajes de marca que cruzan el espacio.</p></div>
+    <div class="g"><div class="ico">🚀</div><h4 data-t="mv3t">Planeta Agency</h4><p data-t="mv3d">La agencia que vende al universo.</p></div>
+    <div class="g"><div class="ico">🔌</div><h4 data-t="mv4t">Planeta Composio</h4><p data-t="mv4d">Conexiones con cientos de apps.</p></div>
+    <div class="g"><div class="ico">✉️</div><h4 data-t="mv5t">Planeta Gmail</h4><p data-t="mv5d">Correo que responde solo.</p></div>
+  </div>
+  <div class="links">
+    <a href="/game" data-t="mvCta1">🎮 Juego VISERON</a>
+    <a href="/cosmos/metaverse" data-t="mvCta2">🌌 Entrar al Metaverso</a>
+  </div>
+</section>
+
+<section id="community">
+  <h2 data-t="cmTitle">Da el salto<small data-t="cmSub">La comunidad decide el destino del universo.</small></h2>
+  <div class="links">
+    <a href="https://t.me/ViseronCosmos">✈️ Telegram</a>
+    <a href="https://twitter.com">🐦 X / Twitter</a>
+    <a href="https://discord.com">💬 Discord</a>
+    <a href="https://github.com/ViseronSystem">🐙 GitHub</a>
+    <a href="/cosmos/metaverse">🌌 Metaverso</a>
+    <a href="/game">🎮 Juego</a>
+  </div>
+  <p class="hint" data-t="cmHint">Airdrops por jugar, votar y difundir. Gobernanza con VSR.</p>
+</section>
+
+<footer>
+  <div>© <b>Pedro Costa (Comandante)</b> · <b>Trinnity Hurtado (Rainha)</b> · Trinnity Viseron System v5.0</div>
+  <div>VISERON COSMOS · $VSR · $TRIN · <a href="/">www.trinnityviseronsystem.io</a> · <a href="/cosmos">/cosmos</a></div>
+</footer>
+
+<script>
+// ── Estrellas parallax ──
+(function(){
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  let W,H,S=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;
+    const n=Math.floor((W*H)/7000);S=[];for(let i=0;i<n;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,s:Math.random()*.4+.1,p:Math.random()*Math.PI*2});}
+  resize();addEventListener('resize',resize);
+  (function loop(t){x.clearRect(0,0,W,H);S.forEach(st=>{x.globalAlpha=.5+Math.sin(t*.002+st.p)*.5;x.fillStyle='#e2e8f0';x.beginPath();x.arc(st.x,st.y,st.r,0,7);x.fill();});requestAnimationFrame(loop);})(0);
+})();
+// ── Multi-idioma (ES/PT/EN) ──
+(function(){
+  const T={
+  es:{heroTitle:"Soy VISERON. Viseron Cosmos.",heroSub:"¿Perdiste el DOGE en la luna y la ELON en Marte? Únete a la misión del batallón TVS: 5000+ mentes hacia las estrellas.",cta1:"Unirse a la misión",cta2:"Telegram",t1:"VSR 300M",t2:"TRIN 420.69M",t3:"Burn deflacionario",ph:"precio tras DEX",ph2:"precio tras DEX",tokTitle:"Dos monedas. Una constelación.",tokSub:"Nacidas del Trinnity Viseron System, listas para el mercado.",v1:"Gobernanza: 1 VSR = 1 voto on-chain",v2:"Burn: 1% por transferencia",v3:"Anti-whale: máx. 3% por cartera",v4:"Staking: bloquea VSR → ganas TRIN",v5:"Redes: Ethereum · BSC · Solana",r1:"Deflación: 2% quemado por transferencia",r2:"Anti-bot: máx. 0.5% por transacción",r3:"Lock pre-launch: el mercado se abre con liquidez",r4:"Cultura: la ELON del batallón TVS",r5:"Redes: Ethereum · BSC · Solana",rmTitle:"Hoja de ruta a las estrellas",rmSub:"Cada fase construye el valor real.",rm1t:"Génesis",rm1d:"Deploy de contratos, liquidez (Uniswap/PancakeSwap/Raydium), lock, sitio y Telegram.",rm2t:"Ascensión",rm2d:"Staking y gobernanza en vivo, metaverso jugable, airdrops, juego token.",rm3t:"Exchange",rm3d:"CoinGecko/CMC, CEXs regionales, auditoría Hacken, press kit.",rm4t:"Cosmos Mainnet",rm4d:"Bridge ETH↔BSC↔Solana, L2 propio, apps TVS integradas.",mvTitle:"Metaverso Viseron Cosmos",mvSub:"Los planetas son los módulos del TVS. Juega y gana.",mv1t:"Planeta AIOX",mv1d:"El squad que supervisa todo el sistema.",mv2t:"Planeta RCS",mv2d:"Mensajes de marca que cruzan el espacio.",mv3t:"Planeta Agency",mv3d:"La agencia que vende al universo.",mv4t:"Planeta Composio",mv4d:"Conexiones con cientos de apps.",mv5t:"Planeta Gmail",mv5d:"Correo que responde solo.",mvCta1:"🎮 Juego VISERON",mvCta2:"🌌 Entrar al Metaverso",cmTitle:"Da el salto",cmSub:"La comunidad decide el destino del universo.",cmHint:"Airdrops por jugar, votar y difundir. Gobernanza con VSR.",home:"Inicio",tokens:"Tokens",roadmap:"Roadmap",metaverse:"Metaverso",community:"Comunidad"},
+  pt:{heroTitle:"Sou VISERON. Viseron Cosmos.",heroSub:"Perdeste o DOGE na lua e a ELON em Marte? Junta-te à missão do batalhão TVS: 5000+ mentes rumo às estrelas.",cta1:"Juntar-te à missão",cta2:"Telegram",t1:"VSR 300M",t2:"TRIN 420.69M",t3:"Burn deflacionário",ph:"preço após DEX",ph2:"preço após DEX",tokTitle:"Duas moedas. Uma constelação.",tokSub:"Nascidas do Trinnity Viseron System, prontas para o mercado.",v1:"Governança: 1 VSR = 1 voto on-chain",v2:"Burn: 1% por transferência",v3:"Anti-whale: máx. 3% por carteira",v4:"Staking: bloqueia VSR → ganhas TRIN",v5:"Redes: Ethereum · BSC · Solana",r1:"Deflação: 2% queimado por transferência",r2:"Anti-bot: máx. 0.5% por transação",r3:"Lock pré-launch: o mercado abre com liquidez",r4:"Cultura: a ELON do batalhão TVS",r5:"Redes: Ethereum · BSC · Solana",rmTitle:"Rota para as estrelas",rmSub:"Cada fase constrói o valor real.",rm1t:"Génesis",rm1d:"Deploy dos contratos, liquidez (Uniswap/PancakeSwap/Raydium), lock, site e Telegram.",rm2t:"Ascensão",rm2d:"Staking e governança ao vivo, metaverso jogável, airdrops, jogo token.",rm3t:"Exchange",rm3d:"CoinGecko/CMC, CEXs regionais, auditoria Hacken, press kit.",rm4t:"Cosmos Mainnet",rm4d:"Bridge ETH↔BSC↔Solana, L2 próprio, apps TVS integradas.",mvTitle:"Metaverso Viseron Cosmos",mvSub:"Os planetas são os módulos do TVS. Joga e ganha.",mv1t:"Planeta AIOX",mv1d:"O squad que supervisiona todo o sistema.",mv2t:"Planeta RCS",mv2d:"Mensagens de marca que cruzam o espaço.",mv3t:"Planeta Agency",mv3d:"A agência que vende ao universo.",mv4t:"Planeta Composio",mv4d:"Conexões com centenas de apps.",mv5t:"Planeta Gmail",mv5d:"Email que responde sozinho.",mvCta1:"🎮 Jogo VISERON",mvCta2:"🌌 Entrar no Metaverso",cmTitle:"Dá o salto",cmSub:"A comunidade decide o destino do universo.",cmHint:"Airdrops por jogar, votar e divulgar. Governança com VSR.",home:"Início",tokens:"Tokens",roadmap:"Roadmap",metaverse:"Metaverso",community:"Comunidade"},
+  en:{heroTitle:"I am VISERON. Viseron Cosmos.",heroSub:"Missed DOGE on the moon and ELON on Mars? Join the TVS battalion mission: 5000+ minds heading to the stars.",cta1:"Join the mission",cta2:"Telegram",t1:"VSR 300M",t2:"TRIN 420.69M",t3:"Deflationary burn",ph:"price after DEX",ph2:"price after DEX",tokTitle:"Two coins. One constellation.",tokSub:"Born from the Trinnity Viseron System, ready for the market.",v1:"Governance: 1 VSR = 1 on-chain vote",v2:"Burn: 1% per transfer",v3:"Anti-whale: max 3% per wallet",v4:"Staking: lock VSR → earn TRIN",v5:"Networks: Ethereum · BSC · Solana",r1:"Deflation: 2% burned per transfer",r2:"Anti-bot: max 0.5% per tx",r3:"Pre-launch lock: market opens with liquidity",r4:"Culture: the ELON of the TVS battalion",r5:"Networks: Ethereum · BSC · Solana",rmTitle:"Roadmap to the stars",rmSub:"Each phase builds real value.",rm1t:"Genesis",rm1d:"Contract deploy, liquidity (Uniswap/PancakeSwap/Raydium), lock, site and Telegram.",rm2t:"Ascension",rm2d:"Live staking and governance, playable metaverse, airdrops, token game.",rm3t:"Exchange",rm3d:"CoinGecko/CMC, regional CEXs, Hacken audit, press kit.",rm4t:"Cosmos Mainnet",rm4d:"ETH↔BSC↔Solana bridge, own L2, integrated TVS apps.",mvTitle:"Viseron Cosmos Metaverse",mvSub:"The planets are the TVS modules. Play and earn.",mv1t:"AIOX Planet",mv1d:"The squad that supervises the whole system.",mv2t:"RCS Planet",mv2d:"Brand messages crossing space.",mv3t:"Agency Planet",mv3d:"The agency selling to the universe.",mv4t:"Composio Planet",mv4d:"Connections with hundreds of apps.",mv5t:"Gmail Planet",mv5d:"Email that replies by itself.",mvCta1:"🎮 VISERON Game",mvCta2:"🌌 Enter the Metaverse",cmTitle:"Take the leap",cmSub:"The community decides the universe's destiny.",cmHint:"Airdrops for playing, voting and spreading the word. VSR governance.",home:"Home",tokens:"Tokens",roadmap:"Roadmap",metaverse:"Metaverse",community:"Community"}
+  };
+  const lang=localStorage.getItem('cosmos-lang')||'es';
+  function apply(l){document.documentElement.lang=l;document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+    document.querySelectorAll('[data-t]').forEach(el=>{const k=el.dataset.t;if(T[l]&&T[l][k]!==undefined)el.textContent=T[l][k];});}
+  document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{localStorage.setItem('cosmos-lang',b.dataset.l);apply(b.dataset.l);});
+  apply(lang);
+})();
+</script>
+</body>
+</html>

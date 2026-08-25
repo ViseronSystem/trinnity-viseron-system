@@ -1,0 +1,77 @@
+{
+  "origin": "Laptop (Intel i5-1235U, 8GB, Windows 11)",
+  "destination": "UpCloud (EPYC 7542, 256GB, Windows Server 2025)",
+  "routes": [
+    {
+      "asset": "Code (src/ + scripts/)",
+      "origin": "C:\\Trinnity-Viseron-System",
+      "method": "Golden backup + git clone",
+      "size": "90MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Data (audits, knowledge, reports)",
+      "origin": "data/",
+      "method": "Golden backup restore",
+      "size": "300MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Skills (1,997)",
+      "origin": "skills/vendor/",
+      "method": "Golden backup OR npm run skills:install",
+      "size": "~400MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Memory (LTM 20K)",
+      "origin": "database/memory/",
+      "method": "Golden backup restore",
+      "size": "~14MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Knowledge Graph",
+      "origin": "graphify-out/",
+      "method": "Golden backup restore",
+      "size": "4.2MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Backups (golden)",
+      "origin": "backups/",
+      "method": "SFTP transfer",
+      "size": "905MB",
+      "status": "READY"
+    },
+    {
+      "asset": "Models (qwen2.5)",
+      "origin": "Ollama local",
+      "method": "ollama pull (re-download)",
+      "size": "6.6GB",
+      "status": "RE-DOWNLOAD"
+    },
+    {
+      "asset": ".env (36 secrets)",
+      "origin": ".env",
+      "method": "MANUAL secure channel",
+      "size": "2KB",
+      "status": "MANUAL"
+    },
+    {
+      "asset": "Solana wallet",
+      "origin": "contracts/solana-keypair.json",
+      "method": "MANUAL secure channel",
+      "size": "1KB",
+      "status": "MANUAL"
+    }
+  ],
+  "verification": [
+    "npm test (67 tests)",
+    "GET /api/health",
+    "POST /api/jarvis/chat",
+    "npm run founder status",
+    "npm run skills:list",
+    "npm run p09 (Engineering Squad)"
+  ]
+}

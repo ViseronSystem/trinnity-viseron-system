@@ -1,0 +1,2070 @@
+{
+  "snapshotId": "snap_msp0vp2r",
+  "createdAt": "2026-08-11T18:57:28.756Z",
+  "rootDir": "C:\\Trinnity-Viseron-System",
+  "totalFiles": 411,
+  "totalSize": 93594877,
+  "excludedSecrets": [
+    "src\\core\\tokenomics",
+    "src\\web\\auth\\password.ts",
+    "src\\web\\email\\tokens.ts"
+  ],
+  "files": [
+    {
+      "path": "src\\agents\\ceo\\CEOAgent.ts",
+      "hash": "b98cc4b7e1d30aa53883cd2fa682e754ad0552e4020ec278aaeb5950465d5596",
+      "size": 136
+    },
+    {
+      "path": "src\\agents\\CEOAgent.ts",
+      "hash": "3bba6ed6706174a9f17597b5d337c4e37e2e1902b98f5103b1c8cc9b13577f21",
+      "size": 568
+    },
+    {
+      "path": "src\\agents\\factory\\AgentFactory.ts",
+      "hash": "9b17b4ff0d52afb6835ca56c09f5458d62fc690b1c4354e18aec05a5f9793ffd",
+      "size": 212
+    },
+    {
+      "path": "src\\agents\\factory\\index.ts",
+      "hash": "d6ef7f4fb0f06eca9c105adf8078bb73aad4ecb3db913d5995649011e9e3f010",
+      "size": 48
+    },
+    {
+      "path": "src\\agents\\generated\\agents.json",
+      "hash": "9c1aa062b24ca6b567760e970561c2a9e45f73442ad02a97c0eea099ae1b3066",
+      "size": 470
+    },
+    {
+      "path": "src\\agents\\generated\\index.ts",
+      "hash": "07b07e18bf1772a63887e0580cb4fff6c0032ca4b55784bd36878e567454e684",
+      "size": 331
+    },
+    {
+      "path": "src\\agents\\OpenCodeAgent.ts",
+      "hash": "991a7e93e0530a3bcf934d85922d5444cd612002b889d9f297493c7e37e00788",
+      "size": 175
+    },
+    {
+      "path": "src\\agents\\registry\\agents.json",
+      "hash": "e0c1d406be3f95677d80a242812cb91d0598dd794e9317ece078eec9fb426dbd",
+      "size": 803
+    },
+    {
+      "path": "src\\agents\\registry\\index.ts",
+      "hash": "325438c49c3348f371e6f675956a019047b1bb9de11d8c5a3d9d73ffb9b27201",
+      "size": 2249
+    },
+    {
+      "path": "src\\command-center\\CommandCenter.ts",
+      "hash": "29772b5df2fda8da3bfdb7d8db25c64e400deb6028a023db3d8c874b23a6f8ea",
+      "size": 148
+    },
+    {
+      "path": "src\\command-center\\commander\\PedroCostaCommander.ts",
+      "hash": "20b1e352448852005af8a36ee227df5c8afbdeed8afba9b7584062f2ec834e6e",
+      "size": 151
+    },
+    {
+      "path": "src\\command-center\\queen\\TrinnityHurtadoQueen.ts",
+      "hash": "a7700c6db408339bc4a2b0cb4fb5085876cf9688cb7e7a70443d8c25c1f6628f",
+      "size": 149
+    },
+    {
+      "path": "src\\community\\AICommunityPlatform.ts",
+      "hash": "9ebe4fcd0b37d6b99080cdb881beac89309a867c0502f961e9e4cb9f49d5928e",
+      "size": 12812
+    },
+    {
+      "path": "src\\community\\MonetizationPlan.ts",
+      "hash": "961064412e5b66c9c468f21e1b9bfacf18dfc405e6d2c3e1a3af0936db4f9b99",
+      "size": 12637
+    },
+    {
+      "path": "src\\core\\agency\\finance.ts",
+      "hash": "48ee6639a3da294a92fd2456daa96d2e8273d6c907868a4dd58424785c74efa2",
+      "size": 2658
+    },
+    {
+      "path": "src\\core\\agency\\store.ts",
+      "hash": "fddfc9628a4389f23bb506caaaeb477e8339b9fc9f9f4d3464cba1a998e60de5",
+      "size": 6383
+    },
+    {
+      "path": "src\\core\\AgentManager.ts",
+      "hash": "caf58ef6a72422899c6024ecc106ea94dd0104fb104c2cc14d760e54cb6bf5c6",
+      "size": 6852
+    },
+    {
+      "path": "src\\core\\agents\\AgentCollaborator.ts",
+      "hash": "362cc21dc8f1598ceda9d72801d6b47a4f0518883afbb42c0e558f16cda5f0f4",
+      "size": 5872
+    },
+    {
+      "path": "src\\core\\agents\\AgentFactory.ts",
+      "hash": "54ae790d978f7aad27191f083ea1e1a2d0e2c818af5208337c5b1af3cbbc1f95",
+      "size": 7465
+    },
+    {
+      "path": "src\\core\\agents\\AgentManager.ts",
+      "hash": "71940f3429ce10b837ab51892906276ed9c4fa99f058b1edab0c206a5cbcddaa",
+      "size": 189
+    },
+    {
+      "path": "src\\core\\agents\\AgentSpawner.ts",
+      "hash": "0d6e978a4ee127c21b44b9f1635b2ef6d19a2fee8f5a28baa137179aa155505d",
+      "size": 4492
+    },
+    {
+      "path": "src\\core\\agents\\BusinessSolutionEngine.ts",
+      "hash": "d983c533213d6f84a618f27a5a228690d52081b0bd74752d65ea4e628f887430",
+      "size": 12191
+    },
+    {
+      "path": "src\\core\\agents\\SmartAgent.ts",
+      "hash": "dac207f09d6aabfb0e9e73a731e2ea71d6e4ef6c2b72b1eb9e3580b56c2dc893",
+      "size": 8670
+    },
+    {
+      "path": "src\\core\\archetypes\\index.ts",
+      "hash": "917de44ca6ba1cefd99feaceb450ed23368811049315ce61917cf093ba78c362",
+      "size": 917
+    },
+    {
+      "path": "src\\core\\archetypes\\registry.ts",
+      "hash": "ac5c9c08315b27c21e62243017e3cc9811f1bf2e6bc48f04189bff4e64368e50",
+      "size": 90614
+    },
+    {
+      "path": "src\\core\\bridge\\AIProviderBridge.ts",
+      "hash": "48808ef1ed6e2f88a660d9629ef1ac76af3c1fb393155b5620bb88ebb6cfdc98",
+      "size": 17111
+    },
+    {
+      "path": "src\\core\\bridge\\index.ts",
+      "hash": "9d1a0c783fd2329df7262e4444c6c0535805920384bc6a93c17f36ce97a2a3a5",
+      "size": 201
+    },
+    {
+      "path": "src\\core\\composio\\ComposioBridge.ts",
+      "hash": "e0b055702241bb40e9e7d62a05875d8712c14a511246afe8e2c78c9f0d7448f0",
+      "size": 8144
+    },
+    {
+      "path": "src\\core\\crypto\\exchange.ts",
+      "hash": "1c9446c9e46151a281058694046108fb03f1b5a5034c8f6f9970abb35a961ef5",
+      "size": 16248
+    },
+    {
+      "path": "src\\core\\crypto\\payments.ts",
+      "hash": "1ce1ec35acf8cda2c7a61515d9fb7a59cfe1edffcb90ab5452208bf818c71b0a",
+      "size": 7617
+    },
+    {
+      "path": "src\\core\\evolution\\AutoEvolutionEngine.ts",
+      "hash": "67454af28b601c409704870628fdd060282f902a6e8238c4798fab377dbdff79",
+      "size": 13764
+    },
+    {
+      "path": "src\\core\\evolution\\index.ts",
+      "hash": "310c464f8e65ebe85a81dc549c9128cccef620ad39edf13fd4f3fd711b85d5ca",
+      "size": 125
+    },
+    {
+      "path": "src\\core\\governance\\bible.ts",
+      "hash": "df2a4a564b42e334b11dc0e2b6ae2149e2c10029a0986f7706db444c1ad97e5b",
+      "size": 7753
+    },
+    {
+      "path": "src\\core\\knowledge\\KnowledgeGapDetector.ts",
+      "hash": "f9a255531d8d3449a3d6e0314d0d19a199c214c166285ebf02f81a6d36e9779d",
+      "size": 5590
+    },
+    {
+      "path": "src\\core\\knowledge\\KnowledgeIngestion.ts",
+      "hash": "baa41f707f41f1963627d79f362ff508f3f6b18008aac7dd18a2387f1d224743",
+      "size": 6678
+    },
+    {
+      "path": "src\\core\\knowledge\\WebResearchEngine.ts",
+      "hash": "822359b40584f3d4ee03732e321035fc76d3e31ec9fe5579570f9f7502d97b19",
+      "size": 8091
+    },
+    {
+      "path": "src\\core\\leadership\\CommandChain.ts",
+      "hash": "e920368a2a72353e46cf73c7dd6069a08b09bf5167c6377abb650b7b6b85878f",
+      "size": 7928
+    },
+    {
+      "path": "src\\core\\leadership\\index.ts",
+      "hash": "b44a1b3091677b51d10f10b52796c4ac35583387c9ba4a377a46b2bc4e81ea88",
+      "size": 137
+    },
+    {
+      "path": "src\\core\\learning\\AutoLearningEngine.ts",
+      "hash": "0c4e1e3df47183f86e4da96b516cca3d050b35c34dab14f5682f575eda490d54",
+      "size": 10750
+    },
+    {
+      "path": "src\\core\\learning\\ContinuousLearning.ts",
+      "hash": "d7d5b51dd83db93afbd2af60ac03f54c2078f5dd605aee05dd2c766f14f77522",
+      "size": 11713
+    },
+    {
+      "path": "src\\core\\learning\\HyperLearningEngine.ts",
+      "hash": "89f30ef2db4ee23b8fe0864524d8588593ad2c1db1fefa3b8db6cce33f5eb5d0",
+      "size": 9216
+    },
+    {
+      "path": "src\\core\\mcp\\MCPServer.ts",
+      "hash": "deb8f0eb2ad87414117b022f7041eb8b13cb3e823d1bdcd75a1fda8282d266f7",
+      "size": 4180
+    },
+    {
+      "path": "src\\core\\memory\\Chunker.ts",
+      "hash": "bd08c4e5c44a6230377bf5bc21547091e7171e10cfb15c4888b1951a7467382a",
+      "size": 1228
+    },
+    {
+      "path": "src\\core\\memory\\EmbeddingProvider.ts",
+      "hash": "cbb48ffa053ff684caba0547d2abdc94b378eb5226d63a3312c5cc4d49ae021d",
+      "size": 7532
+    },
+    {
+      "path": "src\\core\\memory\\ExperienceStore.ts",
+      "hash": "b4e58023f6246da5c9d77f12fb9749c690339c4315b327a6bfa9c8bec377b38c",
+      "size": 5530
+    },
+    {
+      "path": "src\\core\\memory\\GraphRAG.ts",
+      "hash": "ec54fd8d4249a174f3792b40756acd843d6f1240e9d8095ffd7f15f3ba6c781c",
+      "size": 8387
+    },
+    {
+      "path": "src\\core\\memory\\MemoryConsolidation.ts",
+      "hash": "8608f62fa4a67dda16068bfc960f77c3be45dacc31d521970cac0157106159af",
+      "size": 13260
+    },
+    {
+      "path": "src\\core\\memory\\MemoryEngine.ts",
+      "hash": "043464c59b1219fc07fceb1b623d6d63a0785a7575304bfbbe68874b87f0cfdd",
+      "size": 26755
+    },
+    {
+      "path": "src\\core\\memory\\QdrantVectorStore.ts",
+      "hash": "20b7b5040b247f20a2754cfb3cbf341be3f250544d23964cda48260a42f28917",
+      "size": 4790
+    },
+    {
+      "path": "src\\core\\memory\\RAGPipeline.ts",
+      "hash": "d89d9e7ea19b89776ecee034f3f19417f7be34274a05c53d6e5c85b02b2f0f93",
+      "size": 4854
+    },
+    {
+      "path": "src\\core\\memory\\Reranker.ts",
+      "hash": "9b1fcfa6bdf546bb287fde73080d4617740311c749e5eb0371a40c9ce3e54fe0",
+      "size": 1905
+    },
+    {
+      "path": "src\\core\\memory\\Retriever.ts",
+      "hash": "90c68d8ebba3e10a21373d75c7e0eea3100db762806ede5e3b1e2728d5ba1022",
+      "size": 6015
+    },
+    {
+      "path": "src\\core\\model-router\\ModelRouter.ts",
+      "hash": "f4b503073983fbda927e419c32b24507ac2e7267087e71dc817019cd31d9cd5f",
+      "size": 7018
+    },
+    {
+      "path": "src\\core\\model-router\\ViseronModelRouter.ts",
+      "hash": "3b97859bf383add7cc32292433cfb8f3992785f96472fad2c77a71e5dfde94b0",
+      "size": 12490
+    },
+    {
+      "path": "src\\core\\orchestrator\\Orchestrator.ts",
+      "hash": "e3f43e15f11aa9d781a1b6f4110dccb2874c787fae5135c5c29e88c7d23ed4e2",
+      "size": 6650
+    },
+    {
+      "path": "src\\core\\planner\\AutonomousPlanner.ts",
+      "hash": "fda997e45d980e2769d1200464bc2fdee9785e6fd246b16014708b2dfdb7c3a4",
+      "size": 16096
+    },
+    {
+      "path": "src\\core\\policy\\index.ts",
+      "hash": "6110cc411f00b9674e54909efa1f88ae0c6b71ec6ed739650f884901fa995c86",
+      "size": 217
+    },
+    {
+      "path": "src\\core\\policy\\RealityPolicy.ts",
+      "hash": "ff454f335ce338bdae6b3b312092f85d758137805f5ccd8e6d0d61d6403618f7",
+      "size": 3981
+    },
+    {
+      "path": "src\\core\\providers\\BaseProvider.ts",
+      "hash": "5da6295e0912020488b4e18b8056fa14d71f1159206d8b334212acc664fa4c6b",
+      "size": 1481
+    },
+    {
+      "path": "src\\core\\providers\\ClaudeProvider.ts",
+      "hash": "7da1a2f460a3533be2d0e981aa97fea9ecd73c517d9f757a97a2d86ba886ec6b",
+      "size": 849
+    },
+    {
+      "path": "src\\core\\providers\\CloudProviderBase.ts",
+      "hash": "255d95ca7af788b19def5d0047ac34a4a2f80e96cb1a2a13bc46529b1ec2dbb3",
+      "size": 3819
+    },
+    {
+      "path": "src\\core\\providers\\GeminiProvider.ts",
+      "hash": "06ca20bcf2609cb8a16ba2e407c1c9e61f71f43c38c03fc91909463ca0d970f3",
+      "size": 887
+    },
+    {
+      "path": "src\\core\\providers\\GrokProvider.ts",
+      "hash": "c17cf05f0077d8dbd18b21d56897af163ffc6427177db7a0d825673e05d36469",
+      "size": 846
+    },
+    {
+      "path": "src\\core\\providers\\OllamaProvider.ts",
+      "hash": "770268c0e9bd49f1120cf60c2ef89b8f6d11f5b35edcc2ff4508502d281e4bbb",
+      "size": 3963
+    },
+    {
+      "path": "src\\core\\providers\\OpenAIProvider.ts",
+      "hash": "b1a0d1201a070309e5d918fe5054249d50c003ad0a4d179e5aaf0e64e105245b",
+      "size": 1205
+    },
+    {
+      "path": "src\\core\\providers\\ProviderFactory.ts",
+      "hash": "b2009abd71835964d6cd9c49264a3f47f9fd3bc379e3c4bf06702e27328df817",
+      "size": 1468
+    },
+    {
+      "path": "src\\core\\rcs\\RcsEngine.ts",
+      "hash": "2fc460eac1d5126efc22311444219e8f979b7c9a2777b90900af8641de71e602",
+      "size": 11980
+    },
+    {
+      "path": "src\\core\\recovery\\RecoverySystem.ts",
+      "hash": "9810fdf65ca8c0ff1f92d8a58329669135da8a06984a519d4db18174fc2b563e",
+      "size": 7819
+    },
+    {
+      "path": "src\\core\\reporting\\ComprehensivePDFReport.ts",
+      "hash": "d8e40a7506dad2ac0530dfa80eac66f0eafeec480b3330123b412d36b60af6ae",
+      "size": 25545
+    },
+    {
+      "path": "src\\core\\reporting\\ReportServer.ts",
+      "hash": "b0e3720c2d5dfa8def1cf217e40b0048da68410ce8d43e4551d0b51538a20a6b",
+      "size": 9609
+    },
+    {
+      "path": "src\\core\\scaffolder\\AppScaffolder.ts",
+      "hash": "bb6792fbd46d2f0109968b52bb108a90be022eef41c970b137e49e420b458f98",
+      "size": 19728
+    },
+    {
+      "path": "src\\core\\skills\\index.ts",
+      "hash": "7fbc24472c9de4aa7860de39f3d3800c6359196d78a5585ab52b28fb2f7a9639",
+      "size": 396
+    },
+    {
+      "path": "src\\core\\skills\\SkillPipeline.ts",
+      "hash": "90ee11d2bbdb32283ccb4051f772122db1d4d8788bd955d735a7445c03b76d45",
+      "size": 5424
+    },
+    {
+      "path": "src\\core\\skills\\SkillsRegistry.ts",
+      "hash": "d9a873471cb61d48da008bb4bd4a7bf3869aef7a60b96da10733d010d29d6b4d",
+      "size": 7044
+    },
+    {
+      "path": "src\\core\\squads\\SquadManager.ts",
+      "hash": "87af0c67340596ede8d83e09b873a62cd711f864d69c54b2a9799c6d6690c011",
+      "size": 4126
+    },
+    {
+      "path": "src\\core\\standard\\battalion.ts",
+      "hash": "196883eae0921e8ad1a77536fe74ccff9931be4e151eb35b5140ec4a3748a2bb",
+      "size": 44896
+    },
+    {
+      "path": "src\\core\\standard\\directive.ts",
+      "hash": "b475f1ec8ae5fe6c8cbd586cca4871b53f32407bba9be93b17d2108c61f2715c",
+      "size": 2366
+    },
+    {
+      "path": "src\\core\\standard\\index.ts",
+      "hash": "c6441bdfbfd34d2d602e6c8beada9853160d2e6394d710070a7e0dcbe0f4dba0",
+      "size": 219
+    },
+    {
+      "path": "src\\core\\standard\\lineage.ts",
+      "hash": "de6e5e9579e6485924462b848da351360c8c049f81d3b2299cb914cdf1415178",
+      "size": 1955
+    },
+    {
+      "path": "src\\core\\standard\\types.ts",
+      "hash": "906490020c77ca4cfbf2a86e4627688867473b4b5d1b01c9cc05d2dcd61c55f5",
+      "size": 3417
+    },
+    {
+      "path": "src\\core\\state\\PersistentState.ts",
+      "hash": "a8b1ef71aa17fc6063476aaae07994d03bc1a5c9c4b31be0960187746501fb77",
+      "size": 1444
+    },
+    {
+      "path": "src\\core\\superintelligence\\SuperIntelligenceEngine.ts",
+      "hash": "a33242aacb3ec98b2f00b597a15f93f375391aa09315c8dae3dc17868f002626",
+      "size": 6615
+    },
+    {
+      "path": "src\\core\\supermind\\index.ts",
+      "hash": "8bd9c01f13a2b8e55f9dffb33b466c68e601cdef0fd30333c2f093f088c7c611",
+      "size": 132
+    },
+    {
+      "path": "src\\core\\supermind\\SuperMind.ts",
+      "hash": "97c40d7bbc9815d0979784c8b8fb2001d6b8e585b36c280e7c086ba845ab6cfb",
+      "size": 28655
+    },
+    {
+      "path": "src\\core\\tools\\ToolManager.ts",
+      "hash": "91c2effb833decb94cf75f0492c65e558a1c52e5d906943bca46209126b11d22",
+      "size": 3646
+    },
+    {
+      "path": "src\\core\\types\\archetypes.ts",
+      "hash": "aa988059f1f62791144a28f2d6d6c98da577640375681a5fac3a79354a4b4a36",
+      "size": 594
+    },
+    {
+      "path": "src\\core\\types\\index.ts",
+      "hash": "415c6a1061277cbc9645e5c725d11a681dd47e7cdcb246855d11fa9a704ddde2",
+      "size": 5331
+    },
+    {
+      "path": "src\\core\\ViseronCore.ts",
+      "hash": "636b8ace2a13c05e74d27af0bc5f20d38cf5c3145ed441d7d1220be067e008cf",
+      "size": 14774
+    },
+    {
+      "path": "src\\core\\voice\\VoicePipeline.ts",
+      "hash": "6dddb1bec1dc19ce7b5a1294c88e9833f36d15aa6d41fbb9c4f94de1a1bef256",
+      "size": 4458
+    },
+    {
+      "path": "src\\core\\voice\\VoiceProvider.ts",
+      "hash": "1923fc86a6db3c440f51c07a70cdcb3b2bb296e07a9a2142990cc382ca98799d",
+      "size": 5820
+    },
+    {
+      "path": "src\\core\\webapp\\index.ts",
+      "hash": "4edb6708a979eb710344d1f7a6068254b8ca56b458775dce8f7e99a942adbda0",
+      "size": 215
+    },
+    {
+      "path": "src\\core\\webapp\\templates\\cryptoSite.ts",
+      "hash": "bf8181622cccbcc519267ed98f5c476c0d98c76d9c6b7994317f190f8b694708",
+      "size": 24591
+    },
+    {
+      "path": "src\\core\\webapp\\WebAppGenerator.ts",
+      "hash": "cf769f58e2858dea0bafe0fba15f9cc8eb47328c24e276a26477a3b6879ca01c",
+      "size": 44339
+    },
+    {
+      "path": "src\\dashboard\\public\\atlas.html",
+      "hash": "f3e477f25484da0805c8cbefeb382004d69d0ba79538683ab5fa84181a6e3cab",
+      "size": 18769
+    },
+    {
+      "path": "src\\dashboard\\public\\blog\\index.html",
+      "hash": "509a9eaad9622c65a5511d93a5f55b206c344a9ff24c324f08adcb09e07005e4",
+      "size": 5407
+    },
+    {
+      "path": "src\\dashboard\\public\\blog\\post.html",
+      "hash": "ca89633429e44f4cb1eccde0fe3526c11cba28551dd90f748583df125e8c26bf",
+      "size": 5081
+    },
+    {
+      "path": "src\\dashboard\\public\\command-center.html",
+      "hash": "8c9a2e7fcfce0049d774324bc46d833753eec6c0c459cf34575f89ec91b32cec",
+      "size": 59413
+    },
+    {
+      "path": "src\\dashboard\\public\\cosmos\\img\\trin.png",
+      "hash": "1d7f61bb2c9d3d26f7495767726e76c638210b638f2b8543698d0562983190b9",
+      "size": 62151
+    },
+    {
+      "path": "src\\dashboard\\public\\cosmos\\img\\vsr.png",
+      "hash": "460365c5900ebac2fb9dbe3d365eb824445516eb5c17a92fee0758e5f8574160",
+      "size": 22946
+    },
+    {
+      "path": "src\\dashboard\\public\\cosmos\\index.html",
+      "hash": "e12ec2bdddcb25072d86d5dd74e50e749039fbc5d7ab053bc80a53c48f640921",
+      "size": 19389
+    },
+    {
+      "path": "src\\dashboard\\public\\cosmos\\metaverse.html",
+      "hash": "24290656ba1874e0333af3ba6c6685fbb3a945f36aa152cfdb8d651d0b10e8b8",
+      "size": 13103
+    },
+    {
+      "path": "src\\dashboard\\public\\dashboard.html",
+      "hash": "d7a38f4f5abcf8d347d6a11c4f18bb02d6294432faab87a5fca32c5f34870035",
+      "size": 4779
+    },
+    {
+      "path": "src\\dashboard\\public\\desktop.html",
+      "hash": "ccfd89739561e14d36745fb1f759cfa691ffa06f43d8687713907ea38ef72a11",
+      "size": 27650
+    },
+    {
+      "path": "src\\dashboard\\public\\downloads\\TrinnityViseron-APK-Setup-5.0.0.exe",
+      "hash": "68b3b1739512e381959ce778e01fee484788353f482fa178003c6f1aafcf0358",
+      "size": 24587189
+    },
+    {
+      "path": "src\\dashboard\\public\\downloads\\TrinnityViseron.apk",
+      "hash": "21864522553255b51d8597cfb887a42369a85dfd20545286641151a728315499",
+      "size": 65280265
+    },
+    {
+      "path": "src\\dashboard\\public\\game\\index.html",
+      "hash": "bdfe51683e98d9fb8f78dd45739e55bb58dcda0f83d9091d05cb4677051adad1",
+      "size": 37617
+    },
+    {
+      "path": "src\\dashboard\\public\\index.html",
+      "hash": "60e057dfd5f0d5fdddba7aa30792a8842124729a962f9f02bd5bb1220d8e3792",
+      "size": 134700
+    },
+    {
+      "path": "src\\dashboard\\public\\jarvis-chat.js",
+      "hash": "9651d779aba0cebc80dd8d533e30bfa06ec5e207e8b0e8fa5453b5f4a7ab2715",
+      "size": 7087
+    },
+    {
+      "path": "src\\dashboard\\public\\operate.html",
+      "hash": "18db947d4263ac686e692c76b2093f6f701162f26814046cc04a40233eece4c9",
+      "size": 17759
+    },
+    {
+      "path": "src\\dashboard\\public\\tvs-design.css",
+      "hash": "64bea28f5628ecb8c92cf6c1fff7f439881fa0b2c520f4cb8d5f6f047763fd1b",
+      "size": 13797
+    },
+    {
+      "path": "src\\dashboard\\public\\tvs-motion.css",
+      "hash": "a185a9670e868868b9618513f77e76a2b27407288a6ee44db0d59741bc881d21",
+      "size": 3080
+    },
+    {
+      "path": "src\\dashboard\\public\\tvs-skeleton.css",
+      "hash": "14ed54c73620f93d0e1e9cdcfef0a1dca74fca4db26d3a42d2819ff1b088f7a8",
+      "size": 4434
+    },
+    {
+      "path": "src\\dashboard\\public\\viseron.html",
+      "hash": "376d7015ece87a8cb1ca0cbbbff27245da00a717c8b61295732a80e99dd3791d",
+      "size": 22739
+    },
+    {
+      "path": "src\\dashboard\\public\\Viseron_Startup_Pitch_v5.pdf",
+      "hash": "f7300ab1c0aa6606cd487f951b87ce223ceb8f4704b254ae02be2f0afb0cec8e",
+      "size": 69114
+    },
+    {
+      "path": "src\\dashboard\\public\\voice-widget.js",
+      "hash": "3eb8d568fb92ea9fe72efe377b152c96c3dec80fcc0fc84c9e24493a148fb754",
+      "size": 21956
+    },
+    {
+      "path": "src\\dashboard\\public\\webos.js",
+      "hash": "24f73845b673f4949a6fd767befb56d203ad9ecec99c92d43dda9d02be741ae8",
+      "size": 51935
+    },
+    {
+      "path": "src\\dashboard\\public\\workspace.html",
+      "hash": "d99954344031836b4c0f7858432fade0f2192e628df1b8561d06827dad3e1f94",
+      "size": 26223
+    },
+    {
+      "path": "src\\dashboard\\server.ts",
+      "hash": "d62c965d306e13efda2f3a2bee83f48ab77137c2d92977f2b8668ff9c125ce93",
+      "size": 18311
+    },
+    {
+      "path": "src\\factory\\AgentFactory.ts",
+      "hash": "d41591f338b7877771e2cf87e8f18f1289f53edaa9603f362c6fce5bdf6ff4b6",
+      "size": 232
+    },
+    {
+      "path": "src\\factory\\index.ts",
+      "hash": "b52b5ecc730266e003968de6c021da13fdc79370e248322c6d37dccdb1db530f",
+      "size": 204
+    },
+    {
+      "path": "src\\index.ts",
+      "hash": "37135a897075ca966d8fc40f36785bf06f1d67122c19e34a7bccf49b8c416da1",
+      "size": 15277
+    },
+    {
+      "path": "src\\integrations\\asno\\ASNOBridge.ts",
+      "hash": "d9aa103d67a555f75ad7faef30d2ef61291effb968286b966fc4993c0ad7ab91",
+      "size": 10693
+    },
+    {
+      "path": "src\\integrations\\asno\\index.ts",
+      "hash": "25be28d975f4edbaae5a724be86a4b0ec9679da7ef743d734ddbaff2f221bec7",
+      "size": 91
+    },
+    {
+      "path": "src\\integrations\\avirato\\AviratoBridge.ts",
+      "hash": "6fcda4ac1c37a8bae44e8761ce8e4e522ac1a1ae16d864d0bae2e382cecd99f0",
+      "size": 2706
+    },
+    {
+      "path": "src\\integrations\\avirato\\index.ts",
+      "hash": "a46aa02103ae00b253e2d8ed89c4b5c254cbc480e4218019f1999e582c9d0056",
+      "size": 134
+    },
+    {
+      "path": "src\\integrations\\call-system\\CallSystemBridge.ts",
+      "hash": "b397181e8973ed7dc95b008c9969767067aab854ba6b30df0896166778f8ba2a",
+      "size": 8095
+    },
+    {
+      "path": "src\\integrations\\call-system\\index.ts",
+      "hash": "040aad23b16b51e9b1a4a5d32f173a48987971f4fd52a7b095705c153ccd760b",
+      "size": 140
+    },
+    {
+      "path": "src\\integrations\\contract.ts",
+      "hash": "d79239c6ce0464334c0e6ef658075184d7cdb80766d44b06e7b0a9f2bd669ef7",
+      "size": 808
+    },
+    {
+      "path": "src\\integrations\\index.ts",
+      "hash": "9ec4e0a0fed02012ae2801ea0a4b0e81b9ef3d174705d1c7da7611f2b6ddc63e",
+      "size": 790
+    },
+    {
+      "path": "src\\integrations\\n8n\\N8NBridge.ts",
+      "hash": "8d918a87ec3f7a87534a7d93bf9bded1c6fd41261316886fe1b76b436ca29fe8",
+      "size": 12261
+    },
+    {
+      "path": "src\\integrations\\omniroute\\index.ts",
+      "hash": "ba2f9a4e2bb32892cfecda9ec598b087f4ad12ee64e976dd9db5c7e16cf6cef0",
+      "size": 110
+    },
+    {
+      "path": "src\\integrations\\omniroute\\OmniRouteBridge.ts",
+      "hash": "f7d589cc4409d092099e69f038d3b7ae4802347b75fe6a9445c579f0fc1c7595",
+      "size": 11423
+    },
+    {
+      "path": "src\\integrations\\omniroute\\OmniRouteHub.ts",
+      "hash": "c3f4b87695bee891f9958edc9b21d91aed21c66fe1a3de3ddd0c649cdb974e2f",
+      "size": 6318
+    },
+    {
+      "path": "src\\integrations\\omniroute\\OmniRouteProvider.ts",
+      "hash": "80b837dbe053bda842232e4c85c68f4cbba9503db7c2c69e3b696e3e51d9502c",
+      "size": 3410
+    },
+    {
+      "path": "src\\integrations\\opencode\\opencode.config.json",
+      "hash": "cc8c0b2102af982473c16c49373efa6a9eee0709f25ed205b075cf614389bacd",
+      "size": 198
+    },
+    {
+      "path": "src\\integrations\\openjarvis\\index.ts",
+      "hash": "e9bac0c81c04fd5b8b5412e80dcab5bf86ed720af656f2f395f55e7d77caad26",
+      "size": 115
+    },
+    {
+      "path": "src\\integrations\\openjarvis\\OpenJarvisBridge.ts",
+      "hash": "77a1d05729a2e2f3501233c3d6ca82d5bb3f837672fd1dcf7457f16dc3095d35",
+      "size": 11126
+    },
+    {
+      "path": "src\\integrations\\SuperIntegration.ts",
+      "hash": "fa25e910f88ee3f0325347472202808a22ecf9ead90bffa1312f655fed03e65c",
+      "size": 5854
+    },
+    {
+      "path": "src\\integrations\\tvs-tools\\index.ts",
+      "hash": "e3c8b2c272e57b733493b257fa80deca8f3124c9aaabc7ea029652ad5c647450",
+      "size": 23026
+    },
+    {
+      "path": "src\\integrations\\viseron-apps\\cifra-integration.ts",
+      "hash": "11dc27620cfa440641798c7adcbc1122d40150500bfb79c713df9de174148ecd",
+      "size": 5523
+    },
+    {
+      "path": "src\\integrations\\viseron-apps\\index.ts",
+      "hash": "07f071b373d54d19d0638b8ab9b5be3d56d3bffd2fcbdcb75332d34b8f32b8d3",
+      "size": 6453
+    },
+    {
+      "path": "src\\integrations\\viseron-apps\\project1-integration.ts",
+      "hash": "6fb6f6fef7da4c09fc1649a6cc802a018896d75cd5bd9733052ae37417f5fd76",
+      "size": 4662
+    },
+    {
+      "path": "src\\launch\\market.ts",
+      "hash": "7b8b69882970f51607744821d57f1db9da53e544edb704414d3e49aefa5ae2d1",
+      "size": 12647
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\AgentRuntime.ts",
+      "hash": "b73310840673de37e8c2fd15b9c457cda82d1d50a61ab4b0363f7bbf236a74f8",
+      "size": 4142
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\AgentSpec.ts",
+      "hash": "098c0f0ee768cea9d3ba24838a88804192e4f4755e6b8016f52f076c22fdf180",
+      "size": 2887
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\ceo.agent.json",
+      "hash": "d6e15cce529b5f01aca6bd8647c0b6a88caa733ce56bc91708d9914f66af8fe8",
+      "size": 1846
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\cto.agent.json",
+      "hash": "8cfa295e0999882ae8ec714426d9b0e05b3495ab8e82c4478ab2083bb6d0a391",
+      "size": 1883
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\developer.agent.json",
+      "hash": "ffe138b027a6e23aadb978621e373931f2ca8f269c56df0e1ccf8389569d808e",
+      "size": 1743
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\devops.agent.json",
+      "hash": "5da56e81adee4ddab677a8c89847cbb915bac19b2bff8129c4e3433e0ecdeb80",
+      "size": 1869
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\finance.agent.json",
+      "hash": "b1f3979540419c6f96f024a6fa86cfae68dd6859837f72c716a970980756c650",
+      "size": 1895
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\research.agent.json",
+      "hash": "d9a037a4168dbfbc5252c0962526a2b65fada37dce55c68bf915ebdf38e5793f",
+      "size": 1756
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\sales.agent.json",
+      "hash": "be81ce9f4eead421f6b5d2dd555b9ec951f951e49e8807131516859d31894dce",
+      "size": 1887
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\security.agent.json",
+      "hash": "13104869459099dbb7e49d81b9e190612c24354a2262fd2fb5b40277cb61f40d",
+      "size": 1816
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\support.agent.json",
+      "hash": "bbb40da85e560fddac45f0e008d243decc4a177d346bb7925b8a06cbe0bf3383",
+      "size": 1679
+    },
+    {
+      "path": "src\\omega\\agent-runtime\\specs\\vision.agent.json",
+      "hash": "ec5284f9beb5e2e3b404f502b433f849976b5036a9bf7295590f9d671fc88b44",
+      "size": 1798
+    },
+    {
+      "path": "src\\omega\\ai-router\\AIRouter.ts",
+      "hash": "008f883c65f8b35317b7ea0248b01b42b437bff8c039db85aeadb87e2c8473c8",
+      "size": 3156
+    },
+    {
+      "path": "src\\omega\\archive\\KnowledgeArchive.ts",
+      "hash": "57a9eeacd42b155df2f86526fda8af4d5ca2c1869f9aac9a24be63106353e6b3",
+      "size": 10123
+    },
+    {
+      "path": "src\\omega\\autonomy\\AutonomyLayer.ts",
+      "hash": "5501b15b52887dc67a988a8e8c2e328f81d1d410f555b7251a15fa6cbdf85d50",
+      "size": 7264
+    },
+    {
+      "path": "src\\omega\\autonomy\\AutonomyOS.ts",
+      "hash": "50e86ac2c2a9e55c2e47532518b44f877c96969c4d8aaa672da727691617569e",
+      "size": 7523
+    },
+    {
+      "path": "src\\omega\\autonomy\\index.ts",
+      "hash": "4f01b33ff5c0187b116b78c92982932a1a5f29e7245d2ace9b745569ce98cb58",
+      "size": 528
+    },
+    {
+      "path": "src\\omega\\enterprise\\EnterpriseHub.ts",
+      "hash": "229f37b0d0d394f755b1bc5cabcd6464da6c4582a76dddd63b592e7f855a5edf",
+      "size": 5919
+    },
+    {
+      "path": "src\\omega\\enterprise\\EnterpriseSpec.ts",
+      "hash": "5ef74150949d7a40f428470eede3e16e1c6fceba24d0b3f512a0ea663bc634b4",
+      "size": 1526
+    },
+    {
+      "path": "src\\omega\\enterprise\\index.ts",
+      "hash": "bac1eb5063945b17f3db46675cc7f0d57ad32acf475535fa9f4d7908a3ed34d6",
+      "size": 238
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\crm.module.json",
+      "hash": "e8f587dba2d9f3ce0ad178c39e5c0297d9c5ac1410c0f1df1e434ed566dcb5c0",
+      "size": 1059
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\finance.module.json",
+      "hash": "dc06bfd6343cf3df1cf1fec635ce50a4b857a3d2a8ee91f03731acc07746b532",
+      "size": 1011
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\legal.module.json",
+      "hash": "863d524ef3ad84a0579c14cf8aabd489352bd779543beda3ee706a10378cf69c",
+      "size": 1078
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\marketing.module.json",
+      "hash": "ed0ab0f982c67a91278b1580804c6aec2023ac9aa95990612ebca0605d6ab542",
+      "size": 1058
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\sales.module.json",
+      "hash": "3e60d8c783cb5c471092fd6d407bc3091f663a314d0e36a5cdae4549bfb3fd80",
+      "size": 1080
+    },
+    {
+      "path": "src\\omega\\enterprise\\manifests\\support.module.json",
+      "hash": "d49d8f031171942c6ae3f556c3329af47d776226e1245cd8421698ac9b2418dd",
+      "size": 1024
+    },
+    {
+      "path": "src\\omega\\evolution\\EvolutionEngine.ts",
+      "hash": "e9504acb38cbccb23a8aacaf30f81cec8275d85e8516da1d5519438ac578e7d8",
+      "size": 11794
+    },
+    {
+      "path": "src\\omega\\evolution\\index.ts",
+      "hash": "d52fac21ec83728bafd0ff7cc0ed1d5c53031bb8eb21784a2867223d8a5991a4",
+      "size": 202
+    },
+    {
+      "path": "src\\omega\\evolution\\VaecOrchestrator.ts",
+      "hash": "71a51b09a2fb3807455ca8e24179e22889872df771ea84d6d37d454c8e862abd",
+      "size": 16873
+    },
+    {
+      "path": "src\\omega\\factory\\FactoryEngine.ts",
+      "hash": "83f6a05193210d43f3dd02a75d411a9d445d1f25219191e2103064de15752496",
+      "size": 10298
+    },
+    {
+      "path": "src\\omega\\factory\\FactorySpec.ts",
+      "hash": "77c8c11a5fc383b26b3ade9f2660f3a76851989ab44508b2025692ce333da9de",
+      "size": 1536
+    },
+    {
+      "path": "src\\omega\\factory\\index.ts",
+      "hash": "46d25a28ec3243710ab535aaea19804df5f3e76de7229b872d8b7e348d60cd4b",
+      "size": 289
+    },
+    {
+      "path": "src\\omega\\gateway.ts",
+      "hash": "aad9e1320707d62f4c56deb2960c8457da02e9f024e741b96c863b2b692f35ba",
+      "size": 25063
+    },
+    {
+      "path": "src\\omega\\index.ts",
+      "hash": "cf634a802879d8f2d5e4615ffba4bcd9e405f8ef06a30d3579e5ea987e4cdfbe",
+      "size": 31881
+    },
+    {
+      "path": "src\\omega\\intelligence\\architecture\\ContextBuilder.ts",
+      "hash": "9177d9da1f4359539903cc2f07913117e369b5a35d40cc60e6b542cc91afd631",
+      "size": 2860
+    },
+    {
+      "path": "src\\omega\\intelligence\\architecture\\GraphifyAdapter.ts",
+      "hash": "cb7255cc4288eedc0a5a4263094649c24e70d61aedc6ddd45c6b208b9ae98625",
+      "size": 6732
+    },
+    {
+      "path": "src\\omega\\intelligence\\architecture\\index.ts",
+      "hash": "9d165b10981208e6682dd2d59d72e4427fbb0d31fb783c0874ecd9d4b80d77fe",
+      "size": 1602
+    },
+    {
+      "path": "src\\omega\\intelligence\\architecture\\RiskAnalyzer.ts",
+      "hash": "92502feb10ac8a05f45dd5210b0ab427bd78e141b8e060946a791d32bf8965c7",
+      "size": 2123
+    },
+    {
+      "path": "src\\omega\\intelligence\\architecture\\types.ts",
+      "hash": "be9693617b16d3e131a1b6ea8f2eb877b8625105d8a5d851e1773f0b1b27dfee",
+      "size": 1374
+    },
+    {
+      "path": "src\\omega\\kernel\\EventBridge.ts",
+      "hash": "11dfa614d8867144fcc34a5428a65c2fea63ab8c45abbc9eee7dbda98a8fc215",
+      "size": 4028
+    },
+    {
+      "path": "src\\omega\\kernel\\EventBus.ts",
+      "hash": "0c7837a0566fe99fa4367a8f33f64b2dda2998ab702a2cb5952e9a86397099f0",
+      "size": 6817
+    },
+    {
+      "path": "src\\omega\\kernel\\Kernel.ts",
+      "hash": "3e83a2bb97397b6b27f9163b4d00318440365bf6d2a325978e84df98c432a953",
+      "size": 10874
+    },
+    {
+      "path": "src\\omega\\kernel\\Permissions.ts",
+      "hash": "50eafb544a9beceeb579e81cee5e423fa2a5b2a2070417395c65133fb95b8308",
+      "size": 2837
+    },
+    {
+      "path": "src\\omega\\kernel\\TaskQueue.ts",
+      "hash": "ccba65e7ef6911d34daa1d1c47ce4549d1efb290ea7d61b2891e95a9a2c4b375",
+      "size": 12948
+    },
+    {
+      "path": "src\\omega\\memory-engine\\KnowledgeGraph.ts",
+      "hash": "fe0b75b13b87fa57f21d07743066b5cf2e22b69589fd7fc26b21cd1b6b815950",
+      "size": 6781
+    },
+    {
+      "path": "src\\omega\\parallel\\ParallelIntelligence.ts",
+      "hash": "46c08794f3792299303fadff5aa9b8a2096984babfe320634fdfd6e8bd430bfa",
+      "size": 8749
+    },
+    {
+      "path": "src\\omega\\parallel\\SquadIntelligence.ts",
+      "hash": "706f214338ccd5bb175cf397f18d26b91b19b696746f2bdb9411d8a3f43279e7",
+      "size": 7067
+    },
+    {
+      "path": "src\\omega\\selfheal\\Heartbeats.ts",
+      "hash": "a255d6629bef565b86d8601a9fa63d6d10949628d7f705463cfbbb10814dd527",
+      "size": 1733
+    },
+    {
+      "path": "src\\omega\\selfheal\\index.ts",
+      "hash": "185c35a5dee01bd083d0fb98f3e041e41273d00da6a0d8ef9b8a896046b3a03a",
+      "size": 203
+    },
+    {
+      "path": "src\\omega\\selfheal\\SelfHealWatchdog.ts",
+      "hash": "01d1193ee9b911e9d08ba0fc559229512797fc3bb82f374dd4ac46d00df6d409",
+      "size": 7017
+    },
+    {
+      "path": "src\\omega\\squads\\index.ts",
+      "hash": "af5c7f01b05d0fd44c072039c8cad3bb4e44f82893f6063cf4a814f9f3b00c94",
+      "size": 217
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\business.squad.json",
+      "hash": "3d82998a1517311b6227f80acc02088069f53fdb5d6c9cc5248768f5d3b7c844",
+      "size": 1127
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\engineering.squad.json",
+      "hash": "f5a8c7267a8d85a7707c72e23d60369c0669289d152aa7b5722e5b462b2dba6b",
+      "size": 1378
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\evolution.squad.json",
+      "hash": "2cc5193d5b707603167e60b3c342697d1790fa69f5bc27ef3181276f97c215c7",
+      "size": 1527
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\operations.squad.json",
+      "hash": "9da194f02a5d1b98894863067dcd1a9c7240cd72a2fe9c51dc4a207e32634376",
+      "size": 1262
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\research.squad.json",
+      "hash": "e4e525a25e8ea9daceddefa3ad991fe58c946794ac0282d4e07c2d593b8f97ac",
+      "size": 1228
+    },
+    {
+      "path": "src\\omega\\squads\\manifests\\security.squad.json",
+      "hash": "5d2c5cb664f6574b70ee123b7193d3cc76f0e68473d89e427deae4854e2cd4e4",
+      "size": 1166
+    },
+    {
+      "path": "src\\omega\\squads\\SquadRegistry.ts",
+      "hash": "51b4c49f89e472c85b0aba6693611cf93d1c48ab7d69408bfefdfdd2c53e8019",
+      "size": 4776
+    },
+    {
+      "path": "src\\omega\\squads\\SquadScanner.ts",
+      "hash": "f07e1987e16149dbacb8017234b391e7baf0a944c50e977dff259c9bfc75eacc",
+      "size": 20996
+    },
+    {
+      "path": "src\\omega\\squads\\SquadSpec.ts",
+      "hash": "f599bd1dc6ba37826c3b9f3490b1673b214d79968c0dfeb5fc874540375aeb74",
+      "size": 1507
+    },
+    {
+      "path": "src\\omega\\telemetry\\CognitiveTrace.ts",
+      "hash": "8e098b0c3ae7cad6073d79b0c5773e92f5eaa8b57f60e33eed5e24fcacc89a74",
+      "size": 1544
+    },
+    {
+      "path": "src\\omega\\telemetry\\TelemetryEngine.ts",
+      "hash": "23224f40f7529086867f26c9bd93540a10e71cc01314ecb20fe4a9900d070155",
+      "size": 11228
+    },
+    {
+      "path": "src\\omega\\verifier\\composite.ts",
+      "hash": "8df118e47f93223e056cf9ae6e9446a580c70cdb98d7f79a9acce8182db13e6c",
+      "size": 1925
+    },
+    {
+      "path": "src\\omega\\verifier\\TaskVerifier.ts",
+      "hash": "f09ad528b6918747c4910d251ad60b6cc9a85576f039a82a8247a2595c1c2b9a",
+      "size": 3344
+    },
+    {
+      "path": "src\\os\\AppStore.ts",
+      "hash": "33760e6708e366582e094a6aa347738b0856814fd55224a01bfb2f1ff3c8ddba",
+      "size": 4280
+    },
+    {
+      "path": "src\\os\\gateway.ts",
+      "hash": "c931f9f8c63f86ecd31374ceb5919047dea0334f744fb3038e33e5214fc85636",
+      "size": 4114
+    },
+    {
+      "path": "src\\os\\index.ts",
+      "hash": "7fde8239c0d013195e4d382db2ab6550ae7838f767f36562575f77ce5d582ca4",
+      "size": 3219
+    },
+    {
+      "path": "src\\os\\PackageManager.ts",
+      "hash": "86ca50fe36ef9d648b62a9cb73cee797850b916423b69476435039fd9db41e8f",
+      "size": 4701
+    },
+    {
+      "path": "src\\os\\ProcessManager.ts",
+      "hash": "4be8f04eb297060c5796a556049bc2c5ba40494dd383f5b8fe21199136656679",
+      "size": 4827
+    },
+    {
+      "path": "src\\os\\SecurityCenter.ts",
+      "hash": "98782ef5959ac48292573a5957ef86c5f6900f0c4d651adc23f8e59a81b14cf9",
+      "size": 3139
+    },
+    {
+      "path": "src\\os\\VirtualFileSystem.ts",
+      "hash": "3588a55002768fa1cbd474fc83aef73786b2354ba58d61be461ee2fc391457ca",
+      "size": 5451
+    },
+    {
+      "path": "src\\platform\\forge\\ForgeServer.ts",
+      "hash": "2f7a467a500675a6cfb84cc13530cd778740057a30156a0f8442ed2d15b99ea5",
+      "size": 36452
+    },
+    {
+      "path": "src\\platform\\forge\\GitEngine.ts",
+      "hash": "cde4d0a4efa978397eea778bad52faf84e4f5573f6ef98232c68177e6654456f",
+      "size": 11864
+    },
+    {
+      "path": "src\\platform\\forge\\RepoManager.ts",
+      "hash": "50eb1bbfb9265062a788ec3a5ff4ebf77b4ce8371e8f0021dfa0ad4e18e38c65",
+      "size": 9881
+    },
+    {
+      "path": "src\\terminal\\TerminalInterface.ts",
+      "hash": "36bcf359af54bbd9a1384e4972a5767bf249fb9637454d3ffce6bfcfa36452b8",
+      "size": 34653
+    },
+    {
+      "path": "src\\terminal\\theme.ts",
+      "hash": "bfe87cccfeac1122a62dcfacbdaa2d4b87a32e426a49fa61d8570c91fc9e6714",
+      "size": 2378
+    },
+    {
+      "path": "src\\voice\\VoiceBridge.ts",
+      "hash": "82a09c7b01b200545e82e8b3f89893f55a93dbc83e255650047db6ec81ffa871",
+      "size": 11545
+    },
+    {
+      "path": "src\\web\\agency\\agents.ts",
+      "hash": "e3707f5a184b0eadb096f40184fea3b9e474f366154cdfd6424041a34f8dbc2c",
+      "size": 10415
+    },
+    {
+      "path": "src\\web\\agency\\routes.ts",
+      "hash": "5e600843036e348673981638d6a95c00a757058fca0d0cad05b57092ae527338",
+      "size": 10916
+    },
+    {
+      "path": "src\\web\\apps\\generator.ts",
+      "hash": "6b37a74837e13b3a750c8d2b3434ac2fcde80a093c4b7ae9fee1c13881de1b22",
+      "size": 6129
+    },
+    {
+      "path": "src\\web\\apps\\routes.ts",
+      "hash": "657e4e69bb674c18a56776b83290959135141f0f9b9673d26ba9884f621d4dca",
+      "size": 3259
+    },
+    {
+      "path": "src\\web\\apps\\store.ts",
+      "hash": "2ed8045d9c2be83a9e73d089f0385dd052e3c685557097d81aa43d139e8b6a49",
+      "size": 2518
+    },
+    {
+      "path": "src\\web\\arkom\\engine.ts",
+      "hash": "297bd2efa23a81679ff3550d178c00f0680308083b4b0c98a63a4381bcecbf6d",
+      "size": 9834
+    },
+    {
+      "path": "src\\web\\auth\\jwt.ts",
+      "hash": "87be202a451eeae6d7b5d96afe6b84a3c2354b8f577e8ddd255f9eb2e663f0b1",
+      "size": 1821
+    },
+    {
+      "path": "src\\web\\auth\\middleware.ts",
+      "hash": "b7f986e2e5c4402263b3e05dc327b2842297596ab2c22ddbbe1886697f6768f6",
+      "size": 1337
+    },
+    {
+      "path": "src\\web\\auth\\pg-store.ts",
+      "hash": "0d00e28fa226d7028c7956fe27cc718ecdf3e0a7f2d0c7cb9120a90e2d3e301e",
+      "size": 7040
+    },
+    {
+      "path": "src\\web\\auth\\rate-limiter.ts",
+      "hash": "8e3b9597c7e890787fee57dcd3af644e541def46afa6b706373ae10a38b2af21",
+      "size": 1098
+    },
+    {
+      "path": "src\\web\\auth\\routes.ts",
+      "hash": "c6585316285ece45ae348820222b93a1c1248465fca1fdbb10ee7feda9044a52",
+      "size": 6447
+    },
+    {
+      "path": "src\\web\\auth\\store.ts",
+      "hash": "487fe572b5c8225febf534f802b1281c830d5e653189d043414a3b994874545d",
+      "size": 5053
+    },
+    {
+      "path": "src\\web\\billing\\avirato.ts",
+      "hash": "3ca24b264ba0908df3dfafda2e2026fabf88c7066824f3638dbc4c7da5e0e6bf",
+      "size": 3817
+    },
+    {
+      "path": "src\\web\\billing\\index.ts",
+      "hash": "c1f5b0eec76bb93bd4961c2fd0129406dd24828980cac1f0201dad10da43da90",
+      "size": 601
+    },
+    {
+      "path": "src\\web\\billing\\plans.ts",
+      "hash": "1f0de1163a24ce7e75c35a5c035f4aaba0c041cede53aa50ff5c7ababb0763ea",
+      "size": 1270
+    },
+    {
+      "path": "src\\web\\billing\\routes.ts",
+      "hash": "a76ffdea345ff53e4a0618e42668112521b8dbefc197a54cca9e3cfd01dc621d",
+      "size": 4983
+    },
+    {
+      "path": "src\\web\\billing\\stripe.ts",
+      "hash": "196d15a8b2f51ff31e5c58b6ff9afe1fa195668aa8fab595d28fc61c1e8c7e1d",
+      "size": 2614
+    },
+    {
+      "path": "src\\web\\billing\\types.ts",
+      "hash": "4a6c9d60b93ad0847b77458f351cd3d4c30307113278cd10325f0ddd47affc3d",
+      "size": 601
+    },
+    {
+      "path": "src\\web\\blog-routes.ts",
+      "hash": "11f428373878cc1a74474bebda0622f7af2075d2efce90e42cc184d31a9152f8",
+      "size": 2299
+    },
+    {
+      "path": "src\\web\\blog-storage.ts",
+      "hash": "23bdf597282e9c2bc70383f2d29c127388114f17cf7273d9bb75c1be012debde",
+      "size": 2760
+    },
+    {
+      "path": "src\\web\\business\\routes.ts",
+      "hash": "596f5a945987ce07fa3ba85efcdc6c263f6d2452415d8f5bc5464d88533eae3a",
+      "size": 4885
+    },
+    {
+      "path": "src\\web\\business\\store.ts",
+      "hash": "864ca7cd2fd3425cc95e2636144413c74961f1271842a678cd4079fd8def3959",
+      "size": 3085
+    },
+    {
+      "path": "src\\web\\calls\\learning.ts",
+      "hash": "bee6197d3b8159ad7a765359a7b0fa94f81b5060480f59af90b56dc14a10a648",
+      "size": 5348
+    },
+    {
+      "path": "src\\web\\calls\\routes.ts",
+      "hash": "2c763270314c9ffb19cf740615f7079c7ee375508db104ab006421cee9e50707",
+      "size": 7651
+    },
+    {
+      "path": "src\\web\\calls\\store.ts",
+      "hash": "01537a855ebfa8fed18f8a45b5986ec93eeaa106ad7c04af10d72b1cc9265a34",
+      "size": 2200
+    },
+    {
+      "path": "src\\web\\composio\\routes.ts",
+      "hash": "4070f4dc392ea2f1f2c6b14bdc8bc2ef77fd41a0329d6b0dd818b764479cd604",
+      "size": 1903
+    },
+    {
+      "path": "src\\web\\content-agent.ts",
+      "hash": "1bc6e86dc5d9334340f5bbb65a29e9d038f56cf555c28097f106973d1d32d1d8",
+      "size": 11620
+    },
+    {
+      "path": "src\\web\\crypto\\deps.ts",
+      "hash": "f09b517c5e7baf60e6662da030f43e918cf42617ddc99843313f9c8a6fc2ce78",
+      "size": 922
+    },
+    {
+      "path": "src\\web\\crypto\\routes.ts",
+      "hash": "fdec69be615464b757d625661a5ba49cc7177de9c9028af4d2f48d3017b32ec2",
+      "size": 3726
+    },
+    {
+      "path": "src\\web\\db\\index.ts",
+      "hash": "f009ab1391820cabab7d0900928e87057c78fa54e13236c956343f54f17d143a",
+      "size": 2296
+    },
+    {
+      "path": "src\\web\\email\\gmail.ts",
+      "hash": "be09c7baf978a221d740db46f1335cb1eeaf915ff7da671191415fa97fe2c682",
+      "size": 3697
+    },
+    {
+      "path": "src\\web\\email\\routes.ts",
+      "hash": "ee9412ca076fb42ca068c316605b00b4d7356f6e448b90d47915bf08216dcb07",
+      "size": 5431
+    },
+    {
+      "path": "src\\web\\email\\service.ts",
+      "hash": "5e50be370424063b5dc1ad49f7cf73065a3d0563dd4994fcdff98aa988707c4d",
+      "size": 2601
+    },
+    {
+      "path": "src\\web\\email\\templates.ts",
+      "hash": "e0b9c6aa2138dc02789569159bf0c0c54ac67ae101feb321a08ef10ad3de6c03",
+      "size": 4815
+    },
+    {
+      "path": "src\\web\\email\\transport.ts",
+      "hash": "27762138de23af7e0077c1358a38031df501a550b4ce7c87ef0db3353a34523e",
+      "size": 4393
+    },
+    {
+      "path": "src\\web\\email\\types.ts",
+      "hash": "08d51c06e39ba2292c1d8dfe801106262c75ce915273364280900923079d35d8",
+      "size": 543
+    },
+    {
+      "path": "src\\web\\jarvis\\agent.ts",
+      "hash": "1f4b78c205a4def5631c8030060954b3e15065a1e8aa2411f74e43f59e2b170a",
+      "size": 48792
+    },
+    {
+      "path": "src\\web\\jarvis\\routes.ts",
+      "hash": "e86f91e1a219b0bee431762cc279ba64435fa5133a809475a83025b5b29c5552",
+      "size": 3628
+    },
+    {
+      "path": "src\\web\\messaging\\crypto.ts",
+      "hash": "bda92b8077b6567b0922d08a99ad245266789b4a400562e9b2aeb04e5c707cd1",
+      "size": 1932
+    },
+    {
+      "path": "src\\web\\messaging\\routes.ts",
+      "hash": "68f351c2337f81e78949c38b64f4f7b2b69c9f947ce4913d0edd9ed96e282eb2",
+      "size": 8904
+    },
+    {
+      "path": "src\\web\\messaging\\store.ts",
+      "hash": "dff9cbfa7402140ae88ded79b39b4a962308fc7e5b4436909a699bed22f709ae",
+      "size": 4676
+    },
+    {
+      "path": "src\\web\\messaging\\types.ts",
+      "hash": "928ef0a2d5126c0d28cbaabe237e9d05006af89781f2b067c76cbd543866fb74",
+      "size": 1047
+    },
+    {
+      "path": "src\\web\\monitoring\\logger.ts",
+      "hash": "d4b4bfdad28135a2fbdad8e489ed3570b8b94808ead0e7379a61dce89023f57f",
+      "size": 1423
+    },
+    {
+      "path": "src\\web\\monitoring\\metrics.ts",
+      "hash": "b3b5ede3c9fb47ae2c1a08c86420b31d9a72bda27407d73913389d247abfc6c7",
+      "size": 1890
+    },
+    {
+      "path": "src\\web\\monitoring\\middleware.ts",
+      "hash": "64a9c744069602fe2deaa36ab3ed639d44f00be8c272675e1418a49fe2d4062d",
+      "size": 971
+    },
+    {
+      "path": "src\\web\\onboarding\\routes.ts",
+      "hash": "631e1175f1b0671a69093f3cbd11f834bc98cd0d5b795e04dd1d2859cea86b6b",
+      "size": 3045
+    },
+    {
+      "path": "src\\web\\onboarding\\templates.ts",
+      "hash": "e0d6ffb56ef834b696fea7b973e8476fbb748c4d1adb161d623cde16aaa0a1ab",
+      "size": 5258
+    },
+    {
+      "path": "src\\web\\rcs\\routes.ts",
+      "hash": "91680652b2113f04ede1a03fc26f32244b08f58362d238707d2b20af9381b8f3",
+      "size": 1983
+    },
+    {
+      "path": "src\\web\\revenue\\ai-status.ts",
+      "hash": "7e585787e8560e1a1ed7ced615611cb27d6a8595b7059bf3db9d7f89bec4fc61",
+      "size": 3953
+    },
+    {
+      "path": "src\\web\\revenue\\readiness.ts",
+      "hash": "c1f464a05906ca134319f3fbffa581f21a089121d47c1e4d8f200286400cc08a",
+      "size": 4360
+    },
+    {
+      "path": "src\\web\\revenue\\routes.ts",
+      "hash": "27912957fe1dcfe9234f3c5d1959128bdab937f396b37094297b2143a5b88b65",
+      "size": 2567
+    },
+    {
+      "path": "src\\web\\sites\\generator.ts",
+      "hash": "63a91b1684b2f8bd437863be72ca1a371e52744f0ce0bf76748eafe3870aa223",
+      "size": 8123
+    },
+    {
+      "path": "src\\web\\sites\\routes.ts",
+      "hash": "c256131c15a6714c8c2f24c4b6c8ce012f77d9ab0e60ac2036c685152a53f24f",
+      "size": 1928
+    },
+    {
+      "path": "src\\web\\sites\\store.ts",
+      "hash": "8f74784f1820a70527daf3f980acbb7faf80a4bc6825d05d9cd59b4b83520923",
+      "size": 2036
+    },
+    {
+      "path": "src\\web\\standalone-server.ts",
+      "hash": "c15844377ee59b4b68a563d901a18174b36827702c968ccc80c970fdec126064",
+      "size": 26458
+    },
+    {
+      "path": "src\\web\\tutor\\agent.ts",
+      "hash": "e5089dea9c2a64211262a8e86b93c1d04ac604796e2eb93373ed792caedcebbb",
+      "size": 15223
+    },
+    {
+      "path": "src\\web\\tutor\\CognitiveATLAS.ts",
+      "hash": "5f8bcdead367fcdf38f717f39b4fab71091deaf77eaebef1a28eb750232cf15c",
+      "size": 8632
+    },
+    {
+      "path": "src\\web\\tutor\\routes.ts",
+      "hash": "4b4c24b0e6bada792cc05f7556e40bc39b3bb39633db183376bc3e44afe7daca",
+      "size": 1798
+    },
+    {
+      "path": "src\\web\\viseron\\agent.ts",
+      "hash": "24a81e84ce67ed12ced1f6e55e41328d3bf00d51b26a926c8547c34d62648ca4",
+      "size": 11211
+    },
+    {
+      "path": "src\\web\\viseron\\routes.ts",
+      "hash": "3c8cd301fe81f59dbb054028fcc248b8861a1a3671ede714806478cda380b957",
+      "size": 2356
+    },
+    {
+      "path": "src\\web\\workspace\\orchestrator.ts",
+      "hash": "889587f505c4b25ceafb84b107f873d599fcdc505fb2a889554a9b41a52a81e5",
+      "size": 9623
+    },
+    {
+      "path": "src\\web\\workspace\\routes.ts",
+      "hash": "f2f3277a5c79d80460558d502c1ebd63a11f1c3df46e4c76c159cc2c07ed014c",
+      "size": 4410
+    },
+    {
+      "path": "src\\web\\workspace\\store.ts",
+      "hash": "c7a56e6c4a58962296d4eda74f2d04bedab35f0822a16be9cf89e04c2be92c4e",
+      "size": 6834
+    },
+    {
+      "path": "src\\web\\workspace\\tool-contract.ts",
+      "hash": "c77d9fb68d0bd6c3294c8b6446988ae8c97174153dc76b0d9ae656cea472e557",
+      "size": 8573
+    },
+    {
+      "path": "src\\web\\workspace\\tools.ts",
+      "hash": "a68998aff19fab29c1ed28d1439d637dd0ce52a614ee599d49d71e800b4f07c0",
+      "size": 3355
+    },
+    {
+      "path": "src\\web\\workspace\\viseron-builder.ts",
+      "hash": "d135984f8f733d4319b59b922e5d9f188179bade045305f5efd672df7fa6ea0a",
+      "size": 5146
+    },
+    {
+      "path": "tests\\core.test.ts",
+      "hash": "f01c654539b56c51d9d76b2e519cb36485c30eb187837b97423b9b638e8d80c4",
+      "size": 5990
+    },
+    {
+      "path": "tests\\hyperbrain.test.ts",
+      "hash": "5cce6edefbe43d1a55112b8bc767efe9a45338d0928bc859ee89750d226c75e2",
+      "size": 3083
+    },
+    {
+      "path": "tests\\omega.test.ts",
+      "hash": "2ff83e69e015f55b71fc727497f6a102ae2002ea080d043b815ca0df02718ac5",
+      "size": 68363
+    },
+    {
+      "path": "tests\\os.test.ts",
+      "hash": "63c31da54dde7cf78206be695b70c7bb954997f03aad5541079929ce99b3645a",
+      "size": 6203
+    },
+    {
+      "path": "tests\\restart.test.ts",
+      "hash": "888f8bcdec5ce63724d7cca808f43bf6865fb4f0e97f20615eb3493e1223268b",
+      "size": 2725
+    },
+    {
+      "path": "tests\\vertical-slice.test.ts",
+      "hash": "c81a75d91665c25a7cfaa6a695f4555a79a6e250944a0abf896ccc8ecc8978e1",
+      "size": 28970
+    },
+    {
+      "path": "tests\\web.test.ts",
+      "hash": "df05e0ba3d7f8e7eff04496aaf07e0944616908b8bd1ac0095de3be72d06f492",
+      "size": 29120
+    },
+    {
+      "path": "scripts\\agent-dispatch-audit.ts",
+      "hash": "661f957d375925a5eff4846c00665ddbfcb8573141b4df4b45737053b2def5e7",
+      "size": 8530
+    },
+    {
+      "path": "scripts\\agent-execution-probe.ts",
+      "hash": "628e1d96743a5ae94c0a8360f107511f9481226b50332f9179e1d59884455444",
+      "size": 14757
+    },
+    {
+      "path": "scripts\\apk-install-instructions.html",
+      "hash": "3953e618ef2cad471d04d1cdf1064f3a6bd5e2a4a001b61f2501120b6b122965",
+      "size": 5703
+    },
+    {
+      "path": "scripts\\apk-installer.nsi",
+      "hash": "180a782e6f23186a3569ba6aa357f77ea2bc08e1351ade2e7b39c3b6ad19dfed",
+      "size": 4006
+    },
+    {
+      "path": "scripts\\archive-cli.ts",
+      "hash": "441c5f8a821f4a2f75c46f248d245f3de37c08e91ef3ec57de5dd67d314d055f",
+      "size": 1835
+    },
+    {
+      "path": "scripts\\ativar-bilionarios-e-plano.ts",
+      "hash": "6d3633b8130e6ee402549450e6b14085f767a368d7c130f64155a9beea13737b",
+      "size": 21294
+    },
+    {
+      "path": "scripts\\audit-arkom.ts",
+      "hash": "a3e6ab4aaf2d6d713f7b78b0fe21daaa65680d16670632fb6135ee508e44a4a4",
+      "size": 3535
+    },
+    {
+      "path": "scripts\\backup-system.ps1",
+      "hash": "1eb5d3c124266c3d676258eb4e13d1c97b0cdb177d4a79529e33c884fa720465",
+      "size": 7017
+    },
+    {
+      "path": "scripts\\build-all.ps1",
+      "hash": "5a71ecdf8643fa66470f2d3a19ab913c62d88a4eeba3ddbcfddcea8d4e067113",
+      "size": 2894
+    },
+    {
+      "path": "scripts\\build-apk-installer.ps1",
+      "hash": "26be62a3ffb8a19da350eec33b6fbadcfb730beb87757a9a33c060fb202b7608",
+      "size": 2446
+    },
+    {
+      "path": "scripts\\build-standalone.mjs",
+      "hash": "fc2a8d30a5d8822892c92e4057e626c58747e2f1438da358a0199101cf514d70",
+      "size": 12562
+    },
+    {
+      "path": "scripts\\build.sh",
+      "hash": "41fb6dba65235d8ab9fdf558c55ce90c897df6e0133ea66dfaa1152f3d2aba39",
+      "size": 1736
+    },
+    {
+      "path": "scripts\\campaign-clinica-demo.ts",
+      "hash": "64e10e74fdb0a20e55b140ea7b34ffa336e908c0cffd84a818296fe2330d99c3",
+      "size": 4676
+    },
+    {
+      "path": "scripts\\campaign-telecom.ts",
+      "hash": "4eaec9823f2c76983edcc5618f49d73e3daee02b1cdb7eac18c40d49e6cc9e62",
+      "size": 6232
+    },
+    {
+      "path": "scripts\\composio.ts",
+      "hash": "f78d9e55689b3b4aad2f1fb246749dbf2902345a6a49b60f521a943fe8d04fb6",
+      "size": 3867
+    },
+    {
+      "path": "scripts\\continuous-learning-reality.ts",
+      "hash": "840ed112aae8d070942c481d43a1eb38527ca24065e75fec0f3fddc63259c354",
+      "size": 11761
+    },
+    {
+      "path": "scripts\\cosmos-telegram-bot.ts",
+      "hash": "ab37c9494b1c4f4b4e217f3f62303728ec66ffabdb1a3802c5b602729bc25dd9",
+      "size": 11795
+    },
+    {
+      "path": "scripts\\criar-app-derecho.ts",
+      "hash": "3da7391dfc7ce2e9734f5a3c5df14b0ba424c72b1b89190fceb7e220e3c92eeb",
+      "size": 18836
+    },
+    {
+      "path": "scripts\\criar-app.ts",
+      "hash": "5c40ee01659e43346e76a2ea2fc512fd0611385f1d7ff4b65210909a0de65676",
+      "size": 10199
+    },
+    {
+      "path": "scripts\\cudacyclone.ts",
+      "hash": "71d173b837a4bf56d9a98556269b2705c0e433f5981ca4ca75b551a3baef5638",
+      "size": 4064
+    },
+    {
+      "path": "scripts\\demo-agency.ts",
+      "hash": "d60dcd0c125b326ea0109f12d068221a19d53e8e6583628b4cfefb812c12f719",
+      "size": 4431
+    },
+    {
+      "path": "scripts\\demo-avirato.ts",
+      "hash": "cca2f0b32a23363f0042a03b252c7a39d7b40e1f0cf1b13a53e49c5e4a4a5f43",
+      "size": 3169
+    },
+    {
+      "path": "scripts\\demo-email.ts",
+      "hash": "15b953fafd76452cc3a5b82e7d9819ea6c405971a78ebd0b699a5666431ff550",
+      "size": 4351
+    },
+    {
+      "path": "scripts\\demo-jarvis.ts",
+      "hash": "01a0e76ece4b3562da00f2cdf1194b22e249ad72a1532742fd44f4cbf0eed858",
+      "size": 2072
+    },
+    {
+      "path": "scripts\\demo-messaging.ts",
+      "hash": "46e27e3a2c131c066ed6f9a2d7ef933c6ce5c0b4671bbd4ec6e136e43eb96586",
+      "size": 4289
+    },
+    {
+      "path": "scripts\\demo-operacional.ts",
+      "hash": "287831e290e4a403f86308da7d96c8c37df8b77db06cba3b5297781df8bc1f26",
+      "size": 4806
+    },
+    {
+      "path": "scripts\\deploy-all.ps1",
+      "hash": "c7e1e5589c697586d2283aa526f9396a03518f6cd9c49c53c259cea9817a8d9a",
+      "size": 4586
+    },
+    {
+      "path": "scripts\\deploy-hostalia.ps1",
+      "hash": "764d52c78eb9d879d8b602f019c7af10d216bcd4fdc99b700b68599ee67f6a52",
+      "size": 7689
+    },
+    {
+      "path": "scripts\\deploy-render.ps1",
+      "hash": "b477dc355b778394a8976b6a4a6bc0f2b5b352aa2d4fa4d78a67ed879fadbd6b",
+      "size": 3815
+    },
+    {
+      "path": "scripts\\e2e-slice-live.ts",
+      "hash": "8029cf7e184690c88704e64834404dff219692ae2278274a442b013d2992f080",
+      "size": 4792
+    },
+    {
+      "path": "scripts\\experience-memory.ts",
+      "hash": "ba20f0b94d3c094a38a122a93c3f6e4d7f901c6bbc25d49fb075298f33de6bdc",
+      "size": 7144
+    },
+    {
+      "path": "scripts\\full-audit.mjs",
+      "hash": "470cd95e04c038a5bd60c5c80105223f6e54fc1bf008752a0883123fc2f13cc5",
+      "size": 21295
+    },
+    {
+      "path": "scripts\\gen-manual-operacion.js",
+      "hash": "ca6b4ba4b06f9918cac9d73392a5238be476a4e0c8ca77b3fcfe246a9714e928",
+      "size": 21821
+    },
+    {
+      "path": "scripts\\gen-report-incrementos.js",
+      "hash": "1ef48666f3f103abe89ca0cc9a09b31ecb69a7324ccd2f44a8db2571d1787b0f",
+      "size": 14240
+    },
+    {
+      "path": "scripts\\gen-report.js",
+      "hash": "067b7c139ca4b49698ca2de1cb7db65308df7cbfafae9f77068ae7e295740b34",
+      "size": 14614
+    },
+    {
+      "path": "scripts\\generate-icons.mjs",
+      "hash": "cbc3f0fa8a1d148432cfbe6d3ba8d3068ccc1b420efe1322623299728f236ee1",
+      "size": 4372
+    },
+    {
+      "path": "scripts\\generate-viseron-film.py",
+      "hash": "20aadef41f05c9f6f5ab82be537d2c7b229869aebb28f1d937da4b5a5f4ae56f",
+      "size": 22660
+    },
+    {
+      "path": "scripts\\generate-viseron-video.py",
+      "hash": "327967c9bb1fb26dbfa5d2e343b0c9755b7e76f4fa4603497b294541a771972d",
+      "size": 18401
+    },
+    {
+      "path": "scripts\\generateMinds.ts",
+      "hash": "9608d4a33c38792531123529a2bf2a19b48ab92933a2cfb14c86f90b15f243c4",
+      "size": 74136
+    },
+    {
+      "path": "scripts\\gerar-100-melhorias.ts",
+      "hash": "06ac22005cf1a61e8e5a6ab86e0c990e2a693f295b86a60e7df5186962f14602",
+      "size": 14744
+    },
+    {
+      "path": "scripts\\gerar-audit-pdf.ts",
+      "hash": "5ad6107b063a10fa60388a8d6c8eb02cb3e0f1e40dee781c805e5a955aaa54e4",
+      "size": 5611
+    },
+    {
+      "path": "scripts\\gerar-audit-report.ts",
+      "hash": "23b54ea3cb1e073abc34618103d97e27a1d879273bd61257d14912449e69c765",
+      "size": 11024
+    },
+    {
+      "path": "scripts\\gerar-auditoria-completa-pdf.ts",
+      "hash": "d7e554fe3335d4fd14793312dd9f9ba1a0c164badac8cf470f38735e718c0497",
+      "size": 13326
+    },
+    {
+      "path": "scripts\\gerar-auditoria-completa.ts",
+      "hash": "911d84a63181e504e050372f95e73ffe131a02c325874aac6b0785015dc58e3d",
+      "size": 12412
+    },
+    {
+      "path": "scripts\\gerar-autoria.ts",
+      "hash": "8ef6d1a5befadbe02a8505cdf683fa0108faa7c0cbb9823b5817b8c8c1c2649e",
+      "size": 3565
+    },
+    {
+      "path": "scripts\\gerar-clinical-growth-pdf.ts",
+      "hash": "b55f475244c1ec36d202af444f67cde3b5580ec3274a0237dabd04d52f8d2a7a",
+      "size": 8572
+    },
+    {
+      "path": "scripts\\gerar-cofre-credenciais.ts",
+      "hash": "628a0eeb4883ed0f9fa732057542228e8a71fa2b9342f1fe8c814dded95611f1",
+      "size": 6707
+    },
+    {
+      "path": "scripts\\gerar-cosmos-contratos.ts",
+      "hash": "37342e9e974607699a3ca3fe7028b5ab9e250301ea7412b09c094316cf4f5f44",
+      "size": 7325
+    },
+    {
+      "path": "scripts\\gerar-cosmos-go-live.ts",
+      "hash": "8cbcd9705bbc34e64a961c84386efe4c6b7608a529314ae2f98578e29e634116",
+      "size": 11589
+    },
+    {
+      "path": "scripts\\gerar-cosmos-operacoes-wallet.ts",
+      "hash": "4ac119936cdbb9b18d8b740aa5becd6fc07645e91ea8fd83c8e14fd7c5a77f4b",
+      "size": 11395
+    },
+    {
+      "path": "scripts\\gerar-ficheiro-projeto.ts",
+      "hash": "3cada8d5879f4faa90cd09d90036537e4edeb92952ed62a4fb2ff2cfa075442a",
+      "size": 12635
+    },
+    {
+      "path": "scripts\\gerar-governanca-biblica.ts",
+      "hash": "35f6cd1bf4c18a78a296d37c7d2b856db9211509c6e9aeca2d819975c3ca6908",
+      "size": 8764
+    },
+    {
+      "path": "scripts\\gerar-kit-marketing-cosmos.ts",
+      "hash": "724aff96588aa3ea955ffcbc65b800665eed72b994cc0f7110515b1cac0d4423",
+      "size": 13106
+    },
+    {
+      "path": "scripts\\gerar-logos-cosmos.mjs",
+      "hash": "cf7194c102a4a55a1b46e10dfa3347d1b8a59614674f6e63100a941dddaa68b0",
+      "size": 10277
+    },
+    {
+      "path": "scripts\\gerar-manual-comandos-viseron.ts",
+      "hash": "ad3f66c517849fc712267e9617d83225a3715d7cd94fe287565b344f26f929dd",
+      "size": 17766
+    },
+    {
+      "path": "scripts\\gerar-manual-completo.ts",
+      "hash": "e1b6ec64d09c779418c58446b5d537a884183a053c269c30c3ff5d89fb8fb4ea",
+      "size": 33781
+    },
+    {
+      "path": "scripts\\gerar-manual-viseron.ts",
+      "hash": "0aaaf900bd11338356287e278e35c6dc04ae875d3f035f0366de20b48df0f47b",
+      "size": 21781
+    },
+    {
+      "path": "scripts\\gerar-mapa-site.ts",
+      "hash": "d9ff6315ce9d708e89420935b36e38fe50aae3d31e18c1267fe8f1720469f5ff",
+      "size": 11965
+    },
+    {
+      "path": "scripts\\gerar-omega-master-plan.ts",
+      "hash": "4c5a92919b2f9f9fe2b9a2b318568cf94bf2b10c17874740e4eafbd2d83b103e",
+      "size": 14775
+    },
+    {
+      "path": "scripts\\gerar-pdf-comandos-senhas.ts",
+      "hash": "4fd55b9c6a49a24871cf79b2446459bc0b2e7d7b13243aefa36e54affe18a3c4",
+      "size": 22212
+    },
+    {
+      "path": "scripts\\gerar-pipeline-receita.ts",
+      "hash": "0e35a6efb1a2a6d74042229cfb915d4f22c7a631fcb2c64df5ded6aecf453559",
+      "size": 6444
+    },
+    {
+      "path": "scripts\\gerar-pitch-investidores.ts",
+      "hash": "b9dee8754b496503ab7723f4f467512087f3bbad13555ddfaec877c35f2b97c9",
+      "size": 25640
+    },
+    {
+      "path": "scripts\\gerar-pitch-startup.ts",
+      "hash": "d3400b6bcbf84b0668924bab788580edb4420e4615aab3b1d844b0cacc4a3acc",
+      "size": 50893
+    },
+    {
+      "path": "scripts\\gerar-pitch-v6.ts",
+      "hash": "276ae5c0b4a6f7b3174334dc580b82834180cfd88518fa3f0b3186bb41e8096c",
+      "size": 23470
+    },
+    {
+      "path": "scripts\\gerar-plan-ingles-atlas.ts",
+      "hash": "4b4fe7c0926ce92d993f17d1837cb85a773d7648b52c44353379b3ceb1d5037b",
+      "size": 7140
+    },
+    {
+      "path": "scripts\\gerar-plano-agencia-viseron.ts",
+      "hash": "25ac187de35ee363b639b6e07e6b17d7bbd679e1cbdf936c27c647d7f2b386c4",
+      "size": 14696
+    },
+    {
+      "path": "scripts\\gerar-plano-estrategico.ts",
+      "hash": "bf51a4fe2f0dc3151e5da9721e62efd1f490b7dd742cb2833f278d0a1ea1428a",
+      "size": 16434
+    },
+    {
+      "path": "scripts\\gerar-plano-fama-instagram.ts",
+      "hash": "3b85d68ccfc3b40bb068d0d72905991622e4a712707dcb5d415b142513e17f1a",
+      "size": 15678
+    },
+    {
+      "path": "scripts\\gerar-registo-expansao.ts",
+      "hash": "f1a4452931e1c22925b02c5c6a3771b43c53f09f4cc68b0de2205961ea3cedc0",
+      "size": 2533
+    },
+    {
+      "path": "scripts\\gerar-relatorio-contas.ts",
+      "hash": "9c92283f9d73c8879c0716e7384dbe11224e4858efeff7c8ad59f74893a69d1f",
+      "size": 5261
+    },
+    {
+      "path": "scripts\\gerar-relatorio-estado.ts",
+      "hash": "b2efab6d593b790a4d3cdb34d1576e950b342b6d8c16ffaba5bf54a22e59442f",
+      "size": 8742
+    },
+    {
+      "path": "scripts\\gerar-relatorio-evolucao.ts",
+      "hash": "b815510db118756c6351cca84885d4b8f7f0d080c7c99eb02a1a9a2d3fe1eea2",
+      "size": 13474
+    },
+    {
+      "path": "scripts\\gerar-relatorio-update.ts",
+      "hash": "850b6353ca193a9b6c35d17e9076f1b24596a28f0800dc45d77e97cd0d41ca62",
+      "size": 3453
+    },
+    {
+      "path": "scripts\\gerar-roadmap-milionario.ts",
+      "hash": "2289e20cb517a8b0e89ded30c1b8f9ea1a574b743bac78d20d835c94f61ff3ab",
+      "size": 20300
+    },
+    {
+      "path": "scripts\\gerar-status-sistema.ts",
+      "hash": "6da76f65e4a5a5b38ecdddb7c1d2fee897a90094ddcbd0eaabed072a461822cb",
+      "size": 15104
+    },
+    {
+      "path": "scripts\\gerar-suite-aeos.ts",
+      "hash": "e05a44279934d835c5657f536c0a429eab26846226d03bfddf7cbff2d4cef388",
+      "size": 44268
+    },
+    {
+      "path": "scripts\\gerar-todos-pdfs.ps1",
+      "hash": "e78cd34bec4125dbe60943de20d0d8ce51a965dfb9a103281b008eec20343e15",
+      "size": 3217
+    },
+    {
+      "path": "scripts\\gerar-whitepaper-cosmos.ts",
+      "hash": "6ecf4419359708659fcea7779578c82c46f488ea9a8338d88e288b6710b412a9",
+      "size": 10204
+    },
+    {
+      "path": "scripts\\go-live-stripe.ts",
+      "hash": "b7a39bebdddac79b083b156006f50520af0a220810bcdcbe7f3f03ca7cc69160",
+      "size": 4289
+    },
+    {
+      "path": "scripts\\import-telecom.ts",
+      "hash": "8f9e285124d6272c3549f55b0545dc0c9b82016d0a8425eef8e1ea58226caeb1",
+      "size": 12087
+    },
+    {
+      "path": "scripts\\independent-learning-audit.ts",
+      "hash": "3d601ce553a2b4614d0d0fd0c5299b314b3d4b16636059ca71a7c311d1a104c2",
+      "size": 11911
+    },
+    {
+      "path": "scripts\\init-system.ps1",
+      "hash": "fe583b1c051b87f7bab4944d9b8f52aab61fb2c419cf26e7780841901725e207",
+      "size": 3421
+    },
+    {
+      "path": "scripts\\instalar.bat",
+      "hash": "d36d590d2c48ac9e9714c1d2021d3faae060f0b681119438918de2ed95332362",
+      "size": 619
+    },
+    {
+      "path": "scripts\\integrations.ts",
+      "hash": "2e0b35a5066461c57f0529575157a9ec309f4f39aa33443024f24325b2c932ea",
+      "size": 9232
+    },
+    {
+      "path": "scripts\\learning-gate.ts",
+      "hash": "aec4566cc60857d9efe4abb4823abef1ef8549770c8baba6bafcf3c6dca57651",
+      "size": 16713
+    },
+    {
+      "path": "scripts\\learning-validation.ts",
+      "hash": "cfb711d62e98cc6061b88e5757c45ccdb78e57d0b0bf2e7f62d9365d27db2400",
+      "size": 11393
+    },
+    {
+      "path": "scripts\\migration\\android-build.sh",
+      "hash": "78e6cda2340739849933ce77cf66632193117304a955976356ddc305b57ad0d5",
+      "size": 1636
+    },
+    {
+      "path": "scripts\\migration\\migrate-pack.ps1",
+      "hash": "7b25e8e8c067546d108731b84d9ad96bc1062d9a4d42b5614020798f59b9195d",
+      "size": 5622
+    },
+    {
+      "path": "scripts\\migration\\server-setup.ps1",
+      "hash": "7de3fe4f97ca9d8223393be468ad7b5d8e3c3fdceada11070bb8fc4841ffcc50",
+      "size": 6613
+    },
+    {
+      "path": "scripts\\migration\\server-setup.sh",
+      "hash": "a73f366114602f97fae75e1923ef9dda626bdac4d5aaee446b4fbe9d4c0a7225",
+      "size": 11086
+    },
+    {
+      "path": "scripts\\migration\\tvs-run.sh",
+      "hash": "7c5ba3ed1bda7796d3da3d554ffee729eadde42f1c5b9262525bbeca524739e1",
+      "size": 1366
+    },
+    {
+      "path": "scripts\\omniroute-standalone.cjs",
+      "hash": "ed3c7bbe5bdc7ea028b05279db075da1caa65fa550490a0dc08de0a64e928115",
+      "size": 2769
+    },
+    {
+      "path": "scripts\\parallel-benchmark.ts",
+      "hash": "8a1134369d1846e1b61e0307a7484cd6ea5d6cb69d7926a1c3c380dbaede3de0",
+      "size": 6814
+    },
+    {
+      "path": "scripts\\parallel-reality-benchmark.ts",
+      "hash": "e88929aebbdc61d2d19da525cd813a54f4c8bf93753cb2f70674dd6bfb8744a6",
+      "size": 13083
+    },
+    {
+      "path": "scripts\\pdf-theme.ts",
+      "hash": "63f8dcbac601594ffa0522d0d03f73f89ff35422878d10f6ae0f2a6eb32b2c82",
+      "size": 10678
+    },
+    {
+      "path": "scripts\\rcs.ts",
+      "hash": "2eb3b4349930fc561ec2054349ae0e9743ef437f6c4346f64750afd7492540c1",
+      "size": 3810
+    },
+    {
+      "path": "scripts\\reality-execution.ts",
+      "hash": "c5e1caa9c1d08df642e4f00da2c6da528e5c1340e3b0112d2861fe020549b173",
+      "size": 11594
+    },
+    {
+      "path": "scripts\\reality-gate.ts",
+      "hash": "9bac2eeaec2f07131dc72ec2c74f8d5efc4506cf4e268a1de6e19247bc661a00",
+      "size": 13731
+    },
+    {
+      "path": "scripts\\recovery-migration.ts",
+      "hash": "4e7977aa1872a60d4ed37441689cdb729840d0835d4965b8ef01c229fd652459",
+      "size": 5569
+    },
+    {
+      "path": "scripts\\registrar-milestone-knowledge-archive.ts",
+      "hash": "ee9528668f497190970c9829f6dd6658678642a6b81146b9ea9af801427651c2",
+      "size": 5043
+    },
+    {
+      "path": "scripts\\restart.ps1",
+      "hash": "0991666c3d5448dc1f0a396ee9d93cfb01ba4a53709a2cbf28b3a8026d6d2cba",
+      "size": 7501
+    },
+    {
+      "path": "scripts\\s9-foundation.ts",
+      "hash": "b90b4aca76e308bb6886600828203aaefa7fdfac3be3035e3982a8f223e0bb76",
+      "size": 6875
+    },
+    {
+      "path": "scripts\\s9-phase2.ts",
+      "hash": "9da5768e3f745761febf7f19f0391d71ee22af4ba8d1d95edb19cd67bf1ec693",
+      "size": 6164
+    },
+    {
+      "path": "scripts\\s9-research.ts",
+      "hash": "768ee3c44b9959faebb39f0d1a28f50531843703e2cc2714b382b29023653af3",
+      "size": 4831
+    },
+    {
+      "path": "scripts\\scan-segredos.ts",
+      "hash": "0ddecf1ced21fe904f3c89dd942d272c1797e5ba3f59e0dd28d054aa72240bc2",
+      "size": 6977
+    },
+    {
+      "path": "scripts\\schedule-backup.ps1",
+      "hash": "3c7890b75af9eac6040d16227b44e43579172dec4304e4c593e2b13125749610",
+      "size": 1293
+    },
+    {
+      "path": "scripts\\self-update.ps1",
+      "hash": "6b98c3b8e54d3d62571da3f9d01713f0cbd118f832413a64ebfe18ea4c76f3f0",
+      "size": 2570
+    },
+    {
+      "path": "scripts\\setup-dominio-novo.ps1",
+      "hash": "feca9a7a67ac95fde3d8de409ed4457c9e735f3a2bf0bce65b9d6a63ab783d74",
+      "size": 6105
+    },
+    {
+      "path": "scripts\\setup-dominio.ps1",
+      "hash": "84e3d24f6edadeb5fc9b50326d18b4b1d0864098df3489c2c18f98633b1de020",
+      "size": 4365
+    },
+    {
+      "path": "scripts\\setup-gmail.ts",
+      "hash": "87c51719b1e97def3c81b6b62653d7f02847e149e7a7bc28fdb3f6106e031e2c",
+      "size": 2152
+    },
+    {
+      "path": "scripts\\skills.ts",
+      "hash": "4966a26e45e642f2f64ca00f9d19e2b0abebe852c21d60e63e3c3be0fb1b2479",
+      "size": 3340
+    },
+    {
+      "path": "scripts\\squad-benchmark.ts",
+      "hash": "adc6eca026a92ab5479a41903ca01f5d83961e8c335c86487fcc432bb703c7e2",
+      "size": 8812
+    },
+    {
+      "path": "scripts\\squad-reality.ts",
+      "hash": "ee5eb5d275c4e4802190fa035097fd4034abc0b29a5d53d67c7db9d4eab7223e",
+      "size": 5394
+    },
+    {
+      "path": "scripts\\standalone-entry.js",
+      "hash": "af1721c8b7affca59c397e456b2371dc7ab8f266d9d6ec400fc2ec0bfe5cd207",
+      "size": 5867
+    },
+    {
+      "path": "scripts\\test-restart-lifecycle.ps1",
+      "hash": "8b0dd2a780583418377a0369721dac5e75a18e87c9bb0b27453b0c6fa17842a1",
+      "size": 8027
+    },
+    {
+      "path": "scripts\\tvs.ts",
+      "hash": "aaef35d91d1561e96ab9379ae7b1112e4067fb53c3bc1ebda4bea07671512bba",
+      "size": 6022
+    },
+    {
+      "path": "scripts\\vaec.ts",
+      "hash": "bd84d05ca2dc467ed73a414d8ea52d1e69a6d6cac00b2f1ae0d2da1eb3c9b2c8",
+      "size": 3796
+    },
+    {
+      "path": "scripts\\validate-cognitive-os.ts",
+      "hash": "5327256e93964f383a20868928e339bed7bfe860256b08393e45ba7b570e728a",
+      "size": 15289
+    }
+  ],
+  "snapshotHash": "6b356325afdf4339fd44860f499431817ee32eae75e333e8b621db497430681b"
+}

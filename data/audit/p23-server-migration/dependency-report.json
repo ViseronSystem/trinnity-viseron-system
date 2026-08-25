@@ -1,0 +1,31 @@
+{
+  "runtime": {
+    "node": { "required": "v24+", "installed": "v24.18.0", "status": "OK" },
+    "npm": { "required": "v10+", "installed": "v11.16.0", "status": "OK" },
+    "python": { "required": "3.10+", "installed": "3.13.14", "status": "OK" },
+    "ollama": { "required": "v0.32+", "installed": "v0.32.5", "models": ["qwen2.5:3b", "qwen2.5:7b"] },
+    "git": { "required": "any", "installed": "yes", "status": "OK" }
+  },
+  "npmDependencies": {
+    "production": {
+      "express": { "version": "5.2.1", "purpose": "Web framework" },
+      "socket.io": { "version": "4.8.3", "purpose": "Real-time events" },
+      "ollama": { "version": "0.6.3", "purpose": "Ollama client" },
+      "openai": { "version": "7.1.0", "purpose": "OpenAI API client" },
+      "dotenv": { "version": "16.6.1", "purpose": "Environment variables" },
+      "pdfkit": { "version": "0.19.1", "purpose": "PDF generation" },
+      "pg": { "version": "8.22.0", "purpose": "PostgreSQL client" },
+      "stripe": { "version": "22.4.0", "purpose": "Payment processing" },
+      "zod": { "version": "3.25.76", "purpose": "Schema validation" },
+      "winston": { "version": "3.19.0", "purpose": "Logging" },
+      "@modelcontextprotocol/client": { "version": "2.0.0", "purpose": "MCP client (Composio)" },
+      "@langchain/core": { "version": "1.2.3", "purpose": "LangChain integration" }
+    },
+    "counts": { "runtime": 22, "totalWithDev": 25, "installSize": "~2GB" }
+  },
+  "osDependencies": {
+    "windows": ["None required — Node.js handles everything natively"],
+    "optional_gpu": ["NVIDIA Driver", "CUDA 12.x", "cuDNN", "PyTorch CUDA", "Wan2.1", "ComfyUI"]
+  },
+  "verification": "All dependencies are cross-platform npm packages. No native compiled modules required (no node-gyp). Migration is straightforward: npm install on target."
+}

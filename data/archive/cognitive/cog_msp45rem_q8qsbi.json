@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msp45rem_q8qsbi",
+  "timestamp": 1786480157182,
+  "source": "research",
+  "input": {
+    "text": "VISERON architecture production readiness"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "1 accepted, 0 rejected, 1 chunks",
+    "latencyMs": 191,
+    "sources": [
+      "https://example.com"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "1 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "ea5e689416cec4a804413f7cd2f40d9a6b3c968912df6080af9b864709384696"
+}

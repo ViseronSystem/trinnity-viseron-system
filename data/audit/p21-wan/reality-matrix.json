@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "name": "Provider instantiated",
+      "ok": true
+    },
+    {
+      "name": "Environment detected",
+      "ok": true
+    },
+    {
+      "name": "Python detected",
+      "ok": true
+    },
+    {
+      "name": "PyTorch detected",
+      "ok": false
+    },
+    {
+      "name": "GPU detected",
+      "ok": false
+    },
+    {
+      "name": "Wan2.1 installed",
+      "ok": false
+    },
+    {
+      "name": "Model downloaded",
+      "ok": false
+    },
+    {
+      "name": "Health check",
+      "ok": false
+    },
+    {
+      "name": "Programmatic generate()",
+      "ok": true
+    },
+    {
+      "name": "No Math.random in generation",
+      "ok": true
+    },
+    {
+      "name": "No fake output",
+      "ok": true
+    },
+    {
+      "name": "Evidence records",
+      "ok": true
+    }
+  ],
+  "passed": 7,
+  "total": 12,
+  "timestamp": "2026-08-12T14:01:13.718Z"
+}

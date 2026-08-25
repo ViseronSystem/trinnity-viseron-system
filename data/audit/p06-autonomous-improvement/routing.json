@@ -1,0 +1,14 @@
+{
+  "agentsAvailable": 9,
+  "domainsCovered": 8,
+  "route": {
+    "agentId": "agent_research",
+    "score": 3,
+    "reason": "domain=research, role=researcher"
+  },
+  "routeArch": {
+    "agentId": "agent_architect",
+    "score": 3,
+    "reason": "domain=architecture, role=architect"
+  }
+}

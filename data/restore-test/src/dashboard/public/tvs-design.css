@@ -1,0 +1,239 @@
+/* ============================================================
+   TVS DESIGN SYSTEM v1 — tokens + componentes base
+   © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
+   Consumo: <link rel="stylesheet" href="/tvs-design.css">
+   ------------------------------------------------------------
+   Base: `index.html` (landing) · `dashboard.html` (app)
+   ------------------------------------------------------------
+   Princípios:
+   - Interface administrativa > apresentação (rápido, discreto)
+   - Preferir opacity + transform (sem layout thrash)
+   - Respeitar prefers-reduced-motion
+   ============================================================ */
+
+/* ── 1. DESIGN TOKENS ─────────────────────────────────────── */
+:root {
+  /* Cor (core) */
+  --tvs-neon: #00f0ff;
+  --tvs-neon2: #bf5af2;
+  --tvs-neon3: #ff2d55;
+  --tvs-success: #00ff87;
+  --tvs-warning: #ffd166;
+  --tvs-danger: #ff2d55;
+  --tvs-info: #00f0ff;
+
+  /* Cor (superfícies) */
+  --tvs-bg: #050510;
+  --tvs-bg-elevated: #0a0a1a;
+  --tvs-surface: rgba(255, 255, 255, 0.03);
+  --tvs-surface-hover: rgba(255, 255, 255, 0.05);
+  --tvs-surface-active: rgba(255, 255, 255, 0.08);
+
+  /* Cor (texto) */
+  --tvs-text: #e4e4f0;
+  --tvs-text-secondary: rgba(228, 228, 240, 0.62);
+  --tvs-text-muted: rgba(228, 228, 240, 0.4);
+  --tvs-text-inverse: #050510;
+
+  /* Cor (linhas) */
+  --tvs-border: rgba(255, 255, 255, 0.08);
+  --tvs-border-strong: rgba(255, 255, 255, 0.14);
+  --tvs-border-focus: rgba(0, 240, 255, 0.5);
+
+  /* Tipografia */
+  --tvs-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --tvs-font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --tvs-font-mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+  --tvs-font-size-xs: 11px;
+  --tvs-font-size-sm: 13px;
+  --tvs-font-size-base: 14px;
+  --tvs-font-size-lg: 16px;
+  --tvs-font-size-xl: 20px;
+  --tvs-font-size-2xl: 26px;
+  --tvs-font-size-3xl: 34px;
+  --tvs-font-weight-regular: 400;
+  --tvs-font-weight-medium: 500;
+  --tvs-font-weight-semibold: 600;
+  --tvs-font-weight-bold: 700;
+  --tvs-line-height-tight: 1.25;
+  --tvs-line-height-normal: 1.5;
+
+  /* Espaçamento (escala 4px) */
+  --tvs-space-1: 4px;
+  --tvs-space-2: 8px;
+  --tvs-space-3: 12px;
+  --tvs-space-4: 16px;
+  --tvs-space-5: 20px;
+  --tvs-space-6: 24px;
+  --tvs-space-8: 32px;
+  --tvs-space-10: 40px;
+  --tvs-space-12: 48px;
+  --tvs-space-16: 64px;
+
+  /* Border radius */
+  --tvs-radius-sm: 6px;
+  --tvs-radius-md: 10px;
+  --tvs-radius-lg: 12px;
+  --tvs-radius-xl: 16px;
+  --tvs-radius-full: 100px;
+
+  /* Sombras */
+  --tvs-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --tvs-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --tvs-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.55);
+  --tvs-shadow-glow-neon: 0 0 20px rgba(0, 240, 255, 0.12);
+  --tvs-shadow-glow-purple: 0 0 20px rgba(191, 90, 242, 0.12);
+
+  /* Motion */
+  --tvs-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tvs-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --tvs-duration-fast: 120ms;
+  --tvs-duration-base: 200ms;
+  --tvs-duration-slow: 300ms;
+
+  /* Z-index */
+  --tvs-z-base: 0;
+  --tvs-z-nav: 50;
+  --tvs-z-overlay: 100;
+  --tvs-z-modal: 200;
+  --tvs-z-scanline: 9999;
+}
+
+/* ── 2. BASE ──────────────────────────────────────────────── */
+.tvs-surface-base { background: var(--tvs-bg); color: var(--tvs-text); font-family: var(--tvs-font-sans); }
+.tvs-text-secondary { color: var(--tvs-text-secondary); }
+.tvs-text-muted { color: var(--tvs-text-muted); }
+.tvs-font-display { font-family: var(--tvs-font-display); }
+.tvs-font-mono { font-family: var(--tvs-font-mono); }
+
+/* ── 3. BOTÕES ────────────────────────────────────────────── */
+.tvs-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--tvs-space-2);
+  padding: var(--tvs-space-2) var(--tvs-space-4);
+  border-radius: var(--tvs-radius-full);
+  font-family: var(--tvs-font-sans); font-size: var(--tvs-font-size-sm); font-weight: var(--tvs-font-weight-semibold);
+  line-height: 1; cursor: pointer; text-decoration: none; white-space: nowrap;
+  border: 1px solid var(--tvs-border-strong); background: var(--tvs-surface);
+  color: var(--tvs-text); transition: background var(--tvs-duration-fast) var(--tvs-ease-standard),
+    border-color var(--tvs-duration-fast) var(--tvs-ease-standard),
+    color var(--tvs-duration-fast) var(--tvs-ease-standard),
+    box-shadow var(--tvs-duration-fast) var(--tvs-ease-standard),
+    transform var(--tvs-duration-fast) var(--tvs-ease-standard);
+}
+.tvs-btn:hover { background: var(--tvs-surface-hover); transform: translateY(-1px); }
+.tvs-btn:active { transform: translateY(0); }
+.tvs-btn:focus-visible { outline: 2px solid var(--tvs-border-focus); outline-offset: 2px; }
+.tvs-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.tvs-btn-primary { background: var(--tvs-neon); border-color: var(--tvs-neon); color: var(--tvs-text-inverse); }
+.tvs-btn-primary:hover { background: #00d4e6; box-shadow: var(--tvs-shadow-glow-neon); }
+.tvs-btn-secondary { background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.2); color: var(--tvs-neon); }
+.tvs-btn-secondary:hover { background: rgba(0, 240, 255, 0.15); box-shadow: var(--tvs-shadow-glow-neon); }
+.tvs-btn-purple { background: rgba(191, 90, 242, 0.15); border-color: rgba(191, 90, 242, 0.3); color: var(--tvs-neon2); }
+.tvs-btn-purple:hover { background: rgba(191, 90, 242, 0.25); box-shadow: var(--tvs-shadow-glow-purple); }
+.tvs-btn-ghost { background: transparent; border-color: transparent; color: var(--tvs-text-secondary); }
+.tvs-btn-ghost:hover { background: var(--tvs-surface); color: var(--tvs-text); }
+.tvs-btn-danger { background: rgba(255, 45, 85, 0.12); border-color: rgba(255, 45, 85, 0.3); color: var(--tvs-danger); }
+.tvs-btn-danger:hover { background: rgba(255, 45, 85, 0.2); }
+.tvs-btn-sm { padding: var(--tvs-space-1) var(--tvs-space-3); font-size: var(--tvs-font-size-xs); }
+.tvs-btn-lg { padding: var(--tvs-space-3) var(--tvs-space-6); font-size: var(--tvs-font-size-base); }
+
+/* ── 4. CARDS ─────────────────────────────────────────────── */
+.tvs-card {
+  position: relative; overflow: hidden;
+  background: var(--tvs-surface); backdrop-filter: blur(20px);
+  border: 1px solid var(--tvs-border); border-radius: var(--tvs-radius-lg);
+  transition: border-color var(--tvs-duration-base) var(--tvs-ease-standard),
+    transform var(--tvs-duration-base) var(--tvs-ease-standard),
+    box-shadow var(--tvs-duration-base) var(--tvs-ease-standard);
+}
+.tvs-card:hover { border-color: rgba(0, 240, 255, 0.2); box-shadow: var(--tvs-shadow-md), var(--tvs-shadow-glow-neon); }
+.tvs-card-pad { padding: var(--tvs-space-5); }
+.tvs-card-title { font-family: var(--tvs-font-display); font-size: var(--tvs-font-size-lg); font-weight: var(--tvs-font-weight-bold); margin-bottom: var(--tvs-space-2); }
+.tvs-card-subtitle { color: var(--tvs-text-secondary); font-size: var(--tvs-font-size-sm); margin-bottom: var(--tvs-space-4); }
+.tvs-card-divider { border: none; border-top: 1px solid var(--tvs-border); margin: var(--tvs-space-4) 0; }
+
+/* ── 5. INPUTS ────────────────────────────────────────────── */
+.tvs-input, .tvs-select, .tvs-textarea {
+  width: 100%; padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md); font-family: var(--tvs-font-sans);
+  font-size: var(--tvs-font-size-sm); color: var(--tvs-text);
+  background: var(--tvs-bg-elevated); border: 1px solid var(--tvs-border-strong);
+  transition: border-color var(--tvs-duration-fast) var(--tvs-ease-standard),
+    box-shadow var(--tvs-duration-fast) var(--tvs-ease-standard);
+}
+.tvs-input::placeholder, .tvs-textarea::placeholder { color: var(--tvs-text-muted); }
+.tvs-input:focus, .tvs-select:focus, .tvs-textarea:focus {
+  outline: none; border-color: var(--tvs-border-focus); box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12);
+}
+.tvs-label { display: block; font-size: var(--tvs-font-size-xs); font-weight: var(--tvs-font-weight-semibold); color: var(--tvs-text-secondary); margin-bottom: var(--tvs-space-1); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── 6. BADGES ────────────────────────────────────────────── */
+.tvs-badge {
+  display: inline-flex; align-items: center; gap: var(--tvs-space-1);
+  padding: 2px var(--tvs-space-3); border-radius: var(--tvs-radius-full);
+  font-size: var(--tvs-font-size-xs); font-weight: var(--tvs-font-weight-semibold);
+  border: 1px solid var(--tvs-border-strong); color: var(--tvs-text-secondary);
+  white-space: nowrap;
+}
+.tvs-badge-green { background: rgba(0, 255, 135, 0.12); color: var(--tvs-success); border-color: rgba(0, 255, 135, 0.25); }
+.tvs-badge-neon { background: rgba(0, 240, 255, 0.1); color: var(--tvs-neon); border-color: rgba(0, 240, 255, 0.2); }
+.tvs-badge-purple { background: rgba(191, 90, 242, 0.1); color: var(--tvs-neon2); border-color: rgba(191, 90, 242, 0.2); }
+.tvs-badge-warning { background: rgba(255, 209, 102, 0.1); color: var(--tvs-warning); border-color: rgba(255, 209, 102, 0.25); }
+.tvs-badge-danger { background: rgba(255, 45, 85, 0.1); color: var(--tvs-danger); border-color: rgba(255, 45, 85, 0.25); }
+.tvs-badge-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ── 7. TABLES ────────────────────────────────────────────── */
+.tvs-table { width: 100%; border-collapse: collapse; font-size: var(--tvs-font-size-sm); }
+.tvs-table th {
+  text-align: left; padding: var(--tvs-space-2) var(--tvs-space-3);
+  font-size: var(--tvs-font-size-xs); font-weight: var(--tvs-font-weight-semibold);
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--tvs-text-muted);
+  border-bottom: 1px solid var(--tvs-border-strong); white-space: nowrap;
+}
+.tvs-table td { padding: var(--tvs-space-3); border-bottom: 1px solid var(--tvs-border); color: var(--tvs-text); }
+.tvs-table tbody tr { transition: background var(--tvs-duration-fast) var(--tvs-ease-standard); }
+.tvs-table tbody tr:hover { background: var(--tvs-surface-hover); }
+.tvs-table .tvs-align-right { text-align: right; }
+
+/* ── 8. EMPTY / ERROR / LOADING STATES ────────────────────── */
+.tvs-empty, .tvs-error {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: var(--tvs-space-2);
+  padding: var(--tvs-space-10) var(--tvs-space-6); color: var(--tvs-text-secondary);
+}
+.tvs-empty-icon, .tvs-error-icon {
+  width: 48px; height: 48px; border-radius: var(--tvs-radius-lg);
+  display: flex; align-items: center; justify-content: center; font-size: var(--tvs-font-size-2xl);
+  margin-bottom: var(--tvs-space-2);
+}
+.tvs-empty-icon { background: var(--tvs-surface-hover); border: 1px solid var(--tvs-border); }
+.tvs-error { color: var(--tvs-danger); }
+.tvs-error-icon { background: rgba(255, 45, 85, 0.1); border: 1px solid rgba(255, 45, 85, 0.3); }
+.tvs-empty-title, .tvs-error-title { font-family: var(--tvs-font-display); font-size: var(--tvs-font-size-lg); font-weight: var(--tvs-font-weight-bold); color: var(--tvs-text); }
+.tvs-empty-hint, .tvs-error-hint { font-size: var(--tvs-font-size-sm); max-width: 380px; }
+
+.tvs-loading { display: flex; align-items: center; gap: var(--tvs-space-2); color: var(--tvs-text-muted); font-size: var(--tvs-font-size-sm); padding: var(--tvs-space-4) 0; }
+.tvs-spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--tvs-border-strong); border-top-color: var(--tvs-neon); animation: tvs-spin 0.8s linear infinite; }
+@keyframes tvs-spin { to { transform: rotate(360deg); } }
+
+/* ── 9. LAYOUT HELPERS ────────────────────────────────────── */
+.tvs-row { display: flex; align-items: center; gap: var(--tvs-space-3); }
+.tvs-row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--tvs-space-3); }
+.tvs-col { display: flex; flex-direction: column; gap: var(--tvs-space-3); }
+.tvs-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--tvs-space-4); }
+.tvs-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: var(--tvs-space-4); }
+.tvs-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: var(--tvs-space-4); }
+.tvs-mt-2 { margin-top: var(--tvs-space-2); }
+.tvs-mt-4 { margin-top: var(--tvs-space-4); }
+.tvs-mt-6 { margin-top: var(--tvs-space-6); }
+.tvs-mb-2 { margin-bottom: var(--tvs-space-2); }
+.tvs-mb-4 { margin-bottom: var(--tvs-space-4); }
+.tvs-full { width: 100%; }
+
+/* ── 10. REDUCED MOTION ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tvs-card, .tvs-btn { transition: none; }
+  .tvs-card:hover { transform: none; }
+  .tvs-spinner { animation-duration: 1.6s; }
+}

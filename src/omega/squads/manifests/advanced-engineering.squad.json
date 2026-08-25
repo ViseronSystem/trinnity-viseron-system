@@ -1,0 +1,230 @@
+{
+  "id": "advanced-engineering",
+  "name": "Advanced Engineering Squad",
+  "domain": "engineering",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_architect_sr",
+      "name": "Software Architect",
+      "role": "Senior Architect",
+      "domain": "architecture",
+      "responsibilities": [
+        "system_design",
+        "distributed_systems",
+        "scalability"
+      ],
+      "capabilities": [
+        "system_design",
+        "distributed_systems",
+        "scalability"
+      ],
+      "skills": [
+        "api-design",
+        "codebase-design"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_backend",
+      "name": "Backend Engineer",
+      "role": "Backend Developer",
+      "domain": "development",
+      "responsibilities": [
+        "api_development",
+        "database_design",
+        "performance"
+      ],
+      "capabilities": [
+        "api_development",
+        "database_design",
+        "performance"
+      ],
+      "skills": [
+        "api-design",
+        "code-review"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_frontend",
+      "name": "Frontend Engineer",
+      "role": "Frontend Developer",
+      "domain": "development",
+      "responsibilities": [
+        "ui_development",
+        "responsive_design",
+        "accessibility"
+      ],
+      "capabilities": [
+        "ui_development",
+        "responsive_design",
+        "accessibility"
+      ],
+      "skills": [
+        "code-review",
+        "prototype"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_ai_eng",
+      "name": "AI Engineer",
+      "role": "AI/ML Developer",
+      "domain": "development",
+      "responsibilities": [
+        "model_integration",
+        "prompt_engineering",
+        "agent_design"
+      ],
+      "capabilities": [
+        "model_integration",
+        "prompt_engineering",
+        "agent_design"
+      ],
+      "skills": [
+        "research",
+        "code-review"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_ml",
+      "name": "ML Engineer",
+      "role": "ML Specialist",
+      "domain": "research",
+      "responsibilities": [
+        "model_training",
+        "data_pipeline",
+        "evaluation"
+      ],
+      "capabilities": [
+        "model_training",
+        "data_pipeline",
+        "evaluation"
+      ],
+      "skills": [
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_devops",
+      "name": "DevOps",
+      "role": "DevOps Engineer",
+      "domain": "operations",
+      "responsibilities": [
+        "ci_cd",
+        "infrastructure",
+        "monitoring"
+      ],
+      "capabilities": [
+        "ci_cd",
+        "infrastructure",
+        "monitoring"
+      ],
+      "skills": [
+        "infrastructure"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_qa_sr",
+      "name": "QA",
+      "role": "QA Lead",
+      "domain": "development",
+      "responsibilities": [
+        "test_automation",
+        "regression",
+        "coverage"
+      ],
+      "capabilities": [
+        "test_automation",
+        "regression",
+        "coverage"
+      ],
+      "skills": [
+        "tdd",
+        "code-review"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_code_quality",
+      "metric": "code_quality",
+      "target": "> 85",
+      "frequency": "per_mission"
+    },
+    {
+      "id": "obj_test_coverage",
+      "metric": "test_coverage",
+      "target": "> 80%",
+      "frequency": "per_mission"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [],
+    "isolated_per_project": true
+  }
+}

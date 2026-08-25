@@ -1,0 +1,99 @@
+{
+  "audit": "VISERON P2.3 — Server Migration Backup Audit",
+  "timestamp": "2026-08-12",
+  "source": {
+    "machine": "Intel i5-1235U, 8GB RAM, Windows 11 Home, Intel UHD iGPU",
+    "node": "v24.18.0",
+    "python": "3.13.14",
+    "ollama": "v0.32.5 (CPU mode)"
+  },
+  "target": {
+    "machine": "UpCloud — AMD EPYC 7542, 32 cores, 256GB RAM, Windows Server 2025 Standard",
+    "implications": "32x threads vs 12, 32x RAM vs 8GB. Can run Ollama 70B, Wan2.1 14B+GPU, multi-model serving."
+  },
+  "repository": {
+    "codeSize": "620MB (excl data/node_modules/.git)",
+    "dataSize": "300MB",
+    "contractsSize": "441.5MB",
+    "totalMigrationSize": "~920MB",
+    "largestComponents": ["contracts/ (441.5MB)", "data/ (300MB)", "src/ (88.1MB)", "dist/ (88.1MB)"],
+    "excludedFromMigration": ["node_modules/ (rebuilt via npm install)", ".git/ (recloned or mirrored)"]
+  },
+  "backupManifest": {
+    "mustBackup": [
+      "src/ — all source code (241 TypeScript files)",
+      "data/ — audit history, reports, experience records, knowledge (300MB)",
+      "scripts/ — CLI tools and orchestrators",
+      "contracts/ — Solidity contracts, Solana programs",
+      "config/ — configuration files",
+      "package.json + package-lock.json — dependencies",
+      "tsconfig.json — TypeScript config",
+      ".env — environment variables (NEVER commit)",
+      "skills/vendor/ — 10 skill collections (excluded from git, MUST be migrated)",
+      "docs/ — architecture and planning documents",
+      "AGENTS.md — agent rules"
+    ],
+    "canRebuild": [
+      "node_modules/ — npm install on target",
+      "dist/ — npm run build on target"
+    ],
+    "neverMigrate": [
+      ".git/ — fresh clone recommended",
+      "logs/ — generated at runtime",
+      "*.log — runtime logs"
+    ]
+  },
+  "dependencies": {
+    "runtime": {
+      "node": "v24+ required (package.json uses modern ES features)",
+      "python": "3.10+ required (Wan2.1 integration)",
+      "ollama": "v0.32+ (LLM provider)",
+      "git": "any version"
+    },
+    "npm": {
+      "core": ["express", "socket.io", "dotenv", "winston", "zod", "commander"],
+      "ai": ["ollama", "openai", "@langchain/core"],
+      "crypto": ["stripe", "nodemailer"],
+      "data": ["pg", "exceljs", "pdfkit"],
+      "mcp": ["@modelcontextprotocol/client", "@modelcontextprotocol/server"],
+      "dev": ["typescript", "tsx", "nodemon"]
+    },
+    "optional": {
+      "gpu": "NVIDIA driver + CUDA (for Wan2.1, ComfyUI)",
+      "pytorch": "2.4+ CUDA (for Wan2.1)",
+      "postgres": "Neon or local (DATABASE_URL)"
+    }
+  },
+  "migrationChecklist": [
+    "1. Run security audit: scan for secrets in committed files",
+    "2. Create backup: zip entire repo (excl node_modules, .git)",
+    "3. Export .env — move to secure location, NEVER in backup zip",
+    "4. Git clone --mirror or just copy .git separately",
+    "5. Transfer backup to target server (SCP, SFTP, or cloud storage)",
+    "6. On target: install Node v24+, Python 3.10+, Git, Ollama",
+    "7. On target: npm install && npm run build",
+    "8. On target: restore .env from secure location",
+    "9. On target: npm run models:pull (Ollama qwen2.5:3b + 1.5b)",
+    "10. On target: npm start — verify all endpoints respond",
+    "11. On target: npm test — verify all 67 tests pass",
+    "12. Run npm run wan21 benchmark — verify GPU detection",
+    "13. Run npm run p09 — verify Engineering Squad works",
+    "14. Update DNS / firewall / nginx to point to new server",
+    "15. Decommission old laptop (or keep as dev/test)"
+  ],
+  "migrationReadiness": {
+    "percentage": 85,
+    "blockers": [
+      "GPU not yet purchased (Wan2.1, ComfyUI remain BLOCKED without GPU)",
+      "Target server not yet provisioned (migration plan is READY)",
+      "Skills/vendor/ must be reinstalled (gitignored, excluded from git clone)"
+    ],
+    "ready": [
+      "Code and data structure fully portable",
+      "All dependencies are npm-installable",
+      ".env structure is clean (36 keys, no hardcoded secrets in code)",
+      "Core tests run locally (verifiable before migration)",
+      "Ollama models are re-downloadable"
+    ]
+  }
+}

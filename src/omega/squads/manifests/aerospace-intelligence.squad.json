@@ -1,0 +1,142 @@
+{
+  "id": "aerospace-intelligence",
+  "name": "Aerospace Intelligence Squad",
+  "domain": "aerospace",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_aerospace",
+      "name": "Aerospace Engineer",
+      "role": "Aerospace Specialist",
+      "domain": "research",
+      "responsibilities": [
+        "orbital_mechanics",
+        "propulsion",
+        "spacecraft_design"
+      ],
+      "capabilities": [
+        "orbital_mechanics",
+        "propulsion",
+        "spacecraft_design"
+      ],
+      "skills": [
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_physics",
+      "name": "Physics Researcher",
+      "role": "Research Physicist",
+      "domain": "research",
+      "responsibilities": [
+        "theoretical_physics",
+        "simulation",
+        "materials_science"
+      ],
+      "capabilities": [
+        "theoretical_physics",
+        "simulation",
+        "materials_science"
+      ],
+      "skills": [
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_robotics",
+      "name": "Robotics Engineer",
+      "role": "Robotics Specialist",
+      "domain": "research",
+      "responsibilities": [
+        "robot_design",
+        "control_systems",
+        "autonomous_navigation"
+      ],
+      "capabilities": [
+        "robot_design",
+        "control_systems",
+        "autonomous_navigation"
+      ],
+      "skills": [
+        "research",
+        "prototype"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_materials",
+      "name": "Materials Research",
+      "role": "Materials Scientist",
+      "domain": "research",
+      "responsibilities": [
+        "materials_analysis",
+        "composites",
+        "thermal_protection"
+      ],
+      "capabilities": [
+        "materials_analysis",
+        "composites",
+        "thermal_protection"
+      ],
+      "skills": [
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_research_papers",
+      "metric": "research_papers",
+      "target": "quarterly",
+      "frequency": "per_mission"
+    },
+    {
+      "id": "obj_simulation_accuracy",
+      "metric": "simulation_accuracy",
+      "target": "> 95%",
+      "frequency": "per_mission"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [],
+    "isolated_per_project": true
+  }
+}

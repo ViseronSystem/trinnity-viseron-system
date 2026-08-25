@@ -1,0 +1,35 @@
+{
+  "totalExecuted": 8,
+  "byNode": [
+    {
+      "nodeId": "p05_research",
+      "skillsExecuted": 2,
+      "skillsValidated": 2
+    },
+    {
+      "nodeId": "p05_dev",
+      "skillsExecuted": 0,
+      "skillsValidated": 0
+    },
+    {
+      "nodeId": "p05_security",
+      "skillsExecuted": 0,
+      "skillsValidated": 0
+    },
+    {
+      "nodeId": "p05_arch",
+      "skillsExecuted": 2,
+      "skillsValidated": 2
+    },
+    {
+      "nodeId": "p05_synthesis",
+      "skillsExecuted": 2,
+      "skillsValidated": 2
+    },
+    {
+      "nodeId": "p05_verify",
+      "skillsExecuted": 2,
+      "skillsValidated": 2
+    }
+  ]
+}

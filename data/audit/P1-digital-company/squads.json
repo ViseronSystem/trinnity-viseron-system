@@ -1,0 +1,32 @@
+[
+  {
+    "id": "executive-intelligence",
+    "name": "Executive Intelligence Squad",
+    "agents": 5,
+    "domain": "executive"
+  },
+  {
+    "id": "advanced-engineering",
+    "name": "Advanced Engineering Squad",
+    "agents": 7,
+    "domain": "engineering"
+  },
+  {
+    "id": "creative-intelligence",
+    "name": "Creative Intelligence Squad",
+    "agents": 5,
+    "domain": "creative"
+  },
+  {
+    "id": "aerospace-intelligence",
+    "name": "Aerospace Intelligence Squad",
+    "agents": 4,
+    "domain": "aerospace"
+  },
+  {
+    "id": "security-intelligence",
+    "name": "Security Intelligence Squad",
+    "agents": 4,
+    "domain": "security"
+  }
+]

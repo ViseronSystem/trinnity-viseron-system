@@ -1,0 +1,17 @@
+{
+  "phases": 8,
+  "realResponses": 8,
+  "provider": "ollama/qwen2.5:3b",
+  "blueprintPath": "data/audit/p3-production/startup-blueprint.md",
+  "agentsUsed": [
+    "agent_market",
+    "agent_architect_sr",
+    "agent_strategy",
+    "agent_cto",
+    "agent_sec_eng",
+    "agent_investor",
+    "agent_ceo",
+    "agent_market"
+  ],
+  "status": "REAL"
+}

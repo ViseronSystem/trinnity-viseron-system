@@ -1,0 +1,50 @@
+{
+  "learningId": "learn_msoyajd2_ogio",
+  "sourceExperienceIds": [
+    "AUDITMSOYAJD1_B1"
+  ],
+  "taskIds": [
+    "audit_task_AUDITMSOYAJD1"
+  ],
+  "agentIds": [
+    "agent_ceo"
+  ],
+  "traceIds": [
+    "audit_trace_AUDITMSOYAJD1"
+  ],
+  "inputContext": "knowledge graph entity density audit",
+  "previousBehavior": "no density tracking",
+  "newBehavior": "kg entity density monitored per task execution",
+  "performanceBefore": 1,
+  "performanceAfter": 2.5,
+  "performanceDelta": 1.5,
+  "validation": "PASS",
+  "confidence": 0.95,
+  "relevanceScore": 0.8,
+  "scope": "AGENT_ONLY",
+  "status": "CONSOLIDATED",
+  "evidence": [
+    "experience:AUDITMSOYAJD1_B1",
+    "artifact:AUDITMSOYAJD1_B1_audit_report",
+    "validation:PASS",
+    "tools:kg_query,density_analysis"
+  ],
+  "conflicts": [
+    {
+      "conflictId": "learn_msoy9yzi_e5kz",
+      "type": "SUPPORTS",
+      "reason": "this learning supports existing knowledge",
+      "resolutionStatus": "DETECTED"
+    },
+    {
+      "conflictId": "learn_msoy9yzm_v3nr",
+      "type": "EXTENDS",
+      "reason": "this learning extends existing knowledge",
+      "resolutionStatus": "DETECTED"
+    }
+  ],
+  "createdAt": 1786470302342,
+  "updatedAt": 1786470302343,
+  "consolidatedAt": 1786470302343,
+  "archiveHash": "b684f691ecaec031e8e26dbc67732df3803dfb510cd5fd0c5501d340e8ee1e7c"
+}

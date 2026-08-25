@@ -1,0 +1,52 @@
+{
+  "audit": "VISERON P2 — Risk Analysis",
+  "timestamp": "2026-08-12T14:30:00Z",
+  "risks": [
+    {
+      "id": "RISK-01",
+      "category": "LICENSE",
+      "severity": "HIGH",
+      "technology": "ComfyUI",
+      "description": "GPL-3.0 license. Integrating GPL code or linking to it may require VISERON to also be GPL-licensed. Using ComfyUI as a separate HTTP service (API boundary) is likely the safest approach, but legal review is mandatory before any integration.",
+      "mitigation": "Legal review. If approved, integrate via REST API only — never embed or distribute ComfyUI code.",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "RISK-02",
+      "category": "INFRASTRUCTURE",
+      "severity": "HIGH",
+      "technology": "All GPU tools",
+      "description": "VISERON runs on CPU (Ollama uses CPU). Wan2.1 and ComfyUI require dedicated GPU. Without GPU, all multimodal capabilities are theoretical.",
+      "mitigation": "Deploy GPU server (RTX 4090+) accessible via local network. Run Python inference services on GPU server, call from VISERON via subprocess/HTTP.",
+      "status": "OPEN"
+    },
+    {
+      "id": "RISK-03",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "technology": "Wan2.1",
+      "description": "Subprocess execution of Python scripts. If prompt input is not sanitized, could allow command injection.",
+      "mitigation": "Sanitize all user prompts before passing to subprocess. Use JSON input format (not shell strings). Validate output files exist before serving.",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "RISK-04",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "technology": "Subprocess bridge",
+      "description": "Python subprocess can fail, hang, or consume excessive resources. Adds failure point to otherwise-deterministic TypeScript execution.",
+      "mitigation": "Timeout wrapper (10 min default). Retry with backoff (max 3). Process kill on timeout. Resource monitoring.",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "RISK-05",
+      "category": "VERIFICATION",
+      "severity": "LOW",
+      "technology": "DuixAvatar, VoiceStudio, Handy",
+      "description": "Three of five requested technologies returned 404 at expected URLs. Cannot audit or integrate unknown repositories.",
+      "mitigation": "Request correct URLs from source. Evaluate alternative tools for same capabilities.",
+      "status": "OPEN"
+    }
+  ],
+  "realityGate": "PASS — all classifications based on real repository analysis. No simulated capabilities. 2/5 verified, 3/5 require URL correction."
+}

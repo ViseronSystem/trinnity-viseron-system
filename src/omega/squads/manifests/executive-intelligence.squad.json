@@ -1,0 +1,175 @@
+{
+  "id": "executive-intelligence",
+  "name": "Executive Intelligence Squad",
+  "domain": "executive",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_ceo",
+      "name": "CEO",
+      "role": "Chief Executive Officer",
+      "domain": "management",
+      "responsibilities": [
+        "vision",
+        "strategy",
+        "governance",
+        "delegation"
+      ],
+      "capabilities": [
+        "vision",
+        "strategy",
+        "governance",
+        "delegation"
+      ],
+      "skills": [
+        "business-analysis",
+        "project-management"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_strategy",
+      "name": "Strategy",
+      "role": "Chief Strategy Officer",
+      "domain": "management",
+      "responsibilities": [
+        "market_analysis",
+        "competitive_intelligence",
+        "strategic_planning"
+      ],
+      "capabilities": [
+        "market_analysis",
+        "competitive_intelligence",
+        "strategic_planning"
+      ],
+      "skills": [
+        "business-analysis",
+        "research"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_market",
+      "name": "Market Intelligence",
+      "role": "Market Analyst",
+      "domain": "research",
+      "responsibilities": [
+        "market_research",
+        "trend_analysis",
+        "competitor_benchmarking"
+      ],
+      "capabilities": [
+        "market_research",
+        "trend_analysis",
+        "competitor_benchmarking"
+      ],
+      "skills": [
+        "research",
+        "marketing"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_investor",
+      "name": "Investor Relations",
+      "role": "IR Director",
+      "domain": "finance",
+      "responsibilities": [
+        "investor_communication",
+        "financial_modeling",
+        "fundraising"
+      ],
+      "capabilities": [
+        "investor_communication",
+        "financial_modeling",
+        "fundraising"
+      ],
+      "skills": [
+        "business-analysis",
+        "marketing"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    },
+    {
+      "id": "agent_legal",
+      "name": "Legal/IP",
+      "role": "Legal Counsel",
+      "domain": "knowledge",
+      "responsibilities": [
+        "ip_strategy",
+        "contract_review",
+        "compliance"
+      ],
+      "capabilities": [
+        "ip_strategy",
+        "contract_review",
+        "compliance"
+      ],
+      "skills": [
+        "security-audit"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [],
+      "verification": [
+        "evidence_check"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_strategic_decisions",
+      "metric": "strategic_decisions",
+      "target": "monthly review",
+      "frequency": "per_mission"
+    },
+    {
+      "id": "obj_market_reports",
+      "metric": "market_reports",
+      "target": "quarterly",
+      "frequency": "per_mission"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [],
+    "isolated_per_project": true
+  }
+}

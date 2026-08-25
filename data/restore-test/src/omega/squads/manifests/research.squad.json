@@ -1,0 +1,25 @@
+{
+  "id": "squad_research",
+  "name": "Research Squad",
+  "description": "Análise, aquisição de conhecimento e documentação técnica e estratégica.",
+  "domain": "intelligence",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_research", "description": "Produzir análises acionáveis", "metric": "insights_per_week", "target": 5 },
+    { "id": "obj_docs", "description": "Documentação completa e atualizada", "metric": "docs_coverage_pct", "target": 90 }
+  ],
+  "tools": [
+    { "id": "websearch", "name": "Web Search", "description": "pesquisa e recolha de informação" },
+    { "id": "knowledge", "name": "Knowledge Base", "description": "leitura/escrita da base de conhecimento" }
+  ],
+  "workflows": [
+    { "id": "wf_research", "name": "Research Cycle", "steps": ["query", "collect", "analyze", "synthesize", "publish"] },
+    { "id": "wf_docs", "name": "Documentation", "steps": ["outline", "draft", "review", "publish"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": true },
+  "permissions": [
+    { "resource": "knowledge", "actions": ["read", "write"] },
+    { "resource": "reports", "actions": ["create", "read"] }
+  ],
+  "agents": ["agent_research", "agent_vision"]
+}

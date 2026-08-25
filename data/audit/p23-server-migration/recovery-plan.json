@@ -1,0 +1,39 @@
+{
+  "recoveryPlan": {
+    "backupFrequency": "Daily at 02:00 via Task Scheduler or cron",
+    "backupLocation": ["Local: C:\\tvs\\backups\\daily\\", "Remote: Cloud storage (S3, Drive, or SFTP)"],
+    "backupContents": ["Full repository (excl node_modules)", "Database dump (pg_dump)", "Ollama model list (ollama list)", "Skill registry snapshot"],
+    "recoveryProcedure": {
+      "fullSystemLoss": [
+        "1. Provision new Windows Server 2025",
+        "2. Install Node v24, Python 3.10, Git, Ollama",
+        "3. Restore latest backup .7z",
+        "4. Copy .env from secure storage",
+        "5. npm install && npm run build",
+        "6. npm run skills:install",
+        "7. npm run models:pull",
+        "8. Restore database from pg_dump",
+        "9. npm start",
+        "10. npm test — verify all tests pass"
+      ],
+      "dataCorruption": [
+        "1. Stop VISERON server",
+        "2. Restore data/ from backup",
+        "3. Verify data integrity (SHA checksums)",
+        "4. Restart VISERON"
+      ],
+      "dependencyFailure": [
+        "1. npm install (reinstall all)",
+        "2. If Ollama fails: reinstall via winget",
+        "3. If Postgres fails: reconnect or restore from dump"
+      ]
+    },
+    "rto": "Recovery Time Objective: 2 hours (full system restore)",
+    "rpo": "Recovery Point Objective: 24 hours (daily backups)"
+  },
+  "monitoring": {
+    "healthCheck": "GET /api/health every 60s",
+    "alertChannels": ["PM2 process monitoring", "Windows Event Log", "Email alert (via Gmail OAuth)"],
+    "autoRestart": "PM2 --watch or Task Scheduler trigger on process exit"
+  }
+}

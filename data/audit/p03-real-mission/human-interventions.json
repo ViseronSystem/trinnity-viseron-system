@@ -1,0 +1,42 @@
+[
+  {
+    "point": "mission_selection",
+    "type": "AUTONOMOUS",
+    "detail": "Mission selected by VISERON based on available capabilities"
+  },
+  {
+    "point": "task_decomposition",
+    "type": "AUTONOMOUS",
+    "detail": "5 tasks decomposed by domain"
+  },
+  {
+    "point": "parallel_execution",
+    "type": "AUTONOMOUS",
+    "detail": "4 tasks executed concurrently"
+  },
+  {
+    "point": "code_analysis",
+    "type": "AUTONOMOUS",
+    "detail": "Static analysis of src/ directory structure"
+  },
+  {
+    "point": "artifact_generation",
+    "type": "AUTONOMOUS",
+    "detail": "Structured audit report generated from findings"
+  },
+  {
+    "point": "ollama_provider",
+    "type": "BLOCKED",
+    "detail": "Ollama not running locally — skill execution skipped provider calls"
+  },
+  {
+    "point": "composio_oauth",
+    "type": "BLOCKED",
+    "detail": "No OAuth connections active — tool mappings exist but not executable"
+  },
+  {
+    "point": "cloud_providers",
+    "type": "BLOCKED",
+    "detail": "No cloud API keys configured — OPENAI/CLAUDE/GEMINI/GROK unavailable"
+  }
+]

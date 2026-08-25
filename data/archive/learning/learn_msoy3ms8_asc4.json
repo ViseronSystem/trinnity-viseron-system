@@ -1,0 +1,47 @@
+{
+  "learningId": "learn_msoy3ms8_asc4",
+  "sourceExperienceIds": [
+    "CLMSOY3MS3_E1"
+  ],
+  "taskIds": [
+    "task_analysis_CLMSOY3MS3"
+  ],
+  "agentIds": [
+    "agent_ceo"
+  ],
+  "traceIds": [
+    "trace_CLMSOY3MS3_e1"
+  ],
+  "inputContext": "retrieval pipeline optimization",
+  "previousBehavior": "vector weight 0.6",
+  "newBehavior": "vector weight 0.7",
+  "performanceBefore": 1,
+  "performanceAfter": 3,
+  "performanceDelta": 2,
+  "validation": "PASS",
+  "confidence": 0.8,
+  "relevanceScore": 0.85,
+  "scope": "AGENT_ONLY",
+  "status": "CONSOLIDATED",
+  "evidence": [
+    "exp:CLMSOY3MS3_E1"
+  ],
+  "conflicts": [
+    {
+      "conflictId": "learn_msoy3ms4_hnw2",
+      "type": "SUPPORTS",
+      "reason": "this learning supports existing knowledge",
+      "resolutionStatus": "DETECTED"
+    },
+    {
+      "conflictId": "learn_msoy3ms7_z16b",
+      "type": "EXTENDS",
+      "reason": "this learning extends existing knowledge",
+      "resolutionStatus": "DETECTED"
+    }
+  ],
+  "createdAt": 1786469980184,
+  "updatedAt": 1786469980185,
+  "consolidatedAt": 1786469980185,
+  "archiveHash": "1b99a5bb398f25a136f1012225f41cf7803df55b11544e1680b8e5d3a8a204d5"
+}

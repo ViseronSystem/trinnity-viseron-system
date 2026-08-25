@@ -1,0 +1,25 @@
+{
+  "id": "squad_security",
+  "name": "Security Squad",
+  "description": "Auditoria, análise de vulnerabilidades e conformidade de todas as operações.",
+  "domain": "security",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_audit", "description": "Auditar ações de IA e sistemas", "metric": "audits_per_week", "target": 3 },
+    { "id": "obj_vuln", "description": "Detetar e mitigar vulnerabilidades", "metric": "vuln_remediation_days", "target": 7 }
+  ],
+  "tools": [
+    { "id": "audit_log", "name": "Audit Log", "description": "registo de ações com timestamps" },
+    { "id": "scanner", "name": "Scanner", "description": "análise de vulnerabilidades e compliance" }
+  ],
+  "workflows": [
+    { "id": "wf_audit", "name": "Audit Cycle", "steps": ["collect", "analyze", "report", "remediate"] },
+    { "id": "wf_compliance", "name": "Compliance Review", "steps": ["scan", "classify", "report"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": false },
+  "permissions": [
+    { "resource": "audit", "actions": ["read", "write"] },
+    { "resource": "secrets", "actions": ["read"] }
+  ],
+  "agents": ["agent_security"]
+}

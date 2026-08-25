@@ -1,0 +1,8 @@
+{
+  "SkillBridge": "WIRED — JarvisAgent, ViseronAgent, SkillExecutor",
+  "SkillExecutor": "REAL — replaces hardcoded REJECTED in SkillPipeline.execute()",
+  "ExperienceStore": "WIRED — records every skill execution for future learning",
+  "SkillPipeline": "DELEGATES — execute() delegates to SkillExecutor",
+  "Agents": "SkillBridge context injected in system prompt at chat()",
+  "timestamp": "2026-08-12T00:26:25.179Z"
+}

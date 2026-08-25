@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinnity Viseron OS — Sistema Operacional Multi-Agente v5.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- FIRST PAINT: design system + skeleton (sem CDN pesados em render-blocking) -->
+  <link rel="stylesheet" href="/tvs-design.css" />
+  <link rel="stylesheet" href="/tvs-skeleton.css" />
+  <link rel="stylesheet" href="/tvs-motion.css" />
+  <style>
+    :root { --neon: #00f0ff; --neon2: #bf5af2; --neon3: #ff2d55; --bg: #050510; --os-bg: #050510; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; overflow:hidden; background:var(--bg); color:#e4e4f0; font-family:'Inter',sans-serif; }
+    .scanline { position:fixed; inset:0; z-index:99998; pointer-events:none; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,240,255,0.015) 2px,rgba(0,240,255,0.015) 4px); }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(0,240,255,0.3); border-radius:2px; }
+    /* APP SHELL (first paint): visível em milissegundos, sem esperar os módulos */
+    #os-shell { position:fixed; inset:0; display:flex; flex-direction:column; }
+    #os-shell .tvs-skeleton-shell { flex:1; display:flex; flex-direction:column; padding:16px; gap:16px; }
+    #os-shell .tvs-shell-topbar { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid var(--tvs-border); }
+    #os-shell .tvs-shell-taskbar { height:44px; border-top:1px solid var(--tvs-border); display:flex; align-items:center; padding:0 16px; gap:12px; }
+  </style>
+</head>
+<body>
+<div class="scanline"></div>
+<!-- APP SHELL: o utilizador vê algo em < 100ms; os módulos entram depois -->
+<div id="os-shell" aria-hidden="true">
+  <div class="tvs-shell-topbar">
+    <div class="tvs-skeleton tvs-skeleton-avatar-sm"></div>
+    <div class="tvs-skeleton tvs-skeleton-text" style="width:140px"></div>
+    <div style="flex:1"></div>
+    <div class="tvs-skeleton tvs-skeleton-text-sm" style="width:70px"></div>
+  </div>
+  <div class="tvs-skeleton-shell">
+    <div class="tvs-skeleton-dashboard">
+      <div class="tvs-skeleton tvs-skeleton-stat"><div class="tvs-skeleton tvs-skeleton-text-xl"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>
+      <div class="tvs-skeleton tvs-skeleton-stat"><div class="tvs-skeleton tvs-skeleton-text-xl"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>
+      <div class="tvs-skeleton tvs-skeleton-stat"><div class="tvs-skeleton tvs-skeleton-text-xl"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>
+      <div class="tvs-skeleton tvs-skeleton-stat"><div class="tvs-skeleton tvs-skeleton-text-xl"></div><div class="tvs-skeleton tvs-skeleton-text-sm"></div></div>
+    </div>
+    <div class="tvs-skeleton tvs-skeleton-chart"></div>
+  </div>
+  <div class="tvs-shell-taskbar">
+    <div class="tvs-skeleton tvs-skeleton-text-sm" style="width:90px"></div>
+    <div class="tvs-skeleton tvs-skeleton-text-sm" style="width:60px"></div>
+  </div>
+</div>
+
+<!-- CRITICAL UI (defer): WebOS + voice + socket; Three.js/Tailwind em módulos lazy -->
+<script defer src="webos.js"></script>
+<script defer src="voice-widget.js"></script>
+<script>
+  // LAZY MODULES (Issue #5): carrega Tailwind/Three/socket APÓS o App Shell pintar,
+  // em prioridade baixa (requestIdleCallback) — o utilizador nunca espera o dashboard inteiro.
+  function loadLazy(src, onload) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.defer = true;
+    s.onload = onload;
+    document.body.appendChild(s);
+  }
+  function loadLazyBatch() {
+    loadLazy('https://cdn.socket.io/4.8.1/socket.io.min.js');
+    loadLazy('https://cdn.tailwindcss.com');
+    loadLazy('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', function () {
+      if (window.__tvsWebosThreeReady) window.__tvsWebosThreeReady();
+    });
+  }
+  // Troca o shell por conteúdo real assim que o WebOS montar
+  function hideShell() {
+    var shell = document.getElementById('os-shell');
+    if (shell) shell.remove();
+  }
+  window.__tvsHideShell = hideShell;
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(loadLazyBatch, { timeout: 2000 });
+  } else {
+    setTimeout(loadLazyBatch, 500);
+  }
+</script>
+</body>
+</html>

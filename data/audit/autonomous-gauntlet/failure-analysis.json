@@ -1,0 +1,42 @@
+{
+  "negativeControls": [
+    {
+      "name": "unknown_skill",
+      "expected": "FAIL",
+      "result": "PASS",
+      "detail": "failed: Skill nonexistent:fake not found in registry"
+    },
+    {
+      "name": "HIGH_RISK_blocked",
+      "expected": "FAIL",
+      "result": "PASS",
+      "detail": "failed: Skill claude-plugins-official:code-review not found in registry"
+    },
+    {
+      "name": "invalid_input",
+      "expected": "SUCCESS",
+      "result": "FAIL",
+      "detail": "failed: Skill claude-plugins-official:research not found in registry"
+    },
+    {
+      "name": "missing_permission",
+      "expected": "FAIL",
+      "result": "PASS",
+      "detail": "failed: Skill comp-ai:audit-compliance not found in registry"
+    },
+    {
+      "name": "empty_task",
+      "expected": "SUCCESS",
+      "result": "FAIL",
+      "detail": "failed: Skill claude-plugins-official:api-design not found in registry"
+    },
+    {
+      "name": "valid_execution",
+      "expected": "SUCCESS",
+      "result": "FAIL",
+      "detail": "failed: Skill claude-plugins-official:research not found in registry"
+    }
+  ],
+  "total": 6,
+  "passed": 3
+}

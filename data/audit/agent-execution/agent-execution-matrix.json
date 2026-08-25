@@ -11,7 +11,7 @@
       "synthesis",
       "coordination"
     ],
-    "latencyMs": 2,
+    "latencyMs": 6,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -28,7 +28,7 @@
       "filesystem_read",
       "architecture_analysis"
     ],
-    "latencyMs": 8,
+    "latencyMs": 9,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -62,7 +62,7 @@
       "infrastructure_audit",
       "config_inspection"
     ],
-    "latencyMs": 1,
+    "latencyMs": 2,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -79,7 +79,7 @@
       "metrics_analysis",
       "cost_estimation"
     ],
-    "latencyMs": 13,
+    "latencyMs": 6,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -90,7 +90,7 @@
     "probe": "Research cognitive architecture patterns and produce finding",
     "success": true,
     "artifactPath": "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\research_findings.md",
-    "artifactHash": "b998c4be2d552d233504e2376f35a18ceadc1cafc0d7780d71a0300ed97db7c5",
+    "artifactHash": "6f7cf1d49d599c74193f5d8e637de30ea793b66722c8ca6046006a7ff24a6476",
     "artifactSize": 117,
     "toolsUsed": [
       "kg_analysis",
@@ -113,7 +113,7 @@
       "value_analysis",
       "market_positioning"
     ],
-    "latencyMs": 2,
+    "latencyMs": 1,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -147,7 +147,7 @@
       "documentation_analysis",
       "guide_generation"
     ],
-    "latencyMs": 26,
+    "latencyMs": 2,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"
@@ -164,7 +164,7 @@
       "strategy_analysis",
       "roadmap_synthesis"
     ],
-    "latencyMs": 2,
+    "latencyMs": 1,
     "traceCreated": true,
     "evidenceRecorded": true,
     "classification": "REAL"

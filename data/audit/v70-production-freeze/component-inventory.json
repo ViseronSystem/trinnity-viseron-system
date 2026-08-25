@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Core VISERON",
+    "status": "REAL",
+    "evidence": "249 TS files, boots in ~2s, 20/20 core tests"
+  },
+  {
+    "name": "Agents",
+    "status": "REAL",
+    "evidence": "10 runtime specs + 100 battalion + 30 squad"
+  },
+  {
+    "name": "Squads",
+    "status": "REAL",
+    "evidence": "12 manifests (6 operational squads)"
+  },
+  {
+    "name": "Skills",
+    "status": "REAL",
+    "evidence": "1,997 indexed in 10 collections"
+  },
+  {
+    "name": "SkillBridge",
+    "status": "REAL",
+    "evidence": "Wired into JarvisAgent chat()"
+  },
+  {
+    "name": "SkillExecutor",
+    "status": "REAL",
+    "evidence": "494+ execution records, real Ollama provider"
+  },
+  {
+    "name": "SkillContractRegistry",
+    "status": "PARTIAL",
+    "evidence": "4 formal + 195 auto-inferred contracts"
+  },
+  {
+    "name": "ExperienceStore",
+    "status": "REAL",
+    "evidence": "Wired to executor, 177KB records"
+  },
+  {
+    "name": "MemoryEngine",
+    "status": "REAL",
+    "evidence": "LTM 20K records + STM + KB + Vector fallback"
+  },
+  {
+    "name": "Knowledge Graph",
+    "status": "REAL",
+    "evidence": "4,278 nodes / 8,275 edges"
+  },
+  {
+    "name": "Founder OS",
+    "status": "REAL",
+    "evidence": "Daily plan, weekly, KPIs (static templates)"
+  },
+  {
+    "name": "Engineering Fabric",
+    "status": "REAL",
+    "evidence": "8-phase workflow, 8/8 succeeded with Ollama"
+  },
+  {
+    "name": "Creative Fabric",
+    "status": "PARTIAL",
+    "evidence": "5 agents defined; Wan2.1 BLOCKED (no GPU)"
+  },
+  {
+    "name": "Aerospace Fabric",
+    "status": "PARTIAL",
+    "evidence": "4 agents defined; simulation BLOCKED (no GPU)"
+  },
+  {
+    "name": "Security Fabric",
+    "status": "REAL",
+    "evidence": "4 agents, security-audit skills, governance"
+  },
+  {
+    "name": "Ollama",
+    "status": "REAL",
+    "evidence": "v0.32.5, CPU mode, real responses"
+  },
+  {
+    "name": "Models",
+    "status": "REAL",
+    "evidence": "qwen2.5:3b (1.9GB) + qwen2.5:7b (4.7GB)"
+  },
+  {
+    "name": "Providers",
+    "status": "PARTIAL",
+    "evidence": "Ollama live; cloud providers configured=0"
+  },
+  {
+    "name": "Databases",
+    "status": "PARTIAL",
+    "evidence": "Postgres Neon configured; Qdrant fallback in-memory"
+  },
+  {
+    "name": "APIs",
+    "status": "REAL",
+    "evidence": "188+ endpoints, health/metrics live"
+  },
+  {
+    "name": "Environment",
+    "status": "REAL",
+    "evidence": "76 env vars referenced, 36 configured"
+  },
+  {
+    "name": "Backups",
+    "status": "REAL",
+    "evidence": "Golden backup 22,920 files SHA-256 verified"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "before": {
+    "agents": 1,
+    "skills": 1,
+    "durationMs": 14956,
+    "provider": "ollama",
+    "model": "qwen2.5:3b"
+  },
+  "after": {
+    "agents": 5,
+    "skills": 8,
+    "durationMs": 42219,
+    "phases": 8,
+    "succeeded": 8
+  },
+  "delta": {
+    "skillsMultiplier": 8,
+    "phasesVsSingle": "8x more phases",
+    "note": "EngineeringSquad distributes work across specialists; higher coverage but longer duration"
+  }
+}

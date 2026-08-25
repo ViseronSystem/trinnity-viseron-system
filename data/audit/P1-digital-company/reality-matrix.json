@@ -1,0 +1,16 @@
+{
+  "organization": {
+    "squads": 6,
+    "agents": 30,
+    "status": "REAL"
+  },
+  "execution": {
+    "phases": 6,
+    "provider": "ollama/qwen2.5:3b",
+    "status": "REAL"
+  },
+  "knowledge": {
+    "skillsTotal": 1997,
+    "domainsClassified": 8
+  }
+}

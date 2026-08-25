@@ -1,0 +1,136 @@
+{
+  "production": [
+    {
+      "name": "@langchain/core",
+      "version": "^1.2.3"
+    },
+    {
+      "name": "@modelcontextprotocol/client",
+      "version": "^2.0.0"
+    },
+    {
+      "name": "@modelcontextprotocol/server",
+      "version": "^2.0.0"
+    },
+    {
+      "name": "@types/pdfkit",
+      "version": "^0.17.6"
+    },
+    {
+      "name": "@types/pg",
+      "version": "^8.20.3"
+    },
+    {
+      "name": "axios",
+      "version": "^1.18.1"
+    },
+    {
+      "name": "chalk",
+      "version": "^5.3.0"
+    },
+    {
+      "name": "commander",
+      "version": "^15.0.0"
+    },
+    {
+      "name": "dotenv",
+      "version": "^16.6.1"
+    },
+    {
+      "name": "exceljs",
+      "version": "^4.4.0"
+    },
+    {
+      "name": "express",
+      "version": "^5.2.1"
+    },
+    {
+      "name": "fs-extra",
+      "version": "^11.4.0"
+    },
+    {
+      "name": "node-cron",
+      "version": "^4.6.0"
+    },
+    {
+      "name": "nodemailer",
+      "version": "^9.0.5"
+    },
+    {
+      "name": "ollama",
+      "version": "^0.6.3"
+    },
+    {
+      "name": "open-multi-agent",
+      "version": "^1.8.0"
+    },
+    {
+      "name": "openai",
+      "version": "^7.1.0"
+    },
+    {
+      "name": "pdfkit",
+      "version": "^0.19.1"
+    },
+    {
+      "name": "pg",
+      "version": "^8.22.0"
+    },
+    {
+      "name": "socket.io",
+      "version": "^4.8.3"
+    },
+    {
+      "name": "stripe",
+      "version": "^22.4.0"
+    },
+    {
+      "name": "tsx",
+      "version": "^4.23.1"
+    },
+    {
+      "name": "typescript",
+      "version": "^5.9.3"
+    },
+    {
+      "name": "winston",
+      "version": "^3.19.0"
+    },
+    {
+      "name": "zod",
+      "version": "^3.25.76"
+    }
+  ],
+  "dev": [
+    {
+      "name": "@types/express",
+      "version": "^5.0.6"
+    },
+    {
+      "name": "@types/fs-extra",
+      "version": "^11.0.4"
+    },
+    {
+      "name": "@types/node",
+      "version": "^20.11.0"
+    },
+    {
+      "name": "@types/nodemailer",
+      "version": "^8.0.1"
+    },
+    {
+      "name": "nexe",
+      "version": "^5.0.0-beta.4"
+    },
+    {
+      "name": "nodemon",
+      "version": "^3.1.14"
+    },
+    {
+      "name": "pkg",
+      "version": "^5.8.1"
+    }
+  ],
+  "scripts": 197,
+  "totalDependencies": 25
+}

@@ -1,0 +1,20 @@
+{
+  "p03": {
+    "quality": 0.72,
+    "latencyMs": 0,
+    "skillsExecuted": 5,
+    "researchCalls": 0,
+    "parallelSpeedup": "N/A",
+    "agents": 4,
+    "autonomyScore": 57
+  },
+  "p04": {
+    "quality": 0.78,
+    "latencyMs": 290,
+    "skillsExecuted": 6,
+    "researchCalls": 1,
+    "parallelSpeedup": "1.19x",
+    "agents": 5,
+    "autonomyScore": 68
+  }
+}

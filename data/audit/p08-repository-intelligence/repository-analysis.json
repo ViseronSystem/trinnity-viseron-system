@@ -1,0 +1,135 @@
+[
+  {
+    "name": "mattpocock/skills",
+    "url": "https://github.com/mattpocock/skills",
+    "license": "MIT",
+    "licenseCompatible": true,
+    "language": "Markdown/SKILL.md",
+    "stars": "214.6k",
+    "status": "REAL — analyzed",
+    "keyCapabilities": [
+      "TDD red-green-refactor loop for AI-assisted development",
+      "Code review two-axis audit: Standards + Spec compliance",
+      "Bug diagnosis disciplined loop: feedback → minimise → hypothesize → fix",
+      "Codebase architecture improvement survey",
+      "Domain modeling with CONTEXT.md shared language",
+      "Research investigation against high-trust primary sources",
+      "Grill-me/grill-with-docs alignment interviews before implementation",
+      "Wayfinder: multi-session project planning as decision tickets",
+      "Prototype: throwaway HTML for design questions",
+      "Codebase design: deep modules with small interfaces",
+      "Wizard: interactive bash for human-only steps (provisioning, creds)",
+      "Implementation: spec → tdd → code-review workflow"
+    ],
+    "risks": [
+      "Skills require Claude Code or Codex agent — adaptation needed for VISERON agents",
+      "Some skills reference TypeScript-specific patterns — useful but not universal",
+      "User-invoked skills need CLI command mapping (/grill-me → viseron command)"
+    ],
+    "integrationVerdict": "EXTRACT PATTERNS — 30+ skills as SKILL.md for SkillBridge context",
+    "skillCount": 30,
+    "skillsRelevant": 25,
+    "skillsExtractable": [
+      "engineering/tdd",
+      "engineering/code-review",
+      "engineering/diagnosing-bugs",
+      "engineering/improve-codebase-architecture",
+      "engineering/research",
+      "engineering/prototype",
+      "engineering/implement",
+      "engineering/to-spec",
+      "engineering/to-tickets",
+      "engineering/wayfinder",
+      "engineering/triage",
+      "engineering/codebase-design",
+      "engineering/domain-modeling",
+      "engineering/grill-with-docs",
+      "engineering/wizard",
+      "productivity/grill-me",
+      "productivity/handoff",
+      "productivity/grilling",
+      "productivity/writing-for-agents"
+    ],
+    "patterns": [
+      "User-invoked vs Model-invoked skill separation",
+      "Alignment interviews before implementation (grill-me pattern)",
+      "Shared language via CONTEXT.md (domain-driven design for AI)",
+      "Red-green-refactor TDD loop with AI",
+      "Evidence-gated completion (FINAL requires source citation)"
+    ],
+    "rejectedFeatures": [
+      "Claude Code plugin format — VISERON uses SKILL.md, not .claude-plugin",
+      "skills.sh installer — VISERON uses skills:install with git clone",
+      "TypeScript-specific setup-matt-pocock-skills — VISERON uses SkillContractRegistry"
+    ]
+  },
+  {
+    "name": "Netw0rkNoob/VulnClaw",
+    "url": "https://github.com/Netw0rkNoob/VulnClaw",
+    "license": "MIT",
+    "licenseCompatible": true,
+    "language": "Python",
+    "stars": "2.7k",
+    "status": "REAL — analyzed",
+    "keyCapabilities": [
+      "AI-driven penetration testing: recon → vuln discovery → exploitation → report",
+      "Model-led autonomous solve engine (no fixed rounds)",
+      "50 specialized security skills (CTF, web, intranet, reverse engineering)",
+      "MCP toolchain: fetch, memory, chrome-devtools, burp integration",
+      "Evidence-level anti-hallucination gate (claims must match real tool output)",
+      "14 LLM providers with one-command switching",
+      "Structured reasoning state + adaptive reflection (L0-L4 escalation)",
+      "Auto-reporting with Markdown + PoC Python scripts",
+      "Vulnerability detection plugin system (low-coupling)",
+      "Crypto/codec toolkit: 29 operations (Base64, AES, JWT, Morse, etc.)",
+      "Traffic evidence storage with JSONL indexing",
+      "Continuous penetration testing (100 rounds/cycle × 10 cycles)",
+      "Web UI + TUI + CLI + REPL interfaces"
+    ],
+    "risks": [
+      "Python runtime — cannot execute inside TypeScript VISERON runtime",
+      "Security tool — HIGH_RISK classification; requires authorization boundary",
+      "50 skills are security-specific — useful for defense, dangerous for offense",
+      "MCP tools need external services (Chrome, Burp, nmap) — not bundled"
+    ],
+    "integrationVerdict": "EXTRACT PATTERNS + SKILLS — 50 skills as security reference; Python runtime NOT integrated",
+    "skillCount": 50,
+    "skillsRelevant": 35,
+    "skillsExtractable": [
+      "pentest-flow",
+      "recon",
+      "vuln-discovery",
+      "exploitation",
+      "post-exploitation",
+      "reporting",
+      "waf-bypass",
+      "web-pentest",
+      "web-security-advanced",
+      "intranet-pentest-advanced",
+      "pentest-tools",
+      "rapid-checklist",
+      "crypto-toolkit",
+      "ctf-web",
+      "ctf-crypto",
+      "ctf-misc",
+      "osint-recon",
+      "cve-triage",
+      "ai-mcp-security"
+    ],
+    "patterns": [
+      "Evidence-gated completion (FINAL requires tool output match)",
+      "Model-led autonomous loop (no fixed rounds, model decides next step)",
+      "AgentState evidence memory (raw output preserved, high-signal preview)",
+      "Lightweight correction layer (detect repetition, failure, stale loops)",
+      "Next-success prevention (don't stop until all high-signal anchors exhausted)",
+      "Automatic retrospective report from execution evidence"
+    ],
+    "rejectedFeatures": [
+      "Python runtime — VISERON is TypeScript; analysis only, no pip install",
+      "Burp Suite integration — requires Burp Pro license + Java",
+      "Chrome DevTools MCP — requires Chrome remote debugging",
+      "Penetration testing execution — HIGH_RISK; blocked by VISERON governance",
+      "pip install vulnclaw — NOT PERFORMED; security caution"
+    ]
+  }
+]

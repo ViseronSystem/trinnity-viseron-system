@@ -1,0 +1,50 @@
+{
+  "secretsExposed": {
+    "envFile": {
+      "tracked": false,
+      "status": "SAFE — gitignored"
+    },
+    "solanaKeypair": {
+      "tracked": false,
+      "status": "SAFE — gitignored"
+    },
+    "solanaSeed": {
+      "tracked": false,
+      "status": "SAFE — gitignored"
+    },
+    "walletFactory": {
+      "tracked": false,
+      "status": "SAFE — gitignored"
+    },
+    "cosmosWalletAccess": {
+      "tracked": false,
+      "status": "SAFE — gitignored"
+    }
+  },
+  "gitignoreRules": {
+    "env": true,
+    "backups": true,
+    "wallets": true,
+    "siteBackup": true,
+    "walletAccess": true
+  },
+  "riskScan": [
+    {
+      "severity": "LOW",
+      "finding": "HOSTALIA_FTP_PASS in .env (plaintext FTP) — recommend SSH keys"
+    },
+    {
+      "severity": "LOW",
+      "finding": "GMAIL_REFRESH_TOKEN needs rotation on new server"
+    },
+    {
+      "severity": "INFO",
+      "finding": "36 env keys in .env — all gitignored, none committed"
+    },
+    {
+      "severity": "INFO",
+      "finding": "No secrets found in committed source code"
+    }
+  ],
+  "verdict": "PASS — no exposed secrets. Rotation recommended for 3 keys on migration."
+}

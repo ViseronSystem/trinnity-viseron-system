@@ -1,0 +1,17 @@
+{
+  "current": {
+    "cpu": { "model": "Intel i5-1235U", "cores": 10, "threads": 12, "baseGHz": 1.3, "generation": "12th Gen Alder Lake" },
+    "ram": { "totalGB": 8, "type": "DDR4", "assessment": "MINIMAL — enough for Ollama 3B, too tight for 7B or video generation" },
+    "storage": { "totalGB": 512, "freeGB": 268, "type": "SSD", "assessment": "ADEQUATE for models, tight for video assets" },
+    "os": { "name": "Windows 11 Home", "version": "10.0.22631", "arch": "x64" },
+    "gpu": { "name": "Intel UHD Graphics", "type": "Integrated", "vramGB": 4, "dedicated": false, "cuda": false, "assessment": "NO CUDA. Cannot run GPU workloads (Wan2.1, ComfyUI, SDXL, Flux)." },
+    "runtime": { "node": "v24.18.0", "python": "3.13.14", "ollama": "v0.32.5 (CPU only)", "models": ["qwen2.5:3b (1.9GB)", "qwen2.5:7b (4.7GB)"] }
+  },
+  "workloads": {
+    "ollama_llm": { "status": "REAL", "detail": "qwen2.5:3b running on CPU. 7B possible but tight on 8GB RAM. 14B impossible (needs 16GB+)." },
+    "wan21_video": { "status": "BLOCKED", "detail": "Requires NVIDIA CUDA GPU 8GB+ VRAM. Intel iGPU cannot run PyTorch CUDA." },
+    "image_generation": { "status": "BLOCKED", "detail": "SDXL needs 6GB VRAM minimum. Flux needs 12GB+. ComfyUI needs CUDA GPU." },
+    "voice_models": { "status": "PARTIAL", "detail": "Whisper runs on CPU. XTTS-v2 runs on CPU but slow. GPU would accelerate." },
+    "aerospace_sim": { "status": "BLOCKED", "detail": "Physics simulation and CFD require CUDA GPU for practical performance." }
+  }
+}

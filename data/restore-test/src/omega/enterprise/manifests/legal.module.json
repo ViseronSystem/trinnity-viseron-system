@@ -1,0 +1,22 @@
+{
+  "id": "module_legal",
+  "name": "Legal Module",
+  "domain": "legal",
+  "description": "Conformidade, contratos, proteção de dados e gestão de risco legal.",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_legal_compliance", "description": "Garantir conformidade regulatória", "metric": "compliance_score", "target": 95 },
+    { "id": "obj_legal_risk", "description": "Mitigar risco legal e contratual", "metric": "open_risks", "target": 3 }
+  ],
+  "kpis": ["compliance_score", "open_risks", "contracts_reviewed", "dsar_response_days"],
+  "workflows": [
+    { "id": "wf_contract", "name": "Contract Review", "steps": ["intake", "review", "redline", "approve"] },
+    { "id": "wf_compliance", "name": "Compliance", "steps": ["audit", "classify", "remediate", "report"] }
+  ],
+  "tools": [
+    { "id": "contracts", "name": "Contracts", "description": "gestão e revisão de contratos" },
+    { "id": "compliance", "name": "Compliance", "description": "checks de conformidade" }
+  ],
+  "agents": ["agent_security", "agent_finance"],
+  "reportIntervalMinutes": 60
+}

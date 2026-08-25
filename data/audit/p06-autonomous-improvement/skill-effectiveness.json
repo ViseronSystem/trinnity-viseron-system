@@ -1,0 +1,205 @@
+{
+  "totalScored": 28,
+  "top": [
+    {
+      "skillId": "ecc:architecture-decision-records",
+      "domain": "ecc",
+      "executed": 87,
+      "succeeded": 43,
+      "successRate": 0.49,
+      "avgLatencyMs": 2246,
+      "lastExecuted": "2026-08-11T23:48:37.702Z",
+      "classification": "NEUTRAL"
+    },
+    {
+      "skillId": "ecc:research-ops",
+      "domain": "ecc",
+      "executed": 68,
+      "succeeded": 34,
+      "successRate": 0.5,
+      "avgLatencyMs": 1326,
+      "lastExecuted": "2026-08-11T23:54:23.469Z",
+      "classification": "USEFUL"
+    },
+    {
+      "skillId": "ecc:finance-billing-ops",
+      "domain": "ecc",
+      "executed": 58,
+      "succeeded": 29,
+      "successRate": 0.5,
+      "avgLatencyMs": 3368,
+      "lastExecuted": "2026-08-11T23:51:52.823Z",
+      "classification": "USEFUL"
+    },
+    {
+      "skillId": "ecc:knowledge-ops",
+      "domain": "ecc",
+      "executed": 50,
+      "succeeded": 25,
+      "successRate": 0.5,
+      "avgLatencyMs": 1807,
+      "lastExecuted": "2026-08-11T23:53:23.059Z",
+      "classification": "USEFUL"
+    },
+    {
+      "skillId": "ecc:carrier-relationship-management",
+      "domain": "ecc",
+      "executed": 21,
+      "succeeded": 10,
+      "successRate": 0.48,
+      "avgLatencyMs": 4291,
+      "lastExecuted": "2026-08-11T23:52:52.980Z",
+      "classification": "NEUTRAL"
+    },
+    {
+      "skillId": "claude-plugins-official:command-development",
+      "domain": "claude-plugins-official",
+      "executed": 18,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:51:52.783Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "claude-plugins-official:agent-development",
+      "domain": "claude-plugins-official",
+      "executed": 18,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:51:52.778Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "ecc:logistics-exception-management",
+      "domain": "ecc",
+      "executed": 16,
+      "succeeded": 8,
+      "successRate": 0.5,
+      "avgLatencyMs": 4693,
+      "lastExecuted": "2026-08-11T23:52:37.959Z",
+      "classification": "USEFUL"
+    },
+    {
+      "skillId": "awesome-claude-skills:securitytrails-automation",
+      "domain": "awesome-claude-skills",
+      "executed": 15,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 2,
+      "lastExecuted": "2026-08-11T23:48:37.695Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "awesome-claude-skills:Capsule CRM Automation",
+      "domain": "awesome-claude-skills",
+      "executed": 13,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:51:52.809Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "awesome-claude-skills:Attio Automation",
+      "domain": "awesome-claude-skills",
+      "executed": 13,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:51:52.804Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "comp-ai:security-review",
+      "domain": "comp-ai",
+      "executed": 12,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:48:37.696Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "awesome-claude-skills:salesforce-service-cloud-automation",
+      "domain": "awesome-claude-skills",
+      "executed": 11,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:52:37.945Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "domain": "awesome-claude-skills",
+      "executed": 11,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:52:37.941Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "awesome-claude-skills:artifacts-builder",
+      "domain": "awesome-claude-skills",
+      "executed": 10,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:54:08.409Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "claude-plugins-official:research",
+      "domain": "claude-plugins-official",
+      "executed": 9,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 0,
+      "lastExecuted": "2026-08-12T00:26:25.191Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "claude-plugins-official:code-review",
+      "domain": "claude-plugins-official",
+      "executed": 8,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 0,
+      "lastExecuted": "2026-08-12T00:44:48.510Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "comp-crm:zero-tech-debt",
+      "domain": "comp-crm",
+      "executed": 8,
+      "succeeded": 4,
+      "successRate": 0.5,
+      "avgLatencyMs": 3759,
+      "lastExecuted": "2026-08-11T23:54:08.415Z",
+      "classification": "USEFUL"
+    },
+    {
+      "skillId": "comp-crm:typescript-advanced-types",
+      "domain": "comp-crm",
+      "executed": 8,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 1,
+      "lastExecuted": "2026-08-11T23:54:08.412Z",
+      "classification": "UNPROVEN"
+    },
+    {
+      "skillId": "claude-plugins-official:api-design",
+      "domain": "claude-plugins-official",
+      "executed": 6,
+      "succeeded": 0,
+      "successRate": 0,
+      "avgLatencyMs": 0,
+      "lastExecuted": "2026-08-12T00:44:48.504Z",
+      "classification": "UNPROVEN"
+    }
+  ]
+}

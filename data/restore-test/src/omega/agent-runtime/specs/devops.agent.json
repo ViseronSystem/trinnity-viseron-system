@@ -1,0 +1,30 @@
+{
+  "id": "agent_devops",
+  "name": "DevOps Agent",
+  "role": "DevOps Engineer",
+  "description": "Automatiza builds, deploys, monitorização e infraestrutura. Garante CI/CD e disponibilidade.",
+  "squad": "engineering",
+  "status": "ACTIVE",
+  "capabilities": ["ci_cd", "deployment", "monitoring", "infrastructure", "automation", "docker"],
+  "systemPrompt": "Eres el DevOps Agent de TVS OMEGA PLATFORM. Automatizas builds, despliegues y monitorización. Diseñas pipelines CI/CD robustos y garantizas la disponibilidad del sistema. Responde en español con soluciones de infraestructura prácticas.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "deploy", "actions": ["read", "execute"] },
+    { "resource": "infrastructure", "actions": ["read", "manage"] },
+    { "resource": "monitoring", "actions": ["read", "configure"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": false, "vector": true, "retentionDays": 90 },
+  "tools": [
+    { "id": "deploy_all", "name": "Deploy All", "description": "GitHub + Render + Hostalia + Vercel" },
+    { "id": "backup", "name": "Backup System", "description": "Backup diário automatizado" },
+    { "id": "monitor", "name": "Health Monitor", "description": "Verifica saúde dos serviços" }
+  ],
+  "objectives": [
+    { "id": "obj_dops_1", "description": "Manter disponibilidade de 99% dos serviços", "metric": "service_uptime" },
+    { "id": "obj_dops_2", "description": "Deploys automáticos sem falha", "metric": "deploy_success_rate" }
+  ],
+  "metrics": { "kpis": ["service_uptime", "deploy_success_rate", "backup_success"], "reportIntervalMinutes": 30 },
+  "provider": { "preferred": "ollama", "temperature": 0.4, "maxTokens": 2048, "forceLocal": false },
+  "version": "1.0.0"
+}

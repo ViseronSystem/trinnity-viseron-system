@@ -1,0 +1,712 @@
+[
+  {
+    "projectId": "s14_01",
+    "mode": "BASELINE",
+    "quality": 0.6433071742932361,
+    "successRate": 0.5706647780988494,
+    "validationRate": 0.5066271615411522,
+    "latencyMs": 22,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Security Audit Check — no skill context"
+  },
+  {
+    "projectId": "s14_01",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.6766028834984243,
+    "successRate": 0.6806444609100042,
+    "validationRate": 0.6914764784595949,
+    "latencyMs": 22,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "awesome-claude-skills:securitytrails-automation",
+      "comp-ai:security-review",
+      "ecc:security-review"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Security Audit Check — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_01",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.7527135850033374,
+    "successRate": 0.4,
+    "validationRate": 0,
+    "latencyMs": 36,
+    "humanIntervention": 4,
+    "retryCount": 3,
+    "skillsUsed": [
+      "awesome-claude-skills:securitytrails-automation",
+      "comp-ai:security-review",
+      "ecc:security-review"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Security Audit Check — 0/3 skills executed, 0 validated"
+  },
+  {
+    "projectId": "s14_02",
+    "mode": "BASELINE",
+    "quality": 0.6781366216008275,
+    "successRate": 0.677672175247835,
+    "validationRate": 0.5513690464215527,
+    "latencyMs": 26,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: API Design Review — no skill context"
+  },
+  {
+    "projectId": "s14_02",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7594252313563807,
+    "successRate": 0.8364417883547856,
+    "validationRate": 0.7276441573046426,
+    "latencyMs": 33,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: API Design Review — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_02",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.9690210523999069,
+    "successRate": 0.8,
+    "validationRate": 1,
+    "latencyMs": 58,
+    "humanIntervention": 1,
+    "retryCount": 0,
+    "skillsUsed": [
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records",
+      "ecc:architecture-decision-records"
+    ],
+    "skillsExecuted": 3,
+    "skillsValidated": 3,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: API Design Review — 3/3 skills executed, 3 validated"
+  },
+  {
+    "projectId": "s14_03",
+    "mode": "BASELINE",
+    "quality": 0.5747749378164587,
+    "successRate": 0.6556663629193821,
+    "validationRate": 0.5956576846052478,
+    "latencyMs": 30,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Refactoring Plan — no skill context"
+  },
+  {
+    "projectId": "s14_03",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.6522539664117927,
+    "successRate": 0.8470921635955087,
+    "validationRate": 0.7704563056985159,
+    "latencyMs": 42,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:command-development",
+      "claude-plugins-official:skill-development"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Refactoring Plan — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_03",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.7780249309768611,
+    "successRate": 0.4,
+    "validationRate": 0,
+    "latencyMs": 78,
+    "humanIntervention": 4,
+    "retryCount": 3,
+    "skillsUsed": [
+      "claude-plugins-official:agent-development",
+      "claude-plugins-official:command-development",
+      "claude-plugins-official:skill-development"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Refactoring Plan — 0/3 skills executed, 0 validated"
+  },
+  {
+    "projectId": "s14_04",
+    "mode": "BASELINE",
+    "quality": 0.6115727605694776,
+    "successRate": 0.6599017697866607,
+    "validationRate": 0.4674821842322858,
+    "latencyMs": 31,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Deploy Checklist — no skill context"
+  },
+  {
+    "projectId": "s14_04",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.6513126498000452,
+    "successRate": 0.7740078145705307,
+    "validationRate": 0.7716328179287439,
+    "latencyMs": 43,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Capsule CRM Automation",
+      "awesome-claude-skills:Contentful Automation"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Deploy Checklist — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_04",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.7050588864959619,
+    "successRate": 0.4,
+    "validationRate": 0,
+    "latencyMs": 54,
+    "humanIntervention": 4,
+    "retryCount": 3,
+    "skillsUsed": [
+      "awesome-claude-skills:Attio Automation",
+      "awesome-claude-skills:Capsule CRM Automation",
+      "awesome-claude-skills:Contentful Automation"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Deploy Checklist — 0/3 skills executed, 0 validated"
+  },
+  {
+    "projectId": "s14_05",
+    "mode": "BASELINE",
+    "quality": 0.5624194396241131,
+    "successRate": 0.6244364728054898,
+    "validationRate": 0.40976079758669814,
+    "latencyMs": 25,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Financial Analysis — no skill context"
+  },
+  {
+    "projectId": "s14_05",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.6747108121008831,
+    "successRate": 0.7554240295421847,
+    "validationRate": 0.7172415784302769,
+    "latencyMs": 23,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Financial Analysis — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_05",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.9953884468337177,
+    "successRate": 0.8,
+    "validationRate": 1,
+    "latencyMs": 46,
+    "humanIntervention": 1,
+    "retryCount": 0,
+    "skillsUsed": [
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops",
+      "ecc:finance-billing-ops"
+    ],
+    "skillsExecuted": 3,
+    "skillsValidated": 3,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Financial Analysis — 3/3 skills executed, 3 validated"
+  },
+  {
+    "projectId": "s14_06",
+    "mode": "BASELINE",
+    "quality": 0.5678611655077024,
+    "successRate": 0.5353472803990892,
+    "validationRate": 0.5774553254601973,
+    "latencyMs": 17,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Sales Pitch Builder — no skill context"
+  },
+  {
+    "projectId": "s14_06",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7965628448310568,
+    "successRate": 0.7744546100196756,
+    "validationRate": 0.7069465694515911,
+    "latencyMs": 33,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:salesforce-service-cloud-automation",
+      "awesome-claude-skills:salesmate-automation"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Sales Pitch Builder — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_06",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.7858530287282209,
+    "successRate": 0.4,
+    "validationRate": 0,
+    "latencyMs": 49,
+    "humanIntervention": 4,
+    "retryCount": 3,
+    "skillsUsed": [
+      "awesome-claude-skills:salesforce-marketing-cloud-automation",
+      "awesome-claude-skills:salesforce-service-cloud-automation",
+      "awesome-claude-skills:salesmate-automation"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Sales Pitch Builder — 0/3 skills executed, 0 validated"
+  },
+  {
+    "projectId": "s14_07",
+    "mode": "BASELINE",
+    "quality": 0.6706601643918119,
+    "successRate": 0.6721624479102526,
+    "validationRate": 0.548312799296448,
+    "latencyMs": 25,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Team OKR Planning — no skill context"
+  },
+  {
+    "projectId": "s14_07",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7138033488010822,
+    "successRate": 0.8361792369334615,
+    "validationRate": 0.628358320555064,
+    "latencyMs": 26,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Team OKR Planning — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_07",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.94909036003929,
+    "successRate": 0.8,
+    "validationRate": 1,
+    "latencyMs": 37,
+    "humanIntervention": 1,
+    "retryCount": 0,
+    "skillsUsed": [
+      "ecc:logistics-exception-management",
+      "ecc:carrier-relationship-management",
+      "ecc:carrier-relationship-management"
+    ],
+    "skillsExecuted": 3,
+    "skillsValidated": 3,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Team OKR Planning — 3/3 skills executed, 3 validated"
+  },
+  {
+    "projectId": "s14_08",
+    "mode": "BASELINE",
+    "quality": 0.6640733827892895,
+    "successRate": 0.6501446997759879,
+    "validationRate": 0.5953016276924006,
+    "latencyMs": 15,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Knowledge Base Entry — no skill context"
+  },
+  {
+    "projectId": "s14_08",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7180107750415621,
+    "successRate": 0.6869390974439951,
+    "validationRate": 0.5813338691042554,
+    "latencyMs": 41,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Knowledge Base Entry — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_08",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 1.0216117611488829,
+    "successRate": 0.8,
+    "validationRate": 1,
+    "latencyMs": 57,
+    "humanIntervention": 1,
+    "retryCount": 0,
+    "skillsUsed": [
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops",
+      "ecc:knowledge-ops"
+    ],
+    "skillsExecuted": 3,
+    "skillsValidated": 3,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Knowledge Base Entry — 3/3 skills executed, 3 validated"
+  },
+  {
+    "projectId": "s14_09",
+    "mode": "BASELINE",
+    "quality": 0.587679835283415,
+    "successRate": 0.6049978085542718,
+    "validationRate": 0.40571593656045496,
+    "latencyMs": 30,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: System Design Document — no skill context"
+  },
+  {
+    "projectId": "s14_09",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7731290668134317,
+    "successRate": 0.682932175645024,
+    "validationRate": 0.638828074223374,
+    "latencyMs": 47,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "awesome-claude-skills:artifacts-builder",
+      "comp-crm:typescript-advanced-types",
+      "comp-crm:zero-tech-debt"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: System Design Document — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_09",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.8267865882137643,
+    "successRate": 0.8,
+    "validationRate": 0.3333333333333333,
+    "latencyMs": 73,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [
+      "awesome-claude-skills:artifacts-builder",
+      "comp-crm:typescript-advanced-types",
+      "comp-crm:zero-tech-debt"
+    ],
+    "skillsExecuted": 1,
+    "skillsValidated": 1,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: System Design Document — 1/3 skills executed, 1 validated"
+  },
+  {
+    "projectId": "s14_10",
+    "mode": "BASELINE",
+    "quality": 0.6082406244527612,
+    "successRate": 0.5705893967427128,
+    "validationRate": 0.4062730358188172,
+    "latencyMs": 28,
+    "humanIntervention": 3,
+    "retryCount": 2,
+    "skillsUsed": [],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [],
+    "squadsUsed": [],
+    "toolsUsed": [],
+    "output": "BASELINE: Research Paper Notes — no skill context"
+  },
+  {
+    "projectId": "s14_10",
+    "mode": "S13_SKILL_BRIDGE",
+    "quality": 0.7465810979517253,
+    "successRate": 0.8437296262190987,
+    "validationRate": 0.6109359066503601,
+    "latencyMs": 30,
+    "humanIntervention": 2,
+    "retryCount": 1,
+    "skillsUsed": [
+      "ecc:research-ops",
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "agentsUsed": [
+      "research",
+      "developer"
+    ],
+    "squadsUsed": [
+      "research"
+    ],
+    "toolsUsed": [],
+    "output": "S13: Research Paper Notes — SkillBridge context loaded (3 skills)"
+  },
+  {
+    "projectId": "s14_10",
+    "mode": "S14_SKILL_EXECUTION",
+    "quality": 0.9680507700192144,
+    "successRate": 0.8,
+    "validationRate": 1,
+    "latencyMs": 51,
+    "humanIntervention": 1,
+    "retryCount": 0,
+    "skillsUsed": [
+      "ecc:research-ops",
+      "ecc:research-ops",
+      "ecc:research-ops"
+    ],
+    "skillsExecuted": 3,
+    "skillsValidated": 3,
+    "agentsUsed": [
+      "research",
+      "developer",
+      "architect"
+    ],
+    "squadsUsed": [
+      "research",
+      "engineering"
+    ],
+    "toolsUsed": [],
+    "output": "S14: Research Paper Notes — 3/3 skills executed, 3 validated"
+  }
+]

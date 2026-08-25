@@ -1,0 +1,25 @@
+{
+  "id": "squad_business",
+  "name": "Business Squad",
+  "description": "Processos de negócio, propostas, análise de mercado e gestão de receita.",
+  "domain": "business",
+  "status": "ACTIVE",
+  "objectives": [
+    { "id": "obj_revenue", "description": "Crescer receita recorrente", "metric": "mrr_growth_pct", "target": 10 },
+    { "id": "obj_proposals", "description": "Fechar propostas", "metric": "proposal_win_rate", "target": 30 }
+  ],
+  "tools": [
+    { "id": "crm", "name": "CRM", "description": "contactos, oportunidades, pipeline" },
+    { "id": "billing", "name": "Billing", "description": "planos, checkout, faturas" }
+  ],
+  "workflows": [
+    { "id": "wf_pipeline", "name": "Sales Pipeline", "steps": ["prospect", "qualify", "propose", "close"] },
+    { "id": "wf_finance", "name": "Finance Review", "steps": ["collect", "analyze", "report"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "sharedGraph": true, "vector": false },
+  "permissions": [
+    { "resource": "crm", "actions": ["read", "write"] },
+    { "resource": "billing", "actions": ["read"] }
+  ],
+  "agents": ["agent_sales", "agent_finance"]
+}

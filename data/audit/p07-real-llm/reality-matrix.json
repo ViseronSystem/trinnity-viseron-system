@@ -1,0 +1,10 @@
+{
+  "LLM_PROVIDER": "REAL (Ollama qwen2.5:3b, responses verified)",
+  "SkillExecutor": "REAL (with real LLM provider)",
+  "SkillBridge": "REAL",
+  "WebResearchEngine": "REAL",
+  "ParallelOrchestrator": "REAL (6-node DAG with real LLM)",
+  "SkillContractRegistry": "REAL",
+  "ExperienceStore": "REAL",
+  "AgentAutoRouter": "REAL"
+}

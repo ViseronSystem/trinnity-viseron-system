@@ -1,0 +1,122 @@
+[
+  {
+    "name": "GPU compute (RTX 4090)",
+    "roi": "HIGH",
+    "impact": "Wan2.1, ComfyUI, image/video generation",
+    "effort": "Hardware purchase $1,600"
+  },
+  {
+    "name": "Cloud LLM API keys (OpenAI/Claude/Gemini/Grok)",
+    "roi": "HIGH",
+    "impact": "Premium reasoning, fallback chains",
+    "effort": "API signup"
+  },
+  {
+    "name": "ElevenLabs TTS keys",
+    "roi": "HIGH",
+    "impact": "Voice: Pedro + Trinnity + Stark personas",
+    "effort": "API signup"
+  },
+  {
+    "name": "Postgres local migration",
+    "roi": "HIGH",
+    "impact": "Production DB on own server",
+    "effort": "1 day"
+  },
+  {
+    "name": "Qdrant vector DB local",
+    "roi": "HIGH",
+    "impact": "Real vector search (currently in-memory fallback)",
+    "effort": "1 day"
+  },
+  {
+    "name": "Production web server hardening",
+    "roi": "HIGH",
+    "impact": "nginx/HTTPS/rate-limiting",
+    "effort": "2 days"
+  },
+  {
+    "name": "SkillContract library (top 100)",
+    "roi": "MEDIUM",
+    "impact": "Formal contracts vs auto-inference",
+    "effort": "3 days"
+  },
+  {
+    "name": "Prompt injection defense",
+    "roi": "MEDIUM",
+    "impact": "Security for LLM endpoints",
+    "effort": "2 days"
+  },
+  {
+    "name": "Streaming LLM responses",
+    "roi": "MEDIUM",
+    "impact": "Real-time JARVIS conversation",
+    "effort": "2 days"
+  },
+  {
+    "name": "Founder OS live data wiring",
+    "roi": "MEDIUM",
+    "impact": "Pedro sees real operational data",
+    "effort": "1 day"
+  },
+  {
+    "name": "WebResearchEngine auto-trigger",
+    "roi": "MEDIUM",
+    "impact": "Autonomous research on knowledge gaps",
+    "effort": "1 day"
+  },
+  {
+    "name": "Multi-node orchestration",
+    "roi": "MEDIUM",
+    "impact": "Node 01-05 coordination",
+    "effort": "1 week"
+  },
+  {
+    "name": "Payment webhook live test",
+    "roi": "MEDIUM",
+    "impact": "Real revenue (Avirato/Stripe)",
+    "effort": "1 day"
+  },
+  {
+    "name": "RCS live activation (Google approval)",
+    "roi": "MEDIUM",
+    "impact": "Branded messaging campaigns",
+    "effort": "4-6 weeks wait"
+  },
+  {
+    "name": "Ollama GPU acceleration",
+    "roi": "MEDIUM",
+    "impact": "50-100x faster inference",
+    "effort": "After GPU purchase"
+  },
+  {
+    "name": "ComfyUI integration",
+    "roi": "LOW",
+    "impact": "Creative pipeline (GPL-3.0 review needed)",
+    "effort": "Legal + 2 days"
+  },
+  {
+    "name": "Kraken/Binance exchange keys",
+    "roi": "LOW",
+    "impact": "Crypto trading bots",
+    "effort": "API setup"
+  },
+  {
+    "name": "Smart home integrations",
+    "roi": "LOW",
+    "impact": "Home Assistant + SmartThings",
+    "effort": "1 day"
+  },
+  {
+    "name": "Aerospace simulation models",
+    "roi": "LOW",
+    "impact": "Orbital mechanics simulation",
+    "effort": "Research"
+  },
+  {
+    "name": "Multi-language TTS (XTTS-v2)",
+    "roi": "LOW",
+    "impact": "Local voice synthesis",
+    "effort": "3 days"
+  }
+]

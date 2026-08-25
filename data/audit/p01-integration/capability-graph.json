@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "id": "skill_registry",
+      "status": "REAL",
+      "note": "1,997 skills indexed"
+    },
+    {
+      "id": "skill_bridge",
+      "status": "WIRED",
+      "note": "Into JarvisAgent/ViseronAgent/SkillExecutor"
+    },
+    {
+      "id": "skill_pipeline",
+      "status": "REAL",
+      "note": "execute() delegates to SkillExecutor"
+    },
+    {
+      "id": "skill_executor",
+      "status": "REAL",
+      "note": "3 execution modes, risk classification, evidence"
+    },
+    {
+      "id": "experience_store",
+      "status": "WIRED",
+      "note": "Records every execution"
+    },
+    {
+      "id": "tool_manager",
+      "status": "REAL",
+      "note": "Delegates to registered tool handlers"
+    },
+    {
+      "id": "provider_factory",
+      "status": "REAL",
+      "note": "6 LLM providers"
+    }
+  ],
+  "edges": [
+    {
+      "from": "skill_registry",
+      "to": "skill_bridge",
+      "relation": "search"
+    },
+    {
+      "from": "skill_bridge",
+      "to": "skill_executor",
+      "relation": "context"
+    },
+    {
+      "from": "skill_bridge",
+      "to": "jarvis_agent",
+      "relation": "system_prompt"
+    },
+    {
+      "from": "skill_pipeline",
+      "to": "skill_executor",
+      "relation": "delegate"
+    },
+    {
+      "from": "skill_executor",
+      "to": "tool_manager",
+      "relation": "execute"
+    },
+    {
+      "from": "skill_executor",
+      "to": "provider_factory",
+      "relation": "generate"
+    },
+    {
+      "from": "skill_executor",
+      "to": "experience_store",
+      "relation": "record"
+    }
+  ]
+}

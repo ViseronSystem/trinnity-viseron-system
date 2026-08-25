@@ -1,0 +1,61 @@
+{
+  "name": "VISERON INTELLIGENCE GRAPH",
+  "layers": [
+    {
+      "layer": "FOUNDER",
+      "node": "Founder OS",
+      "connections": 1,
+      "status": "REAL"
+    },
+    {
+      "layer": "EXECUTIVE",
+      "node": "Executive Agents (CEO/Strategy/Market/Investor/Legal)",
+      "connections": 5,
+      "status": "REAL"
+    },
+    {
+      "layer": "SQUADS",
+      "node": "6 squads / 30 agents",
+      "connections": 6,
+      "status": "REAL"
+    },
+    {
+      "layer": "SKILLS",
+      "node": "1997 skills indexed",
+      "connections": 1997,
+      "status": "REAL"
+    },
+    {
+      "layer": "CONTRACTS",
+      "node": "4 formal + 195 auto-inferred",
+      "connections": 199,
+      "status": "PARTIAL"
+    },
+    {
+      "layer": "TOOLS",
+      "node": "47+ tools (Composio, RCS, email, workspace)",
+      "connections": 47,
+      "status": "REAL"
+    },
+    {
+      "layer": "KNOWLEDGE",
+      "node": "4,278 nodes / 8,275 edges graph + LTM 20K",
+      "connections": 4278,
+      "status": "REAL"
+    },
+    {
+      "layer": "EXPERIENCE",
+      "node": "ExperienceStore wired to executor",
+      "connections": 177,
+      "status": "REAL"
+    },
+    {
+      "layer": "LEARNING",
+      "node": "AutoLearning 30min cycle",
+      "connections": 1,
+      "status": "REAL"
+    }
+  ],
+  "flywheel": "EXECUTION → EVIDENCE → EXPERIENCE → LEARNING → BETTER DECISIONS → BETTER EXECUTION",
+  "status": "OPERATIONAL (loop closed)"
+}

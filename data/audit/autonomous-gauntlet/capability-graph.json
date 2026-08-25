@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "id": "SkillContractRegistry",
+      "status": "REAL",
+      "deps": [
+        "SkillsRegistry"
+      ]
+    },
+    {
+      "id": "SkillExecutor",
+      "status": "WIRED",
+      "deps": [
+        "ToolManager",
+        "ProviderFactory",
+        "ExperienceStore",
+        "SkillContractRegistry"
+      ],
+      "wiredIn": [
+        "ViseronCore",
+        "SkillPipeline"
+      ]
+    },
+    {
+      "id": "SkillBridge",
+      "status": "WIRED",
+      "deps": [
+        "SkillsRegistry"
+      ],
+      "wiredIn": [
+        "JarvisAgent",
+        "ViseronAgent"
+      ]
+    },
+    {
+      "id": "ExperienceStore",
+      "status": "WIRED",
+      "deps": [],
+      "wiredIn": [
+        "ViseronCore",
+        "SkillExecutor"
+      ]
+    },
+    {
+      "id": "ComposioToolMap",
+      "status": "CREATED",
+      "deps": [
+        "ComposioBridge"
+      ],
+      "mappings": 5
+    },
+    {
+      "id": "AutoLearningEngine",
+      "status": "REAL",
+      "deps": [
+        "MemoryEngine"
+      ],
+      "schedule": "every 30min"
+    }
+  ]
+}

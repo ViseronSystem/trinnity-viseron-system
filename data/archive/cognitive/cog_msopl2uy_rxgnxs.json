@@ -1,0 +1,22 @@
+{
+  "traceId": "cog_msopl2uy_rxgnxs",
+  "timestamp": 1786455677626,
+  "source": "consolidation",
+  "input": {
+    "text": "classify-importance"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "latencyMs": 1,
+    "output": "classified 500 items"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "scored by tag importance + recency"
+    ],
+    "verifiedBy": "MemoryConsolidation"
+  },
+  "archiveHash": "e0face218b95f8a66f400c5f3e36d51ca76d8c6c0c5144c7c079456dd9b696fe"
+}

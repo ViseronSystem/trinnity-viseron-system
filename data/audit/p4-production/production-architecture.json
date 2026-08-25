@@ -1,0 +1,125 @@
+{
+  "server": {
+    "cpu": "AMD EPYC 7542 (32C/64T)",
+    "ram": "256GB",
+    "os": "Windows Server 2025 Standard"
+  },
+  "services": [
+    {
+      "name": "viseron-web",
+      "type": "PERMANENT",
+      "port": 32123,
+      "ram": "4-8GB",
+      "cpu": "4 cores",
+      "restart": "always",
+      "purpose": "API gateway + dashboard + 188 endpoints"
+    },
+    {
+      "name": "ollama",
+      "type": "PERMANENT",
+      "port": 11434,
+      "ram": "50-120GB",
+      "cpu": "8 cores",
+      "restart": "always",
+      "purpose": "LLM inference: qwen2.5:3b/7b/14b/32b"
+    },
+    {
+      "name": "postgres",
+      "type": "OPTIONAL (Neon cloud OK)",
+      "port": 5432,
+      "ram": "4GB",
+      "purpose": "Production DB (usage_events, tenants)"
+    },
+    {
+      "name": "qdrant",
+      "type": "OPTIONAL",
+      "port": 6333,
+      "ram": "2GB",
+      "purpose": "Vector store (replace in-memory fallback)"
+    }
+  ],
+  "ports": [
+    {
+      "port": 32123,
+      "protocol": "HTTP",
+      "public": true,
+      "purpose": "VISERON API"
+    },
+    {
+      "port": 11434,
+      "protocol": "HTTP",
+      "public": false,
+      "purpose": "Ollama (localhost only)"
+    },
+    {
+      "port": 5432,
+      "protocol": "TCP",
+      "public": false,
+      "purpose": "Postgres (if local)"
+    },
+    {
+      "port": 6333,
+      "protocol": "HTTP",
+      "public": false,
+      "purpose": "Qdrant (if local)"
+    },
+    {
+      "port": 3389,
+      "protocol": "RDP",
+      "public": "VPN-only",
+      "purpose": "Remote administration"
+    }
+  ],
+  "storage": {
+    "C:\\tvs": {
+      "size": "100GB",
+      "purpose": "Code + data + logs"
+    },
+    "D:\\models": {
+      "size": "200GB",
+      "purpose": "Ollama models (3B/7B/14B/32B)"
+    },
+    "E:\\backups": {
+      "size": "500GB",
+      "purpose": "Daily golden backups (7 rotating)"
+    }
+  },
+  "agents": {
+    "squads": 6,
+    "agents": 30,
+    "memoryPerAgent": "400MB context",
+    "total": "12GB"
+  },
+  "models": [
+    {
+      "name": "qwen2.5:3b",
+      "size": "1.9GB",
+      "ram": "4GB",
+      "purpose": "Fast responses, default"
+    },
+    {
+      "name": "qwen2.5:7b",
+      "size": "4.7GB",
+      "ram": "8GB",
+      "purpose": "Better reasoning"
+    },
+    {
+      "name": "qwen2.5:14b",
+      "size": "9GB",
+      "ram": "16GB",
+      "purpose": "Complex tasks (EPYC 7542 CPU can run)"
+    },
+    {
+      "name": "qwen2.5:32b",
+      "size": "20GB",
+      "ram": "32GB",
+      "purpose": "Premium reasoning (256GB RAM enables)"
+    }
+  ],
+  "bootOrder": [
+    "1. ollama (models loaded)",
+    "2. viseron-web (API)",
+    "3. postgres (if local)",
+    "4. qdrant (if local)"
+  ]
+}

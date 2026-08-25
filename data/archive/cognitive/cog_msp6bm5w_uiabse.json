@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msp6bm5w_uiabse",
+  "timestamp": 1786483789556,
+  "source": "research",
+  "input": {
+    "text": "VISERON intelligence expansion capabilities"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "1 accepted, 0 rejected, 1 chunks",
+    "latencyMs": 286,
+    "sources": [
+      "https://example.com"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "1 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "324ba4297062dae254c16a05d9e32d4abf1c05e78cb9e1d47d9b87de8d34faf8"
+}

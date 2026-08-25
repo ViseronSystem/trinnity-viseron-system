@@ -1,0 +1,18 @@
+{
+  "triggers": [
+    "API health check fails 3x in 5min",
+    "67 tests fail on target",
+    "Ollama unresponsive",
+    "Database connection fails"
+  ],
+  "steps": [
+    "1. Stop VISERON service on target",
+    "2. Point DNS back to old laptop (15 min propagation)",
+    "3. Restore laptop .env if modified",
+    "4. Old laptop resumes serving (it never stopped)",
+    "5. Investigate target failure",
+    "6. Fix and retry migration"
+  ],
+  "dataLossRisk": "NONE — laptop continues during migration. Golden backup preserved.",
+  "downtime": "MAX 15 minutes (DNS switch only)"
+}

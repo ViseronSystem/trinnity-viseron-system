@@ -1,0 +1,99 @@
+{
+  "system": "VISERON MIGRATION FOUNDATION v1.0",
+  "timestamp": "2026-08-12",
+  "migrationArchitect": "VISERON Autonomous Council",
+  "intelligenceMap": {
+    "code": {
+      "typescriptFiles": 249,
+      "cliScripts": 108,
+      "testFiles": 7,
+      "totalSizeMB": 88,
+      "status": "REAL — fully mapped"
+    },
+    "agents": {
+      "runtimeSpecs": 10,
+      "battalionAgents": 100,
+      "squadAgents": 30,
+      "archetypes": 246,
+      "minds": 5014,
+      "status": "REAL — 10 specs + 100 battalion + 30 squad + 246 archetypes"
+    },
+    "squads": {
+      "manifests": 12,
+      "list": [
+        "engineering-intelligence (5 agents)",
+        "executive-intelligence (5)",
+        "advanced-engineering (7)",
+        "creative-intelligence (5)",
+        "aerospace-intelligence (4)",
+        "security-intelligence (4)",
+        "engineering (3)",
+        "security (1)",
+        "evolution (2)",
+        "research (2)",
+        "operations (2)",
+        "business (2)"
+      ],
+      "status": "REAL — 12 manifests deployed"
+    },
+    "skills": {
+      "collections": 10,
+      "totalIndexed": 1997,
+      "contracts": 4,
+      "autoInferred": 195,
+      "location": "skills/vendor/",
+      "status": "REAL — 1,997 indexed, gitignored so MUST be backed up separately"
+    },
+    "contracts": {
+      "formal": 4,
+      "autoInferred": 195,
+      "executable": 150,
+      "status": "PARTIAL — auto-inference covers 10%, rest need formal contracts"
+    },
+    "memory": {
+      "ltmRecords": 20000,
+      "ltmLocation": "database/memory/ltm.json",
+      "backups": 5,
+      "status": "REAL — 20K LTM records with 5 rotating backups"
+    },
+    "knowledgeGraph": {
+      "nodes": 4278,
+      "edges": 8275,
+      "location": "graphify-out/",
+      "status": "REAL — 4.2MB graph"
+    },
+    "experience": {
+      "records": 177632,
+      "location": "data/state/experience-index.jsonl",
+      "status": "REAL — 177KB experience index"
+    },
+    "audits": {
+      "directories": 40,
+      "reports": 20,
+      "location": "data/audit/",
+      "status": "REAL — 40 audit dirs, full P0.x history"
+    },
+    "config": {
+      "envKeys": 36,
+      "envLocation": ".env (gitignored)",
+      "status": "REAL — 36 keys, MUST transfer manually"
+    },
+    "credentials": {
+      "solanaWallet": "contracts/solana-keypair.json (gitignored)",
+      "solanaSeed": "contracts/solana-seed.txt (gitignored)",
+      "gmailOAuth": ".env GMAIL_* keys",
+      "status": "REAL — crypto + OAuth credentials require secure transfer"
+    }
+  },
+  "backupStrategy": {
+    "goldenBackup": "scripts/migration/backup.ps1 — full backup with SHA-256 manifest",
+    "restore": "scripts/migration/restore.ps1 — integrity-verified restore",
+    "verify": "scripts/migration/verify.ps1 — 14-point migration readiness check",
+    "secretsTransfer": "MANUAL — .env + solana-keypair.json + solana-seed.txt via secure channel"
+  },
+  "disasterRecovery": {
+    "rto": "2 hours (full restore from Golden Backup)",
+    "rpo": "24 hours (daily backup schedule)",
+    "recoveryPoints": ["Golden Backup (manual)", "Daily backup (npm run backup)", "GitHub remote (code only)", "Neon Postgres (DATABASE_URL)"]
+  }
+}

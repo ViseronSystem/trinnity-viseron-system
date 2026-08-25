@@ -1,0 +1,26 @@
+{
+  "candidate": {
+    "id": "cand_c",
+    "name": "Prompt Injection Defense Framework",
+    "description": "Research prompt injection attack vectors against LLM-powered agents. Design a defense framework with input sanitization, output validation, permission boundaries, and audit logging.",
+    "domains": [
+      "security",
+      "research",
+      "architecture",
+      "development"
+    ],
+    "researchUrls": [
+      "https://en.wikipedia.org/wiki/Prompt_engineering"
+    ],
+    "scores": {
+      "novelty": 9,
+      "complexity": 9,
+      "usefulness": 9,
+      "researchReq": 9,
+      "multiAgent": 9,
+      "total": 45
+    }
+  },
+  "timestamp": "2026-08-12T12:56:51.401Z",
+  "selectionReason": "Highest novelty + usefulness + multi-agent complexity"
+}

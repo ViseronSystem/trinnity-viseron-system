@@ -1,0 +1,59 @@
+[
+  {
+    "taskId": "task_01",
+    "agent": "agent_security",
+    "domain": "security",
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "executionMs": 44,
+    "output": "Security Vulnerability Scan: analyzed via 0 skills (0 validated)",
+    "status": "BLOCKED",
+    "blockedReason": "No executable skills found for domain",
+    "evidence": 0
+  },
+  {
+    "taskId": "task_02",
+    "agent": "agent_architecture",
+    "domain": "architecture",
+    "skillsExecuted": 2,
+    "skillsValidated": 2,
+    "executionMs": 47,
+    "output": "Architecture Anti-Pattern Detection: analyzed via 2 skills (2 validated)",
+    "status": "SUCCEEDED",
+    "evidence": 2
+  },
+  {
+    "taskId": "task_03",
+    "agent": "agent_development",
+    "domain": "development",
+    "skillsExecuted": 0,
+    "skillsValidated": 0,
+    "executionMs": 48,
+    "output": "Dead Code Identification: analyzed via 0 skills (0 validated)",
+    "status": "BLOCKED",
+    "blockedReason": "No executable skills found for domain",
+    "evidence": 0
+  },
+  {
+    "taskId": "task_05",
+    "agent": "agent_knowledge",
+    "domain": "knowledge",
+    "skillsExecuted": 1,
+    "skillsValidated": 1,
+    "executionMs": 43,
+    "output": "Knowledge Gap Assessment: analyzed via 1 skills (1 validated)",
+    "status": "SUCCEEDED",
+    "evidence": 1
+  },
+  {
+    "taskId": "task_04",
+    "agent": "agent_architecture",
+    "domain": "architecture",
+    "skillsExecuted": 2,
+    "skillsValidated": 2,
+    "executionMs": 11,
+    "output": "Integration Gap Analysis: analyzed via 2 skills (2 validated)",
+    "status": "SUCCEEDED",
+    "evidence": 2
+  }
+]

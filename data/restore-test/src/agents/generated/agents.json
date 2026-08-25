@@ -1,0 +1,6 @@
+﻿{
+  "total": 0,
+  "mode": "NOT_IMPLEMENTED",
+  "note": "REALITY HARDENING: os 200 placeholders 'TVS-Agent-1..200' anteriores eram ficção — não existiam agentes materializados. A AgentFactory real (src/agents/factory/AgentFactory.ts) só cria agentes sob pedido e nenhum foi gerado em runtime. Agentes reais: 3 de runtime (src/agents/registry/agents.json), 10 specs OMEGA (src/omega/agent-runtime/specs/), 5.014 mentes (data/minds/minds.json).",
+  "agents": []
+}

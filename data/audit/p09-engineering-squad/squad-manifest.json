@@ -1,0 +1,319 @@
+{
+  "id": "engineering-intelligence",
+  "name": "Engineering Intelligence Squad",
+  "description": "Autonomous engineering team for code analysis, architecture review, security audit, and safe self-improvement",
+  "domain": "engineering",
+  "status": "ACTIVE",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "agent_cto",
+      "name": "CTO Agent",
+      "role": "Chief Technology Officer",
+      "domain": "architecture",
+      "responsibilities": [
+        "architecture_decisions",
+        "technical_roadmap",
+        "scalability_analysis",
+        "technology_selection"
+      ],
+      "capabilities": [
+        "system_design",
+        "technical_vision",
+        "architecture_review",
+        "innovation_planning"
+      ],
+      "skills": [
+        "architecture-decision-records",
+        "codebase-design",
+        "domain-modeling",
+        "wayfinder"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [
+        "code_analysis",
+        "dependency_graph",
+        "architecture_review"
+      ],
+      "verification": [
+        "architecture_completeness",
+        "tradeoff_documentation",
+        "scalability_assessment"
+      ]
+    },
+    {
+      "id": "agent_developer",
+      "name": "Developer Agent",
+      "role": "Senior Software Engineer",
+      "domain": "development",
+      "responsibilities": [
+        "implementation",
+        "refactoring",
+        "debugging",
+        "performance_optimization"
+      ],
+      "capabilities": [
+        "code_review",
+        "refactoring",
+        "debugging",
+        "performance_tuning"
+      ],
+      "skills": [
+        "tdd",
+        "code-review",
+        "diagnosing-bugs",
+        "implement",
+        "to-spec",
+        "resolving-merge-conflicts"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "memory.write",
+        "skills.read"
+      ],
+      "tools": [
+        "code_analysis",
+        "test_runner",
+        "git_operations",
+        "refactoring_tools"
+      ],
+      "verification": [
+        "test_coverage",
+        "code_quality_score",
+        "performance_regression_check"
+      ]
+    },
+    {
+      "id": "agent_qa",
+      "name": "QA Agent",
+      "role": "Quality Assurance Engineer",
+      "domain": "development",
+      "responsibilities": [
+        "test_planning",
+        "regression_detection",
+        "validation",
+        "quality_metrics"
+      ],
+      "capabilities": [
+        "test_generation",
+        "regression_testing",
+        "quality_audit",
+        "coverage_analysis"
+      ],
+      "skills": [
+        "tdd",
+        "code-review",
+        "prototype"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [
+        "test_runner",
+        "coverage_analyzer",
+        "regression_detector"
+      ],
+      "verification": [
+        "test_pass_rate",
+        "coverage_percentage",
+        "regression_count"
+      ]
+    },
+    {
+      "id": "agent_security",
+      "name": "Security Agent",
+      "role": "Security Engineer",
+      "domain": "security",
+      "responsibilities": [
+        "threat_modeling",
+        "security_review",
+        "risk_analysis",
+        "vulnerability_detection"
+      ],
+      "capabilities": [
+        "threat_modeling",
+        "vulnerability_scan",
+        "compliance_audit",
+        "risk_assessment"
+      ],
+      "skills": [
+        "security-audit",
+        "vuln-discovery",
+        "threat-modeling",
+        "rapid-checklist",
+        "cve-triage"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "skills.read"
+      ],
+      "tools": [
+        "vulnerability_scanner",
+        "dependency_audit",
+        "secret_detector"
+      ],
+      "verification": [
+        "vulnerability_count",
+        "risk_severity_distribution",
+        "compliance_checklist"
+      ]
+    },
+    {
+      "id": "agent_architect",
+      "name": "Architect Agent",
+      "role": "System Architect",
+      "domain": "architecture",
+      "responsibilities": [
+        "system_design",
+        "documentation",
+        "adr_generation",
+        "component_modeling"
+      ],
+      "capabilities": [
+        "system_design",
+        "api_design",
+        "documentation",
+        "architecture_decision_records"
+      ],
+      "skills": [
+        "api-design",
+        "architecture-decision-records",
+        "codebase-design",
+        "domain-modeling",
+        "improve-codebase-architecture"
+      ],
+      "permissions": [
+        "tools.execute.prompt",
+        "memory.read",
+        "memory.write",
+        "skills.read"
+      ],
+      "tools": [
+        "architecture_review",
+        "dependency_graph",
+        "documentation_generator"
+      ],
+      "verification": [
+        "design_completeness",
+        "adr_quality",
+        "component_coupling_score"
+      ]
+    }
+  ],
+  "workflows": {
+    "engineering_improvement": {
+      "name": "Engineering Improvement Workflow",
+      "steps": [
+        {
+          "phase": "analysis",
+          "agent": "agent_cto",
+          "description": "Analyze codebase for improvement opportunities"
+        },
+        {
+          "phase": "architecture_review",
+          "agent": "agent_architect",
+          "description": "Review architectural implications of changes"
+        },
+        {
+          "phase": "security_review",
+          "agent": "agent_security",
+          "description": "Security audit of proposed changes"
+        },
+        {
+          "phase": "implementation_plan",
+          "agent": "agent_developer",
+          "description": "Create implementation plan with rollback"
+        },
+        {
+          "phase": "execution",
+          "agent": "agent_developer",
+          "description": "Implement the approved change"
+        },
+        {
+          "phase": "test",
+          "agent": "agent_qa",
+          "description": "Run tests and verify no regressions"
+        },
+        {
+          "phase": "evidence_check",
+          "agent": "agent_qa",
+          "description": "Collect execution evidence"
+        },
+        {
+          "phase": "report",
+          "agent": "agent_architect",
+          "description": "Generate engineering report"
+        }
+      ]
+    },
+    "code_review": {
+      "name": "Code Review Workflow",
+      "steps": [
+        {
+          "phase": "standards_check",
+          "agent": "agent_developer",
+          "description": "Check code standards compliance"
+        },
+        {
+          "phase": "spec_check",
+          "agent": "agent_qa",
+          "description": "Verify implementation matches specification"
+        },
+        {
+          "phase": "security_check",
+          "agent": "agent_security",
+          "description": "Security vulnerability scan"
+        },
+        {
+          "phase": "architecture_check",
+          "agent": "agent_architect",
+          "description": "Architecture consistency review"
+        }
+      ]
+    }
+  },
+  "objectives": [
+    {
+      "id": "obj_01",
+      "metric": "code_quality_score",
+      "target": "> 80/100",
+      "frequency": "per_review"
+    },
+    {
+      "id": "obj_02",
+      "metric": "test_coverage",
+      "target": "> 80% for changed files",
+      "frequency": "per_change"
+    },
+    {
+      "id": "obj_03",
+      "metric": "vulnerability_detection_rate",
+      "target": "> 90%",
+      "frequency": "per_scan"
+    },
+    {
+      "id": "obj_04",
+      "metric": "architecture_compliance",
+      "target": "no regressions",
+      "frequency": "per_change"
+    }
+  ],
+  "memory": {
+    "stm": true,
+    "ltm": true,
+    "shared_knowledge": [
+      "engineering_patterns",
+      "architecture_decisions",
+      "security_baselines"
+    ],
+    "isolated_per_project": true
+  }
+}

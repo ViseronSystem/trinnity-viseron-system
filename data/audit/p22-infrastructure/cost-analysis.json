@@ -1,0 +1,21 @@
+{
+  "monthlyCosts": {
+    "localOnly": { "hardware": "$133/mo (RTX 4090 amortized 12 months)", "electricity": "$65/mo (450W, 24/7, $0.20/kWh)", "models": "FREE (open-source)", "total": "$198/mo" },
+    "hybrid": { "local": "$198/mo (RTX 4090)", "cloud_burst": "$50-200/mo (RunPod)", "total": "$248-398/mo" },
+    "cloudOnly": { "runpod_8hr_day": "$105/mo (RTX 4090, 8hr/day)", "runpod_24x7": "$317/mo (RTX 4090, 24/7)" }
+  },
+  "recommendations": {
+    "buy": "RTX 4090 ($1,600) — best price/performance. 24GB VRAM runs all workloads.",
+    "rent_first": "RunPod RTX 4090 ($0.44/hr) — test for 1 month before buying hardware.",
+    "step_up": "RTX 5090 ($2,000) — 32GB VRAM, 27% faster. Worth the $400 premium.",
+    "do_not_buy": "H100 ($30,000) — rent via RunPod ($2.49/hr) when needed for training.",
+    "local_workloads": "Ollama (3B/7B/14B), Wan2.1 (1.3B/14B), SDXL, Flux, ComfyUI, Whisper, XTTS-v2",
+    "cloud_workloads": "Multi-GPU training, H100-class training, overflow compute, model storage",
+    "migration": [
+      "WEEK 1: Rent RunPod RTX 4090 → install Ollama + Wan2.1 + ComfyUI → test all workloads",
+      "WEEK 2: If usage > 8hr/day → order RTX 4090 → install with desktop or eGPU enclosure",
+      "WEEK 3: Hybrid setup → local GPU for daily work → cloud for burst/training",
+      "WEEK 4: Production → local RTX 4090 24/7 → RunPod backup → VISERON orchestrates both"
+    ]
+  }
+}

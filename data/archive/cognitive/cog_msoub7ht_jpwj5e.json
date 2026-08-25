@@ -1,0 +1,22 @@
+{
+  "traceId": "cog_msoub7ht_jpwj5e",
+  "timestamp": 1786463615153,
+  "source": "consolidation",
+  "input": {
+    "text": "kg-link"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "latencyMs": 29,
+    "output": "linked 0 KG relations"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "0 new KG relations"
+    ],
+    "verifiedBy": "MemoryConsolidation"
+  },
+  "archiveHash": "8f06df02237c4a7f64e277488d3bf395cee0b6c9043073a674312b6b86684ed4"
+}

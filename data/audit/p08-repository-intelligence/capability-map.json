@@ -1,0 +1,28 @@
+{
+  "new": [
+    "TDD red-green-refactor loop (from mattpocock/skills engineering/tdd)",
+    "Two-axis code review: Standards + Spec (from engineering/code-review)",
+    "Disciplined bug diagnosis loop (from engineering/diagnosing-bugs)",
+    "Codebase architecture improvement survey (from engineering/improve-codebase-architecture)",
+    "Domain modeling with CONTEXT.md shared language (from engineering/domain-modeling)",
+    "Model-led autonomous solve engine (from VulnClaw solver.py)",
+    "Evidence-gated completion (FINAL requires real tool output match)",
+    "AgentState evidence memory with high-signal preview (from VulnClaw agent_state.py)",
+    "Structured reasoning state + L0-L4 adaptive escalation (from VulnClaw reasoning_state.py)",
+    "Lightweight correction layer (detect repetition, staleness, failure patterns)"
+  ],
+  "enhanced": [
+    "SkillBridge context with 80 new engineering + security skills",
+    "SkillContractRegistry with auto-inferred contracts for engineering domain",
+    "AgentAutoRouter with engineering + security specialist agents",
+    "Research patterns from VulnClaw research skill (primary sources + citation)",
+    "Code quality gates from mattpocock code-review + codebase-design skills"
+  ],
+  "vision": [
+    "VulnClaw Python runtime bridge via subprocess (future, HIGH_RISK)",
+    "MCP chrome-devtools integration for browser automation",
+    "Vulnerability detection plugin system (reuse VulnClaw plugin architecture)",
+    "Continuous penetration testing cycle (100 rounds × N cycles)",
+    "Automatic retrospective report from execution evidence (VulnClaw pattern)"
+  ]
+}

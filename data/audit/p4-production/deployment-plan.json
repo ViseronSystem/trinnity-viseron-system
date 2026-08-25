@@ -1,0 +1,102 @@
+{
+  "installOrder": [
+    {
+      "step": 1,
+      "action": "Install Node.js v24 LTS",
+      "command": "winget install OpenJS.NodeJS.LTS",
+      "time": "5 min"
+    },
+    {
+      "step": 2,
+      "action": "Install Python 3.13",
+      "command": "winget install Python.Python.3.13",
+      "time": "5 min"
+    },
+    {
+      "step": 3,
+      "action": "Install Git",
+      "command": "winget install Git.Git",
+      "time": "2 min"
+    },
+    {
+      "step": 4,
+      "action": "Install Ollama",
+      "command": "winget install Ollama.Ollama",
+      "time": "3 min"
+    },
+    {
+      "step": 5,
+      "action": "Install 7-Zip",
+      "command": "winget install 7zip.7zip",
+      "time": "2 min"
+    },
+    {
+      "step": 6,
+      "action": "Restore golden backup",
+      "command": "powershell -File scripts\\migration\\restore.ps1 -BackupDir <path>",
+      "time": "15 min"
+    },
+    {
+      "step": 7,
+      "action": "Copy .env (secure channel)",
+      "command": "MANUAL",
+      "time": "5 min"
+    },
+    {
+      "step": 8,
+      "action": "npm install",
+      "command": "cd C:\\tvs; npm install",
+      "time": "5 min"
+    },
+    {
+      "step": 9,
+      "action": "npm run build",
+      "command": "cd C:\\tvs; npm run build",
+      "time": "3 min"
+    },
+    {
+      "step": 10,
+      "action": "Pull Ollama models",
+      "command": "ollama pull qwen2.5:3b; ollama pull qwen2.5:7b",
+      "time": "15 min"
+    },
+    {
+      "step": 11,
+      "action": "Reinstall skills",
+      "command": "npm run skills:install",
+      "time": "10 min"
+    },
+    {
+      "step": 12,
+      "action": "Run tests",
+      "command": "npm test",
+      "time": "5 min"
+    },
+    {
+      "step": 13,
+      "action": "Start services",
+      "command": "npm start",
+      "time": "2 min"
+    }
+  ],
+  "totalInstallTime": "~75 minutes",
+  "autoRestart": {
+    "method": "Task Scheduler (boot trigger) OR PM2",
+    "command": "schtasks /create /tn \"VISERON\" /tr \"node C:\\tvs\\dist\\src\\index.js\" /sc onstart /ru SYSTEM"
+  },
+  "environment": {
+    "required": [
+      "TVS_JWT_SECRET",
+      "DATABASE_URL",
+      "GMAIL_REFRESH_TOKEN",
+      "AVIRATO_API_KEY"
+    ],
+    "optional": [
+      "OPENAI_API_KEY",
+      "ANTHROPIC_API_KEY",
+      "GEMINI_API_KEY",
+      "XAI_API_KEY",
+      "STRIPE_SECRET_KEY"
+    ]
+  }
+}

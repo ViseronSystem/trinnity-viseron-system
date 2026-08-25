@@ -1,0 +1,21 @@
+[
+  {
+    "name": "mattpocock/skills",
+    "risks": [
+      "Skills require Claude Code or Codex agent — adaptation needed for VISERON agents",
+      "Some skills reference TypeScript-specific patterns — useful but not universal",
+      "User-invoked skills need CLI command mapping (/grill-me → viseron command)"
+    ],
+    "mitigation": "EXTRACT PATTERNS — 30+ skills as SKILL.md for SkillBridge context"
+  },
+  {
+    "name": "Netw0rkNoob/VulnClaw",
+    "risks": [
+      "Python runtime — cannot execute inside TypeScript VISERON runtime",
+      "Security tool — HIGH_RISK classification; requires authorization boundary",
+      "50 skills are security-specific — useful for defense, dangerous for offense",
+      "MCP tools need external services (Chrome, Burp, nmap) — not bundled"
+    ],
+    "mitigation": "EXTRACT PATTERNS + SKILLS — 50 skills as security reference; Python runtime NOT integrated"
+  }
+]

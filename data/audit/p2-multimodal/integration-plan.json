@@ -1,0 +1,62 @@
+{
+  "integrationPlan": {
+    "immediate": [
+      {
+        "technology": "Wan2.1",
+        "action": "Build subprocess bridge in src/core/tools/",
+        "method": "Register as ToolManager tool: execute via child_process.spawn('python', ['generate.py', ...])",
+        "contract": {
+          "skillId": "tvs:wan-text-to-video",
+          "domain": "creative",
+          "riskLevel": "LOW_RISK",
+          "requiredTools": ["wan_subprocess"],
+          "compatibleProviders": ["ollama"],
+          "timeoutMs": 600000
+        },
+        "validation": "Check output file exists and is valid MP4",
+        "evidence": "File hash + duration + resolution metadata"
+      },
+      {
+        "technology": "Wan2.1",
+        "action": "Register 4 tools for Creative Squad",
+        "tools": [
+          "tvs:wan-text-to-video",
+          "tvs:wan-image-to-video",
+          "tvs:wan-video-edit",
+          "tvs:wan-text-to-image"
+        ]
+      }
+    ],
+    "deferred_license_review": [
+      {
+        "technology": "ComfyUI",
+        "action": "Legal review of GPL-3.0 implications",
+        "risk": "If VISERON calls ComfyUI API, does GPL-3.0 propagate to VISERON?",
+        "mitigation": "Use as separate service with HTTP API boundary — not embedded code.",
+        "timeline": "1-2 weeks legal review"
+      }
+    ],
+    "requiresVerification": [
+      "DuixAvatar — 404. Verify URL with source.",
+      "VoiceStudio — 404. Alternative: VISERON VoiceBridge + XTTS-v2",
+      "Handy — 404. Clarify which repository is intended."
+    ]
+  },
+  "riskAnalysis": {
+    "gpuDependency": "All verified tools require dedicated GPU. VISERON currently runs CPU-only (Ollama uses CPU). GPU server is a prerequisite for multimodal capabilities.",
+    "licenseRisk": {
+      "Wan2.1": "NONE — Apache 2.0, fully permissive",
+      "ComfyUI": "HIGH — GPL-3.0. Integration via API boundary likely safe, but requires legal confirmation",
+      "Others": "UNKNOWN — repositories not found"
+    },
+    "securityRisk": {
+      "Wan2.1": "LOW — offline inference, no network calls needed",
+      "ComfyUI": "MEDIUM — local HTTP server, GPL-3.0 compliance"
+    },
+    "operationalRisk": {
+      "maintenance": "Python environment must be maintained separately from TypeScript runtime",
+      "modelUpdates": "Wan2.1 models are 1.3B-14B — download once, reuse",
+      "stability": "Subprocess bridge adds failure point — needs retry + timeout handling"
+    }
+  }
+}

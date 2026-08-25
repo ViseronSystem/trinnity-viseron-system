@@ -1,0 +1,37 @@
+[
+  {
+    "skill": "claude-plugins-official:code-review",
+    "tool": "github",
+    "provider": "composio",
+    "status": "AVAILABLE",
+    "note": "GitHub OAuth via Composio"
+  },
+  {
+    "skill": "claude-plugins-official:api-design",
+    "tool": "notion",
+    "provider": "composio",
+    "status": "AVAILABLE",
+    "note": "Design docs in Notion"
+  },
+  {
+    "skill": "claude-plugins-official:security-audit",
+    "tool": "github",
+    "provider": "composio",
+    "status": "AVAILABLE",
+    "note": "Scan repos for secrets"
+  },
+  {
+    "skill": "claude-plugins-official:research",
+    "tool": "gmail",
+    "provider": "composio",
+    "status": "REQUIRES_AUTH",
+    "note": "Needs Gmail OAuth configured"
+  },
+  {
+    "skill": "claude-plugins-official:research",
+    "tool": "slack",
+    "provider": "composio",
+    "status": "REQUIRES_AUTH",
+    "note": "Post findings to Slack channel"
+  }
+]

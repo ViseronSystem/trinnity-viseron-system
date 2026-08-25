@@ -1,0 +1,29 @@
+{
+  "traceId": "cog_msp45ren_4vcm0m",
+  "timestamp": 1786480157183,
+  "source": "research",
+  "input": {
+    "text": "VISERON security production readiness"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "1 accepted, 0 rejected, 1 chunks",
+    "latencyMs": 193,
+    "sources": [
+      "https://example.com"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "1 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "5209f03eef6e4a474f2a6c2950aba12ee04ad33d354ae8d8acb16d12b2b63923"
+}

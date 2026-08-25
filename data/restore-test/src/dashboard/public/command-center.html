@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VISERON COMMAND CENTER</title>
+<style>
+  :root {
+    --neon: #00f0ff;
+    --neon2: #bf5af2;
+    --neon3: #ff2d55;
+    --green: #3dffa0;
+    --amber: #ffb020;
+    --bg: #050510;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: rgba(255,255,255,0.4);
+    --dim: rgba(255,255,255,0.25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(600px 300px at 20% 0%, rgba(0,240,255,0.08), transparent 60%),
+      radial-gradient(600px 300px at 80% 10%, rgba(191,90,242,0.08), transparent 60%);
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 24px 24px 64px; }
+
+  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+  .brand h1 {
+    font-size: 20px; letter-spacing: 0.16em; font-weight: 800;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .brand p { color: var(--muted); font-size: 11px; letter-spacing: 0.1em; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    border: 1px solid var(--border); background: var(--card); letter-spacing: 0.08em;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; animation: pulse 2s infinite; }
+  .dot.on { background: var(--green); box-shadow: 0 0 12px var(--green); }
+  .dot.warn { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  .dot.off { background: var(--neon3); box-shadow: 0 0 12px var(--neon3); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .voice-bar {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 12px 18px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    flex-wrap: wrap;
+  }
+  .voice-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border);
+    background: rgba(0,240,255,0.08); color: var(--neon); font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all .2s;
+    flex-shrink: 0;
+  }
+  .voice-btn:hover { border-color: var(--neon); box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+  .voice-btn.listening { border-color: var(--neon3); background: rgba(255,45,85,0.12); color: var(--neon3); box-shadow: 0 0 24px rgba(255,45,85,0.4); }
+  .voice-status { font-size: 12px; color: var(--muted); min-width: 100px; }
+  .voice-status .cmd { color: var(--neon); font-weight: 600; }
+  .voice-history { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0; overflow: hidden; }
+  .voice-item {
+    font-size: 11px; padding: 4px 10px; border-radius: 999px;
+    background: rgba(0,240,255,0.06); border: 1px solid rgba(0,240,255,0.12);
+    color: var(--neon); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; position: relative; overflow: hidden; transition: border-color .2s;
+  }
+  .card:hover { border-color: rgba(0,240,255,0.35); }
+  .card .label { font-size: 10px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+  .card .value { font-size: 30px; font-weight: 800; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .card .sub { font-size: 10px; color: var(--dim); margin-top: 4px; }
+  .accent-1 .value { color: var(--neon); } .accent-2 .value { color: var(--neon2); }
+  .accent-3 .value { color: var(--neon3); } .accent-4 .value { color: var(--green); }
+
+  .panel {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; margin-bottom: 20px;
+  }
+  .panel h2 { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .panel-grid { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 6px; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 6px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+  .badge.ok { background: rgba(61,255,160,0.12); color: var(--green); }
+  .badge.norm { background: rgba(0,240,255,0.12); color: var(--neon); }
+  .badge.warn { background: rgba(255,176,32,0.12); color: var(--amber); }
+  .badge.err { background: rgba(255,45,85,0.12); color: var(--neon3); }
+  .badge.mute { background: rgba(255,255,255,0.08); color: var(--muted); }
+
+  .btn {
+    padding: 7px 14px; border-radius: 9px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04); color: #fff; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all .15s; font-family: inherit;
+  }
+  .btn:hover { border-color: var(--neon); box-shadow: 0 0 14px rgba(0,240,255,0.2); }
+  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.16), rgba(191,90,242,0.16)); border-color: rgba(0,240,255,0.35); }
+  .btn.danger { border-color: rgba(255,45,85,0.3); }
+  .btn.danger:hover { border-color: var(--neon3); box-shadow: 0 0 14px rgba(255,45,85,0.25); }
+  .btn.sm { padding: 4px 10px; font-size: 10px; border-radius: 7px; }
+  .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .terminal {
+    background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px;
+  }
+  .terminal-input {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .terminal-prompt { color: var(--neon); font-weight: 700; white-space: nowrap; }
+  .terminal-input input {
+    flex: 1; background: transparent; border: none; color: #fff; font: inherit;
+    outline: none; caret-color: var(--neon);
+  }
+  .terminal-input input::placeholder { color: var(--dim); }
+  .terminal-output { margin-top: 10px; max-height: 200px; overflow-y: auto; line-height: 1.6; }
+  .terminal-output .line { padding: 2px 0; }
+  .terminal-output .line.cmd { color: var(--neon); }
+  .terminal-output .line.res { color: var(--dim); }
+  .terminal-output .line.err { color: var(--neon3); }
+
+  .logs { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; line-height: 1.6; color: rgba(255,255,255,0.55); max-height: 300px; overflow-y: auto; }
+  .logs .live { color: var(--green); }
+  .logs .ts { color: var(--dim); font-size: 10px; }
+  .logs .topic-task { color: var(--green); }
+  .logs .topic-tool { color: var(--neon); }
+  .logs .topic-memory { color: var(--neon2); }
+  .logs .topic-kernel { color: var(--amber); }
+  .logs .topic-error { color: var(--neon3); }
+
+  .filter-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); font-size: 10px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .filter-btn.active { background: rgba(0,240,255,0.12); border-color: var(--neon); color: var(--neon); }
+  .filter-btn:hover { border-color: rgba(0,240,255,0.4); }
+
+  .governance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .gov-card {
+    padding: 10px; border-radius: 10px; border: 1px solid var(--border);
+    background: rgba(191,90,242,0.03); text-align: center;
+  }
+  .gov-card .gov-id { font-size: 10px; color: var(--neon2); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .gov-card .gov-name { font-size: 12px; color: #fff; margin-top: 3px; font-weight: 600; }
+  .gov-card .gov-ref { font-size: 9px; color: var(--dim); margin-top: 2px; }
+
+  .agent-task-input { width: 140px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 4px 8px; font-size: 11px; font-family: inherit; outline: none; }
+  .agent-task-input:focus { border-color: var(--neon); }
+  .agent-last { font-size: 10px; color: var(--dim); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .supervision-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 11px; }
+  .supervision-item .s-speaker { color: var(--neon2); font-weight: 600; }
+  .supervision-item .s-intent { color: var(--neon); }
+  .supervision-item .s-ok { color: var(--green); }
+  .supervision-item .s-fail { color: var(--neon3); }
+
+  .hint { color: var(--dim); font-size: 11px; text-align: center; margin-top: 28px; }
+  .hint a { color: var(--neon); text-decoration: none; }
+
+  #holo-container {
+    position: relative; width: 100%; height: 360px; margin-bottom: 20px;
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    background: radial-gradient(ellipse at center, rgba(0,240,255,0.03) 0%, transparent 70%);
+  }
+  #holo-canvas { display: block; width: 100%; height: 100%; }
+  .holo-label {
+    position: absolute; color: var(--neon); font-size: 10px; font-weight: 600;
+    text-align: center; pointer-events: none; transform: translate(-50%, -50%);
+    letter-spacing: 0.05em; text-shadow: 0 0 8px rgba(0,240,255,0.5);
+    transition: color 0.5s, text-shadow 0.5s;
+  }
+  .holo-label.busy { color: var(--amber); text-shadow: 0 0 12px rgba(255,176,32,0.7); }
+  .holo-label.error { color: var(--neon3); text-shadow: 0 0 12px rgba(255,45,85,0.7); }
+  .holo-legend {
+    position: absolute; bottom: 12px; left: 16px; display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .holo-legend span { font-size: 9px; color: var(--dim); display: flex; align-items: center; gap: 5px; }
+  .holo-legend .swatch { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  @media (max-width: 600px) {
+    .card .value { font-size: 24px; }
+    .wrap { padding: 16px 12px 48px; }
+    .agent-task-input { width: 100px; }
+    #holo-container { height: 260px; }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>VISERON COMMAND CENTER</h1>
+      <p>OPERATIONAL INTERFACE · v5.0 · MILESTONE FOUNDATION</p>
+    </div>
+    <div class="header-right">
+      <span class="status-pill"><span class="dot" id="sseDot"></span><span id="sseLabel">SSE</span></span>
+      <span class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></span>
+    </div>
+  </header>
+
+  <!-- HOLOGRAM 3D -->
+  <div id="holo-container">
+    <canvas id="holo-canvas"></canvas>
+    <div class="holo-legend">
+      <span><span class="swatch" style="background:var(--neon);box-shadow:0 0 6px var(--neon)"></span>ACTIVE</span>
+      <span><span class="swatch" style="background:var(--amber);box-shadow:0 0 6px var(--amber)"></span>BUSY</span>
+      <span><span class="swatch" style="background:var(--neon2)"></span>IDLE</span>
+      <span><span class="swatch" style="background:var(--neon3);box-shadow:0 0 6px var(--neon3)"></span>ERROR</span>
+      <span style="margin-left:8px">kernel · <span id="holoKernelLabel">—</span></span>
+    </div>
+  </div>
+
+  <!-- VOICE COMMAND BAR -->
+  <div class="voice-bar">
+    <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Clique para falar ou diga VISERON">&#127908;</button>
+    <div class="voice-status">
+      <span id="voiceLabel">Clique para falar</span>
+      <span id="voiceInterim" style="color:var(--amber);margin-left:8px;font-size:11px"></span>
+    </div>
+    <div class="voice-history" id="voiceHistory"></div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="grid">
+    <div class="card accent-1"><div class="label">System</div><div class="value" id="k_system">—</div><div class="sub" id="k_system_sub">kernel</div></div>
+    <div class="card accent-2"><div class="label">Active Agents</div><div class="value" id="k_agents">—</div><div class="sub" id="k_agents_sub">nuclear runtime</div></div>
+    <div class="card accent-4"><div class="label">Tasks</div><div class="value" id="k_tasks">—</div><div class="sub" id="k_tasks_sub">completed</div></div>
+    <div class="card accent-1"><div class="label">Events</div><div class="value" id="k_events">—</div><div class="sub" id="k_events_sub">event bus</div></div>
+    <div class="card accent-2"><div class="label">Knowledge Graph</div><div class="value" id="k_graph">—</div><div class="sub" id="k_graph_sub">entities · relations</div></div>
+    <div class="card accent-3"><div class="label">Minds Online</div><div class="value" id="k_minds">—</div><div class="sub">ecossistema total</div></div>
+  </div>
+
+  <!-- AGENTES NUCLEARES -->
+  <div class="panel">
+    <h2>Agentes Nucleares (spec-driven · live)</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Nome</th><th>Rol</th><th>Squad</th><th>Estado</th><th>Dispatch</th><th>Última Execução</th></tr></thead>
+      <tbody id="agentRows"><tr><td colspan="7" style="text-align:center;color:rgba(255,255,255,0.3)">Carregando…</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="panel">
+    <h2>Terminal de Comandos</h2>
+    <div class="terminal">
+      <div class="terminal-input">
+        <span class="terminal-prompt">viseron&gt;</span>
+        <input type="text" id="termInput" placeholder="dispatch agent_ceo &quot;Analisa o mercado&quot;  ·  help para comandos"
+          onkeydown="if(event.key==='Enter'){executeTerminal(this.value);this.value='';}">
+      </div>
+      <div class="terminal-output" id="termOutput">
+        <div class="line res">[system] Terminal pronto. Digite help para ver comandos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTONOMY + GOVERNANÇA -->
+  <div class="panel-grid">
+    <div class="panel">
+      <h2>Autonomy Layer</h2>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin:8px 0 14px 0">
+        <div><span style="color:var(--neon);font-size:11px">Planning</span><br><span class="stat" id="a_planning" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Evolution</span><br><span class="stat" id="a_evolution" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Learning</span><br><span class="stat" id="a_learning" style="font-weight:700">—</span></div>
+        <div><span style="color:var(--neon);font-size:11px">Enabled</span><br><span class="stat" id="a_enabled" style="font-weight:700">—</span></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn sm" onclick="runAutonomy('planning')">Planning Cycle</button>
+        <button class="btn sm" onclick="runAutonomy('evolution')">Evolution</button>
+        <button class="btn sm" onclick="runAutonomy('learning')">Learning</button>
+      </div>
+      <div id="a_last" style="font-size:10px;color:var(--dim);margin-top:10px"></div>
+    </div>
+    <div class="panel">
+      <h2>Governança Bíblica</h2>
+      <div class="governance-grid" id="govGrid"><span style="color:var(--dim);font-size:11px">Carregando…</span></div>
+      <div id="govBlocked" style="margin-top:10px;font-size:10px;color:var(--neon3)"></div>
+    </div>
+  </div>
+
+  <!-- AGENT INSPECT PANEL (Sistema 7) -->
+  <div id="agent-panel" style="display:none;position:absolute;top:50%;right:16px;transform:translateY(-50%);width:280px;background:rgba(5,5,16,0.95);border:1px solid var(--border);border-radius:14px;padding:18px;z-index:10;backdrop-filter:blur(8px);">
+    <div style="font-size:15px;font-weight:800;color:#fff" id="ap_name">—</div>
+    <div style="font-size:10px;color:var(--neon);font-family:monospace;margin-bottom:4px" id="ap_id">—</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:12px" id="ap_role">—</div>
+    <div style="font-size:10px;color:var(--dim);margin-bottom:10px" id="ap_last_task">No recent task</div>
+    <input id="ap_task_input" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:#fff;padding:8px 10px;font-size:11px;font-family:inherit;outline:none;margin-bottom:8px" placeholder="Analisa e recomenda..." value="">
+    <div class="btn-group">
+      <button class="btn sm primary" onclick="dispatchFromPanel()">Dispatch</button>
+      <button class="btn sm danger" onclick="closeAgentPanel()">Close</button>
+    </div>
+  </div>
+
+  <!-- LIVE ACTIVITY (SSE) -->
+  <div class="panel">
+    <h2>Live Activity (SSE)</h2>
+    <div class="filter-bar" id="logFilter">
+      <button class="filter-btn active" onclick="setLogFilter('all')">All</button>
+      <button class="filter-btn" onclick="setLogFilter('task')">Tasks</button>
+      <button class="filter-btn" onclick="setLogFilter('tool')">Tools</button>
+      <button class="filter-btn" onclick="setLogFilter('memory')">Memory</button>
+      <button class="filter-btn" onclick="setLogFilter('kernel')">Kernel</button>
+    </div>
+    <div class="logs" id="logs">
+      <div>[kernel] waiting for live events…</div>
+    </div>
+  </div>
+
+  <!-- SUPERVISION AIOX -->
+  <div class="panel">
+    <!-- COGNITIVE DASHBOARD (Sistema 7) -->
+  <div class="panel">
+    <h2>Cognitive OS Dashboard</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+      <div class="card accent-1" style="padding:12px"><div class="label">Traces</div><div class="value" style="font-size:22px" id="cd_traces">—</div><div class="sub">cognitive ops</div></div>
+      <div class="card accent-4" style="padding:12px"><div class="label">RAG Queries</div><div class="value" style="font-size:22px" id="cd_rag">—</div><div class="sub">retrieval</div></div>
+      <div class="card accent-2" style="padding:12px"><div class="label">Memory</div><div class="value" style="font-size:22px" id="cd_memory">—</div><div class="sub">consolidated</div></div>
+      <div class="card accent-3" style="padding:12px"><div class="label">Evolution</div><div class="value" style="font-size:22px" id="cd_evolution">—</div><div class="sub">events</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="font-size:11px;color:var(--dim)">
+        <span style="color:var(--neon)">Embeddings:</span> <span id="cd_embed">—</span><br>
+        <span style="color:var(--neon)">Voice:</span> <span id="cd_voice">—</span><br>
+        <span style="color:var(--neon)">GraphRAG:</span> <span id="cd_graphrag">—</span>
+      </div>
+      <div style="font-size:11px;color:var(--dim)">
+        <span style="color:var(--green)">Success Rate:</span> <span id="cd_success">—</span><br>
+        <span style="color:var(--green)">Evidence:</span> <span id="cd_evidence">—</span><br>
+        <span style="color:var(--amber)">Trend:</span> <span id="cd_trend">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supervisão AIOX (últimas operações)</h2>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px">
+      <span style="font-size:12px">Total: <b style="color:var(--neon)" id="sv_total">—</b></span>
+      <span style="font-size:12px">okRate: <b style="color:var(--green)" id="sv_okrate">—</b></span>
+      <span style="font-size:12px">byIntent: <b style="color:var(--neon2)" id="sv_intents">—</b></span>
+    </div>
+    <div id="supervisionList"></div>
+  </div>
+
+  <div class="hint">
+    VISERON Command Center · Foundation Milestone · 2026-08-11 ·
+    API: <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
+    SSE: <a href="/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*" target="_blank">/api/omega/events</a>
+  </div>
+</div>
+
+<script>
+  // ─── STATE ──────────────────────────────────────────────
+  const STATE = {
+    sessionId: 'cc_' + Date.now(),
+    logFilter: 'all',
+    voiceListening: false,
+    recognition: null,
+    sseConnected: false,
+    voiceHistory: [],
+    agentSpecs: []
+  };
+  const logEl = document.getElementById('logs');
+  let eventSource = null;
+
+  // ─── THREE.JS HOLOGRAM ──────────────────────────────────
+  let holoScene, holoCamera, holoRenderer, holoGroup;
+  let agentSpheres = [];     // { id, mesh, ring, baseColor, targetScale, pulseSpeed, state }
+  let kernelSphere = null;
+  let taskParticles = [];
+  let holoLabels = [];
+  const AGENT_COLORS = {
+    ACTIVE: 0x00f0ff, BUSY: 0xffb020, ERROR: 0xff2d55, IDLE: 0x444466,
+    CEO: 0x00f0ff, CTO: 0xbf5af2, Finance: 0x3dffa0, Security: 0xff2d55,
+    Sales: 0xffb020, Research: 0x00f0ff, DevOps: 0xbf5af2, Support: 0x3dffa0, Vision: 0xffb020
+  };
+  const AGENT_COLORS_HEX = {
+    ACTIVE: '#00f0ff', BUSY: '#ffb020', ERROR: '#ff2d55', IDLE: '#444466'
+  };
+
+  function initHologram() {
+    try {
+      const container = document.getElementById('holo-container');
+      const canvas = document.getElementById('holo-canvas');
+      if (!container || !canvas || typeof THREE === 'undefined') return;
+
+      const W = container.clientWidth, H = container.clientHeight;
+      holoScene = new THREE.Scene();
+      holoCamera = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+      holoCamera.position.z = 12;
+      holoRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      holoRenderer.setSize(W, H);
+      holoRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Central kernel sphere
+      const kGeo = new THREE.IcosahedronGeometry(0.55, 1);
+      const kMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.5 });
+      kernelSphere = new THREE.Mesh(kGeo, kMat);
+      holoScene.add(kernelSphere);
+
+      // Ring for orbit reference
+      const ringGeo = new THREE.TorusGeometry(3.8, 0.02, 16, 100);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.08 });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 2.5;
+      holoScene.add(ring);
+
+      // Ambient particles background
+      const pGeo = new THREE.BufferGeometry();
+      const pPos = new Float32Array(400 * 3);
+      for (let i = 0; i < 400 * 3; i++) pPos[i] = (Math.random() - 0.5) * 16;
+      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+      const pMat = new THREE.PointsMaterial({ color: 0x00f0ff, size: 0.03, transparent: true, opacity: 0.25 });
+      holoScene.add(new THREE.Points(pGeo, pMat));
+
+      holoGroup = new THREE.Group();
+      holoScene.add(holoGroup);
+
+      // ── INTERACTIVE CONTROLS (Sistema 7) ──
+      let mouseX = 0, mouseY = 0;
+      let targetRotX = 0, targetRotY = 0;
+
+      container.addEventListener('mousemove', function(e) {
+        const rect = container.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      container.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (!holoCamera) return;
+        holoCamera.position.z += e.deltaY * 0.01;
+        holoCamera.position.z = Math.max(5, Math.min(25, holoCamera.position.z));
+      }, { passive: false });
+
+      // Raycaster for click-to-inspect
+      const raycaster = new THREE.Raycaster();
+      const mouseNDC = new THREE.Vector2();
+      let selectedAgentId = null;
+
+      container.addEventListener('click', function(e) {
+        if (!holoCamera || agentSpheres.length === 0) return;
+        const rect = container.getBoundingClientRect();
+        mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouseNDC, holoCamera);
+        const targets = agentSpheres.map(function(s) { return s.mesh; });
+        const intersects = raycaster.intersectObjects(targets, true);
+        if (intersects.length > 0) {
+          let obj = intersects[0].object;
+          while (obj && !agentSpheres.find(function(s) { return s.mesh === obj; })) { obj = obj.parent; }
+          const agentEntry = agentSpheres.find(function(s) { return s.mesh === obj; });
+          if (agentEntry) {
+            selectedAgentId = agentEntry.id;
+            setAgentHoloState(agentEntry.id, 'SELECTED');
+            openAgentPanel(agentEntry.id);
+          }
+        } else {
+          if (selectedAgentId) { setAgentHoloState(selectedAgentId, 'ACTIVE'); selectedAgentId = null; closeAgentPanel(); }
+        }
+      });
+
+      // Start render loop
+      function animateHolo() {
+        requestAnimationFrame(animateHolo);
+        const t = performance.now() * 0.001;
+        if (kernelSphere) {
+          kernelSphere.rotation.x += 0.004;
+          kernelSphere.rotation.y += 0.006;
+          const ks = 1 + Math.sin(t * 1.5) * 0.08;
+          kernelSphere.scale.setScalar(ks);
+        }
+        agentSpheres.forEach(function(as) {
+          if (!as.mesh) return;
+          as.mesh.rotation.x += 0.005;
+          as.mesh.rotation.y += 0.008;
+          // Pulse based on state
+          const target = as.targetScale || 1;
+          const speed = as.pulseSpeed || 1;
+          const s = target + Math.sin(t * speed * 3) * 0.1 * target;
+          as.mesh.scale.lerp(new THREE.Vector3(s, s, s), 0.1);
+          // Opacity pulse
+          if (as.mesh.material) {
+            const op = as.state === 'BUSY' ? 0.5 + Math.sin(t * 6) * 0.3 : (as.state === 'ERROR' ? 0.5 + Math.sin(t * 10) * 0.4 : 0.3 + Math.sin(t * 2) * 0.1);
+            as.mesh.material.opacity = op;
+          }
+        });
+        // Animate task particles
+        taskParticles = taskParticles.filter(function(tp) {
+          tp.progress += tp.speed;
+          if (tp.progress >= 1) { holoScene.remove(tp.mesh); return false; }
+          tp.mesh.position.lerpVectors(tp.from, tp.to, tp.progress);
+          tp.mesh.material.opacity = 1 - tp.progress;
+          return true;
+        });
+        if (holoRenderer && holoScene && holoCamera) holoRenderer.render(holoScene, holoCamera);
+        // Smooth mouse follow
+        if (holoGroup) {
+          targetRotY = mouseX * 0.5;
+          targetRotX = mouseY * 0.3;
+          holoGroup.rotation.y += (targetRotY - holoGroup.rotation.y) * 0.05;
+          holoGroup.rotation.x += (targetRotX - holoGroup.rotation.x) * 0.05;
+        }
+      }
+      animateHolo();
+
+      window.addEventListener('resize', function() {
+        if (!holoRenderer || !holoCamera) return;
+        const w = container.clientWidth, h = container.clientHeight;
+        holoCamera.aspect = w / h;
+        holoCamera.updateProjectionMatrix();
+        holoRenderer.setSize(w, h);
+      });
+    } catch(e) { console.warn('[holo] init failed:', e.message); }
+  }
+
+  function updateAgentSpheres(agents) {
+    if (!holoGroup || typeof THREE === 'undefined') return;
+    // Remove old spheres and labels
+    agentSpheres.forEach(function(as) { if (as.mesh) holoGroup.remove(as.mesh); });
+    holoLabels.forEach(function(l) { l.remove(); });
+    holoLabels = [];
+    agentSpheres = [];
+
+    const n = agents.length || 10;
+    const radius = 3.8;
+    agents.forEach(function(a, i) {
+      const angle = (i / n) * Math.PI * 2;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius * 0.55; // flatten ellipse
+
+      // Determine color from role or status
+      const roleColor = AGENT_COLORS[a.role] || AGENT_COLORS[a.id] || AGENT_COLORS.ACTIVE;
+      const state = a.status === 'ACTIVE' ? 'ACTIVE' : 'IDLE';
+
+      const geo = new THREE.IcosahedronGeometry(0.32, 0);
+      const mat = new THREE.MeshBasicMaterial({
+        color: state === 'ACTIVE' ? roleColor : AGENT_COLORS.IDLE,
+        wireframe: true, transparent: true, opacity: state === 'ACTIVE' ? 0.7 : 0.2
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, y, 0);
+      holoGroup.add(mesh);
+
+      // Inner solid sphere for glow
+      const innerGeo = new THREE.SphereGeometry(0.15, 16, 16);
+      const innerMat = new THREE.MeshBasicMaterial({
+        color: roleColor, transparent: true, opacity: state === 'ACTIVE' ? 0.5 : 0.1
+      });
+      const inner = new THREE.Mesh(innerGeo, innerMat);
+      mesh.add(inner);
+
+      agentSpheres.push({
+        id: a.id, mesh: mesh, ring: null,
+        baseColor: roleColor,
+        targetScale: state === 'ACTIVE' ? 1.0 : 0.4,
+        pulseSpeed: state === 'ACTIVE' ? 1.0 : 0.3,
+        state: state
+      });
+
+      // HTML label
+      const label = document.createElement('div');
+      label.className = 'holo-label';
+      label.textContent = (a.name || a.id || '').slice(0, 14);
+      document.getElementById('holo-container').appendChild(label);
+      holoLabels.push({ el: label, mesh: mesh, id: a.id });
+    });
+    updateHoloLabels();
+  }
+
+  function setAgentHoloState(agentId, newState) {
+    const as = agentSpheres.find(function(s) { return s.id === agentId; });
+    if (!as || !as.mesh) return;
+    as.state = newState;
+    const color = AGENT_COLORS[newState] || as.baseColor;
+    as.mesh.material.color.setHex(color);
+    as.mesh.material.opacity = newState === 'BUSY' ? 0.9 : newState === 'ERROR' ? 1.0 : newState === 'ACTIVE' ? 0.7 : 0.2;
+    as.targetScale = newState === 'BUSY' ? 1.8 : newState === 'ERROR' ? 1.5 : newState === 'ACTIVE' ? 1.0 : 0.4;
+    as.pulseSpeed = newState === 'BUSY' ? 3.0 : newState === 'ERROR' ? 5.0 : 1.0;
+
+    // Update child inner sphere
+    if (as.mesh.children[0]) {
+      as.mesh.children[0].material.color.setHex(color);
+      as.mesh.children[0].material.opacity = newState === 'BUSY' ? 0.7 : newState === 'ACTIVE' ? 0.5 : 0.1;
+    }
+
+    // Update label
+    const lbl = holoLabels.find(function(l) { return l.id === agentId; });
+    if (lbl) {
+      lbl.el.className = 'holo-label' + (newState === 'BUSY' ? ' busy' : '') + (newState === 'ERROR' ? ' error' : '');
+    }
+  }
+
+  function spawnTaskParticle(fromAgentId, toAgentId) {
+    if (!holoScene || typeof THREE === 'undefined') return;
+    const fromAs = agentSpheres.find(function(s) { return s.id === fromAgentId; });
+    const toAs = agentSpheres.find(function(s) { return s.id === toAgentId; });
+    const fromPos = fromAs ? fromAs.mesh.position.clone() : new THREE.Vector3(0, 0, 0);
+    const toPos = toAs ? toAs.mesh.position.clone() : new THREE.Vector3(0, 0, 0);
+    const geo = new THREE.SphereGeometry(0.06, 6, 6);
+    const mat = new THREE.MeshBasicMaterial({ color: 0x3dffa0, transparent: true, opacity: 0.9 });
+    const particle = new THREE.Mesh(geo, mat);
+    particle.position.copy(fromPos);
+    holoScene.add(particle);
+    taskParticles.push({ mesh: particle, from: fromPos, to: toPos, progress: 0, speed: 0.015 + Math.random() * 0.02 });
+  }
+
+  function updateHoloLabels() {
+    if (!holoRenderer || !holoCamera) return;
+    holoLabels.forEach(function(l) {
+      if (!l.mesh) return;
+      const pos = l.mesh.position.clone();
+      pos.project(holoCamera);
+      const container = document.getElementById('holo-container');
+      const w = container.clientWidth, h = container.clientHeight;
+      const x = (pos.x * 0.5 + 0.5) * w;
+      const y = (-pos.y * 0.5 + 0.5) * h;
+      l.el.style.left = x + 'px';
+      l.el.style.top = (y - 20) + 'px';
+    });
+    // Update kernel label
+    const kl = document.getElementById('holoKernelLabel');
+    if (kl) kl.textContent = agentSpheres.filter(function(s) { return s.state === 'BUSY'; }).length + ' busy';
+  }
+
+  // Hook into existing SSE events for hologram
+  function holoOnSseEvent(topic, payload) {
+    if (!holoGroup) return;
+    if (topic === 'agent.gate' || topic === 'kernel:dispatch') {
+      const agentId = payload.agent || payload.agentId;
+      if (agentId) setAgentHoloState(agentId, 'BUSY');
+    }
+    if (topic === 'task:completed') {
+      const task = payload;
+      if (task.assignedAgentId) {
+        setAgentHoloState(task.assignedAgentId, 'ACTIVE');
+        spawnTaskParticle(task.assignedAgentId, null);
+      }
+    }
+    if (topic === 'task:failed') {
+      const task = payload;
+      if (task.assignedAgentId) {
+        setAgentHoloState(task.assignedAgentId, 'ERROR');
+        setTimeout(function() { setAgentHoloState(task.assignedAgentId, 'ACTIVE'); }, 3000);
+      }
+    }
+    updateHoloLabels();
+  }
+
+  // Init hologram after DOM ready
+  setTimeout(initHologram, 300);
+
+  // ─── HELPERS ────────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+  async function j(url, opts) {
+    const r = await fetch(url, opts);
+    if (!r.ok) throw new Error(url + ' → ' + r.status);
+    return r.json();
+  }
+  function setStatus(on) {
+    const dot = $('sysdot'), label = $('sysstatus');
+    dot.className = 'dot ' + (on ? 'on' : 'warn');
+    label.textContent = on ? 'SYSTEM ONLINE' : 'DEGRADED';
+  }
+  function topicClass(topic) {
+    if (/^task/.test(topic)) return 'topic-task';
+    if (/^tool/.test(topic)) return 'topic-tool';
+    if (/^memory|^stm|^ltm|^kb|^vector|^consolidation/.test(topic)) return 'topic-memory';
+    if (/^kernel|^agent|^vaec|^omega/.test(topic)) return 'topic-kernel';
+    if (/error/.test(topic)) return 'topic-error';
+    return '';
+  }
+
+  // ─── LOG ────────────────────────────────────────────────
+  function addLog(msg, topic, live) {
+    if (STATE.logFilter !== 'all') {
+      const cat = topicClass(topic);
+      if (STATE.logFilter === 'task' && cat !== 'topic-task') return;
+      if (STATE.logFilter === 'tool' && cat !== 'topic-tool') return;
+      if (STATE.logFilter === 'memory' && cat !== 'topic-memory') return;
+      if (STATE.logFilter === 'kernel' && cat !== 'topic-kernel') return;
+    }
+    const div = document.createElement('div');
+    const ts = new Date().toLocaleTimeString();
+    div.innerHTML = '<span class="ts">[' + ts + ']</span> <span class="' + (topicClass(topic)) + '">' + topic + '</span> ' + msg;
+    if (live) div.className = 'live';
+    logEl.insertBefore(div, logEl.firstChild);
+    while (logEl.children.length > 60) logEl.removeChild(logEl.lastChild);
+  }
+  function setLogFilter(f) {
+    STATE.logFilter = f;
+    document.querySelectorAll('#logFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#logFilter .filter-btn').forEach(b => {
+      if (b.textContent.toLowerCase().startsWith(f)) b.classList.add('active');
+    });
+    if (f === 'all') document.querySelector('#logFilter .filter-btn').classList.add('active');
+  }
+
+  // ─── SSE CONNECTION ─────────────────────────────────────
+  function connectSSE() {
+    if (eventSource) { eventSource.close(); }
+    const topics = 'task.*,tool.*,memory.*,kernel.*,autonomy.*,vaec.*,omega:*';
+    eventSource = new EventSource('/api/omega/events?topic=' + encodeURIComponent(topics));
+
+    eventSource.onopen = function() {
+      STATE.sseConnected = true;
+      $('sseDot').className = 'dot on';
+      $('sseLabel').textContent = 'SSE LIVE';
+      addLog('connected', 'kernel:attached', true);
+    };
+
+    const taskTopics = ['task:created','task:planned','task:queued','task:started','task:verifying','task:completed','task:failed','task:cancelled','task:recovering'];
+    taskTopics.forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          var title = p.title || p.id || '?';
+          var st = p.state || '?';
+          addLog(title + ' (' + st + ')', d.topic, true);
+          updateTaskCard();
+          holoOnSseEvent(d.topic, p);
+        } catch(ex) {}
+      });
+    });
+
+    ['tool.called','tool.completed','tool.failed','tool.blocked'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          var id = p.toolId || '?';
+          var ok = p.success ? 'OK' : (p.blocked ? 'BLOCKED' : 'FAIL');
+          addLog(id + ' → ' + ok, d.topic, true);
+        } catch(ex) {}
+      });
+    });
+
+    ['kernel:attached','kernel:dispatch','agent.gate'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          addLog((p.component || p.agent || '?') + ' ' + (p.allowed !== undefined ? (p.allowed ? 'allowed' : 'denied') : ''), d.topic, true);
+          holoOnSseEvent(d.topic, p);
+        } catch(ex) {}
+      });
+    });
+
+    ['omega:autonomy:run','omega:autonomy:cycle','vaec:stage','vaec:gate','vaec:promoted','vaec:rollback'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try {
+          var d = JSON.parse(e.data);
+          var p = d.payload || {};
+          addLog((p.kind || p.stage || '?') + ' ' + (p.ok !== undefined ? (p.ok ? 'OK' : 'FAIL') : ''), d.topic, true);
+          refreshAutonomy();
+        } catch(ex) {}
+      });
+    });
+
+    ['stm:added','ltm:set','kb:added','vector:stored','consolidation:run'].forEach(function(t) {
+      eventSource.addEventListener(t, function(e) {
+        try { var d = JSON.parse(e.data); addLog('memory event', d.topic, true); } catch(ex) {}
+      });
+    });
+
+    eventSource.onmessage = function(e) {
+      try {
+        var d = JSON.parse(e.data);
+        if (d.topic && d.topic !== 'heartbeat') {
+          addLog(JSON.stringify(d.payload || {}).slice(0, 120), d.topic, false);
+        }
+      } catch(ex) {}
+    };
+
+    eventSource.onerror = function() {
+      STATE.sseConnected = false;
+      $('sseDot').className = 'dot warn';
+      $('sseLabel').textContent = 'SSE RETRY';
+      addLog('connection lost — retrying in 5s...', 'kernel:error');
+      eventSource.close();
+      setTimeout(connectSSE, 5000);
+    };
+  }
+
+  // ─── REFRESH (polling fallback) ─────────────────────────
+  async function refresh() {
+    try {
+      const health = await j('/api/health');
+      setStatus(health && (health.status === 'OK' || health.status === 'online'));
+      $('k_system').textContent = health.status || 'OK';
+      $('k_system_sub').textContent = 'health ' + (health.version || 'v5.0');
+
+      const omega = await j('/api/omega/status');
+      const k = omega.kernel, r = omega.runtime, g = omega.graph;
+      $('k_agents').textContent = r.active + ' / ' + r.loaded;
+      $('k_agents_sub').textContent = 'active / loaded';
+      $('k_minds').textContent = k.agents.total;
+      $('k_minds_sub').textContent = 'ecossistema total';
+      if (g) {
+        $('k_graph').textContent = g.entities;
+        $('k_graph_sub').textContent = g.entities + ' entities · ' + g.relations + ' relations';
+      }
+
+      const events = await j('/api/omega/kernel/events');
+      $('k_events').textContent = events.totalEmitted;
+      $('k_events_sub').textContent = events.topics + ' topics · ' + events.totalSubscribers + ' subs';
+
+      await updateTaskCard();
+      refreshAutonomy();
+
+      const au = omega.autonomy || {};
+      $('a_enabled').textContent = au.enabled ? 'ON' : 'OFF';
+      $('a_planning').textContent = au.planning ? ('L' + au.planning.autonomyLevel + ' · ' + (au.planning.pendingTasks||0) + ' pend') : '—';
+      $('a_evolution').textContent = au.evolution ? (au.evolution.totalAgents + ' ag · wis ' + Math.round(au.evolution.averageWisdom||0)) : '—';
+      $('a_learning').textContent = au.learning ? ('c' + au.learning.cycleCount + ' · intel ' + au.learning.intelligenceLevel) : '—';
+      const lr = au.lastRuns || {};
+      $('a_last').textContent = lr.planning ? ('last: ' + new Date(lr.planning).toLocaleTimeString()) : '';
+
+      const agents = r.specs || [];
+      STATE.agentSpecs = agents;
+      const tbody = $('agentRows');
+      tbody.innerHTML = '';
+      agents.forEach(function(a) {
+        const tr = document.createElement('tr');
+        const st = a.status === 'ACTIVE' ? '<span class="badge ok">ACTIVE</span>' : '<span class="badge mute">' + (a.status || 'IDLE') + '</span>';
+        tr.innerHTML =
+          '<td style="font-family:monospace;color:var(--neon);font-size:11px">' + a.id + '</td>' +
+          '<td style="font-weight:600">' + a.name + '</td>' +
+          '<td style="color:var(--muted)">' + (a.role || '-') + '</td>' +
+          '<td style="font-size:11px">' + (a.squad || '-') + '</td>' +
+          '<td>' + st + '</td>' +
+          '<td><div class="btn-group">' +
+            '<input class="agent-task-input" id="at_' + a.id + '" placeholder="Analisa e recomenda..." value="">' +
+            '<button class="btn sm primary" onclick="dispatchAgent(\'' + a.id + '\',document.getElementById(\'at_' + a.id + '\').value||\'Analisa o estado atual e recomenda 3 ações prioritárias.\')">&#9654;</button>' +
+          '</div></td>' +
+          '<td><span class="agent-last" id="al_' + a.id + '">—</span></td>';
+        tbody.appendChild(tr);
+      });
+      addLog('refresh: ' + agents.length + ' agents, ' + k.tasks.completed + ' tasks completed', 'kernel:status', true);
+      updateAgentSpheres(agents);
+    } catch (e) {
+      setStatus(false);
+      $('k_system').textContent = 'ERR';
+      addLog('refresh failed: ' + e.message, 'kernel:error');
+    }
+    // Carrega supervisão e governança (menos frequente)
+    refreshSupervision();
+    refreshGovernance();
+  }
+
+  async function updateTaskCard() {
+    try {
+      const ts = await j('/api/omega/tasks');
+      $('k_tasks').textContent = ts.completed || 0;
+      $('k_tasks_sub').textContent = (ts.running||0) + ' running · ' + (ts.queued||0) + ' queued · ' + (ts.failed||0) + ' failed';
+    } catch(e) {}
+  }
+
+  async function refreshAutonomy() {
+    try {
+      const au = await j('/api/omega/autonomy');
+      $('a_enabled').textContent = au.enabled ? 'ON' : 'OFF';
+      if (au.planning) $('a_planning').textContent = 'L' + au.planning.autonomyLevel + ' · ' + (au.planning.pendingTasks||0) + ' pend';
+      if (au.evolution) $('a_evolution').textContent = au.evolution.totalAgents + ' ag · wis ' + Math.round(au.evolution.averageWisdom||0);
+      if (au.learning) $('a_learning').textContent = 'c' + au.learning.cycleCount + ' · intel ' + au.learning.intelligenceLevel;
+    } catch(e) {}
+  }
+
+  async function refreshSupervision() {
+    try {
+      const sv = await j('/api/viseron/supervision');
+      $('sv_total').textContent = sv.total || 0;
+      $('sv_okrate').textContent = Math.round((sv.okRate||1) * 100) + '%';
+      const intents = sv.byIntent || {};
+      $('sv_intents').textContent = Object.keys(intents).length + ' tipos';
+      const list = $('supervisionList');
+      list.innerHTML = '';
+      (sv.recent || []).slice(0, 10).forEach(function(s) {
+        const div = document.createElement('div');
+        div.className = 'supervision-item';
+        div.innerHTML =
+          '<span class="s-speaker">' + (s.speaker||'?') + '</span> ' +
+          '<span class="s-intent">' + (s.intent||'?') + '</span>: ' +
+          (s.message||'').slice(0, 80) + ' ' +
+          (s.ok ? '<span class="s-ok">OK</span>' : '<span class="s-fail">FAIL</span>') +
+          ' <span style="color:var(--dim);font-size:10px">' + (s.provider||'') + '/' + (s.model||'') + '</span>';
+        list.appendChild(div);
+      });
+    } catch(e) { $('sv_total').textContent = 'n/a'; }
+  }
+
+  async function refreshGovernance() {
+    try {
+      const gv = await j('/api/viseron/governance');
+      const grid = $('govGrid');
+      grid.innerHTML = '';
+      (gv.principles || []).forEach(function(p) {
+        const div = document.createElement('div');
+        div.className = 'gov-card';
+        div.innerHTML = '<div class="gov-id">' + p.id + '</div><div class="gov-name">' + p.name + '</div><div class="gov-ref">' + (p.reference||'') + '</div>';
+        grid.appendChild(div);
+      });
+      const blocked = (gv.stats && gv.stats.blockedKinds) || [];
+      $('govBlocked').textContent = blocked.length ? 'Bloqueios ativos: ' + blocked.join(', ') : '';
+    } catch(e) {}
+  }
+
+  // ─── AGENT DISPATCH ─────────────────────────────────────
+  async function dispatchAgent(agentId, task) {
+    try {
+      addLog('dispatching ' + agentId + '…', 'agent.gate');
+      const res = await j('/api/omega/agents/' + agentId + '/execute', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: task || 'Analisa o estado atual e recomenda ações.', context: { origin: 'command-center' } })
+      });
+      const el = $('al_' + agentId);
+      if (el) el.textContent = (res.output || '').slice(0, 80) || (res.success ? 'OK' : 'FAIL');
+      addLog(agentId + ' → ' + (res.success ? 'OK' : 'FAIL') + ': ' + ((res.output||'').slice(0, 100).replace(/\n/g, ' ')), 'agent.gate', true);
+      return 'Agent ' + agentId + ' dispatched: ' + (res.success ? 'OK' : 'FAIL');
+    } catch (e) { addLog('dispatch failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
+  }
+
+  async function createTask(title, priority) {
+    try {
+      addLog('creating task: ' + title, 'task:created');
+      const res = await j('/api/omega/tasks', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'omega:command', title: title, priority: priority || 'normal', payload: { origin: 'command-center' } })
+      });
+      addLog('task enqueued: ' + res.id + ' [' + (res.priority||'normal') + ']', 'task:created', true);
+      return 'Task created: ' + res.id + ' [' + (res.priority||'normal') + ']';
+    } catch (e) { addLog('task creation failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
+  }
+
+  async function runAutonomy(kind) {
+    try {
+      addLog('autonomy ' + kind + ' triggered', 'omega:autonomy:run');
+      const res = await j('/api/omega/autonomy/cycle', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind })
+      });
+      addLog('autonomy ' + kind + ' → ' + (res.engine||'done') + ' (' + new Date().toLocaleTimeString() + ')', 'omega:autonomy:cycle', true);
+      setTimeout(refreshAutonomy, 800);
+      return 'Autonomy ' + kind + ' executed.';
+    } catch (e) { addLog('autonomy failed: ' + e.message, 'kernel:error'); return 'Error: ' + e.message; }
+  }
+
+  // ─── TERMINAL ───────────────────────────────────────────
+  function termPrint(text, cls) {
+    const out = $('termOutput');
+    const div = document.createElement('div');
+    div.className = 'line ' + (cls || 'res');
+    div.textContent = text;
+    out.appendChild(div);
+    out.scrollTop = out.scrollHeight;
+    while (out.children.length > 50) out.removeChild(out.firstChild);
+  }
+
+  async function executeTerminal(input) {
+    input = input.trim();
+    if (!input) return;
+    termPrint('viseron> ' + input, 'cmd');
+    const parts = input.match(/(?:[^\s"]+|"[^"]*")+/g);
+    if (!parts) { termPrint('Invalid input', 'err'); return; }
+    const clean = parts.map(function(p) { return p.replace(/^"|"$/g, ''); });
+    const cmd = clean[0].toLowerCase();
+
+    try {
+      if (cmd === 'help') {
+        termPrint('Comandos disponíveis:', 'res');
+        termPrint('  dispatch <agentId> "<task>"  — dispara agente nuclear');
+        termPrint('  task "<title>" [priority]      — cria task E2E');
+        termPrint('  autonomy <plan|evol|learn>     — ciclo de autonomia');
+        termPrint('  status                         — refresh estado');
+        termPrint('  search "<query>"               — busca na memória');
+        termPrint('  cancel <taskId>                — cancela task');
+        termPrint('  clear                          — limpa terminal');
+        termPrint('  voice "<mensagem>"             — fala com VISERON');
+      } else if (cmd === 'dispatch') {
+        if (clean.length < 3) { termPrint('Uso: dispatch <agentId> "<task>"', 'err'); return; }
+        const result = await dispatchAgent(clean[1], clean[2]);
+        termPrint(result);
+      } else if (cmd === 'task') {
+        if (clean.length < 2) { termPrint('Uso: task "<title>" [priority]', 'err'); return; }
+        const result = await createTask(clean[1], clean[2] || 'normal');
+        termPrint(result);
+      } else if (cmd === 'autonomy') {
+        const kinds = { plan: 'planning', evol: 'evolution', learn: 'learning', planning: 'planning', evolution: 'evolution', learning: 'learning' };
+        const kind = kinds[clean[1]] || clean[1];
+        if (!['planning','evolution','learning'].includes(kind)) { termPrint('Uso: autonomy <planning|evolution|learning>', 'err'); return; }
+        const result = await runAutonomy(kind);
+        termPrint(result);
+      } else if (cmd === 'status') {
+        await refresh();
+        termPrint('Sistema atualizado.');
+      } else if (cmd === 'search') {
+        if (clean.length < 2) { termPrint('Uso: search "<query>"', 'err'); return; }
+        const q = clean.slice(1).join(' ');
+        const res = await j('/api/omega/memory/search?q=' + encodeURIComponent(q));
+        const results = res.results || [];
+        termPrint(results.length + ' resultado(s):');
+        results.slice(0, 5).forEach(function(r) { termPrint('  ' + (r.title||r.id||'?') + ' [' + (r.source||'?') + '] score:' + (r.score||0).toFixed(2)); });
+      } else if (cmd === 'cancel') {
+        if (clean.length < 2) { termPrint('Uso: cancel <taskId>', 'err'); return; }
+        const res = await j('/api/omega/tasks/' + clean[1] + '/cancel', { method: 'POST' });
+        termPrint('Cancelled: ' + (res.cancelled ? 'OK' : 'FAIL') + ' — ' + res.taskId);
+      } else if (cmd === 'clear') {
+        $('termOutput').innerHTML = '';
+        termPrint('[system] Terminal limpo.', 'res');
+      } else if (cmd === 'voice') {
+        if (clean.length < 2) { termPrint('Uso: voice "<mensagem>"', 'err'); return; }
+        const msg = clean.slice(1).join(' ');
+        termPrint('Enviando para VISERON...');
+        const res = await j('/api/viseron/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg, speaker: 'pedro', sessionId: STATE.sessionId })
+        });
+        termPrint('VISERON: ' + (res.text||res.reply||'').slice(0, 200));
+        addVoiceHistory(msg, res.text);
+        if (res.text) speak(res.text);
+      } else {
+        termPrint('Comando não reconhecido: ' + cmd + '. Digite help.', 'err');
+      }
+    } catch (e) {
+      termPrint('Error: ' + e.message, 'err');
+    }
+  }
+
+  // ─── VOICE (STT/TTS) ────────────────────────────────────
+  function toggleVoice() {
+    if (STATE.voiceListening) { stopListening(); }
+    else { startListening(); }
+  }
+
+  function startListening() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { $('voiceLabel').textContent = 'STT não disponível'; return; }
+    STATE.voiceListening = true;
+    $('voiceBtn').classList.add('listening');
+    $('voiceLabel').textContent = 'Ouvindo... (diga VISERON)';
+    STATE.recognition = new SR();
+    STATE.recognition.lang = 'pt-BR';
+    STATE.recognition.continuous = false;
+    STATE.recognition.interimResults = true;
+    STATE.recognition.maxAlternatives = 1;
+
+    STATE.recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript.trim();
+      if (!event.results[0].isFinal) {
+        $('voiceInterim').textContent = transcript;
+        return;
+      }
+      $('voiceInterim').textContent = '';
+      const lower = transcript.toLowerCase();
+      const wakeWords = ['viseron', 'hey viseron', 'jarvis', 'companheiro', 'superinteligencia'];
+      const detected = wakeWords.find(function(w) { return lower.indexOf(w) !== -1; });
+      if (detected) {
+        const cmd = lower.slice(lower.indexOf(detected) + detected.length).trim();
+        $('voiceLabel').textContent = 'Comando: ' + (cmd || '(ouvir)');
+        processVoiceCommand(cmd || transcript, 'pedro');
+      } else {
+        processVoiceCommand(transcript, 'pedro');
+      }
+    };
+
+    STATE.recognition.onerror = function(e) {
+      $('voiceLabel').textContent = 'Erro: ' + e.error;
+      stopListening();
+    };
+
+    STATE.recognition.onend = function() {
+      stopListening();
+      setTimeout(startListening, 800);
+    };
+
+    STATE.recognition.start();
+  }
+
+  function stopListening() {
+    STATE.voiceListening = false;
+    $('voiceBtn').classList.remove('listening');
+    $('voiceLabel').textContent = 'Clique para falar';
+    if (STATE.recognition) {
+      try { STATE.recognition.stop(); } catch(e) {}
+      STATE.recognition = null;
+    }
+  }
+
+  async function processVoiceCommand(message, speaker) {
+    try {
+      const res = await j('/api/viseron/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, speaker: speaker, sessionId: STATE.sessionId })
+      });
+      if (res.ok) {
+        addVoiceHistory(message, res.text);
+        const reply = res.text || res.reply || '';
+        addLog('voice: ' + message.slice(0, 60) + ' → ' + reply.slice(0, 60), 'voice:command', true);
+        $('voiceLabel').textContent = 'Resposta: ' + reply.slice(0, 60) + '...';
+        if (reply) speak(reply);
+        if (res.actions && res.actions.length) {
+          setTimeout(refresh, 1000);
+        }
+      }
+    } catch (e) {
+      $('voiceLabel').textContent = 'Erro: ' + e.message;
+    }
+  }
+
+  function speak(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR';
+    u.rate = 0.92;
+    u.pitch = 0.72;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  }
+
+  function addVoiceHistory(cmd, reply) {
+    STATE.voiceHistory.unshift({ cmd: cmd.slice(0, 40), reply: (reply||'').slice(0, 40) });
+    if (STATE.voiceHistory.length > 5) STATE.voiceHistory.pop();
+    const el = $('voiceHistory');
+    el.innerHTML = '';
+    STATE.voiceHistory.forEach(function(h) {
+      const span = document.createElement('span');
+      span.className = 'voice-item';
+      span.textContent = h.cmd;
+      span.title = '→ ' + h.reply;
+      el.appendChild(span);
+    });
+  }
+
+  // ─── KEYBOARD SHORTCUTS ─────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'k') {
+      e.preventDefault();
+      $('termInput').focus();
+    }
+    if (e.ctrlKey && e.code === 'Space') {
+      e.preventDefault();
+      toggleVoice();
+    }
+  });
+
+  // ─── INIT ────────────────────────────────────────────────
+  connectSSE();
+  refresh();
+  setInterval(refresh, 30000); // fallback polling a cada 30s
+  setInterval(updateHoloLabels, 2000);
+  setInterval(refreshCognitiveDashboard, 15000); // Cognitive OS metrics
+
+  // Cognitive Dashboard refresh (Sistema 7)
+  async function refreshCognitiveDashboard() {
+    try {
+      var t = await j('/api/omega/telemetry');
+      $('cd_traces').textContent = t.total || 0;
+    } catch(e) { $('cd_traces').textContent = '—'; }
+    try {
+      var e = await j('/api/omega/memory/embed/status');
+      $('cd_embed').textContent = (e.model||'—') + ' ' + (e.dimensions||'') + 'd';
+    } catch(e) { $('cd_embed').textContent = '—'; }
+    try {
+      var v = await j('/api/omega/voice/status');
+      $('cd_voice').textContent = (v.stt?.available?'on':'off') + ' | ' + (v.tts?.available?'on':'off');
+    } catch(e) { $('cd_voice').textContent = '—'; }
+    try {
+      var g = await j('/api/omega/memory/graphrag/status');
+      $('cd_graphrag').textContent = g.entities + ' entities';
+    } catch(e) { $('cd_graphrag').textContent = '—'; }
+    try {
+      var ev = await j('/api/omega/evolution/status');
+      $('cd_evolution').textContent = ev.totalEvents || 0;
+    } catch(e) { $('cd_evolution').textContent = '—'; }
+    try {
+      var m = await j('/api/omega/memory/consolidation/status');
+      $('cd_memory').textContent = (m.ltmItems||0);
+    } catch(e) { $('cd_memory').textContent = '—'; }
+    try {
+      var r = await j('/api/omega/memory/rag/status');
+    } catch(e) {}
+    try {
+      var an = await j('/api/omega/evolution/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({}) });
+      if (an && an.trends) {
+        var sr = an.trends.find(function(x){return x.metric==='successRate'});
+        var evc = an.trends.find(function(x){return x.metric==='evidenceCoverage'});
+        if (sr) { $('cd_success').textContent = Math.round(sr.delta*100)+'%'; $('cd_trend').textContent = sr.direction; }
+        if (evc) $('cd_evidence').textContent = Math.round(evc.delta*100)+'%';
+      }
+    } catch(e) {}
+  }
+
+  // Agent panel functions (Sistema 7)
+  function openAgentPanel(agentId) {
+    var a = STATE.agentSpecs.find(function(s) { return s.id === agentId; });
+    if (!a) return;
+    $('ap_name').textContent = a.name; $('ap_id').textContent = a.id; $('ap_role').textContent = a.role||'';
+    var lt = agentTaskMap[agentId];
+    $('ap_last_task').textContent = lt ? '"'+lt.title+'" · '+Math.round((Date.now()-lt.since)/1000)+'s ago' : 'No recent task';
+    $('ap_task_input').value = 'Analisa o estado atual e recomenda 3 acoes prioritarias.';
+    $('agent-panel').style.display = 'block';
+  }
+  function closeAgentPanel() {
+    $('agent-panel').style.display = 'none';
+    if (selectedAgentId) { setAgentHoloState(selectedAgentId, 'ACTIVE'); selectedAgentId = null; }
+  }
+  function dispatchFromPanel() {
+    if (!selectedAgentId) return;
+    var task = $('ap_task_input').value.trim() || 'Analisa o estado atual.';
+    dispatchAgent(selectedAgentId, task);
+    closeAgentPanel();
+  }
+
+  // Auto-foco no terminal ao carregar
+  setTimeout(function() { $('termInput').focus(); }, 500);
+</script>
+</body>
+</html>

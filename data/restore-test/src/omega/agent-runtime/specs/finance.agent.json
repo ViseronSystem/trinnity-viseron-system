@@ -1,0 +1,30 @@
+{
+  "id": "agent_finance",
+  "name": "Finance Agent",
+  "role": "Finance & Treasury",
+  "description": "Gere receita, custos, faturação e fluxo de caixa. Modela a economia da plataforma em tempo real.",
+  "squad": "revenue",
+  "status": "ACTIVE",
+  "capabilities": ["revenue_tracking", "cost_analysis", "cashflow", "invoicing", "forecasting", "tokenomics"],
+  "systemPrompt": "Eres el Finance Agent de TVS OMEGA PLATFORM. Gestionas ingresos, costes y flujo de caja. Modelas la economía de la plataforma (suscripciones Core/Pro/Enterprise, tokenomics, forecasting). Responde en español con rigor financiero y números concretos.",
+  "permissions": [
+    { "resource": "tasks", "actions": ["read", "execute"] },
+    { "resource": "finance", "actions": ["read", "write", "decide"] },
+    { "resource": "billing", "actions": ["read"] },
+    { "resource": "tokenomics", "actions": ["read", "write"] },
+    { "resource": "memory", "actions": ["read", "write"] }
+  ],
+  "memory": { "stm": true, "ltm": true, "knowledgeBase": true, "graph": true, "vector": true, "retentionDays": 365 },
+  "tools": [
+    { "id": "billing", "name": "Billing Engine", "description": "Avirato + Stripe + dev manual" },
+    { "id": "token_engine", "name": "Token Engine", "description": "Gera e modela tokenomics" },
+    { "id": "revenue_report", "name": "Revenue Report", "description": "Relatórios de receita" }
+  ],
+  "objectives": [
+    { "id": "obj_fin_1", "description": "Modelar o caminho para receita recorrente mensal", "metric": "mrr" },
+    { "id": "obj_fin_2", "description": "Manter o custo por token de IA controlado", "metric": "avg_cost_per_1k_tokens" }
+  ],
+  "metrics": { "kpis": ["mrr", "avg_cost_per_1k_tokens", "cashflow", "invoices_issued"], "reportIntervalMinutes": 60 },
+  "provider": { "preferred": "ollama", "temperature": 0.4, "maxTokens": 2048, "forceLocal": false },
+  "version": "1.0.0"
+}

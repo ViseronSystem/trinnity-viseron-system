@@ -1,0 +1,25 @@
+﻿{
+  "total": 3,
+  "mode": "REAL",
+  "note": "Registo honesto do runtime. Apenas 3 agentes de runtime reais estão registados neste registry. As 5.014 mentes vivem em data/minds/minds.json (arquetipos de conhecimento), as 10 specs OMEGA em src/omega/agent-runtime/specs/ e os 6 manifestos de squad em src/omega/squads/manifests/ — NÃO são 200 agentes executáveis.",
+  "agents": [
+    {
+      "id": 1,
+      "name": "Architect Agent",
+      "squad": "technology",
+      "runtimeId": "agent_architect_01"
+    },
+    {
+      "id": 2,
+      "name": "Developer Agent",
+      "squad": "technology",
+      "runtimeId": "agent_developer_01"
+    },
+    {
+      "id": 3,
+      "name": "Research Agent",
+      "squad": "research",
+      "runtimeId": "agent_research_01"
+    }
+  ]
+}

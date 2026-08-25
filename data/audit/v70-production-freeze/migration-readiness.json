@@ -1,0 +1,25 @@
+{
+  "percentage": 85,
+  "ready": [
+    "Golden backup verified (SHA-256 100%)",
+    "No absolute paths in source",
+    "All secrets gitignored",
+    "Cross-platform dependencies (no native modules)",
+    "Core tests 20/20",
+    "Restore + verify scripts ready"
+  ],
+  "blockers": [
+    "GPU not purchased (Wan2.1, ComfyUI BLOCKED)",
+    "Target server not provisioned",
+    "skills/vendor reinstall required (gitignored)",
+    "3 secret keys need rotation (Avirato, Gmail, JWT)"
+  ],
+  "nextSteps": [
+    "1. Approve freeze tag",
+    "2. Provision UpCloud server",
+    "3. Transfer golden backup",
+    "4. Run restore.ps1 on target",
+    "5. Validate 67 tests on target",
+    "6. Purchase RTX 4090 for GPU workloads"
+  ]
+}

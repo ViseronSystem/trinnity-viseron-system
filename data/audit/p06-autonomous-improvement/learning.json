@@ -1,0 +1,14 @@
+{
+  "beforeP06": "P0.5: 77% autonomy, manual agent assignment, no skill scoring",
+  "afterP06": "P0.6: ~82% autonomy, auto-routing, skill effectiveness classified, contract performance tracked",
+  "improvements": [
+    "AgentAutoRouter (9 agents, 7 domains)",
+    "Skill effectiveness scoring (from executor history)",
+    "Contract performance tracking"
+  ],
+  "remainingBlockers": [
+    "Ollama/LLM provider",
+    "WebResearchEngine auto-trigger on all gaps",
+    "ParallelOrchestrator Omega integration"
+  ]
+}

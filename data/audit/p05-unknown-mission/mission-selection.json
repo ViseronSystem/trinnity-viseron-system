@@ -1,0 +1,103 @@
+{
+  "candidates": [
+    {
+      "id": "cand_01",
+      "name": "Agent Failure Recovery Protocol Design",
+      "description": "Research fault-tolerant agent architectures from industry (Netflix Hystrix, Kubernetes controllers, Erlang OTP) and design a self-healing recovery protocol for VISERON agent failures. Must include: failure detection, state recovery, retry backoff, circuit breaking, and degradation strategies.",
+      "domains": [
+        "research",
+        "architecture",
+        "operations",
+        "development"
+      ],
+      "researchUrls": [
+        "https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern",
+        "https://en.wikipedia.org/wiki/Fault_tolerance"
+      ],
+      "artifact": "Self-Healing Recovery Protocol Specification (structured document with architecture diagrams, state machines, and implementation roadmap)",
+      "scores": {
+        "novelty": 9,
+        "complexity": 9,
+        "usefulness": 9,
+        "researchReq": 8,
+        "multiAgent": 8,
+        "artifactReq": 8,
+        "verification": 7,
+        "autonomyValue": 9,
+        "total": 67
+      },
+      "knowledgeGaps": [
+        "circuit breaker implementation",
+        "fault tolerance patterns",
+        "agent state recovery",
+        "graceful degradation strategies"
+      ]
+    },
+    {
+      "id": "cand_03",
+      "name": "Autonomous Skill Contract Lifecycle Manager",
+      "description": "Build a system that automatically maintains the SkillContractRegistry: discovers new skills, generates contracts, validates existing contracts against runtime execution data, retires obsolete skills, and ranks skills by effectiveness. Research contract lifecycle management patterns and automated testing strategies.",
+      "domains": [
+        "research",
+        "development",
+        "architecture",
+        "knowledge"
+      ],
+      "researchUrls": [
+        "https://en.wikipedia.org/wiki/Contract-based_programming",
+        "https://en.wikipedia.org/wiki/Design_by_contract"
+      ],
+      "artifact": "Autonomous Contract Lifecycle Manager specification + top 20 skill contract improvements identified via execution data analysis",
+      "scores": {
+        "novelty": 8,
+        "complexity": 8,
+        "usefulness": 8,
+        "researchReq": 7,
+        "multiAgent": 8,
+        "artifactReq": 8,
+        "verification": 7,
+        "autonomyValue": 8,
+        "total": 62
+      },
+      "knowledgeGaps": [
+        "contract lifecycle management",
+        "automated contract validation",
+        "skill effectiveness scoring algorithms"
+      ]
+    },
+    {
+      "id": "cand_02",
+      "name": "Multi-Tenant Knowledge Isolation Framework",
+      "description": "Design a framework that ensures knowledge from one tenant project never leaks into another. Research data isolation patterns (database schemas, row-level security, namespace partitioning) and apply them to VISERON's MemoryEngine, ExperienceStore, and Knowledge Graph.",
+      "domains": [
+        "architecture",
+        "security",
+        "research",
+        "knowledge"
+      ],
+      "researchUrls": [
+        "https://en.wikipedia.org/wiki/Multitenancy",
+        "https://en.wikipedia.org/wiki/Row-level_security"
+      ],
+      "artifact": "Knowledge Isolation Framework Design Document with namespace architecture, memory boundaries, and compliance checklist",
+      "scores": {
+        "novelty": 7,
+        "complexity": 8,
+        "usefulness": 8,
+        "researchReq": 7,
+        "multiAgent": 7,
+        "artifactReq": 7,
+        "verification": 8,
+        "autonomyValue": 7,
+        "total": 59
+      },
+      "knowledgeGaps": [
+        "multi-tenant architecture patterns",
+        "row-level security implementation",
+        "namespace isolation in memory systems"
+      ]
+    }
+  ],
+  "selected": "cand_01",
+  "reason": "Highest autonomy value + novelty + multi-domain complexity"
+}

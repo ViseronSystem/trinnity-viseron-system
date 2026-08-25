@@ -1,0 +1,7 @@
+{
+  "AgentAutoRouter": "REAL (9 agents, 7 domains, deterministic scoring)",
+  "SkillEffectiveness": "REAL (scores from executor.getHistory() execution records)",
+  "ContractPerformance": "REAL (tracking per contract from executor stats)",
+  "FounderOS": "AVAILABLE (needs wiring)",
+  "LLMProvider": "BLOCKED (Ollama not installed)"
+}

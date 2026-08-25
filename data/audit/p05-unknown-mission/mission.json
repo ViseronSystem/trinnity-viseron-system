@@ -1,0 +1,33 @@
+{
+  "id": "cand_01",
+  "name": "Agent Failure Recovery Protocol Design",
+  "description": "Research fault-tolerant agent architectures from industry (Netflix Hystrix, Kubernetes controllers, Erlang OTP) and design a self-healing recovery protocol for VISERON agent failures. Must include: failure detection, state recovery, retry backoff, circuit breaking, and degradation strategies.",
+  "domains": [
+    "research",
+    "architecture",
+    "operations",
+    "development"
+  ],
+  "researchUrls": [
+    "https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern",
+    "https://en.wikipedia.org/wiki/Fault_tolerance"
+  ],
+  "artifact": "Self-Healing Recovery Protocol Specification (structured document with architecture diagrams, state machines, and implementation roadmap)",
+  "scores": {
+    "novelty": 9,
+    "complexity": 9,
+    "usefulness": 9,
+    "researchReq": 8,
+    "multiAgent": 8,
+    "artifactReq": 8,
+    "verification": 7,
+    "autonomyValue": 9,
+    "total": 67
+  },
+  "knowledgeGaps": [
+    "circuit breaker implementation",
+    "fault tolerance patterns",
+    "agent state recovery",
+    "graceful degradation strategies"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "traceId": "cog_msoziuhm_rqoy7t",
+  "timestamp": 1786472369626,
+  "source": "agent-probe",
+  "agentId": "agent_research",
+  "input": {
+    "text": "Research cognitive architecture patterns and produce findings"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "# Research Findings\nKnowledge Graph: 1384 entities, 1381 relations\nCognitive OS: 8/9 systems REAL, 1 CONTROLLED-PILOT",
+    "latencyMs": 5,
+    "modelUsed": "omega-kernel",
+    "sources": [
+      "C:\\Trinnity-Viseron-System\\data\\audit\\agent-execution\\artifacts\\research_findings.md"
+    ]
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "2 tools used"
+    ],
+    "verifiedBy": "agent-probe"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "448fba06551bd66d45c15e4283064c07aefbd138371a5b1eca57239e06a100e4"
+}

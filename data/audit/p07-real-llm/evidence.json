@@ -1,0 +1,16 @@
+{
+  "totalExecutions": 6,
+  "succeeded": 4,
+  "failed": 0,
+  "blocked": 2,
+  "skillsExecuted": 8,
+  "skillsValidated": 8,
+  "providersUsed": [
+    "ollama"
+  ],
+  "modelsUsed": [
+    "qwen2.5:3b"
+  ],
+  "llmReal": true,
+  "researchSources": 1
+}

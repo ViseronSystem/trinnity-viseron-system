@@ -1,0 +1,13 @@
+{
+  "succeeded": [
+    "dag_arch",
+    "dag_research",
+    "dag_integration"
+  ],
+  "failed": [
+    "dag_security",
+    "dag_dev"
+  ],
+  "isolationProven": true,
+  "note": "PROVEN: independent nodes continued execution despite failures elsewhere"
+}

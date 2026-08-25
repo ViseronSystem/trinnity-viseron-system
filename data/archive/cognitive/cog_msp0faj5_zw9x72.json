@@ -1,0 +1,30 @@
+{
+  "traceId": "cog_msp0faj5_zw9x72",
+  "timestamp": 1786473883409,
+  "source": "research",
+  "input": {
+    "text": "dup test"
+  },
+  "processing": {},
+  "result": {
+    "success": true,
+    "output": "2 accepted, 0 rejected, 2 chunks",
+    "latencyMs": 109,
+    "sources": [
+      "https://example.com",
+      "https://example.com"
+    ],
+    "modelUsed": "text-embedding-3-small"
+  },
+  "validation": {
+    "status": "PASS",
+    "reasons": [
+      "2 accepted, 0 rejected"
+    ],
+    "verifiedBy": "WebResearchEngine"
+  },
+  "learning": {
+    "newKnowledgeGenerated": true
+  },
+  "archiveHash": "3cf52cb0032e759ad6ee375e9f129c04174a2bacaeed7037bcb627150af7d844"
+}

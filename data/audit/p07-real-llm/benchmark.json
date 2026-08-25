@@ -1,0 +1,13 @@
+{
+  "p06_autonomy": 82,
+  "p06_llm": "skipProviders=true (no real LLM)",
+  "p07_autonomy": 91,
+  "p07_llm": "REAL (Ollama qwen2.5:3b)",
+  "p07_delta": 9,
+  "p07_providers": [
+    "ollama"
+  ],
+  "p07_skillsExecuted": 8,
+  "p07_totalTimeMs": 334185,
+  "p07_ollamaLatencyMs": 8896
+}

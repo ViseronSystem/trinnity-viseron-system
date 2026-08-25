@@ -1,0 +1,26 @@
+{
+  "totalTasks": 5,
+  "parallelGroups": [
+    {
+      "tasks": [
+        "task_01",
+        "task_02",
+        "task_03",
+        "task_05"
+      ],
+      "label": "Group A: Independent (parallelizable)"
+    },
+    {
+      "tasks": [
+        "task_04"
+      ],
+      "label": "Group B: Dependent on task_02, task_03"
+    }
+  ],
+  "dependencies": {
+    "task_04": [
+      "task_02",
+      "task_03"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "freezeVersion": "v7.0-pre-migration",
+  "frozenAt": "2026-08-12T15:55:22.831Z",
+  "git": {
+    "commit": "a92e005",
+    "message": "a92e005 feat(s12): skill intelligence engine — 100 skills, 5 tasks, +0.45 quality boost",
+    "branch": "main",
+    "tags": [
+      "v7.0.0"
+    ]
+  },
+  "files": {
+    "typescript": 249,
+    "scripts": 109,
+    "tests": 7,
+    "agentSpecs": 10,
+    "squadManifests": 12,
+    "backupFiles": 22920,
+    "totalRepoMB": 904.7
+  },
+  "agents": {
+    "active": 30,
+    "squads": 6,
+    "runtimeSpecs": 10,
+    "battalion": 100,
+    "archetypes": 246
+  },
+  "skills": {
+    "total": 1997,
+    "collections": 10,
+    "contracts": 199
+  },
+  "memory": {
+    "ltmRecords": 20000,
+    "graphNodes": 4278,
+    "graphEdges": 8275,
+    "experienceKB": 177
+  },
+  "models": {
+    "available": [
+      "qwen2.5:3b",
+      "qwen2.5:7b"
+    ],
+    "provider": "ollama v0.32.5 (CPU)"
+  },
+  "integrations": {
+    "composio": "configured (COMPOSIO_API_KEY)",
+    "gmail": "configured (OAuth refresh token)",
+    "twilio": "configured (SID + token)",
+    "avirato": "configured (API key + webcode)",
+    "postgres": "configured (Neon DATABASE_URL)",
+    "stripe": "NOT configured (optional)",
+    "cloudAI": "NOT configured (0 of 4 keys)"
+  },
+  "tests": {
+    "core": "20/20",
+    "total": "67",
+    "lastRun": "PASSED"
+  }
+}
