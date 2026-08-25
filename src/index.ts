@@ -28,7 +28,7 @@ process.on("unhandledRejection", (reason) => {
 // ═══ WEB SERVER PRIMEIRO (porta 32123 abre em segundos, sem esperar o core) ═══
 // O web server (API, ATLAS, VISERON, dashboard, cosméticos) é autónomo: não
 // depende do ViseronCore. Abre JÁ para que nenhum passo pesado do boot o bloqueie.
-const webServer = new ViseronWebServer({ port: 32123 });
+const webServer = new ViseronWebServer({ port: parseInt(process.env.PORT || "32123", 10) });
 webServer.start()
   .then(() => {
     webServer.getContentAgent().start(120);

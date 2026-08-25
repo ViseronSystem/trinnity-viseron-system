@@ -1,0 +1,35 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/trinnity-viseron:$COMMIT_SHA', '.']
+
+  # Push to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/trinnity-viseron:$COMMIT_SHA']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'trinnity-viseron'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/trinnity-viseron:$COMMIT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '2Gi'
+      - '--cpu'
+      - '2'
+      - '--set-env-vars'
+      - 'NODE_ENV=production,GEMINI_API_KEY=$$GEMINI_API_KEY'
+
+images:
+  - 'gcr.io/$PROJECT_ID/trinnity-viseron:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

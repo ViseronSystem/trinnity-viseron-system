@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TVS Architecture — All Things Agentic Hackathon</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+body { font-family: system-ui; max-width: 1200px; margin: 0 auto; padding: 20px; background: #0d1117; color: #c9d1d9; }
+h1 { color: #58a6ff; text-align: center; }
+h2 { color: #79c0ff; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+.mermaid { background: #161b22; border-radius: 8px; padding: 20px; margin: 20px 0; }
+.mermaid svg { max-width: 100%; }
+</style>
+</head>
+<body>
+<h1>Trinnity Viseron System — Architecture</h1>
+<h2>System Overview</h2>
+<div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        UI["Web Dashboard\n/viseron /atlas"]
+        API["REST API\n50+ endpoints"]
+        VOICE["Voice Interface\nWeb Speech STT/TTS"]
+    end
+
+    subgraph "OMEGA Kernel"
+        KERNEL["Kernel\nKernel.ts"]
+        EB["EventBus\nWildcard pub/sub"]
+        TQ["TaskQueue\n9-state pipeline"]
+        PERM["Permissions\nRBAC 7 roles"]
+        VER["TaskVerifier\nRule verification"]
+    end
+
+    subgraph "Agent Fleet"
+        AE["AgentActivationEngine\nLifecycle management"]
+        CEO["CEO Agent"]
+        CTO["CTO Agent"]
+        DEV["Developer Agent"]
+        FIN["Finance Agent"]
+        RES["Research Agent"]
+        SALES["Sales Agent"]
+        SEC["Security Agent"]
+        SUP["Support Agent"]
+        VIS["Vision Agent"]
+        OPS["DevOps Agent"]
+    end
+
+    subgraph "Memory System"
+        MEM["MemoryEngine\n4-layer memory"]
+        STM["STM\nSession, 30min TTL"]
+        LTM["LTM\nPersistent KV"]
+        KB["Knowledge Base\nTF-IDF search"]
+        VEC["Vector Store\nEmbeddings"]
+    end
+
+    subgraph "AI Providers"
+        ROUTER["ModelRouter\nCost/quality/latency"]
+        GEMINI["Gemini 3.5 Flash\nGoogle Cloud"]
+        OLLAMA["Ollama\nLocal qwen2.5:3b"]
+        OPENAI["OpenAI\nGPT-4o"]
+    end
+
+    subgraph "Governance"
+        GOV["Bible Governance\n9 ethical principles"]
+        ASSO["assessOperation\nRegex blocking"]
+    end
+
+    subgraph "Evolution"
+        VAEC["VaecOrchestrator\n7-stage gates"]
+        JOURNAL["Audit Log\nPersistent journal"]
+    end
+
+    UI --> API
+    VOICE --> API
+    API --> KERNEL
+    KERNEL --> EB
+    KERNEL --> TQ
+    KERNEL --> PERM
+    TQ --> VER
+    EB --> AE
+    AE --> CEO & CTO & DEV & FIN & RES & SALES & SEC & SUP & VIS & OPS
+    CEO & CTO & DEV & FIN & RES & SALES & SEC & SUP & VIS & OPS --> MEM
+    MEM --> STM & LTM & KB & VEC
+    CEO & CTO & DEV --> ROUTER
+    ROUTER --> GEMINI & OLLAMA & OPENAI
+    KERNEL --> GOV
+    GOV --> ASSO
+    KERNEL --> VAEC
+    VAEC --> JOURNAL
+</div>
+
+<h2>Task Execution Pipeline</h2>
+<div class="mermaid">
+flowchart LR
+    A["CREATED"] --> B["PLANNING"]
+    B --> C["QUEUED"]
+    C --> D["RUNNING"]
+    D --> E["VERIFYING"]
+    E -->|PASS| F["COMPLETED"]
+    E -->|FAIL| G["FAILED"]
+    G --> H["RECOVERING"]
+    H --> C
+    A -->|cancel| I["CANCELLED"]
+    D -->|cancel| I
+</div>
+
+<h2>Memory Consolidation</h2>
+<div class="mermaid">
+flowchart TB
+    A["Agent executes task"] --> B["Result stored in STM"]
+    B --> C{"30 min TTL\nor 200 items?"}
+    C -->|Eviction| D["MemoryConsolidation"]
+    D --> E["Promote to LTM"]
+    E --> F["Index for search"]
+    E --> G["Vector embedding"]
+    E --> H["Graph relationship"]
+    F & G & H --> I["Knowledge available\nto all agents"]
+</div>
+
+<h2>VAEC Evolution Pipeline</h2>
+<div class="mermaid">
+flowchart LR
+    A["IMPLEMENT"] --> B["TEST\nnpm test"]
+    B --> C["SYNC\ngit pull"]
+    C --> D["BUILD\nnpm run build"]
+    D --> E["VERIFY\nHealth check"]
+    E --> F["LEARN\nLog insights"]
+    F --> G["PROMOTE\nDeploy"]
+    B -->|FAIL| R["ROLLBACK\ngit reset + rebuild"]
+    D -->|FAIL| R
+    E -->|FAIL| R
+</div>
+
+<h2>Google Cloud Run Deployment</h2>
+<div class="mermaid">
+flowchart TB
+    DEV["Developer\npush to GitHub"] --> CB["Cloud Build\ncloudbuild.yaml"]
+    CB --> IMG["Container Registry\nDocker image"]
+    IMG --> CR["Cloud Run\n2 vCPU, 2GB RAM"]
+    CR --> LB["Load Balancer\nHTTPS"]
+    LB --> USER["User\nBrowser / API"]
+    CR --> CS["Cloud SQL\nPostgreSQL"]
+    CR --> GEMINI["Gemini 3.5 Flash\nAI Provider"]
+</div>
+
+<script>
+mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+        primaryColor: '#1f6feb',
+        primaryTextColor: '#c9d1d9',
+        primaryBorderColor: '#30363d',
+        lineColor: '#58a6ff',
+        secondaryColor: '#161b22',
+        tertiaryColor: '#0d1117'
+    }
+});
+</script>
+</body>
+</html>

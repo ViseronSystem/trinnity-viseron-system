@@ -121,12 +121,12 @@ export class ModelRouter {
 
     this.registerModel({
       provider: 'gemini',
-      modelName: 'gemini-2.0-flash',
+      modelName: 'gemini-3.5-flash',
       isLocal: false,
       costPer1kTokens: 0.0001,
-      latencyMs: 250,
-      qualityScore: 90,
-      supportedTasks: ['research', 'general', 'automation']
+      latencyMs: 200,
+      qualityScore: 94,
+      supportedTasks: ['code', 'reasoning', 'research', 'general', 'chat', 'automation']
     });
 
     this.registerModel({

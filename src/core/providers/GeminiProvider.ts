@@ -5,7 +5,7 @@ export class GeminiProvider extends CloudProviderBase {
     super({
       id: "gemini",
       envKey: "GEMINI_API_KEY",
-      defaultModel: "gemini-1.5-flash",
+      defaultModel: "gemini-3.5-flash",
       endpoint: "https://generativelanguage.googleapis.com/v1beta/models",
       headers: (apiKey) => ({ "content-type": "application/json", "x-goog-api-key": apiKey }),
       body: (request, model) => ({

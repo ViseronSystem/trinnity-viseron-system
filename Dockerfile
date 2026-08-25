@@ -31,7 +31,8 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/ANTIGRAVITY.md ./
 
-# Exponer puerto para API / Socket.IO
-EXPOSE 3000
+# Cloud Run uses $PORT
+ENV PORT=8080
+EXPOSE $PORT
 
 CMD ["node", "dist/src/index.js"]
