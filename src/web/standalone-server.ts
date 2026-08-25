@@ -50,6 +50,8 @@ import { createLicitacionesRouter } from "./licitaciones/routes";
 import { AgentActivationEngine } from "../omega/activation/AgentActivationEngine";
 import { createAgentRouter } from "./agents/routes";
 import { createCriptoRouter } from "./cripto/routes";
+import { createFounderRouter } from "./founder/routes";
+import { SkillBridge } from "../core/intelligence/SkillBridge";
 import { createOmegaGateway, createOmegaGatewayPlaceholder } from "../omega/gateway";
 import { bridgeSocketIO } from "../omega/kernel/EventBridge";
 import { requireAuth } from "./auth/middleware";
@@ -80,6 +82,7 @@ export class ViseronWebServer {
   private business: BusinessAgentStore;
   private agency: AgencyDeps;
   private composio: ComposioBridge;
+  private skillBridge: SkillBridge;
   private crypto: CryptoDeps;
   private rcs: RcsEngine;
   private prospection: ReturnType<typeof createProspectionDeps>;
@@ -137,6 +140,7 @@ export class ViseronWebServer {
     this.business = new BusinessAgentStore(this.dataDir);
     this.agency = createAgencyDeps(this.dataDir);
     this.composio = new ComposioBridge();
+    this.skillBridge = new SkillBridge();
     this.crypto = createCryptoDeps(this.dataDir, this.accounts, this.logger);
     this.rcs = new RcsEngine({ dataDir: this.dataDir });
     this.prospection = createProspectionDeps(this.dataDir, this.email);
@@ -432,6 +436,7 @@ export class ViseronWebServer {
       composio: this.composio,
       agency: this.agency,
       rcs: this.rcs,
+      skillBridge: this.skillBridge,
       logger: this.logger,
       metrics: this.metrics,
     }));
@@ -445,6 +450,7 @@ export class ViseronWebServer {
       composio: this.composio,
       agency: this.agency,
       rcs: this.rcs,
+      skillBridge: this.skillBridge,
       logger: this.logger,
       metrics: this.metrics,
     }));
@@ -490,6 +496,9 @@ export class ViseronWebServer {
     this.app.use("/api/omega", this.omegaRouter);
     this.app.use("/api/agents", createAgentRouter(this.agentEngine));
     this.app.use("/api/cripto", createCriptoRouter());
+
+    // ── FOUNDER OS — daily plan, status, weekly/monthly reviews, KPIs
+    this.app.use("/api", createFounderRouter(this.dataDir));
 
     // TVS Desktop — página do sistema operativo
     this.app.get("/os", (_req, res) => {

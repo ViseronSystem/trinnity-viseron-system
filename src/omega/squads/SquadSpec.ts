@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const SquadObjectiveSchema = z.object({
   id: z.string().min(1),
-  description: z.string().min(1),
-  metric: z.string().min(1),
-  target: z.number().optional(),
+  description: z.string().min(1).optional(),
+  metric: z.string().min(1).optional(),
+  target: z.number().or(z.string()).optional(),
 });
 
 export const SquadToolSchema = z.object({
@@ -39,10 +39,10 @@ export const SquadSpecSchema = z.object({
   status: z.enum(["ACTIVE", "PAUSED", "INACTIVE"]).default("ACTIVE"),
   objectives: z.array(SquadObjectiveSchema).default([]),
   tools: z.array(SquadToolSchema).default([]),
-  workflows: z.array(SquadWorkflowSchema).default([]),
+  workflows: z.array(SquadWorkflowSchema).or(z.record(z.any())).default([]),
   memory: SquadMemorySchema.default({}),
   permissions: z.array(SquadPermissionSchema).default([]),
-  agents: z.array(z.string()).default([]),
+  agents: z.array(z.union([z.string(), z.object({ id: z.string(), name: z.string().optional() }).passthrough()])).default([]),
 });
 
 export type SquadSpec = z.infer<typeof SquadSpecSchema>;

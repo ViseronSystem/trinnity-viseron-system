@@ -341,7 +341,7 @@ async function runOmegaTests() {
     const manifestsDir = path.join(process.cwd(), "src", "omega", "squads", "manifests");
     const registry = new SquadRegistry();
     const result = registry.loadFromDir(manifestsDir);
-    assert(result.valid === 6 && result.files === 6, `Squads: carrega 6 manifestos (valid=${result.valid}, files=${result.files})`);
+    assert(result.valid === 12 && result.files === 12, `Squads: carrega 12 manifestos (valid=${result.valid}, files=${result.files})`);
 
     const eng = registry.getSquad("squad_engineering");
     assert(eng?.domain === "software" && eng.agents.length === 3, "Squads: Engineering com 3 agentes e domínio");
@@ -350,7 +350,7 @@ async function runOmegaTests() {
     assert((security?.workflows[0]?.steps.length ?? 0) >= 3 && (security?.permissions.length ?? 0) >= 1, "Squads: Security com workflows e permissões");
 
     const status = registry.status();
-    assert(status.loaded === 6 && status.active === 6, "Squads: status com 6 ativas");
+    assert(status.loaded === 12 && status.active === 12, "Squads: status com 12 ativas");
 
     const runtime = new AgentRuntime({ providerFactory: new OfflineProviderFactory() });
     runtime.loadSpecsFromDir(path.join(process.cwd(), "src", "omega", "agent-runtime", "specs"));
@@ -987,7 +987,7 @@ async function runOmegaTests() {
     assert(agentRegistry.total === 3, `AgentRegistry: total real de agentes runtime = 3 (obtido ${agentRegistry.total})`);
     assert(agentRegistry.mindsLoaded === 5014, `AgentRegistry: minds real = 5014 (obtido ${agentRegistry.mindsLoaded})`);
     assert(agentRegistry.omegaSpecs === 10, `AgentRegistry: specs OMEGA = 10 (obtido ${agentRegistry.omegaSpecs})`);
-    assert(agentRegistry.squadManifests === 6, `AgentRegistry: squads = 6 (obtido ${agentRegistry.squadManifests})`);
+    assert(agentRegistry.squadManifests === 12, `AgentRegistry: squads = 12 (obtido ${agentRegistry.squadManifests})`);
     const { generated } = await import("../src/agents/generated");
     assert(generated.mode === "NOT_IMPLEMENTED" && generated.agents.length === 0, "AgentRegistry: agentes gerados = 0 NOT_IMPLEMENTED (sem placeholders)");
 
