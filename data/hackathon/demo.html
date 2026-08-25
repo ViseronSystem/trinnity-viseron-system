@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVS — Live Demo</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-elevated: #1c2128;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --green: #34D399;
+    --blue: #58a6ff;
+    --red: #f85149;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+    --orange: #f0883e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    height: 48px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-title .logo-mini {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--bg), var(--bg-card));
+    border: 1px solid rgba(52,211,153,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-title .logo-mini svg { width: 18px; height: 18px; }
+  .header-title h1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .header-title h1 span { color: var(--green); }
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .header-status .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+    50% { opacity: 0.5; box-shadow: 0 0 12px var(--green); }
+  }
+
+  /* Main layout */
+  .main {
+    display: grid;
+    grid-template-columns: 260px 1fr 280px;
+    height: calc(100vh - 48px - 44px);
+    gap: 0;
+  }
+
+  /* Panels */
+  .panel {
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .panel:last-child { border-right: none; }
+  .panel-header {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-header .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  /* LEFT: Agent Dashboard */
+  .agent-list { padding: 8px; }
+  .agent-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: background 0.2s;
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  .agent-item.online { opacity: 1; transform: translateX(0); }
+  .agent-item:hover { background: var(--bg-elevated); }
+  .agent-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+    transition: background 0.5s, box-shadow 0.5s;
+  }
+  .agent-item.online .agent-status {
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+  .agent-item.busy .agent-status {
+    background: var(--yellow);
+    box-shadow: 0 0 6px var(--yellow);
+    animation: pulse-dot 1s ease-in-out infinite;
+  }
+  .agent-info { flex: 1; min-width: 0; }
+  .agent-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .agent-role {
+    font-size: 10px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .agent-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .badge-active { background: rgba(52,211,153,0.15); color: var(--green); }
+  .badge-busy { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-idle { background: rgba(139,148,158,0.1); color: var(--text-dim); }
+
+  /* Governance section */
+  .gov-section {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .gov-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .gov-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 0;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .gov-item .check {
+    color: var(--green);
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gov-item.passed .check { opacity: 1; }
+
+  /* CENTER: Terminal */
+  .terminal-panel {
+    display: flex;
+    flex-direction: column;
+    background: #010409;
+  }
+  .terminal-tabs {
+    display: flex;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+  }
+  .terminal-tab {
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    cursor: default;
+  }
+  .terminal-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--green);
+  }
+  .terminal-output {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .term-line {
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.3s, transform 0.3s;
+    margin-bottom: 2px;
+  }
+  .term-line.visible { opacity: 1; transform: translateY(0); }
+  .term-ts { color: var(--text-dim); font-size: 11px; }
+  .term-agent { font-weight: 700; }
+  .term-agent.ceo { color: var(--orange); }
+  .term-agent.dev { color: var(--blue); }
+  .term-agent.sec { color: var(--red); }
+  .term-agent.fin { color: var(--yellow); }
+  .term-agent.sys { color: var(--green); }
+  .term-agent.vaec { color: var(--purple); }
+  .term-event { color: var(--purple); font-style: italic; }
+  .term-success { color: var(--green); }
+  .term-error { color: var(--red); }
+  .term-info { color: var(--blue); }
+  .term-dim { color: var(--text-dim); }
+  .term-bold { font-weight: 700; color: var(--text); }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: inline-flex;
+    gap: 3px;
+    padding: 2px 0;
+  }
+  .typing-indicator span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: typing 1.2s ease-in-out infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typing {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 200px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s ease-out;
+    width: 0%;
+  }
+  .progress-fill.green { background: var(--green); }
+  .progress-fill.blue { background: var(--blue); }
+  .progress-fill.yellow { background: var(--yellow); }
+  .progress-fill.purple { background: var(--purple); }
+  .progress-label { font-size: 11px; color: var(--text-dim); min-width: 36px; }
+
+  /* VAEC Pipeline */
+  .vaec-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 0;
+  }
+  .vaec-stage {
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--bg-card);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .vaec-stage.active {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(88,166,255,0.1);
+  }
+  .vaec-stage.done {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(52,211,153,0.1);
+  }
+  .vaec-arrow { color: var(--text-dim); font-size: 10px; }
+
+  /* RIGHT: System panels */
+  .right-panel { background: var(--bg); }
+  .sys-section {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sys-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sys-section-title .icon { font-size: 12px; }
+
+  /* Memory layers */
+  .memory-layer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+  }
+  .memory-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .memory-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease-out;
+    width: 0%;
+  }
+  .memory-fill.stm { background: var(--blue); }
+  .memory-fill.ltm { background: var(--green); }
+  .memory-fill.kb { background: var(--purple); }
+  .memory-fill.vec { background: var(--orange); }
+  .memory-label {
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 28px;
+    color: var(--text-dim);
+  }
+  .memory-value {
+    font-size: 10px;
+    color: var(--text-dim);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* EventBus feed */
+  .event-feed { max-height: 180px; overflow-y: auto; }
+  .event-item {
+    display: flex;
+    gap: 6px;
+    padding: 3px 0;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .event-item.visible { opacity: 1; }
+  .event-time { color: var(--text-dim); min-width: 48px; }
+  .event-topic { font-weight: 600; min-width: 80px; }
+  .event-topic.task { color: var(--blue); }
+  .event-topic.tool { color: var(--green); }
+  .event-topic.mem { color: var(--purple); }
+  .event-topic.sys { color: var(--yellow); }
+  .event-topic.vaec { color: var(--orange); }
+  .event-msg { color: var(--text-dim); }
+
+  /* TaskQueue stats */
+  .task-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .task-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+  }
+  .task-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .task-stat-value.blue { color: var(--blue); }
+  .task-stat-value.yellow { color: var(--yellow); }
+  .task-stat-value.purple { color: var(--purple); }
+  .task-stat-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  /* Health meter */
+  .health-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .health-ring {
+    width: 36px;
+    height: 36px;
+    position: relative;
+  }
+  .health-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .health-ring .track { fill: none; stroke: var(--border); stroke-width: 3; }
+  .health-ring .fill-ring {
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 88;
+    stroke-dashoffset: 88;
+    transition: stroke-dashoffset 2s ease-out;
+  }
+  .health-pct {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .health-info { flex: 1; }
+  .health-label { font-size: 11px; font-weight: 600; color: var(--text); }
+  .health-sub { font-size: 10px; color: var(--text-dim); }
+
+  /* Footer */
+  .footer {
+    height: 44px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .footer-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .footer-stat .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .footer-right { font-style: italic; opacity: 0.6; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Animations */
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .cursor-blink {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">
+    <div class="logo-mini">
+      <svg viewBox="0 0 24 24" fill="none">
+        <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="#34D399" stroke-width="1.2" fill="none" opacity="0.6"/>
+        <circle cx="12" cy="12" r="3" fill="#34D399" opacity="0.8"/>
+        <circle cx="12" cy="6" r="1.5" fill="#34D399" opacity="0.5"/>
+        <circle cx="17" cy="9" r="1.5" fill="#34D399" opacity="0.5"/>
+        <circle cx="17" cy="15" r="1.5" fill="#34D399" opacity="0.5"/>
+        <circle cx="12" cy="18" r="1.5" fill="#34D399" opacity="0.5"/>
+        <circle cx="7" cy="15" r="1.5" fill="#34D399" opacity="0.5"/>
+        <circle cx="7" cy="9" r="1.5" fill="#34D399" opacity="0.5"/>
+      </svg>
+    </div>
+    <h1><span>TVS</span> &mdash; Trinnity Viseron System</h1>
+  </div>
+  <div class="header-status">
+    <div class="live-dot"></div>
+    <span>LIVE DEMO</span>
+    <span id="clock">00:00:00</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: Agents -->
+  <div class="panel" style="background:var(--bg)">
+    <div class="panel-header"><div class="dot"></div> Agent Dashboard</div>
+    <div class="agent-list" id="agentList"></div>
+
+    <!-- Governance -->
+    <div class="gov-section">
+      <div class="gov-title">&#128220; Biblical Governance (9 Principles)</div>
+      <div id="govList"></div>
+    </div>
+  </div>
+
+  <!-- CENTER: Terminal -->
+  <div class="terminal-panel">
+    <div class="terminal-tabs">
+      <div class="terminal-tab active">&#9654; system.log</div>
+      <div class="terminal-tab">EventBus</div>
+      <div class="terminal-tab">TaskQueue</div>
+    </div>
+    <div class="terminal-output" id="terminal"></div>
+  </div>
+
+  <!-- RIGHT: System -->
+  <div class="panel right-panel">
+    <div class="panel-header"><div class="dot"></div> System Monitor</div>
+
+    <!-- Health -->
+    <div class="sys-section">
+      <div class="health-meter">
+        <div class="health-ring">
+          <svg viewBox="0 0 36 36">
+            <circle class="track" cx="18" cy="18" r="14"/>
+            <circle class="fill-ring" id="healthRing" cx="18" cy="18" r="14"/>
+          </svg>
+          <div class="health-pct" id="healthPct">0%</div>
+        </div>
+        <div class="health-info">
+          <div class="health-label">System Health</div>
+          <div class="health-sub" id="healthSub">Initializing...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory -->
+    <div class="sys-section">
+      <div class="sys-section-title"><span class="icon">&#128218;</span> Memory Layers</div>
+      <div class="memory-layer">
+        <span class="memory-label">STM</span>
+        <div class="memory-bar"><div class="memory-fill stm" id="memStm"></div></div>
+        <span class="memory-value" id="memStmVal">0</span>
+      </div>
+      <div class="memory-layer">
+        <span class="memory-label">LTM</span>
+        <div class="memory-bar"><div class="memory-fill ltm" id="memLtm"></div></div>
+        <span class="memory-value" id="memLtmVal">0</span>
+      </div>
+      <div class="memory-layer">
+        <span class="memory-label">KB</span>
+        <div class="memory-bar"><div class="memory-fill kb" id="memKb"></div></div>
+        <span class="memory-value" id="memKbVal">0</span>
+      </div>
+      <div class="memory-layer">
+        <span class="memory-label">Vec</span>
+        <div class="memory-bar"><div class="memory-fill vec" id="memVec"></div></div>
+        <span class="memory-value" id="memVecVal">0</span>
+      </div>
+    </div>
+
+    <!-- TaskQueue -->
+    <div class="sys-section">
+      <div class="sys-section-title"><span class="icon">&#9881;</span> TaskQueue</div>
+      <div class="task-stats">
+        <div class="task-stat">
+          <div class="task-stat-value" id="statTotal">0</div>
+          <div class="task-stat-label">Total</div>
+        </div>
+        <div class="task-stat">
+          <div class="task-stat-value blue" id="statRunning">0</div>
+          <div class="task-stat-label">Running</div>
+        </div>
+        <div class="task-stat">
+          <div class="task-stat-value yellow" id="statVerified">0</div>
+          <div class="task-stat-label">Verified</div>
+        </div>
+        <div class="task-stat">
+          <div class="task-stat-value purple" id="statRate">0%</div>
+          <div class="task-stat-label">Success Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EventBus -->
+    <div class="sys-section">
+      <div class="sys-section-title"><span class="icon">&#9889;</span> EventBus Feed</div>
+      <div class="event-feed" id="eventFeed"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-stat"><div class="dot" style="background:var(--green)"></div> 10 Agents Online</div>
+    <div class="footer-stat"><div class="dot" style="background:var(--blue)"></div> <span id="footerTasks">0</span> Tasks Processed</div>
+    <div class="footer-stat"><div class="dot" style="background:var(--yellow)"></div> VAEC: <span id="footerVaec">IDLE</span></div>
+  </div>
+  <div class="footer-right">&#9878; Record this for Devpost &mdash; &copy; Pedro Costa &amp; Trinnity Hurtado</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const AGENTS = [
+  { id: 'ceo', name: 'CEO Agent', role: 'Orchestration & Decisions', color: '#f0883e' },
+  { id: 'cto', name: 'CTO Agent', role: 'Architecture & Tech Lead', color: '#58a6ff' },
+  { id: 'dev', name: 'Developer Agent', role: 'Code Generation & Debug', color: '#58a6ff' },
+  { id: 'fin', name: 'Finance Agent', role: 'Revenue & Billing', color: '#d29922' },
+  { id: 'res', name: 'Research Agent', role: 'Knowledge & Analysis', color: '#bc8cff' },
+  { id: 'sal', name: 'Sales Agent', role: 'Pipeline & Outreach', color: '#34D399' },
+  { id: 'sec', name: 'Security Agent', role: 'Auth & Protection', color: '#f85149' },
+  { id: 'sup', name: 'Support Agent', role: 'User Assistance', color: '#34D399' },
+  { id: 'vis', name: 'Vision Agent', role: 'Media & Perception', color: '#f0883e' },
+  { id: 'ops', name: 'DevOps Agent', role: 'Deploy & Monitor', color: '#d29922' },
+];
+
+const GOVERNANCE = [
+  'Wisdom', 'Truth', 'Stewardship', 'Justice', 'Service',
+  'Diligence', 'Humility', 'Generosity', 'Faithfulness'
+];
+
+// ═══════════════════════════════════════════
+// INIT UI
+// ═══════════════════════════════════════════
+const $ = id => document.getElementById(id);
+
+// Agents
+const agentListEl = $('agentList');
+AGENTS.forEach(a => {
+  const div = document.createElement('div');
+  div.className = 'agent-item';
+  div.id = `agent-${a.id}`;
+  div.innerHTML = `
+    <div class="agent-status"></div>
+    <div class="agent-info">
+      <div class="agent-name" style="color:${a.color}">${a.name}</div>
+      <div class="agent-role">${a.role}</div>
+    </div>
+    <span class="agent-badge badge-idle" id="badge-${a.id}">IDLE</span>
+  `;
+  agentListEl.appendChild(div);
+});
+
+// Governance
+const govListEl = $('govList');
+GOVERNANCE.forEach(g => {
+  const div = document.createElement('div');
+  div.className = 'gov-item';
+  div.id = `gov-${g.toLowerCase()}`;
+  div.innerHTML = `<span class="check">&#10003;</span> ${g}`;
+  govListEl.appendChild(div);
+});
+
+// Clock
+setInterval(() => {
+  const now = new Date();
+  $('clock').textContent = now.toTimeString().split(' ')[0];
+}, 1000);
+
+// ═══════════════════════════════════════════
+// TERMINAL
+// ═══════════════════════════════════════════
+const termEl = $('terminal');
+let termLines = 0;
+
+function termLine(html, delay) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.innerHTML = html;
+      termEl.appendChild(div);
+      requestAnimationFrame(() => {
+        div.classList.add('visible');
+        termEl.scrollTop = termEl.scrollHeight;
+      });
+      termLines++;
+      resolve();
+    }, delay);
+  });
+}
+
+function typingLine(label, agentClass, delay) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.innerHTML = `<span class="term-ts">${timeStamp()}</span> <span class="term-agent ${agentClass}">${label}</span> <div class="typing-indicator"><span></span><span></span><span></span></div>`;
+      termEl.appendChild(div);
+      requestAnimationFrame(() => {
+        div.classList.add('visible');
+        termEl.scrollTop = termEl.scrollHeight;
+      });
+      resolve(div);
+    }, delay);
+  });
+}
+
+function timeStamp() {
+  const ms = performance.now();
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  const ms2 = Math.floor((ms % 1000) / 10);
+  return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}.${String(ms2).padStart(2,'0')}`;
+}
+
+// ═══════════════════════════════════════════
+// EVENT BUS FEED
+// ═══════════════════════════════════════════
+const eventFeedEl = $('eventFeed');
+function addEvent(topic, msg, cls) {
+  const div = document.createElement('div');
+  div.className = 'event-item';
+  div.innerHTML = `<span class="event-time">${timeStamp()}</span><span class="event-topic ${cls}">${topic}</span><span class="event-msg">${msg}</span>`;
+  eventFeedEl.prepend(div);
+  requestAnimationFrame(() => div.classList.add('visible'));
+  if (eventFeedEl.children.length > 20) eventFeedEl.removeChild(eventFeedEl.lastChild);
+}
+
+// ═══════════════════════════════════════════
+// STATE UPDATES
+// ═══════════════════════════════════════════
+let state = {
+  agentsOnline: 0,
+  memory: { stm: 0, ltm: 0, kb: 0, vec: 0 },
+  tasks: { total: 0, running: 0, verified: 0 },
+  health: 0,
+  governancePassed: 0,
+  vaecStage: -1,
+};
+
+function setAgentStatus(id, status) {
+  const el = $(`agent-${id}`);
+  if (!el) return;
+  el.className = `agent-item ${status}`;
+  const badge = $(`badge-${id}`);
+  if (status === 'online') { badge.className = 'agent-badge badge-active'; badge.textContent = 'ACTIVE'; }
+  else if (status === 'busy') { badge.className = 'agent-badge badge-busy'; badge.textContent = 'BUSY'; }
+  else { badge.className = 'agent-badge badge-idle'; badge.textContent = 'IDLE'; }
+}
+
+function updateMemory(layer, val, max) {
+  const pct = Math.min(100, (val / max) * 100);
+  const el = $(`mem${layer.charAt(0).toUpperCase() + layer.slice(1)}`);
+  if (el) el.style.width = pct + '%';
+  const valEl = $(`mem${layer.charAt(0).toUpperCase() + layer.slice(1)}Val`);
+  if (valEl) valEl.textContent = val;
+  state.memory[layer] = val;
+}
+
+function updateTaskStats() {
+  $('statTotal').textContent = state.tasks.total;
+  $('statRunning').textContent = state.tasks.running;
+  $('statVerified').textContent = state.tasks.verified;
+  const rate = state.tasks.total > 0 ? Math.round((state.tasks.verified / state.tasks.total) * 100) : 0;
+  $('statRate').textContent = rate + '%';
+  $('footerTasks').textContent = state.tasks.total;
+}
+
+function updateHealth(pct, label) {
+  state.health = pct;
+  $('healthRing').style.strokeDashoffset = 88 - (88 * pct / 100);
+  $('healthPct').textContent = pct + '%';
+  $('healthSub').textContent = label || 'Healthy';
+}
+
+function passGovernance(idx) {
+  if (idx < GOVERNANCE.length) {
+    const el = $(`gov-${GOVERNANCE[idx].toLowerCase()}`);
+    if (el) el.classList.add('passed');
+    state.governancePassed++;
+  }
+}
+
+const VAEC_STAGES = ['IMPLEMENT', 'TEST', 'BUILD', 'VERIFY', 'PROMOTE'];
+function setVaecStage(idx) {
+  state.vaecStage = idx;
+  $('footerVaec').textContent = VAEC_STAGES[idx] || 'COMPLETE';
+}
+
+// ═══════════════════════════════════════════
+// SCRIPTED DEMO SEQUENCE
+// ═══════════════════════════════════════════
+async function runDemo() {
+  await sleep(500);
+
+  // ── PHASE 0: System boot (0-3s) ──
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-sys term-bold">&#9881; TVS OMEGA Kernel v1.0 initializing...</span>`, 0);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-info">&#9484; EventBus backbone connected</span>`, 200);
+  addEvent('sys', 'kernel:init', 'sys');
+
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-info">&#9484; Memory Engine: STM/LTM/KB/Vector ready</span>`, 400);
+  addEvent('mem', 'memory:ready', 'mem');
+
+  updateHealth(20, 'Booting kernel...');
+  updateMemory('stm', 12, 100);
+
+  for (let i = 0; i < AGENTS.length; i++) {
+    await sleep(180);
+    setAgentStatus(AGENTS[i].id, 'online');
+    state.agentsOnline++;
+    await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-success">&#10003; ${AGENTS[i].name} online</span>`, 0);
+    addEvent('sys', `${AGENTS[i].id}:online`, 'sys');
+    updateHealth(Math.min(50, 20 + i * 3), `${state.agentsOnline}/10 agents online`);
+  }
+
+  updateHealth(50, 'All agents online');
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-sys term-bold">&#10003; System ready &mdash; 10/10 agents online</span>`, 300);
+
+  // ── PHASE 1: CEO assigns task (3-8s) ──
+  await sleep(800);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent ceo">CEO Agent</span> received task: <span class="term-info">"Build REST API for billing module"</span>`, 0);
+  setAgentStatus('ceo', 'busy');
+  addEvent('task', 'task:created', 'task');
+  state.tasks.total++;
+  state.tasks.running++;
+  updateTaskStats();
+
+  await sleep(600);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent ceo">CEO Agent</span> &rarr; assigning to <span class="term-agent dev">Developer Agent</span>`, 0);
+
+  await sleep(400);
+  setAgentStatus('ceo', 'online');
+  setAgentStatus('dev', 'busy');
+  addEvent('task', 'task:assigned → dev', 'task');
+  addEvent('task', 'task:running', 'task');
+
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> picked up task #1 <span class="term-dim">(id: tk_7f3a)</span>`, 0);
+  updateMemory('stm', 34, 100);
+
+  // ── PHASE 2: Developer generates code (8-15s) ──
+  await sleep(600);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> analyzing requirements...`, 0);
+  await sleep(400);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> generating <span class="term-info">BillingRouter.ts</span>`, 0);
+  addEvent('tool', 'tool:called → code_gen', 'tool');
+
+  await sleep(500);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> generating <span class="term-info">BillingService.ts</span>`, 0);
+  addEvent('tool', 'tool:completed → code_gen', 'tool');
+  updateMemory('stm', 56, 100);
+  updateMemory('kb', 8, 50);
+
+  await sleep(400);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> generating <span class="term-info">webhook.ts</span>`, 0);
+  addEvent('task', 'task:progress 60%', 'task');
+
+  await sleep(600);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-event">&#9670; EventBus: tool.completed &rarr; tool.result.stored</span>`, 0);
+  addEvent('mem', 'memory:updated', 'mem');
+
+  await sleep(400);
+  setAgentStatus('dev', 'online');
+  state.tasks.running--;
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent dev">Developer Agent</span> <span class="term-success">&#10003; code generated (3 files, 247 LOC)</span>`, 0);
+  updateHealth(65, 'Code generation complete');
+
+  // ── PHASE 3: Verification (15-20s) ──
+  await sleep(700);
+  setAgentStatus('sec', 'busy');
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent sec">Security Agent</span> scanning code for vulnerabilities...`, 0);
+  addEvent('tool', 'tool:called → security_scan', 'tool');
+
+  await sleep(500);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-success">&#10003; Security scan: 0 critical, 0 high, 1 low</span>`, 0);
+  addEvent('tool', 'tool:completed → security_scan', 'tool');
+
+  await sleep(400);
+  setAgentStatus('sec', 'online');
+
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-info">&#9670; TaskVerifier: schema &rarr; PASS | evidence &rarr; PASS | invariants &rarr; PASS</span>`, 0);
+  addEvent('task', 'task:verified &#10003;', 'task');
+  state.tasks.verified++;
+  state.tasks.running--;
+  updateTaskStats();
+
+  await sleep(300);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-sys term-bold">&#10003; Task #1 VERIFIED &mdash; promoting to memory</span>`, 0);
+  updateMemory('ltm', 22, 80);
+  updateMemory('kb', 14, 50);
+  updateMemory('vec', 6, 40);
+  addEvent('mem', 'consolidation:run', 'mem');
+  updateHealth(80, 'Verification passed');
+
+  // ── PHASE 4: VAEC pipeline (20-25s) ──
+  await sleep(800);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent vaec">VAEC Orchestrator</span> starting evolution cycle...`, 0);
+  addEvent('vaec', 'vaec:cycle:start', 'vaec');
+
+  const vaecDelay = 400;
+  for (let i = 0; i < VAEC_STAGES.length; i++) {
+    await sleep(vaecDelay);
+    setVaecStage(i);
+    const cls = ['vaec', 'task', 'tool', 'sys', 'mem'][i] || 'sys';
+    await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-agent vaec">VAEC</span> <span class="term-info">${VAEC_STAGES[i]}</span> &rarr; <span class="term-success">PASS</span>`, 0);
+    addEvent('vaec', `vaec:${VAEC_STAGES[i].toLowerCase()}:pass`, 'vaec');
+    updateMemory('stm', 56 + i * 8, 100);
+    updateHealth(82 + i * 3, `VAEC: ${VAEC_STAGES[i]} passed`);
+  }
+
+  setVaecStage(-1);
+  $('footerVaec').textContent = 'COMPLETE';
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-sys term-bold">&#10003; VAEC cycle complete &mdash; change PROMOTED</span>`, 0);
+  addEvent('vaec', 'vaec:promoted', 'vaec');
+
+  // ── PHASE 5: All green (25-30s) ──
+  await sleep(600);
+  for (let i = 0; i < GOVERNANCE.length; i++) {
+    await sleep(200);
+    passGovernance(i);
+  }
+
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-sys term-bold">&#10003; Governance: 9/9 principles PASS</span>`, 0);
+  addEvent('sys', 'governance:all_pass', 'sys');
+
+  await sleep(400);
+  updateHealth(100, 'All systems operational');
+  updateMemory('stm', 84, 100);
+  updateMemory('ltm', 42, 80);
+  updateMemory('kb', 28, 50);
+  updateMemory('vec', 18, 40);
+
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-success" style="font-size:14px;font-weight:700">&#9733; TVS OMEGA: All systems green &mdash; 10 agents, 374 tests passing, verified task rate 100%</span>`, 0);
+  addEvent('sys', 'system:healthy', 'sys');
+
+  await sleep(500);
+  await termLine(`<span class="term-dim">[${timeStamp()}]</span> <span class="term-dim">&mdash; Trinnity Viseron System v7.0 &mdash; Pedro Costa &amp; Trinnity Hurtado &mdash;</span>`, 0);
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Start
+runDemo();
+</script>
+</body>
+</html>

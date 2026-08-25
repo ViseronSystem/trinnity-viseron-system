@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TVS — Devpost Profile</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d1117; color: #c9d1d9; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.card { width: 400px; background: #161b22; border: 1px solid #30363d; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+.header { background: linear-gradient(135deg, #0d1117 0%, #1a2332 50%, #0d1117 100%); padding: 30px; text-align: center; position: relative; }
+.header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #34D399, #58a6ff, #34D399); }
+.avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #34D399; object-fit: cover; margin-bottom: 16px; box-shadow: 0 0 20px rgba(52,211,153,0.3); }
+.logo { height: 40px; margin-bottom: 12px; }
+h1 { font-size: 22px; color: #f0f6fc; margin-bottom: 4px; }
+.subtitle { color: #58a6ff; font-size: 14px; margin-bottom: 8px; }
+.badge { display: inline-block; background: rgba(52,211,153,0.15); color: #34D399; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid rgba(52,211,153,0.3); }
+.body { padding: 24px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.stat { text-align: center; background: #0d1117; border-radius: 10px; padding: 14px 8px; border: 1px solid #21262d; }
+.stat-num { font-size: 24px; font-weight: 700; color: #34D399; }
+.stat-label { font-size: 10px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.tech { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.tech-tag { background: #1f2937; color: #9ca3af; padding: 4px 10px; border-radius: 6px; font-size: 11px; border: 1px solid #374151; }
+.desc { font-size: 13px; color: #8b949e; line-height: 1.6; }
+.footer { padding: 16px 24px; border-top: 1px solid #21262d; display: flex; justify-content: space-between; align-items: center; }
+.team { display: flex; align-items: center; gap: 8px; }
+.team-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #58a6ff; object-fit: cover; }
+.team-name { font-size: 12px; color: #c9d1d9; }
+.team-role { font-size: 10px; color: #8b949e; }
+.track-badge { background: rgba(88,166,255,0.15); color: #58a6ff; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <img src="logo.svg" class="logo" alt="TVS Logo">
+    <img src="foto.jpg" class="avatar" alt="Pedro Costa">
+    <h1>Trinnity Viseron System</h1>
+    <div class="subtitle">Multi-Agent AI Operating System</div>
+    <span class="badge">All Things Agentic Hackathon</span>
+  </div>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Agents</div></div>
+      <div class="stat"><div class="stat-num">5000+</div><div class="stat-label">Minds</div></div>
+      <div class="stat"><div class="stat-num">374</div><div class="stat-label">Tests</div></div>
+    </div>
+    <div class="tech">
+      <span class="tech-tag">TypeScript</span>
+      <span class="tech-tag">Node.js</span>
+      <span class="tech-tag">Gemini 3.6 Flash</span>
+      <span class="tech-tag">Google Cloud Run</span>
+      <span class="tech-tag">Express</span>
+      <span class="tech-tag">PostgreSQL</span>
+      <span class="tech-tag">Docker</span>
+      <span class="tech-tag">EventBus</span>
+      <span class="tech-tag">AI Agents</span>
+    </div>
+    <div class="desc">
+      A production multi-agent operating system with custom kernel, 4-layer persistent memory, 
+      ethical governance, task verification pipelines, and natural language interface. 
+      10 autonomous agents coordinate through an event bus with wildcard routing.
+    </div>
+  </div>
+  <div class="footer">
+    <div class="team">
+      <img src="foto.jpg" class="team-avatar" alt="">
+      <div>
+        <div class="team-name">Pedro Costa</div>
+        <div class="team-role">Comandante — Builder</div>
+      </div>
+    </div>
+    <div class="track-badge">Fortified Enterprise Fleet</div>
+  </div>
+</div>
+</body>
+</html>

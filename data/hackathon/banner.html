@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>TVS — Devpost Banner</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    background: #0d1117;
+    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    color: #c9d1d9;
+    position: relative;
+  }
+
+  /* Neural network background */
+  .neural-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .neural-bg canvas { width: 100%; height: 100%; }
+
+  /* Glow overlay */
+  .glow-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 50% 40%, rgba(52,211,153,0.08), transparent),
+      radial-gradient(ellipse 300px 300px at 20% 70%, rgba(88,166,255,0.04), transparent),
+      radial-gradient(ellipse 300px 300px at 80% 30%, rgba(52,211,153,0.04), transparent);
+  }
+
+  /* Content */
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+  }
+
+  /* Logo area */
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 12px;
+  }
+
+  .logo-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #0d1117, #161b22);
+    border: 2px solid rgba(52,211,153,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(52,211,153,0.15);
+  }
+
+  .logo-icon svg { width: 64px; height: 64px; }
+
+  .titles { text-align: left; }
+  .titles h1 {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #c9d1d9 0%, #e6edf3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+  .titles .subtitle {
+    font-size: 22px;
+    font-weight: 300;
+    color: #34D399;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 700px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(52,211,153,0.4), transparent);
+    margin: 36px 0;
+  }
+
+  /* Stats */
+  .stats {
+    display: flex;
+    gap: 60px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 52px;
+    font-weight: 800;
+    color: #34D399;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(52,211,153,0.3);
+  }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #8b949e;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* Bottom accent */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0d1117, #34D399, #58a6ff, #34D399, #0d1117);
+  }
+
+  /* Corner marks */
+  .corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-color: rgba(52,211,153,0.2);
+    border-style: solid;
+  }
+  .corner.tl { top: 24px; left: 24px; border-width: 2px 0 0 2px; }
+  .corner.tr { top: 24px; right: 24px; border-width: 2px 2px 0 0; }
+  .corner.bl { bottom: 24px; left: 24px; border-width: 0 0 2px 2px; }
+  .corner.br { bottom: 24px; right: 24px; border-width: 0 2px 2px 0; }
+</style>
+</head>
+<body>
+
+<div class="neural-bg"><canvas id="neural"></canvas></div>
+<div class="glow-overlay"></div>
+
+<div class="content">
+  <div class="logo-area">
+    <div class="logo-icon">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="32,4 56,18 56,46 32,60 8,46 8,18" stroke="#34D399" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <polygon points="32,14 48,22 48,40 32,48 16,40 16,22" stroke="#34D399" stroke-width="1" fill="none" opacity="0.3"/>
+        <circle cx="32" cy="32" r="5" fill="#34D399" opacity="0.9"/>
+        <circle cx="32" cy="32" r="8" stroke="#34D399" stroke-width="1" fill="none" opacity="0.3"/>
+        <circle cx="32" cy="20" r="2.5" fill="#34D399" opacity="0.6"/>
+        <circle cx="42" cy="26" r="2.5" fill="#34D399" opacity="0.6"/>
+        <circle cx="42" cy="38" r="2.5" fill="#34D399" opacity="0.6"/>
+        <circle cx="32" cy="44" r="2.5" fill="#34D399" opacity="0.6"/>
+        <circle cx="22" cy="38" r="2.5" fill="#34D399" opacity="0.6"/>
+        <circle cx="22" cy="26" r="2.5" fill="#34D399" opacity="0.6"/>
+        <line x1="32" y1="32" x2="32" y2="20" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+        <line x1="32" y1="32" x2="42" y2="26" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+        <line x1="32" y1="32" x2="42" y2="38" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+        <line x1="32" y1="32" x2="32" y2="44" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+        <line x1="32" y1="32" x2="22" y2="38" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+        <line x1="32" y1="32" x2="22" y2="26" stroke="#34D399" stroke-width="1" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="titles">
+      <h1>Trinnity Viseron System</h1>
+      <div class="subtitle">Multi-Agent AI Operating System</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">10+</div>
+      <div class="stat-label">Autonomous Agents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">5,000+</div>
+      <div class="stat-label">Intelligent Minds</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">374</div>
+      <div class="stat-label">Tests Passing</div>
+    </div>
+  </div>
+</div>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+<div class="bottom-bar"></div>
+
+<script>
+const canvas = document.getElementById('neural');
+const ctx = canvas.getContext('2d');
+canvas.width = 1280;
+canvas.height = 720;
+
+const nodes = [];
+for (let i = 0; i < 60; i++) {
+  nodes.push({
+    x: Math.random() * 1280,
+    y: Math.random() * 720,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 2 + 1
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, 1280, 720);
+  nodes.forEach(n => {
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > 1280) n.vx *= -1;
+    if (n.y < 0 || n.y > 720) n.vy *= -1;
+  });
+
+  // Connections
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 180) {
+        ctx.strokeStyle = `rgba(52,211,153,${0.08 * (1 - dist / 180)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Nodes
+  nodes.forEach(n => {
+    ctx.fillStyle = 'rgba(52,211,153,0.25)';
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
