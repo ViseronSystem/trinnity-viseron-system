@@ -154,7 +154,8 @@ export class AgentActivationEngine {
         this.recordMemory(ag, { type: "auto_task", task, result: result.output, success: result.success, at: new Date().toISOString() });
         this.appendTask(ag, { task, output: result.output, success: result.success, at: new Date().toISOString() });
       } catch (err: any) {
-        ag.status = "error";
+        // Auto-sanacion: vuelve a idle para reintentar en el proximo ciclo
+        ag.status = "idle";
         this.recordMemory(ag, { type: "auto_error", message: err.message, at: new Date().toISOString() });
       }
     }, intervalMs);
