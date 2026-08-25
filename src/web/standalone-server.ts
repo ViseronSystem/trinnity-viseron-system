@@ -147,7 +147,8 @@ export class ViseronWebServer {
     this.agentEngine = new AgentActivationEngine(specsDir, this.dataDir);
     this.agentEngine.loadAll().then(n => {
       console.log(`[Web] Agent Activation Engine: ${n} agentes vivos`);
-      this.agentEngine.startAllAutonomyCycles(900_000); // ciclo autónomo a cada 15 min, escalonado (1 agente de cada vez)
+              // Ciclos autonomos escalados: 10 agentes x ciclo/86s ~= 10.000 operaciones/dia
+        this.agentEngine.startAllAutonomyCycles(86_000); // ciclo autónomo a cada 15 min, escalonado (1 agente de cada vez)
     }).catch(err => console.warn(`[Web] Agent Activation falhou: ${err.message}`));
     this.workspace = new WorkspaceStore(this.dataDir);
     this.workspaceOrchestrator = new UserTaskOrchestrator(this.workspace);
