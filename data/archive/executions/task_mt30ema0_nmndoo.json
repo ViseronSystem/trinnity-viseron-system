@@ -1,0 +1,21 @@
+{
+  "id": "task_mt30ema0_nmndoo",
+  "timestamp": "2026-08-21T13:52:58.571Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "65ffa95f16294faf29d08b9327e46d35a1724f143bdf9bcbecc0d6f90b2f2b68"
+}

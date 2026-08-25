@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8nroho_4sypju",
+  "timestamp": "2026-08-25T12:45:50.260Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cbfa999650d3b0fa3765b6724c0a777ffcff6645ce2afa166a20b67ba391dae9"
+}

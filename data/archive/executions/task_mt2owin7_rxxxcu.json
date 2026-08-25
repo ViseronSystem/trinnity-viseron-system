@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2owin7_rxxxcu",
+  "timestamp": "2026-08-21T08:30:58.329Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "34afe3a5d7b77b07fff66482bbc6c915871f7a9afbbe8215423faf69e6ef6577"
+}

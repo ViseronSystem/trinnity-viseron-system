@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4osozk_wgmhi2",
+  "timestamp": "2026-08-22T18:03:32.255Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5085e3aba6dfeac959407ae82d2fb9c6287d3bd9c2125523394cc40431e5d338"
+}

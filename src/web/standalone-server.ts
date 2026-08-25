@@ -508,7 +508,7 @@ export class ViseronWebServer {
 
     // CRIPTO OS — painel live de farming/transações/oportunidades (on-chain real)
     this.app.get("/cripto", (_req, res) => {
-      res.sendFile(path.join(PUBLIC_DIR, "cripto.html"));
+      res.sendFile(path.join(PUBLIC_DIR, "cripto", "index.html"));
     });
 
     // WORKSPACE — Real User Vertical Slice (auth → project → task → resultado real)

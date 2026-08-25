@@ -3,7 +3,7 @@ import * as path from "path";
 import { createTheme } from "./pdf-theme";
 
 // ═══════════════════════════════════════════════════════════
-// PDF COMANDOS + SENHAS — TRINNITY VISERON SYSTEM v5.0
+// PDF COMANDOS + SENHAS — TRINNITY VISERON SYSTEM v7.0
 // Trilíngue: PT / EN / ES
 // © Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)
 // ═══════════════════════════════════════════════════════════
@@ -29,7 +29,7 @@ const env = readEnv();
 
 const t = createTheme({
   title: "TVS — Comandos e Senhas | Commands & Passwords | Comandos y Contraseñas",
-  subject: "Trinnity Viseron System v5.0 — Manual de Comandos e Credenciais (CONFIDENCIAL)",
+  subject: "Trinnity Viseron System v7.0 — Manual de Comandos e Credenciais (CONFIDENCIAL)",
 });
 
 // ═══════════════════════════════════════════════════════════
@@ -38,7 +38,7 @@ const t = createTheme({
 t.cover({
   title: "COMANDOS & SENHAS\nCommands & Passwords\nComandos y Contraseñas",
   subtitle: "Manual completo de comandos npm, credenciais, logins e serviços — CONFIDENCIAL",
-  badges: ["PT 🇧🇷", "EN 🇺🇸", "ES 🇪🇸", "v5.0", "Squad AIOX", "CONFIDENCIAL"],
+  badges: ["PT 🇧🇷", "EN 🇺🇸", "ES 🇪🇸", "v7.0", "Squad AIOX", "CONFIDENCIAL"],
   version: "5.0",
 });
 t.para("AUTORIA & PROPRIEDADE INTELECTUAL — Pedro Costa (Comandante) & Trinnity Hurtado (Rainha) — Todos os direitos reservados · All rights reserved · Todos los derechos reservados.", 10, "#7c3aed");
@@ -313,7 +313,7 @@ const statusItems: [string, string, string][] = [
 for (const [label, value] of statusItems) t.kv(label, value);
 
 t.spacer(1);
-t.para("Trinnity Viseron System v5.0 — © Pedro Costa (Comandante) & Trinnity Hurtado (Rainha) — CONFIDENCIAL", 9, "#7c3aed", { align: "center" });
+t.para("Trinnity Viseron System v7.0 — © Pedro Costa (Comandante) & Trinnity Hurtado (Rainha) — CONFIDENCIAL", 9, "#7c3aed", { align: "center" });
 t.para(`Gerado pelo Squad AIOX · ${new Date().toLocaleDateString("pt-PT")}`, 8.5, "#64748b", { align: "center" });
 
 const pages = t.page();

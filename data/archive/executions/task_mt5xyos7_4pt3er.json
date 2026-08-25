@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5xyos7_4pt3er",
+  "timestamp": "2026-08-23T15:07:54.674Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6e37ac6689da24980a37350daf965d6f1a9133cde15709b921c938cae03787d4"
+}

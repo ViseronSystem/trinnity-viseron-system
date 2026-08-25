@@ -1,0 +1,21 @@
+{
+  "id": "task_mt23br72_r9kxzp",
+  "timestamp": "2026-08-20T22:26:57.669Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e9d03050d3b615cfb0d9217176271a1207d5f04336b8870e99162ba2f04045b1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46szdf_yv0k23",
+  "timestamp": "2026-08-22T09:39:52.618Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "32dc8b878f7f993ea803409e0c1875c1ab87ec82819ea842aa107ed4bfc4c02f"
+}

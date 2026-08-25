@@ -1,0 +1,21 @@
+{
+  "id": "task_mt382yr9_wdczfr",
+  "timestamp": "2026-08-21T17:27:51.813Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "83ac545dd1819a8da9231941ccf8115eb44137a05f94fa226cf511aed79ccc3e"
+}

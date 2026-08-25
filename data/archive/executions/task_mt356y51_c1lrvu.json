@@ -1,0 +1,21 @@
+{
+  "id": "task_mt356y51_c1lrvu",
+  "timestamp": "2026-08-21T16:06:58.806Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "279a048cf8859a7d1ae46e1d2cdd4307af80c2b4c497f3037399154585bebf93"
+}

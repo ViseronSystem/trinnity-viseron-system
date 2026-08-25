@@ -1,0 +1,21 @@
+{
+  "id": "task_mt480pgo_8xjsfp",
+  "timestamp": "2026-08-22T10:13:52.631Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a72e48b98f724df6a6eb7fe69c35e03b84444667e62b5c3b7161817344e76d9a"
+}

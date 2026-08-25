@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2t49op_aofjfs",
+  "timestamp": "2026-08-21T10:28:58.373Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "627cc7a11054e4f5fcec85a4817f0a52ffcf4e230c53d41087a72486fcab4b34"
+}

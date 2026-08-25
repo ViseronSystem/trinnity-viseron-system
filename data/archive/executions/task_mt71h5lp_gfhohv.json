@@ -1,0 +1,21 @@
+{
+  "id": "task_mt71h5lp_gfhohv",
+  "timestamp": "2026-08-24T09:34:01.313Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2ec34841d673d7b1c967cf4f49805cc3cf401b3458ab044f07d6d1704624d31d"
+}

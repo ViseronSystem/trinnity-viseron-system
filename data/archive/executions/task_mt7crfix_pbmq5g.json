@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7crfix_pbmq5g",
+  "timestamp": "2026-08-24T14:49:56.549Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8d496b30654a630d04d4e1309bb00253c48dfcf62699f923e853b6c57cb3d85d"
+}

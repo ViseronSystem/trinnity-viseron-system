@@ -1,0 +1,21 @@
+{
+  "id": "task_mt291ir6_41pg5o",
+  "timestamp": "2026-08-21T01:06:57.859Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e4698e02b904559cd9449678f34a89025030a167a894c22363a66dcb2603bdd0"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt26tsbt_jsg1lb",
+  "timestamp": "2026-08-21T00:04:57.759Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6dabe46cd0a90687dfd2f801b8924d096bd6bad7266564a83a69f26945cabd8d"
+}

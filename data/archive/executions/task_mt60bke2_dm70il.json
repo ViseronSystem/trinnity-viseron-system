@@ -1,0 +1,21 @@
+{
+  "id": "task_mt60bke2_dm70il",
+  "timestamp": "2026-08-23T16:13:54.790Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8ef85b80a5f98592ebb6b02b0c73e8e9b70c07a68ea2e50ce0656dbe1a702007"
+}

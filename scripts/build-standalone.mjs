@@ -247,7 +247,7 @@ contextBridge.exposeInMainWorld("tvs", {
 
   const electronPkg = {
     name: "tvs-viseron",
-    version: "5.0.0",
+    version: "7.0.0",
     description: "Trinnity Viseron System - Multi Agent AI Operating System",
     main: "main.js",
     scripts: {
@@ -302,7 +302,7 @@ contextBridge.exposeInMainWorld("tvs", {
       },
       publish: { provider: "github", owner: "trinnity", repo: "viseron-system" },
     },
-    devDependencies: { electron: "^33.0.0", "electron-builder": "^25.0.0" },
+    devDependencies: { electron: "^33.0.0", "electron-builder": "^27.0.0" },
   };
 
   writeFileSync(join(electronDir, "package.json"), JSON.stringify(electronPkg, null, 2));
@@ -323,7 +323,7 @@ contextBridge.exposeInMainWorld("tvs", {
 
 async function main() {
   log("═══════════════════════════════════════════════════════════════════════════");
-  log("   TVS VISERON v5.0 - BUILD SYSTEM");
+  log("   TVS VISERON v7.0 - BUILD SYSTEM");
   log("   Full integration: OmniRoute ~ Call System ~ OpenJarvis ~ ASNO JARVIS");
   log("═══════════════════════════════════════════════════════════════════════════\n");
 

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4dmlnz_rapamp",
+  "timestamp": "2026-08-22T12:50:52.280Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e9d2acf180534d7a2ad9934f81380bd15ffaa43ff44b6fedcbe146d200615854"
+}

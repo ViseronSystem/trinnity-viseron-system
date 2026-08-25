@@ -1,0 +1,21 @@
+{
+  "id": "task_mt43hdat_nsg8zn",
+  "timestamp": "2026-08-22T08:06:51.962Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "05e1b9c0cbb85671f66223d08e3acb61ce15d87a7642bfb20b5aa3a80d76c410"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1zbpxr_9mhz6p",
+  "timestamp": "2026-08-20T20:34:57.532Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cda2287cf9822b94c124642080880b774cea9dc965d786a9391bf1c1cdc5ef0c"
+}

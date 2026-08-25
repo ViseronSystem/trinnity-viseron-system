@@ -1,0 +1,21 @@
+{
+  "id": "task_mt50vdjw_yluptj",
+  "timestamp": "2026-08-22T23:41:32.895Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1ae46d14c6e81c645d22ff893e31b59eef8c209517a3561dc922989aa99264e2"
+}

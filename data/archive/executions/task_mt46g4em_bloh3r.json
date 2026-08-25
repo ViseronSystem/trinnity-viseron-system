@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46g4em_bloh3r",
+  "timestamp": "2026-08-22T09:29:52.609Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "99661c4e70113d9d43ccf6872f462e4b6a158d944563391003dc3435ad08c67d"
+}

@@ -1,0 +1,16 @@
+[package]
+name = "puzzle-scanner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+k256 = { version = "0.13", features = ["arithmetic", "expose-field"] }
+sha2 = "0.10"
+ripemd = "0.1"
+hex = "0.4"
+base58 = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

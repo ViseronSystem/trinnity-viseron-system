@@ -1,0 +1,21 @@
+{
+  "id": "task_mt719brd_z7asxl",
+  "timestamp": "2026-08-24T09:27:56.061Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cf94fe1e79d8c5eec2ed0083223f45a420483ac5c1e0eeffb4c12b116508b862"
+}

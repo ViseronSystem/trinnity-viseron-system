@@ -1,0 +1,21 @@
+{
+  "id": "task_mt19l5zr_0oldnc",
+  "timestamp": "2026-08-20T08:34:28.219Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f16072e7f85b21230575e2fd8549949bc9f4bc2295ec70d18e3306f45b8d22a8"
+}

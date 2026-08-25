@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38tyf6_y59s5n",
+  "timestamp": "2026-08-21T17:48:51.085Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "120f302a8021223cf1836e37c14a3ccec96621c09d28a0472e429f9c78449640"
+}

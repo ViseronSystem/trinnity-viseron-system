@@ -1,0 +1,21 @@
+{
+  "id": "task_mt70jpvb_7uqsvr",
+  "timestamp": "2026-08-24T09:08:01.382Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5995fb48933f4e4a9612850c58f8bfd85ce796c2576d0dcb729f8bfa23b1933c"
+}

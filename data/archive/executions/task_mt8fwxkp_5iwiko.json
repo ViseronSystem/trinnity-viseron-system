@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8fwxkp_5iwiko",
+  "timestamp": "2026-08-25T09:05:58.397Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "73fce825b08cf96f1c1f52996d05b173ce5b938fbbca7a4ccbb32b45bb06a08c"
+}

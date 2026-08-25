@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0j00tw_gdpa2o",
+  "timestamp": "2026-08-19T20:10:11.709Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "93b4c895ae450425ffd2ae4e4d56b3783848fdb7590f24c8e6f559d8f1b5bcfa"
+}

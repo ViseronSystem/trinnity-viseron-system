@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4ig84r_kigfrr",
+  "timestamp": "2026-08-22T15:05:52.880Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fcef1fe8ce00dc3f6b3f67862e5cd941afe43799be73e12de60b6ca3b337e88c"
+}

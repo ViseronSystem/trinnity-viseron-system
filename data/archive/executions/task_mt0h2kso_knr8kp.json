@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0h2kso_knr8kp",
+  "timestamp": "2026-08-19T19:16:11.651Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "59164ec04f9a92a17e21832e823cbbe3797a8cd712579b32e4fdb53a1780945a"
+}

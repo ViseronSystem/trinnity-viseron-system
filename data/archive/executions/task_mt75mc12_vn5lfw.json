@@ -1,0 +1,21 @@
+{
+  "id": "task_mt75mc12_vn5lfw",
+  "timestamp": "2026-08-24T11:30:01.401Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c5f2c2cbaa304a72a30734a810b4c4e93c6c60648ea45907f53cd0b38dae7803"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt650vo8_coqj1m",
+  "timestamp": "2026-08-23T18:25:34.265Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0284971b1d930d36216d8734175b5d760df66f656d18f912763c8917f6a1a0d8"
+}

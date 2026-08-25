@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4w8mtf_r1atcp",
+  "timestamp": "2026-08-22T21:31:53.297Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "20c06708cafe2c54eca80a1ec5aaf60cb52bfc0941fbb12649d8afc07a6ed307"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5nglee_f3cvh1",
+  "timestamp": "2026-08-23T10:13:54.328Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "859504c3364bb007f22b97c5842882d99dfd27822c165185c5800b7bde8c4795"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt60ypqi_9kf3na",
+  "timestamp": "2026-08-23T16:31:54.804Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "33bd264def1f04aa6c632928bb1b698fe4d441120acbfd6365465b1fe881f65d"
+}

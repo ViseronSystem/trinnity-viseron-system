@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VADILLOS 48 — La Manzana que Crece · TVS</title>
+<meta name="description" content="Plan estratégico con pegada social para la licitación Somacyl: 48 viviendas protegidas para jóvenes en el Antiguo Cuartel de Vadillos, Valladolid. €6.107.038,30 · BIM · Economía circular · Empleo joven local.">
+<meta name="keywords" content="Vadillos, Valladolid, VPP, vivienda protegida, Somacyl, jóvenes, licitación, pegada social, TVS">
+<style>
+:root{
+  --bg1:#020617;--bg2:#0b1026;--gold:#f5c86e;--gold2:#f9e0a8;
+  --cyan:#22d3ee;--pink:#e879f9;--purple:#a78bfa;--ink:#eef2ff;--muted:#9aa8cf;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg1);color:var(--ink);font-family:'Segoe UI',Poppins,'Helvetica Neue',Arial,sans-serif;line-height:1.6}
+#stars{position:fixed;inset:0;z-index:0;background:
+  radial-gradient(1200px 700px at 80% -10%,rgba(232,121,249,.16),transparent 60%),
+  radial-gradient(1000px 600px at -10% 90%,rgba(34,211,238,.12),transparent 60%),
+  radial-gradient(900px 500px at 50% 120%,rgba(245,200,110,.08),transparent 60%),
+  linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg1));pointer-events:none}
+#aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.45;
+  background:conic-gradient(from 210deg at 70% 30%,rgba(232,121,249,.5),transparent 30%,rgba(34,211,238,.5),transparent 60%,rgba(167,139,250,.5),transparent 80%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{from{transform:rotate(0) scale(1)}to{transform:rotate(12deg) scale(1.15)}}
+.wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:18px;padding:14px clamp(18px,4vw,40px);
+  background:linear-gradient(rgba(2,6,23,.92),rgba(2,6,23,.6));backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.07)}
+nav .logo{font-weight:800;letter-spacing:.08em;font-size:.85rem;color:var(--gold)}
+nav .logo b{color:var(--ink)}
+nav .links{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-size:.8rem;letter-spacing:.06em;transition:.2s}
+nav a:hover{color:var(--gold)}
+nav .btn{background:linear-gradient(135deg,rgba(245,200,110,.18),rgba(34,211,238,.12));border:1px solid rgba(245,200,110,.4);
+  color:var(--gold2);border-radius:99px;padding:7px 14px;font-size:.75rem;font-weight:700}
+
+/* HERO */
+.hero{padding:clamp(60px,10vh,120px) 0 40px;text-align:center}
+.kicker{font-size:.72rem;letter-spacing:.34em;font-weight:800;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-size:clamp(2.4rem,7vw,5.2rem);line-height:1.04;letter-spacing:-.04em;font-weight:800}
+.grad{background:linear-gradient(92deg,var(--gold) 5%,var(--gold2) 30%,var(--cyan) 65%,var(--pink) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:760px;margin:22px auto 0;color:var(--muted);font-size:clamp(1rem,2vw,1.3rem)}
+.hero p.lead b{color:var(--ink)}
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:38px auto 0;max-width:900px}
+.cell{border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;background:rgba(255,255,255,.03)}
+.cell .n{font-size:clamp(1.3rem,2.6vw,2rem);font-weight:800;letter-spacing:-.02em}
+.cell .l{font-size:.7rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+
+/* BUILDING */
+.bld{margin:46px auto 0;max-width:640px}
+.bld svg{width:100%;height:auto;filter:drop-shadow(0 20px 60px rgba(34,211,238,.14))}
+.cap{font-size:.72rem;color:var(--muted);text-align:center;margin-top:12px;letter-spacing:.1em}
+
+/* SECTIONS */
+section{padding:clamp(46px,8vh,90px) 0;border-top:1px solid rgba(255,255,255,.06)}
+section h2{font-size:clamp(1.6rem,4.4vw,2.8rem);letter-spacing:-.03em;font-weight:800;margin-bottom:10px}
+section .sub{color:var(--muted);max-width:760px;margin-bottom:30px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:20px;background:rgba(255,255,255,.03);transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(245,200,110,.4)}
+.card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;margin-bottom:12px;
+  background:linear-gradient(135deg,rgba(245,200,110,.16),rgba(34,211,238,.12));border:1px solid rgba(245,200,110,.28)}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.92rem}
+.card b{color:var(--ink)}
+ul.list{list-style:none;display:grid;gap:10px;margin-top:8px}
+ul.list li{color:var(--muted);font-size:.95rem;padding-left:26px;position:relative}
+ul.list li:before{content:"▸";position:absolute;left:4px;color:var(--gold)}
+ul.list li b{color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.row2{grid-template-columns:1fr}}
+.tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.tbl th{text-align:left;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.14)}
+.tbl td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07);color:var(--muted);vertical-align:top}
+.tbl td:first-child{color:var(--ink);font-weight:700;white-space:nowrap}
+.audit{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.audit .line{border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.03)}
+.audit .line .st{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.8rem}
+.ok{background:rgba(52,211,153,.15);color:#6ee7b7;border:1px solid rgba(52,211,153,.4)}
+.wip{background:rgba(245,200,110,.15);color:var(--gold2);border:1px solid rgba(245,200,110,.4)}
+.audit .line p{color:var(--muted);font-size:.88rem}
+.audit .line b{color:var(--ink)}
+
+/* PHOTO SLOTS */
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.pho{border:2px dashed rgba(255,255,255,.16);border-radius:18px;min-height:190px;display:grid;place-items:center;color:var(--muted);
+  font-size:.8rem;text-align:center;padding:16px;background:rgba(255,255,255,.02)}
+.pho b{color:var(--gold2);display:block;margin-bottom:4px}
+
+/* FOOTER */
+footer{padding:34px 0 60px;text-align:center;color:rgba(154,168,207,.6);font-size:.78rem;border-top:1px solid rgba(255,255,255,.06)}
+footer b{color:var(--gold)}
+@media print{
+  #stars,#aurora,nav,.noprint{display:none!important}
+  body{background:#fff;color:#111}
+  section{border-color:#ddd}
+  .card,.audit .line{border-color:#ccc;background:#f8f8f8}
+  .card p,.audit .line p,ul.list li,section .sub,.cell .l,.tbl td{color:#444}
+  .cell .n,.hero h1,section h2{color:#111}
+  .hero{padding:20px 0}
+  .dash{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<div id="stars"></div><div id="aurora"></div>
+
+<nav>
+  <div class="logo">VISERON <b>·</b> VADILLOS 48</div>
+  <div class="links noprint">
+    <a href="#plan">Plan</a><a href="#social">Pegada social</a><a href="#socios">Socios</a>
+    <a href="#agenda">Agenda</a><a href="#auditoria">Auditoría</a>
+    <a class="btn" href="javascript:window.print()">Exportar PDF</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Licitación Somacyl · Antiguo Cuartel de Vadillos · Valladolid</div>
+    <h1>LA MANZANA<br><span class="grad">QUE CRECE</span></h1>
+    <p class="lead">No ofrecemos construir 48 pisos. Ofrecemos <b>devolver una manzana a su barrio</b>: empleo joven local, formación en oficios, pymes de Castilla y León y una promoción con calificación energética A que atrae talento a la ciudad.</p>
+    <div class="dash">
+      <div class="cell"><div class="n grad">48</div><div class="l">Viviendas VPP jóvenes</div></div>
+      <div class="cell"><div class="n grad">€6,1M</div><div class="l">Presupuesto base (IVA incl.)</div></div>
+      <div class="cell"><div class="n grad">A</div><div class="l">Calificación energética</div></div>
+      <div class="cell"><div class="n grad">23</div><div class="l">Meses · obra + consultoría</div></div>
+      <div class="cell"><div class="n grad">7</div><div class="l">Plantas · 4.757 m²</div></div>
+      <div class="cell"><div class="n grad">14/09/26</div><div class="l">Fecha de ofertas</div></div>
+    </div>
+    <div class="bld">
+      <svg viewBox="0 0 640 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Render conceptual del edificio Vadillos 48">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1026"/><stop offset="1" stop-color="#131a3d"/></linearGradient>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee" stop-opacity=".9"/><stop offset="1" stop-color="#0e7490" stop-opacity=".85"/></linearGradient>
+          <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>
+          <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2e8f0"/><stop offset="1" stop-color="#94a3b8"/></linearGradient>
+        </defs>
+        <rect width="640" height="460" fill="url(#sky)"/>
+        <circle cx="540" cy="70" r="34" fill="#f5c86e" opacity=".9"/><circle cx="540" cy="70" r="46" fill="#f5c86e" opacity=".2"/>
+        <g opacity=".6">
+          <circle cx="90" cy="60" r="1.6" fill="#fff"/><circle cx="180" cy="90" r="1.2" fill="#fff"/>
+          <circle cx="300" cy="40" r="1.4" fill="#fff"/><circle cx="420" cy="80" r="1.2" fill="#fff"/>
+          <circle cx="150" cy="140" r="1.3" fill="#fff"/><circle cx="480" cy="30" r="1.5" fill="#fff"/>
+        </g>
+        <rect x="110" y="300" width="420" height="150" fill="#0f172a"/>
+        <g>
+          <rect x="60" y="248" width="60" height="60" fill="url(#tile)" opacity=".92"/>
+          <rect x="120" y="248" width="60" height="60" fill="#1e293b"/>
+          <rect x="180" y="248" width="60" height="60" fill="url(#tile)" opacity=".92"/>
+          <rect x="240" y="248" width="60" height="60" fill="#1e293b"/>
+          <rect x="300" y="248" width="60" height="60" fill="url(#tile)" opacity=".92"/>
+          <rect x="360" y="248" width="60" height="60" fill="#1e293b"/>
+          <rect x="420" y="248" width="60" height="60" fill="url(#tile)" opacity=".92"/>
+          <rect x="480" y="248" width="60" height="60" fill="#1e293b"/>
+        </g>
+        <g>
+          <rect x="30" y="188" width="96" height="60" fill="url(#panel)"/>
+          <rect x="126" y="188" width="96" height="60" fill="url(#panel)"/>
+          <rect x="222" y="188" width="96" height="60" fill="url(#panel)"/>
+          <rect x="318" y="188" width="96" height="60" fill="url(#panel)"/>
+          <rect x="414" y="188" width="96" height="60" fill="url(#panel)"/>
+          <rect x="510" y="188" width="96" height="60" fill="url(#panel)"/>
+        </g>
+        <g>
+          <rect x="30" y="128" width="96" height="60" fill="url(#panel)"/>
+          <rect x="126" y="128" width="96" height="60" fill="url(#panel)"/>
+          <rect x="222" y="128" width="96" height="60" fill="url(#panel)"/>
+          <rect x="318" y="128" width="96" height="60" fill="url(#panel)"/>
+          <rect x="414" y="128" width="96" height="60" fill="url(#panel)"/>
+          <rect x="510" y="128" width="96" height="60" fill="url(#panel)"/>
+        </g>
+        <g>
+          <rect x="70" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="140" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="210" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="280" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="350" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="420" y="70" width="70" height="58" fill="url(#panel)"/>
+          <rect x="490" y="70" width="70" height="58" fill="url(#panel)"/>
+        </g>
+        <g>
+          <rect x="80" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="150" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="220" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="290" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="360" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="430" y="78" width="22" height="30" fill="url(#glass)"/>
+          <rect x="500" y="78" width="22" height="30" fill="url(#glass)"/>
+        </g>
+        <g>
+          <rect x="70" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="140" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="210" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="280" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="350" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="420" y="136" width="22" height="30" fill="url(#glass)"/>
+          <rect x="490" y="136" width="22" height="30" fill="url(#glass)"/>
+        </g>
+        <g>
+          <rect x="70" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="140" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="210" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="280" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="350" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="420" y="196" width="22" height="30" fill="url(#glass)"/>
+          <rect x="490" y="196" width="22" height="30" fill="url(#glass)"/>
+        </g>
+        <g>
+          <rect x="160" y="256" width="16" height="24" fill="#0ea5e9" opacity=".5"/>
+          <rect x="440" y="256" width="16" height="24" fill="#0ea5e9" opacity=".5"/>
+          <rect x="300" y="256" width="16" height="24" fill="#0ea5e9" opacity=".5"/>
+        </g>
+        <g fill="#10b981">
+          <rect x="40" y="330" width="56" height="14" rx="3"/><rect x="46" y="336" width="10" height="8" fill="#0f172a"/>
+          <rect x="180" y="330" width="56" height="14" rx="3"/><rect x="186" y="336" width="10" height="8" fill="#0f172a"/>
+          <rect x="330" y="330" width="56" height="14" rx="3"/><rect x="336" y="336" width="10" height="8" fill="#0f172a"/>
+          <rect x="470" y="330" width="56" height="14" rx="3"/><rect x="476" y="336" width="10" height="8" fill="#0f172a"/>
+        </g>
+        <rect x="70" y="410" width="500" height="10" rx="5" fill="#1e293b"/>
+        <rect x="100" y="300" width="6" height="110" fill="#f5c86e" opacity=".85"/>
+        <rect x="534" y="300" width="6" height="110" fill="#f5c86e" opacity=".85"/>
+        <g font-family="Segoe UI" font-size="11" fill="#eef2ff" opacity=".8">
+          <text x="20" y="24">Fachada: panel prefabricado blanco/gris + celosía azul</text>
+          <text x="20" y="40">Cubierta fotovoltaica + aerotermia centralizada · suelo radiante</text>
+          <text x="20" y="56">20 garajes · 2 adaptados · preinstalación EV</text>
+        </g>
+      </svg>
+      <div class="cap">Render conceptual del TVS — fachada prefabricada (blanco/gris + ladrillo azul), cubierta fotovoltaica, aerotermia y suelo radiante · calificación A</div>
+    </div>
+  </header>
+
+  <section id="plan">
+    <h2>El plan <span class="grad">en una página</span></h2>
+    <p class="sub">1 edificio · 3 compromisos · 7 ejes — cada eje con meta, indicador y responsable. Todo auditable por Somacyl y por los vecinos.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">🤝</div><h3>C1 · Empleo que queda</h3><p><b>≥15%</b> de plantilla menores de 30 años residentes en Valladolid · <b>20 plazas</b> escuela-taller en obra (FP) · <b>≥2%</b> con discapacidad.</p></div>
+      <div class="card"><div class="ic">🏪</div><h3>C2 · Economía local</h3><p><b>≥30%</b> subcontratación de pymes de Castilla y León · proveedores del barrio preferentes · reporte trimestral de inversión local.</p></div>
+      <div class="card"><div class="ic">🔑</div><h3>C3 · Vivienda que atrae</h3><p><b>≤ €30/mes</b> coste energético objetivo · llaves digitales + digital twin para cada vecino · coworking + patio abierto al barrio.</p></div>
+    </div>
+  </section>
+
+  <section id="social">
+    <h2>Los <span class="grad">7 ejes sociales</span></h2>
+    <p class="sub">La pegada social para el crecimiento económico de Valladolid — de la despoblación a la atracción de talento joven.</p>
+    <div class="row2">
+      <ul class="list">
+        <li><b>E1 · Empleo joven</b> — 15% plantilla &lt;30 años · 20 plazas escuela-taller · Oficina de Empleo Joven del Ayuntamiento.</li>
+        <li><b>E2 · Formación</b> — convenio FP Valladolid · certificados profesionales · 10 becas de oficios para el barrio.</li>
+        <li><b>E3 · Pymes locales</b> — 30% subcontratación CyL · registro de proveedores de Vadillos · Cámara de Comercio.</li>
+        <li><b>E4 · Barrio vivo</b> — patio abierto + coworking + actividades con asociaciones de vecinos de Vadillos.</li>
+      </ul>
+      <ul class="list">
+        <li><b>E5 · Energía y clima</b> — A energética · −60% emisiones vs obra convencional · residuo cero certificado.</li>
+        <li><b>E6 · Innovación</b> — BIM 100% (ISO 19650) · digital twin entregado · fachada industrializada · EV ampliado.</li>
+        <li><b>E7 · Transparencia</b> — informes trimestrales públicos · comité vecinal de seguimiento · open data del edificio.</li>
+      </ul>
+    </div>
+    <div class="photos" style="margin-top:26px">
+      <div class="pho"><b>Foto 1</b>Parcela del Antiguo Cuartel<br>coloca tu foto en <i>vadillos-fotos/</i></div>
+      <div class="pho"><b>Foto 2</b>Render de fachada (paneles prefabricados)<br>coloca tu foto en <i>vadillos-fotos/</i></div>
+      <div class="pho"><b>Foto 3</b>Equipo de la UTE<br>coloca tu foto en <i>vadillos-fotos/</i></div>
+    </div>
+  </section>
+
+  <section id="socios">
+    <h2>30 socios <span class="grad">para la UTE</span></h2>
+    <p class="sub">Adjudicatarios probados de Somacyl + líderes de vivienda protegida + grandes nacionales. Documento completo: <i>Viseron_Empresas_Partner_Vadillos.pdf</i>.</p>
+    <table class="tbl">
+      <tr><th>Nivel</th><th>Empresas</th><th>Por qué</th></tr>
+      <tr><td>Núcleo local</td><td>San José · Erri-Berri · Peache · VIPRESORIA · Integración Exacta + Grulop 21</td><td>Adjudicatarias reales de Somacyl/CyL (viviendas colaborativas, demolición Vadillos, VPP Segovia, industrializada)</td></tr>
+      <tr><td>Especialistas VPP</td><td>Ramírez · Citanias · Oreco Balgón · Copasa · Civis Global · Copcisa · Prace · Consvial · Seranco · XAC · Proyecon · Vilor · Ogmios · Gómez Crespo · Francisco Gómez · Taboada y Ramos · Vázquez y Reino</td><td>Ganan concursos de vivienda protegida en toda España (hasta 33M€ en 2025)</td></tr>
+      <tr><td>Grandes</td><td>Acciona · ACS/Dragados · FCC · OHLA · Sacyr · Ferrovial</td><td>Capacidad financiera y garantías (ranking obra pública 2025)</td></tr>
+      <tr><td>Complementarios</td><td>Grup Ortiz · Lantania · Aldesa · Comsa · Sorigué · Rubau · Rover Alcisa · Begar (León)</td><td>Refuerzo por oficios — verificar solvencia en PLACSP</td></tr>
+    </table>
+  </section>
+
+  <section id="agenda">
+    <h2>Agenda de <span class="grad">26 días</span></h2>
+    <table class="tbl">
+      <tr><th>Día</th><th>Objetivo</th></tr>
+      <tr><td>1–3</td><td>Pliegos + PCAP + visita parcela + fotografías y reportaje</td></tr>
+      <tr><td>4–6</td><td>Contactar 5–8 empresas de la lista · formar UTE · consultas al órgano de contratación</td></tr>
+      <tr><td>7–12</td><td>Memoria técnica: BIM + pegada social (7 ejes) + ambiental + mejoras</td></tr>
+      <tr><td>13–16</td><td>Costes + baja óptima (fuera de temeridad)</td></tr>
+      <tr><td>17–20</td><td>Sobre económico + revisión jurídica + auto-auditoría anti-exclusión</td></tr>
+      <tr><td>21–23</td><td>Cierre de UTE · notaría · garantías provisionales</td></tr>
+      <tr><td>24–25</td><td>Presentación anticipada en Somacyl / PLACSP</td></tr>
+      <tr><td>26</td><td>Seguimiento de mesa · defensa de temeridad preparada</td></tr>
+    </table>
+  </section>
+
+  <section id="auditoria">
+    <h2>Auditado por <span class="grad">agentes TVS</span></h2>
+    <p class="sub">Este plan no se improvisa: cada pieza fue verificada por los agentes del sistema antes de publicarse.</p>
+    <div class="audit">
+      <div class="line"><span class="st ok">✓</span><p><b>Squad AIOX</b> — 8/8 squads activos escaneados (Business, Engineering, Marketing, Operations).</p></div>
+      <div class="line"><span class="st ok">✓</span><p><b>Knowledge Graph (graphify)</b> — 6.037 nodos: pdf-engine, agencia, JARVIS y automações verificados.</p></div>
+      <div class="line"><span class="st ok">✓</span><p><b>TVS Doctor</b> — sistema sano: 10 agentes, watchdog activo, 22 apps, disco OK.</p></div>
+      <div class="line"><span class="st wip">◐</span><p><b>Loop Engineering</b> — 39/100 (L0): plan de mejora de 5 días (LOOP.md + verifier) antes de la entrega.</p></div>
+      <div class="line"><span class="st ok">✓</span><p><b>Licitaciones OS</b> — Vadillos cargada con checklist de 10 pasos y cuenta atrás (26 días).</p></div>
+      <div class="line"><span class="st ok">✓</span><p><b>Prospection OS</b> — pipeline B2B operativo para captar clientes tras la licitación.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  © <b>TRINNITY VISERON SYSTEM</b> — Pedro Costa (Comandante) · Trinnity Hurtado (Reina)<br>
+  www.trinnityviseronsystem.io · Plan estratégico VADILLOS 48 · PDFs en <i>data/</i>: Viseron_Plan_Estrategico_Vadillos_Social.pdf · Viseron_Empresas_Partner_Vadillos.pdf · Viseron_Estrategia_Licitacion_Vadillos.pdf
+</footer>
+
+<script>
+const n=140;const box=document.getElementById('stars');
+for(let i=0;i<n;i++){const s=document.createElement('span');s.className='s';
+s.style.cssText=`width:${Math.random()*2.2+0.6}px;height:${Math.random()*2.2+0.6}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${3+Math.random()*4}s`;
+box.appendChild(s);}
+</script>
+</body>
+</html>

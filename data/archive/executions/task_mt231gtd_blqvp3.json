@@ -1,0 +1,21 @@
+{
+  "id": "task_mt231gtd_blqvp3",
+  "timestamp": "2026-08-20T22:18:57.633Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "25aa0101e596db7b8c455c468acd4b72e6236781a82fb7d3187311af0ee1da49"
+}

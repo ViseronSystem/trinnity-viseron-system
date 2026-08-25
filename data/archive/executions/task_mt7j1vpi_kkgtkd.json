@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7j1vpi_kkgtkd",
+  "timestamp": "2026-08-24T17:46:01.775Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "554567f4ba5754c21466c89b3234794aa720965501626370c576adee8e84a6f3"
+}

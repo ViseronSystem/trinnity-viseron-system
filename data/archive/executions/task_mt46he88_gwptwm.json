@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46he88_gwptwm",
+  "timestamp": "2026-08-22T09:30:52.047Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7ecd8c842e77f46f9c61b5a74323d95643bc992f3018122fc6a0859a1de7f6bd"
+}

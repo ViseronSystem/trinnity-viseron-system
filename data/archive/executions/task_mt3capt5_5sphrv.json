@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3capt5_5sphrv",
+  "timestamp": "2026-08-21T19:25:51.961Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a8eddc04d86bf7014ad05295e4471034aecc7704f43fe811d10cdfbe552105f2"
+}

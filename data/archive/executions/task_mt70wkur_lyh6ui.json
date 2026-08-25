@@ -1,0 +1,21 @@
+{
+  "id": "task_mt70wkur_lyh6ui",
+  "timestamp": "2026-08-24T09:18:01.308Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "91f40999799859ee0710ad99ee423fda074675b0cf1af1f71b2f013d22c304bb"
+}

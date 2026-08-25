@@ -1,0 +1,21 @@
+{
+  "id": "task_mt47ety5_a98kul",
+  "timestamp": "2026-08-22T09:56:52.029Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7df85e52a2e03f4db2388db0f859c11b865a900112cf4320e409ad0104ab1d48"
+}

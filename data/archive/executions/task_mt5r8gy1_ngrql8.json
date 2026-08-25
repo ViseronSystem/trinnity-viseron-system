@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5r8gy1_ngrql8",
+  "timestamp": "2026-08-23T11:59:33.781Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "01ca64fc903a0366a4b0a1268ada66b9eb4a813699265b991f5e49eeae71331f"
+}

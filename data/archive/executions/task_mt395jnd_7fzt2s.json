@@ -1,0 +1,21 @@
+{
+  "id": "task_mt395jnd_7fzt2s",
+  "timestamp": "2026-08-21T17:57:51.801Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1af9d4987e033f2135497f09a7a34b340e461994df749d0a167e91ebacfb4511"
+}

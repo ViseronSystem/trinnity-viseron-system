@@ -1,0 +1,21 @@
+{
+  "id": "task_mt44dj71_deuwtc",
+  "timestamp": "2026-08-22T08:31:52.596Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "075ec2b116dfec8dc69b5c87c1cf6bd588cf419ecda4238c4c4c20ff0d486a8d"
+}

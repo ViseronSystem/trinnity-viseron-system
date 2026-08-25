@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46u972_nfwd9a",
+  "timestamp": "2026-08-22T09:40:52.049Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "781fea19bc050b1942a8e1a8c3cd7022a53ef053c240e49721bb1ee353953b0e"
+}

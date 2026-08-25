@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0gsafb_clfjhh",
+  "timestamp": "2026-08-19T19:08:11.650Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "73a7b911be55c966790d3933b06f7c17897dc779f7d146495778d0ecf9862d30"
+}

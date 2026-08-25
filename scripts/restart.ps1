@@ -6,6 +6,7 @@
 param([int]$Timeout = 60)
 $ErrorActionPreference = "Continue"
 $Root = Split-Path -Parent $PSScriptRoot
+$Version = try { (Get-Content (Join-Path $Root "package.json") -Raw | ConvertFrom-Json).version } catch { "7.0.0" }
 $LogFile = Join-Path $Root "data\restart.log"
 $Standalone = Join-Path $PSScriptRoot "omniroute-standalone.cjs"
 $ServiceFile = Join-Path $Root "data\state\tvs-service.json"
@@ -13,7 +14,7 @@ $Sw = [System.Diagnostics.Stopwatch]::StartNew()
 
 function Log($msg) {
   $line = "[$(Get-Date -Format 'HH:mm:ss')] $msg"
-  Write-Host $line
+  try { [Console]::Out.WriteLine($line); [Console]::Out.Flush() } catch { Write-Output $line }
   try { Add-Content -LiteralPath $LogFile -Value $line -Encoding UTF8 } catch {}
 }
 
@@ -26,7 +27,7 @@ function Save-ServiceRecord($service, $instance, $tvsPid, $port, $health) {
       port = $port
       startedAt = (Get-Date).ToString("o")
       health = $health
-      version = "5.0.0"
+      version = $Version
     } | ConvertTo-Json
     $dir = Split-Path -Parent $ServiceFile
     if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
@@ -87,7 +88,7 @@ function Ensure-OmniRoute {
 }
 
 try {
-  Log "=== RESTART v4 (determinístico): a comecar (timeout=${Timeout}s) ==="
+  Log "=== RESTART v7 (determinístico): a comecar (timeout=${Timeout}s) ==="
 
   Log "1/5 OmniRoute (20128) NUNCA e morto. A garantir que esta no ar..."
   $null = Ensure-OmniRoute
@@ -101,7 +102,7 @@ try {
       try { Stop-Process -Id $proc.ProcessId -Force -ErrorAction Stop; Log "   matou TVS PID $($proc.ProcessId)" } catch { Log "   falha PID $($proc.ProcessId): $($_.Exception.Message)" }
     }
   }
-  Start-Sleep -Seconds 3
+  Start-Sleep -Seconds 2
 
   # Confirmar que o TVS parou (processo morto de verdade)
   $stillRunning = Get-TvsProcess
@@ -110,10 +111,7 @@ try {
     exit 1
   }
 
-  Log "3/5 A confirmar OmniRoute apos o kill do servidor..."
-  $null = Ensure-OmniRoute
-
-  Log "4/5 A iniciar servidor TVS detached (porta web 32123)..."
+  Log "3/5 A iniciar servidor TVS detached (porta web 32123)..."
   # TVS_RESTART_ENTRY (opcional) permite o teste negativo apontar para uma entrada que falha.
   $entry = if ($env:TVS_RESTART_ENTRY) { $env:TVS_RESTART_ENTRY } else { "dist/src/index.js" }
   $proc = Start-Process -FilePath "node" -ArgumentList "--max-old-space-size=8192","$entry" `
@@ -124,31 +122,37 @@ try {
   $tvsPid = $proc.Id
   Log "   TVS iniciado (PID $tvsPid)"
 
-  # Polling ativo: verifica a API web (32123) de 2 em 2s até responder.
-  Log "   a aguardar API 32123 (polling de 2s, timeout ${Timeout}s)..."
+  # Polling ativo: verifica a API web (32123) de 1 em 1s até responder.
+  $lastProgress = 0
+  Log "   a aguardar API 32123 (polling de 1s, timeout ${Timeout}s)..."
   $ready = $false
   while ($Sw.Elapsed.TotalSeconds -lt $Timeout) {
     try {
-      $h = Invoke-RestMethod -Uri "http://localhost:32123/api/health" -TimeoutSec 3
+      $h = Invoke-RestMethod -Uri "http://localhost:32123/api/health" -TimeoutSec 2
       if ($h.status -eq "OK") {
         $ready = $true
-        Log "   API PRONTA em $([math]::Round($Sw.Elapsed.TotalSeconds,1))s -> health=$($h.status) db=$($h.db) tenants=$($h.tenants) users=$($h.users)"
+        Log "   API PRONTA em $([math]::Round($Sw.Elapsed.TotalSeconds,1))s -> health=$($h.status) v=$($h.version) db=$($h.db)"
         break
       }
     } catch {
-      # ainda a arrancar - aguarda próximo poll
+      # ainda a arrancar - imprime progresso a cada 5s para nao parecer congelado
+      $s = [math]::Round($Sw.Elapsed.TotalSeconds)
+      if ($s -ge $lastProgress + 5) {
+        $lastProgress = $s
+        Log "   ... ainda a arrancar (${s}s) ..."
+      }
     }
-    Start-Sleep -Seconds 2
+    Start-Sleep -Milliseconds 1000
   }
   if (-not $ready) {
     Log "   TIMEOUT: API nao respondeu em ${Timeout}s"
     Save-ServiceRecord "tvs" "tvs-main" $tvsPid 32123 "timeout"
-    Log "=== RESTART v4: TIMEOUT ==="
+    Log "=== RESTART v7: TIMEOUT ==="
     exit 2
   }
 
   # VERIFICAÇÃO CRÍTICA: processo continua vivo APÓS o health check (HTTP 200 ≠ processo saudável)
-  Start-Sleep -Seconds 2
+  Start-Sleep -Seconds 1
   if (-not (Test-ProcessAlive $tvsPid)) {
     Log "   ERRO: o processo TVS (PID $tvsPid) MORREU apos responder ao health check"
     exit 1
@@ -157,27 +161,29 @@ try {
   Save-ServiceRecord "tvs" "tvs-main" $tvsPid 32123 "ready"
 
   # Verificações secundárias (rápidas, não bloqueiam o restart)
-  Log "5/5 Verificações rápidas..."
+  Log "4/5 Verificações rápidas..."
   try {
-    $os = Invoke-RestMethod -Uri "http://localhost:32123/api/os/status" -TimeoutSec 5
+    $os = Invoke-RestMethod -Uri "http://localhost:32123/api/os/status" -TimeoutSec 4
     Log "   os=$($os.version) agents=$($os.agents.loaded) watchdog=$($os.watchdog.enabled)"
   } catch { Log "   os indisponivel (ainda a carregar)" }
   try {
-    $rev = Invoke-RestMethod -Uri "http://localhost:32123/api/revenue/readiness" -TimeoutSec 6
+    $rev = Invoke-RestMethod -Uri "http://localhost:32123/api/revenue/readiness" -TimeoutSec 5
     Log "   revenue ok=$($rev.ok) faltam=$($rev.missing -join ',')"
   } catch { Log "   revenue indisponivel (ainda a carregar)" }
   try {
-    $d = Invoke-RestMethod -Uri "http://localhost:3000/api/health" -TimeoutSec 5
+    $d = Invoke-RestMethod -Uri "http://localhost:3000/api/health" -TimeoutSec 4
     Log "   dashboard(3000) health=$($d.status)"
   } catch { Log "   dashboard(3000) indisponivel" }
   try {
-    $ai = Invoke-RestMethod -Uri "http://localhost:32123/api/ai/status" -TimeoutSec 5
-    Log "   ai providers=$($ai.providers.count) ativo=$($ai.activeProvider)"
+    $ai = Invoke-RestMethod -Uri "http://localhost:32123/api/ai/status" -TimeoutSec 4
+    $aiAtivoTxt = if ($ai.ok) { "$($ai.active.id):$($ai.active.model)" } else { "nenhum (local dev)" }
+    Log "   ai providers=$($ai.providers.count) ativo=$aiAtivoTxt"
   } catch { Log "   ai/status indisponivel (ainda a carregar)" }
 
-  Log "=== RESTART v4: COMPLETO em $([math]::Round($Sw.Elapsed.TotalSeconds,1))s (exit 0) ==="
+  Log "5/5 DONE."
+  Log "=== RESTART v7: COMPLETO em $([math]::Round($Sw.Elapsed.TotalSeconds,1))s (exit 0) ==="
   exit 0
 } catch {
-  Log "=== RESTART v4: ERRO inesperado: $($_.Exception.Message) ==="
+  Log "=== RESTART v7: ERRO inesperado: $($_.Exception.Message) ==="
   exit 1
 }

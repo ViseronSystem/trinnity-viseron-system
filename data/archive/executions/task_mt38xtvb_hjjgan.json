@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38xtvb_hjjgan",
+  "timestamp": "2026-08-21T17:51:51.839Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b57c20e16538f714b389b4aa0e5bfa1bf9fbdc0db3c5b70391a7886e18c59ff8"
+}

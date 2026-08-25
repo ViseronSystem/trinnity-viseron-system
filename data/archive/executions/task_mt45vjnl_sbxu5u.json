@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45vjnl_sbxu5u",
+  "timestamp": "2026-08-22T09:13:52.601Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "099f9e4c05a5ff9a1991a0b5a38c009a528a6bcf05f1ed3d4b39307347f94c6e"
+}

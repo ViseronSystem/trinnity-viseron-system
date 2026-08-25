@@ -99,7 +99,7 @@ function main() {
   t.cover({
     title: "COFRE DE CREDENCIAIS",
     subtitle: "Todas as senhas, chaves, emails, API keys e tokens do sistema",
-    badges: ["CONFIDENCIAL", "TVS v5.0", "Não partilhar"],
+    badges: ["CONFIDENCIAL", "TVS v7.0", "Não partilhar"],
     date: today,
     version: "5.0",
   });

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7jeqoh_tr65ht",
+  "timestamp": "2026-08-24T17:56:01.782Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "39c6fabf106fcc30f144d44c23567bbb28c62005e973b71f36bf19445d8d8a7e"
+}

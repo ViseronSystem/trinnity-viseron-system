@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1t9sun_shdppw",
+  "timestamp": "2026-08-20T17:45:30.351Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e72d2839c1ab7e4aefb902793240cf066c74691f1ee19d3d8618a3665e106523"
+}

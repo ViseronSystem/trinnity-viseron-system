@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0yssee_nlb73r",
+  "timestamp": "2026-08-20T03:32:28.075Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "346dde54ac5d771c7d6dc154468ab54dfb18b03c0a17706a4060bfd842b20376"
+}

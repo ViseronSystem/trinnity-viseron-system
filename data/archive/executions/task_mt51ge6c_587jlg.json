@@ -1,0 +1,21 @@
+{
+  "id": "task_mt51ge6c_587jlg",
+  "timestamp": "2026-08-22T23:57:53.420Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "43193f1ac90286f65d71f810dc90a3ff224e764aa1405dada479bd21692a79b4"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt84zeji_7a2mrn",
+  "timestamp": "2026-08-25T03:59:57.830Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "947de18c87100c48d0d6ab639c3fc3967bae51b774bcf198c0989c8d5d23f364"
+}

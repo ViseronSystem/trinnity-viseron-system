@@ -1,0 +1,21 @@
+{
+  "id": "task_mt73ehli_rxp7uw",
+  "timestamp": "2026-08-24T10:27:56.182Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "86a2309d817cd330e524b5b78707204932ce7c16ba256d17528acfbedabb921b"
+}

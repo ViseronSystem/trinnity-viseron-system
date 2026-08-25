@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7eep1w_kidut0",
+  "timestamp": "2026-08-24T15:36:01.629Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "670c7d0bd6a45ab19babc3fc09e36d05ebce195b01cccd961c0ef54bb306397f"
+}

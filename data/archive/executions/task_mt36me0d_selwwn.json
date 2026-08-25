@@ -1,0 +1,21 @@
+{
+  "id": "task_mt36me0d_selwwn",
+  "timestamp": "2026-08-21T16:46:58.836Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "567c2606ee9304475bb57e98ae18f10be4900cb8557e2052d9fcd129af512bbc"
+}

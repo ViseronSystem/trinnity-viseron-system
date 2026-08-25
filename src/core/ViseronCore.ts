@@ -30,8 +30,15 @@ import { VoiceBridge } from "../voice/VoiceBridge";
 import { ComposioBridge } from "./composio/ComposioBridge";
 
 export class ViseronCore {
-  public name: string = "Trinnity Viseron System v5.0 Multiversal";
-  public version: string = "5.0.0";
+  public name: string = "Trinnity Viseron System v7.0 Multiversal";
+  public version: string = (() => {
+    try {
+      const pkg = require("../../package.json") as { version?: string };
+      return pkg.version || "7.0.0";
+    } catch {
+      return "7.0.0";
+    }
+  })();
 
   // Core
   public orchestrator: TVSOrchestrator;
@@ -243,7 +250,7 @@ export class ViseronCore {
   start(): void {
     console.log(`\n`);
     console.log(`╔══════════════════════════════════════════════════════════════╗`);
-    console.log(`║     TRINNITY VISERON SYSTEM v5.0 MULTIVERSAL               ║`);
+    console.log(`║     TRINNITY VISERON SYSTEM v7.0 MULTIVERSAL               ║`);
     console.log(`║        Multi-Agent AI Operating System                      ║`);
     console.log(`╠══════════════════════════════════════════════════════════════╣`);
     console.log(`║  👑 Supreme Commander: Pedro Costa                          ║`);

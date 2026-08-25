@@ -1,0 +1,21 @@
+{
+  "id": "task_mt786tgh_9semf7",
+  "timestamp": "2026-08-24T12:41:56.378Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b3f7494531d835e82015d00b17c41247c7504d1a36b6fd1f0ad242885fcbc86b"
+}

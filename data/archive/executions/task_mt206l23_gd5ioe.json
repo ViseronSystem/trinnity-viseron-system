@@ -1,0 +1,21 @@
+{
+  "id": "task_mt206l23_gd5ioe",
+  "timestamp": "2026-08-20T20:58:57.542Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "adb391c999bf75161ee9fbab11387c7de143a893e81c8c39733bbc9b0e70d61c"
+}

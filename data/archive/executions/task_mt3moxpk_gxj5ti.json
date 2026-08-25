@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3moxpk_gxj5ti",
+  "timestamp": "2026-08-22T00:16:51.513Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "745f6b71a025269b8d93ef9d4ef26a1fc09d552032520b2b9949940f272bdcc7"
+}

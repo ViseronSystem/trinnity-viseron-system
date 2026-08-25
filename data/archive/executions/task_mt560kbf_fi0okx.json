@@ -1,0 +1,21 @@
+{
+  "id": "task_mt560kbf_fi0okx",
+  "timestamp": "2026-08-23T02:05:32.992Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4b8b329e40dd52934524c6656476f125c209126b1a74c62f275e9e582e3d23a7"
+}

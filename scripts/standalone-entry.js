@@ -75,7 +75,7 @@ process.on("unhandledRejection", (reason) => {
 async function startTVS() {
   console.log(`
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║     TRINNITY VISERON SYSTEM v5.0 - STANDALONE EXECUTABLE              ║
+║     TRINNITY VISERON SYSTEM v7.0 - STANDALONE EXECUTABLE              ║
 ║     Multi-Agent AI Operating System                                    ║
 ║     👑 Supreme Commander: Pedro Costa    👸 Queen: Trinnity Hurtado    ║
 ╚═══════════════════════════════════════════════════════════════════════════╝

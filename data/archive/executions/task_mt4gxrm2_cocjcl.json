@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4gxrm2_cocjcl",
+  "timestamp": "2026-08-22T14:23:32.009Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "04331078d8c051d6ccc93a5a99f4747084646589e22ca0695ae752556155c760"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1k5tut_zwdato",
+  "timestamp": "2026-08-20T13:30:28.485Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a399f217f8df0d016fa9a07dc3c2aa5b813d6a36c266bf964fe905c1db9ac327"
+}

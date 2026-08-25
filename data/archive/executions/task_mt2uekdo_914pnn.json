@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2uekdo_914pnn",
+  "timestamp": "2026-08-21T11:04:58.421Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2ffc1a60c7e1d2064362dea6348a9530c8533ae2c6aafb33243a134b213052b5"
+}

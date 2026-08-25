@@ -1,0 +1,21 @@
+{
+  "id": "task_mt78c2m8_lx8api",
+  "timestamp": "2026-08-24T12:46:01.556Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c971ab971bafc7890f8d912aac9b6b49703c05ff9e01348bda4f5de3096951a2"
+}

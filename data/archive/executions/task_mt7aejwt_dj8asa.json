@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7aejwt_dj8asa",
+  "timestamp": "2026-08-24T13:43:56.460Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4e7a73a937f77bd7a6b7f2c8e4d678d7c15c31fd98eb83b18c37fdd083193169"
+}

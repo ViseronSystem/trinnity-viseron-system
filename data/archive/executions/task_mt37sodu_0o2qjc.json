@@ -1,0 +1,21 @@
+{
+  "id": "task_mt37sodu_0o2qjc",
+  "timestamp": "2026-08-21T17:19:51.809Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "18b2e9dd0c67ca1c3cab3acac178689189a938fe7ce8f13decfe1432feadd030"
+}

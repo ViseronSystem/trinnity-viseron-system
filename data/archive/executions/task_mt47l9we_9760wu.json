@@ -1,0 +1,21 @@
+{
+  "id": "task_mt47l9we_9760wu",
+  "timestamp": "2026-08-22T10:01:52.659Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "911761d4021faa982cc852be06812f7f02ad1e4964e79c881ff1ee6766596c75"
+}

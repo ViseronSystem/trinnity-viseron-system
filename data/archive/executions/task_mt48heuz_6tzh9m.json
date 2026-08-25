@@ -1,0 +1,21 @@
+{
+  "id": "task_mt48heuz_6tzh9m",
+  "timestamp": "2026-08-22T10:26:52.065Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "782bfe863b56953f5f4aca843121c820790fb332bcbe42ef2ca83f134ab5171e"
+}

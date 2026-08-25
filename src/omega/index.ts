@@ -28,6 +28,7 @@ import { ArchitectureIntelligence } from "./intelligence/architecture";
 import { CompositeVerifier } from "./verifier/composite";
 import { VaecOrchestrator } from "./evolution";
 import { KnowledgeArchive, ArchiveStatus } from "./archive/KnowledgeArchive";
+import { AutonomyBenchmark } from "./benchmark";
 
 export interface OmegaOptions {
   agentManager?: AgentManager;
@@ -82,6 +83,7 @@ export class OmegaPlatform {
   public readonly autonomyOS: AutonomyOS;
   public readonly vaec: VaecOrchestrator;
   public readonly archive: KnowledgeArchive;
+  public readonly benchmark: AutonomyBenchmark;
   public readonly telemetry: TelemetryEngine;
   public readonly embedding: EmbeddingProvider;
   public readonly rag: RAGPipeline;
@@ -493,6 +495,7 @@ export class OmegaPlatform {
     this.vaec = new VaecOrchestrator({ rootDir: process.cwd(), events: this.kernel.events });
 
     this.archive = new KnowledgeArchive({ graph: this.graph, bus: this.kernel.events });
+    this.benchmark = new AutonomyBenchmark({ filePath: path.join(process.cwd(), "data", "benchmarks", "autonomy.json") });
 
     // Cognitive Telemetry — Sistema 0: rastreabilidade completa de operações cognitivas
     this.telemetry = new TelemetryEngine(path.join(process.cwd(), "data"));

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8ozl41_70pxqm",
+  "timestamp": "2026-08-25T13:19:58.713Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "db53e82c45210cfde03a31c7785c56aef726aac15d95fb8f417d83e59d767b42"
+}

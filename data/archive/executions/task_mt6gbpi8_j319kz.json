@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6gbpi8_j319kz",
+  "timestamp": "2026-08-23T23:41:55.303Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9f20d0677fff195c543fce2bd39a6b18fb253994da8d2538255433b33e16be6d"
+}

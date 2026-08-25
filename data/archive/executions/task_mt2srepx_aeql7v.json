@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2srepx_aeql7v",
+  "timestamp": "2026-08-21T10:18:58.377Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3eacf91013f62831eed150149f8e1b86fe5870943b6117fe53a63f8d5a300c1f"
+}

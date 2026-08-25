@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2s1osb_d8vloy",
+  "timestamp": "2026-08-21T09:58:58.369Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e670f592410db31e04a2facb5f411ba4f37caa2d3e75a89577c383f9a1fab427"
+}

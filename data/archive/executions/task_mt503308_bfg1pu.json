@@ -1,0 +1,21 @@
+{
+  "id": "task_mt503308_bfg1pu",
+  "timestamp": "2026-08-22T23:19:32.787Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "40fa0e063310756c6ce45a0b73d40acf56a21547ef0f6da2e569dd74a469c151"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5rgmoa_h2425u",
+  "timestamp": "2026-08-23T12:05:54.508Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dd92e5b0c819e8e38ec0dabe4ca8b6c523fd634ff836e820743bdafc9049d3be"
+}

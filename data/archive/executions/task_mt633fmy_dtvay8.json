@@ -1,0 +1,21 @@
+{
+  "id": "task_mt633fmy_dtvay8",
+  "timestamp": "2026-08-23T17:31:34.232Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "17489ab3f3ceddfe28340e69d4ffb3112b8b06f4842b57f2a1f2e13882901ed9"
+}

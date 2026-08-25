@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38jo1o_hj3425",
+  "timestamp": "2026-08-21T17:40:51.119Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cc80178349f299194986d7e2b3b5f8ab3f644b1768257e66f6d1a36f22732264"
+}

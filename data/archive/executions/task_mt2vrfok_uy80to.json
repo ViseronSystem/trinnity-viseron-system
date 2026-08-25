@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2vrfok_uy80to",
+  "timestamp": "2026-08-21T11:42:58.464Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dab35b3ca2e75b95564b9ac18609b7536acc9df7dc5e1e64bbd5f9227a83bc39"
+}

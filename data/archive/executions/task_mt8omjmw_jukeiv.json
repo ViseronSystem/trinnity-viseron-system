@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8omjmw_jukeiv",
+  "timestamp": "2026-08-25T13:09:50.234Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8e312ee5e4feb3451d8cddc1fd23b713c79864ac5c930e3919459f582c3a335e"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4acac1_9nvdnu",
+  "timestamp": "2026-08-22T11:18:52.148Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b0c7259903ff25b9660916e2d31084480c0658313ee0c131b477ed7ca238f1db"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt73rck8_s46clj",
+  "timestamp": "2026-08-24T10:37:56.167Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "67b7d0bf5de2f6eb9b1d970014edfc6814e0cf24693beb9860710a1841731e07"
+}

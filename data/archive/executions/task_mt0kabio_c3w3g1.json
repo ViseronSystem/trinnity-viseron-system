@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0kabio_c3w3g1",
+  "timestamp": "2026-08-19T20:46:11.745Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e7778da6a3c42b0c8b68f7f77be0d52463114f169d193b191a38b0af84123317"
+}

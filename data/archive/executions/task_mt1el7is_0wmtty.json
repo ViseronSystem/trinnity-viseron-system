@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1el7is_0wmtty",
+  "timestamp": "2026-08-20T10:54:28.283Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7ef1c89ca1e84efe05c9a46b47f4a878cc1c32d740416c40a1bd0ad347e88889"
+}

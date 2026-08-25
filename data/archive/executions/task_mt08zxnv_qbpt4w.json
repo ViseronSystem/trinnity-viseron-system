@@ -1,0 +1,21 @@
+{
+  "id": "task_mt08zxnv_qbpt4w",
+  "timestamp": "2026-08-19T15:30:11.446Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f376280368a0711da30466f6cb652babdbb56bd68afb686cac1aac11e03a84ac"
+}

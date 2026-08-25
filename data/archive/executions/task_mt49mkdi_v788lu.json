@@ -1,0 +1,21 @@
+{
+  "id": "task_mt49mkdi_v788lu",
+  "timestamp": "2026-08-22T10:58:52.081Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c11540962e8122658d8d5854fdd6a6bab321fdbf1a6dfe1ccbe6b8cb3610ac28"
+}

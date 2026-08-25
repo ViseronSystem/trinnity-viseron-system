@@ -1,0 +1,21 @@
+{
+  "id": "task_mt35wo2i_dswpyd",
+  "timestamp": "2026-08-21T16:26:58.805Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "88398b379ed9d0daa19cae37f70cee180e50cbf3723e5f0a5959caa7518b88d7"
+}

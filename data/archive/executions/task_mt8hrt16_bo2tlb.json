@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8hrt16_bo2tlb",
+  "timestamp": "2026-08-25T09:57:58.371Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8e5fbee4b82885af4a51d1b3b1bb551ee10ea6b1a22be84a2802bdf3fc09b211"
+}

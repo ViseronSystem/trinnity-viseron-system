@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5p8gam_jheszc",
+  "timestamp": "2026-08-23T11:03:33.709Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a335bf51f5b70f719f407a047a756392e66f83c9eb3441c5bc10d6bb8eae930a"
+}

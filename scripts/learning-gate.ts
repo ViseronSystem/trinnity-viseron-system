@@ -104,7 +104,7 @@ async function main() {
     },
     totalFiles: srcFiles,
     projectName: pkgJson.name || "VISERON",
-    version: pkgJson.version || "5.0.0",
+    version: pkgJson.version || "7.0.0",
   };
 
   // Store in LTM with rich structure AND unique identifiers

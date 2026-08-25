@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1idizm_cl7bxg",
+  "timestamp": "2026-08-20T12:40:28.416Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "101bec24611120b0f5f958c2457b556d1b95144e21458f2f6c112fb2c4a3a8cc"
+}

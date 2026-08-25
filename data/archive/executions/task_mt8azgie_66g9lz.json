@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8azgie_66g9lz",
+  "timestamp": "2026-08-25T06:47:58.043Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "97a4f572b1a2e5cf433d8c82ca506527b6d570a30ff22274e72855037b442a99"
+}

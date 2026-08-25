@@ -1,0 +1,21 @@
+{
+  "id": "task_mt221ghx_uljrtx",
+  "timestamp": "2026-08-20T21:50:57.648Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5ba5d5d9dd1b15e234afe982e2311e99652f9824a22c191ccd22e8273c369415"
+}

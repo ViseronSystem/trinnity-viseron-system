@@ -1,0 +1,21 @@
+{
+  "id": "task_mt60w555_wn4z04",
+  "timestamp": "2026-08-23T16:29:54.763Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "34eb83ba21b24c0ea4605f5acecf7d6842e01fcde0a5c7c024b09db2bb176662"
+}

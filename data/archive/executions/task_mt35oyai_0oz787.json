@@ -1,0 +1,21 @@
+{
+  "id": "task_mt35oyai_0oz787",
+  "timestamp": "2026-08-21T16:20:58.872Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ee7228c87dcf4667e6740fd99f6e8ad7cd61b1d4ab4f61c6d343dee398b5867e"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5pgm17_ls1vhm",
+  "timestamp": "2026-08-23T11:09:54.392Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6fb5b5a164c479949fcce7f2cee8b32a941dee86dbc46da2ec9d23ae08fda7d4"
+}

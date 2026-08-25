@@ -1,6 +1,6 @@
 {
   "name": "Trinnity Viseron System",
-  "version": "5.0.0",
+  "version": "7.0.0",
   "mode": "development",
   "core": {
     "agents": {
@@ -29,13 +29,30 @@
     }
   },
   "models": {
-    "local": ["ollama", "deepseek", "qwen"],
-    "cloud": ["openai", "claude", "gemini", "grok"]
+    "local": [
+      "ollama",
+      "deepseek",
+      "qwen"
+    ],
+    "cloud": [
+      "openai",
+      "claude",
+      "gemini",
+      "grok"
+    ]
   },
   "services": {
-    "n8n": { "enabled": true, "host": "http://localhost:5678" },
-    "qdrant": { "enabled": true, "host": "http://localhost:6333" },
-    "mcp": { "enabled": true }
+    "n8n": {
+      "enabled": true,
+      "host": "http://localhost:5678"
+    },
+    "qdrant": {
+      "enabled": true,
+      "host": "http://localhost:6333"
+    },
+    "mcp": {
+      "enabled": true
+    }
   },
   "dashboard": {
     "port": 3000,

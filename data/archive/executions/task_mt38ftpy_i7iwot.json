@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38ftpy_i7iwot",
+  "timestamp": "2026-08-21T17:37:51.796Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c646d87ad1fa3ba3187204e58fe515cd705b4cd6b6354510777853597b725d00"
+}

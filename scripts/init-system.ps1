@@ -10,7 +10,7 @@ $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║     TRINNITY VISERON SYSTEM v5.0 - INIT SEQUENCE    ║" -ForegroundColor Cyan
+Write-Host "║     TRINNITY VISERON SYSTEM v7.0 - INIT SEQUENCE    ║" -ForegroundColor Cyan
 Write-Host "╚══════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
@@ -94,5 +94,5 @@ if (-not ($Build -or $Start -or $Backup -or $Full)) {
 }
 
 Write-Host ""
-Write-Step "Sistema Trinnity Viseron v5.0 - Pronto para operar" "OK"
+Write-Step "Sistema Trinnity Viseron v7.0 - Pronto para operar" "OK"
 Write-Host ""

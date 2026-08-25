@@ -69,7 +69,7 @@ function main() {
   t.cover({
     title: "AGENCY OS × VISERON",
     subtitle: "Cómo entramos al mercado · cómo arrecadamos lo esperado · cómo VISERON crea lo que queremos",
-    badges: ["ES · PT · EN", "Agency OS", "TVS v5.0"],
+    badges: ["ES · PT · EN", "Agency OS", "TVS v7.0"],
     version: "5.0",
   });
   t.kv("Proyección", `£${last.mrr.toLocaleString()} MRR · £${last.arr.toLocaleString()}/año`);

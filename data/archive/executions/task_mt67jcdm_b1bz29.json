@@ -1,0 +1,21 @@
+{
+  "id": "task_mt67jcdm_b1bz29",
+  "timestamp": "2026-08-23T19:35:54.985Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "90c8b9cfd8a235d818e65ae425780e2650f3dcb5758709f64f03287553fcd498"
+}

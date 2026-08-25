@@ -1,0 +1,21 @@
+{
+  "id": "task_mt600u2f_6htljw",
+  "timestamp": "2026-08-23T16:05:34.106Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1b7dae17fbd38c015a88bbc0f92968ffe40bea21bd214d10ef0f476f1f7e4b2a"
+}

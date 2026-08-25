@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7boulu_yk1drq",
+  "timestamp": "2026-08-24T14:19:56.522Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b63f2cdbb7436a1f61ee3f610385a622260c9b36563f96a8e1b2bc696ffa31a2"
+}

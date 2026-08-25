@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1rp7sl_jbsrn4",
+  "timestamp": "2026-08-20T17:01:30.331Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b3c8230cba2f7c1d16fe5f602b5b1f97a1e8d0431539238607f157d388e055b2"
+}

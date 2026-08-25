@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5mqff2_dlpueq",
+  "timestamp": "2026-08-23T09:53:33.507Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4806218d50d702188ba95eccaa55a46b7034eb57505e5995e3f0c6d660d85711"
+}

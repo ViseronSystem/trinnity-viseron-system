@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4buat9_vazbp3",
+  "timestamp": "2026-08-22T12:00:52.242Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a5122bc374c54ad566ec98455a87c9eb48478d4d7df511c8e79336bc3e41dd5c"
+}

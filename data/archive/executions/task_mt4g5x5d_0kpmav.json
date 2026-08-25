@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4g5x5d_0kpmav",
+  "timestamp": "2026-08-22T14:01:52.888Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e15c9d3515032719aa3f7175cce836b34f217e9d3bca9cccf18c0f646d6d584e"
+}

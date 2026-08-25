@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6zrbaj_sesqui",
+  "timestamp": "2026-08-24T08:45:56.137Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fed26b0a6b12a67bba1e00120b83daf8c57e6e750c4bf72105083808b24a7564"
+}

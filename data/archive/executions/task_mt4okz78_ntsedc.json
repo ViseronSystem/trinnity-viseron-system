@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4okz78_ntsedc",
+  "timestamp": "2026-08-22T17:57:32.243Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5125bf216da049cfbff7d73ba478b7584061a755a59960b1a33a437b5e2cb88b"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt47nuhq_rofysj",
+  "timestamp": "2026-08-22T10:03:52.637Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "81427f331896d8c33f92c3b3a12038ed376e76d19bd959f5efc3a64539c63868"
+}

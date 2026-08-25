@@ -1,0 +1,21 @@
+{
+  "id": "task_mt390egp_hwr0fj",
+  "timestamp": "2026-08-21T17:53:51.817Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "aea00b01b6f423b9e023d6e97c4a9e0583f935352ebad976db7c85d913056687"
+}

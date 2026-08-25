@@ -1,0 +1,21 @@
+{
+  "id": "task_mt67b6os_p23xf4",
+  "timestamp": "2026-08-23T19:29:34.308Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cad44997fe5953465c94c7a5a774c193e0a521a0667bc2e0ef216788cd5bcf7c"
+}

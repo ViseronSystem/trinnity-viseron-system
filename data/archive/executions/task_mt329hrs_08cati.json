@@ -1,0 +1,21 @@
+{
+  "id": "task_mt329hrs_08cati",
+  "timestamp": "2026-08-21T14:44:58.688Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "407a776d9bc5e3b9feedd7e67f69fb8cbd7c43cd72e811b65df7ae3d61c3c569"
+}

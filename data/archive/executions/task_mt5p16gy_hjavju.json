@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5p16gy_hjavju",
+  "timestamp": "2026-08-23T10:57:54.366Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6df94b580382d970a8a38e1c11c2009ab295cabbd484c94bf37f142fead447e0"
+}

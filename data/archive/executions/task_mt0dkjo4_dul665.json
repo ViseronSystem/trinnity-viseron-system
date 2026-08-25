@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0dkjo4_dul665",
+  "timestamp": "2026-08-19T17:38:11.543Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "431fd38790755cf7bb596b355feda6bca681c087d768c11e49ace5f843159c0e"
+}

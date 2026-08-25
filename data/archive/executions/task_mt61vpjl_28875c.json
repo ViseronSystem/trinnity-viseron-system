@@ -1,0 +1,21 @@
+{
+  "id": "task_mt61vpjl_28875c",
+  "timestamp": "2026-08-23T16:57:34.165Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "108db2aba2162dd676f45a9a07862fd4c52bc89466c9502da7c41b0af57b8dff"
+}

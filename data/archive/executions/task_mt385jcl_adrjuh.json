@@ -1,0 +1,21 @@
+{
+  "id": "task_mt385jcl_adrjuh",
+  "timestamp": "2026-08-21T17:29:51.797Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "31fd569bddc4e6a020b69dafe6350360663948f7803aa9206f7e761503c2fe4e"
+}

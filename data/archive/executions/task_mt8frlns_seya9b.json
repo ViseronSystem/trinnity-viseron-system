@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8frlns_seya9b",
+  "timestamp": "2026-08-25T09:01:49.563Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a27b69d0da8aa2fd40829addcfd4dca8cb34e7944effac6bb77fcbf5b8516f23"
+}

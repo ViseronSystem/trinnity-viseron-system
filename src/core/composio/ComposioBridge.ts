@@ -4,7 +4,7 @@ import { ToolManager } from "../tools/ToolManager";
 
 /**
  * ComposioBridge - Consumidor MCP (Streamable HTTP) das ferramentas Composio
- * para Trinnity Viseron System v5.0.
+ * para Trinnity Viseron System v7.0.
  *
  * O TVS liga-se a https://connect.composio.dev/mcp como cliente MCP e
  * disponibiliza as ferramentas (Gmail, Slack, GitHub, Calendário, etc.) aos
@@ -87,7 +87,7 @@ export class ComposioBridge {
           },
         },
       });
-      const client = new Client({ name: "trinnity-viseron-system", version: "5.0.0" });
+      const client = new Client({ name: "trinnity-viseron-system", version: "7.0.0" });
       await client.connect(transport);
       const result = await client.listTools();
       this.transport = transport;

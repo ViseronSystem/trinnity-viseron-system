@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7a49ja_32siwt",
+  "timestamp": "2026-08-24T13:35:56.505Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "500437b63de41809c7dbe17c9e5a81a07f96e5513380a9c9d949d0af682db169"
+}

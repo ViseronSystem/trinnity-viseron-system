@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4nftp0_y4yr1l",
+  "timestamp": "2026-08-22T17:25:32.282Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "296506a6545b47f9d18466140db5e858148087de50877e58c1ec9c9c07511f6e"
+}

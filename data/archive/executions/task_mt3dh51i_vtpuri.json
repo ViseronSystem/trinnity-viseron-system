@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3dh51i_vtpuri",
+  "timestamp": "2026-08-21T19:58:51.212Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "63c21efad8a031adf6985c038fefa12432eac4ae6dccddf9d38c64b5abce53aa"
+}

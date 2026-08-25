@@ -67,7 +67,7 @@ function main() {
       };
       fs.writeFileSync(snapshotFile, JSON.stringify(snapshot, null, 2), "utf8");
 
-      const t = createTheme({ title: "Contas Conectadas — Composio", subject: "TVS v5.0 — Gestão de contas ligadas" });
+      const t = createTheme({ title: "Contas Conectadas — Composio", subject: "TVS v7.0 — Gestão de contas ligadas" });
       t.cover({
         title: "CONTAS CONECTADAS",
         subtitle: `${conns.active.length} ATIVAS · ${conns.pending.length} PENDENTES · 20 APPS — dados reais via Composio (${conns.live ? "live" : "offline — liga o .env"}). O Viseron (JARVIS) gere e organiza estas contas por ti.`,

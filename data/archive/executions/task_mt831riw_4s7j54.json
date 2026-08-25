@@ -1,0 +1,21 @@
+{
+  "id": "task_mt831riw_4s7j54",
+  "timestamp": "2026-08-25T03:05:48.746Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f52250eb716c6497c4f440d87603ae224d93d65ab0ce0d2d5037a363ea0ba928"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1nazz3_t8h33a",
+  "timestamp": "2026-08-20T14:58:28.495Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "42c7d76616c5cd45dadb7a8f099a64d1909633a5a0fc1476a0c300a5d13eb7d9"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt62e5ml_llmk4g",
+  "timestamp": "2026-08-23T17:11:54.858Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2e10572663f2e712b4a21a4d2fbc8395375f1ed562bc5805702dc2ea1e3e2e71"
+}

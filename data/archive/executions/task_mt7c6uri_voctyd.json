@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7c6uri_voctyd",
+  "timestamp": "2026-08-24T14:33:56.528Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2f10980764dde862050203e7b1974396a2b254339e4209e63f0e0d9d7dd56cd0"
+}

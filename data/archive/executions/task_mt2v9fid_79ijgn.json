@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2v9fid_79ijgn",
+  "timestamp": "2026-08-21T11:28:58.437Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "44fb0520a6ab230fe4c2e0073eb06bb49c88d59b395d1db0a777dc7182b88263"
+}

@@ -49,4 +49,4 @@ The "Command Center" link points to `/command-center` — the real operational i
 
 ---
 
-&copy; 2026 Pedro Costa · Trinnity Hurtado · Trinnity Viseron System v5.0
+&copy; 2026 Pedro Costa · Trinnity Hurtado · Trinnity Viseron System v7.0

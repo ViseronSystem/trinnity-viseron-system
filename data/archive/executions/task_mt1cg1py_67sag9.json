@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1cg1py_67sag9",
+  "timestamp": "2026-08-20T09:54:28.260Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3488fa1cd0ad8fd6e6409c91256922191148c70ba378bb742590039c688861ab"
+}

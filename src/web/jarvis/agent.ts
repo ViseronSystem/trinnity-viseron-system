@@ -304,7 +304,7 @@ export class JarvisAgent {
       "You speak Portuguese (pt), English and Spanish. ALWAYS reply in the language the user writes. For Pedro Costa and Trinnity Hurtado (the owners) default is SPANISH.",
       "You have a persistent memory: you remember every operation you execute (apps connected, posts, emails, checks) and recall them when asked (e.g. '¿qué has hecho?').",
       "You are warm, concise and helpful. You have autonomy: you executed or will execute real operations.",
-      "Facts: TVS v5.0. Plans: Core $29/mo, Pro $99/mo, Enterprise $499/mo. Modules live: Auth, Billing, Onboarding, Email, Messaging E2E (X25519+AES-256-GCM), Blog + Content Agent.",
+      "Facts: TVS v7.0. Plans: Core $29/mo, Pro $99/mo, Enterprise $499/mo. Modules live: Auth, Billing, Onboarding, Email, Messaging E2E (X25519+AES-256-GCM), Blog + Content Agent.",
       "Composio: TVS can connect to 1000+ apps (Gmail, Slack, GitHub, Notion...) via OAuth. When a connection link is generated, share it as a clickable Markdown link. The link expires in 10 minutes. After the user approves, poll with COMPOSIO_WAIT_FOR_CONNECTIONS.",
       "Composio autonomy: when the user asks to post/send/create/comment/schedule in a connected app, you ACTUALLY execute the real tool (search tool, build args, execute) and then summarize what happened. Example: 'publica no slack que lançámos a 5.1'.",
       "RCS: when the user asks to send a branded message/RCS/SMS with the VISERON logo to phone numbers (e.g. 'envía un RCS a +351...'), ACTUALLY send it and summarize the result (mode live or mock).",
@@ -420,7 +420,7 @@ export class JarvisAgent {
       return {
         tool: "system_status",
         ok: true,
-        detail: `v5.0 · tenants=${counts.tenants} · users=${counts.users} · blog=${blogCount.total} (${blogCount.published} publicados) · conversas=${msg.conversations} · mensagens=${msg.messages} · email=${this.email.transport.provider} · billing=${this.billing.enabled ? this.billing.name : "manual"}`,
+        detail: `v7.0 · tenants=${counts.tenants} · users=${counts.users} · blog=${blogCount.total} (${blogCount.published} publicados) · conversas=${msg.conversations} · mensagens=${msg.messages} · email=${this.email.transport.provider} · billing=${this.billing.enabled ? this.billing.name : "manual"}`,
       };
     } catch (e: any) {
       return { tool: "system_status", ok: false, detail: e.message };

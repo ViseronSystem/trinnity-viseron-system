@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0fppi8_xnfny4",
+  "timestamp": "2026-08-19T18:38:11.618Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "353df6c28f4a703dd306601d4c881536ea543ec2167d86390dff66756056df91"
+}

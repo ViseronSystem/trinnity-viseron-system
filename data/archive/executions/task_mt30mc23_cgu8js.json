@@ -1,0 +1,21 @@
+{
+  "id": "task_mt30mc23_cgu8js",
+  "timestamp": "2026-08-21T13:58:58.570Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "efe244f30cae0193758495314e4204a63e65d8c108a3bdc8c8d7d782e12e88b2"
+}

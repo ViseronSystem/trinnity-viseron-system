@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45mj3v_dkx3lb",
+  "timestamp": "2026-08-22T09:06:51.999Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "810dfdabaad91419065b3a0202b65666824c6b33b3db24c34dbb780e3179d4f8"
+}

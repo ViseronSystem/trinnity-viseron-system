@@ -1,0 +1,21 @@
+{
+  "id": "task_mt48vkkv_6kmlim",
+  "timestamp": "2026-08-22T10:37:52.647Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b715f881afe15ff7b65be3e79530a6732abd33627a8d44681e0d4cffadc085d9"
+}

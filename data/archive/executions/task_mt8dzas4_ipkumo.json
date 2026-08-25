@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8dzas4_ipkumo",
+  "timestamp": "2026-08-25T08:11:49.497Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9056d2b38547448c946ed461a02535db9d2740a5e9a428913a70c45af1149386"
+}

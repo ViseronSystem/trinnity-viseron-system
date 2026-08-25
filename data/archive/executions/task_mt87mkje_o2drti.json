@@ -1,0 +1,21 @@
+{
+  "id": "task_mt87mkje_o2drti",
+  "timestamp": "2026-08-25T05:13:57.987Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2a74615ff92f3eebc3b4e82569acd759fa289a6ecf23f08f99caea0574ba101c"
+}

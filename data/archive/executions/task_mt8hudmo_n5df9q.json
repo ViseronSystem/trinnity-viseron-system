@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8hudmo_n5df9q",
+  "timestamp": "2026-08-25T09:59:58.345Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7e4e3ff577a80ea06ca87372b46636dbfb344c41641f3be86194c97e11232ac5"
+}

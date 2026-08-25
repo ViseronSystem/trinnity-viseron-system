@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0guv0n_7k651p",
+  "timestamp": "2026-08-19T19:10:11.655Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4582bb4030a874725de5c42869b879a2318b10bfea600eb09e3af65ad1cb8a87"
+}

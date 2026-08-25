@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8mmpgp_i58tly",
+  "timestamp": "2026-08-25T12:13:58.508Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "57056fb7536eadb8801009942a80ba17f50ef216cb3491380919c1da45369abb"
+}

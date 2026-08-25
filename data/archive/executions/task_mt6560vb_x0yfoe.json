@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6560vb_x0yfoe",
+  "timestamp": "2026-08-23T18:29:34.241Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b13925077b9e0acb30e8813e47654070258489dca4a78bd9b17128c24980586f"
+}

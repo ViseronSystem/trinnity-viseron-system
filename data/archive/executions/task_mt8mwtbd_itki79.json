@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8mwtbd_itki79",
+  "timestamp": "2026-08-25T12:21:50.178Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5c5d91622c4645ce8ee33b8142ae01bea65bc263487d474c4f3a2b16bbbe564d"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7447j4_xdsnxi",
+  "timestamp": "2026-08-24T10:47:56.151Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1317dc22a2553d6519588543faa950a68c297e9954f6c5fb286b8cf2c07e9d7f"
+}

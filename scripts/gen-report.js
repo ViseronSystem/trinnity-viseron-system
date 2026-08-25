@@ -102,7 +102,7 @@ const nextSteps = [
 const doc = new PDFDocument({
   size: "A4",
   margins: { top: 50, bottom: 50, left: 50, right: 50 },
-  info: { Title: "TVS - Relatorio Mestre v5.0", Author: "TVS Viseron", Subject: "Sistema Multi-Agente de Superinteligencia" }
+  info: { Title: "TVS - Relatorio Mestre v7.0", Author: "TVS Viseron", Subject: "Sistema Multi-Agente de Superinteligencia" }
 });
 
 const chunks = [];
@@ -125,7 +125,7 @@ function center(text, size, y, opts) {
 // COVER
 center("TRINNITY VISERON", 48, 100);
 center("SYSTEM", 36, 160);
-center("Relatorio Mestre - v5.0", 16, 230);
+center("Relatorio Mestre - v7.0", 16, 230);
 center("Sistema Operacional Multi-Agente de Superinteligencia", 12, 270);
 center("Gerado: " + new Date().toLocaleString("pt-BR"), 11, 310);
 doc.moveTo(100, 400).lineTo(495, 400).stroke("#ccc");

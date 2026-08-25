@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8nk57k_v1dkbm",
+  "timestamp": "2026-08-25T12:39:58.644Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "59d2672d1b61ef2d5f21ddc9d9fedff926e7ec90f9fe7666a2a5c72544673b3e"
+}

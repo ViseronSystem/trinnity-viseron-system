@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38kywo_u299i2",
+  "timestamp": "2026-08-21T17:41:51.857Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "67736425ff627090f0589b0c9f2aa082f6a7c2b7417c871f1935589dcfe51d93"
+}

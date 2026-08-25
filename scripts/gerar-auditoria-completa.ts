@@ -29,7 +29,7 @@ const t = createTheme({ title: "TVS — Auditoria Completa", subject: "CONFIDENC
 t.cover({
   title: "AUDITORIA COMPLETA",
   subtitle: "O que o sistema faz + todas as contas, senhas, chaves e tokens",
-  badges: ["CONFIDENCIAL", "TVS v5.0", "Segredos reais"],
+  badges: ["CONFIDENCIAL", "TVS v7.0", "Segredos reais"],
   date: today,
   version: "5.0",
 });

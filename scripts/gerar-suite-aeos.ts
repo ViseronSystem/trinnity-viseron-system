@@ -72,7 +72,7 @@ function renderPDF(file: string, opts: DocOpts): Promise<void> {
   t.cover({
     title: opts.title,
     subtitle: opts.subtitle,
-    badges: [opts.langName, "AEOS Suite", "TVS v5.0"],
+    badges: [opts.langName, "AEOS Suite", "TVS v7.0"],
     date: new Date().toLocaleDateString("pt-PT"),
     version: "5.0",
     url: "www.trinnityviseronsystem.io",
@@ -507,7 +507,7 @@ const pitchBlocks: Record<Lang, Block[]> = {
     { t: "h2", x: "2. Problema" },
     { t: "li", x: "Software empresarial fragmentado (CRM, ERP, billing, suporte, marketing, engenharia em silos)" },
     { t: "li", x: "Construir uma empresa nativa de IA leva anos e dezenas de ferramentas" },
-    { t: "h2", x: "3. Solução — TVS v5.0" },
+    { t: "h2", x: "3. Solução — TVS v7.0" },
     { t: "li", x: "5.000+ mentes, 246 arquétipos, batalhão de 114, squads por departamento" },
     { t: "li", x: "Gateway de IA com 290+ providers (OmniRoute) + Ollama local (IA real sem chave)" },
     { t: "li", x: "Autonomia: agentes criam-se, evoluem e planificam sozinhos (CRITICAL→LOW)" },
@@ -533,7 +533,7 @@ const pitchBlocks: Record<Lang, Block[]> = {
     { t: "h2", x: "2. Problem" },
     { t: "li", x: "Fragmented enterprise software (CRM, ERP, billing, support, marketing, engineering in silos)" },
     { t: "li", x: "Building an AI-native company takes years and dozens of tools" },
-    { t: "h2", x: "3. Solution — TVS v5.0" },
+    { t: "h2", x: "3. Solution — TVS v7.0" },
     { t: "li", x: "5,000+ minds, 246 archetypes, 114 battalion, per-department squads" },
     { t: "li", x: "AI gateway with 290+ providers (OmniRoute) + local Ollama (real AI with no key)" },
     { t: "li", x: "Autonomy: agents self-create, self-evolve and self-plan (CRITICAL→LOW)" },
@@ -559,7 +559,7 @@ const pitchBlocks: Record<Lang, Block[]> = {
     { t: "h2", x: "2. Problema" },
     { t: "li", x: "Software empresarial fragmentado (CRM, ERP, billing, soporte, marketing, ingeniería en silos)" },
     { t: "li", x: "Construir una empresa nativa de IA lleva años y docenas de herramientas" },
-    { t: "h2", x: "3. Solución — TVS v5.0" },
+    { t: "h2", x: "3. Solución — TVS v7.0" },
     { t: "li", x: "5.000+ mentes, 246 arquetipos, batallón de 114, escuadrones por departamento" },
     { t: "li", x: "Gateway de IA con 290+ proveedores (OmniRoute) + Ollama local (IA real sin clave)" },
     { t: "li", x: "Autonomía: los agentes se crean, evolucionan y planifican solos (CRITICAL→LOW)" },
@@ -600,7 +600,7 @@ async function main() {
       const tTitle = topic.title[lang];
       await renderPDF(file, {
         title: typeof tTitle === "string" ? tTitle : (tTitle as any).title,
-        subtitle: `Trinnity Viseron System v5.0 — Autonomous Enterprise Operating System (AEOS) · ${LANG_NAME[lang]}`,
+        subtitle: `Trinnity Viseron System v7.0 — Autonomous Enterprise Operating System (AEOS) · ${LANG_NAME[lang]}`,
         langName: LANG_NAME[lang],
         blocks: topic.blocks[lang],
       });

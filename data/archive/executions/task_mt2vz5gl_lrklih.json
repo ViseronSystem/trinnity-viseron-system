@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2vz5gl_lrklih",
+  "timestamp": "2026-08-21T11:48:58.471Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7d0b7afc4ce7b864dcec828a659cdf2ed197c097aa4aa70b9914ec1fc423967c"
+}

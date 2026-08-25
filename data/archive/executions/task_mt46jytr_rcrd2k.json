@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46jytr_rcrd2k",
+  "timestamp": "2026-08-22T09:32:51.999Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6191ef1c57924b3f15acc96fdd47c92cc8ca4f09c394b4c312fd4d6dbd1584be"
+}

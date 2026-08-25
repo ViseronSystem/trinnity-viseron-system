@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1g37zf_m49pgr",
+  "timestamp": "2026-08-20T11:36:28.366Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3ead61b1f791652d0c03d9526ed2fa5d2d669be23e0ef4c0ff21cf52fb512be1"
+}

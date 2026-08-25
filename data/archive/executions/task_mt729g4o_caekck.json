@@ -1,0 +1,21 @@
+{
+  "id": "task_mt729g4o_caekck",
+  "timestamp": "2026-08-24T09:56:01.346Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "09a2842b25d0fcb1b7fc4a2ce00642db52a08b79466753ac3ec3f5472e2cb5cb"
+}

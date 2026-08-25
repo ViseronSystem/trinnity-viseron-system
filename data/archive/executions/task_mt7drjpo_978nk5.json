@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7drjpo_978nk5",
+  "timestamp": "2026-08-24T15:18:01.574Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f866d581b836b0e5a7868c329f2ff998c583f3b766d3a5bab00eb5a94769ef07"
+}

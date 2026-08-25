@@ -1,0 +1,21 @@
+{
+  "id": "task_mt75wmej_abt08p",
+  "timestamp": "2026-08-24T11:38:01.395Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "bd5a67103b90cff5e8a3fbca7ad8f34ea6df03f0b5c7321346a42f0e09cf02a6"
+}

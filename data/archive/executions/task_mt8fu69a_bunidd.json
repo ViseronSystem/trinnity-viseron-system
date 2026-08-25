@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8fu69a_bunidd",
+  "timestamp": "2026-08-25T09:03:49.556Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8932fdb7be6e86260bdee0f2d4fdfd998459bcabc53089e10f5fee011f1de891"
+}

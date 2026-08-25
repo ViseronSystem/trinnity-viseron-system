@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5nj601_5vtn4x",
+  "timestamp": "2026-08-23T10:15:54.422Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "22fce8e27f68c98d30d542ca04b58ba34eb7f852d97550a7e538651f6e483e98"
+}

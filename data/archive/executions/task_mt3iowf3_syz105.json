@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3iowf3_syz105",
+  "timestamp": "2026-08-21T22:24:51.357Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4d7ab7688c3209710f149e3a1fabdfdb1892c818fc048a7a8cf7c543014b12e1"
+}

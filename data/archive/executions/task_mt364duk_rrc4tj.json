@@ -1,0 +1,21 @@
+{
+  "id": "task_mt364duk_rrc4tj",
+  "timestamp": "2026-08-21T16:32:58.802Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b7bc215596e7f069d8e51e977fc67f803699dc47db6c1a084e6f020e4790bbe6"
+}

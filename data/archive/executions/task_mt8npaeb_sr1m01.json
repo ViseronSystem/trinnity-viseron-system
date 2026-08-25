@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8npaeb_sr1m01",
+  "timestamp": "2026-08-25T12:43:58.661Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2c81b2b4df9682502586ed9ed332eaf06def55cbe573b18fca2b79815d8bd910"
+}

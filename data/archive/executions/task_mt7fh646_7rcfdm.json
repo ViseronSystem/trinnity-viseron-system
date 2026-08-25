@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7fh646_7rcfdm",
+  "timestamp": "2026-08-24T16:05:56.720Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "04288eaadc94be492193d6a1b95662a51668d4cf857bbf4f694e3be360d33a42"
+}

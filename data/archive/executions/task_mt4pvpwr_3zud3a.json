@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4pvpwr_3zud3a",
+  "timestamp": "2026-08-22T18:33:53.044Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a2707e9d2e352c0daf75e62e12f5fe47029cfa5b57b99cab070421f68063327e"
+}

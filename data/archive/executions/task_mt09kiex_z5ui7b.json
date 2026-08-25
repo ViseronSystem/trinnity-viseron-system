@@ -1,0 +1,21 @@
+{
+  "id": "task_mt09kiex_z5ui7b",
+  "timestamp": "2026-08-19T15:46:11.463Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c6ac4bf5540a8ecf688ce4fff1d75f4e10efa7b65553dd68005cbeb06febf781"
+}

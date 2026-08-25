@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1isyk1_urzdxv",
+  "timestamp": "2026-08-20T12:52:28.378Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c90920b394fd9176f90a206e8b1ed32a67f6bdc4f5ba2231cb3521d610fcece4"
+}

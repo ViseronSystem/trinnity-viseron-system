@@ -1,0 +1,21 @@
+{
+  "id": "task_mt170kmy_gxgvtl",
+  "timestamp": "2026-08-20T07:22:28.189Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d67f3c956e5c478e47422ea6190d8fda2a54c4480461a543df601535e3642c65"
+}

@@ -1,0 +1,5 @@
+{"at":"2026-08-19T22:23:31.599Z","event":"campaign.created","id":"cam_mt0nrhn0_e07ka7","name":"Demo Clínicas 2026"}
+{"at":"2026-08-19T22:23:31.601Z","event":"leads.imported","campaignId":"cam_mt0nrhn0_e07ka7","added":4,"skipped":1,"dupes":0}
+{"at":"2026-08-19T22:23:57.675Z","event":"campaign.personalized","campaignId":"cam_mt0nrhn0_e07ka7","done":4,"failed":0}
+{"at":"2026-08-19T22:23:57.681Z","event":"send.batch","campaignId":"cam_mt0nrhn0_e07ka7","sent":4,"provider":"dev"}
+{"at":"2026-08-19T22:23:57.682Z","event":"lead.responded","leadId":"lead_mt0nrhn3_1b36dw","email":"ana.silva@example.com","intent":"hot","source":"email"}

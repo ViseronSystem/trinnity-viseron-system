@@ -1,0 +1,21 @@
+{
+  "id": "task_mt33wnfo_ikbqct",
+  "timestamp": "2026-08-21T15:30:58.774Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "29381c30f150028c93212e5f733e5b31707b08aa1ae2e48a4b3530505d02be75"
+}

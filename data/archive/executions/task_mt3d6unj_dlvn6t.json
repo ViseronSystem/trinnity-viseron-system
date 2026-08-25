@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3d6unj_dlvn6t",
+  "timestamp": "2026-08-21T19:50:51.229Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7173ae03c835d7bbc7d27006ec09eddde1fe1b5e70316fd0c742126c79e93e2f"
+}

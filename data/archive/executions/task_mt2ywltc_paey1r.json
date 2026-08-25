@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2ywltc_paey1r",
+  "timestamp": "2026-08-21T13:10:58.575Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "065f54ebb88b4ec03b5bcec697c64ab59a38878766b75dc773ea4b76e2d1cd54"
+}

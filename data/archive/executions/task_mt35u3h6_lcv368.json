@@ -1,0 +1,21 @@
+{
+  "id": "task_mt35u3h6_lcv368",
+  "timestamp": "2026-08-21T16:24:58.777Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "90bb2c34079c610a843519112e66c60484b81886951eb68a59a85d262fc119c6"
+}

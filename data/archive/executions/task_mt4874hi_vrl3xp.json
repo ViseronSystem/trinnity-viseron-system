@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4874hi_vrl3xp",
+  "timestamp": "2026-08-22T10:18:52.040Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dd56b684f80de2337b16bfa5326d0b284f19444d5631930728e4a00db652b292"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8n4pmt_vsfhp6",
+  "timestamp": "2026-08-25T12:27:58.535Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1ed4258a6f693b6e251796d18ad211f2371e7f31f2de9d5729bb2d64de8ce9cc"
+}

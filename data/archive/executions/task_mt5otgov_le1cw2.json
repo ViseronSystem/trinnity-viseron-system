@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5otgov_le1cw2",
+  "timestamp": "2026-08-23T10:51:54.398Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "428ee32e0da41659a32a6a82e10ed520dc9c663917eb743666baf832d82546e4"
+}

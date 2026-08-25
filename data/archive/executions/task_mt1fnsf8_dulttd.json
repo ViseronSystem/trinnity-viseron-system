@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1fnsf8_dulttd",
+  "timestamp": "2026-08-20T11:24:28.298Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7a6a82eaa6e33b5f94f4a3d6bb872b97a50b065edb6541472dda4b05fb768c11"
+}

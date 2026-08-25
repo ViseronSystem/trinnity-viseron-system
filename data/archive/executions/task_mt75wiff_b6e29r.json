@@ -1,0 +1,21 @@
+{
+  "id": "task_mt75wiff_b6e29r",
+  "timestamp": "2026-08-24T11:37:56.279Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dcb3bf6269afaba8326e9b4020dbd54e8b26ffc359dab8331722b4e0acedd373"
+}

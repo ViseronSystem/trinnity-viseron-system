@@ -1,0 +1,21 @@
+{
+  "id": "task_mt72ovor_o6iz8p",
+  "timestamp": "2026-08-24T10:08:01.344Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "edd4279e2322390047e1e3991ac08f00dcb34bc20044f4b6f947cf05b9db8a5e"
+}

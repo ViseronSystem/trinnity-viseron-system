@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3govs5_fx8ogc",
+  "timestamp": "2026-08-21T21:28:51.300Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "41e4faf0c665c72678f9ab90babdb914102568e5320b17abd27ae20d5962609a"
+}

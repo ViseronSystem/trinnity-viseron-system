@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1nr0vs_nibdz1",
+  "timestamp": "2026-08-20T15:10:56.207Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9e5a682838209f086a19d25aabc41ce4ca4900c5cb222376dd089e5246613a33"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2ordgi_z1xj0i",
+  "timestamp": "2026-08-21T08:26:58.298Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a0b8774f5ee84241b0efd2b1f7ca851d87ce36116e2b8b06ebd0c0d9208972be"
+}

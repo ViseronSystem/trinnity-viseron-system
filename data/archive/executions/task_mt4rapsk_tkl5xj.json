@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4rapsk_tkl5xj",
+  "timestamp": "2026-08-22T19:13:32.366Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d8d28fefb25e97b3025c05de5d24e3c9e978dd9c2bf0d5562430ec1fbcd65c93"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt73oryx_ftoxmk",
+  "timestamp": "2026-08-24T10:35:56.239Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c47c5e85951af983485855cda0fb770317ebd2f813a2984ff1c28d35ffccabcc"
+}

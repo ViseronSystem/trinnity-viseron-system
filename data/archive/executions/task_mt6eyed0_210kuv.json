@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6eyed0_210kuv",
+  "timestamp": "2026-08-23T23:03:34.706Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5ec941d3dcace16ef7cdb347e3ed7ef29a204c73886bbbcca49875ae189332f2"
+}

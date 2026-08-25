@@ -1,0 +1,21 @@
+{
+  "id": "task_mt30owne_d1cs8q",
+  "timestamp": "2026-08-21T14:00:58.597Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7ba9772b81d3475b8fcf413f22c4089e066854159eedac6ab5dd6c947a0e1511"
+}

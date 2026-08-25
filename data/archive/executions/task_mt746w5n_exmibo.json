@@ -1,0 +1,21 @@
+{
+  "id": "task_mt746w5n_exmibo",
+  "timestamp": "2026-08-24T10:50:01.388Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "23fba91aafaa4215b70105a3e04c21efb9a2401480ca4b214f93b8720a784880"
+}

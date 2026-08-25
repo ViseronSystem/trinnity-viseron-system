@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45sz29_ifhld4",
+  "timestamp": "2026-08-22T09:11:52.610Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f6577624e7fe9321155228040947ec7ca8d258204b1b699b26c7043a192e053c"
+}

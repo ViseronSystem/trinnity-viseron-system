@@ -1,0 +1,21 @@
+{
+  "id": "task_mt73m7dl_ewkcam",
+  "timestamp": "2026-08-24T10:33:56.156Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "70fcd56a195d08c339f0151da5582f560bf0f1d6f64103e10c307d05aa1abcce"
+}

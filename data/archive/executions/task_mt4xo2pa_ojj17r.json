@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4xo2pa_ojj17r",
+  "timestamp": "2026-08-22T22:11:53.352Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2737e4a1169522360abfb5456c4f9417e527dcde235466ba49be8880c592d04a"
+}

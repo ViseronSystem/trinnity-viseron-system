@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7twq86_3pyoty",
+  "timestamp": "2026-08-24T22:49:57.183Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "adb685576a62e64c5e948fefbe9bbb3a26f9f9f556971fe10e34d4cd3c9778bf"
+}

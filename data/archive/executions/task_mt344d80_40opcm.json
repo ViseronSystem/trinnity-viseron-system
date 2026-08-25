@@ -1,0 +1,21 @@
+{
+  "id": "task_mt344d80_40opcm",
+  "timestamp": "2026-08-21T15:36:58.760Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2875063aa5880c5dacc3a2b284762e469916baf230a21c7351631ef98a56303f"
+}

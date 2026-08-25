@@ -1,0 +1,21 @@
+{
+  "id": "task_mt469ofy_raqzkg",
+  "timestamp": "2026-08-22T09:24:51.991Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4cd8dc08fcf12cd707cb872ce246d38d57b426821a474804cf206289cef37f3d"
+}
