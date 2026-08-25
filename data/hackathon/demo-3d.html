@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TVS — Sistema Operativo de IA Autónoma</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#06090f;color:#fff;font-family:'Inter',system-ui,sans-serif;overflow:hidden;width:1920px;height:1080px}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg::before{content:'';position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(0,245,212,0.08),transparent 70%);top:-200px;left:-100px;animation:drift 20s ease-in-out infinite}
+.bg::after{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(123,97,255,0.06),transparent 70%);bottom:-100px;right:-100px;animation:drift 25s ease-in-out infinite reverse}
+@keyframes drift{0%,100%{transform:translate(0,0)}25%{transform:translate(80px,40px)}50%{transform:translate(-40px,80px)}75%{transform:translate(60px,-30px)}}
+
+/* Particles (CSS-only) */
+.particles{position:fixed;inset:0;z-index:0}
+.p{position:absolute;width:3px;height:3px;border-radius:50%;animation:float linear infinite}
+.p:nth-child(1){background:#00f5d4;top:10%;left:5%;animation-duration:18s;animation-delay:0s}
+.p:nth-child(2){background:#7b61ff;top:20%;left:15%;animation-duration:22s;animation-delay:-2s;width:2px;height:2px}
+.p:nth-child(3){background:#f72585;top:40%;left:25%;animation-duration:16s;animation-delay:-4s}
+.p:nth-child(4){background:#00f5d4;top:60%;left:35%;animation-duration:20s;animation-delay:-6s;width:4px;height:4px}
+.p:nth-child(5){background:#7b61ff;top:80%;left:45%;animation-duration:24s;animation-delay:-8s}
+.p:nth-child(6){background:#f72585;top:15%;left:55%;animation-duration:19s;animation-delay:-1s;width:2px;height:2px}
+.p:nth-child(7){background:#00f5d4;top:35%;left:65%;animation-duration:21s;animation-delay:-3s}
+.p:nth-child(8){background:#7b61ff;top:55%;left:75%;animation-duration:17s;animation-delay:-5s;width:4px;height:4px}
+.p:nth-child(9){background:#f72585;top:75%;left:85%;animation-duration:23s;animation-delay:-7s}
+.p:nth-child(10){background:#00f5d4;top:5%;left:92%;animation-duration:20s;animation-delay:-9s;width:2px;height:2px}
+.p:nth-child(11){background:#7b61ff;top:45%;left:8%;animation-duration:26s;animation-delay:-10s}
+.p:nth-child(12){background:#f72585;top:90%;left:20%;animation-duration:18s;animation-delay:-2s;width:4px;height:4px}
+.p:nth-child(13){background:#00f5d4;top:30%;left:40%;animation-duration:22s;animation-delay:-4s}
+.p:nth-child(14){background:#7b61ff;top:70%;left:60%;animation-duration:19s;animation-delay:-6s;width:2px;height:2px}
+.p:nth-child(15){background:#f72585;top:50%;left:80%;animation-duration:25s;animation-delay:-8s}
+@keyframes float{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:0.8}90%{opacity:0.8}100%{transform:translateY(-1080px) translateX(100px);opacity:0}}
+
+/* Grid overlay */
+.grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(123,97,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(123,97,255,0.03) 1px,transparent 1px);background-size:80px 80px}
+
+/* Progress */
+.progress{position:fixed;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#00f5d4,#7b61ff,#f72585);z-index:100;transition:width 0.05s linear}
+
+/* Sections */
+.s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s ease;z-index:1;pointer-events:none}
+.s.on{opacity:1;transform:translateY(0);pointer-events:auto}
+
+/* Glass */
+.g{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:16px}
+
+/* ===== S1: INTRO ===== */
+.intro{flex-direction:column;gap:24px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,245,212,0.08);border:1px solid rgba(0,245,212,0.25);padding:8px 24px;border-radius:100px;font-size:12px;color:#00f5d4;letter-spacing:3px;text-transform:uppercase;animation:fu .8s .2s both}
+.intro h1{font-size:80px;font-weight:900;letter-spacing:-3px;text-align:center;line-height:1;animation:fu .8s .4s both}
+.intro h1 .gr{background:linear-gradient(135deg,#00f5d4,#7b61ff,#f72585);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.intro .sub{font-size:24px;color:rgba(255,255,255,0.4);font-weight:300;text-align:center;animation:fu .8s .6s both}
+.intro .cr{font-size:13px;color:rgba(255,255,255,0.2);margin-top:16px;animation:fu .8s .8s both}
+@keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== S2: PROBLEM ===== */
+.prob{flex-direction:column;gap:44px;padding:0 120px}
+.prob h2{font-size:52px;font-weight:900;text-align:center}
+.prob .r{color:#f72585}
+.pcards{display:flex;gap:24px;width:100%}
+.pcard{flex:1;padding:36px 28px;text-align:center;border-top:3px solid #f72585;animation:ci .6s ease both}
+.pcard:nth-child(1){animation-delay:.2s}.pcard:nth-child(2){animation-delay:.4s}.pcard:nth-child(3){animation-delay:.6s}
+@keyframes ci{from{opacity:0;transform:perspective(800px) rotateY(-12deg) translateY(30px)}to{opacity:1;transform:perspective(800px) rotateY(0) translateY(0)}}
+.pcard .ico{font-size:44px;margin-bottom:16px}
+.pcard h3{font-size:20px;font-weight:700;margin-bottom:10px}
+.pcard p{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.7}
+.prob .sol{font-size:18px;color:#00f5d4;text-align:center;font-weight:500;animation:fu .6s 1s both}
+
+/* ===== S3: ARCHITECTURE ===== */
+.arch{flex-direction:column;gap:36px;padding:0 80px}
+.arch h2{font-size:44px;font-weight:900;text-align:center}
+.arch .bl{color:#7b61ff}
+.ac{display:flex;gap:32px;width:100%;align-items:stretch}
+.as{flex:1;display:flex;flex-direction:column;gap:10px}
+.ai{padding:16px 20px;border-left:3px solid #00f5d4;animation:si .5s ease both}
+.ai:nth-child(1){animation-delay:.2s}.ai:nth-child(2){animation-delay:.35s}.ai:nth-child(3){animation-delay:.5s}.ai:nth-child(4){animation-delay:.65s}
+@keyframes si{from{opacity:0;transform:translateX(-25px)}to{opacity:1;transform:translateX(0)}}
+.ai.r{border-left:none;border-right:3px solid #7b61ff;animation-name:sir}
+@keyframes sir{from{opacity:0;transform:translateX(25px)}to{opacity:1;transform:translateX(0)}}
+.ai h4{font-size:14px;font-weight:700;margin-bottom:3px}
+.ai p{font-size:11px;color:rgba(255,255,255,0.35)}
+.acen{flex:0 0 320px;display:flex;align-items:center;justify-content:center}
+.kr{width:260px;height:260px;border:2px solid rgba(123,97,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:kp 3s ease-in-out infinite}
+.kr::before{content:'';position:absolute;inset:-18px;border:1px solid rgba(123,97,255,0.12);border-radius:50%;animation:kp 3s ease-in-out infinite .5s}
+.kr::after{content:'';position:absolute;inset:-36px;border:1px solid rgba(123,97,255,0.06);border-radius:50%;animation:kp 3s ease-in-out infinite 1s}
+@keyframes kp{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.kl{text-align:center;z-index:1}
+.kl h3{font-size:22px;font-weight:800;color:#7b61ff}
+.kl p{font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px}
+
+/* ===== S4: AGENTS ===== */
+.agn{flex-direction:column;gap:36px;padding:0 60px}
+.agn h2{font-size:44px;font-weight:900;text-align:center}
+.agn .gn{color:#00f5d4}
+.aggrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;width:100%}
+.agc{padding:20px 12px;text-align:center;border:1px solid rgba(255,255,255,0.05);border-radius:14px;transition:all .5s;opacity:0;transform:scale(.9)}
+.agc.v{opacity:1;transform:scale(1);border-color:rgba(0,245,212,0.25)}
+.agc .av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,rgba(0,245,212,0.15),rgba(123,97,255,0.15));border:2px solid rgba(0,245,212,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 8px}
+.agc h4{font-size:13px;font-weight:700}
+.agc .rl{font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px}
+.agc .dot{width:6px;height:6px;border-radius:50%;background:#00f5d4;margin:6px auto 0;animation:bl 1.5s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.agstats{display:flex;gap:50px}
+.st{text-align:center}
+.st .n{font-size:38px;font-weight:900;color:#00f5d4}
+.st .l{font-size:12px;color:rgba(255,255,255,0.35);margin-top:4px}
+
+/* ===== S5: PIPELINE ===== */
+.pipe{flex-direction:column;gap:36px;padding:0 80px}
+.pipe h2{font-size:44px;font-weight:900;text-align:center}
+.pipe .pu{color:#7b61ff}
+.pflow{display:flex;align-items:center;width:100%}
+.pn{flex:1;padding:22px 14px;text-align:center;border:2px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.01);transition:all .5s}
+.pn:first-child{border-radius:14px 0 0 14px}.pn:last-child{border-radius:0 14px 14px 0}
+.pn.lt{border-color:rgba(0,245,212,0.4);background:rgba(0,245,212,0.06);box-shadow:0 0 25px rgba(0,245,212,0.08)}
+.pn h4{font-size:13px;font-weight:700;margin-bottom:3px}
+.pn p{font-size:10px;color:rgba(255,255,255,0.3)}
+.pc{width:30px;height:2px;background:rgba(255,255,255,0.08);flex-shrink:0;transition:all .5s}
+.pc.lt{background:#00f5d4;box-shadow:0 0 8px rgba(0,245,212,0.4)}
+.elog{width:100%;padding:20px 24px;font-family:'Consolas',monospace}
+.elog h3{font-size:13px;color:#7b61ff;margin-bottom:14px;font-family:'Inter',sans-serif;font-weight:600}
+.ll{font-size:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;gap:14px}
+.ll .ts{color:rgba(255,255,255,0.2);min-width:60px}
+.ll .tp{color:#00f5d4;min-width:180px}
+.ll .mg{color:rgba(255,255,255,0.4)}
+
+/* ===== S6: MEMORY ===== */
+.mem{flex-direction:column;gap:36px;padding:0 200px}
+.mem h2{font-size:44px;font-weight:900;text-align:center}
+.mem .am{color:#fbbf24}
+.mstack{display:flex;flex-direction:column;gap:14px;width:100%}
+.ml{display:flex;align-items:center;gap:20px;padding:24px 30px;border-left:4px solid;transition:all .6s;opacity:0;transform:translateX(-30px)}
+.ml.sh{opacity:1;transform:translateX(0)}
+.ml:nth-child(1){border-color:#fbbf24}.ml:nth-child(2){border-color:#00f5d4}.ml:nth-child(3){border-color:#7b61ff}.ml:nth-child(4){border-color:#f72585}
+.ml h4{font-size:16px;font-weight:700;min-width:200px}
+.ml p{font-size:13px;color:rgba(255,255,255,0.4);flex:1}
+.ml .vl{font-size:26px;font-weight:900;color:#00f5d4;min-width:70px;text-align:right}
+.mnote{text-align:center;font-size:15px;color:rgba(255,255,255,0.35);max-width:650px;line-height:1.7}
+
+/* ===== S7: GOVERNANCE ===== */
+.gov{flex-direction:column;gap:36px;padding:0 140px}
+.gov h2{font-size:44px;font-weight:900;text-align:center}
+.gov .pk{color:#f72585}
+.gov .su{font-size:16px;color:rgba(255,255,255,0.35);text-align:center;margin-top:-16px}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
+.gc{padding:24px 16px;text-align:center;border:1px solid rgba(255,255,255,0.05);transition:all .4s;opacity:0;transform:translateY(15px)}
+.gc.sh{opacity:1;transform:translateY(0);border-color:rgba(0,245,212,0.25)}
+.gc .ck{font-size:28px;margin-bottom:10px}
+.gc h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.gc p{font-size:11px;color:rgba(255,255,255,0.35)}
+.gres{padding:20px 40px;text-align:center;border:1px solid rgba(0,245,212,0.25);background:rgba(0,245,212,0.04);border-radius:14px}
+.gres h3{font-size:22px;color:#00f5d4;font-weight:800}
+.gres p{font-size:13px;color:rgba(255,255,255,0.35);margin-top:4px}
+
+/* ===== S8: VAEC ===== */
+.vaec{flex-direction:column;gap:36px;padding:0 80px}
+.vaec h2{font-size:44px;font-weight:900;text-align:center}
+.vaec .cy{color:#00f5d4}
+.vf{display:flex;align-items:center;width:100%}
+.vs{flex:1;padding:18px 12px;text-align:center;border:2px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.01);transition:all .5s}
+.vs:first-child{border-radius:12px 0 0 12px}.vs:last-child{border-radius:0 12px 12px 0}
+.vs.lt{border-color:rgba(123,97,255,0.4);background:rgba(123,97,255,0.06)}
+.vs.dn{border-color:rgba(0,245,212,0.4);background:rgba(0,245,212,0.06)}
+.vs h4{font-size:13px;font-weight:700;margin-bottom:3px}
+.vs p{font-size:10px;color:rgba(255,255,255,0.3)}
+.va{width:24px;height:2px;background:rgba(255,255,255,0.08);flex-shrink:0;transition:all .5s}
+.va.lt{background:#00f5d4}
+.jour{width:100%;padding:20px 24px;font-family:'Consolas',monospace}
+.jour h3{font-size:13px;color:#7b61ff;margin-bottom:12px;font-family:'Inter',sans-serif;font-weight:600}
+.jl{font-size:12px;padding:5px 0;color:rgba(255,255,255,0.4)}
+.jl .gt{color:#00f5d4;font-weight:600}
+.jl .ok{color:#fbbf24}
+
+/* ===== S9: FINAL ===== */
+.fin{flex-direction:column;gap:28px}
+.fin h1{font-size:68px;font-weight:900;letter-spacing:-3px;text-align:center;animation:fu .8s .2s both}
+.fin .tg{font-size:22px;color:rgba(255,255,255,0.4);font-weight:300;text-align:center;animation:fu .8s .4s both}
+.fin .fs{display:flex;gap:56px;animation:fu .8s .6s both}
+.fin .fst{text-align:center}
+.fin .fst .n{font-size:48px;font-weight:900;background:linear-gradient(135deg,#00f5d4,#7b61ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.fin .fst .l{font-size:13px;color:rgba(255,255,255,0.35);margin-top:4px}
+.fin .fl{display:flex;gap:14px;animation:fu .8s .8s both}
+.fin .fl a{padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;text-decoration:none}
+.fin .fl .p{background:linear-gradient(135deg,#00f5d4,#7b61ff);color:#000}
+.fin .fl .s{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff}
+.fin .fc{position:absolute;bottom:44px;font-size:12px;color:rgba(255,255,255,0.15);animation:fu .8s 1s both}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="particles">
+  <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
+  <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
+  <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
+</div>
+<div class="grid"></div>
+<div class="progress" id="pg"></div>
+
+<!-- S1 -->
+<div class="s on" id="s1"><div class="intro">
+  <div class="badge">● HACKATHON ALL THINGS AGENTIC 2026</div>
+  <h1><span class="gr">Trinnity Viseron</span><br>Sistema Operativo de IA</h1>
+  <div class="sub">Sistema operativo de inteligencia artificial para organizaciones autónomas</div>
+  <div class="cr">Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · Copyright 2026</div>
+</div></div>
+
+<!-- S2 -->
+<div class="s" id="s2"><div class="prob">
+  <h2>El <span class="r">Problema</span></h2>
+  <div class="pcards">
+    <div class="pcard g"><div class="ico">📋</div><h3>Sin Registro de Agentes</h3><p>Los frameworks empresariales despliegan agentes como scripts sin gestión del ciclo de vida, versionado o descubrimiento.</p></div>
+    <div class="pcard g"><div class="ico">🔗</div><h3>Sin Comunicación</h3><p>Los agentes trabajan en silos. Sin bus de eventos compartido, sin enrutamiento, sin ejecución coordinada.</p></div>
+    <div class="pcard g"><div class="ico">🚫</div><h3>Sin Ética Obligatoria</h3><p>Las políticas viven en documentos, no en código. Los agentes pueden mentir, filtrar datos o ejecutar operaciones dañinas.</p></div>
+  </div>
+  <div class="sol">TVS resuelve esto tratando a los agentes como ciudadanos de primera clase de un sistema operativo.</div>
+</div></div>
+
+<!-- S3 -->
+<div class="s" id="s3"><div class="arch">
+  <h2>Arquitectura <span class="bl">OMEGA Kernel</span></h2>
+  <div class="ac">
+    <div class="as">
+      <div class="ai g"><h4>AgentActivationEngine</h4><p>Ciclos autónomos cada 86 segundos</p></div>
+      <div class="ai g"><h4>10 Agentes Autónomos</h4><p>CEO, CTO, Developer, Finance, Research</p></div>
+      <div class="ai g"><h4>SmartAgent Runtime</h4><p>Memoria aislada, proveedor IA, handler</p></div>
+      <div class="ai g"><h4>Gestión de Ciclos</h4><p>Ejecución continua sin intervención</p></div>
+    </div>
+    <div class="acen"><div class="kr"><div class="kl"><h3>OMEGA Kernel</h3><p>EventBus · TaskQueue<br>Permisos · Verificador</p></div></div></div>
+    <div class="as">
+      <div class="ai r g"><h4>ModelRouter</h4><p>Gemini 3.6 Flash, Ollama, Claude, Grok</p></div>
+      <div class="ai r g"><h4>Sistema de Memoria</h4><p>STM → LTM → KB → Vector</p></div>
+      <div class="ai r g"><h4>Gobernanza Ética</h4><p>9 principios como código ejecutable</p></div>
+      <div class="ai r g"><h4>VAEC Evolution</h4><p>Implement → Test → Promote</p></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- S4 -->
+<div class="s" id="s4"><div class="agn">
+  <h2><span class="gn">10 Agentes Autónomos</span></h2>
+  <div class="aggrid" id="aggrid"></div>
+  <div class="agstats">
+    <div class="st"><div class="n" id="ct">0</div><div class="l">Tareas Completadas</div></div>
+    <div class="st"><div class="n" id="cm">0</div><div class="l">Entradas de Memoria</div></div>
+    <div class="st"><div class="n">86s</div><div class="l">Intervalo de Ciclo</div></div>
+    <div class="st"><div class="n">24/7</div><div class="l">Operación Autónoma</div></div>
+  </div>
+</div></div>
+
+<!-- S5 -->
+<div class="s" id="s5"><div class="pipe">
+  <h2>Pipeline de <span class="pu">Ejecución de Tareas</span></h2>
+  <div class="pflow" id="pf"></div>
+  <div class="elog g" id="elog"><h3>EventBus — Actividad en Tiempo Real</h3></div>
+</div></div>
+
+<!-- S6 -->
+<div class="s" id="s6"><div class="mem">
+  <h2>Sistema de Memoria en <span class="am">4 Capas</span></h4>
+  <div class="mstack" id="ms"></div>
+  <div class="mnote">Consolidación automática: STM → LTM cada 30 min. Búsqueda semántica con embeddings vectoriales. Grafo de conocimiento conecta agentes.</div>
+</div></div>
+
+<!-- S7 -->
+<div class="s" id="s7"><div class="gov">
+  <h2>Gobernanza <span class="pk">Bíblica</span></h2>
+  <div class="su">9 principios éticos implementados como código — no como documentación</div>
+  <div class="gg" id="gg"></div>
+  <div class="gres"><h3>✓ Operación Verificada: APROBADA</h3><p>Los 9 principios pasaron. Sin fraude, engaño ni filtración de datos.</p></div>
+</div></div>
+
+<!-- S8 -->
+<div class="s" id="s8"><div class="vaec">
+  <h2>Pipeline de Evolución <span class="cy">VAEC</span></h2>
+  <div class="vf" id="vf"></div>
+  <div class="jour g" id="jour"><h3>Journal de Auditoría</h3></div>
+</div></div>
+
+<!-- S9 -->
+<div class="s" id="s9"><div class="fin">
+  <h1><span class="gr">Trinnity Viseron System</span></h1>
+  <div class="tg">Sistema Operativo de IA para Organizaciones Autónomas</div>
+  <div class="fs">
+    <div class="fst"><div class="n">10+</div><div class="l">Agentes</div></div>
+    <div class="fst"><div class="n">374</div><div class="l">Tests</div></div>
+    <div class="fst"><div class="n">4</div><div class="l">Capas de Memoria</div></div>
+    <div class="fst"><div class="n">9</div><div class="l">Principios Éticos</div></div>
+  </div>
+  <div class="fl">
+    <a class="p" href="#">GitHub: pedrocv1981/trinnity-viseron-system</a>
+    <a class="s" href="#">Gemini 3.6 Flash · Google Cloud</a>
+  </div>
+  <div class="fc">Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · Copyright 2026</div>
+</div></div>
+
+<script>
+const AG=[
+  {i:'👑',n:'CEO',r:'Estratégico'},{i:'⚙️',n:'CTO',r:'Técnico'},{i:'💻',n:'Developer',r:'Código'},
+  {i:'💰',n:'Finance',r:'Análisis'},{i:'🔍',n:'Research',r:'Conocimiento'},{i:'📊',n:'Sales',r:'Leads'},
+  {i:'🛡️',n:'Security',r:'Ciberseguridad'},{i:'💬',n:'Support',r:'Clientes'},
+  {i:'👁️',n:'Vision',r:'Multimedia'},{i:'🔧',n:'DevOps',r:'Operaciones'}
+];
+const ag=document.getElementById('aggrid');
+AG.forEach(a=>{ag.innerHTML+=`<div class="agc g"><div class="av">${a.i}</div><h4>${a.n}</h4><div class="rl">${a.r}</div><div class="dot"></div></div>`});
+
+const PS=['CREATED','PLANNING','QUEUED','RUNNING','VERIFYING','COMPLETED'];
+const PD=['Tarea enviada','Plan IA','Cola','Agente ejecuta','Verificación','Éxito verificado'];
+const pf=document.getElementById('pf');
+PS.forEach((s,i)=>{
+  if(i>0) pf.innerHTML+=`<div class="pc" id="cn${i}"></div>`;
+  pf.innerHTML+=`<div class="pn" id="pn${i}"><h4>${s}</h4><p>${PD[i]}</p></div>`;
+});
+
+const EV=[
+  {t:'00:00',tp:'kernel.boot',m:'OMEGA Kernel inicializado'},
+  {t:'00:02',tp:'agent.spawn',m:'10 agentes activados en ciclos autónomos'},
+  {t:'00:05',tp:'task.created',m:'Tarea #4721: Generar endpoint de facturación'},
+  {t:'00:08',tp:'task.assigned',m:'CEO → Developer: implementar ruta de billing'},
+  {t:'00:12',tp:'tool.execute',m:'Developer ejecuta herramienta de código'},
+  {t:'00:15',tp:'eventbus.fire',m:'task.completed: endpoint de billing creado'},
+  {t:'00:18',tp:'verifier.check',m:'Validación esquema: PASS · Evidencia: PASS'},
+  {t:'00:20',tp:'memory.store',m:'Consolidación STM→LTM: conocimiento almacenado'},
+  {t:'00:22',tp:'governance.ok',m:'Operación aprobada: sin violaciones'}
+];
+const el=document.getElementById('elog');
+EV.forEach(e=>{el.innerHTML+=`<div class="ll"><span class="ts">${e.t}</span><span class="tp">${e.tp}</span><span class="mg">${e.m}</span></div>`});
+
+const ML=[
+  {n:'Memoria a Corto Plazo',d:'Sesiones, 200 items, TTL 30min',v:'200'},
+  {n:'Memoria a Largo Plazo',d:'Almacenamiento persistente con backups',v:'5K+'},
+  {n:'Base de Conocimiento',d:'Búsqueda TF-IDF y relevancia semántica',v:'1.2K'},
+  {n:'Almacén Vectorial',d:'Embeddings con recuperación semántica',v:'8K+'}
+];
+const ms=document.getElementById('ms');
+ML.forEach(m=>{ms.innerHTML+=`<div class="ml g"><h4>${m.n}</h4><p>${m.d}</p><div class="vl">${m.v}</div></div>`});
+
+const GV=[
+  {n:'Sabiduría',d:'Consecuencias antes de actuar'},
+  {n:'Verdad',d:'Nunca mentir ni engañar'},
+  {n:'Mayordomía',d:'Proteger recursos y datos'},
+  {n:'Justicia',d:'Precios justos, sin costos ocultos'},
+  {n:'Servicio',d:'El sistema sirve al usuario'},
+  {n:'Diligencia',d:'Excelencia, verificar antes de publicar'},
+  {n:'Humildad',d:'Admitir límites, pedir ayuda'},
+  {n:'Generosidad',d:'Más valor del esperado'},
+  {n:'Fidelidad',d:'Cumplir lo prometido'}
+];
+const gg=document.getElementById('gg');
+GV.forEach(g=>{gg.innerHTML+=`<div class="gc g"><div class="ck">✅</div><h4>${g.n}</h4><p>${g.d}</p></div>`});
+
+const VS=['IMPLEMENT','TEST','SYNC','BUILD','VERIFY','PROMOTE'];
+const VD=['Escribir código','374 tests','Git pull','TypeScript','Health check','Desplegar'];
+const vf=document.getElementById('vf');
+VS.forEach((s,i)=>{
+  if(i>0) vf.innerHTML+=`<div class="va" id="va${i}"></div>`;
+  vf.innerHTML+=`<div class="vs" id="vs${i}"><h4>${s}</h4><p>${VD[i]}</p></div>`;
+});
+const jour=document.getElementById('jour');
+VS.forEach(s=>{jour.innerHTML+=`<div class="jl"><span class="gt">${s}</span> <span class="ok">APROBADO</span></div>`});
+
+/* TIMELINE */
+const DUR=50000;
+const S=[
+  {id:'s1',a:0,b:5000},{id:'s2',a:5000,b:11000},{id:'s3',a:11000,b:17000},
+  {id:'s4',a:17000,b:23000},{id:'s5',a:23000,b:29000},{id:'s6',a:29000,b:34000},
+  {id:'s7',a:34000,b:39000},{id:'s8',a:39000,b:44000},{id:'s9',a:44000,b:52000}
+];
+let t0=null;
+function tick(ts){
+  if(!t0)t0=ts;const e=ts-t0;
+  document.getElementById('pg').style.width=Math.min(e/DUR*100,100)+'%';
+  S.forEach(s=>{const el=document.getElementById(s.id);if(e>=s.a&&e<s.b)el.classList.add('on');else el.classList.remove('on')});
+  if(e>=17000&&e<23000){const p=(e-17000)/6000;document.getElementById('ct').textContent=Math.floor(p*5335);document.getElementById('cm').textContent=Math.floor(p*5344);document.querySelectorAll('.agc').forEach((el,i)=>{if(p>i*.1)el.classList.add('v')})}
+  if(e>=23000&&e<29000){const p=(e-23000)/6000;PS.forEach((_,i)=>{const t=i/PS.length;if(p>t)document.getElementById('pn'+i).classList.add('lt')});for(let i=1;i<PS.length;i++)if(p>(i-.5)/PS.length)document.getElementById('cn'+i).classList.add('lt')}
+  if(e>=29000&&e<34000){const p=(e-29000)/5000;document.querySelectorAll('.ml').forEach((el,i)=>{if(p>i*.2)el.classList.add('sh')})}
+  if(e>=34000&&e<39000){const p=(e-34000)/5000;document.querySelectorAll('.gc').forEach((el,i)=>{if(p>i*.1)el.classList.add('sh')})}
+  if(e>=39000&&e<44000){const p=(e-39000)/5000;VS.forEach((_,i)=>{const t=i/VS.length;if(p>t){document.getElementById('vs'+i).classList.add('dn');document.getElementById('vs'+i).classList.add('lt')}});for(let i=1;i<VS.length;i++)if(p>(i-.5)/VS.length)document.getElementById('va'+i).classList.add('lt')}
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
