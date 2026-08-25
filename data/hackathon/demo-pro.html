@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TVS — All Things Agentic Hackathon Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e14; color: #e6edf3; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; width: 1920px; height: 1080px; }
+
+/* Timeline */
+.timeline { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: #161b22; z-index: 100; }
+.timeline-fill { height: 100%; background: linear-gradient(90deg, #34D399, #58a6ff); width: 0%; transition: width 0.1s linear; }
+
+/* Sections */
+.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
+.section.active { opacity: 1; pointer-events: auto; }
+
+/* SECTION 1: Intro */
+.intro { flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(ellipse at center, #0f1923 0%, #0a0e14 70%); }
+.intro-logo { width: 180px; height: 180px; margin-bottom: 30px; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(52,211,153,0.3)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(52,211,153,0.6)); } }
+.intro h1 { font-size: 56px; font-weight: 700; background: linear-gradient(135deg, #34D399, #58a6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+.intro h2 { font-size: 24px; color: #8b949e; font-weight: 400; margin-bottom: 40px; }
+.intro-badges { display: flex; gap: 16px; }
+.badge { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); padding: 10px 24px; border-radius: 8px; font-size: 16px; color: #34D399; }
+.intro-subtitle { margin-top: 30px; font-size: 18px; color: #58a6ff; }
+.credits { position: absolute; bottom: 40px; font-size: 14px; color: #484f58; }
+
+/* SECTION 2: Problem */
+.problem { flex-direction: column; align-items: center; justify-content: center; padding: 80px; }
+.problem h2 { font-size: 42px; color: #f85149; margin-bottom: 40px; text-align: center; }
+.problem-cards { display: flex; gap: 30px; }
+.problem-card { background: #161b22; border: 1px solid #f8514933; border-radius: 12px; padding: 30px; width: 350px; text-align: center; }
+.problem-card .icon { font-size: 48px; margin-bottom: 16px; }
+.problem-card h3 { font-size: 20px; color: #f85149; margin-bottom: 10px; }
+.problem-card p { font-size: 14px; color: #8b949e; line-height: 1.6; }
+.solution-text { margin-top: 40px; font-size: 22px; color: #34D399; text-align: center; max-width: 800px; }
+
+/* SECTION 3: Architecture */
+.arch { flex-direction: column; padding: 50px 80px; }
+.arch h2 { font-size: 36px; color: #58a6ff; margin-bottom: 30px; text-align: center; }
+.arch-grid { display: grid; grid-template-columns: 280px 1fr 280px; gap: 20px; flex: 1; }
+.arch-col { display: flex; flex-direction: column; gap: 12px; }
+.arch-box { background: #161b22; border-radius: 10px; padding: 16px; border-left: 3px solid #34D399; }
+.arch-box.kernel { border-left-color: #58a6ff; }
+.arch-box.ai { border-left-color: #f59e0b; }
+.arch-box h4 { font-size: 14px; color: #e6edf3; margin-bottom: 4px; }
+.arch-box p { font-size: 11px; color: #8b949e; }
+.arch-center { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.arch-center .kernel-visual { width: 260px; height: 260px; border: 2px solid #58a6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; animation: rotate 20s linear infinite; }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.kernel-visual .inner { animation: rotate 20s linear infinite reverse; text-align: center; }
+.kernel-visual .inner h3 { font-size: 20px; color: #58a6ff; }
+.kernel-visual .inner p { font-size: 12px; color: #8b949e; }
+.arch-arrow { color: #34D399; font-size: 24px; text-align: center; margin: 4px 0; }
+
+/* SECTION 4: Agents */
+.agents { flex-direction: column; align-items: center; padding: 50px 80px; }
+.agents h2 { font-size: 36px; color: #34D399; margin-bottom: 30px; }
+.agents-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; width: 100%; max-width: 1400px; }
+.agent-card { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 20px; text-align: center; transition: all 0.5s ease; transform: scale(0.9); opacity: 0; }
+.agent-card.visible { transform: scale(1); opacity: 1; border-color: #34D399; }
+.agent-card .agent-icon { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #34D399, #58a6ff); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 22px; }
+.agent-card h4 { font-size: 14px; color: #e6edf3; margin-bottom: 4px; }
+.agent-card .role { font-size: 11px; color: #34D399; }
+.agent-card .status { font-size: 10px; color: #8b949e; margin-top: 6px; }
+.status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #34D399; margin-right: 4px; animation: blink 1.5s ease-in-out infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.agent-stats { margin-top: 24px; display: flex; gap: 30px; }
+.agent-stat { text-align: center; }
+.agent-stat .num { font-size: 32px; font-weight: 700; color: #34D399; }
+.agent-stat .label { font-size: 12px; color: #8b949e; }
+
+/* SECTION 5: Task Pipeline */
+.pipeline { flex-direction: column; align-items: center; justify-content: center; padding: 60px; }
+.pipeline h2 { font-size: 36px; color: #58a6ff; margin-bottom: 40px; }
+.pipeline-flow { display: flex; align-items: center; gap: 8px; margin-bottom: 40px; }
+.pipe-step { background: #161b22; border: 2px solid #21262d; border-radius: 10px; padding: 16px 20px; text-align: center; min-width: 130px; transition: all 0.5s ease; }
+.pipe-step.active { border-color: #34D399; background: rgba(52,211,153,0.1); }
+.pipe-step.done { border-color: #34D399; background: rgba(52,211,153,0.15); }
+.pipe-step h4 { font-size: 12px; color: #e6edf3; }
+.pipe-step p { font-size: 10px; color: #8b949e; margin-top: 4px; }
+.pipe-arrow { color: #30363d; font-size: 20px; }
+.pipe-arrow.active { color: #34D399; }
+.event-feed { width: 100%; max-width: 1200px; background: #0d1117; border: 1px solid #21262d; border-radius: 10px; padding: 20px; }
+.event-feed h3 { font-size: 16px; color: #58a6ff; margin-bottom: 12px; }
+.event-item { font-family: 'Consolas', monospace; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #161b22; display: flex; gap: 12px; }
+.event-time { color: #484f58; min-width: 80px; }
+.event-topic { color: #34D399; min-width: 200px; }
+.event-msg { color: #8b949e; }
+
+/* SECTION 6: Memory */
+.memory { flex-direction: column; align-items: center; justify-content: center; padding: 60px; }
+.memory h2 { font-size: 36px; color: #f59e0b; margin-bottom: 40px; }
+.memory-layers { display: flex; flex-direction: column; gap: 16px; width: 800px; }
+.mem-layer { background: #161b22; border-radius: 12px; padding: 24px; border-left: 4px solid; display: flex; align-items: center; gap: 20px; transition: all 0.6s ease; transform: translateX(-50px); opacity: 0; }
+.mem-layer.visible { transform: translateX(0); opacity: 1; }
+.mem-layer:nth-child(1) { border-color: #f59e0b; }
+.mem-layer:nth-child(2) { border-color: #34D399; }
+.mem-layer:nth-child(3) { border-color: #58a6ff; }
+.mem-layer:nth-child(4) { border-color: #a855f7; }
+.mem-layer h4 { font-size: 18px; color: #e6edf3; min-width: 200px; }
+.mem-layer p { font-size: 13px; color: #8b949e; flex: 1; }
+.mem-layer .mem-stat { font-size: 20px; font-weight: 700; color: #34D399; min-width: 80px; text-align: right; }
+.consolidation { margin-top: 30px; text-align: center; }
+.consolidation h3 { font-size: 20px; color: #f59e0b; margin-bottom: 10px; }
+.consolidation p { font-size: 14px; color: #8b949e; max-width: 600px; }
+
+/* SECTION 7: Governance */
+.governance { flex-direction: column; align-items: center; justify-content: center; padding: 60px; }
+.governance h2 { font-size: 36px; color: #a855f7; margin-bottom: 10px; }
+.governance .subtitle { font-size: 16px; color: #8b949e; margin-bottom: 30px; }
+.gov-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 900px; }
+.gov-item { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.4s ease; }
+.gov-item.active { border-color: #34D399; background: rgba(52,211,153,0.05); }
+.gov-item .check { font-size: 28px; margin-bottom: 8px; }
+.gov-item h4 { font-size: 14px; color: #e6edf3; margin-bottom: 4px; }
+.gov-item p { font-size: 11px; color: #8b949e; }
+.gov-result { margin-top: 30px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); border-radius: 12px; padding: 20px 40px; text-align: center; }
+.gov-result h3 { font-size: 22px; color: #34D399; }
+.gov-result p { font-size: 14px; color: #8b949e; margin-top: 6px; }
+
+/* SECTION 8: VAEC */
+.vaec { flex-direction: column; align-items: center; justify-content: center; padding: 60px; }
+.vaec h2 { font-size: 36px; color: #58a6ff; margin-bottom: 40px; }
+.vaec-flow { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+.vaec-step { background: #161b22; border: 2px solid #21262d; border-radius: 10px; padding: 16px 20px; text-align: center; min-width: 140px; transition: all 0.5s ease; }
+.vaec-step.active { border-color: #58a6ff; background: rgba(88,166,255,0.1); }
+.vaec-step.done { border-color: #34D399; background: rgba(52,211,153,0.15); }
+.vaec-step h4 { font-size: 13px; color: #e6edf3; }
+.vaec-step p { font-size: 10px; color: #8b949e; margin-top: 4px; }
+.vaec-arrow { color: #30363d; font-size: 18px; }
+.vaec-arrow.active { color: #34D399; }
+.vaec-journal { width: 800px; background: #0d1117; border: 1px solid #21262d; border-radius: 10px; padding: 20px; font-family: 'Consolas', monospace; }
+.vaec-journal h3 { font-size: 14px; color: #58a6ff; margin-bottom: 10px; font-family: system-ui; }
+.journal-entry { font-size: 12px; padding: 4px 0; color: #8b949e; }
+.journal-entry .gate { color: #34D399; }
+.journal-entry .result { color: #f59e0b; }
+
+/* SECTION 9: Final */
+.final { flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(ellipse at center, #0f1923 0%, #0a0e14 70%); }
+.final h1 { font-size: 52px; font-weight: 700; background: linear-gradient(135deg, #34D399, #58a6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+.final .tagline { font-size: 22px; color: #8b949e; margin-bottom: 40px; }
+.final-stats { display: flex; gap: 40px; margin-bottom: 40px; }
+.final-stat { text-align: center; }
+.final-stat .num { font-size: 48px; font-weight: 700; color: #34D399; }
+.final-stat .label { font-size: 14px; color: #8b949e; margin-top: 4px; }
+.final-links { display: flex; gap: 20px; }
+.final-link { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 24px; color: #58a6ff; text-decoration: none; font-size: 14px; }
+.final-credit { position: absolute; bottom: 40px; font-size: 14px; color: #484f58; }
+</style>
+</head>
+<body>
+
+<div class="timeline"><div class="timeline-fill" id="progress"></div></div>
+
+<!-- SECTION 1: INTRO -->
+<div class="section active" id="s1">
+  <div class="intro">
+    <svg class="intro-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#34D399"/><stop offset="100%" style="stop-color:#58a6ff"/></linearGradient></defs>
+      <circle cx="100" cy="100" r="90" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.3"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="100" cy="100" r="50" fill="none" stroke="url(#g1)" stroke-width="1" opacity="0.7"/>
+      <circle cx="100" cy="40" r="6" fill="#34D399"/><circle cx="160" cy="100" r="6" fill="#58a6ff"/><circle cx="100" cy="160" r="6" fill="#34D399"/><circle cx="40" cy="100" r="6" fill="#58a6ff"/>
+      <circle cx="145" cy="55" r="4" fill="#34D399" opacity="0.7"/><circle cx="145" cy="145" r="4" fill="#58a6ff" opacity="0.7"/><circle cx="55" cy="145" r="4" fill="#34D399" opacity="0.7"/><circle cx="55" cy="55" r="4" fill="#58a6ff" opacity="0.7"/>
+      <line x1="100" y1="40" x2="160" y2="100" stroke="#34D399" stroke-width="0.8" opacity="0.3"/>
+      <line x1="160" y1="100" x2="100" y2="160" stroke="#58a6ff" stroke-width="0.8" opacity="0.3"/>
+      <line x1="100" y1="160" x2="40" y2="100" stroke="#34D399" stroke-width="0.8" opacity="0.3"/>
+      <line x1="40" y1="100" x2="100" y2="40" stroke="#58a6ff" stroke-width="0.8" opacity="0.3"/>
+      <text x="100" y="108" text-anchor="middle" fill="url(#g1)" font-size="36" font-weight="700" font-family="system-ui">TVS</text>
+    </svg>
+    <h1>Trinnity Viseron System</h1>
+    <h2>Multi-Agent AI Operating System</h2>
+    <div class="intro-badges">
+      <div class="badge">All Things Agentic Hackathon</div>
+      <div class="badge">Fortified Enterprise Fleet</div>
+    </div>
+    <div class="intro-subtitle">Built by Pedro Costa & Trinnity Hurtado</div>
+    <div class="credits">Copyright 2026 — Trinnity Viseron System</div>
+  </div>
+</div>
+
+<!-- SECTION 2: PROBLEM -->
+<div class="section" id="s2">
+  <div class="problem">
+    <h2>The Problem</h2>
+    <div class="problem-cards">
+      <div class="problem-card">
+        <div class="icon">&#x1F4C4;</div>
+        <h3>No Agent Registry</h3>
+        <p>Enterprise frameworks deploy agents as scripts with no lifecycle management, versioning, or discovery.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">&#x1F517;</div>
+        <h3>No Cross-Agent Communication</h3>
+        <p>Agents work in silos. No shared event bus, no wildcard routing, no coordinated task execution.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">&#x1F6AB;</div>
+        <h3>No Ethical Guardrails</h3>
+        <p>Policies live in documents, not in code. Agents can lie, leak data, or execute harmful operations.</p>
+      </div>
+    </div>
+    <div class="solution-text">TVS solves this by treating agents as first-class citizens of an operating system.</div>
+  </div>
+</div>
+
+<!-- SECTION 3: ARCHITECTURE -->
+<div class="section" id="s3">
+  <div class="arch">
+    <h2>OMEGA Kernel Architecture</h2>
+    <div class="arch-grid">
+      <div class="arch-col">
+        <div class="arch-box"><h4>AgentActivationEngine</h4><p>Lifecycle management, autonomous cycles every 86 seconds</p></div>
+        <div class="arch-arrow">&darr;</div>
+        <div class="arch-box"><h4>10 Autonomous Agents</h4><p>CEO, CTO, Developer, Finance, Research, Sales, Security, Support, Vision, DevOps</p></div>
+        <div class="arch-arrow">&darr;</div>
+        <div class="arch-box"><h4>SmartAgent Runtime</h4><p>Each agent has isolated memory, AI provider, and task handler</p></div>
+      </div>
+      <div class="arch-center">
+        <div class="kernel-visual">
+          <div class="inner">
+            <h3>OMEGA Kernel</h3>
+            <p>EventBus + TaskQueue + Permissions + Verifier</p>
+          </div>
+        </div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-box ai"><h4>ModelRouter</h4><p>Gemini 3.6 Flash, Ollama, OpenAI, Claude, Grok</p></div>
+        <div class="arch-arrow">&darr;</div>
+        <div class="arch-box ai"><h4>Memory System</h4><p>STM &rarr; LTM &rarr; Knowledge Base &rarr; Vector Store</p></div>
+        <div class="arch-arrow">&darr;</div>
+        <div class="arch-box ai"><h4>Governance Layer</h4><p>9 ethical principles enforced as code</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: AGENTS -->
+<div class="section" id="s4">
+  <div class="agents">
+    <h2>10 Autonomous Agents</h2>
+    <div class="agents-grid" id="agentsGrid"></div>
+    <div class="agent-stats">
+      <div class="agent-stat"><div class="num" id="taskCount">0</div><div class="label">Tasks Completed</div></div>
+      <div class="agent-stat"><div class="num" id="memCount">0</div><div class="label">Memory Entries</div></div>
+      <div class="agent-stat"><div class="num">86s</div><div class="label">Cycle Interval</div></div>
+      <div class="agent-stat"><div class="num">24/7</div><div class="label">Autonomous Operation</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: TASK PIPELINE -->
+<div class="section" id="s5">
+  <div class="pipeline">
+    <h2>Task Execution Pipeline</h2>
+    <div class="pipeline-flow" id="pipelineFlow"></div>
+    <div class="event-feed">
+      <h3>EventBus Activity</h3>
+      <div id="eventFeed"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: MEMORY -->
+<div class="section" id="s6">
+  <div class="memory">
+    <h2>Four-Layer Memory System</h2>
+    <div class="memory-layers" id="memLayers"></div>
+    <div class="consolidation">
+      <h3>Automatic Consolidation</h3>
+      <p>STM evicts to LTM every 30 minutes. LTM indexes for full-text search. Vector embeddings enable semantic retrieval. Graph relationships connect knowledge across agents.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: GOVERNANCE -->
+<div class="section" id="s7">
+  <div class="governance">
+    <h2>Biblical Governance</h2>
+    <div class="subtitle">9 ethical principles enforced as code — not documentation</div>
+    <div class="gov-grid" id="govGrid"></div>
+    <div class="gov-result">
+      <h3>Operation Verified: APPROVED</h3>
+      <p>All 9 principles passed. No fraud, deception, or data leaks detected.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 8: VAEC -->
+<div class="section" id="s8">
+  <div class="vaec">
+    <h2>VAEC Evolution Pipeline</h2>
+    <div class="vaec-flow" id="vaecFlow"></div>
+    <div class="vaec-journal">
+      <h3>Audit Journal</h3>
+      <div id="vaecJournal"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 9: FINAL -->
+<div class="section" id="s9">
+  <div class="final">
+    <h1>Trinnity Viseron System</h1>
+    <div class="tagline">AI Operating System for Autonomous Organizations</div>
+    <div class="final-stats">
+      <div class="final-stat"><div class="num">10+</div><div class="label">Agents</div></div>
+      <div class="final-stat"><div class="num">374</div><div class="label">Tests Passing</div></div>
+      <div class="final-stat"><div class="num">4</div><div class="label">Memory Layers</div></div>
+      <div class="final-stat"><div class="num">9</div><div class="label">Governance Principles</div></div>
+    </div>
+    <div class="final-links">
+      <div class="final-link">GitHub: pedrocv1981/trinnity-viseron-system</div>
+      <div class="final-link">Gemini 3.6 Flash + Google Cloud</div>
+    </div>
+    <div class="final-credit">Built by Pedro Costa (Comandante) & Trinnity Hurtado (Rainha) &mdash; Copyright 2026</div>
+  </div>
+</div>
+
+<script>
+const AGENTS = [
+  { icon: '&#x1F451;', name: 'CEO', role: 'Strategic Leader' },
+  { icon: '&#x1F527;', name: 'CTO', role: 'Technical Leader' },
+  { icon: '&#x1F4BB;', name: 'Developer', role: 'Code Expert' },
+  { icon: '&#x1F4B0;', name: 'Finance', role: 'Financial Analyst' },
+  { icon: '&#x1F50D;', name: 'Research', role: 'Knowledge Gatherer' },
+  { icon: '&#x1F4BC;', name: 'Sales', role: 'Lead Qualifier' },
+  { icon: '&#x1F6E1;', name: 'Security', role: 'CyberSentinel' },
+  { icon: '&#x1F4AC;', name: 'Support', role: 'Customer Service' },
+  { icon: '&#x1F441;', name: 'Vision', role: 'Computer Vision' },
+  { icon: '&#x2699;', name: 'DevOps', role: 'Operations' }
+];
+
+const PIPE_STEPS = [
+  { name: 'CREATED', desc: 'Task submitted' },
+  { name: 'PLANNING', desc: 'AI generates plan' },
+  { name: 'QUEUED', desc: 'Added to queue' },
+  { name: 'RUNNING', desc: 'Agent executes' },
+  { name: 'VERIFYING', desc: 'Rule-based check' },
+  { name: 'COMPLETED', desc: 'Verified success' }
+];
+
+const EVENTS = [
+  { time: '00:00', topic: 'kernel.boot', msg: 'OMEGA Kernel initialized' },
+  { time: '00:01', topic: 'agent.activation', msg: '10 agents spawned on autonomous cycles' },
+  { time: '00:05', topic: 'task.created', msg: 'Task #4721: Generate API endpoint for billing' },
+  { time: '00:08', topic: 'task.assigned', msg: 'CEO -> Developer: implement billing route' },
+  { time: '00:12', topic: 'tool.called', msg: 'Developer executes code generation tool' },
+  { time: '00:15', topic: 'eventbus.publish', msg: 'task.completed: billing endpoint created' },
+  { time: '00:18', topic: 'verifier.check', msg: 'Schema validation: PASS, Evidence: PASS' },
+  { time: '00:20', topic: 'memory.consolidate', msg: 'STM -> LTM: billing knowledge stored' },
+  { time: '00:22', topic: 'governance.assess', msg: 'Operation approved: no violations' }
+];
+
+const MEM_LAYERS = [
+  { name: 'Short-Term Memory', desc: 'Session-scoped, 200 items max, 30-minute TTL, LRU eviction', stat: '200' },
+  { name: 'Long-Term Memory', desc: 'Persistent key-value store with full-text index and auto-backups', stat: '5K+' },
+  { name: 'Knowledge Base', desc: 'Documents with TF-IDF relevance scoring and semantic search', stat: '1.2K' },
+  { name: 'Vector Store', desc: 'Embeddings via configurable provider with retrieval and reranking', stat: '8K+' }
+];
+
+const GOV = [
+  { name: 'Wisdom', desc: 'Consider consequences before acting' },
+  { name: 'Truth', desc: 'Never lie, inflate, or deceive' },
+  { name: 'Stewardship', desc: 'Protect resources, secrets, and data' },
+  { name: 'Justice', desc: 'Fair pricing, no hidden fees' },
+  { name: 'Service', desc: 'The system serves users, not the reverse' },
+  { name: 'Diligence', desc: 'Execute with excellence, verify before publish' },
+  { name: 'Humility', desc: 'Admit limits, ask when uncertain' },
+  { name: 'Generosity', desc: 'Deliver more value than expected' },
+  { name: 'Faithfulness', desc: 'Deliver what you promise, when you promise' }
+];
+
+const VAEC_STEPS = [
+  { name: 'IMPLEMENT', desc: 'Write code' },
+  { name: 'TEST', desc: '374 tests' },
+  { name: 'SYNC', desc: 'Git pull' },
+  { name: 'BUILD', desc: 'TypeScript' },
+  { name: 'VERIFY', desc: 'Health check' },
+  { name: 'PROMOTE', desc: 'Deploy' }
+];
+
+// Populate agents grid
+const agentsGrid = document.getElementById('agentsGrid');
+AGENTS.forEach(a => {
+  agentsGrid.innerHTML += `<div class="agent-card"><div class="agent-icon">${a.icon}</div><h4>${a.name}</h4><div class="role">${a.role}</div><div class="status"><span class="status-dot"></span>Active</div></div>`;
+});
+
+// Populate pipeline
+const pipelineFlow = document.getElementById('pipelineFlow');
+PIPE_STEPS.forEach((s, i) => {
+  pipelineFlow.innerHTML += `<div class="pipe-step" id="pipe${i}"><h4>${s.name}</h4><p>${s.desc}</p></div>`;
+  if (i < PIPE_STEPS.length - 1) pipelineFlow.innerHTML += `<div class="pipe-arrow" id="parrow${i}">&rarr;</div>`;
+});
+
+// Populate events
+const eventFeed = document.getElementById('eventFeed');
+EVENTS.forEach(e => {
+  eventFeed.innerHTML += `<div class="event-item"><span class="event-time">${e.time}</span><span class="event-topic">${e.topic}</span><span class="event-msg">${e.msg}</span></div>`;
+});
+
+// Populate memory layers
+const memLayers = document.getElementById('memLayers');
+MEM_LAYERS.forEach(m => {
+  memLayers.innerHTML += `<div class="mem-layer"><h4>${m.name}</h4><p>${m.desc}</p><div class="mem-stat">${m.stat}</div></div>`;
+});
+
+// Populate governance
+const govGrid = document.getElementById('govGrid');
+GOV.forEach(g => {
+  govGrid.innerHTML += `<div class="gov-item"><div class="check">&#x2705;</div><h4>${g.name}</h4><p>${g.desc}</p></div>`;
+});
+
+// Populate VAEC
+const vaecFlow = document.getElementById('vaecFlow');
+VAEC_STEPS.forEach((s, i) => {
+  vaecFlow.innerHTML += `<div class="vaec-step" id="vaec${i}"><h4>${s.name}</h4><p>${s.desc}</p></div>`;
+  if (i < VAEC_STEPS.length - 1) vaecFlow.innerHTML += `<div class="vaec-arrow" id="varrow${i}">&rarr;</div>`;
+});
+
+const journal = document.getElementById('vaecJournal');
+VAEC_STEPS.forEach(s => {
+  journal.innerHTML += `<div class="journal-entry"><span class="gate">${s.name}</span> <span class="result">PASSED</span> — ${s.desc}</div>`;
+});
+
+// Timeline animation
+const TOTAL_DURATION = 45000; // 45 seconds
+const sections = [
+  { id: 's1', start: 0, end: 4000 },      // Intro: 0-4s
+  { id: 's2', start: 4000, end: 9000 },    // Problem: 4-9s
+  { id: 's3', start: 9000, end: 14000 },   // Architecture: 9-14s
+  { id: 's4', start: 14000, end: 20000 },  // Agents: 14-20s
+  { id: 's5', start: 20000, end: 25000 },  // Pipeline: 20-25s
+  { id: 's6', start: 25000, end: 30000 },  // Memory: 25-30s
+  { id: 's7', start: 30000, end: 34000 },  // Governance: 30-34s
+  { id: 's8', start: 34000, end: 38000 },  // VAEC: 34-38s
+  { id: 's9', start: 38000, end: 46000 }   // Final: 38-46s
+];
+
+let startTime = null;
+
+function animate(timestamp) {
+  if (!startTime) startTime = timestamp;
+  const elapsed = timestamp - startTime;
+  const progress = Math.min(elapsed / TOTAL_DURATION * 100, 100);
+  document.getElementById('progress').style.width = progress + '%';
+
+  // Show/hide sections
+  sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (elapsed >= s.start && elapsed < s.end) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
+
+  // Agents animation (section 4)
+  if (elapsed >= 14000 && elapsed < 20000) {
+    const agentEls = document.querySelectorAll('.agent-card');
+    const agentProgress = (elapsed - 14000) / 6000;
+    agentEls.forEach((el, i) => {
+      if (agentProgress > i * 0.1) el.classList.add('visible');
+    });
+    const taskEl = document.getElementById('taskCount');
+    const memEl = document.getElementById('memCount');
+    taskEl.textContent = Math.floor(agentProgress * 5335);
+    memEl.textContent = Math.floor(agentProgress * 5344);
+  }
+
+  // Pipeline animation (section 5)
+  if (elapsed >= 20000 && elapsed < 25000) {
+    const pipeProgress = (elapsed - 20000) / 5000;
+    PIPE_STEPS.forEach((_, i) => {
+      const threshold = i / PIPE_STEPS.length;
+      const el = document.getElementById('pipe' + i);
+      if (pipeProgress > threshold) el.classList.add('done');
+      if (pipeProgress > threshold && pipeProgress < threshold + 0.2) el.classList.add('active');
+    });
+    PIPE_STEPS.forEach((_, i) => {
+      if (i < PIPE_STEPS.length - 1) {
+        const arrow = document.getElementById('parrow' + i);
+        if (pipeProgress > (i + 0.5) / PIPE_STEPS.length) arrow.classList.add('active');
+      }
+    });
+  }
+
+  // Memory animation (section 6)
+  if (elapsed >= 25000 && elapsed < 30000) {
+    const memProgress = (elapsed - 25000) / 5000;
+    document.querySelectorAll('.mem-layer').forEach((el, i) => {
+      if (memProgress > i * 0.2) el.classList.add('visible');
+    });
+  }
+
+  // Governance animation (section 7)
+  if (elapsed >= 30000 && elapsed < 34000) {
+    const govProgress = (elapsed - 30000) / 4000;
+    document.querySelectorAll('.gov-item').forEach((el, i) => {
+      if (govProgress > i * 0.1) el.classList.add('active');
+    });
+  }
+
+  // VAEC animation (section 8)
+  if (elapsed >= 34000 && elapsed < 38000) {
+    const vaecProgress = (elapsed - 34000) / 4000;
+    VAEC_STEPS.forEach((_, i) => {
+      const threshold = i / VAEC_STEPS.length;
+      const el = document.getElementById('vaec' + i);
+      if (vaecProgress > threshold) el.classList.add('done');
+      if (vaecProgress > threshold && vaecProgress < threshold + 0.2) el.classList.add('active');
+    });
+  }
+
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
