@@ -1,0 +1,21 @@
+{
+  "id": "task_msylo5t2_t1u5zc",
+  "timestamp": "2026-08-18T11:49:24.758Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "830c5bf7b24e2be7ea519b7bcf02c6481003ae850648071c0b0d856db10bb05d"
+}

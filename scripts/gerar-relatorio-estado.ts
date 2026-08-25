@@ -68,7 +68,7 @@ const CAPABILITIES: Array<[string, string]> = [
 async function main() {
   const outFile = path.resolve("data", "Viseron_Relatorio_Estado.pdf");
 
-  const version = exec("node -p \"require('./package.json').version\"") || "5.0.0";
+  const version = exec("node -p \"require('./package.json').version\"") || "7.0.0";
   const branch = exec("git branch --show-current") || "main";
   const commitCount = exec("git rev-list --count HEAD") || "0";
   const lastCommit = exec("git log -1 --format=%h %s") || "n/a";

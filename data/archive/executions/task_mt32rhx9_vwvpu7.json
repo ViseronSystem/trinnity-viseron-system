@@ -1,0 +1,21 @@
+{
+  "id": "task_mt32rhx9_vwvpu7",
+  "timestamp": "2026-08-21T14:58:58.704Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a510c89601d97b122b29cf900465e64d82501a1549a639025ec51db4ec4fc34e"
+}

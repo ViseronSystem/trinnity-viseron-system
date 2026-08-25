@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2o6spm_utd09p",
+  "timestamp": "2026-08-21T08:10:58.326Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "112080f333d36b86114fe0f4bf61ae5920ac6cb15a7674e94c6a2b44d2fd9bf1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1zgv4g_tmsil4",
+  "timestamp": "2026-08-20T20:38:57.545Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7a97cd13241fc0e0b6681b5ddbbb753ea1d3f6b053be5d7e16c0ac9f2a55db57"
+}

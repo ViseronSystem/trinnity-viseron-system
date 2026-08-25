@@ -1,0 +1,21 @@
+{
+  "id": "task_mt400mz3_0f37hy",
+  "timestamp": "2026-08-22T06:29:52.475Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2aa90fc7a1b85e80855913fdf062280c5fde303562fec6adbc7ffc3688a00ba2"
+}

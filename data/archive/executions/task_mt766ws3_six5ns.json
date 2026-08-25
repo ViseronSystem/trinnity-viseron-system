@@ -1,0 +1,21 @@
+{
+  "id": "task_mt766ws3_six5ns",
+  "timestamp": "2026-08-24T11:46:01.456Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "bb98a80af1897ea5e9d16b1eaa1a9ddc83ff5ff75484c762fcc3b3754327d352"
+}

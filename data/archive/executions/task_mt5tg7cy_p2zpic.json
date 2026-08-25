@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5tg7cy_p2zpic",
+  "timestamp": "2026-08-23T13:01:33.851Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "806f048db24d8f3a30e9370f776ae652ac0e904b13bbb318bb883fcc79faa2fc"
+}

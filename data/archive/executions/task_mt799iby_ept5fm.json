@@ -1,0 +1,21 @@
+{
+  "id": "task_mt799iby_ept5fm",
+  "timestamp": "2026-08-24T13:12:01.507Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e0a63ffdbde622345c489fcda7eaebd854428c2398245061474a50c45996692a"
+}

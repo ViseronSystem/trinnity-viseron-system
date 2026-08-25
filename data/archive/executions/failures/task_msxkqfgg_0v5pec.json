@@ -1,0 +1,21 @@
+{
+  "id": "task_msxkqfgg_0v5pec",
+  "timestamp": "2026-08-17T18:35:24.766Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "323be426bfb3491a5158acf52133b5e0693134684d728b1fd55095b52017e53c"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt30u1u4_mjsp8d",
+  "timestamp": "2026-08-21T14:04:58.575Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d05d4fab1d5534e1c1728ecd9a5646b9af62a0590a59253ab69da095c5dc3556"
+}

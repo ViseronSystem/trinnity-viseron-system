@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7mu3de_tnigt4",
+  "timestamp": "2026-08-24T19:31:56.995Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f9b332200df8a1929e4b0f793f53563cda3cc5c073a32830449cbaa94d4f5fe9"
+}

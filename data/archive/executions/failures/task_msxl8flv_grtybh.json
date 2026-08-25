@@ -1,0 +1,21 @@
+{
+  "id": "task_msxl8flv_grtybh",
+  "timestamp": "2026-08-17T18:49:24.769Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "e156fbdcd67f07f05764f929e36982454cb1031d458c68efbdc2fbdb84895b28"
+}

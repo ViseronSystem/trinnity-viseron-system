@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4gvn35_lcxusi",
+  "timestamp": "2026-08-22T14:21:52.866Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6a89f8e7d1ebb2c1b3a51cf5544191496c7c8546702bbd46ba76281438b2e2f3"
+}

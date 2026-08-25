@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2qothv_gplwfh",
+  "timestamp": "2026-08-21T09:20:58.389Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5ed27cc08684bcc02e0dc8b900a85e713f4bc2b98db28fbff993ee607ed1890a"
+}

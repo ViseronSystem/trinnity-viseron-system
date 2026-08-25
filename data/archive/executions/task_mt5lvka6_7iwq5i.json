@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5lvka6_7iwq5i",
+  "timestamp": "2026-08-23T09:29:33.506Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6177bfdfa123046603e3474efaf9e827380051c5c6c30644947eb68eae055809"
+}

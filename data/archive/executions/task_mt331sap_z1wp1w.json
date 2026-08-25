@@ -1,0 +1,21 @@
+{
+  "id": "task_mt331sap_z1wp1w",
+  "timestamp": "2026-08-21T15:06:58.727Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "036c55bde17091e12ba5c523a18297def8c6b157436d3b9643eef985202430f6"
+}

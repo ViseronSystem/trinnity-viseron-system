@@ -1,0 +1,21 @@
+{
+  "id": "task_mt125oaa_hij559",
+  "timestamp": "2026-08-20T05:06:28.166Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e12ac88b5561b7bc8677e09aa17bde545f539b35a67820e0320faa97852e3f6b"
+}

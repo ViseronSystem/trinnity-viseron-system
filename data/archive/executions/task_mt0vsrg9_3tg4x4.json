@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0vsrg9_3tg4x4",
+  "timestamp": "2026-08-20T02:08:28.003Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b0e1bd83b4ebc8a2fa8d6a66a14194a95b1214d909398d5ba5909f12cc52434f"
+}

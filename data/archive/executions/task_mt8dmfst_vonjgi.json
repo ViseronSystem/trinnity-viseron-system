@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8dmfst_vonjgi",
+  "timestamp": "2026-08-25T08:01:49.491Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "57cd6bc5c8815f3a47035712562d840d96511ed9e84450aba94900faca00212c"
+}

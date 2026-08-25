@@ -56,7 +56,7 @@ export function createTheme(o: ThemeOptions = {}): Theme {
     bufferPages: true,
     info: {
       Title: o.title ?? "Trinnity Viseron System",
-      Author: "TVS v5.0 · Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)",
+      Author: "TVS v7.0 · Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)",
       Subject: o.subject ?? "Trinnity Viseron System — Multi-Agent AI Superintelligence",
       Producer: "TVS PDF Engine",
       Creator: "TVS PDF Engine",
@@ -81,7 +81,7 @@ export function createTheme(o: ThemeOptions = {}): Theme {
     doc.fillColor(accent).rect(0, 0, 96, 3).fill();
     doc.fillColor(accent2).rect(96, 0, 16, 3).fill();
     doc.fillColor("#94a3b8").font("Helvetica").fontSize(7.5).text(
-      "TRINNITY VISERON SYSTEM · TVS v5.0 · www.trinnityviseronsystem.io",
+      "TRINNITY VISERON SYSTEM · TVS v7.0 · www.trinnityviseronsystem.io",
       54, PH - 26, { width: W - 108, align: "left", lineBreak: false }
     );
     doc.fillColor("#94a3b8").font("Helvetica").fontSize(7.5).text(
@@ -128,7 +128,7 @@ export function createTheme(o: ThemeOptions = {}): Theme {
 
     // brand
     doc.fillColor(accent).font("Helvetica-Bold").fontSize(10)
-      .text(opts.brand ?? "TRINNITY VISERON SYSTEM · TVS v5.0", W / 2, 90, { align: "center", width: W - 120 });
+      .text(opts.brand ?? "TRINNITY VISERON SYSTEM · TVS v7.0", W / 2, 90, { align: "center", width: W - 120 });
 
     // title (multi-line, sized to fit)
     const lines = opts.title.split("\n");
@@ -179,7 +179,7 @@ export function createTheme(o: ThemeOptions = {}): Theme {
     doc.fillColor("#94a3b8").font("Helvetica").fontSize(9)
       .text(opts.url ?? "www.trinnityviseronsystem.io", W / 2, fy + 16, { align: "center", width: W - 120 });
     doc.fillColor("#64748b").font("Helvetica").fontSize(8)
-      .text(opts.version ? `TVS v${opts.version}` : "TVS v5.0 · Pedro Costa & Trinnity Hurtado", W / 2, fy + 32, { align: "center", width: W - 120 });
+      .text(opts.version ? `TVS v${opts.version}` : "TVS v7.0 · Pedro Costa & Trinnity Hurtado", W / 2, fy + 32, { align: "center", width: W - 120 });
 
     doc.addPage();
   };

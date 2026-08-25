@@ -1,0 +1,21 @@
+{
+  "id": "task_mt608jup_vn6bwm",
+  "timestamp": "2026-08-23T16:11:35.743Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c5c6c5bbe685975adabf7236aefa7a1675d69363556327acdf45b1a624b7abf0"
+}

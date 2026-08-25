@@ -1,0 +1,21 @@
+{
+  "id": "task_mt24tro5_w1nnhl",
+  "timestamp": "2026-08-20T23:08:57.681Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "187363d8be3054deb7405277a7d6055eb935dc16426dc94d7f2c60de6fa1915f"
+}

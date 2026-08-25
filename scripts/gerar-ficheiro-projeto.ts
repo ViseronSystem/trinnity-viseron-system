@@ -3,7 +3,7 @@ import * as path from "path";
 import { createTheme } from "./pdf-theme";
 
 // ═══════════════════════════════════════════════════════════
-// FICHEIRO DE VISÃO DO PROJETO — TRINNITY VISERON SYSTEM v5.0
+// FICHEIRO DE VISÃO DO PROJETO — TRINNITY VISERON SYSTEM v7.0
 // Trilíngue: PT / EN / ES
 // © Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)
 // ═══════════════════════════════════════════════════════════
@@ -21,7 +21,7 @@ const ORANGE = "#ff9f0a";
 
 const t = createTheme({
   title: "TVS — Ficheiro de Visão do Projeto | Project Vision File | Archivo de Visión del Proyecto",
-  subject: "Trinnity Viseron System v5.0 — Missão, Arquitetura, Roadmap e Estado",
+  subject: "Trinnity Viseron System v7.0 — Missão, Arquitetura, Roadmap e Estado",
 });
 
 // Bloco de código multi-linha que flui via doc.y (sem sobreposição).
@@ -38,7 +38,7 @@ function codeBlock(lines: string[], size = 7.5, color = "#0e7490") {
 t.cover({
   title: "FICHEIRO DE VISÃO\nDO PROJETO",
   subtitle: "Project Vision File · Archivo de Visión del Proyecto — Missão · Arquitetura · Roadmap · Estado Verificado",
-  badges: ["v5.0 · AI-NATIVE OPERATING SYSTEM", "SQUAD AIOX", "Trilingue"],
+  badges: ["v7.0 · AI-NATIVE OPERATING SYSTEM", "SQUAD AIOX", "Trilingue"],
   date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
   version: "5.0",
   url: "www.trinnityviseronsystem.io",
@@ -77,7 +77,7 @@ t.section("02", "Arquitetura do Sistema", "Arquitetura · Architecture · Arquit
 
 const archDiagram = `
   ┌──────────────────────────────────────────────────────────────┐
-  │                    TRINNITY VISERON SYSTEM v5.0              │
+  │                    TRINNITY VISERON SYSTEM v7.0              │
   ├──────────────────────────────────────────────────────────────┤
   │  TVS OS  ─  AI-Native Operating System (Process Manager,     │
   │            Virtual FS, App Store, Package Manager, Security) │

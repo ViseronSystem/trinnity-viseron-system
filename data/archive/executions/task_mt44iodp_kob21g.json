@@ -1,0 +1,21 @@
+{
+  "id": "task_mt44iodp_kob21g",
+  "timestamp": "2026-08-22T08:35:52.644Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7fb64942884c1ede5b43df150d433dd3d7186cc52e6f6384e36d92359030810b"
+}

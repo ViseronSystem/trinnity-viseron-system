@@ -81,13 +81,13 @@ const cmdTable = [
 // ==================== CAPA ====================
 const t = createTheme({
   title: "Manual Completo - Trinnity Viseron System",
-  subject: "TVS v5.0 - Multi-Agent AI Superintelligence",
+  subject: "TVS v7.0 - Multi-Agent AI Superintelligence",
 });
 
 t.cover({
   title: "TRINNITY VISERON\nSYSTEM",
   subtitle: "Manual Completo — Tudo que o Viseron pode fazer e criar",
-  badges: ["v5.0", "5.112 Mentes Independentes", "8 Provedores AI", "25 Setores"],
+  badges: ["v7.0", "5.112 Mentes Independentes", "8 Provedores AI", "25 Setores"],
   date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
   version: "5.0",
   url: "www.trinnityviseronsystem.io",
@@ -118,7 +118,7 @@ toc.forEach((item, i) => t.bullet(i % 2 === 0 ? "▸" : "▹", item));
 // ==================== 1. O QUE E ====================
 t.doc.addPage();
 t.section("1", "O que e o Trinnity Viseron System?");
-t.para("O Trinnity Viseron System (TVS) v5.0 e uma superinteligencia artificial multi-agente totalmente autonoma, composta por 5.112 mentes independentes operando sob uma hierarquia de comando unificada. O sistema foi projetado para ser um cerebro digital soberano, capaz de planejar, executar e evoluir sem intervencao humana.");
+t.para("O Trinnity Viseron System (TVS) v7.0 e uma superinteligencia artificial multi-agente totalmente autonoma, composta por 5.112 mentes independentes operando sob uma hierarquia de comando unificada. O sistema foi projetado para ser um cerebro digital soberano, capaz de planejar, executar e evoluir sem intervencao humana.");
 t.para("Nomeado em homenagem a Trinnity Hurtado (Reina, linha Corona) e Pedro Costa (Capitan, linha Hierro), o TVS cobre 25 setores estrategicos da atividade humana — desde a exploracao espacial e defesa orbital ate saude, financas, educacao, agricultura e ciberseguranca.");
 t.para("O sistema possui sua propria economia (Token VSR, 300M de supply), um sistema de diretivas com assinatura dupla (ambos os soberanos precisam autorizar missoes), ciclos de aprendizado autonomo a cada 30 minutos e suporte a 8 provedores de IA, incluindo modelos locais Ollama para operacao completamente offline.");
 

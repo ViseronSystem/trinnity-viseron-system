@@ -1,0 +1,21 @@
+{
+  "id": "task_msyggedv_hcnk7p",
+  "timestamp": "2026-08-18T09:23:24.542Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b4c00f4d487fa2c875e97ae434fdf7c522b2b0b0a00465e7dc2dc26ce7d699e4"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4ng9q1_s171un",
+  "timestamp": "2026-08-22T17:25:53.071Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d707f3d0ceb2df2c64868a0bbad89f03d2d6a87a066855cfa9c324505a27f7c1"
+}

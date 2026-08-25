@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2rbyur_wkbnjw",
+  "timestamp": "2026-08-21T09:38:58.365Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "946aafbc83435776a51be096d374ebee00159f77589aec2ab78525e88cbe0347"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msxiqcpi_lwwov1",
+  "timestamp": "2026-08-17T17:39:21.967Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "aef0c7c0b0bcc7292410a19c2376087013e7326774c14ef613dc432178baa3cd"
+}

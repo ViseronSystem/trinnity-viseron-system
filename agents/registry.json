@@ -1,5 +1,5 @@
 {
-  "version": "5.0.0",
+  "version": "7.0.0",
   "lastUpdated": "2026-07-31T00:00:00Z",
   "commanders": [
     {
@@ -9,7 +9,11 @@
       "role": "Commander-in-Chief",
       "strategy": "expansion",
       "status": "active",
-      "squads": ["aiox-core", "expansion-force", "deployment-squad"],
+      "squads": [
+        "aiox-core",
+        "expansion-force",
+        "deployment-squad"
+      ],
       "capabilities": [
         "strategic-planning",
         "resource-allocation",
@@ -26,7 +30,11 @@
       "role": "Chief Evolution Officer",
       "strategy": "evolution",
       "status": "active",
-      "squads": ["aiox-core", "evolution-lab", "intelligence-squad"],
+      "squads": [
+        "aiox-core",
+        "evolution-lab",
+        "intelligence-squad"
+      ],
       "capabilities": [
         "ai-evolution",
         "hyper-learning",
@@ -42,7 +50,10 @@
       "id": "aiox-core",
       "name": "AIOX Core Squad",
       "description": "Core artificial intelligence operating system squad",
-      "leadBy": ["pedro-costa", "trinnity-hurtado"],
+      "leadBy": [
+        "pedro-costa",
+        "trinnity-hurtado"
+      ],
       "agents": [
         {
           "id": "aiox-orchestrator",
@@ -50,7 +61,11 @@
           "type": "orchestrator",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["task-routing", "workflow-management", "agent-coordination"]
+          "capabilities": [
+            "task-routing",
+            "workflow-management",
+            "agent-coordination"
+          ]
         },
         {
           "id": "aiox-planner",
@@ -58,7 +73,11 @@
           "type": "planner",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["strategic-planning", "goal-decomposition", "scheduling"]
+          "capabilities": [
+            "strategic-planning",
+            "goal-decomposition",
+            "scheduling"
+          ]
         },
         {
           "id": "aiox-evolver",
@@ -66,7 +85,11 @@
           "type": "evolution",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["genetic-algorithms", "agent-mutation", "fitness-optimization"]
+          "capabilities": [
+            "genetic-algorithms",
+            "agent-mutation",
+            "fitness-optimization"
+          ]
         },
         {
           "id": "aiox-learner",
@@ -74,7 +97,11 @@
           "type": "learning",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["accelerated-learning", "pattern-recognition", "knowledge-distillation"]
+          "capabilities": [
+            "accelerated-learning",
+            "pattern-recognition",
+            "knowledge-distillation"
+          ]
         },
         {
           "id": "aiox-memory",
@@ -82,7 +109,11 @@
           "type": "memory",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["stm-ltm-management", "vector-embeddings", "context-retention"]
+          "capabilities": [
+            "stm-ltm-management",
+            "vector-embeddings",
+            "context-retention"
+          ]
         },
         {
           "id": "aiox-provider",
@@ -90,7 +121,11 @@
           "type": "router",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["model-routing", "provider-bridge", "cost-optimization"]
+          "capabilities": [
+            "model-routing",
+            "provider-bridge",
+            "cost-optimization"
+          ]
         },
         {
           "id": "aiox-builder",
@@ -98,7 +133,11 @@
           "type": "scaffolder",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["code-generation", "app-scaffolding", "template-rendering"]
+          "capabilities": [
+            "code-generation",
+            "app-scaffolding",
+            "template-rendering"
+          ]
         }
       ]
     },
@@ -106,7 +145,9 @@
       "id": "expansion-force",
       "name": "Expansion Force",
       "description": "Deployment and infrastructure expansion squad",
-      "leadBy": ["pedro-costa"],
+      "leadBy": [
+        "pedro-costa"
+      ],
       "agents": [
         {
           "id": "exp-deployer",
@@ -114,7 +155,12 @@
           "type": "deployment",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["vercel-deploy", "github-actions", "docker-compose", "railway-deploy"]
+          "capabilities": [
+            "vercel-deploy",
+            "github-actions",
+            "docker-compose",
+            "railway-deploy"
+          ]
         },
         {
           "id": "exp-backup",
@@ -122,7 +168,11 @@
           "type": "maintenance",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["daily-backup", "data-integrity", "disaster-recovery"]
+          "capabilities": [
+            "daily-backup",
+            "data-integrity",
+            "disaster-recovery"
+          ]
         },
         {
           "id": "exp-monitor",
@@ -130,7 +180,11 @@
           "type": "monitoring",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["health-check", "performance-metrics", "alerting"]
+          "capabilities": [
+            "health-check",
+            "performance-metrics",
+            "alerting"
+          ]
         }
       ]
     },
@@ -138,7 +192,9 @@
       "id": "evolution-lab",
       "name": "Evolution Lab",
       "description": "AI research and evolution squad",
-      "leadBy": ["trinnity-hurtado"],
+      "leadBy": [
+        "trinnity-hurtado"
+      ],
       "agents": [
         {
           "id": "evo-researcher",
@@ -146,7 +202,11 @@
           "type": "research",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["paper-analysis", "model-benchmarking", "architecture-research"]
+          "capabilities": [
+            "paper-analysis",
+            "model-benchmarking",
+            "architecture-research"
+          ]
         },
         {
           "id": "evo-tokenomics",
@@ -154,7 +214,11 @@
           "type": "tokenomics",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["token-economics", "supply-management", "value-modeling"]
+          "capabilities": [
+            "token-economics",
+            "supply-management",
+            "value-modeling"
+          ]
         },
         {
           "id": "evo-supermind",
@@ -162,7 +226,11 @@
           "type": "superintelligence",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["knowledge-synthesis", "cross-domain-reasoning", "wisdom-accumulation"]
+          "capabilities": [
+            "knowledge-synthesis",
+            "cross-domain-reasoning",
+            "wisdom-accumulation"
+          ]
         }
       ]
     },
@@ -170,7 +238,9 @@
       "id": "deployment-squad",
       "name": "Deployment Squad",
       "description": "Multi-platform deployment team",
-      "leadBy": ["pedro-costa"],
+      "leadBy": [
+        "pedro-costa"
+      ],
       "agents": [
         {
           "id": "dep-web",
@@ -178,7 +248,12 @@
           "type": "deployment",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["vercel", "netlify", "static-sites", "ssl-config"]
+          "capabilities": [
+            "vercel",
+            "netlify",
+            "static-sites",
+            "ssl-config"
+          ]
         },
         {
           "id": "dep-mobile",
@@ -186,7 +261,12 @@
           "type": "deployment",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["expo-build", "android-apk", "ios-ipa", "eas-build"]
+          "capabilities": [
+            "expo-build",
+            "android-apk",
+            "ios-ipa",
+            "eas-build"
+          ]
         },
         {
           "id": "dep-desktop",
@@ -194,7 +274,11 @@
           "type": "deployment",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["electron-builder", "pkg-standalone", "cross-platform"]
+          "capabilities": [
+            "electron-builder",
+            "pkg-standalone",
+            "cross-platform"
+          ]
         },
         {
           "id": "dep-docker",
@@ -202,7 +286,11 @@
           "type": "deployment",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["docker-compose", "dockerfile", "container-orchestration"]
+          "capabilities": [
+            "docker-compose",
+            "dockerfile",
+            "container-orchestration"
+          ]
         }
       ]
     },
@@ -210,7 +298,9 @@
       "id": "intelligence-squad",
       "name": "Intelligence Squad",
       "description": "AI intelligence amplification team",
-      "leadBy": ["trinnity-hurtado"],
+      "leadBy": [
+        "trinnity-hurtado"
+      ],
       "agents": [
         {
           "id": "int-voice",
@@ -218,7 +308,12 @@
           "type": "voice",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["tts", "stt", "voice-commands", "elevenlabs"]
+          "capabilities": [
+            "tts",
+            "stt",
+            "voice-commands",
+            "elevenlabs"
+          ]
         },
         {
           "id": "int-omniroute",
@@ -226,7 +321,11 @@
           "type": "gateway",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["multi-provider", "api-gateway", "load-balancing"]
+          "capabilities": [
+            "multi-provider",
+            "api-gateway",
+            "load-balancing"
+          ]
         },
         {
           "id": "int-n8n",
@@ -234,7 +333,11 @@
           "type": "automation",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["workflow-automation", "webhook-management", "integration-pipelines"]
+          "capabilities": [
+            "workflow-automation",
+            "webhook-management",
+            "integration-pipelines"
+          ]
         },
         {
           "id": "int-call",
@@ -242,7 +345,11 @@
           "type": "telephony",
           "status": "active",
           "model": "ollama-deepseek",
-          "capabilities": ["twilio-integration", "voice-calls", "sms-automation"]
+          "capabilities": [
+            "twilio-integration",
+            "voice-calls",
+            "sms-automation"
+          ]
         },
         {
           "id": "int-jarvis",
@@ -250,7 +357,11 @@
           "type": "bridge",
           "status": "active",
           "model": "ollama-qwen",
-          "capabilities": ["openjarvis", "personal-ai", "assistant-integration"]
+          "capabilities": [
+            "openjarvis",
+            "personal-ai",
+            "assistant-integration"
+          ]
         }
       ]
     }

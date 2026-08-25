@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8h232v_dfsa29",
+  "timestamp": "2026-08-25T09:37:58.472Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fb48cd9497904b680be4e4fb208355adca7a4cd6a5fae4f2500d416c925de861"
+}

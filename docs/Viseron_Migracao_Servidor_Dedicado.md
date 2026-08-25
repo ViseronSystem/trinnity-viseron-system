@@ -1,6 +1,6 @@
 # VISERON — Migración a Servidor Dedicado / Migração para Servidor Dedicado / Dedicated Server Migration
 
-**TVS v5.0 · Trinnity Viseron System** — Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
+**TVS v7.0 · Trinnity Viseron System** — Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
 
 > Documento trilingue · Trilingual document · Documento trilingüe (ES · PT · EN)
 

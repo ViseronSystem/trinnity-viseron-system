@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1oewgd_do12oy",
+  "timestamp": "2026-08-20T15:29:30.174Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "12256adf91fa55898f8719eb63f329dd74300b1afbdc0bfef595d299f351a5d5"
+}

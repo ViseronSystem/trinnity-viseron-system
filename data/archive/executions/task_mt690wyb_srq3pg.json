@@ -1,0 +1,21 @@
+{
+  "id": "task_mt690wyb_srq3pg",
+  "timestamp": "2026-08-23T20:17:34.355Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2128611e7612d12b8c300a4804d7ebf229edd0234302f1921bcd47c238105b08"
+}

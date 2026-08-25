@@ -409,13 +409,13 @@ export class VaecOrchestrator {
         outcome: "FAILED",
       };
       // Rollback to last known good state first
-      await this.rollback(record.id);
+      await (this as any).rollback(record.id);
       // Retry from IMPLEMENT
       record.outcome = "ROLLED_BACK";
       await this.appendRecord(record);
       await this.emit("vaec:rollback", { id: record.id, stage: "FAILED", error: "auto-recovery rollback", ok: true });
       // Reset stage to IDLE so next run can proceed
-      this.stage = "IDLE";
+      (this as any).stage = "IDLE";
       await this.persistStage("IDLE");
       this.recoveryAttempts = 0; // reset on success
       return { recovered: true, reason: `rolled back to last known good state — stage reset to IDLE` };

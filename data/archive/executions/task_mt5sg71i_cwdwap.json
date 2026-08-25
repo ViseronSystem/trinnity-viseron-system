@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5sg71i_cwdwap",
+  "timestamp": "2026-08-23T12:33:33.804Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ac7ea321630398bd85f16de511f1173da46b26a862c894e692c3d5daa06f63b0"
+}

@@ -13,7 +13,7 @@ const io = socketIo(server, { path: '/api/socket.io', cors: { origin: '*', metho
 // ===== CORE =====
 class ViseronMobileCore {
   constructor() {
-    this.name = 'TVS Mobile v5.0';
+    this.name = 'TVS Mobile v7.0';
     this.startTime = Date.now();
     this.agents = this.createDefaultAgents();
     this.squads = this.createDefaultSquads();
@@ -124,7 +124,7 @@ app.use(express.static(publicPath));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: Date.now(), core: 'TVS Mobile v5.0' });
+  res.json({ status: 'OK', timestamp: Date.now(), core: 'TVS Mobile v7.0' });
 });
 
 app.get('/api/stats', (req, res) => res.json(tvs.getStats()));

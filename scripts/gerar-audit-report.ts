@@ -30,7 +30,7 @@ function countFiles(dir: string): number {
 async function main() {
   const status = fs.existsSync(STATUS_PATH) ? JSON.parse(fs.readFileSync(STATUS_PATH, "utf8")) : null;
   const version = (() => {
-    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "5.0.0"; }
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "7.0.0"; }
   })();
 
   const t = status?.tests || {};

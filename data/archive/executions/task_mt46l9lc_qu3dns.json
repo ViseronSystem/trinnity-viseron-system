@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46l9lc_qu3dns",
+  "timestamp": "2026-08-22T09:33:52.625Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a995627d53b18e75424063a85f78ecaa3dd35f76923d0e51c9a6627e670b5488"
+}

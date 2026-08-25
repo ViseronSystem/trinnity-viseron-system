@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1935ub_ru17io",
+  "timestamp": "2026-08-20T08:20:28.237Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "02206ec4d414236b2ca6c49c54cd5f5313ce7d9df1f0d97773ad6031a0f9ca1f"
+}

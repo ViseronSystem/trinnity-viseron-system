@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5qb17s_aldjtm",
+  "timestamp": "2026-08-23T11:33:33.737Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8071b4a41ba11146cb2487ec821af84768fd52ed5329bd72e4ab577588ef1ee4"
+}

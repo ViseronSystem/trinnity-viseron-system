@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1m0pae_runmzp",
+  "timestamp": "2026-08-20T14:22:28.462Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e8dd1e99a893fde9b5b3e0480d58a33357bac2cc29a15720d588a83ac7872ecc"
+}

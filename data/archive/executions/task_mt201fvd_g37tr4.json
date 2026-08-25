@@ -1,0 +1,21 @@
+{
+  "id": "task_mt201fvd_g37tr4",
+  "timestamp": "2026-08-20T20:54:57.550Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0ae9a238d0e679b882f252c2deeb04a468f3bf1f0ec43431b21ebf341b44c543"
+}

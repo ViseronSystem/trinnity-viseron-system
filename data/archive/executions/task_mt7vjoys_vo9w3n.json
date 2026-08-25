@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7vjoys_vo9w3n",
+  "timestamp": "2026-08-24T23:35:48.221Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ff0812c7686624724cc081966cff37903b52d66579cc58d85c9735c7255bdf99"
+}

@@ -1,6 +1,6 @@
 {
   "name": "tvs-viseron",
-  "version": "5.0.0",
+  "version": "7.0.0",
   "description": "Trinnity Viseron System - Multi Agent AI Operating System",
   "main": "main.js",
   "scripts": {
@@ -116,7 +116,7 @@
   },
   "devDependencies": {
     "electron": "^33.4.11",
-    "electron-builder": "^25.0.0",
+    "electron-builder": "^27.0.0",
     "png-to-ico": "^3.0.2"
   },
   "allowScripts": {}

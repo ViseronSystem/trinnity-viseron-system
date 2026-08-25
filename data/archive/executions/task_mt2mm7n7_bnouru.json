@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2mm7n7_bnouru",
+  "timestamp": "2026-08-21T07:26:58.254Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a133a1b11b7a515e26bf525943ff23ec41b0129a1556ca1a2397401647cd2318"
+}

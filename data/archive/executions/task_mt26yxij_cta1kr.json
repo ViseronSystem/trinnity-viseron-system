@@ -1,0 +1,21 @@
+{
+  "id": "task_mt26yxij_cta1kr",
+  "timestamp": "2026-08-21T00:08:57.758Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b55d0a5ef401573c5cb7c7456a279c77853897b0633e57973a3d4e93908d66e6"
+}

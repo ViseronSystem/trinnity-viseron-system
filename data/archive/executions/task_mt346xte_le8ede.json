@@ -1,0 +1,21 @@
+{
+  "id": "task_mt346xte_le8ede",
+  "timestamp": "2026-08-21T15:38:58.746Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f1e132da40d94ba7b7e83c55a7f6e16d196042c7ed694b77e97100d42215ea6e"
+}

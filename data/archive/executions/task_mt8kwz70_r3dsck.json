@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8kwz70_r3dsck",
+  "timestamp": "2026-08-25T11:25:58.572Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f5b8cf98e7c93461ea4ffe146ea35ec25847d068737c94b88f5440d2f4043a2e"
+}

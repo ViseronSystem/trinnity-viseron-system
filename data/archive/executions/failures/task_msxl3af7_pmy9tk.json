@@ -1,0 +1,21 @@
+{
+  "id": "task_msxl3af7_pmy9tk",
+  "timestamp": "2026-08-17T18:45:24.767Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "1009e3bf13e3dde09396033c206beff4934eb40a44dc11eaa601e48a1f9486c0"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt62lvet_rk2zi8",
+  "timestamp": "2026-08-23T17:17:54.817Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f2a08026a438c92728580fdfbb0b882e8589d519d5b696ed970e0871b95af222"
+}

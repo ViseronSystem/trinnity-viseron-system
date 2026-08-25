@@ -1,0 +1,21 @@
+{
+  "id": "task_mt34wnrj_hryt75",
+  "timestamp": "2026-08-21T15:58:58.767Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b375f9125a89b0ac020008510d9e992250a75b1c02803ae7a9c793c14f00f4f5"
+}

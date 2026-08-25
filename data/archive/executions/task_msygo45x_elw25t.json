@@ -1,0 +1,21 @@
+{
+  "id": "task_msygo45x_elw25t",
+  "timestamp": "2026-08-18T09:29:24.549Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ff9931b50d3a17a584151d73214fdf0e4b9e3847b23434f2464273851c77d461"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2yrgmm_hyrbsk",
+  "timestamp": "2026-08-21T13:06:58.574Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "13202c0662945c362d7e13ed9c9c0ffd961c7507942df7398389f02c62149273"
+}

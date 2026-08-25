@@ -7,7 +7,7 @@ $Mobile = Join-Path $Root "mobile"
 $Dist = Join-Path $Root "dist"
 
 Write-Host "╔══════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║  TVS v5.0 - Cross-Platform Build System     ║" -ForegroundColor Cyan
+Write-Host "║  TVS v7.0 - Cross-Platform Build System     ║" -ForegroundColor Cyan
 Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor Cyan
 
 function Build-Core {

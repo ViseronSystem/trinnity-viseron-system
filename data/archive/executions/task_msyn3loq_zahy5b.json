@@ -1,0 +1,21 @@
+{
+  "id": "task_msyn3loq_zahy5b",
+  "timestamp": "2026-08-18T12:29:24.793Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ee155fb70f0d197fecd2a9ea6d0c278c98c16e533af72cc46260fd4bff07da27"
+}

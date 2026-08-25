@@ -8,13 +8,13 @@ const OUTPUT = path.join(__dirname, "..", "data", "Viseron_Investor_Pitch_v5.pdf
 // THEME ENGINE — tema futurista (cover + tipografia viva + flow seguro)
 // ═══════════════════════════════════════════════════════════════════
 const th = createTheme({
-  title: "Trinnity Viseron System v5.0 — Investor Pitch",
+  title: "Trinnity Viseron System v7.0 — Investor Pitch",
   subject: "Multi-Agent AI Superintelligence — Autonomy, Evolution & Investment",
 });
 
 // ─── COVER futurista ───
 th.cover({
-  title: "TRINNITY VISERON SYSTEM\nINVESTOR PITCH v5.0",
+  title: "TRINNITY VISERON SYSTEM\nINVESTOR PITCH v7.0",
   subtitle:
     "Uma organização de IA que trabalha sozinha — 5,000+ agentes autônomos · evolução contínua · zero supervisão manual",
   badges: [
@@ -59,7 +59,7 @@ th.bullets(toc.map((t) => ({ icon: "▸", text: t })));
 // ═══════════════════════════════════════════════════════════════════
 th.section("1", "RESUMO EXECUTIVO");
 th.para(
-  "O Trinnity Viseron System (TVS) v5.0 é um sistema operacional de superinteligência artificial multi-agente " +
+  "O Trinnity Viseron System (TVS) v7.0 é um sistema operacional de superinteligência artificial multi-agente " +
     "que opera sozinho. Não é um chatbot e não é um modelo único: é uma civilização digital auto-organizada, " +
     "com 5,000+ agentes autônomos que planejam, executam, aprendem e evoluem sem supervisão humana."
 );
@@ -391,7 +391,7 @@ th.sub("Por que agora");
 th.bullets([
   "Ondas de agentes de IA — janela de 12-24 meses",
   "Sistema já funcional, não é slide: roda hoje em produção local",
-  "5,000+ agentes e evolução contínua comprovados no audit v5.0",
+  "5,000+ agentes e evolução contínua comprovados no audit v7.0",
   "Stack completa: WebOS, voz, n8n, tokens, mobile, exe standalone",
 ].map((it) => ({ icon: "▸", text: it })));
 
@@ -400,7 +400,7 @@ th.bullets([
 // ═══════════════════════════════════════════════════════════════════
 th.section("12", "ROADMAP");
 
-th.sub("v5.0 (atual) — Autonomia provada");
+th.sub("v7.0 (atual) — Autonomia provada");
 th.bullets([
   "5,000+ agentes autônomos + 4 ciclos de evolução ativos",
   "AutoPilot executa tarefas sozinho; autonomia até 100%",
@@ -430,7 +430,7 @@ th.bullets([
 th.section("13", "PEDIDO DE INVESTIMENTO");
 
 th.para(
-  "O TVS v5.0 já funciona de ponta a ponta: o sistema roda sozinho, evolui sozinho e se recupera sozinho. " +
+  "O TVS v7.0 já funciona de ponta a ponta: o sistema roda sozinho, evolui sozinho e se recupera sozinho. " +
     "Estamos buscando investidores para escalar: cloud multi-nó, rede p2p, marketplace e crescimento comercial."
 );
 
@@ -456,7 +456,7 @@ th.bullets([
 // ═══════════════════════════════════════════════════════════════════
 th.section("14", "CONTATO");
 th.title("VAMOS CONSTRUIR O FUTURO", 22);
-th.sub("Trinnity Viseron System v5.0");
+th.sub("Trinnity Viseron System v7.0");
 th.para("Multi-Agent AI Superintelligence", 11, "#64748b");
 th.rule();
 th.bullet("▸", "👑 Pedro Costa — Supreme Commander");

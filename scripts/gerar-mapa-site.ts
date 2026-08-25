@@ -76,7 +76,7 @@ function readAllScripts(): Array<[string, string]> {
 
 function main() {
   const outFile = path.resolve("data", "Viseron_Mapa_Site.pdf");
-  const version = exec("node -p \"require('./package.json').version\"") || "5.0.0";
+  const version = exec("node -p \"require('./package.json').version\"") || "7.0.0";
   const allScripts = readAllScripts();
   const commands = allScripts.filter(([k]) => !k.startsWith("deploy:") && !k.startsWith("build:ios"));
   const deploy = allScripts.filter(([k]) => k.startsWith("deploy:") || k === "deploy");

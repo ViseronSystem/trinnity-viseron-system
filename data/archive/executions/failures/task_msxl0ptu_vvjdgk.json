@@ -1,0 +1,21 @@
+{
+  "id": "task_msxl0ptu_vvjdgk",
+  "timestamp": "2026-08-17T18:43:24.766Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "798bda03aa9dd7c1840e8e46d18c41ed19911ce1c1ede92885af61003dd9c7f0"
+}

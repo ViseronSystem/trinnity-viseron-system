@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6ee9h1_tcual1",
+  "timestamp": "2026-08-23T22:47:55.237Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7ef7da96b35185aee3f69c0942fcc56a4479fe4a2935f85a31be3b01b7296b67"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2rjoms_0usc8e",
+  "timestamp": "2026-08-21T09:44:58.353Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2f860d2a56390561b252dcc279d9997eb54ea389ff563deb1a018cdf4ab7c67f"
+}

@@ -64,7 +64,7 @@ function main(): void {
 
   const exe = fs.existsSync(".build/tvs-standalone/tvs-viseron-win.exe") ? Math.round(fs.statSync(".build/tvs-standalone/tvs-viseron-win.exe").size / 1e6) : 0;
   const apk = fs.existsSync("src/dashboard/public/downloads/TrinnityViseron.apk") ? Math.round(fs.statSync("src/dashboard/public/downloads/TrinnityViseron.apk").size / 1e6) : 0;
-  const setup = fs.existsSync("src/dashboard/public/downloads/TrinnityViseron-APK-Setup-5.0.0.exe") ? Math.round(fs.statSync("src/dashboard/public/downloads/TrinnityViseron-APK-Setup-5.0.0.exe").size / 1e6) : 0;
+  const setup = fs.existsSync("src/dashboard/public/downloads/TrinnityViseron-APK-Setup-7.0.0.exe") ? Math.round(fs.statSync("src/dashboard/public/downloads/TrinnityViseron-APK-Setup-7.0.0.exe").size / 1e6) : 0;
 
   // =====================================================================
   // PDF 1 - PLANO ESTRATEGICO
@@ -78,7 +78,7 @@ function main(): void {
   t1.cover({
     title: "PLANO ESTRATÉGICO",
     subtitle: `Sprint de transformação em produto — ${dateStr} · Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)`,
-    badges: ["Sprint D1–D6", "Go-live", "TVS v5.0"],
+    badges: ["Sprint D1–D6", "Go-live", "TVS v7.0"],
     date: dateStr,
     version: "5.0",
     url: "www.trinnityviseronsystem.io",
@@ -138,12 +138,12 @@ function main(): void {
   const p2Out = path.join(dataDir, `Viseron_Roadmap_Tecnico_${dateStr}.pdf`);
   const t2 = createTheme({
     title: "Roadmap Técnico — O que falta + como voltar a cada etapa",
-    subject: `Comandos exactos e ficheiros para retomar qualquer fase — ${dateStr} · Trinnity Viseron System v5.0`,
+    subject: `Comandos exactos e ficheiros para retomar qualquer fase — ${dateStr} · Trinnity Viseron System v7.0`,
   });
 
   t2.cover({
     title: "ROADMAP TÉCNICO",
-    subtitle: `O que falta + como voltar a cada etapa — ${dateStr} · Trinnity Viseron System v5.0`,
+    subtitle: `O que falta + como voltar a cada etapa — ${dateStr} · Trinnity Viseron System v7.0`,
     badges: ["O que falta", "Comandos exactos", "Fases D2–D6"],
     date: dateStr,
     version: "5.0",

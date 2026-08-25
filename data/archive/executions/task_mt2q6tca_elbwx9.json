@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2q6tca_elbwx9",
+  "timestamp": "2026-08-21T09:06:58.345Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "219f80eaac57e1747b85e9b82a7c4424a58aa40e7e5713e6f79ccf522e949ec6"
+}

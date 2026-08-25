@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5oylvl_klvcqp",
+  "timestamp": "2026-08-23T10:55:54.426Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "006fdbc2e524976b717a2234cfa11b4ae3c1cf2ffb7d64d6af667516c9737571"
+}

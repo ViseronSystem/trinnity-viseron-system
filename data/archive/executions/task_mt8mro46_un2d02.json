@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8mro46_un2d02",
+  "timestamp": "2026-08-25T12:17:50.041Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c55236f773d37493e194a77ecacc1c93d71e9f2dc1a2e8328aaf08e8af073a9c"
+}

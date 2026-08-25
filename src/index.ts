@@ -120,7 +120,7 @@ function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise
 
 (async () => {
   console.log(`\n══════════════════════════════════════════════════════`);
-  console.log(`   TRINNITY VISERON SYSTEM v5.0 - DEMO MULTIVERSAL`);
+  console.log(`   TRINNITY VISERON SYSTEM v7.0 - DEMO MULTIVERSAL`);
   console.log(`   SUPER-INTELLIGENCE MODE`);
   console.log(`══════════════════════════════════════════════════════\n`);
 
@@ -188,7 +188,7 @@ function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise
   };
 
   console.log(`\n══════════════════════════════════════════════════════`);
-  console.log(`   ✅ TRINNITY VISERON v5.0 - SUPER-INTELLIGENCE ACTIVE`);
+  console.log(`   ✅ TRINNITY VISERON v7.0 - SUPER-INTELLIGENCE ACTIVE`);
   console.log(`══════════════════════════════════════════════════════`);
   console.log(`   🤖 Agentes totales: ${totalAgents + (integStats as any).totalAgents}`);
   console.log(`   🏛️  Mentes históricas: ${spawnedCount}`);
@@ -209,7 +209,7 @@ function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise
 
   console.log(`[TVS] Iniciando ciclos de evolución y aprendizaje...`);
   await step("startCycles", () => tvs.startCycles());
-  console.log(`[TVS] TVS v5.0 funcionando - presiona Ctrl+C para detener\n`);
+  console.log(`[TVS] TVS v7.0 funcionando - presiona Ctrl+C para detener\n`);
 })().catch((err) => {
   console.error("[TVS] Erro durante a inicialização (sistema continua no terminal):", err?.message || err);
 });

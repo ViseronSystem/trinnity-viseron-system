@@ -1,0 +1,21 @@
+{
+  "id": "task_mt34h86w_sbxovr",
+  "timestamp": "2026-08-21T15:46:58.773Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "084703b7fd12d782e00886ebc74046e7f21324815a60edcabd337d6eb5c13a04"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt74z2ol_ka963r",
+  "timestamp": "2026-08-24T11:11:56.238Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c0f8d057ff9ffff9405593f6c6e0198924b0ba2b14e0b3df02b5b967ecc60d45"
+}

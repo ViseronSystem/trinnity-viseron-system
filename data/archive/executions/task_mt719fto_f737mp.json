@@ -1,0 +1,21 @@
+{
+  "id": "task_mt719fto_f737mp",
+  "timestamp": "2026-08-24T09:28:01.316Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7e1618d40886c03130d9dd56919c03b20b9c4ac9eec1e3bd33a768f9d0941b10"
+}

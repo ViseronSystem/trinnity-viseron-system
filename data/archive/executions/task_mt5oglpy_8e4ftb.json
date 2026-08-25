@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5oglpy_8e4ftb",
+  "timestamp": "2026-08-23T10:41:54.397Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "94f05613c2a0fad339cf6795b1957b00ca0a4c6c1e40661bb4de83a5ea421b24"
+}

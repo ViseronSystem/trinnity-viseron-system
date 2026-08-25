@@ -1,0 +1,21 @@
+{
+  "id": "task_msxjg2np_6altno",
+  "timestamp": "2026-08-17T17:59:22.000Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "d288631282538e54a5de236e6f472bee68e7ec492a6370551eba328f6afe7ef7"
+}

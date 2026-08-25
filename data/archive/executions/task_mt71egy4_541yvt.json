@@ -1,0 +1,21 @@
+{
+  "id": "task_mt71egy4_541yvt",
+  "timestamp": "2026-08-24T09:31:56.223Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ac344233826a7485d34b3bf44fad616c99a7808b5cec433d72e93fb55b5eb1eb"
+}

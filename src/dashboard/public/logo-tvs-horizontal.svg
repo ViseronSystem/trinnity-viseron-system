@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
+  <defs>
+    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#bf5af2"/>
+    </linearGradient>
+    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="60%" stop-color="#7a4be0"/>
+      <stop offset="100%" stop-color="#bf5af2"/>
+    </linearGradient>
+  </defs>
+  <polygon points="62,30 78,118 160,118 92,172 120,260" fill="none" transform="translate(0,-10)"/>
+  <g transform="translate(100,100)">
+    <polygon points="0,-70 20,38 120,38 34,104 68,208 0,138 -68,208 -34,104 -120,38 -20,38" fill="url(#lg)" stroke="#eaf6ff" stroke-width="2.5"/>
+    <circle cx="0" cy="80" r="32" fill="#02020a" stroke="url(#lg)" stroke-width="4"/>
+    <circle cx="0" cy="80" r="11" fill="#00f0ff"/>
+    <circle cx="120" cy="-48" r="13" fill="#ff9f0a"/>
+    <circle cx="120" cy="-48" r="22" fill="none" stroke="#ff9f0a" stroke-width="1.5" opacity="0.6"/>
+  </g>
+  <text x="235" y="88" font-family="Orbitron, Arial, sans-serif" font-size="52" font-weight="900" letter-spacing="3" fill="url(#lg2)">TRINNITY</text>
+  <text x="235" y="140" font-family="Orbitron, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="8" fill="#00f0ff">VISERON</text>
+  <text x="237" y="172" font-family="Arial, sans-serif" font-size="17" letter-spacing="5" fill="#8a90ab">MULTI-AGENT AI SUPERINTELLIGENCE</text>
+</svg>

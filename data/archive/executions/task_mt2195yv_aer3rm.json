@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2195yv_aer3rm",
+  "timestamp": "2026-08-20T21:28:57.586Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8dfaf9237f6847eb0f488a2fd1dd2dfe47cd10043f78d8e7bde8c2bd4ecc19dc"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1kiotu_vfsxqw",
+  "timestamp": "2026-08-20T13:40:28.494Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7e6119e9e81a0d7e9dc1d2f1c47d5d16d838c4bb204e4ed6003d2acda0c27e02"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt771rwj_15vuqb",
+  "timestamp": "2026-08-24T12:10:01.456Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f72f502aa74273d54c4f50642920eeccea144af943d0d192d2297182801d6a07"
+}

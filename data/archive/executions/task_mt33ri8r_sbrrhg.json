@@ -1,0 +1,21 @@
+{
+  "id": "task_mt33ri8r_sbrrhg",
+  "timestamp": "2026-08-21T15:26:58.745Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2273fbcb848f96ed2878f6cbf78ea5a5c2f66938a887227fc330198425b4df2d"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt354djn_yj1tur",
+  "timestamp": "2026-08-21T16:04:58.784Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fe0be9bae3fc7fcefa194a15b6a34a638436cdf905f9250322a2a994d470f6e6"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7bz4zg_1irmol",
+  "timestamp": "2026-08-24T14:27:56.522Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "072f2df39821971f1af274f194b8955757acd891b580eeb936d8c674a4b5dc31"
+}

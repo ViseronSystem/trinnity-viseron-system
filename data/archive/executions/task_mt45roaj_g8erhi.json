@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45roaj_g8erhi",
+  "timestamp": "2026-08-22T09:10:52.038Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a726d68fd907efe995664949b2825f15309dccfc2b0a816e5f8100ab2b3e16f3"
+}

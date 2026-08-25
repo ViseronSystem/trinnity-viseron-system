@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8g718c_atm5tr",
+  "timestamp": "2026-08-25T09:13:49.611Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a2f56ead3664d8d132749063a2b5598f50f410fa673900e35322bb33bba2aca1"
+}

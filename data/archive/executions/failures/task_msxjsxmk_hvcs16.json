@@ -1,0 +1,21 @@
+{
+  "id": "task_msxjsxmk_hvcs16",
+  "timestamp": "2026-08-17T18:09:22.005Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "a2c199f7d3ae0b90f9a8635876a6d5c47052a7e26aa862d9032eb93f90dc17c7"
+}

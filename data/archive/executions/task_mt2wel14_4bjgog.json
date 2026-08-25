@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2wel14_4bjgog",
+  "timestamp": "2026-08-21T12:00:58.556Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "df7eddc6cafb18b394a59b26813d96a0d8139790112bc0ba660bb3ad91a80c5e"
+}

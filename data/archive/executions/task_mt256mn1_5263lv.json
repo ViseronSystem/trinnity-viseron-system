@@ -1,0 +1,21 @@
+{
+  "id": "task_mt256mn1_5263lv",
+  "timestamp": "2026-08-20T23:18:57.678Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3d859f05008e98eb1c3a8621102cdfaf75350075e40d7c654575cc2481cf5775"
+}

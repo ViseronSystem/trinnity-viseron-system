@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0852jf_gaw0nt",
+  "timestamp": "2026-08-19T15:06:11.430Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "06f697dc0f9c5b7b4f15c112d183e71d007504d88675848141f7e536de133058"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt60leti_foxgwk",
+  "timestamp": "2026-08-23T16:21:34.130Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2af8c5e4455b6a9912d95d890ef72ab25f6f1c3c77bbe858851a53cdeb37a0ba"
+}

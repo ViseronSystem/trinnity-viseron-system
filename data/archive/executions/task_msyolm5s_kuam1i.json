@@ -1,0 +1,21 @@
+{
+  "id": "task_msyolm5s_kuam1i",
+  "timestamp": "2026-08-18T13:11:24.830Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ed7d573ec75425ee4b93bd95e89864b201b88cc34fb7042549927a0c427a5e61"
+}

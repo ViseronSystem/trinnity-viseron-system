@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1s77y6_cayp0g",
+  "timestamp": "2026-08-20T17:15:30.339Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8dfad159c73704999711bba4521279b310ff233c31b4d697d4f8f06a9d22c523"
+}

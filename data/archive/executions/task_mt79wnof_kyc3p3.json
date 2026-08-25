@@ -1,0 +1,21 @@
+{
+  "id": "task_mt79wnof_kyc3p3",
+  "timestamp": "2026-08-24T13:30:01.536Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "22695c332b70d20f5f327e5ae1b53e5d629ebe98d1c50b25dc7bb58bda9775c7"
+}

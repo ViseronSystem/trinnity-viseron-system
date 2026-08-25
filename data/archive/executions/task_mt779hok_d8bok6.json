@@ -1,0 +1,21 @@
+{
+  "id": "task_mt779hok_d8bok6",
+  "timestamp": "2026-08-24T12:16:01.473Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ce1472915e5c7c19fff8a34e2c24c405fa01357d5a82071dca3792cd7678611b"
+}

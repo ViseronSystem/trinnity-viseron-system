@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8lp9ql_uct1sb",
+  "timestamp": "2026-08-25T11:47:58.485Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "17c41c71c9d9d3d7367f52342bfd07e32cf6408a339541915e05c818294d6baa"
+}

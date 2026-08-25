@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4d20wq_ermx4o",
+  "timestamp": "2026-08-22T12:34:52.198Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "224547c8fb403fb9a8f6b4992c3697555a7eec612185fabdd5919ad706d9d876"
+}

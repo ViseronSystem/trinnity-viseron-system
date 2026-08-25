@@ -3,7 +3,7 @@
 // Uses ONLY REAL agents with execution evidence
 // 2026-08-11
 
-import { OmegaPlatform } from "../omega";
+import { OmegaPlatform } from "../index";
 import { IntelligentRouter } from "./ParallelIntelligence";
 
 // ── SQUAD DEFINITION ───────────────────────────────────

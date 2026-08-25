@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1ntlh4_fn1hu2",
+  "timestamp": "2026-08-20T15:12:56.165Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "db97fdc83f193df62224a26596105c17d0cb2c887cee8e27edb9679c60a692d7"
+}

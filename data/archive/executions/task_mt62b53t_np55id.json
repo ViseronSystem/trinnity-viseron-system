@@ -1,0 +1,21 @@
+{
+  "id": "task_mt62b53t_np55id",
+  "timestamp": "2026-08-23T17:09:34.163Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "08e05cf0d28310796581a2a311f84469c7a9865766c7ad622636d9ceb74f60fb"
+}

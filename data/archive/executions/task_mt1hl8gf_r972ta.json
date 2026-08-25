@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1hl8gf_r972ta",
+  "timestamp": "2026-08-20T12:18:28.344Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b6e54483e8fe7b99ab54e2fbf85983a095ca358f7d0ff9bcdbd876a8623b4cee"
+}

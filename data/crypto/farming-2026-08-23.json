@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-08-23T22:20:46.846Z",
+  "wallets": [
+    {
+      "address": "6DgJewwXB3ELWSwDZ54bAbTnQo7KDtpmUD33XDYVbwUv"
+    },
+    {
+      "address": "9j6qA3eBABqGSzpMQK2bawKtM4WH9vbC3kg3DHHVyKqy"
+    },
+    {
+      "address": "AgVHC6U2pFHixMY8AyjwaXDi8AqTiccdWRPMRPzyD9JC"
+    },
+    {
+      "address": "BzeJvbc9jK7NxepJq429D885XCJYjvotcEdiw4FTp2f3"
+    },
+    {
+      "address": "5fFjgzTtMXRyHyKwUvyCegqd4fgTsqyps7nXf4Z8W7TQ"
+    },
+    {
+      "address": "FDKGWo3g5PbUWeBzxapJbwDSthCQC3H9MMbyyqCmDNho"
+    },
+    {
+      "address": "5jPQu4y3z4GvEPMdibwQ61W5PwosGHug3Fj3n6qeFPZg"
+    },
+    {
+      "address": "4zqR1eKCxyVPuQA6adsRDQsLEk3ifLXvXdgJCH79LenG"
+    },
+    {
+      "address": "3W5vg8wj4kgaoxRbVxkQCgYWQNTs4ev6uXyQ4ANHc6mF"
+    },
+    {
+      "address": "PRkw9jiPzyQiNZVNaWGdrjyDzzJsWQgE95H7ALY1qWK"
+    }
+  ],
+  "tasks": [
+    {
+      "protocolo": "Jupiter",
+      "accion": "swap minimo SOL->USDC y vuelta",
+      "costoSol": 0.00002,
+      "prioridad": "alta"
+    },
+    {
+      "protocolo": "Kamino",
+      "accion": "deposito simbolico en vault LST",
+      "costoSol": 0.00005,
+      "prioridad": "media"
+    },
+    {
+      "protocolo": "Jito",
+      "accion": "stake minimo con JitoSOL",
+      "costoSol": 0.00005,
+      "prioridad": "media"
+    },
+    {
+      "protocolo": "Tensor/MagicEden",
+      "accion": "mint gratuito de coleccion nueva",
+      "costoSol": 0,
+      "prioridad": "baja"
+    }
+  ],
+  "funded": 10
+}

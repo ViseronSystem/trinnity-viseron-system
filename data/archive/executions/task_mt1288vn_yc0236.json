@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1288vn_yc0236",
+  "timestamp": "2026-08-20T05:08:28.107Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "721e765a985bd0792a6ebebdb23c7ec52654f5f0bfc9bbca8c47ca4b8ccb5a0d"
+}

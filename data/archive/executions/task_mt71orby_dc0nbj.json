@@ -1,0 +1,21 @@
+{
+  "id": "task_mt71orby_dc0nbj",
+  "timestamp": "2026-08-24T09:39:56.118Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "fbf6e76c09693590e04461c9d3a896b1d70c9c606fb2291711bb9edc417aeaf9"
+}

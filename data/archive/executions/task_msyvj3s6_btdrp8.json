@@ -1,0 +1,21 @@
+{
+  "id": "task_msyvj3s6_btdrp8",
+  "timestamp": "2026-08-18T16:25:25.018Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0b3b06c05a601f7d148e42754f0debeb16a02dcbea0ecd1251cdf7760f317a08"
+}

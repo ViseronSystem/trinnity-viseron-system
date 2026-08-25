@@ -49,7 +49,7 @@ function Home({ onOpen }: { onOpen: (p: Plano) => void }) {
           </View>
         }
       />
-      <View style={styles.footerBar}><Text style={styles.footer}>Trinnity Viseron System · v5.0 · www.trinnityviseronsystem.io</Text></View>
+      <View style={styles.footerBar}><Text style={styles.footer}>Trinnity Viseron System · v7.0 · www.trinnityviseronsystem.io</Text></View>
     </SafeAreaView>
   );
 }

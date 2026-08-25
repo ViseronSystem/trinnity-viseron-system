@@ -1,0 +1,21 @@
+{
+  "id": "task_mt05urkd_zujdmo",
+  "timestamp": "2026-08-19T14:02:11.418Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6700a85a481948ebd710b40d07700557f57558bc97424cd35c3da142b469722e"
+}

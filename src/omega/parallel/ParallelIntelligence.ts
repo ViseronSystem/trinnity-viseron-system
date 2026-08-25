@@ -3,7 +3,7 @@
 // Uses EXISTING agents, skills, tools — no new agents created
 // 2026-08-11
 
-import { OmegaPlatform } from "../omega";
+import { OmegaPlatform } from "../index";
 
 // ── INTELLIGENT ROUTER ─────────────────────────────────
 

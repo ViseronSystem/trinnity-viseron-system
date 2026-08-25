@@ -1,0 +1,21 @@
+{
+  "id": "task_mt180kxz_1v2z9s",
+  "timestamp": "2026-08-20T07:50:28.265Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "777699d6182fee3dea124133a934636c2898471b294d4bbe934bdcca65315b70"
+}

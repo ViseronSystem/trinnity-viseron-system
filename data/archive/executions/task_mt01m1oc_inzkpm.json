@@ -1,0 +1,21 @@
+{
+  "id": "task_mt01m1oc_inzkpm",
+  "timestamp": "2026-08-19T12:03:26.162Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "69f768d9e7b404bc45429e07cc7f915205a54a1b3cbe06e12dc456b891fa5850"
+}

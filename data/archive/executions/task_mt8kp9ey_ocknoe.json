@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8kp9ey_ocknoe",
+  "timestamp": "2026-08-25T11:19:58.452Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b498705abf1d606509eab1d4bf09ea495b91935172d54bbd2c3c93ea5e666b3f"
+}

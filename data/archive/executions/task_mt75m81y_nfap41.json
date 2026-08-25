@@ -1,0 +1,21 @@
+{
+  "id": "task_mt75m81y_nfap41",
+  "timestamp": "2026-08-24T11:29:56.254Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "598375a90501e5c670605760a420a24ebd91c485c4df559c1fe222b454791af5"
+}

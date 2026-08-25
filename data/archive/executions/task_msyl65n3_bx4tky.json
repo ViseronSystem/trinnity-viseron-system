@@ -1,0 +1,21 @@
+{
+  "id": "task_msyl65n3_bx4tky",
+  "timestamp": "2026-08-18T11:35:24.735Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "541436c1f6d42c5d0f5b283c2d272c20b0f38776d5288281f74c24431bb04dc5"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt726vj6_kpjmbi",
+  "timestamp": "2026-08-24T09:54:01.321Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "755613d9108f98d4cb577da4cd8bf6952c06c4bc6a5ffe488c6c8c58349c3127"
+}

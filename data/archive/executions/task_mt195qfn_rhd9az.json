@@ -1,0 +1,21 @@
+{
+  "id": "task_mt195qfn_rhd9az",
+  "timestamp": "2026-08-20T08:22:28.245Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f1b75a088fbf65e8f7f17c5c7eb1f1b1a1d20aee9a41cd91beb1860dd021e305"
+}

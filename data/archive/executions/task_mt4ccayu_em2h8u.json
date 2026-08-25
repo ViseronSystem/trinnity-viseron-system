@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4ccayu_em2h8u",
+  "timestamp": "2026-08-22T12:14:52.181Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a4a546748532c9a2d224df63658ce38cb00e5bf96bb2d11d06aa6d149f39d27a"
+}

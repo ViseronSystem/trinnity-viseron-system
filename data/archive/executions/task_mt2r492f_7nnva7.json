@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2r492f_7nnva7",
+  "timestamp": "2026-08-21T09:32:58.373Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f3e7cf6195c64df0e7cf74f73e82a88b8434ad60df4a13d3570e896ebd4edfe5"
+}

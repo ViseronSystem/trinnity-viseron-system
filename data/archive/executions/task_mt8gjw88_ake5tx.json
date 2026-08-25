@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8gjw88_ake5tx",
+  "timestamp": "2026-08-25T09:23:49.582Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7c93cbb898556d67a27ba813309d08f067769570c8ec008956d31652765bc49e"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt48szzi_omp0oo",
+  "timestamp": "2026-08-22T10:35:52.686Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2b178608f604f0d0f07f0053183939d106ffdc027218251caa6f94b9493df613"
+}

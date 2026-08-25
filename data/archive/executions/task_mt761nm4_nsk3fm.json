@@ -1,0 +1,21 @@
+{
+  "id": "task_mt761nm4_nsk3fm",
+  "timestamp": "2026-08-24T11:41:56.370Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "90d569ef8b3237a43712fe2362ed7c265be4c26c95f85806da0f058516788aaf"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt370vbn_dko7nc",
+  "timestamp": "2026-08-21T16:58:14.424Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "35be455189e8b2a39eb3a3a970466cc70929460196aa348c423495f2eceaab02"
+}

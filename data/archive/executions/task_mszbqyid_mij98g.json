@@ -1,0 +1,21 @@
+{
+  "id": "task_mszbqyid_mij98g",
+  "timestamp": "2026-08-18T23:59:25.302Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d1ae33a35d55c7c32d3495e08b0e383620f972d6947d4e0c5396b8b18c3df651"
+}

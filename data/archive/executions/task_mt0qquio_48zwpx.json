@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0qquio_48zwpx",
+  "timestamp": "2026-08-19T23:47:00.560Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3aaef78e3f5c0e25b2100c1a0a892e66b182737976df40a7d0bbe25bdc985420"
+}

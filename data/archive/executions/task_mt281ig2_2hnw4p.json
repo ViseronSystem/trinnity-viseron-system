@@ -1,0 +1,21 @@
+{
+  "id": "task_mt281ig2_2hnw4p",
+  "timestamp": "2026-08-21T00:38:57.815Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b3a6e47ce322f86540996018cfff04cd3a7019d8b8c28c06a7e03114d90fb3dc"
+}

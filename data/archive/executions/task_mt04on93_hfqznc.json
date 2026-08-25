@@ -1,0 +1,21 @@
+{
+  "id": "task_mt04on93_hfqznc",
+  "timestamp": "2026-08-19T13:29:26.280Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "33a7ab9d64662fe861779544328e00fb393e90652f05914d302e6df420d84f20"
+}

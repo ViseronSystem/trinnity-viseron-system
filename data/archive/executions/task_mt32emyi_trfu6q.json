@@ -1,0 +1,21 @@
+{
+  "id": "task_mt32emyi_trfu6q",
+  "timestamp": "2026-08-21T14:48:58.692Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "20a063a0f69c4e1b8630e5af906023265b93fc72dd4d0e73978c3a89dd0c2fec"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt23trcn_4wyk9z",
+  "timestamp": "2026-08-20T22:40:57.674Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a99a29d06f9a2c821473cf167cf7c698d048f3b102284191fd6bd66ef903d8a4"
+}

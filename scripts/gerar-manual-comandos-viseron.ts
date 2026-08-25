@@ -248,7 +248,7 @@ function codeBlock(lines: string[], desc?: string) {
 // ==================== CAPA ====================
 t.cover({
   title: "MANUAL DE\nCOMANDOS",
-  subtitle: "Trinnity Viseron System v5.0 — Comandos Viseron + 8 GitHub Tools Integradas",
+  subtitle: "Trinnity Viseron System v7.0 — Comandos Viseron + 8 GitHub Tools Integradas",
   badges: ["yt-dlp", "Ollama", "Fooocus", "Whisper", "Plausible", "AppFlowy", "Penpot", "CUDACyclone"],
   date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
   version: "5.0",

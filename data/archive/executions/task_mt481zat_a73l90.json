@@ -1,0 +1,21 @@
+{
+  "id": "task_mt481zat_a73l90",
+  "timestamp": "2026-08-22T10:14:52.047Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5c9e85e033b3619c2c8230c1107fe056a3fbafc5fb87a8495aa88da30e7ba062"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt33jsgd_pfm1y2",
+  "timestamp": "2026-08-21T15:20:58.770Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0db2b0cf6b444e4c78bf9b55a9f03d75a77e4bc1a6c80acdcc2df6a2bcc11aff"
+}

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VISERON · El Futuro se Construye Hoy</title>
+<style>
+:root{
+  --bg1:#020617;--bg2:#0b1026;--gold:#f5c86e;--gold2:#f9e0a8;
+  --cyan:#22d3ee;--pink:#e879f9;--purple:#a78bfa;--ink:#eef2ff;--muted:#9aa8cf;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg1);color:var(--ink);font-family:'Segoe UI',Poppins,'Helvetica Neue',Arial,sans-serif}
+#stars{position:fixed;inset:0;z-index:0;background:
+  radial-gradient(1200px 700px at 80% -10%,rgba(232,121,249,.16),transparent 60%),
+  radial-gradient(1000px 600px at -10% 90%,rgba(34,211,238,.12),transparent 60%),
+  radial-gradient(900px 500px at 50% 120%,rgba(245,200,110,.08),transparent 60%),
+  linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg1));}
+#stars .s{position:absolute;background:#fff;border-radius:50%;opacity:.85;animation:twinkle 4s infinite ease-in-out}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.9;transform:scale(1.15)}}
+#aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.5;
+  background:conic-gradient(from 210deg at 70% 30%,rgba(232,121,249,.5),transparent 30%,rgba(34,211,238,.5),transparent 60%,rgba(167,139,250,.5),transparent 80%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{from{transform:rotate(0) scale(1)}to{transform:rotate(12deg) scale(1.15)}}
+
+/* SLIDES */
+.deck{position:relative;z-index:2;height:100%}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(30px,7vw,110px);opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.slide .kicker{font-size:.72rem;letter-spacing:.34em;font-weight:800;text-transform:uppercase;color:var(--gold);margin-bottom:18px;opacity:0;transform:translateY(12px);transition:opacity .6s .15s,transform .6s .15s}
+.slide.on .kicker{opacity:1;transform:none}
+.slide h1{font-size:clamp(2.6rem,9.5vw,7.5rem);line-height:1.02;letter-spacing:-.045em;font-weight:800;opacity:0;transform:translateY(16px);transition:opacity .7s .25s,transform .7s .25s}
+.slide.on h1{opacity:1;transform:none}
+.slide h2{font-size:clamp(2rem,6.4vw,4.6rem);line-height:1.06;letter-spacing:-.04em;font-weight:800;opacity:0;transform:translateY(16px);transition:opacity .7s .25s,transform .7s .25s}
+.slide.on h2{opacity:1;transform:none}
+.grad{background:linear-gradient(92deg,var(--gold) 5%,var(--gold2) 30%,var(--cyan) 65%,var(--pink) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad2{background:linear-gradient(92deg,var(--cyan),var(--pink),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.slide p.lead{max-width:720px;font-size:clamp(1rem,2.2vw,1.5rem);color:var(--muted);line-height:1.65;margin-top:26px;opacity:0;transform:translateY(16px);transition:opacity .7s .4s,transform .7s .4s}
+.slide.on p.lead{opacity:1;transform:none}
+.slide p.lead b{color:var(--ink);font-weight:700}
+.slide .big{font-size:clamp(1.5rem,4.4vw,3rem);font-weight:800;letter-spacing:-.03em;margin-top:30px;opacity:0;transform:translateY(16px);transition:opacity .7s .55s,transform .7s .55s}
+.slide.on .big{opacity:1;transform:none}
+.items{margin-top:34px;display:grid;gap:16px;max-width:860px}
+.item{display:flex;gap:16px;align-items:flex-start;opacity:0;transform:translateX(-16px);transition:opacity .6s,transform .6s}
+.item .ic{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:1.25rem;
+  background:linear-gradient(135deg,rgba(245,200,110,.16),rgba(34,211,238,.12));border:1px solid rgba(245,200,110,.28)}
+.item p{font-size:clamp(.95rem,1.9vw,1.25rem);color:var(--muted);line-height:1.55}
+.item p b{color:var(--ink);font-weight:700}
+.slide.on .item{opacity:1;transform:none}
+.slide.on .item:nth-child(1){transition-delay:.45s}.slide.on .item:nth-child(2){transition-delay:.55s}
+.slide.on .item:nth-child(3){transition-delay:.65s}.slide.on .item:nth-child(4){transition-delay:.75s}
+.slide.on .item:nth-child(5){transition-delay:.85s}.slide.on .item:nth-child(6){transition-delay:.95s}
+.num-bg{position:absolute;right:clamp(10px,3vw,60px);top:50%;transform:translateY(-50%);font-size:clamp(10rem,38vw,30rem);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);pointer-events:none;user-select:none;z-index:-1}
+.foot{position:absolute;left:clamp(30px,7vw,110px);bottom:28px;font-size:.72rem;letter-spacing:.22em;color:rgba(154,168,207,.5);text-transform:uppercase;opacity:0;transition:opacity .6s .7s}
+.slide.on .foot{opacity:1}
+
+/* CONTROLS */
+.hud{position:fixed;z-index:10;bottom:0;left:0;right:0;display:flex;align-items:center;gap:14px;padding:14px clamp(16px,3vw,40px);background:linear-gradient(transparent,rgba(2,6,23,.85));pointer-events:none}
+.hud button{pointer-events:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--ink);border-radius:99px;padding:8px 14px;font:inherit;font-size:.78rem;cursor:pointer;transition:.2s}
+.hud button:hover{background:rgba(245,200,110,.18);border-color:var(--gold)}
+#bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--cyan),var(--pink));transition:width .4s ease}
+#dots{display:flex;gap:7px;flex-wrap:wrap;pointer-events:auto}
+#dots button{width:9px;height:9px;padding:0;border-radius:50%;background:rgba(255,255,255,.16);border:0}
+#dots button.on{background:var(--gold);transform:scale(1.35)}
+.credit{position:fixed;top:18px;right:22px;z-index:10;font-size:.68rem;letter-spacing:.2em;color:rgba(154,168,207,.55);text-transform:uppercase;text-align:right;line-height:1.6}
+.credit b{color:var(--gold)}
+
+@media(max-width:640px){.slide{padding:70px 26px 90px}.hud{flex-wrap:wrap}.credit{display:none}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="aurora"></div>
+<div class="credit">TRINNITY VISERON SYSTEM<br>© Pedro Costa · <b>Trinnity Hurtado</b></div>
+
+<div class="deck" id="deck">
+
+  <section class="slide">
+    <div class="num-bg">∞</div>
+    <span class="kicker">VISERON · 2026</span>
+    <h1>El futuro<br><span class="grad">no se espera.</span></h1>
+    <h2 style="margin-top:6px">Se construye hoy.</h2>
+    <p class="lead">Una historia de visión, poder y principios — que empieza ahora, con nosotros.</p>
+    <div class="foot">Pulsa → para continuar</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">I</div>
+    <span class="kicker">Acto I · La visión</span>
+    <h2>Una organización que <span class="grad2">nunca olvida</span></h2>
+    <p class="lead">Imagina un cerebro vivo con la memoria de tu empresa entera. Que aprende de cada error, de cada conversación, de cada decisión.<br><br>Que trabaja mientras tú duermes. Que responde cuando tú descansas. Que crece — un poco más — <b>cada día</b>.</p>
+    <div class="big">Eso es <span class="grad">VISERON</span>.</div>
+    <div class="foot">Acto I · La visión</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">II</div>
+    <span class="kicker">Acto II · El problema</span>
+    <h2>El mundo se hunde<br>en <span class="grad">lo repetitivo</span></h2>
+    <p class="lead">Cada día, miles de horas humanas se pierden en lo mismo: responder lo mismo, buscar lo mismo, registrar lo mismo, perseguir lo mismo.<br><br>El talento de verdad debería <b>crear, decidir y cuidar</b>. En cambio, vive apagando incendios.</p>
+    <div class="big">No falta gente. <span class="grad2">Falta un cerebro.</span></div>
+    <div class="foot">Acto II · El problema</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">III</div>
+    <span class="kicker">Acto III · La promesa</span>
+    <h2>Una empresa con<br><span class="grad2">5.000 mentes</span></h2>
+    <p class="lead">VISERON no es una herramienta. Es un ecosistema: un núcleo que piensa, agentes que actúan, memoria que recuerda y principios que guían.</p>
+    <div class="items">
+      <div class="item"><span class="ic">🧠</span><p><b>Un cerebro</b> que aprende de tu empresa cada día.</p></div>
+      <div class="item"><span class="ic">🤖</span><p><b>Equipos de agentes</b> que trabajan sin cansarse y sin fallar dos veces igual.</p></div>
+      <div class="item"><span class="ic">🗣️</span><p><b>Una voz</b> que habla contigo, en tu idioma, con tu visión.</p></div>
+      <div class="item"><span class="ic">🛡️</span><p><b>Un escudo de principios</b> que nunca cruza la línea.</p></div>
+    </div>
+    <div class="foot">Acto III · La promesa</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">IV</div>
+    <span class="kicker">Acto IV · Ya estamos en órbita</span>
+    <h2>No es un sueño.<br>Es <span class="grad">real y vivo</span>.</h2>
+    <p class="lead">Esto ya respira y trabaja hoy:</p>
+    <div class="items">
+      <div class="item"><span class="ic">🔥</span><p><b>VISERON habla.</b> Te escucha, te responde y ejecuta órdenes con voz — como en las películas.</p></div>
+      <div class="item"><span class="ic">🌍</span><p><b>JARVIS</b> conversa en tu idioma y hace cosas de verdad: envía, cobra, responde, organiza.</p></div>
+      <div class="item"><span class="ic">💜</span><p><b>ATLAS</b> te enseña inglés con voz, hasta que hables con seguridad.</p></div>
+      <div class="item"><span class="ic">🤝</span><p><b>La Agencia</b> trabaja por ti: recibe leads, crea creativos y mide resultados.</p></div>
+      <div class="item"><span class="ic">🌌</span><p><b>Dos estrellas propias</b> — $VSR y $TRIN — brillan reales en la cadena Solana.</p></div>
+    </div>
+    <div class="foot">Acto IV · Ya estamos en órbita</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">V</div>
+    <span class="kicker">Acto V · Diez años · Un destino</span>
+    <h2>El viaje</h2>
+    <p class="lead">Cada año es un capítulo. Cada capítulo construye el siguiente. Avanzamos todos los días, un poco más lejos.</p>
+    <div class="items">
+      <div class="item"><span class="ic">🌱</span><p><b>Hoy</b> — El primer latido: el sistema vive, piensa, recuerda y está listo para sus primeros guardianes.</p></div>
+      <div class="item"><span class="ic">🚀</span><p><b>Año 2</b> — La primera escala: las organizaciones confían y el sistema nunca las defrauda.</p></div>
+      <div class="item"><span class="ic">🧠</span><p><b>Año 3</b> — El despertar: memoria profunda real, comprensión verdadera, voz que emociona.</p></div>
+      <div class="item"><span class="ic">🌊</span><p><b>Año 4</b> — El océano: miles de tareas al día, en varios países, sin fronteras.</p></div>
+      <div class="item"><span class="ic">🛰️</span><p><b>Año 5</b> — El salto cósmico: del escritorio al espacio — misiones planeadas por agentes.</p></div>
+      <div class="item"><span class="ic">🌟</span><p><b>Año 10</b> — El legado: potencia con principios. La prueba de que inteligencia y ética pueden crecer juntas.</p></div>
+    </div>
+    <div class="foot">Acto V · Diez años · Un destino</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">VI</div>
+    <span class="kicker">Acto VI · Poder con principios</span>
+    <h2>Potencia sin principios<br>es <span class="grad">destrucción</span>.</h2>
+    <p class="lead">Potencia con principios es bendición. Nuestra brújula son 9 principios sagrados: sabiduría, verdad, mordomía, justicia, servicio, diligencia, humildad, liberalidad y fidelidad.<br><br>VISERON puede hacer todo lo que sea ético — y se niega, con elegancia, a todo lo que no lo sea.</p>
+    <div class="big">Esta casa tiene dos soberanos:<br><span class="grad2">Pedro Costa · Comandante — Trinnity Hurtado · Reina</span></div>
+    <div class="foot">Acto VI · Poder con principios</div>
+  </section>
+
+  <section class="slide">
+    <div class="num-bg">VII</div>
+    <span class="kicker">Acto VII · La invitación</span>
+    <h2>El futuro<br>se construye <span class="grad">hoy</span>.</h2>
+    <p class="lead">No te ofrecemos una plataforma. Te ofrecemos un lugar en una historia que empieza ahora.<br><br>Hoy, se construye con nosotros.</p>
+    <div class="big">¿Construyes <span class="grad2">con nosotros</span>?</div>
+    <div class="foot">© Pedro Costa (Comandante) · Trinnity Hurtado (Reina) · trinnityviseronsystem.io</div>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button id="prev" aria-label="Anterior">←</button>
+  <div id="bar"><i></i></div>
+  <button id="next" aria-label="Siguiente">→</button>
+  <div id="dots"></div>
+  <button id="full">⛶</button>
+  <button id="play">▶ Auto</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const dotsBox=document.getElementById('dots');
+let cur=0,playing=false,timer=null;
+slides.forEach((_,i)=>{const b=document.createElement('button');b.addEventListener('click',()=>go(i));dotsBox.appendChild(b)});
+const dots=[...dotsBox.children];
+function go(i){cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>s.classList.toggle('on',k===cur));
+  dots.forEach((d,k)=>d.classList.toggle('on',k===cur));
+  document.getElementById('bar').firstElementChild.style.width=((cur+1)/slides.length*100)+'%';}
+function next(){go(cur+1)}function prev(){go(cur-1)}
+function togglePlay(){playing=!playing;document.getElementById('play').textContent=playing?'⏸ Pausa':'▶ Auto';
+  if(playing){timer=setInterval(()=>{cur===slides.length-1?go(0):next()},9000)}
+  else{clearInterval(timer)}}
+document.getElementById('next').addEventListener('click',next);
+document.getElementById('prev').addEventListener('click',prev);
+document.getElementById('play').addEventListener('click',togglePlay);
+document.getElementById('full').addEventListener('click',()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}if(e.key==='ArrowLeft'){e.preventDefault();prev()}});
+let sx=null;
+document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){dx<0?next():prev()}sx=null},{passive:true});
+/* stars */
+const stars=document.getElementById('stars');
+for(let i=0;i<140;i++){const s=document.createElement('span');s.className='s';
+  const size=Math.random()*2.2+.4;
+  s.style.width=s.style.height=size+'px';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=(Math.random()*5)+'s';
+  stars.appendChild(s)}
+go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt87eurb_56hk1r",
+  "timestamp": "2026-08-25T05:07:57.886Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "55c61d9ab8b93f09c270d1b767e77fa37c923fe6d5ac340d6b4a70d0abc8080d"
+}

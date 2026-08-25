@@ -1,0 +1,21 @@
+{
+  "id": "task_mt34enlf_i8wl4a",
+  "timestamp": "2026-08-21T15:44:58.744Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f0ef8366e3ba1700490b45e0acb98596d5bc0dcfa1e361a76df74541600a8494"
+}

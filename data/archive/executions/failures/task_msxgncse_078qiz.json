@@ -1,0 +1,21 @@
+{
+  "id": "task_msxgncse_078qiz",
+  "timestamp": "2026-08-17T16:41:02.871Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "c8050a9bb4e55c7b3644851244baeccceae20b4f914859d8776f7b1d6c8897ae"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1lnubo_kcmq9g",
+  "timestamp": "2026-08-20T14:12:28.482Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1cd673f9c16e593195160487bdf1a9cc0ce392b50a49bb22b4b536c23630e59a"
+}

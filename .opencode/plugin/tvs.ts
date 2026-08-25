@@ -6,6 +6,9 @@
 // 1. shell.env — expoe as variaveis TVS nao-secretas (.env) aos comandos bash.
 // 2. event — regista eventos de sessao/ferramentas em data/knowledge/opencode-events.jsonl
 //    (memoria/auditoria para o JARVIS e squad AIOX, regra "nunca esquece").
+// 3. provider.omniroute — regista o OmniRoute local (porta 20128) como provider
+//    OpenAI-compatible com 115+ modelos (auto/best-reasoning, oc/, aug/, tllm/, etc.).
+//    Evita "Model is unavailable" da cloud e mantem fallback robusto.
 
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -57,6 +60,15 @@ export default async (input: { directory?: string }) => {
       const type = String(ev?.type || "");
       if (!/^(session|tool|command)\./.test(type)) return;
       logEvent({ t: type, at: new Date().toISOString() });
+    },
+    provider: {
+      omniroute: {
+        options: {
+          baseURL: "http://localhost:20128/v1",
+          apiKey: "local",
+          timeout: 60000,
+        },
+      },
     },
   };
 };

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3hwlw3_dev0mc",
+  "timestamp": "2026-08-21T22:02:51.368Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "78f120c64861d457fa3c9e830e411e3c1191f8f9877e1d380e7f15911bf475f8"
+}

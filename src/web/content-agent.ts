@@ -20,8 +20,8 @@ const TOPICS: ContentTopic[] = [
   {
     category: "update",
     title: "Status do Sistema Viseron",
-    prompt: "Write a system update blog post in Portuguese (pt-BR) about the Trinnity Viseron System v5.0. Cover: 5000+ minds running, 290+ AI providers connected, 25 business sectors being analyzed. Sound professional and futuristic. Title: 'Viseron v5.0 — 5000 Mentes em Operação'",
-    tags: ["viseron", "update", "sistema", "v5.0"]
+    prompt: "Write a system update blog post in Portuguese (pt-BR) about the Trinnity Viseron System v7.0. Cover: 5000+ minds running, 290+ AI providers connected, 25 business sectors being analyzed. Sound professional and futuristic. Title: 'Viseron v7.0 — 5000 Mentes em Operação'",
+    tags: ["viseron", "update", "sistema", "v7.0"]
   },
   {
     category: "tutorial",

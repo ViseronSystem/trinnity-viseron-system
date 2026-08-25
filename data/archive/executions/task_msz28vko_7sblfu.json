@@ -1,0 +1,21 @@
+{
+  "id": "task_msz28vko_7sblfu",
+  "timestamp": "2026-08-18T19:33:25.137Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f37c5733dad4dc00688f48fffc9d26a801ebcead747de6e58a2886fd5d156f79"
+}

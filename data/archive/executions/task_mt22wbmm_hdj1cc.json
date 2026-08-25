@@ -1,0 +1,21 @@
+{
+  "id": "task_mt22wbmm_hdj1cc",
+  "timestamp": "2026-08-20T22:14:57.612Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d17fb8d64498b05ab7ef2c162da193a3b5a533a2e0e53c8760a22817f6575c51"
+}

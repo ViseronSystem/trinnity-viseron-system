@@ -184,7 +184,7 @@ export class ViseronAgent {
       ok: true,
       name: "VISERON",
       codename: "Trinnity Viseron System — Superinteligência Autónoma",
-      version: "5.0.0",
+      version: "7.0.0",
       inspiredBy: "J.A.R.V.I.S. / Tony Stark engineering",
       brand: "© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)",
       wakeWords: ["viseron", "hey viseron", "jarvis", "companheiro", "superinteligencia"],

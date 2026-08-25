@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4cb13a_gdjugp",
+  "timestamp": "2026-08-22T12:13:52.738Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "113ede6bca94c764061f78813b3d447f291d2a1f87d9ddb7b7995862f8b712c1"
+}

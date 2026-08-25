@@ -1,0 +1,21 @@
+{
+  "id": "task_mt77rhuq_kwzanj",
+  "timestamp": "2026-08-24T12:30:01.488Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "929e7bbc6e975127a78f862bc57c50155d2120ae456b13333552ba607a2ce3ce"
+}

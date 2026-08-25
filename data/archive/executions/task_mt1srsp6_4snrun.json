@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1srsp6_4snrun",
+  "timestamp": "2026-08-20T17:31:30.349Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "bb9fe6eec623d036a8b844057f23744d54a68a424fc885b6c5b017600d9fa7a6"
+}

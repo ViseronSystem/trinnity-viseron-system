@@ -1,0 +1,21 @@
+{
+  "id": "task_mt741mxr_50lqxo",
+  "timestamp": "2026-08-24T10:45:56.295Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b392a99285f823ce9eba82e327b4f654065d4572b3e2e1e20e7e7b6ecb713a49"
+}

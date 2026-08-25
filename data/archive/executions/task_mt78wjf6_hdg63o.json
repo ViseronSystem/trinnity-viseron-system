@@ -1,0 +1,21 @@
+{
+  "id": "task_mt78wjf6_hdg63o",
+  "timestamp": "2026-08-24T13:01:56.605Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b31041c17951eeb2ced0a6d51e416a673cb400c57525acc7c39e37a9e2cc9c1f"
+}

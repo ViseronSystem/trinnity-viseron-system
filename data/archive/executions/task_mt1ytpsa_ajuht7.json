@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1ytpsa_ajuht7",
+  "timestamp": "2026-08-20T20:20:57.599Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5a074b6cd3482c4c90be5cacd306a4169ff881ffbb490638a4f2450c630c022e"
+}

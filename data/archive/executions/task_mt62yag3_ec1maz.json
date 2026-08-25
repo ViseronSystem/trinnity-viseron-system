@@ -1,0 +1,21 @@
+{
+  "id": "task_mt62yag3_ec1maz",
+  "timestamp": "2026-08-23T17:27:34.174Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9f956547d76c16d4f4f73cbb8d6f7e172f98e6202462f1149292d424c0d19a6a"
+}

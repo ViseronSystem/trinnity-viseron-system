@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1gqdbq_ik27u7",
+  "timestamp": "2026-08-20T11:54:28.318Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ccbdb5619b3aa0ea2ad6dd2dd7f2f627d9a81bac8ca4de272520c0eb605bde78"
+}

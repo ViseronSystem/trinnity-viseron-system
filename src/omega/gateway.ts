@@ -582,7 +582,7 @@ export function createOmegaGateway(omega: OmegaPlatform): Router {
 
   // ── CONTINUOUS LEARNING ──
   router.get("/learning", (_req, res) => {
-    const status = req.query.status as any;
+    const status = _req.query.status as any;
     res.json({ records: omega.learning.list(status) });
   });
 

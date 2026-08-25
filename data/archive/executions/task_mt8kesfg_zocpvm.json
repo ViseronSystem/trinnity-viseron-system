@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8kesfg_zocpvm",
+  "timestamp": "2026-08-25T11:11:49.931Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6a47fbd64cb4e47482e8d555ab5a64d5e85427fa0b967dc39f2d8e02404ca399"
+}

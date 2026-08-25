@@ -1,0 +1,21 @@
+{
+  "id": "task_mt32oxbw_xak5j8",
+  "timestamp": "2026-08-21T14:56:58.714Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4317792adfe7b38d4298b8d094c200ed8f366b67998221c8709c0c1b2870c4c5"
+}

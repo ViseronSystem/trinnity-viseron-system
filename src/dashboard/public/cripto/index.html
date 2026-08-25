@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISERON CRIPTO OS — TVS</title>
+<style>
+:root{--bg:#070b14;--panel:#0d1526;--panel2:#111c33;--line:#1e2f52;--gold:#d4af37;--green:#34d399;--red:#f87171;--blue:#60a5fa;--txt:#dbe4f5;--dim:#7d8db0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:radial-gradient(1200px 600px at 70% -10%,#12203d 0%,var(--bg) 55%);color:var(--txt);min-height:100vh}
+.bar{display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:1px solid var(--line);background:#0a1120cc;position:sticky;top:0;backdrop-filter:blur(8px);z-index:9}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:2px;color:var(--gold)}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.clock{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--dim)}
+.lang button{background:none;border:1px solid var(--line);color:var(--dim);padding:3px 9px;margin-left:6px;cursor:pointer;border-radius:6px;font-size:11px}
+.lang button.on{color:var(--gold);border-color:var(--gold)}
+.wrap{max-width:1280px;margin:0 auto;padding:26px 22px 60px}
+h1{font-size:15px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.sub{color:var(--dim);font-size:12px;margin-bottom:22px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi .lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.kpi .val{font-size:24px;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .val.pos{color:var(--green)}.kpi .val.neg{color:var(--red)}.kpi .val.gold{color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-height:180px}
+.panel h2{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.badge{background:#16233f;color:var(--dim);border-radius:20px;padding:2px 10px;font-size:10px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--dim);font-weight:500;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:7px 8px;border-bottom:1px solid #14213a;font-variant-numeric:tabular-nums}
+tr:hover td{background:#101b32}
+.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:11.5px}
+.addr{color:var(--blue);cursor:pointer}.addr:hover{text-decoration:underline}
+.txrow{display:flex;gap:10px;align-items:center;padding:8px 6px;border-bottom:1px solid #14213a;font-size:12px}
+.txsig{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dim);font-family:monospace;font-size:11px;cursor:pointer}
+.txsig:hover{color:var(--gold)}
+.amt{color:var(--green);font-weight:600;white-space:nowrap}
+.ok{color:var(--green)}.warn{color:var(--gold)}.err{color:var(--red)}
+.opps .opp{padding:9px 6px;border-bottom:1px solid #14213a;font-size:12.5px}
+.opp a{color:var(--txt);text-decoration:none}.opp a:hover{color:var(--gold)}
+.opp .prize{color:var(--gold);float:right;font-weight:600}
+.scanline{color:var(--dim);font-family:monospace;font-size:11px;margin-top:10px;word-break:break-all}
+.empty{color:var(--dim);font-size:12px;padding:14px 4px;text-align:center}
+footer{margin-top:34px;text-align:center;color:var(--dim);font-size:11.5px;line-height:1.7}
+footer b{color:var(--gold)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="logo"><span class="dot"></span> VISERON CRIPTO OS</div>
+  <div style="font-size:10px;color:var(--dim);letter-spacing:1px">TVS v7.0 · MAINNET</div>
+  <div class="clock" id="clock">--:--:--</div>
+  <div class="lang">
+    <button onclick="setLang('es')" id="b-es" class="on">ES</button>
+    <button onclick="setLang('pt')" id="b-pt">PT</button>
+    <button onclick="setLang('en')" id="b-en">EN</button>
+  </div>
+</div>
+<div class="wrap">
+  <h1 data-i="title"></h1>
+  <div class="sub"><span data-i="sub"></span> · <span id="upd">…</span></div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lbl" data-i="value"></div><div class="val gold" id="k-value">—</div></div>
+    <div class="kpi"><div class="lbl" data-i="invested"></div><div class="val" id="k-invested">—</div></div>
+    <div class="kpi"><div class="lbl" data-i="pnl"></div><div class="val" id="k-pnl">—</div></div>
+    <div class="kpi"><div class="lbl" data-i="solprice"></div><div class="val" id="k-sol">—</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2><span data-i="wallets"></span><span class="badge" id="w-count">0</span></h2>
+      <table><thead><tr><th>#</th><th>Wallet</th><th>SOL</th><th>USDC</th></tr></thead>
+      <tbody id="w-body"><tr><td colspan="4" class="empty"><span class="spin"></span></td></tr></tbody></table>
+    </div>
+    <div class="panel">
+      <h2><span data-i="txs"></span><span class="badge" id="t-count">0</span></h2>
+      <div id="t-body"><div class="empty"><span class="spin"></span></div></div>
+    </div>
+    <div class="panel opps">
+      <h2><span data-i="opps"></span><span class="badge" id="o-count">0</span></h2>
+      <div id="o-body"><div class="empty">…</div></div>
+    </div>
+    <div class="panel">
+      <h2><span data-i="puzzle"></span><span class="badge">BTC #71</span></h2>
+      <div id="p-rate" style="font-size:22px;font-weight:700;color:var(--gold)">—</div>
+      <div style="font-size:11px;color:var(--dim);margin-top:4px" data-i="scanning"></div>
+      <div class="scanline" id="p-line"></div>
+    </div>
+  </div>
+
+  <footer>© <b>Pedro Costa</b> (Comandante) · <b>Trinnity Hurtado</b> (Rainha)<br>
+  Trinnity Viseron System v7.0 — datos on-chain reales vía Solana RPC + Jupiter · <span id="f-upd"></span></footer>
+</div>
+<script>
+const L={
+es:{title:"Centro de Operaciones Cripto",sub:"Actualización",value:"Valor actual",invested:"Invertido",pnl:"Ganancia / Pérdida",solprice:"Precio SOL",wallets:"Wallets farming",txs:"Transacciones on-chain",opps:"Oportunidades (radar diario)",puzzle:"Scanner puzzle",scanning:"Escaneando rango 2⁷⁰ sin parar · objetivo hash160 f6f5431d…"},
+pt:{title:"Centro de Operações Cripto",sub:"Atualização",value:"Valor atual",invested:"Investido",pnl:"Lucro / Prejuízo",solprice:"Preço SOL",wallets:"Carteiras farming",txs:"Transações on-chain",opps:"Oportunidades (radar diário)",puzzle:"Scanner puzzle",scanning:"Escaneando intervalo 2⁷⁰ sem parar · alvo hash160 f6f5431d…"},
+en:{title:"Crypto Operations Center",sub:"Updated",value:"Current value",invested:"Invested",pnl:"Profit / Loss",solprice:"SOL price",wallets:"Farming wallets",txs:"On-chain transactions",opps:"Opportunities (daily radar)",puzzle:"Puzzle scanner",scanning:"Scanning 2⁷⁰ range non-stop · target hash160 f6f5431d…"}};
+let lang=localStorage.getItem("tvslang")||"es";
+function setLang(l){lang=l;localStorage.setItem("tvslang",l);
+["es","pt","en"].forEach(x=>document.getElementById("b-"+x).classList.toggle("on",x===l));
+document.querySelectorAll("[data-i]").forEach(el=>el.textContent=L[lang][el.dataset.i]);render(lastData);}
+function short(a){return a?a.slice(0,4)+"…"+a.slice(-4):"—"}
+function fmt(n,d=2){return n==null?"—":Number(n).toLocaleString(lang==="en"?"en-US":"es-ES",{minimumFractionDigits:d,maximumFractionDigits:d})}
+let lastData=null;
+const API_BASES=(()=>{
+  const q=new URLSearchParams(location.search).get("api");
+  const bases=[];
+  if(q)bases.push(q.replace(/\/+$/,""));
+  if(location.hostname==="localhost"||location.hostname==="127.0.0.1")bases.push("");
+  else{bases.push("");bases.push("https://viseron-web.onrender.com");}
+  return bases;
+})();
+async function fetchStatus(){
+  for(const b of API_BASES){
+    try{const r=await fetch(b+"/api/cripto/status",{signal:AbortSignal.timeout(25000)});if(!r.ok)continue;const d=await r.json();if(d.ok)return d;}catch(e){}
+  }
+  return null;
+}
+async function refresh(){
+ try{
+  const d=await fetchStatus();if(!d)return;
+  lastData=d;
+  document.getElementById("upd").textContent=new Date(d.updatedAt).toLocaleString();
+  document.getElementById("f-upd").textContent=new Date(d.updatedAt).toLocaleString();
+  const t=d.totals;
+  document.getElementById("k-sol").textContent=d.solPriceUsd!=null?"$"+fmt(d.solPriceUsd):"—";
+  document.getElementById("k-value").textContent=t.valueUsd!=null?"$"+fmt(t.valueUsd,4):"—";
+  document.getElementById("k-invested").textContent=t.investedUsd!=null?"$"+fmt(t.investedUsd,4)+" ("+fmt(t.fundedSol,3)+" SOL)":"—";
+  const p=document.getElementById("k-pnl");
+  p.textContent=t.pnlUsd==null?"—":(t.pnlUsd>=0?"+":"")+fmt(t.pnlUsd,4)+" USD";
+  p.className="val "+(t.pnlUsd==null?"":t.pnlUsd>=0?"pos":"neg");
+  // wallets
+  document.getElementById("w-count").textContent=t.wallets;
+  document.getElementById("w-body").innerHTML=d.wallets.map((w,i)=>
+   `<tr><td>${String(i+1).padStart(2,"0")}</td>
+    <td class="mono addr" onclick="window.open('https://solscan.io/account/${w.address}','_blank')">${short(w.address)}</td>
+    <td>${fmt(w.sol,5)}</td><td>${fmt(w.usdc,3)}</td></tr>`).join("");
+  // txs
+  document.getElementById("t-count").textContent=d.txCount;
+  document.getElementById("t-body").innerHTML=d.txs.length?d.txs.map(x=>
+   `<div class="txrow"><span class="ok">✔ ${x.mode==="live"?"SWAP":"DRY"}</span>
+    <span class="amt">+${x.outUsdc} USDC</span>
+    <span class="txsig" onclick="window.open('https://solscan.io/tx/${x.sig}','_blank')">${x.sig||short(x.address)}</span>
+    <span style="color:var(--dim);font-size:10px">${new Date(x.ts).toLocaleDateString()}</span></div>`).join("")
+   :`<div class="empty">${L[lang].txs}: 0</div>`;
+  // oportunidades
+  const opps=(d.radar&&d.radar.opportunities)||[];
+  document.getElementById("o-count").textContent=d.radar?.sourcesCovered??(d.opsTotal||0);
+  document.getElementById("o-body").innerHTML=opps.length?opps.map(o=>
+   `<div class="opp">${o.prize?`<span class="prize">${o.prize}</span>`:""}<a href="${o.url||"#"}" target="_blank">${o.title||"—"}</a></div>`).join("")
+   :(d.opsTotal?`<div class="empty">Devpost: ${d.opsTotal} hackathons activos</div>`:`<div class="empty">…</div>`);
+  // scanner
+  document.getElementById("p-rate").textContent=d.scanner.rate?d.scanner.rate+" keys/s":"activo";
+  document.getElementById("p-line").textContent=d.scanner.lastLine||"";
+ }catch(e){console.error(e)}
+}
+function tick(){document.getElementById("clock").textContent=new Date().toLocaleTimeString()}
+setInterval(refresh,20000);setInterval(tick,1000);
+document.addEventListener("DOMContentLoaded",()=>{tick();setLang(lang);refresh()});
+</script>
+</body>
+</html>

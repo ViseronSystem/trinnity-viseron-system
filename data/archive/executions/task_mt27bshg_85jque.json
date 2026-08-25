@@ -1,0 +1,21 @@
+{
+  "id": "task_mt27bshg_85jque",
+  "timestamp": "2026-08-21T00:18:57.767Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8cdf406f92d684de3b02f8857243334356a9e4c1a48d4bf0e51a1446e5df707c"
+}

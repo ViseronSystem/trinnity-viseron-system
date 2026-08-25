@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8k9ttu_fgvdun",
+  "timestamp": "2026-08-25T11:07:58.471Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f38171e87f96c07c874592670d1442ae32c1e235ecf05605badc508776ca2595"
+}

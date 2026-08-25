@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7547vm_rhbdj1",
+  "timestamp": "2026-08-24T11:15:56.305Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a75926ef9be04799bc94438b6bcb8d4fb3786f7ebaf8438d7bc44eda5c7641c0"
+}

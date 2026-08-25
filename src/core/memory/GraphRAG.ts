@@ -153,6 +153,7 @@ export class GraphRAGEngine {
         frontier = nextFrontier;
       }
     }
+    const visited = new Set(expandedEntities.keys());
     const traversalMs = Date.now() - traversalStart;
     this.telemetry?.recordProcessing(trace?.traceId!, { graphNodesVisited: visited.size });
 

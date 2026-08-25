@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8lwsy9_is99bb",
+  "timestamp": "2026-08-25T11:53:49.987Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "224d9cb8bd93943d9d763b3b04b2d60228e740431f49b793108d38ea02056b66"
+}

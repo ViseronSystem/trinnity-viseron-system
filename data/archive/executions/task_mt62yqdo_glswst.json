@@ -1,0 +1,21 @@
+{
+  "id": "task_mt62yqdo_glswst",
+  "timestamp": "2026-08-23T17:27:54.834Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "adc4423de358056a8d172fdbc33b626851e462aea979ed8b812ac47dc1d62b71"
+}

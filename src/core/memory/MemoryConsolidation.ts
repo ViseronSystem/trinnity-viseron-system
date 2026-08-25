@@ -288,7 +288,7 @@ export class MemoryConsolidationEngine {
     const stats = this.memoryEngine.getStats?.() || {};
 
     // Cluster insight
-    const ltmCount = stats.longTerm?.totalItems || this.memoryEngine.ltmSize?.() || 0;
+    const ltmCount = stats.longTerm?.totalItems || (this.memoryEngine as any).ltmSize?.() || 0;
     if (ltmCount > 10000) {
       insights.push({
         type: "summary",

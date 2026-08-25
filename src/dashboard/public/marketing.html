@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISERON · Content Studio Autónomo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#02020a;--panel:rgba(8,10,24,.94);--line:rgba(0,240,255,.16);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding:22px 16px 60px}
+header{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
+header h1{font-family:'Orbitron';font-weight:900;font-size:1.2rem;color:var(--cyan)}
+header .sub{color:var(--muted);font-size:.72rem}
+.btn{background:rgba(0,240,255,.08);border:1px solid var(--line);color:var(--cyan);border-radius:99px;padding:8px 16px;font-size:.72rem;font-weight:800;cursor:pointer;text-decoration:none;margin-left:auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+.panel h3{font-family:'Orbitron';font-size:.82rem;color:var(--purple);letter-spacing:1px;margin-bottom:12px}
+.horario{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.slot{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.72rem;text-align:center}
+.slot .hora{color:var(--orange);font-weight:900;font-family:'Orbitron'}
+.slot .tipo{color:var(--muted);margin-top:3px;font-size:.66rem}
+.slot .estado{margin-top:5px;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;background:rgba(255,159,10,.15);color:var(--orange)}
+.slot .estado.ok{background:rgba(0,255,135,.15);color:var(--green)}
+.post{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:10px 0}
+.post .meta{display:flex;gap:10px;align-items:center;font-size:.66rem;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
+.post .meta .badge{background:rgba(191,90,242,.15);color:var(--purple);padding:2px 9px;border-radius:99px;font-weight:800}
+.post .texto{font-size:.85rem;line-height:1.65;white-space:pre-wrap}
+.post .acciones{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.post .acciones button{background:rgba(0,240,255,.1);border:1px solid rgba(0,240,255,.3);color:var(--cyan);border-radius:8px;padding:7px 13px;font-size:.7rem;font-weight:800;cursor:pointer}
+.gen{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:12px;padding:13px 24px;font-weight:900;font-size:.85rem;cursor:pointer}
+.gen:disabled{opacity:.5;cursor:wait}
+.notice{background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.3);border-radius:10px;padding:10px 12px;font-size:.7rem;color:var(--orange);margin-bottom:12px;line-height:1.5}
+.status-line{font-size:.75rem;color:var(--muted);margin-top:8px;min-height:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span style="font-size:1.8rem">&#128640;</span>
+    <div><h1>CONTENT STUDIO</h1><div class="sub">Marketing autónomo VISERON · 5 posts/día · generados por la IA local (Ollama)</div></div>
+    <a class="btn" href="/">&#8592; TVS</a>
+  </header>
+
+  <div class="notice">&#9200; El motor genera los 5 posts del día con el modelo local qwen2.5. La publicación automática en X/Instagram/TikTok/YouTube se activa conectando cada cuenta en n8n (las plantillas están listas). Mientras tanto: copia y publica en 1 clic.</div>
+
+  <div class="panel">
+    <h3>&#128197; CALENDARIO DEL DÍA</h3>
+    <div class="horario" id="horario"></div>
+    <div style="margin-top:14px">
+      <button class="gen" id="btnGen" onclick="generarDia()">&#129302; GENERAR LOS 5 POSTS DE HOY (IA)</button>
+      <div class="status-line" id="estado"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>&#128172; COLA DE PUBLICACIÓN</h3>
+    <div id="cola"></div>
+  </div>
+</div>
+<script>
+var TIPOS = [
+  {hora:"09:00", tipo:"Valor TVS", tema:"Escribe un post breve y potente en español sobre el Trinnity Viseron System: sistema operativo de IA multi-agente con 5000+ mentes. Maximo 280 caracteres. Sin hashtags."},
+  {hora:"12:00", tipo:"VSR / TRIN", tema:"Escribe un post en español sobre los tokens VSR (gobernanza, 300M) y TRIN (memecoin con quema del 2%). Maximo 280 caracteres. Incluye 2 hashtags."},
+  {hora:"15:00", tipo:"Educación IA", tema:"Da un consejo util en español sobre inteligencia artificial para emprendedores. Maximo 280 caracteres. Cierra con una pregunta para generar comentarios."},
+  {hora:"18:00", tipo:"Misiones", tema:"Escribe un post en español invitando a cumplir las 50 misiones del TVS OS y ganar TRIN. Maximo 280 caracteres. Incluye emoji de cohete."},
+  {hora:"21:00", tipo:"Comunidad", tema:"Escribe una frase inspiradora en español sobre construir el futuro con IA y comunidad, firmada por el batallon Viseron. Maximo 280 caracteres."}
+];
+var COLA = [];
+function guardar(){ localStorage.setItem('tvs_marketing', JSON.stringify({cola:COLA, dia:new Date().toISOString().slice(0,10)})); }
+function cargar(){ try{ var d=JSON.parse(localStorage.getItem('tvs_marketing')||'null'); if(d && d.dia===new Date().toISOString().slice(0,10)) COLA=d.cola||[]; }catch(e){} }
+function pintarHorario(){
+  var h='';
+  TIPOS.forEach(function(t, i){
+    var hecho = COLA[i] ? true : false;
+    h+='<div class="slot"><div class="hora">'+t.hora+'</div><div class="tipo">'+t.tipo+'</div><div class="estado'+(hecho?' ok':'')+'">'+(hecho?'GENERADO':'PENDIENTE')+'</div></div>';
+  });
+  document.getElementById('horario').innerHTML=h;
+}
+function pintarCola(){
+  var el=document.getElementById('cola');
+  if(!COLA.length){ el.innerHTML='<div class="status-line">Sin posts aun. Pulsa GENERAR para que la IA cree los 5 del dia.</div>'; return; }
+  var h='';
+  COLA.forEach(function(p, i){
+    h+='<div class="post"><div class="meta"><span class="badge">'+p.tipo+'</span><span>'+p.hora+'</span><span>plataformas: X · IG · TikTok · FB</span></div>'+
+      '<div class="texto">'+p.texto+'</div>'+
+      '<div class="acciones"><button onclick="copiar('+i+')">&#128203; COPIAR</button><button onclick="regenerar('+i+')">&#128260; REGENERAR</button></div></div>';
+  });
+  el.innerHTML=h;
+}
+function copiar(i){ navigator.clipboard.writeText(COLA[i].texto); }
+function pintar(){ pintarHorario(); pintarCola(); guardar(); }
+async function generarUno(t){
+  try {
+    var r = await fetch('/api/viseron/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:t.tema})});
+    var j = await r.json();
+    if(j && j.text) return j.text;
+  } catch(e){}
+  return null;
+}
+function textoPlantilla(t){
+  if(t.tipo==='Valor TVS') return 'El Trinnity Viseron System no es un chatbot: es un sistema operativo de IA multi-agente con 5000+ mentes trabajando 24/7. Piensa, ejecuta, audita y evoluciona. Esto es el futuro. #Viseron #IA';
+  if(t.tipo==='VSR / TRIN') return 'VSR gobierna (300M, staking). TRIN viaja (quema 2% por tx). El cosmos Viseron tiene su propia economia. #VSR #TRIN #Crypto';
+  if(t.tipo==='Educación IA') return 'Consejo IA para emprendedores: automatiza lo repetitivo con agentes y usa tu tiempo en decidir. Que tarea repetitiva te roba mas horas hoy?';
+  if(t.tipo==='Misiones') return '50 misiones te esperan en el TVS OS. Cumple, gana TRIN y sube de rango en el batallon. Empieza hoy. #Viseron #TRIN';
+  return 'Construimos el futuro con IA, comunidad y evidencia. El batallon Viseron avanza. Se parte. #Viseron';
+}
+async function generarDia(){
+  var btn=document.getElementById('btnGen'); btn.disabled=true;
+  var est=document.getElementById('estado');
+  COLA=[];
+  for(var i=0;i<TIPOS.length;i++){
+    est.textContent='Generando post '+(i+1)+'/5 ('+TIPOS[i].tipo+') con la IA local...';
+    var t=TIPOS[i];
+    var texto=await generarUno(t);
+    if(!texto) texto=textoPlantilla(t);
+    COLA.push({hora:t.hora, tipo:t.tipo, texto:texto});
+    pintar();
+  }
+  est.textContent='✓ 5 posts generados y encolados. Programacion: 09:00 · 12:00 · 15:00 · 18:00 · 21:00';
+  btn.disabled=false;
+}
+cargar(); pintar();
+</script>
+</body>
+</html>

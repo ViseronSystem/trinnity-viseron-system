@@ -79,7 +79,7 @@ export default function SettingsScreen() {
       <Text style={[styles.sectionTitle, { marginTop: 24 }]}>Sobre</Text>
       <View style={styles.aboutCard}>
         <Text style={styles.aboutTitle}>Trinnity Viseron System</Text>
-        <Text style={styles.aboutVersion}>v5.0.0 Mobile</Text>
+        <Text style={styles.aboutVersion}>v7.0.0 Mobile</Text>
         <Text style={styles.aboutDesc}>Multi-Agent AI Operating System</Text>
         <Text style={styles.aboutDesc}>5000+ mentes | 246+ arquetipos | SuperInteligência</Text>
       </View>

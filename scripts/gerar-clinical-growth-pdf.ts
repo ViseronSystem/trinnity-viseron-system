@@ -20,9 +20,9 @@ async function main() {
   t.cover({
     title: "VISERON",
     subtitle: "Clinical Growth System\nIntelligent Business Growth Infrastructure",
-    badges: ["COMERCIAL", "2026", "v5.0"],
+    badges: ["COMERCIAL", "2026", "v7.0"],
     date: "2026",
-    version: "v5.0 Cognitive OS",
+    version: "v7.0 Cognitive OS",
     brand: "© Pedro Costa · Trinnity Hurtado · Trinnity Viseron System",
   });
 
@@ -58,7 +58,7 @@ async function main() {
   t.spacer();
 
   // ── PAGE 4: CAPACIDADES ──
-  t.section("3", "CAPACIDADES REAIS DISPONIVEIS HOJE", "IMPLEMENTADO — v5.0 Cognitive OS");
+  t.section("3", "CAPACIDADES REAIS DISPONIVEIS HOJE", "IMPLEMENTADO — v7.0 Cognitive OS");
   t.spacer();
   t.sub("Cognitive Telemetry");
   t.para("Rastreamento completo de cada operacao. Evidencias. Metricas. SHA-256 verified.", 10);
@@ -169,7 +169,7 @@ async function main() {
   t.para("VISERON nao e apenas uma ferramenta. E uma infraestrutura inteligente criada para conectar pessoas, conhecimento, agentes e operacoes empresariais.", 12, "#1a6bff");
   t.spacer();
   t.para("Gerado por VISERON Intelligence System · 2026", 8, "#64748b");
-  t.para("© Pedro Costa · Trinnity Hurtado · Trinnity Viseron System v5.0", 8, "#64748b");
+  t.para("© Pedro Costa · Trinnity Hurtado · Trinnity Viseron System v7.0", 8, "#64748b");
 
   t.finish(OUT);
   console.log("[TVS] PDF: " + OUT);

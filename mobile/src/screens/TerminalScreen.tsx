@@ -22,7 +22,7 @@ const BUILTIN_COMMANDS: Record<string, string> = {
 export default function TerminalScreen() {
   const { connected, sendCommand, refresh, stats, agents, status, battalion, directives } = useTVS();
   const [logs, setLogs] = useState<Log[]>([
-    { type: 'system', text: 'TVS Mobile Terminal v5.0', ts: new Date() },
+    { type: 'system', text: 'TVS Mobile Terminal v7.0', ts: new Date() },
     { type: 'system', text: 'Digite help para comandos disponíveis', ts: new Date() },
   ]);
   const [command, setCommand] = useState('');

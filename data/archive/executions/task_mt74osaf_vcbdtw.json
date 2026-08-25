@@ -1,0 +1,21 @@
+{
+  "id": "task_mt74osaf_vcbdtw",
+  "timestamp": "2026-08-24T11:03:56.184Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "80cf5c0d9d62e6e716cf83e071c3b13b13988a6e53b19626c28f638fabca6c41"
+}

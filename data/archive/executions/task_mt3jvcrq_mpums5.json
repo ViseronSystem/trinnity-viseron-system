@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3jvcrq_mpums5",
+  "timestamp": "2026-08-21T22:57:52.107Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3e93c913e25eea67f6e9ccab96e5851dc52aaf707f1c8262f8b3aa6c1b4d6626"
+}

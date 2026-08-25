@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3i9guv_ivs7w8",
+  "timestamp": "2026-08-21T22:12:51.360Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ef5d2cd19ea57b5258c3d61a594f3fe0006d83bc7feb3c0f1cae5b7f99a32909"
+}

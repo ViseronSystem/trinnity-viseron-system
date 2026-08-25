@@ -1,0 +1,21 @@
+{
+  "id": "task_mt17358a_vcg5pd",
+  "timestamp": "2026-08-20T07:24:28.190Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "80f1ab8e8f4419e53026b0fe8be73350a2edfb2a391a560327c4e0d75064e42c"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6doji3_sgmgks",
+  "timestamp": "2026-08-23T22:27:55.173Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f91c656a4832fae0f0582894beb88ec55a9a0a9e4f5dbca63f0e4b6e5358bdfd"
+}

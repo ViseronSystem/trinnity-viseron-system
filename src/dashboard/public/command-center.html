@@ -210,7 +210,7 @@
   <header>
     <div class="brand">
       <h1>VISERON COMMAND CENTER</h1>
-      <p>OPERATIONAL INTERFACE · v5.0 · MILESTONE FOUNDATION</p>
+      <p>OPERATIONAL INTERFACE · v7.0 · MILESTONE FOUNDATION</p>
     </div>
     <div class="header-right">
       <span class="status-pill"><span class="dot" id="sseDot"></span><span id="sseLabel">SSE</span></span>
@@ -807,7 +807,7 @@
       const health = await j('/api/health');
       setStatus(health && (health.status === 'OK' || health.status === 'online'));
       $('k_system').textContent = health.status || 'OK';
-      $('k_system_sub').textContent = 'health ' + (health.version || 'v5.0');
+      $('k_system_sub').textContent = 'health ' + (health.version || 'v7.0');
 
       const omega = await j('/api/omega/status');
       const k = omega.kernel, r = omega.runtime, g = omega.graph;

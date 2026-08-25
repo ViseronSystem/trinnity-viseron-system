@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2mos8l_bzpl25",
+  "timestamp": "2026-08-21T07:28:58.245Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "98084894e906dc6ebad223d865b4ea0529d27a0a677aa421a057f94d40d46cc9"
+}

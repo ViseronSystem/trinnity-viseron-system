@@ -125,6 +125,23 @@ export class OmniRouteBridge implements IntegrationBridge {
       }
     } catch {}
 
+    // PRÉ-VOO: verificar se a porta já está em uso ANTES de spawnar npx (anti-crash-loop).
+    const portTaken = await this.checkPortAvailable();
+    if (portTaken) {
+      this.portInUse = true;
+      console.log(`  [OmniRoute] Porta ${this.config.port} já em uso (TCP) — a reutilizar servidor existente (sem crash-loop)`);
+      // Tenta confirmar que o servidor existente responde à nossa API.
+      try {
+        const retry = await this.provider.isAvailable();
+        if (retry) {
+          console.log(`  [OmniRoute] Server ready at ${this.config.baseUrl}`);
+        } else {
+          console.warn(`  [OmniRoute] Porta ${this.config.port} ocupada mas API não responde — modo on-demand`);
+        }
+      } catch {}
+      return;
+    }
+
     console.log(`  [OmniRoute] Starting OmniRoute server (detached, persistent)...`);
 
     const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
@@ -194,6 +211,22 @@ export class OmniRouteBridge implements IntegrationBridge {
       this.restartAttempts = 0;
       console.log(`  [OmniRoute] Server ready at ${this.config.baseUrl}`);
     }
+  }
+
+  private checkPortAvailable(): Promise<boolean> {
+    return new Promise((resolve) => {
+      try {
+        const net = require("net") as typeof import("net");
+        const sock = new net.Socket();
+        sock.setTimeout(1500);
+        sock.on("connect", () => { sock.destroy(); resolve(true); });
+        sock.on("error", () => { sock.destroy(); resolve(false); });
+        sock.on("timeout", () => { sock.destroy(); resolve(false); });
+        sock.connect(this.config.port, "127.0.0.1");
+      } catch {
+        resolve(false);
+      }
+    });
   }
 
   private scheduleRestart(): void {

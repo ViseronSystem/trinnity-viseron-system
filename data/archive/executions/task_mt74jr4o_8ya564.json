@@ -1,0 +1,21 @@
+{
+  "id": "task_mt74jr4o_8ya564",
+  "timestamp": "2026-08-24T11:00:01.417Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "311e8627314188fdfefedd09b78907112d537475d8f447ac5e6cb320aa9fb632"
+}

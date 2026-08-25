@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7fmf50_tv1zzo",
+  "timestamp": "2026-08-24T16:10:01.618Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "595579f2cb7a235b1f4cfacba8455871d1a96278250b979d2e6f351d4462c34b"
+}

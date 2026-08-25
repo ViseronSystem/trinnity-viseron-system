@@ -1,0 +1,21 @@
+{
+  "id": "task_mt351sya_ed0jsy",
+  "timestamp": "2026-08-21T16:02:58.792Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "924e448ffe7c49da7d183ee452b716a7d8d8893b0322a304255eabb680b7481c"
+}

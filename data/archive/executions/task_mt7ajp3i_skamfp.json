@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7ajp3i_skamfp",
+  "timestamp": "2026-08-24T13:47:56.503Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e7b33e55db4c1b4968c02d856d6b2c6241a41f3e780c3e08016b1c46688765c2"
+}

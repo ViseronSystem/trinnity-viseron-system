@@ -1,0 +1,21 @@
+{
+  "id": "task_mt656gs8_hbp3zk",
+  "timestamp": "2026-08-23T18:29:54.886Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "460df3f3404ca18c7db8f0781f5e993e1e312ee490884f7f83ff4c43774897f8"
+}

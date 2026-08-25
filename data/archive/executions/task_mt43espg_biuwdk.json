@@ -1,0 +1,21 @@
+{
+  "id": "task_mt43espg_biuwdk",
+  "timestamp": "2026-08-22T08:04:51.945Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a803c67d49b0c61d00835f352a3b39dc8c4296512ef10df32b1b12d26555331a"
+}

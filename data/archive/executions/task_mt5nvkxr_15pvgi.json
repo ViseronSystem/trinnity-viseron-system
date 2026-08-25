@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5nvkxr_15pvgi",
+  "timestamp": "2026-08-23T10:25:33.606Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4aa2420a619f734b08c6f0ac83bfe4188742150d467166a527cbdeb79355807a"
+}

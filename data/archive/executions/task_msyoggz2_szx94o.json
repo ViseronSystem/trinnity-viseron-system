@@ -1,0 +1,21 @@
+{
+  "id": "task_msyoggz2_szx94o",
+  "timestamp": "2026-08-18T13:07:24.828Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e957b98c59e03cd8a72e95ff43e52ca452bed90aecd0d81a961bc9b253ffeb06"
+}

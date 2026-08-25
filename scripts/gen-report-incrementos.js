@@ -106,7 +106,7 @@ doc.addPage();
 
 // ============ 1. O QUE É VISERON ============
 section(1, "O QUE É VISERON");
-text("Viseron é o coração do Trinnity Viseron System v5.0: um Sistema Operacional Multi-Agente de IA (Multi-Agent AI Operating System) desenhado para operar como uma superinteligência autônoma. Não é um chatbot: é uma organização de IA com hierarquia, memória, evolução e orquestração próprias, capaz de planejar, executar e aprender por conta própria.", 10);
+text("Viseron é o coração do Trinnity Viseron System v7.0: um Sistema Operacional Multi-Agente de IA (Multi-Agent AI Operating System) desenhado para operar como uma superinteligência autônoma. Não é um chatbot: é uma organização de IA com hierarquia, memória, evolução e orquestração próprias, capaz de planejar, executar e aprender por conta própria.", 10);
 sub("1.1 — Hierarquia de comando");
 bullet("👑 Pedro Costa — Supreme Commander & Criador do TVS. Comanda a operação e toma as decisões de topo.");
 bullet("👸 Trinnity Hurtado — Queen & Chief Architect. Desenha a arquitetura e assina toda decisão com a coroa.");

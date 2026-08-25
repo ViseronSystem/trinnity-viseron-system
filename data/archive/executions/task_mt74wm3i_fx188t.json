@@ -1,0 +1,21 @@
+{
+  "id": "task_mt74wm3i_fx188t",
+  "timestamp": "2026-08-24T11:10:01.400Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8f6fd306cdfc1b6a8592d17ca9442616064a023b9155be5b98c53fcdbdad3cb8"
+}

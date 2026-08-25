@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2xovq1_g48ppb",
+  "timestamp": "2026-08-21T12:36:58.565Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cb5c6a74b3b8b69f2644dad4f72abbaef692fdb0ad2b1a7ba71e7d2bee7b5b98"
+}

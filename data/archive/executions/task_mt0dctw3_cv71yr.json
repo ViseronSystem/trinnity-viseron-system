@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0dctw3_cv71yr",
+  "timestamp": "2026-08-19T17:32:11.540Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "187fb06adcac501d90d279e236046f0aa05f6c597e3d7ec1c6456b3eaeb2e9bc"
+}

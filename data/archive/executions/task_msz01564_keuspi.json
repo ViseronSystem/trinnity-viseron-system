@@ -1,0 +1,21 @@
+{
+  "id": "task_msz01564_keuspi",
+  "timestamp": "2026-08-18T18:31:25.091Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f19b93f24863acf25893f18d9b8ec8f7761d45454b49207c0be1aa106a4058a0"
+}

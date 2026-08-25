@@ -1,0 +1,21 @@
+{
+  "id": "task_msyt3nls_1xck2d",
+  "timestamp": "2026-08-18T15:17:24.982Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f270e5a0b6d4c89956979195e5e4388cdca912c9274f26a41968ee8cd5d3ca70"
+}

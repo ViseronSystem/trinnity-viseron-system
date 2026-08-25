@@ -1,0 +1,21 @@
+{
+  "id": "task_mszu1en7_mqp50p",
+  "timestamp": "2026-08-19T08:31:25.868Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "578d5b96766fde1c9ce8fc2dd8d55c76e07f047c0f5c3f61a536619e3afc3eda"
+}

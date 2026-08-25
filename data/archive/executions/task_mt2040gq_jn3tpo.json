@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2040gq_jn3tpo",
+  "timestamp": "2026-08-20T20:56:57.570Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c811a2d5e70f937c6e0cc4bf4ef7689e8185d0880787c15e465825943a78391d"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msyklkvf_vb4wbw",
+  "timestamp": "2026-08-18T11:19:24.699Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f95dec2dbcdfc8f13e23a94879aeed7f1faf224956d75d8f4b5a4b6cd1965dd7"
+}

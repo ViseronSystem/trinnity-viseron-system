@@ -1,0 +1,21 @@
+{
+  "id": "task_mt638ktr_n7o41z",
+  "timestamp": "2026-08-23T17:35:34.250Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "06a5478daf51a922a470549ea55438f78ffa0086807b05f427c81957a4abd7e1"
+}

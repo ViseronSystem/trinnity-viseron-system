@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1sudak_ntm2ji",
+  "timestamp": "2026-08-20T17:33:30.315Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4d82dd7395bef837d612eeb5ceb36ba138f0450f8dbe4ff59d77ecf7d29f1922"
+}

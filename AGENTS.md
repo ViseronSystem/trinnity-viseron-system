@@ -1,6 +1,6 @@
 ﻿# TRINNITY VISERON SYSTEM - AGENT RULES
 
-Project: Trinnity Viseron System v5.0
+Project: Trinnity Viseron System v7.0
 
 Mission: Build an autonomous multi-agent AI superintelligence with 5000+ minds.
 
@@ -73,7 +73,7 @@ cd mobile && npx expo start
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Dev mode with hot reload |
-| `npm run restart` | Reinício à prova de congelamento: mata servidor + órfãos (OmniRoute/n8n) e verifica health/os/revenue || `npm run build` | Compile TypeScript to dist/ |
+| `npm run restart` | Reinício à prova de congelamento: mata servidor + órfãos (OmniRoute/n8n) e verifica health/os/revenue. NOTA: usa `Write-Output` (não `Write-Host`) para o progresso aparecer quando executado via npm/ferramentas — se parecer congelado, ver `data/restart.log` (completo em ~20s, exit 0) || `npm run build` | Compile TypeScript to dist/ |
 | `npm run start` | Run compiled system |
 | `npm run build:android` | Build APK for Google Play |
 | `npm run build:ios` | Build IPA for Apple Store |
@@ -128,6 +128,15 @@ cd mobile && npx expo start
 | `npm run rcs:list` | Histórico de broadcasts RCS (`data/rcs/broadcasts.json`) |
 | `npm run import:telecom` | Importa `45k telecomunicaciones.xlsx` → base de contactos (data/telecom/contacts.json + emails.json + sms.json + stats.json) |
 | `npm run telecom:campaign` | Gera campanha de apresentação segmentada por nível/operador com IA → data/telecom/campaign.json (RCS + email, ES/PT/EN) |
+| `npm run licitacoes:status` | Estado da licitação Vadillos (Somacyl, 48 VPP jovens Valladolid, prazo 14/09/2026) + checklist |
+| `npm run licitacoes:estrategia` | Gera `data/Viseron_Estrategia_Licitacion_Vadillos.pdf` (fases 0-4, calendário 26 dias) |
+| `npm run vadillos:plano` | Gera `data/Viseron_Plan_Estrategico_Vadillos_Social.pdf` (plan estratégico + pegada social 7 ejes, auditado por agentes TVS) |
+| `npm run vadillos:socios` | Gera `data/Viseron_Empresas_Partner_Vadillos.pdf` (38 empresas para UTE: adjudicatárias Somacyl + VPP + grandes) |
+| `npm run vadillos:pdfs` | Regenera os 2 PDFs do projeto Vadillos |
+| `npm run prospeccao:status` | Estado do pipeline de prospeção B2B (clínicas): leads, campanhas, IA, audit |
+| `npm run prospeccao:demo` | Demo real do pipeline (importa leads, IA personaliza, envia, classifica respostas) |
+| `npm run prospeccao:campanha` | Regenera a campanha de prospeção para clínicas |
+| `npm run prospeccao:proposta` | Gera `data/Viseron_Proposta_Prospeccao_Clinicas.pdf` (proposta comercial ao cliente) |
 | `npm run game:web` | Jogo VISERON no browser (Canvas 2D): `http://localhost:3000/game` (`?demo` p/ modo autónomo) |
 | `npm run game:apk` | Build do APK do jogo (Expo WebView embutido) → `data/apps/viserongame.apk` |
 | `npm run cosmos:kit` | Gera os 3 PDFs do Cosmos + logos oficiais dos tokens (whitepaper + kit marketing + contratos + `img/vsr.png`/`img/trin.png`, trilingues) |

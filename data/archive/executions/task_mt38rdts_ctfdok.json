@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38rdts_ctfdok",
+  "timestamp": "2026-08-21T17:46:51.117Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7b9570c2c62d4f80d32a02678b256ed10df8744ede918c97fd268e011e2face7"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5l3prf_knyt9x",
+  "timestamp": "2026-08-23T09:07:54.236Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "212b3287ced274ce30c1aa6f7d95ba8210f2d43d15be913ae720726647919869"
+}

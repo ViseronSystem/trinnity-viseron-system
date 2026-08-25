@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1ginjo_xd0y4o",
+  "timestamp": "2026-08-20T11:48:28.323Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d1f62ff48b762a49b9dabe237a054c15f27125d3c50531124aad7d4921d4d531"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msxky58i_demz1i",
+  "timestamp": "2026-08-17T18:41:24.768Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "a73bb81b26bf45f69785ffd0204a98ff0c1e8b6cfda3bc75c200d8679bd35baa"
+}

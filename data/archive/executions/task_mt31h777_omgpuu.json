@@ -1,0 +1,21 @@
+{
+  "id": "task_mt31h777_omgpuu",
+  "timestamp": "2026-08-21T14:22:58.613Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c551f2639f24bb8a10d272db955d55030438f3ac63ce69eff94b0c8afb5e2324"
+}

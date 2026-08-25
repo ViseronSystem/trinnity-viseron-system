@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7rossa_jz150l",
+  "timestamp": "2026-08-24T21:47:48.007Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5adc3d7aa555f53d6588841a69a1f4851f7bcbde9273b948f6a2d751a63c4fb1"
+}

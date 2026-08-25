@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8nmpsw_orjafw",
+  "timestamp": "2026-08-25T12:41:58.590Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9b9edeffc1e62d0e1f5a7ad0c0d9e52b6e9c227ab50629cbf93a5c691a250779"
+}

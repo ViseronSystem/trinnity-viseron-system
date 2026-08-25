@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2296a6_7ryawl",
+  "timestamp": "2026-08-20T21:56:57.621Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7352c8f62a2d03bfe7c1d29f365134c30fd1f6b7e8a4865eb5677a7133bfa4ff"
+}

@@ -20,7 +20,7 @@ async function generateManual(outputPath: string) {
   // ========== CAPA ==========
   t.cover({
     title: "TRINNITY\nVISERON SYSTEM",
-    subtitle: "v5.0 MULTIVERSAL — Sistema Operativo Multi-Agente de Superinteligencia Artificial",
+    subtitle: "v7.0 MULTIVERSAL — Sistema Operativo Multi-Agente de Superinteligencia Artificial",
     badges: ["5.112 Mentes Autonomas", "25 Sectores Estrategicos", "290+ Provedores IA", "AIOX Core Squad"],
     date: new Date().toLocaleDateString("pt-PT").toUpperCase(),
     version: "5.0",
@@ -562,7 +562,7 @@ async function generateManual(outputPath: string) {
   glossary.forEach(([cat, cmd, desc]) => t.code(cmd, desc, cat));
 
   t.rule();
-  t.title("TRINNITY VISERON SYSTEM v5.0", 20);
+  t.title("TRINNITY VISERON SYSTEM v7.0", 20);
   t.para("\"Construindo o futuro da inteligencia artificial  uma mente de cada vez.\"", 10, "#334155");
   t.para("Pedro Costa  Comandante Supremo", 9, "#64748b");
   t.para("Trinnity Hurtado  Reina Arquitecta", 9, "#64748b");
@@ -574,7 +574,7 @@ async function generateManual(outputPath: string) {
   t.sub("Trinnity Viseron System  Sempre em Evolucao");
   t.rule();
   t.para("$VSR  $TRIN  AIOX", 11, "#b45309");
-  t.para("Este manual foi gerado automaticamente pelo TVS v5.0", 9, "#64748b");
+  t.para("Este manual foi gerado automaticamente pelo TVS v7.0", 9, "#64748b");
   t.para(new Date().toLocaleDateString('pt-BR'), 9, "#64748b");
 
   t.finish(outputPath);

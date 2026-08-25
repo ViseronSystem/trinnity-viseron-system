@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2wovew_97n1y3",
+  "timestamp": "2026-08-21T12:08:58.506Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "dc21c1dba84567c795fe8d9efb91580876c3ab1b8fe750d373f898d34161c664"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2341er_jo40aa",
+  "timestamp": "2026-08-20T22:20:57.679Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b418327153d54596edca2e4193dbcb899c84f3d0b8fc326424245b28908e39e6"
+}

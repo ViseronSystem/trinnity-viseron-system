@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1nlvp3_cdn90w",
+  "timestamp": "2026-08-20T15:06:56.187Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f0a4e4af6aa670ee2b82334609f7d9b94b48b39f2dc89a605c1b4de9ad10816e"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_msyoqrck_kwr1gh",
+  "timestamp": "2026-08-18T13:15:24.840Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b3a1de024e3f6dab4d98d7878575a194c2c4d1be392f1fac7b5b259d4ad9e286"
+}

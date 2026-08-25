@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45g437_m9enul",
+  "timestamp": "2026-08-22T09:01:52.610Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8878d42711f5572153f083d70a4186a78dbe029cc731b1617448af60812ce3d8"
+}

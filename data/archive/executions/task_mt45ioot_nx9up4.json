@@ -1,0 +1,21 @@
+{
+  "id": "task_mt45ioot_nx9up4",
+  "timestamp": "2026-08-22T09:03:52.597Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "15abc81083a7e13d77a6ec83daa433040e39bf86d8a19e961347d825b7c61d49"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2zelyz_41xuwf",
+  "timestamp": "2026-08-21T13:24:58.562Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c3e9969f86adbd3be5bacaf5f3b2adcd15be165a80a31ddc1ab60ece7d998ab7"
+}

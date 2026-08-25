@@ -1,0 +1,21 @@
+{
+  "id": "task_mt74rgwp_d4x86r",
+  "timestamp": "2026-08-24T11:06:01.399Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8c5f3237c5c02e627b35372aeb3c3a0a855c5465e20d69586415d84287a3dad3"
+}

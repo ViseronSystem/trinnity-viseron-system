@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7dmanx_m903s9",
+  "timestamp": "2026-08-24T15:13:56.587Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6a27c0c43b1d1bcf1079cf60b61dbb722d39a748413555001735a5abec1011c4"
+}

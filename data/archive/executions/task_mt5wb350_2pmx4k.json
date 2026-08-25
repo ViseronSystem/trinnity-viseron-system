@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5wb350_2pmx4k",
+  "timestamp": "2026-08-23T14:21:33.967Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f3d16b8b2791808715f0032c7961c22fb2dec390ca16e4cdb9666676b1159e66"
+}

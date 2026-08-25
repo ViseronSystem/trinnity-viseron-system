@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7dekvq_7mtfti",
+  "timestamp": "2026-08-24T15:07:56.611Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f7d572d2784e093f4d4d88ca491afefe4291519bcd30a6c122ed929603605420"
+}

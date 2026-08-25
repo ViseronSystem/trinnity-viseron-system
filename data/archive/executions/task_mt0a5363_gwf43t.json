@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0a5363_gwf43t",
+  "timestamp": "2026-08-19T16:02:11.474Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "71eca63be56fff88a2101cd96c659132a6941594a2bdec2c5ebf3f6d1b30bcb7"
+}

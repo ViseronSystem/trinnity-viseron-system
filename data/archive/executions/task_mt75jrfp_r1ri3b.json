@@ -1,0 +1,21 @@
+{
+  "id": "task_mt75jrfp_r1ri3b",
+  "timestamp": "2026-08-24T11:28:01.419Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f2df7ed8836e9004aa8f483ff304700b734bc056f80684a4253e74d7278691ad"
+}

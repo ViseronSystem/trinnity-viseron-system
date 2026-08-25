@@ -1,0 +1,21 @@
+{
+  "id": "task_mt36c3mx_vqixtk",
+  "timestamp": "2026-08-21T16:38:58.825Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7a9765b7d3a7afb611f6b74002a9db8109baaa64cac01ff5e82abbb6c5c947c3"
+}

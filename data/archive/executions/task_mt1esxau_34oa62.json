@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1esxau_34oa62",
+  "timestamp": "2026-08-20T11:00:28.301Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e1ef3e55035d6c17560ca6b2d737af2227562f4495ec967e51a7cd6505aeac2c"
+}

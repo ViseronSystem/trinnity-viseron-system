@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7m46b9_kimico",
+  "timestamp": "2026-08-24T19:11:47.671Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ee1167624c2dbf2af733f4b7ef059fd3799c736c52e099b18f47913feb559c37"
+}

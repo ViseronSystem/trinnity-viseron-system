@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2zowce_isg80z",
+  "timestamp": "2026-08-21T13:32:58.564Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "28add7b304431b7d8db5e1bc86cf975068c3177fedfb0ccc02e2a2185eae0237"
+}

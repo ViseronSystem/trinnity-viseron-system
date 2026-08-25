@@ -95,7 +95,7 @@ export class TVSTerminal {
     console.log("");
     console.log(c.brightCyan(ruler("═", w)));
     console.log(c.brightCyan(ruler("█", w)));
-    console.log(c.brightCyan(line(` ${bold("TRINNITY VISERON SYSTEM v5.0")}`)));
+    console.log(c.brightCyan(line(` ${bold("TRINNITY VISERON SYSTEM v7.0")}`)));
     console.log(c.brightCyan(line(` ${bold(c.brightWhite("MULTI-AGENT AI OPERATING SYSTEM"))}`)));
     console.log(c.brightCyan(line(` ${c.brightYellow("Modo Terminal · como OpenCode / Ollama / Antigravity")}`)));
     console.log(c.brightCyan(ruler("█", w)));
@@ -464,7 +464,7 @@ export class TVSTerminal {
       console.log(`  ${c.brightCyan(icon)} ${c.brightWhite(bold(name.padEnd(16)))} ${this.cycleStatus(intervalMin, lastRun)}  ${dim(extra)}`);
 
     this.section("ESTADO DO SISTEMA");
-    console.log(`  ${c.brightYellow(bold("TRINNITY VISERON SYSTEM v5.0"))}   ${c.brightGreen("● ONLINE")}`);
+    console.log(`  ${c.brightYellow(bold("TRINNITY VISERON SYSTEM v7.0"))}   ${c.brightGreen("● ONLINE")}`);
     console.log("");
     console.log(`  ${c.brightCyan("🧠")} ${c.brightWhite(bold("Nível de Inteligência:"))} ${c.brightGreen(hyper.intelligenceLevel.toFixed(0))}%  ${dim(`(×${hyper.multiplier.toFixed(1)} acima de uma IA isolada)`)}`);
     console.log(`  ${c.brightCyan("🤖")} ${c.brightWhite(bold("Agentes:"))} ${agentStats.total} total  (${agentStats.active} ativos / ${agentStats.paused} pausados / ${agentStats.error} erro)`);

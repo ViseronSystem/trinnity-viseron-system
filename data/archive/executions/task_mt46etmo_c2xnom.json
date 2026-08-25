@@ -1,0 +1,21 @@
+{
+  "id": "task_mt46etmo_c2xnom",
+  "timestamp": "2026-08-22T09:28:51.987Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "06d270429f6f2a9f09acf4f7202098c8db39446340c7c7d67632b55c9cd1b851"
+}

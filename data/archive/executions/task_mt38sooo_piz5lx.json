@@ -1,0 +1,21 @@
+{
+  "id": "task_mt38sooo_piz5lx",
+  "timestamp": "2026-08-21T17:47:51.796Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d85d2e0ec2e512cbbab108bb759d3beb9085a68e59cfb2be03f6a45b09e94dfe"
+}

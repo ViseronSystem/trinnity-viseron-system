@@ -1,0 +1,21 @@
+{
+  "id": "task_msxkdkhq_7cerrq",
+  "timestamp": "2026-08-17T18:25:24.763Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "89c69f931ae937487a838e5962fcd351fed3e15eb0e4c247bc1d41f62f96bee3"
+}

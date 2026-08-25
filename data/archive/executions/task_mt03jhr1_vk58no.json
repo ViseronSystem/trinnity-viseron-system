@@ -1,0 +1,21 @@
+{
+  "id": "task_mt03jhr1_vk58no",
+  "timestamp": "2026-08-19T12:57:26.252Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b5f7b37e104c73007e30bdd8f4bfac0afcc72e0567416e7de53f5c9539cd09af"
+}

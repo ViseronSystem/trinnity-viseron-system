@@ -1,0 +1,21 @@
+{
+  "id": "task_msxj37ox_jjuhi4",
+  "timestamp": "2026-08-17T17:49:21.997Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "391165f41d6fcc0ba3f7b930b6190de83c21cbec4cb35baa3a8e0afb7c25af01"
+}

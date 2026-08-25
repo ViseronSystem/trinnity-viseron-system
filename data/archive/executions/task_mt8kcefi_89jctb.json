@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8kcefi_89jctb",
+  "timestamp": "2026-08-25T11:09:58.404Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "309daf7493d5fd2d202d223b35387137d8c4019a1722cf008b597a6f8e5b1d29"
+}

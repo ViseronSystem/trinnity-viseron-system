@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1uwyhw_bocosw",
+  "timestamp": "2026-08-20T18:31:30.395Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "43df30076df6d38ba83c146031f9290bfb0520c83b25f02a3130e1b217f6e845"
+}

@@ -176,7 +176,7 @@ async function main() {
   log(`${C.reset}`);
   log(`${C.cyan}${C.bright}  SQUAD AIOX — SCANNER REAL DO SISTEMA v1.0${C.reset}`);
   log(`${C.gray}  © Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)${C.reset}`);
-  log(`${C.gray}  Trinnity Viseron System v5.0 — $(new Date().toISOString())${C.reset}`);
+  log(`${C.gray}  Trinnity Viseron System v7.0 — $(new Date().toISOString())${C.reset}`);
 
   const env = readEnv();
   const result: ScanResult = {} as ScanResult;

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt78jsec_gh0b1o",
+  "timestamp": "2026-08-24T12:52:01.501Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b279052087e3f2b1ea37fe4381e5a046179768bfe8185b7ae7257efefcdb398c"
+}

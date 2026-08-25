@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7d1ts3_esg2kr",
+  "timestamp": "2026-08-24T14:58:01.563Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8bd71d5bbc32367dc0900b00948a2dc1abf8655f2d64a6b9d7e1f90eca57bb1f"
+}

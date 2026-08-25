@@ -11,13 +11,13 @@ fs.ensureDirSync(OUT_DIR);
 
 const t = createTheme({
   title: "Certificado de Autoria e Monitorização AIOX",
-  subject: "Trinnity Viseron System v5.0 — Consolidação da autoria e do domínio operativo.",
+  subject: "Trinnity Viseron System v7.0 — Consolidação da autoria e do domínio operativo.",
 });
 
 t.cover({
   title: "CERTIFICADO DE AUTORIA\nE MONITORIZAÇÃO AIOX",
-  subtitle: "Trinnity Viseron System v5.0 — Consolidação da autoria e do domínio operativo.",
-  badges: ["AIOX", "TVS v5.0", "Autoria"],
+  subtitle: "Trinnity Viseron System v7.0 — Consolidação da autoria e do domínio operativo.",
+  badges: ["AIOX", "TVS v7.0", "Autoria"],
   version: "5.0",
 });
 
@@ -51,7 +51,7 @@ t.bullet("▸", "A implementação em TVS é própria (TypeScript/Node); o conte
 
 t.spacer(2);
 t.para("— Pedro Costa, Comandante Supremo · Trinnity Hurtado, Rainha & Arquiteta Chefe —", 11, "#7c3aed", { align: "center" });
-t.para("Trinnity Viseron System v5.0 · gerado automaticamente", 8, "#6a6a8a", { align: "center" });
+t.para("Trinnity Viseron System v7.0 · gerado automaticamente", 8, "#6a6a8a", { align: "center" });
 
 t.finish(OUT_FILE);
 console.log(`PDF gerado: ${OUT_FILE}`);

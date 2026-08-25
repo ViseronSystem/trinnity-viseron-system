@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0azyax_lhxuwi",
+  "timestamp": "2026-08-19T16:26:11.505Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "75ba6636b7975aaecb49bd40f27c347df721e7aabb47e2ee62ce152a08936a26"
+}

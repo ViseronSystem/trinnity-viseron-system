@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5s0rha_a1dc0c",
+  "timestamp": "2026-08-23T12:21:33.843Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7c43ddb06329551bd157adabe02de5ce7e44d6d8551dfe11f52b815a2645a5e6"
+}

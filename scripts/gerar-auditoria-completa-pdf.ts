@@ -26,7 +26,7 @@ function countFiles(dir: string): number {
 
 async function main() {
   const version = (() => {
-    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "5.0.0"; }
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "7.0.0"; }
   })();
 
   const srcFiles = countFiles(path.join(ROOT, "src"));
@@ -52,7 +52,7 @@ async function main() {
     soft: "#1e293b",
     background: "#050510",
     title: "VISERON SYSTEM",
-    subject: "Auditoria Completa v5.0"
+    subject: "Auditoria Completa v7.0"
   });
 
   // ── COVER ──

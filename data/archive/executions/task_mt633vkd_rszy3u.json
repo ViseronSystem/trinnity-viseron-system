@@ -1,0 +1,21 @@
+{
+  "id": "task_mt633vkd_rszy3u",
+  "timestamp": "2026-08-23T17:31:54.862Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "db3df55698ec16ef238f8cf982f2b1765ae66ef70e830bb98d28f81fab364caf"
+}

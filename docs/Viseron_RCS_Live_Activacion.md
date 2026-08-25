@@ -1,6 +1,6 @@
 # VISERON — Activación RCS Live / Ativação RCS Live / Activating RCS Live
 
-**TVS v5.0 · Trinnity Viseron System** — Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
+**TVS v7.0 · Trinnity Viseron System** — Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)
 
 > Documento trilingue · Trilingual document · Documento trilingüe (ES · PT · EN)
 > Estado: la cuenta Twilio tiene credenciales ✓ pero **0 infraestructura de mensajería** (sin Messaging Service, sin RCS Sender, sin números). El onboarding RCS es 100% manual en el console Twilio y requiere aprobación de Google/operadores (4-6 semanas).

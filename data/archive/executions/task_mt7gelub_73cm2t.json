@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7gelub_73cm2t",
+  "timestamp": "2026-08-24T16:31:56.724Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "815261f1460889268c1e02d5e90c1f2f9c33a1853312bc014f435710c8099d85"
+}

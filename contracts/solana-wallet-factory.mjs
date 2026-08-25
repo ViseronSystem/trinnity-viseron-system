@@ -16,7 +16,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import bs58 from "bs58";
 import { generateMnemonic, mnemonicToSeedSync } from "@scure/bip39";
-import { wordlist } from "@scure/bip39/wordlists/english";
+import { wordlist } from "@scure/bip39/wordlists/english.js";
 import { derivePath } from "ed25519-hd-key";
 import { Keypair } from "@solana/web3.js";
 import { fileURLToPath } from "node:url";
@@ -109,3 +109,4 @@ function main() {
 }
 
 main();
+

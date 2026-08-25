@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8eex26_ebasfg",
+  "timestamp": "2026-08-25T08:23:58.268Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e51396bed3746436ab8666716882c27185156fd32a1ac6fabfdcead67986999c"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4fb20l_9irdmo",
+  "timestamp": "2026-08-22T13:37:52.781Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9abfc386557654804645b7773980de130ed5a988a975553abdf35ed385b1826e"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt246mbe_rr841g",
+  "timestamp": "2026-08-20T22:50:57.694Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "80cc8687700d875078262609abe4fdd6d780dbdf1a27c3336c4d2180ff9308e0"
+}

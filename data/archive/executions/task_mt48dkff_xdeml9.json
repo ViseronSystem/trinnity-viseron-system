@@ -1,0 +1,21 @@
+{
+  "id": "task_mt48dkff_xdeml9",
+  "timestamp": "2026-08-22T10:23:52.634Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "febc0f2016cca169449c326da9ca4cdf331da8678ca759c96db4a389595cfa34"
+}

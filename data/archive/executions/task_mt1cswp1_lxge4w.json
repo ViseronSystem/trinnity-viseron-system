@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1cswp1_lxge4w",
+  "timestamp": "2026-08-20T10:04:28.267Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4590d4d324c56f0b34f7270c4c2a9682fc7d00fba6665a7cf8cd8ca5541d44a7"
+}

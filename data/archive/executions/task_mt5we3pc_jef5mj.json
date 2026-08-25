@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5we3pc_jef5mj",
+  "timestamp": "2026-08-23T14:23:54.639Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cb4d772fd06b8ddc6517a27c4c07eaa0029a6c4842d4ea8100c81ee4b59b910f"
+}

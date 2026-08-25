@@ -30,7 +30,7 @@ async function main() {
   const demoPassword = process.env.TVS_DEMO_PASSWORD || `Demo${crypto.randomBytes(8).toString("base64url")}!`;
   const org = `Trinnity Demo ${stamp.slice(-4)}`;
   console.log("\n═══════════════════════════════════════════════");
-  console.log("TVS v5.0 — DEMO OPERACIONAL REAL (HTTP)");
+  console.log("TVS v7.0 — DEMO OPERACIONAL REAL (HTTP)");
   console.log(`Base: ${BASE}`);
   console.log("═══════════════════════════════════════════════\n");
 

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1by1ki_gtcirj",
+  "timestamp": "2026-08-20T09:40:28.275Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "1bd51aeb1c6605f6343ba0907c2687ff31c063046351751b7d6d940c3a789ae4"
+}

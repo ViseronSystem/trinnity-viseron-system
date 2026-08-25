@@ -1,0 +1,21 @@
+{
+  "id": "task_mt36jtf1_8exnyc",
+  "timestamp": "2026-08-21T16:44:58.819Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3158197e3db3b86546de5851bc98b09ec296a8da7159926c4b037300c569fba8"
+}

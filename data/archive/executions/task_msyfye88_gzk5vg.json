@@ -1,0 +1,21 @@
+{
+  "id": "task_msyfye88_gzk5vg",
+  "timestamp": "2026-08-18T09:09:24.531Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a8b15fc93e82ca1711a54c0a5476e741d0f81ba9dbc8e1ca3aee26af937508f8"
+}

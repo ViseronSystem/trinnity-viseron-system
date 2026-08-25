@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1p4me5_utxkgz",
+  "timestamp": "2026-08-20T15:49:30.187Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "68d8c9910bba5576be35fdeb257816acc29a75492120846bf66cb35f8ca2c5ed"
+}

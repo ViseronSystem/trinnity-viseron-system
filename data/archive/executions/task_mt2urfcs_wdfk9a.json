@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2urfcs_wdfk9a",
+  "timestamp": "2026-08-21T11:14:58.426Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c5e7203b5290059bccf4739b2feb7d1c8b93aaecd28005f0442e7ea0192e899e"
+}

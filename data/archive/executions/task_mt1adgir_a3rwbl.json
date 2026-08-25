@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1adgir_a3rwbl",
+  "timestamp": "2026-08-20T08:56:28.266Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c9f02fc06556b44f35a64b51c2d27a0603e7ee293756e793f1a717f425a5316a"
+}

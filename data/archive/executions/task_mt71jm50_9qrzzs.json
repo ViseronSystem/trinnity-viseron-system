@@ -1,0 +1,21 @@
+{
+  "id": "task_mt71jm50_9qrzzs",
+  "timestamp": "2026-08-24T09:35:56.150Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a84989572de082b591d4203140f6cd6ab72234a928d1a499ef13da616494ab7d"
+}

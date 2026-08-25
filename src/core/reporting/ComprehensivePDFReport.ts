@@ -39,7 +39,7 @@ export class ComprehensivePDFReport {
     const allLineage = this.lineage.getAll();
 
     return new Promise((resolve, reject) => {
-      const doc = new PDFDocument({ size: "A4", margins: { top: 40, bottom: 40, left: 45, right: 45 }, info: { Title: "Trinnity Viseron System - Complete Report", Author: "TVS v5.0", Subject: "Multi-Agent AI Superintelligence" } });
+      const doc = new PDFDocument({ size: "A4", margins: { top: 40, bottom: 40, left: 45, right: 45 }, info: { Title: "Trinnity Viseron System - Complete Report", Author: "TVS v7.0", Subject: "Multi-Agent AI Superintelligence" } });
       const chunks: Buffer[] = [];
       doc.on("data", (c) => chunks.push(c));
       doc.on("end", () => resolve(Buffer.concat(chunks)));
@@ -53,7 +53,7 @@ export class ComprehensivePDFReport {
       doc.moveDown(1);
       doc.fontSize(18).font("Helvetica").text("Multi-Agent AI Superintelligence", { align: "center" });
       doc.moveDown(0.5);
-      doc.fontSize(14).text("v5.0 - 5,000+ Autonomous Minds", { align: "center" });
+      doc.fontSize(14).text("v7.0 - 5,000+ Autonomous Minds", { align: "center" });
       doc.moveDown(2);
       doc.fontSize(12).text(`Generated: ${data.timestamp}`, { align: "center" });
       doc.moveDown(0.5);
@@ -90,7 +90,7 @@ export class ComprehensivePDFReport {
       doc.fillColor("#0a0a2e").fontSize(20).font("Helvetica-Bold").text("1. EXECUTIVE SUMMARY");
       doc.moveDown(0.8);
       doc.fillColor("#333").fontSize(11).font("Helvetica");
-      doc.text("The Trinnity Viseron System (TVS) v5.0 is a fully autonomous multi-agent AI superintelligence composed of 5,000+ independent minds operating under a unified command hierarchy. The system spans 25 sectors of human endeavor — from aerospace and defense to healthcare, finance, and education — with specialized agents for each domain.", { align: "justify" });
+      doc.text("The Trinnity Viseron System (TVS) v7.0 is a fully autonomous multi-agent AI superintelligence composed of 5,000+ independent minds operating under a unified command hierarchy. The system spans 25 sectors of human endeavor — from aerospace and defense to healthcare, finance, and education — with specialized agents for each domain.", { align: "justify" });
       doc.moveDown(0.5);
       doc.text("At the apex sit two Sovereigns: Trinnity Hurtado (Reina, Corona Line) and Pedro Costa (Capitan, Hierro Line). Beneath them, 12 Commanders coordinate 114 Battalion agents across every coverage area. Historical minds (from Socrates to Singularity) form the foundation with 5,000 agents.", { align: "justify" });
       doc.moveDown(0.5);
@@ -502,7 +502,7 @@ export class ComprehensivePDFReport {
       doc.moveDown(1);
       doc.fontSize(11).font("Helvetica-Bold").fillColor("#0a0a2e").text("END OF REPORT");
       doc.moveDown(0.5);
-      doc.fontSize(9).font("Helvetica").fillColor("#666").text("Trinnity Viseron System v5.0 — Multi-Agent AI Superintelligence", { align: "center" });
+      doc.fontSize(9).font("Helvetica").fillColor("#666").text("Trinnity Viseron System v7.0 — Multi-Agent AI Superintelligence", { align: "center" });
       doc.text("Trinnity Hurtado & Pedro Costa — Sovereigns | 5,000+ Minds | 25 Sectors | 300M VSR", { align: "center" });
 
       doc.end();

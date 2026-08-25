@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7fu4xd_moodqo",
+  "timestamp": "2026-08-24T16:16:01.625Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "308d1fb63e12e154d5df5400d52480ee504d30f9d6675b68522344b5302d6f05"
+}

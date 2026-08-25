@@ -1,0 +1,21 @@
+{
+  "id": "task_mt3lz7s4_1sedma",
+  "timestamp": "2026-08-21T23:56:51.517Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "21094bfb6b73bae5cb92e4460df64ce2f9ade6d517ddc436df2756ba4ea7b2cc"
+}

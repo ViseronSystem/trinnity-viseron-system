@@ -30,6 +30,7 @@ export interface AgentExecutionResult {
   success: boolean;
   output: string;
   data?: any;
+  artifact?: any;
   executionTimeMs: number;
   error?: string;
 }

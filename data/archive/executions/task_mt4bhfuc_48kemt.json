@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4bhfuc_48kemt",
+  "timestamp": "2026-08-22T11:50:52.228Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "575328ee04fe6538c8f27855abe0e82e0872dcb2877c85835d4a74936586071c"
+}

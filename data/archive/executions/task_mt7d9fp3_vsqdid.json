@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7d9fp3_vsqdid",
+  "timestamp": "2026-08-24T15:03:56.610Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cdb54470598823c0d0d7ad11a6cc9950581bbed7f6068b68a07b44b48d4b5cf6"
+}

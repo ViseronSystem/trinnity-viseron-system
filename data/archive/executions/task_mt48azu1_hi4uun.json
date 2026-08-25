@@ -1,0 +1,21 @@
+{
+  "id": "task_mt48azu1_hi4uun",
+  "timestamp": "2026-08-22T10:21:52.656Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5d15b1a370ffec2911eb9912ae9c6caa1830bd95b5aa7cfb6b378860c4dd4997"
+}

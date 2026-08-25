@@ -1,0 +1,21 @@
+{
+  "id": "task_mt7wzbug_toqjgf",
+  "timestamp": "2026-08-25T00:15:57.555Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "16c6284459c91f14de3a18de678ad755e9c28341d1b2ad8f0097075ff6b78d8d"
+}

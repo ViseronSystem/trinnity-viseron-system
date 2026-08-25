@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8hjwkw_gsozi4",
+  "timestamp": "2026-08-25T09:51:49.686Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "836f48d42dcd4f090183e9f1b35771693fc08f048c5a9bdd737cfecb2915f8b4"
+}

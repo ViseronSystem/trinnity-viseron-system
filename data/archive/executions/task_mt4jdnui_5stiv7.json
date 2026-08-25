@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4jdnui_5stiv7",
+  "timestamp": "2026-08-22T15:31:52.900Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e6b2c121c151e46f9568634a382618185e590c4d5dc3433451644723dcf7d6be"
+}

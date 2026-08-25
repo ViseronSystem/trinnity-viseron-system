@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1gl850_8185cx",
+  "timestamp": "2026-08-20T11:50:28.341Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a23f4c9cbce7554aa32bf168ff5a283603048997c2e3f991852a81cd83fdefda"
+}

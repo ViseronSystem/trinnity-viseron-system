@@ -53,7 +53,7 @@ async function main() {
   t.cover({
     title: "UPDATE AUTOMÁTICO",
     subtitle: `${today} — atualização do Trinnity Viseron System`,
-    badges: ["TVS v5.0", "GitHub + Vercel", "PDF automático"],
+    badges: ["TVS v7.0", "GitHub + Vercel", "PDF automático"],
     date: new Date().toISOString().slice(0, 10),
     version: "5.0",
     url: "www.trinnityviseronsystem.io",
@@ -61,7 +61,7 @@ async function main() {
 
   // Seção 1: Versão e estado
   t.section("1", "Versão e estado");
-  const version = exec("node -p \"require('./package.json').version\"") || "5.0.0";
+  const version = exec("node -p \"require('./package.json').version\"") || "7.0.0";
   const lastTag = exec("git describe --tags --abbrev=0") || "sem-tags";
   t.kv("Versão:", version);
   t.kv("Última tag:", lastTag);

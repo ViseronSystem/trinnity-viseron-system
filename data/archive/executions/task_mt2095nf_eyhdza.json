@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2095nf_eyhdza",
+  "timestamp": "2026-08-20T21:00:57.603Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "72f479a757f60038a0c8b4c55509e97b43e3616b7fce7ed066b6b4a4415b7ad3"
+}

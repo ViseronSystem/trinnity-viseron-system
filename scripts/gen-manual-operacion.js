@@ -100,7 +100,7 @@ doc.rect(0, 0, PAGE_W, PAGE_H).fill("#0a0a2e");
 fillColor("#00ff87");
 doc.font("Helvetica-Bold").fontSize(30).text("TRINNITY VISERON SYSTEM", MARGIN, 200, { align: "center", width: PAGE_W - MARGIN * 2 });
 doc.font("Helvetica-Bold").fontSize(22).fillColor("#00f0ff").text("MANUAL DE OPERAÇÃO HUMANA", MARGIN, 260, { align: "center", width: PAGE_W - MARGIN * 2 });
-doc.font("Helvetica").fontSize(13).fillColor("#ffffff").text("v5.0 — Todos os passos que uma pessoa precisa executar em todo o sistema", MARGIN, 310, { align: "center", width: PAGE_W - MARGIN * 2 });
+doc.font("Helvetica").fontSize(13).fillColor("#ffffff").text("v7.0 — Todos os passos que uma pessoa precisa executar em todo o sistema", MARGIN, 310, { align: "center", width: PAGE_W - MARGIN * 2 });
 doc.moveTo(MARGIN + 80, 355).lineTo(PAGE_W - MARGIN - 80, 355).strokeColor("#bf5af2").stroke();
 doc.font("Helvetica").fontSize(12).fillColor("#ccccff").text("👑 Pedro Costa — Comandante Supremo\n👸 Trinnity Hurtado — Rainha Arquiteta", MARGIN, 380, { align: "center", width: PAGE_W - MARGIN * 2 });
 doc.font("Helvetica").fontSize(10).fillColor("#8888bb").text(`Gerado automaticamente em ${new Date().toLocaleString("pt-BR")}`, MARGIN, 500, { align: "center", width: PAGE_W - MARGIN * 2 });
@@ -266,7 +266,7 @@ codeBlock("npm run asno:start");
 
 // ============ 11. DIAGRAMA ============
 section(11, "DIAGRAMA DE OPERAÇÃO");
-text("Fluxo de comando e operação do Trinnity Viseron System v5.0:", 10);
+text("Fluxo de comando e operação do Trinnity Viseron System v7.0:", 10);
 ensure(80);
 const drawBox = (x, w, h, color, label, subLabel, textColor = "#ffffff") => {
   doc.rect(x, y, w, h).fill(color).stroke("#ffffff");

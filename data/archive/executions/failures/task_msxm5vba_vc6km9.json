@@ -1,0 +1,21 @@
+{
+  "id": "task_msxm5vba_vc6km9",
+  "timestamp": "2026-08-17T19:15:24.771Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "5b80c89b161f8973893bd8b553c4f11a81cdbc21ae9e2b5ed4a41eb2a70f0e45"
+}

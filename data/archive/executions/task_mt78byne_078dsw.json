@@ -1,0 +1,21 @@
+{
+  "id": "task_mt78byne_078dsw",
+  "timestamp": "2026-08-24T12:45:56.438Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b5c3ec945264aad2613db306c3d348e7d967ec8364d1009019d54524153e8f85"
+}

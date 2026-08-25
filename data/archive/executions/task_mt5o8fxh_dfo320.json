@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5o8fxh_dfo320",
+  "timestamp": "2026-08-23T10:35:33.629Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "710a0759eb0c2934de0e7cb853b324e518db8d845a089e7646b3d722652ff758"
+}

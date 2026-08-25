@@ -1,0 +1,21 @@
+{
+  "id": "task_mt31ox01_hggw91",
+  "timestamp": "2026-08-21T14:28:58.647Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "92b31d0d1d2d853f280bbe965d4625fb58f1a44172a6bc160e6c5030f50b1a83"
+}

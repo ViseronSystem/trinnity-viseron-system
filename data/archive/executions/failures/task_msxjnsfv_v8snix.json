@@ -1,0 +1,21 @@
+{
+  "id": "task_msxjnsfv_v8snix",
+  "timestamp": "2026-08-17T18:05:22.006Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "ab08d14c956e37603206d1c246ef4d33963a1d57975a2bce67fcb42ddf9c7a6b"
+}

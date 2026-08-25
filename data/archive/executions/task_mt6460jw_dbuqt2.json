@@ -1,0 +1,21 @@
+{
+  "id": "task_mt6460jw_dbuqt2",
+  "timestamp": "2026-08-23T18:01:34.260Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7b23244f44840930a96366c6ac712e08cc9f6a2ceea5aba5dea1be2914e1e383"
+}

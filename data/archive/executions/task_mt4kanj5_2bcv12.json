@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4kanj5_2bcv12",
+  "timestamp": "2026-08-22T15:57:32.094Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d6c5509fd80dc83680ef3d2c12c526c9bb295be4e92d72218897ecf6cedbd583"
+}

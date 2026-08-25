@@ -1,0 +1,21 @@
+{
+  "id": "task_msxkipoe_59w6i9",
+  "timestamp": "2026-08-17T18:29:24.760Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "a2f8a087cd660d367f5eb014ffc4bcebe1ae3874203a2fcfb45726b7933aeb47"
+}

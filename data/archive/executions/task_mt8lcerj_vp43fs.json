@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8lcerj_vp43fs",
+  "timestamp": "2026-08-25T11:37:58.559Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2418764fae26a6c71f3c6403cbcb336e86de14ba93fb123ac1fbc01e5f08ed80"
+}

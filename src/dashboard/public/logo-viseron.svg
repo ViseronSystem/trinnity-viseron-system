@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#0a1a3a"/>
+      <stop offset="100%" stop-color="#02020a"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#bf5af2"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="55%" stop-color="#7a4be0"/>
+      <stop offset="100%" stop-color="#bf5af2"/>
+    </linearGradient>
+    <linearGradient id="orb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f0a"/>
+      <stop offset="100%" stop-color="#ff5f57"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="244" fill="none" stroke="url(#ring)" stroke-width="3" opacity="0.9"/>
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#00f0ff" stroke-width="1.5" opacity="0.25"/>
+  <ellipse cx="256" cy="256" rx="240" ry="90" fill="none" stroke="#bf5af2" stroke-width="1.2" opacity="0.3" transform="rotate(-20 256 256)"/>
+  <ellipse cx="256" cy="256" rx="240" ry="90" fill="none" stroke="#bf5af2" stroke-width="1.2" opacity="0.3" transform="rotate(20 256 256)"/>
+  <polygon points="256,96 276,208 384,208 292,276 328,388 256,316 184,388 220,276 128,208 236,208" fill="url(#core)" stroke="#eaf6ff" stroke-width="2"/>
+  <circle cx="256" cy="252" r="34" fill="#02020a" stroke="url(#core)" stroke-width="4"/>
+  <circle cx="256" cy="252" r="12" fill="#00f0ff"/>
+  <circle cx="388" cy="128" r="16" fill="url(#orb)"/>
+  <circle cx="388" cy="128" r="26" fill="none" stroke="#ff9f0a" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="128" cy="384" r="10" fill="url(#orb)" opacity="0.9"/>
+  <circle cx="384" cy="392" r="7" fill="#00f0ff" opacity="0.8"/>
+  <circle cx="120" cy="140" r="5" fill="#eaf6ff" opacity="0.7"/>
+  <text x="256" y="462" text-anchor="middle" font-family="Orbitron, Arial, sans-serif" font-size="40" font-weight="900" letter-spacing="6" fill="url(#ring)">VISERON</text>
+  <text x="256" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" letter-spacing="4" fill="#8a90ab">TRINNITY SYSTEM</text>
+</svg>

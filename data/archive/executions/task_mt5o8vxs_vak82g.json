@@ -1,0 +1,21 @@
+{
+  "id": "task_mt5o8vxs_vak82g",
+  "timestamp": "2026-08-23T10:35:54.417Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7c5c3cb6591b414afad8b55f53d46ff0865639b35d741998762711d60d9fed14"
+}

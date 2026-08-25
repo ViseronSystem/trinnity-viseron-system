@@ -1,0 +1,21 @@
+{
+  "id": "task_msysbd2m_8z32qp",
+  "timestamp": "2026-08-18T14:55:24.961Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b890fa0fd2cc3867c4b5d1be2e22f23f39ece4354e322ac65576ed95f5404d90"
+}

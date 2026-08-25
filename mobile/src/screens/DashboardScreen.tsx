@@ -70,7 +70,7 @@ export default function DashboardScreen({ navigation }: any) {
               <View style={[styles.statusDot, { backgroundColor: '#00ff88' }]} />
               <Text style={styles.statusText}>Online</Text>
             </View>
-            <Text style={styles.coreName}>{status?.core || 'TVS v5.0'}</Text>
+            <Text style={styles.coreName}>{status?.core || 'TVS v7.0'}</Text>
           </View>
           <View style={styles.grid}>
             {statsCards.map((card, i) => (<StatCard key={i} {...card} />))}

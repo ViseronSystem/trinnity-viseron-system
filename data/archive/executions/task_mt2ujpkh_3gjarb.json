@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2ujpkh_3gjarb",
+  "timestamp": "2026-08-21T11:08:58.419Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c54d20672dd0695b503fe3df4904556c216405bcdf84c6d26987ab043ce5712e"
+}

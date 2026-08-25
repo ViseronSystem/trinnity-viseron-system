@@ -14,7 +14,7 @@ const { existsSync, writeFileSync, readFileSync, readdirSync, statSync } = fse;
 
 console.log(`
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║     TRINNITY VISERON SYSTEM v5.0 - FULL SYSTEM AUDIT                   ║
+║     TRINNITY VISERON SYSTEM v7.0 - FULL SYSTEM AUDIT                   ║
 ║     5112 Agents · Deep Scan · Auto-Fix · PDF Report                    ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 `);
@@ -120,7 +120,7 @@ console.log("\n[5/6] Generating architecture diagrams (Mermaid)...");
 
 scanResults.mermaidDiagrams = {
   systemArchitecture: `graph TB
-    subgraph "TRINNITY VISERON SYSTEM v5.0"
+    subgraph "TRINNITY VISERON SYSTEM v7.0"
       direction TB
       subgraph "CORE LAYER"
         VC[ViseronCore] --> AM[AgentManager]

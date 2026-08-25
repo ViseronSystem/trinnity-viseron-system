@@ -1,4 +1,4 @@
-import "dotenv/config";
+﻿import "dotenv/config";
 import express from "express";
 import http from "http";
 import path from "path";
@@ -47,6 +47,13 @@ export class TVSDashboardServer {
     const publicPath = path.join(__dirname, "public");
     this.app.use(express.static(publicPath));
     this.app.use(express.json());
+    this.app.use((req, res, next) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+      if (req.method === "OPTIONS") { return res.sendStatus(204); }
+      next();
+    });
 
     this.app.get("/api/health", (req, res) => {
       res.json({ status: "OK", timestamp: Date.now() });

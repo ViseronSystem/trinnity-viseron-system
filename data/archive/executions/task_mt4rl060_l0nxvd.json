@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4rl060_l0nxvd",
+  "timestamp": "2026-08-22T19:21:32.402Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d838cf31021c3bcfbce8f68b4227463b149cf5ea829e944fb0bcf22b4208d8b7"
+}

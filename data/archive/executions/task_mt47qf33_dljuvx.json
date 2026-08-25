@@ -1,0 +1,21 @@
+{
+  "id": "task_mt47qf33_dljuvx",
+  "timestamp": "2026-08-22T10:05:52.662Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c1293be1d809bb63d78cf862651ba20a0c64d241ed7fe6fb6f756f483ca8d101"
+}

@@ -112,7 +112,7 @@ async function main() {
 
   const version = fs.existsSync(path.join(ROOT, "package.json"))
     ? (JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string)
-    : "5.0.0";
+    : "7.0.0";
   const git = run("git", ["log", "-1", "--format=%h %s"], 15_000);
   const gitCount = run("git", ["rev-list", "--count", "HEAD"], 15_000);
   const gitBranch = run("git", ["branch", "--show-current"], 15_000);

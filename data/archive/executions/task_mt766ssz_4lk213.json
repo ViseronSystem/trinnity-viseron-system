@@ -1,0 +1,21 @@
+{
+  "id": "task_mt766ssz_4lk213",
+  "timestamp": "2026-08-24T11:45:56.362Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b7cec00f8fdacaa7905775a61a8abdb90eae3adaabeb137143371854e0229a67"
+}

@@ -1119,7 +1119,7 @@ async function runOmegaTests() {
     assert(state.lastMilestone != null, "Archive: lastMilestone definido no state");
 
     // 10. Não interfere no pipeline (o bus continua a publicar)
-    let busOk = false;
+    let busOk: boolean = false as boolean;
     bus.subscribe("task:completed", () => { busOk = true; });
     await bus.publish("task:completed", { id: "test_bus", stage: "COMPLETED", model: {}, toolsSummary: {} }, "test");
     await new Promise((r) => setTimeout(r, 100));

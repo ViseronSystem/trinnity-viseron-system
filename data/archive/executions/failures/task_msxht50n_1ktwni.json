@@ -1,0 +1,21 @@
+{
+  "id": "task_msxht50n_1ktwni",
+  "timestamp": "2026-08-17T17:13:32.351Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "95cf07f0538eae0e30daabf5dad25c4e9a5608ef7b4e3f5b027c11410f17db36"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mt296ny4_fwbci7",
+  "timestamp": "2026-08-21T01:10:57.895Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "65d5ed8843ed0e2e7e4f397ace4e731c190edaa692e78f348d7245a9de4b1424"
+}

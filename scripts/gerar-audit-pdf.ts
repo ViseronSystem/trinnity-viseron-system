@@ -8,7 +8,7 @@ const OUT_PDF = path.join(DATA, "audit", "VISERON_TOTAL_AUDIT_REPORT.pdf");
 
 async function main() {
   const version = (() => {
-    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "5.0.0"; }
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version as string; } catch { return "7.0.0"; }
   })();
 
   const pdf = createTheme({
@@ -33,7 +33,7 @@ async function main() {
   pdf.page();
 
   pdf.section("1", "RESUMO EXECUTIVO");
-  pdf.para("O VISERON v5.0 é um sistema operacional de orquestração de IA funcional, não uma superinteligência autónoma. Executa comandos com memória, mas não transforma experiências em inteligência acumulada.", 11);
+  pdf.para("O VISERON v7.0 é um sistema operacional de orquestração de IA funcional, não uma superinteligência autónoma. Executa comandos com memória, mas não transforma experiências em inteligência acumulada.", 11);
   pdf.spacer();
 
   pdf.section("2", "CAPACIDADES (47 auditadas)");
@@ -105,7 +105,7 @@ async function main() {
 
   pdf.rule();
   pdf.para("Auditoria total VISERON — 16 fases — 2026-08-11", 9, "#64748b");
-  pdf.para("© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · TVS v5.0", 9, "#64748b");
+  pdf.para("© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · TVS v7.0", 9, "#64748b");
   pdf.para("CONFIDENCIAL", 9, "#ff2d55");
 
   pdf.finish(OUT_PDF);

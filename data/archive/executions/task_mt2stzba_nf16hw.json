@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2stzba_nf16hw",
+  "timestamp": "2026-08-21T10:20:58.421Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "e38691353c88034840af4c7208909683558ee364a95e5020d07a0d140685379b"
+}

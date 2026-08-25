@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1b36ga_kd73lm",
+  "timestamp": "2026-08-20T09:16:28.259Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7cc97559decc101b934f598ac07f07ea501de554243631b2346f12e0da095d08"
+}

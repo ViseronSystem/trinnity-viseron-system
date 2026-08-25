@@ -1,0 +1,21 @@
+{
+  "id": "task_mt0dhz2r_lc9ffw",
+  "timestamp": "2026-08-19T17:36:11.540Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "38f317eadd0ede33e73c9d24d7eaf095a0bb2cd19e93f64d589c83f608bb3184"
+}

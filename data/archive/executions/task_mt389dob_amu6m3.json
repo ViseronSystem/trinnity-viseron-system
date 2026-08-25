@@ -1,0 +1,21 @@
+{
+  "id": "task_mt389dob_amu6m3",
+  "timestamp": "2026-08-21T17:32:51.080Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2d10b2a3e00b4bb09671905cee073cbdb5e020cfef37696728c92552ab81c9c0"
+}

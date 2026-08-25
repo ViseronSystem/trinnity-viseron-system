@@ -1,0 +1,21 @@
+{
+  "id": "task_msz115ho_lrdeyv",
+  "timestamp": "2026-08-18T18:59:25.123Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4b85ad0430f95c11a869eb94431b7a0445af0faf2c2ca4b196cda85f9f3fbe54"
+}

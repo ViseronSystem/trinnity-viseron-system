@@ -1,0 +1,21 @@
+{
+  "id": "task_msz3tgmm_310ru1",
+  "timestamp": "2026-08-18T20:17:25.157Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5310a957eb517a03f4c9dcdb7e744f001ac413bb8aac329089b57dafd233f6c8"
+}

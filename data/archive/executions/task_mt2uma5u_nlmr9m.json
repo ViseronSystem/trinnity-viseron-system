@@ -1,0 +1,21 @@
+{
+  "id": "task_mt2uma5u_nlmr9m",
+  "timestamp": "2026-08-21T11:10:58.483Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c06b2a9c95ad0e28b9576ef60c8cf487c8e9e0d4c4d72db0c7a40659b24280ce"
+}

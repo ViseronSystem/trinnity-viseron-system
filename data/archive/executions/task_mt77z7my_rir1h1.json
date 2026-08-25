@@ -1,0 +1,21 @@
+{
+  "id": "task_mt77z7my_rir1h1",
+  "timestamp": "2026-08-24T12:36:01.480Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d0953a6e2dd0ef535cf3192503cee70a7d96debf153b2b9f840422f40b28d0e2"
+}

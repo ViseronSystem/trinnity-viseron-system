@@ -1,0 +1,21 @@
+{
+  "id": "task_msxjin92_3nociu",
+  "timestamp": "2026-08-17T18:01:22.001Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "4fec0d554755376096e43acf344753130a517d9a67eb6ff2a8fd9cc824d1817f"
+}

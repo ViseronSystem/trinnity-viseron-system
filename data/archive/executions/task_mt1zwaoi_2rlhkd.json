@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1zwaoi_2rlhkd",
+  "timestamp": "2026-08-20T20:50:57.589Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "611b18f23c37276c4a748d186cd924014610260e709a990d56e9060652c497a8"
+}

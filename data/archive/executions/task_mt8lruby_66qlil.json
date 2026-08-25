@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8lruby_66qlil",
+  "timestamp": "2026-08-25T11:49:58.477Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ab42a4e2e036d5712db73405143b3db30614cd65859dd8a43e004354e6ac337e"
+}

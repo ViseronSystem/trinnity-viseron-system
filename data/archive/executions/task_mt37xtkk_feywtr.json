@@ -1,0 +1,21 @@
+{
+  "id": "task_mt37xtkk_feywtr",
+  "timestamp": "2026-08-21T17:23:51.794Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4272a64150dd8af53f597217d20366425e1a7e2307d51bf05c9b9681fe8949f2"
+}

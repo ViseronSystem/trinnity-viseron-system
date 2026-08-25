@@ -1,0 +1,21 @@
+{
+  "id": "task_mt4g0bwl_hvuert",
+  "timestamp": "2026-08-22T13:57:32.021Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b1ed586242242c468d79314eef69f29142c08bb4d24d494c3ea57279417fe49f"
+}

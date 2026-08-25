@@ -1,0 +1,21 @@
+{
+  "id": "task_mt02jhei_fr4koz",
+  "timestamp": "2026-08-19T12:29:26.184Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "563029c7e15a5b2e2891b89546a9afa3e496d4c7fce276476e32f18fbef01efc"
+}

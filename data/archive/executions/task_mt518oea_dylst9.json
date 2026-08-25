@@ -1,0 +1,21 @@
+{
+  "id": "task_mt518oea_dylst9",
+  "timestamp": "2026-08-22T23:51:53.423Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f3a63b12cf998e41ee997badc65f33859d3ecb0ad49fb1f04085ceeae7c52a4c"
+}

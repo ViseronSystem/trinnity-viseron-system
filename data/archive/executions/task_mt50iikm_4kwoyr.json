@@ -1,0 +1,21 @@
+{
+  "id": "task_mt50iikm_4kwoyr",
+  "timestamp": "2026-08-22T23:31:32.826Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d8d5115f29f6ec11c913fa57a2ba1c5175538501cc1b223f9f6af0ef0b8200b1"
+}

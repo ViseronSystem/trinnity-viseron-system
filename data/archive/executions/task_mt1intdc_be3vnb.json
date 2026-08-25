@@ -1,0 +1,21 @@
+{
+  "id": "task_mt1intdc_be3vnb",
+  "timestamp": "2026-08-20T12:48:28.384Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "23e616ff19adb9a4a513f964342485eef45de87f0188670b89d85c8cdb8ed1ee"
+}

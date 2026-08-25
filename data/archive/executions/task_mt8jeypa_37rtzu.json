@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8jeypa_37rtzu",
+  "timestamp": "2026-08-25T10:43:58.370Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "977516e91b4795c5cd157891d323009e4f9e4d5fa3d25573dcb00fd93e0c188a"
+}

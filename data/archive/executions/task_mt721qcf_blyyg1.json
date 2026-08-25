@@ -1,0 +1,21 @@
+{
+  "id": "task_mt721qcf_blyyg1",
+  "timestamp": "2026-08-24T09:50:01.350Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "008ff83aff79d9be9793f4b257c57819f719a0dc84cea1aacbabce628d34121e"
+}

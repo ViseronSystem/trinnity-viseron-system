@@ -122,7 +122,7 @@ export class WebResearchEngine {
   async research(query: string, urls: string[]): Promise<ResearchResult> {
     const start = Date.now();
     const researchId = `research_${Date.now().toString(36)}`;
-    const trace = this.telemetry?.startTrace({ source: "research", input: { text: query } });
+    const trace = this.telemetry?.startTrace({ source: "research" as any, input: { text: query } });
 
     const sources: ResearchSource[] = [];
     let totalChunks = 0;
