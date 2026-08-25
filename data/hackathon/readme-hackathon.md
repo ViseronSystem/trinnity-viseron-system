@@ -5,7 +5,7 @@
 [![Tests](https://img.shields.io/badge/tests-374%20passing-brightgreen)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)]()
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green)]()
-[![Gemini](https://img.shields.io/badge/AI-Gemini%20Flash-4285f4)]()
+[![Gemini](https://img.shields.io/badge/AI-Gemini%203.6%20Flash-4285f4)]()
 
 ## Quick Start
 

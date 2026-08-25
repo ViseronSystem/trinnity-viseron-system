@@ -76,7 +76,7 @@ Express-based server exposing 50+ REST endpoints across: auth (JWT + rate limiti
 
 ## How Gemini Is Used
 
-- **GeminiProvider** (`src/core/providers/GeminiProvider.ts`): Direct integration with `generativelanguage.googleapis.com/v1beta/models` using Gemini 3.5 Flash. Registered in the provider chain and routed to for code, research, reasoning, and general tasks.
+- **GeminiProvider** (`src/core/providers/GeminiProvider.ts`): Direct integration with `generativelanguage.googleapis.com/v1beta/models` using Gemini 3.6 Flash. Registered in the provider chain and routed to for code, research, reasoning, and general tasks.
 - **Model Router**: Gemini competes with other providers on quality score, cost ($0.002/1k tokens), and latency. The router selects it automatically when it wins the routing criteria.
 - **All 10 agents** can use Gemini as their backend — the `SmartAgentConfig` accepts a `preferredProvider` that defaults to the best available.
 
@@ -115,7 +115,7 @@ After building and running TVS for production use, several architectural pattern
 |-------|-----------|
 | Runtime | Node.js 20 + TypeScript |
 | Web | Express + Socket.IO |
-| AI | Gemini, OpenAI, Claude, Grok, Ollama, OmniRoute |
+| AI | Gemini, OpenAI, Claude, Grok, Ollama, OmniRoute | Gemini 3.6 Flash via Google AI Studio |
 | Memory | Custom STM/LTM/KB + Qdrant vectors + Knowledge Graph |
 | Database | PostgreSQL (Cloud SQL) |
 | Messaging | Twilio (RCS/SMS), Gmail OAuth |

@@ -169,6 +169,7 @@
     "cripto:farming": "tsx scripts/airdrop-farming.ts"
   },
   "dependencies": {
+    "@google-cloud/aiplatform": "^7.2.0",
     "@langchain/core": "^1.2.3",
     "@modelcontextprotocol/client": "^2.0.0",
     "@modelcontextprotocol/server": "^2.0.0",
@@ -191,6 +192,7 @@
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "fs-extra": "^11.4.0",
+    "google-auth-library": "^11.0.2",
     "ipaddr.js": "^2.5.0",
     "node-cron": "^4.6.0",
     "nodemailer": "^9.0.5",

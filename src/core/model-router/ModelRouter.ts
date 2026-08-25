@@ -121,7 +121,7 @@ export class ModelRouter {
 
     this.registerModel({
       provider: 'gemini',
-      modelName: 'gemini-3.5-flash',
+      modelName: 'gemini-3.6-flash',
       isLocal: false,
       costPer1kTokens: 0.0001,
       latencyMs: 200,
