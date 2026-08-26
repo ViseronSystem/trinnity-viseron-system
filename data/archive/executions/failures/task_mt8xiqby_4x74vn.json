@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8xiqby_4x74vn",
+  "timestamp": "2026-08-25T17:18:48.759Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "68d79119d12532b59076b5896ad94e5caea1ade913724bc47e1b81dd8f567b09"
+}

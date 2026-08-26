@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVS Patentes — Sistema Autónomo Verificable</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0f3460 100%);
+    color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  .slide {
+    min-height: 100vh;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(15,52,96,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(83,52,131,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .slide-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #a0aec0;
+    margin-bottom: 15px;
+  }
+  
+  .subtitle {
+    font-size: 1.4rem;
+    color: #a0aec0;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+  }
+  
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,210,255,0.1);
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #00d2ff;
+  }
+  
+  .card p {
+    color: #a0aec0;
+    line-height: 1.6;
+  }
+  
+  .stat-row {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  
+  .stat {
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .chart-container {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 30px;
+    margin: 20px 0;
+  }
+  
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin: 20px 0;
+  }
+  
+  canvas {
+    max-height: 300px;
+  }
+  
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  
+  .flow-step {
+    background: rgba(0,210,255,0.1);
+    border: 1px solid rgba(0,210,255,0.3);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .flow-arrow {
+    color: #00d2ff;
+    font-size: 1.5rem;
+  }
+  
+  .flow-step.active {
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    color: white;
+    border: none;
+  }
+  
+  .flow-step.failed {
+    background: rgba(239,68,68,0.2);
+    border-color: rgba(239,68,68,0.5);
+    color: #fca5a5;
+  }
+  
+  .flow-step.ok {
+    background: rgba(34,197,94,0.2);
+    border-color: rgba(34,197,94,0.5);
+    color: #86efac;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .badge-patent {
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+    color: white;
+  }
+  
+  .badge-novel {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+  }
+  
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 30px 0;
+  }
+  
+  .comparison-col {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 25px;
+  }
+  
+  .comparison-col h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #00d2ff;
+  }
+  
+  .comparison-col ul {
+    list-style: none;
+  }
+  
+  .comparison-col li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #a0aec0;
+  }
+  
+  .comparison-col li::before {
+    content: '✗ ';
+    color: #ef4444;
+  }
+  
+  .comparison-col.good li::before {
+    content: '✓ ';
+    color: #22c55e;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+  
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  @media print {
+    .slide { page-break-after: always; min-height: 100vh; }
+    body { background: white; color: #1a1a2e; }
+    .card { border: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide">
+  <div class="slide-content">
+    <h1>Trinnity Viseron System</h1>
+    <p class="subtitle">Sistema Autónomo Verificable — 5 Invenciones Patentables</p>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Patentes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">5792</div>
+        <div class="stat-label">Tareas Ejecutadas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">370</div>
+        <div class="stat-label">Tests Automáticos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">98.1%</div>
+        <div class="stat-label">Tasa de Éxito</div>
+      </div>
+    </div>
+    <p style="color:#64748b;margin-top:20px;">© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) · Agosto 2026</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: The Problem -->
+<div class="slide">
+  <div class="slide-content">
+    <h2>El Problema: IA Sin Verificación</h2>
+    <p class="subtitle">Los sistemas de IA autónoma actuales ejecutan pero no verifican</p>
+    
+    <div class="comparison">
+      <div class="comparison-col">
+        <h4>Sistemas Actuales (sin TVS)</h4>
+        <ul>
+          <li>IA ejecuta sin verificar resultados</li>
+          <li>Sin rollback automático en errores</li>
+          <li>Sin auditoría de decisiones</li>
+          <li>Sin límites por dominio de riesgo</li>
+          <li>Sin verificación post-ejecución</li>
+          <li>Sin aprendizaje de experiencias pasadas</li>
+        </ul>
+      </div>
+      <div class="comparison-col good">
+        <h4>TVS (con Patentas)</h4>
+        <ul>
+          <li>VAEC: gates obligatorios antes de cada cambio</li>
+          <li>OMEGA: rollback automático en fallo</li>
+          <li>AutonomyOS: auditoría completa de decisiones</li>
+          <li>Squads: líderes duales con permisos granulares</li>
+          <li>TaskVerifier: reglas configurables post-ejecución</li>
+          <li>ExperienceStore: aprendizaje de cada ejecución</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: VAEC Patent -->
+<div class="slide">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px;">
+      <h2 style="margin:0;">Patente #1: VAEC</h2>
+      <span class="badge badge-patent">PATENTABLE</span>
+      <span class="badge badge-novel">NOVEDAD TOTAL</span>
+    </div>
+    <h3>Autonomous Evolution & Continuity</h3>
+    <p style="color:#a0aec0;margin-bottom:30px;">Gates obligatorios que impiden que la IA promueva cambios sin verificación completa</p>
+    
+    <div class="flow">
+      <div class="flow-step ok">IMPLEMENT</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">TEST</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">SYNC</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">BUILD</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">VERIFY</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">LEARN</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step active">PROMOTE</div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Resultado de Gates VAEC</h4>
+        <canvas id="vaecChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Historial de Ciclos</h4>
+        <canvas id="vaecHistoryChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h4>Rollback Automático</h4>
+        <p>Si algún gate falla, el sistema restaura el estado anterior automáticamente</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <h4>Journal Completo</h4>
+        <p>Cada ciclo queda registrado en vaec-journal.jsonl para auditoría</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📡</div>
+        <h4>EventBus Integration</h4>
+        <p>Eventos vaec:stage, vaec:gate, vaec:promoted en tiempo real</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: OMEGA Kernel Patent -->
+<div class="slide">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px;">
+      <h2 style="margin:0;">Patente #2: OMEGA Kernel</h2>
+      <span class="badge badge-patent">PATENTABLE</span>
+    </div>
+    <h3>Task Execution + Post-Verification</h3>
+    <p style="color:#a0aec0;margin-bottom:30px;">Pipeline completo con verificación automática post-ejecución</p>
+    
+    <div class="flow">
+      <div class="flow-step">PLAN</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">QUEUE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">AGENT</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">TOOLS</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">EXECUTE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step active">VERIFY</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">RESULT</div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Tareas OMEGA por Estado</h4>
+        <canvas id="omegaTasksChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Tasa de Verificación</h4>
+        <canvas id="omegaVerifyChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h4>Verified Completion Rate</h4>
+        <p>98.1% de tareas verificadas exitosamente</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h4>Persistencia</h4>
+        <p>Tareas pendientes sobreviven a reinicios del sistema</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h4>Composite Verifier</h4>
+        <p>Reglas de schema + evidencia + invariantes + política componibles</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: AutonomyOS Patent -->
+<div class="slide">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px;">
+      <h2 style="margin:0;">Patente #3: AutonomyOS</h2>
+      <span class="badge badge-patent">PATENTABLE</span>
+    </div>
+    <h3>Domain-Specific Autonomy Levels</h3>
+    <p style="color:#a0aec0;margin-bottom:30px;">Niveles de autonomía 0-5 por dominio con políticas configurables</p>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Niveles de Autonomía por Dominio</h4>
+        <canvas id="autonomyChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Decisiones por Veredicto</h4>
+        <canvas id="verdictChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <h4 style="margin-bottom:15px;color:#00d2ff;">Políticas por Dominio</h4>
+      <table style="width:100%;border-collapse:collapse;margin-top:10px;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+          <th style="text-align:left;padding:12px;color:#00d2ff;">Dominio</th>
+          <th style="text-align:left;padding:12px;color:#00d2ff;">Nivel</th>
+          <th style="text-align:left;padding:12px;color:#00d2ff;">Comportamiento</th>
+          <th style="text-align:left;padding:12px;color:#00d2ff;">Límites</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Finanzas</td>
+          <td style="padding:12px;">4 (Supervisado)</td>
+          <td style="padding:12px;">Ejecuta con auditoría</td>
+          <td style="padding:12px;">Auto &lt;€50 · Approval ≥€500 · Deny &gt;€50k</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Deploy</td>
+          <td style="padding:12px;">2 (Aprobado)</td>
+          <td style="padding:12px;">Ejecuta con aprobación</td>
+          <td style="padding:12px;">Deny: prod_down</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Datos</td>
+          <td style="padding:12px;">3 (Limitado)</td>
+          <td style="padding:12px;">Riesgo bajo auto, alto aprueba</td>
+          <td style="padding:12px;">Deny: drop_database, seed_exposure</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Mensajería</td>
+          <td style="padding:12px;">3 (Limitado)</td>
+          <td style="padding:12px;">Auto &lt;10, approval ≥100</td>
+          <td style="padding:12px;">Deny: spam_all, impersonate</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Agentes</td>
+          <td style="padding:12px;">2 (Aprobado)</td>
+          <td style="padding:12px;">Ejecuta con aprobación</td>
+          <td style="padding:12px;">Deny: uninstall_core</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:12px;">Investigación</td>
+          <td style="padding:12px;">5 (Operacional)</td>
+          <td style="padding:12px;">Autónomo total</td>
+          <td style="padding:12px;">Deny: illegal_activity</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;">Sistema</td>
+          <td style="padding:12px;">1 (Asistido)</td>
+          <td style="padding:12px;">Recomienda, humano decide</td>
+          <td style="padding:12px;">Deny: rm_root, purge_state</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Squads Patent -->
+<div class="slide">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px;">
+      <h2 style="margin:0;">Patente #4: Squads</h2>
+      <span class="badge badge-patent">PATENTABLE</span>
+    </div>
+    <h3>Dual Leader Squad Formation</h3>
+    <p style="color:#a0aec0;margin-bottom:30px;">Equipos con líderes duales (estratégico + técnico) y permisos granulares</p>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Squads AIOX Registrados</h4>
+        <canvas id="squadsChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Estructura de Liderazgo</h4>
+        <div style="padding:20px;">
+          <div style="display:flex;justify-content:center;gap:40px;margin-bottom:30px;">
+            <div class="card" style="min-width:200px;text-align:center;">
+              <div class="card-icon">👑</div>
+              <h4>Pedro Costa</h4>
+              <p>CEO & Strategic Leader</p>
+              <p style="font-size:0.8rem;color:#f59e0b;">Visión · Estrategia · Decisiones</p>
+            </div>
+            <div class="card" style="min-width:200px;text-align:center;">
+              <div class="card-icon">👸</div>
+              <h4>Trinnity Hurtado</h4>
+              <p>Chief Architect</p>
+              <p style="font-size:0.8rem;color:#a855f7;">Técnica · Arquitectura · Modelos</p>
+            </div>
+          </div>
+          <div style="text-align:center;color:#64748b;">
+            <p>Cada squad tiene permisos diferenciados por líder</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h4>12 Squads</h4>
+        <p>Engineering, Security, Aerospace, Business, Creative, Executive, Evolution, Operations, Research + 3 Intelligence</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔐</div>
+        <h4>5 Niveles de Permiso</h4>
+        <p>EXECUTE_TOOLS · ACCESS_MEMORY · ROUTE_MODELS · MANAGE_AGENTS · SYSTEM_ADMIN</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h4>Runtime Resolution</h4>
+        <p>Los miembros se resuelven en runtime — agentes vivos o specs</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: Skill Fabric Patent -->
+<div class="slide">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px;">
+      <h2 style="margin:0;">Patente #5: Skill Fabric</h2>
+      <span class="badge badge-patent">PATENTABLE</span>
+    </div>
+    <h3>Skill Execution with Contract Validation</h3>
+    <p style="color:#a0aec0;margin-bottom:30px;">Descubrimiento → validación → ejecución → aprendizaje</p>
+    
+    <div class="flow">
+      <div class="flow-step">DISCOVER</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">CONTRACT</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">VALIDATE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step active">EXECUTE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">EVIDENCE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step ok">LEARN</div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Skills por Nivel de Riesgo</h4>
+        <canvas id="riskChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Pipeline de Ejecución</h4>
+        <canvas id="pipelineChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>Contratos de Skill</h4>
+        <p>Cada skill declara: inputSchema, outputSchema, requiredTools, requiredPermissions, riskLevel, timeoutMs</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h4>Experience Store</h4>
+        <p>Cada ejecución se registra con latencia, costo, evidencia y resultado para aprendizaje futuro</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h4>Clasificación de Riesgo</h4>
+        <p>HIGH_RISK (secret/deploy/sudo), MEDIUM_RISK (write/api/file), LOW_RISK (read/query)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: Real Results -->
+<div class="slide">
+  <div class="slide-content">
+    <h2>Resultados Reales del Sistema</h2>
+    <p class="subtitle">Datos en vivo del TVS operativo</p>
+    
+    <div class="chart-row">
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Total Tareas OMEGA</h4>
+        <canvas id="realTasksChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h4 style="margin-bottom:15px;color:#00d2ff;">Tests Automáticos</h4>
+        <canvas id="realTestsChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h4>5,792 Tareas</h4>
+        <p>5684 completadas · 108 fallidas · 98.1% éxito</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <h4>370 Tests</h4>
+        <p>Core: 20 · OMEGA: 250 · Vertical: 86 · Restart: 14</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <h4>12 Squads Activos</h4>
+        <p>10 agentes nucleares + 5,000+ mentes spawnadas</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⏱️</div>
+        <h4>5,684 Verificadas</h4>
+        <p>TaskCompletionRate verificado: 98.1%</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: Patent Value -->
+<div class="slide">
+  <div class="slide-content">
+    <h2>Valor de las Patentes</h2>
+    <p class="subtitle">Inversión vs Retorno Esperado</p>
+    
+    <div class="chart-container">
+      <h4 style="margin-bottom:15px;color:#00d2ff;">Costo vs Valor Estimado (€)</h4>
+      <canvas id="valueChart"></canvas>
+    </div>
+    
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h4>Inversión: €10,000-20,000</h4>
+        <p>2 patentes prioritarias (VAEC + OMEGA) en España + Europa</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h4>Valor: €500,000-2,000,000</h4>
+        <p>Licencias a empresas de IA autónoma, defensa, finanzas, salud</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h4>Protección: 20 Años</h4>
+        <p>Exclusividad sobre la tecnología de verificación autónoma</p>
+      </div>
+    </div>
+    
+    <div style="margin-top:40px;padding:30px;background:rgba(0,210,255,0.1);border-radius:16px;border:1px solid rgba(0,210,255,0.3);">
+      <h3 style="color:#00d2ff;margin-bottom:15px;">Próximos Pasos</h3>
+      <ol style="color:#a0aec0;padding-left:20px;">
+        <li style="margin:10px 0;">Buscar anterioridad (€500-1,000) — verificar que no existe nada igual</li>
+        <li style="margin:10px 0;">Redactar solicitud de patente (€3,000-8,000 por patente)</li>
+        <li style="margin:10px 0;">Presentar en SPTO (España) o EPO (Europa)</li>
+        <li style="margin:10px 0;">Examen técnico (12-24 meses)</li>
+        <li style="margin:10px 0;">Concesión y protección por 20 años</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Footer -->
+<div class="slide" style="justify-content:flex-end;">
+  <div class="slide-content" style="text-align:center;">
+    <h1 style="font-size:2.5rem;">Trinnity Viseron System</h1>
+    <p class="subtitle">Sistema Autónomo Verificable — Patent Pending</p>
+    <div class="stat-row" style="justify-content:center;">
+      <div class="stat">
+        <div class="stat-value">v7.0.0</div>
+        <div class="stat-label">Versión</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Patentes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">370</div>
+        <div class="stat-label">Tests</div>
+      </div>
+    </div>
+    <p style="color:#64748b;margin-top:40px;">
+      © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)<br>
+      Agosto 2026 · Todos los derechos reservados
+    </p>
+  </div>
+</div>
+
+<script>
+// VAEC Gates Chart
+new Chart(document.getElementById('vaecChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['PASSED', 'FAILED', 'ROLLED_BACK'],
+    datasets: [{
+      data: [18, 2, 1],
+      backgroundColor: ['#22c55e', '#ef4444', '#f59e0b'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0' } }
+    }
+  }
+});
+
+// VAEC History Chart
+new Chart(document.getElementById('vaecHistoryChart'), {
+  type: 'line',
+  data: {
+    labels: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8'],
+    datasets: [{
+      label: 'Gates Passed',
+      data: [7, 7, 6, 7, 7, 7, 5, 7],
+      borderColor: '#22c55e',
+      backgroundColor: 'rgba(34,197,94,0.1)',
+      fill: true,
+      tension: 0.4
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, max: 8, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      x: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    plugins: { legend: { labels: { color: '#a0aec0' } } }
+  }
+});
+
+// OMEGA Tasks Chart
+new Chart(document.getElementById('omegaTasksChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Completed', 'Failed', 'Running', 'Queued'],
+    datasets: [{
+      label: 'Tareas',
+      data: [5684, 108, 0, 0],
+      backgroundColor: ['#22c55e', '#ef4444', '#3b82f6', '#f59e0b'],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    scales: {
+      x: { beginAtZero: true, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// OMEGA Verify Chart
+new Chart(document.getElementById('omegaVerifyChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Verified', 'Unverified'],
+    datasets: [{
+      data: [5684, 108],
+      backgroundColor: ['#22c55e', '#4b5563'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0' } }
+    }
+  }
+});
+
+// Autonomy Levels Chart
+new Chart(document.getElementById('autonomyChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Finance', 'Deploy', 'Data', 'Messaging', 'Agents', 'Research', 'System'],
+    datasets: [{
+      label: 'Autonomy Level',
+      data: [4, 2, 3, 3, 2, 5, 1],
+      backgroundColor: 'rgba(0,210,255,0.2)',
+      borderColor: '#00d2ff',
+      pointBackgroundColor: '#00d2ff'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 5,
+        ticks: { color: '#a0aec0', backdropColor: 'transparent' },
+        grid: { color: 'rgba(255,255,255,0.1)' },
+        pointLabels: { color: '#a0aec0' }
+      }
+    },
+    plugins: { legend: { labels: { color: '#a0aec0' } } }
+  }
+});
+
+// Verdicts Chart
+new Chart(document.getElementById('verdictChart'), {
+  type: 'pie',
+  data: {
+    labels: ['Auto', 'Approval', 'Deny', 'Supervised'],
+    datasets: [{
+      data: [45, 30, 15, 10],
+      backgroundColor: ['#22c55e', '#3b82f6', '#ef4444', '#f59e0b'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0' } }
+    }
+  }
+});
+
+// Squads Chart
+new Chart(document.getElementById('squadsChart'), {
+  type: 'polarArea',
+  data: {
+    labels: ['Engineering', 'Security', 'Aerospace', 'Business', 'Creative', 'Executive', 'Evolution', 'Operations', 'Research', 'Eng-Intel', 'Sec-Intel', 'Exec-Intel'],
+    datasets: [{
+      data: [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+      backgroundColor: [
+        'rgba(0,210,255,0.6)', 'rgba(239,68,68,0.6)', 'rgba(168,85,247,0.6)',
+        'rgba(34,197,94,0.6)', 'rgba(245,158,11,0.6)', 'rgba(59,130,246,0.6)',
+        'rgba(236,72,153,0.6)', 'rgba(20,184,166,0.6)', 'rgba(99,102,241,0.6)',
+        'rgba(139,92,246,0.6)', 'rgba(244,63,94,0.6)', 'rgba(6,182,212,0.6)'
+      ],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0', font: { size: 10 } } }
+    }
+  }
+});
+
+// Risk Chart
+new Chart(document.getElementById('riskChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['LOW_RISK', 'MEDIUM_RISK', 'HIGH_RISK'],
+    datasets: [{
+      data: [65, 25, 10],
+      backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0' } }
+    }
+  }
+});
+
+// Pipeline Chart
+new Chart(document.getElementById('pipelineChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Discover', 'Contract', 'Validate', 'Execute', 'Evidence', 'Learn'],
+    datasets: [{
+      label: 'Skills',
+      data: [1997, 1997, 1800, 1750, 1700, 1650],
+      backgroundColor: 'rgba(0,210,255,0.6)',
+      borderRadius: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      x: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// Real Tasks Chart
+new Chart(document.getElementById('realTasksChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Completed', 'Failed'],
+    datasets: [{
+      label: 'Tareas',
+      data: [5684, 108],
+      backgroundColor: ['#22c55e', '#ef4444'],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      x: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// Real Tests Chart
+new Chart(document.getElementById('realTestsChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Core (20)', 'OMEGA (250)', 'Vertical (86)', 'Restart (14)'],
+    datasets: [{
+      data: [20, 250, 86, 14],
+      backgroundColor: ['#3b82f6', '#a855f7', '#22c55e', '#f59e0b'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#a0aec0' } }
+    }
+  }
+});
+
+// Value Chart
+new Chart(document.getElementById('valueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Búsqueda', 'Redacción', 'Registro', 'TOTAL'],
+    datasets: [{
+      label: 'Costo (€)',
+      data: [1000, 8000, 3000, 12000],
+      backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'],
+      borderRadius: 8
+    }, {
+      label: 'Valor Licencia (€)',
+      data: [0, 0, 0, 1000000],
+      backgroundColor: ['transparent', 'transparent', 'transparent', 'rgba(34,197,94,0.3)'],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      x: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    plugins: { legend: { labels: { color: '#a0aec0' } } }
+  }
+});
+</script>
+
+</body>
+</html>

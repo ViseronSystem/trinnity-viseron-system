@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8xiooi_x97me9",
+  "timestamp": "2026-08-25T17:18:46.396Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "c36e18f68b6abd79b5dc3a4d889045dd73b35fa1be2f66cb363e64c7da3bce46"
+}

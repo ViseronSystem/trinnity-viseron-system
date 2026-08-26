@@ -1,0 +1,21 @@
+{
+  "id": "task_mt8xiq8l_gym1bt",
+  "timestamp": "2026-08-25T17:18:48.412Z",
+  "stage": "FAILED",
+  "success": false,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "FAIL"
+  },
+  "executedBy": "",
+  "hash": "240291fe90829325fadb0fde788d4f1b9537973e02a1b719b9396ae38dcf08e1"
+}
