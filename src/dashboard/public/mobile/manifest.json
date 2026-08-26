@@ -1,0 +1,22 @@
+{
+  "name": "Trinnity Viseron System",
+  "short_name": "TVS",
+  "description": "Multi-Agent AI Superintelligence OS",
+  "start_url": "/mobile",
+  "display": "standalone",
+  "background_color": "#0a0a2e",
+  "theme_color": "#00f5ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
