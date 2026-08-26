@@ -218,7 +218,7 @@ export class UserTaskOrchestrator {
       const { readdirSync, existsSync } = require("fs") as typeof import("fs");
       const path = require("path") as typeof import("path");
       const fs2 = require("fs") as typeof import("fs");
-      const base = path.join(this.store.getDataDir(), "workspace");
+      const base = this.store.workspaceDir();
       if (!existsSync(base)) return found;
       for (const tenantId of readdirSync(base)) {
         const stateFile = path.join(base, tenantId, "state.json");

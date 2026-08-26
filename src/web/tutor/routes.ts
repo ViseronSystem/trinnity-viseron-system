@@ -32,7 +32,7 @@ export function createTutorRouter(ctx: {
     try {
       const message = String(req.body?.message || "").trim();
       if (!message) return res.status(400).json({ error: "Mensagem vazia" });
-      const lang = req.body?.lang === "pt" ? "pt" : req.body?.lang === "en" ? "pt" : "es";
+      const lang = ["es", "pt", "en"].includes(req.body?.lang) ? req.body.lang : "es";
       const mode = MODES.includes(req.body?.mode) ? req.body.mode : undefined;
       const sessionId = String(req.body?.sessionId || "").trim() || undefined;
       const reply = await tutor.chat({ message, lang, mode, sessionId });

@@ -61,10 +61,6 @@ export class CallLogStore {
     }
   }
 
-  get(id: string): CallRecord | undefined {
-    return this.list().find((r) => r.id === id);
-  }
-
   count(): { total: number; inbound: number; outbound: number } {
     const all = this.list(100000);
     return {

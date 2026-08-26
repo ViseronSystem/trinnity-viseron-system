@@ -44,9 +44,5 @@ export function createSitesRouter(store: SiteStore, logger?: { info?: (message: 
     res.sendFile(path.resolve(site.htmlPath));
   });
 
-  router.get("/sites/status", (_req: Request, res: Response) => {
-    res.json({ ok: true, total: store.count() });
-  });
-
   return router;
 }

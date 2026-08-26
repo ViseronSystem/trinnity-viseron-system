@@ -51,6 +51,8 @@ import { AgentActivationEngine } from "../omega/activation/AgentActivationEngine
 import { createAgentRouter } from "./agents/routes";
 import { createCriptoRouter } from "./cripto/routes";
 import { createFounderRouter } from "./founder/routes";
+import { createStrixRouter } from "./strix/routes";
+import { createEcosystemRouter } from "./ecosystem/routes";
 import { SkillBridge } from "../core/intelligence/SkillBridge";
 import { createOmegaGateway, createOmegaGatewayPlaceholder } from "../omega/gateway";
 import { bridgeSocketIO } from "../omega/kernel/EventBridge";
@@ -392,19 +394,6 @@ export class ViseronWebServer {
       }
     });
 
-    this.app.get("/api/system/status", async (_req, res) => {
-      const counts = await this.accounts.count();
-      res.json({
-        version: this.version,
-        name: "Viseron Web",
-        mode: "standalone",
-        blog: this.blog.count(),
-        uptime: process.uptime(),
-        tenants: counts.tenants,
-        users: counts.users,
-      });
-    });
-
     this.app.get("/api/public/checkout", async (req, res) => {
       try {
         const plan = String(req.query.plan || "starter");
@@ -496,6 +485,12 @@ export class ViseronWebServer {
     this.app.use("/api/omega", this.omegaRouter);
     this.app.use("/api/agents", createAgentRouter(this.agentEngine));
     this.app.use("/api/cripto", createCriptoRouter());
+
+    // ── STRIX — AI Pentesting integrado (usestrix/strix)
+    this.app.use("/api/strix", createStrixRouter());
+
+    // ── ECOSYSTEM — 9 repositórios integrados com monitoramento Pedro/Trinnity/Squads
+    this.app.use("/api/ecosystem", createEcosystemRouter());
 
     // ── FOUNDER OS — daily plan, status, weekly/monthly reviews, KPIs
     this.app.use("/api", createFounderRouter(this.dataDir));

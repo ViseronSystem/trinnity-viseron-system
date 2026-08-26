@@ -24,7 +24,7 @@
   function getApiBase() { return window.__webosApiBase || window.location.origin; }
 
   async function refreshStats() {
-    statsCache = await fetchJSON(getApiBase() + '/api/stats');
+    statsCache = await fetchJSON(getApiBase() + '/api/status');
     agentsCache = await fetchJSON(getApiBase() + '/api/agents');
     document.querySelectorAll('.os-stat-value').forEach(el => {
       const k = el.dataset.stat;

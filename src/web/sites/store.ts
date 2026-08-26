@@ -54,10 +54,6 @@ export class SiteStore {
     return { meta, htmlPath };
   }
 
-  htmlDir(slug: string): string {
-    return path.join(this.dir, slug);
-  }
-
   count(): number {
     return this.list().length;
   }

@@ -166,7 +166,19 @@
     "import:telecom": "tsx scripts/import-telecom.ts",
     "telecom:campaign": "tsx scripts/campaign-telecom.ts",
     "cripto:oportunidades": "tsx scripts/cripto-oportunidades.ts",
-    "cripto:farming": "tsx scripts/airdrop-farming.ts"
+    "cripto:farming": "tsx scripts/airdrop-farming.ts",
+    "strix": "tsx scripts/strix-cli.ts",
+    "strix:status": "tsx scripts/strix-cli.ts status",
+    "strix:scan": "tsx scripts/strix-cli.ts scan",
+    "strix:history": "tsx scripts/strix-cli.ts history",
+    "strix:running": "tsx scripts/strix-cli.ts running",
+    "strix:selftest": "tsx scripts/strix-cli.ts selftest",
+    "eco": "tsx scripts/ecosystem-cli.ts",
+    "eco:status": "tsx scripts/ecosystem-cli.ts status",
+    "eco:detail": "tsx scripts/ecosystem-cli.ts detail",
+    "eco:monitor": "tsx scripts/ecosystem-cli.ts monitor",
+    "eco:logs": "tsx scripts/ecosystem-cli.ts logs",
+    "ecosistema:pdf": "tsx scripts/gerar-ecossistema-repos.ts"
   },
   "dependencies": {
     "@google-cloud/aiplatform": "^7.2.0",

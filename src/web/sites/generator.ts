@@ -166,6 +166,7 @@ export async function generateSite(name: string, description: string, lang: "pt"
 export async function createSite(store: SiteStore, name: string, description: string, lang: "pt" | "en" | "es" = "pt"): Promise<{ meta: SiteMeta; htmlPath: string }> {
   const { meta, html } = await generateSite(name, description, lang);
   store.writeHtml(meta.slug, html);
-  store.save({ meta, htmlPath: store.htmlDir(meta.slug) });
-  return { meta, htmlPath: store.htmlDir(meta.slug) };
+  const result = store.get(meta.slug)!;
+  store.save({ meta, htmlPath: result.htmlPath });
+  return { meta, htmlPath: result.htmlPath };
 }

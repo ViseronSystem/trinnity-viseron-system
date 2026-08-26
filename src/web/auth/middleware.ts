@@ -7,7 +7,12 @@ export interface AuthedRequest extends Request {
 }
 
 export function authSecret(): string {
-  return process.env.TVS_JWT_SECRET || process.env.JWT_SECRET || "tvs-dev-secret-change-in-production";
+  const secret = process.env.TVS_JWT_SECRET || process.env.JWT_SECRET;
+  if (!secret) {
+    console.error("[AUTH] FATAL: TVS_JWT_SECRET not set! Using fallback — CHANGE IN PRODUCTION!");
+    return "tvs-dev-secret-change-in-production";
+  }
+  return secret;
 }
 
 export function requireAuth(req: AuthedRequest, res: Response, next: NextFunction): void {

@@ -45,6 +45,7 @@ export class MessageStore {
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       const tmp = `${this.file}.tmp`;
       fs.writeFileSync(tmp, JSON.stringify(this.data, null, 2), "utf8");
+      if (fs.existsSync(this.file)) fs.unlinkSync(this.file);
       fs.renameSync(tmp, this.file);
     } catch (e) {
       console.error(`[MessageStore] Falha ao gravar ${this.file}: ${(e as Error).message}`);
@@ -56,10 +57,6 @@ export class MessageStore {
       this.data.keys[userId] = generateKeyPair();
       this.persist();
     }
-    return this.data.keys[userId];
-  }
-
-  getKeyPair(userId: string): MessagingKeyPair | undefined {
     return this.data.keys[userId];
   }
 

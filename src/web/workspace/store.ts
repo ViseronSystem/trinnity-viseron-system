@@ -72,16 +72,12 @@ const MAX_EVENTS_PER_TASK = 200;
 export class WorkspaceStore {
   constructor(private readonly dataDir: string) {}
 
-  public getDataDir(): string {
-    return this.dataDir;
+  public workspaceDir(): string {
+    return path.join(this.dataDir, "workspace");
   }
 
   public tenantDir(tenantId: string): string {
     return path.join(this.dataDir, "workspace", this.safeId(tenantId));
-  }
-
-  public projectSandboxDir(tenantId: string, projectId: string): string {
-    return path.join(this.tenantDir(tenantId), "projects", this.safeId(projectId));
   }
 
   private stateFile(tenantId: string): string {
