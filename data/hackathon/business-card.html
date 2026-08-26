@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1050px;height:600px;font-family:'Inter',system-ui,sans-serif;overflow:hidden;background:transparent}
+.card{width:1050px;height:600px;background:linear-gradient(135deg,#0a0e14 0%,#111820 40%,#0f1923 100%);display:flex;position:relative;overflow:hidden;border-radius:20px}
+
+/* Decorative elements */
+.card::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(0,245,212,0.08),transparent 70%);top:-100px;right:-80px}
+.card::after{content:'';position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(123,97,255,0.06),transparent 70%);bottom:-80px;left:-60px}
+
+/* Grid lines */
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(123,97,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(123,97,255,0.04) 1px,transparent 1px);background-size:40px 40px}
+
+/* Accent line */
+.accent{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#00f5d4,#7b61ff,#f72585);border-radius:20px 20px 0 0}
+
+/* Left side - photo */
+.left{flex:0 0 380px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1;padding:40px}
+.photo-ring{width:220px;height:220px;border-radius:50%;border:3px solid rgba(0,245,212,0.3);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:20px}
+.photo-ring::before{content:'';position:absolute;inset:-8px;border:1px solid rgba(123,97,255,0.2);border-radius:50%}
+.photo-ring::after{content:'';position:absolute;inset:-16px;border:1px solid rgba(0,245,212,0.1);border-radius:50%}
+.photo{width:200px;height:200px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,245,212,0.4)}
+
+/* Right side - info */
+.right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:50px 50px 50px 20px;position:relative;z-index:1}
+.role{font-size:11px;color:#00f5d4;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.name{font-size:42px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1;margin-bottom:4px}
+.title{font-size:16px;color:rgba(255,255,255,0.4);font-weight:400;margin-bottom:28px}
+.divider{width:60px;height:2px;background:linear-gradient(90deg,#00f5d4,#7b61ff);margin-bottom:24px;border-radius:2px}
+.contact{display:flex;flex-direction:column;gap:12px}
+.contact-item{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,0.6)}
+.contact-item .icon{width:32px;height:32px;border-radius:8px;background:rgba(0,245,212,0.08);border:1px solid rgba(0,245,212,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.contact-item .text{color:#fff;font-weight:500}
+.project{margin-top:24px;padding:14px 18px;background:rgba(0,245,212,0.05);border:1px solid rgba(0,245,212,0.15);border-radius:10px;display:flex;align-items:center;gap:12px}
+.project .dot{width:8px;height:8px;border-radius:50%;background:#00f5d4;box-shadow:0 0 8px rgba(0,245,212,0.5)}
+.project .ptext{font-size:12px;color:rgba(255,255,255,0.5)}
+.project .ptext strong{color:#00f5d4;font-weight:600}
+.corner{position:absolute;bottom:20px;right:24px;font-size:10px;color:rgba(255,255,255,0.15);letter-spacing:2px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="accent"></div>
+  <div class="grid"></div>
+  <div class="left">
+    <div class="photo-ring">
+      <img class="photo" src="file:///C:/Users/Administrator/trinnity-viseron-system/data/hackathon/foto.jpg" onerror="this.style.background='linear-gradient(135deg,#00f5d4,#7b61ff)';this.style.display='flex'"/>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px">Founder & CEO</div>
+      <div style="font-size:20px;font-weight:800;color:#fff">Pedro Costa</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px">Comandante</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="role">Chief Executive Officer</div>
+    <div class="name">Pedro Costa</div>
+    <div class="title">Founder & CEO — Trinnity Viseron System</div>
+    <div class="divider"></div>
+    <div class="contact">
+      <div class="contact-item"><div class="icon">📧</div><div class="text">daviiicostaaa11@gmail.com</div></div>
+      <div class="contact-item"><div class="icon">🌐</div><div class="text">www.trinnityviseronsystem.io</div></div>
+      <div class="contact-item"><div class="icon">📍</div><div class="text">España / London</div></div>
+    </div>
+    <div class="project">
+      <div class="dot"></div>
+      <div class="ptext"><strong>TVS v7.0</strong> — AI-Native Operating System · 10 Agentes Autónomos · 374 Tests · Gobernanza Bíblica</div>
+    </div>
+  </div>
+  <div class="corner">TRINNITY VISERON SYSTEM v7.0</div>
+</div>
+</body>
+</html>
