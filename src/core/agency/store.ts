@@ -165,7 +165,7 @@ export class AgencyStore {
   listLeads(status?: LeadStatus): AgencyLead[] {
     const s = this.load();
     const list = status ? s.leads.filter((l) => l.status === status) : s.leads;
-    return list.sort((a, b) => b.firstContact.localeCompare(a.firstContact));
+    return list.sort((a, b) => (b.firstContact ?? "").localeCompare(a.firstContact ?? ""));
   }
 
   getLead(id: string): AgencyLead | null {

@@ -2,7 +2,7 @@
 
 Project: Trinnity Viseron System v7.0
 
-Mission: Build an autonomous multi-agent AI superintelligence with 5000+ minds.
+Mission: Build an autonomous multi-agent AI platform with real orchestration, learning, and revenue capabilities.
 
 Copyright & Authority:
 - Os direitos autorais do projeto pertencem a Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).
@@ -109,6 +109,7 @@ cd mobile && npx expo start
 | `npm run demo:avirato` | Testa checkout Avirato real (cria sessão de pagamento, ex: `-- core`) |
 | `npm run cofre` | Gera data/Viseron_Cofre_Credenciais.pdf (todas as chaves/tokens/logins — CONFIDENCIAL, gitignored) |
 | `npm run plan:strategic` | Gera data/Viseron_Plano_Estrategico_<data>.pdf + data/Viseron_Roadmap_Tecnico_<data>.pdf (o que falta implementar + comandos para voltar a cada etapa) |
+| `npm run competitive` | Gera data/Viseron_Competitive_Strategy.pdf — roadmap completo para concorrer com Google/Meta/Telegram/WhatsApp/Instagram/YouTube (4 pilares, fases, moat, receita, go-to-market, execução autónoma) |
 | `npm run pdfs:all` | Regenera TODOS os PDFs (manuais + pitches + roadmap + 100 melhorias + relatórios) — correr a cada atualização/comando novo |
 | `npm run gmail:setup` | Setup Gmail API (OAuth consent → refresh token) para o agente de atendimento |
 | `npm run demo:email` | Demo dos fluxos de email (verify/reset/invoice/agent) |
@@ -156,7 +157,7 @@ cd mobile && npx expo start
 
 ## Viseron Cosmos ($VSR · $TRIN — tokens reais do TVS)
 
-O **Viseron Cosmos** é o braço financeiro do TVS: dois tokens reais que levam as 5000+ mentes ao mercado, inspirado no Dogelon Mars. Autoria: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
+O **Viseron Cosmos** é o braço financeiro do TVS: dois tokens reais para o ecossistema de agentes, inspirado no Dogelon Mars. Autoria: © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha).
 
 - **$VSR** (Viseron Crown, 300M): governança (ERC20Votes, 1 voto/token), 1% burn + 1% treasury por transferência, anti-whale 3%. Prueba de Mandato (PoM) dos agentes AIOX.
 - **$TRIN** (Trinnity, **420,690,000 — 420.69M**, otimizado para liquidez): moeda de viagem interplanetária, 2% burn, anti-bot 0.5%, lock pré-launch.
@@ -493,7 +494,7 @@ To enable cloud AI, set in `.env`:
 
 ## graphify (knowledge graph do VISERON)
 
-O TVS tem um **knowledge graph operativo** em `graphify-out/` (god nodes, comunidades e relações cross-file — 4278 nós/8275 arestas) a servir as **5000+ mentes** sob o comando de **Pedro Costa (Comandante)** e **Trinnity Hurtado (Rainha)**, com supervisão do squad AIOX.
+O TVS tem um **knowledge graph operativo** em `graphify-out/` (god nodes, comunidades e relações cross-file — 4278 nós/8275 arestas) sob o comando de **Pedro Costa (Comandante)** e **Trinnity Hurtado (Rainha)**, com supervisão do squad AIOX.
 
 Quando o utilizador digitar `/graphify`, usar o skill graphify instalado (`.opencode/skills/graphify/`) antes de qualquer outra coisa.
 
@@ -507,7 +508,7 @@ Regras operativas:
 
 ## Ecossistema de Integrações (skills + repositórios do TVS)
 
-O TVS integra **9 repositórios/skills externos** (2026-08) que alimentam as 5000+ mentes. As coleções de skills vivem em `skills/vendor/` (gitignored, instaláveis por `npm run skills:install`) e são indexadas pelo `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10 coleções**. Estado completo: `npm run integrations:status`.
+O TVS integra **9 repositórios/skills externos** (2026-08) que alimentam os agentes do sistema. As coleções de skills vivem em `skills/vendor/` (gitignored, instaláveis por `npm run skills:install`) e são indexadas pelo `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10coleções**. Estado completo: `npm run integrations:status`.
 
 | Repositório | Skills | Licença | O que traz |
 |---|---|---|---|

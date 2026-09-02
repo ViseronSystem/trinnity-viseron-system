@@ -466,14 +466,14 @@ export class TVSTerminal {
     this.section("ESTADO DO SISTEMA");
     console.log(`  ${c.brightYellow(bold("TRINNITY VISERON SYSTEM v7.0"))}   ${c.brightGreen("● ONLINE")}`);
     console.log("");
-    console.log(`  ${c.brightCyan("🧠")} ${c.brightWhite(bold("Nível de Inteligência:"))} ${c.brightGreen(hyper.intelligenceLevel.toFixed(0))}%  ${dim(`(×${hyper.multiplier.toFixed(1)} acima de uma IA isolada)`)}`);
+    console.log(`  ${c.brightCyan("🧠")} ${c.brightWhite(bold("Nível de Inteligência:"))} ${c.brightGreen(hyper.intelligenceScore.toFixed(0))}/100  ${dim(`(baseado em métricas reais)`)}`);
     console.log(`  ${c.brightCyan("🤖")} ${c.brightWhite(bold("Agentes:"))} ${agentStats.total} total  (${agentStats.active} ativos / ${agentStats.paused} pausados / ${agentStats.error} erro)`);
     console.log(`  ${c.brightCyan("📡")} ${c.brightWhite(bold("Provedores IA:"))} ${bridgeStats.providersAvailable}  ·  ${bridgeStats.totalRequests} requisições  ·  ${bridgeStats.successRate.toFixed(0)}% sucesso`);
     console.log(`  ${c.brightCyan("⏱️ ")} ${c.brightWhite(bold("Uptime:"))} ${this.formatUptime(uptime)}`);
     console.log("");
 
     this.subSection("CICLOS AUTÔNOMOS (agentes fazem sozinhos)");
-    cyc("HyperLearning", "📈", 30, this.lastHyperRun, `ciclo ${hyper.cycleCount} · inteligência ×1.05 por ciclo`);
+    cyc("HyperLearning", "📈", 30, this.lastHyperRun, `ciclo ${hyper.cycleCount} · score ${hyper.intelligenceScore}/100 (métricas reais)`);
     cyc("AutoEvolution", "🧬", 60, this.lastEvolutionRun, `${evolution.totalCycles} ciclos · sabedoria média ${evolution.averageWisdom.toFixed(1)} · ${evolution.totalCapabilities} capacidades`);
     cyc("AutoLearning", "📚", 30, this.lastLearningRun, `${info.knowledgeCycles} ciclos · consolida STM→LTM + insights`);
     cyc("AutoPilot", "🤖", 30, this.lastPlannerRun, `${plannerCycles} ciclos · autonomia ${info.autonomousPlanning.toFixed(0)}% · ${plannerTasks.filter(t => t.status === "COMPLETED").length} tarefas executadas`);

@@ -28,14 +28,14 @@ export interface AutonomousTask {
 }
 
 /**
- * AutonomousPlanner - Motor de Planificación Autónoma
+ * AutonomousPlanner — REAL version
  * 
- * Capacidades:
- *  - Escanea el sistema periódicamente para detectar oportunidades de mejora
- *  - Genera tareas autónomas basadas en el estado del sistema
- *  - Ejecuta tareas usando el orquestador multi-agente
- *  - Aprende de resultados para mejorar planificaciones futuras
- *  - Autonomía progresiva: aumenta su iniciativa con cada ciclo
+ * Instead of looping the same generic tasks forever, this planner:
+ * 1. Scans REAL system state (errors, memory, agent health, API failures)
+ * 2. Creates tasks only when there's actual work to do
+ * 3. Deduplicates by checking recent task history (not just title)
+ * 4. Stops growing autonomy when system is healthy
+ * 5. Logs what it actually accomplished
  */
 export class AutonomousPlanner {
   private agentManager: AgentManager;
@@ -65,7 +65,6 @@ export class AutonomousPlanner {
     this.toolManager = toolManager;
     this.modelRouter = modelRouter;
 
-    // RETOMA: tarefas pendentes, autonomia e ciclos sobrevivem a restarts.
     const persisted = loadPersistentState<PlannerPersisted>("autonomous-planner", { cycleCount: 0, autonomyLevel: 0, tasks: [] });
     if (persisted.cycleCount > 0) {
       this.cycleCount = persisted.cycleCount;
@@ -73,8 +72,6 @@ export class AutonomousPlanner {
       if (Array.isArray(persisted.tasks)) this.tasks = persisted.tasks;
       console.log(`[AutonomousPlanner] RESUMIDO: ciclo ${this.cycleCount} · autonomia ${this.autonomyLevel}% · ${this.tasks.filter(t => t.status === 'PENDING').length} tarefas pendentes retomadas`);
     } else {
-      // Primeiro arranque: autonomia de partida 15% para o primeiro ciclo já
-      // produzir tarefas úteis (auditoria, consolidação, reativação).
       this.autonomyLevel = 15;
       console.log(`[AutonomousPlanner] PRIMEIRO ARRANQUE: autonomia inicial ${this.autonomyLevel}%`);
     }
@@ -87,7 +84,7 @@ export class AutonomousPlanner {
     savePersistentState<PlannerPersisted>("autonomous-planner", {
       cycleCount: this.cycleCount,
       autonomyLevel: this.autonomyLevel,
-      tasks: this.tasks,
+      tasks: this.tasks.slice(-200), // Keep last 200 tasks max
     });
   }
 
@@ -147,27 +144,20 @@ export class AutonomousPlanner {
   }
 
   public start(): void {
-    console.log(`[AutonomousPlanner] Iniciando planificación autónoma (cada 5 minutos)...`);
+    console.log(`[AutonomousPlanner] Iniciando planificación autónoma (cada 15 minutos)...`);
 
-    if (this.cronJob) {
-      this.cronJob.stop();
-      this.cronJob = null;
-    }
+    if (this.cronJob) { this.cronJob.stop(); this.cronJob = null; }
 
-    // Ejecución inicial
     this.executePlanningCycle();
 
-    // Ciclo recurrente cada 5 minutos (antes 30 — demasiado parado)
-    this.cronJob = cron.schedule("*/5 * * * *", () => {
+    // Every 15 minutes instead of 5 — reduces spam
+    this.cronJob = cron.schedule("*/15 * * * *", () => {
       this.executePlanningCycle();
     });
   }
 
   public stop(): void {
-    if (this.cronJob) {
-      this.cronJob.stop();
-      console.log(`[AutonomousPlanner] Planificación autónoma detenida.`);
-    }
+    if (this.cronJob) { this.cronJob.stop(); this.cronJob = null; }
   }
 
   public async executePlanningCycle(): Promise<void> {
@@ -176,19 +166,11 @@ export class AutonomousPlanner {
     this.cycleCount++;
     (global as any).__TVS_LAST_PLANNER = Date.now();
 
-    console.log(`\n==================================================`);
-    console.log(`[AutonomousPlanner] Ciclo de Planificación #${this.cycleCount}`);
-    console.log(`[AutonomousPlanner] Nivel de Autonomía: ${this.autonomyLevel}`);
-    console.log(`==================================================\n`);
-
     try {
-      // 1. Escanear el sistema
       const systemState = this.scanSystem();
-
-      // 2. Generar tareas basadas en el estado
       const newTasks = this.generateTasksFromState(systemState);
 
-      // 3. Ejecutar tareas pendientes (máximo 2 por ciclo)
+      // Execute up to 2 pending tasks
       let executed = 0;
       const pendingTasks = this.tasks.filter(t => t.status === 'PENDING');
       for (const task of pendingTasks.slice(0, 2)) {
@@ -196,7 +178,6 @@ export class AutonomousPlanner {
         executed++;
       }
 
-      // 4. Registrar el ciclo en memoria
       this.memoryEngine.setLongTerm(`autonomous_cycle_${Date.now()}`, {
         cycle: this.cycleCount,
         autonomyLevel: this.autonomyLevel,
@@ -207,31 +188,52 @@ export class AutonomousPlanner {
         timestamp: Date.now()
       }, ['autonomous', 'planning', `cycle_${this.cycleCount}`]);
 
-      // 5. Incrementar autonomía gradualmente (sube +5 por ciclo; nunca queda parado)
-      this.autonomyLevel = Math.min(100, this.autonomyLevel + 5);
-      console.log(`[AutonomousPlanner] Autonomía incrementada a ${this.autonomyLevel}%`);
+      // Autonomy grows only if there's real work — stops at 60%
+      const pendingCount = this.tasks.filter(t => t.status === 'PENDING').length;
+      if (pendingCount > 0 && this.autonomyLevel < 60) {
+        this.autonomyLevel = Math.min(60, this.autonomyLevel + 3);
+      }
 
-      console.log(`\n==================================================`);
-      console.log(`[AutonomousPlanner] Ciclo #${this.cycleCount} completado`);
-      console.log(`[AutonomousPlanner] Tareas pendientes: ${this.tasks.filter(t => t.status === 'PENDING').length}`);
-      console.log(`[AutonomousPlanner] Tareas completadas: ${this.tasks.filter(t => t.status === 'COMPLETED').length}`);
-      console.log(`[AutonomousPlanner] Autonomía actual: ${this.autonomyLevel}%`);
-      console.log(`==================================================\n`);
-
-      // Guardar estado: nunca perder tarefas/ciclos num restart.
       this.persist();
 
+      if (newTasks > 0 || executed > 0) {
+        console.log(`[AutonomousPlanner] Cycle #${this.cycleCount}: ${newTasks} tasks created, ${executed} executed, ${pendingCount} pending, autonomy ${this.autonomyLevel}%`);
+      }
     } catch (err) {
-      console.error(`[AutonomousPlanner] Error en ciclo #${this.cycleCount}:`, err);
+      console.error(`[AutonomousPlanner] Error in cycle #${this.cycleCount}:`, err);
     } finally {
       this.isRunning = false;
     }
   }
 
+  /**
+   * Scan REAL system state — not just agent/tool counts
+   */
   private scanSystem(): any {
     const memoryStats = this.memoryEngine.getStats();
     const agents = this.agentManager.list();
     const tools = this.toolManager.listTools();
+
+    // Check for REAL issues
+    let errorCount = 0;
+    let recentErrors: string[] = [];
+    try {
+      const fs = require("fs");
+      const path = require("path");
+      const logPath = path.resolve(process.cwd(), "data", "knowledge", "agent-activity.jsonl");
+      if (fs.existsSync(logPath)) {
+        const lines = fs.readFileSync(logPath, "utf8").trim().split("\n").filter(Boolean);
+        const recent = lines.slice(-100);
+        errorCount = recent.filter((l: string) => l.includes("error") || l.includes("failed")).length;
+        recentErrors = recent.filter((l: string) => l.includes("error")).slice(-5).map((l: string) => {
+          try { return JSON.parse(l).action || "unknown"; } catch { return "unknown"; }
+        });
+      }
+    } catch {}
+
+    // Check memory pressure
+    const stmItems = (memoryStats as any)?.shortTerm?.totalItems || 0;
+    const ltmItems = (memoryStats as any)?.longTerm?.totalItems || 0;
 
     return {
       memory: memoryStats,
@@ -244,99 +246,77 @@ export class AutonomousPlanner {
         total: tools.length,
         types: [...new Set(tools.map(t => t.type))]
       },
+      errors: { count: errorCount, recent: recentErrors },
+      memoryPressure: { stm: stmItems, ltm: ltmItems },
       timestamp: Date.now()
     };
   }
 
+  /**
+   * Generate tasks based on REAL system needs — not always the same generic tasks
+   */
   private generateTasksFromState(state: any): number {
     let count = 0;
+    const recentTaskTitles = this.tasks
+      .filter(t => t.createdAt > Date.now() - 3600000) // last hour
+      .map(t => t.title);
 
-    // SEMPRE há trabalho: cada ciclo produz ao menos tarefas úteis reais,
-    // mesmo com autonomia baixa — nada de ficar parado.
-    // 1) Revisión de estado (autonomía >= 1)
-    if (this.autonomyLevel >= 1) {
-      const active = state.agents.active ?? 0;
-      const total = state.agents.total ?? 0;
-      const tools = state.tools.total ?? 0;
-      this.addTask({
-        title: "Auditar estado del sistema",
-        description: `Revisar ${total} agentes (${active} activos) y ${tools} herramientas; generar informe de salud y oportunidades de mejora.`,
-        priority: 'LOW',
-        category: 'optimization'
-      });
-      count++;
+    // Only create tasks when there's actual need
+
+    // 1) Memory consolidation — only if STM is actually full
+    if ((state.memoryPressure?.stm ?? 0) > 50) {
+      const title = "Consolidar memoria STM";
+      if (!recentTaskTitles.includes(title)) {
+        this.addTask({
+          title,
+          description: `Hay ${state.memoryPressure.stm} items en STM. Consolidar a LTM para preservar conocimiento.`,
+          priority: 'MEDIUM',
+          category: 'maintenance'
+        });
+        count++;
+      }
     }
 
-    // 2) Consolidar memoria (STM supera 10 items)
-    if ((state.memory?.shortTerm?.totalItems ?? 0) > 10) {
-      this.addTask({
-        title: "Consolidar memoria STM",
-        description: `Hay ${state.memory.shortTerm.totalItems} items en STM. Consolidar a LTM para preservar conocimiento.`,
-        priority: 'MEDIUM',
-        category: 'maintenance'
-      });
-      count++;
+    // 2) Error recovery — only if there are actual errors
+    if (state.errors.count > 3) {
+      const title = "Revisar errores del sistema";
+      if (!recentTaskTitles.includes(title)) {
+        this.addTask({
+          title,
+          description: `${state.errors.count} errores recientes detectados: ${state.errors.recent.join(", ")}. Investigar y corregir.`,
+          priority: 'HIGH',
+          category: 'optimization'
+        });
+        count++;
+      }
     }
 
-    // 3) Reactivar agentes inactivos (autonomía >= 10)
-    if (this.autonomyLevel >= 10 && state.agents.active < state.agents.total) {
-      this.addTask({
-        title: "Reactivar agentes inactivos",
-        description: `Solo ${state.agents.active} de ${state.agents.total} agentes están activos. Evaluar reactivación.`,
-        priority: 'MEDIUM',
-        category: 'optimization'
-      });
-      count++;
+    // 3) Tool gap — only if agent count is high but tools are low
+    if (state.agents.total > 20 && state.tools.total < 5) {
+      const title = "Crear herramientas de automatización";
+      if (!recentTaskTitles.includes(title)) {
+        this.addTask({
+          title,
+          description: `${state.agents.total} agentes pero solo ${state.tools.total} herramientas. Crear herramientas para expandir capacidades.`,
+          priority: 'HIGH',
+          category: 'creation'
+        });
+        count++;
+      }
     }
 
-    if (this.autonomyLevel >= 20) {
-      this.addTask({
-        title: "Auto-mejora del sistema",
-        description: "Analizar logs y memoria para identificar y aplicar optimizaciones automáticas en el core del sistema.",
-        priority: 'HIGH',
-        category: 'improvement'
-      });
-      count++;
-    }
-
-    if (this.autonomyLevel >= 30) {
-      this.addTask({
-        title: "Generar nuevo agente especializado",
-        description: `Basado en las necesidades actuales del sistema, crear un nuevo agente con capacidades específicas.`,
-        priority: 'HIGH',
-        category: 'creation'
-      });
-      count++;
-    }
-
-    if (this.autonomyLevel >= 40) {
-      this.addTask({
-        title: "Explorar nuevas integraciones",
-        description: "Buscar en la base de conocimiento posibilidades de nuevas herramientas o integraciones para expandir capacidades.",
-        priority: 'LOW',
-        category: 'exploration'
-      });
-      count++;
-    }
-
-    if (this.autonomyLevel >= 50 && state.tools.total < 5) {
-      this.addTask({
-        title: "Crear herramientas de automatización",
-        description: `Solo hay ${state.tools.total} herramientas registradas. Generar nuevas herramientas para expandir capacidades.`,
-        priority: 'HIGH',
-        category: 'creation'
-      });
-      count++;
-    }
-
-    if (this.cycleCount % 5 === 0 && this.autonomyLevel >= 60) {
-      this.addTask({
-        title: "Optimización profunda del sistema",
-        description: "Ejecutar ciclo de optimización integral: limpiar memoria, reindexar, actualizar perfiles de modelo y compactar almacenamiento.",
-        priority: 'CRITICAL',
-        category: 'optimization'
-      });
-      count++;
+    // 4) Knowledge gap — only if memory has very few LTM items
+    if (state.memoryPressure.ltm < 10 && this.cycleCount > 5) {
+      const title = "Ampliar base de conocimiento";
+      if (!recentTaskTitles.includes(title)) {
+        this.addTask({
+          title,
+          description: `Solo ${state.memoryPressure.ltm} items en LTM. Generar conocimiento a partir de operaciones recientes.`,
+          priority: 'MEDIUM',
+          category: 'improvement'
+        });
+        count++;
+      }
     }
 
     return count;
@@ -350,30 +330,29 @@ export class AutonomousPlanner {
       createdAt: Date.now()
     };
 
-    // Evitar duplicados
+    // Deduplicate by title + recent status
     const exists = this.tasks.some(t =>
-      t.title === task.title && t.status !== 'COMPLETED'
+      t.title === task.title && t.status !== 'COMPLETED' && t.status !== 'FAILED'
     );
     if (exists) return newTask;
 
     this.tasks.push(newTask);
 
-    // Podar tareas antiguas completadas/fallidas para no crecer sin límite
-    if (this.tasks.length > 500) {
+    // Prune old tasks
+    if (this.tasks.length > 200) {
       const terminal = this.tasks.filter(t => t.status === 'COMPLETED' || t.status === 'FAILED');
-      const removeCount = this.tasks.length - 500;
+      const removeCount = this.tasks.length - 200;
       const toRemove = terminal.slice(0, removeCount);
       const removeIds = new Set(toRemove.map(t => t.id));
       this.tasks = this.tasks.filter(t => !removeIds.has(t.id));
     }
 
-    console.log(`[AutonomousPlanner] Tarea autónoma creada: [${task.priority}] ${task.title}`);
+    console.log(`[AutonomousPlanner] Task created: [${task.priority}] ${task.title}`);
     return newTask;
   }
 
   private async executeTask(task: AutonomousTask): Promise<boolean> {
     task.status = 'IN_PROGRESS';
-    console.log(`\n-> Ejecutando tarea autónoma: "${task.title}"...`);
 
     try {
       const report = await this.orchestrator.orchestrate(task.title, task.description, {
@@ -385,13 +364,13 @@ export class AutonomousPlanner {
       task.completedAt = Date.now();
       task.result = report.overallOutput;
 
-      console.log(`[AutonomousPlanner] Tarea "${task.title}" ${task.status === 'COMPLETED' ? 'COMPLETADA' : 'FALLÓ'}`);
+      console.log(`[AutonomousPlanner] Task "${task.title}" → ${task.status}`);
       return task.status === 'COMPLETED';
     } catch (err: any) {
       task.status = 'FAILED';
       task.completedAt = Date.now();
       task.result = `Error: ${err.message}`;
-      console.error(`[AutonomousPlanner] Error ejecutando tarea "${task.title}":`, err.message);
+      console.error(`[AutonomousPlanner] Error executing "${task.title}":`, err.message);
       return false;
     }
   }

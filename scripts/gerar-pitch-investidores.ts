@@ -124,7 +124,7 @@ th.sub("Diferenciais competitivos");
 th.bullets([
   "Autonomia real: o agente AutoPilot gera tarefas e as EXECUTA sozinho (até 2 por ciclo)",
   "Memória viva: STM→LTM consolidada automaticamente a cada 30 min",
-  "Evolução contínua: inteligência ×1.05 a cada ciclo, sem limite até 1,000,000%",
+  "Evolução contínua: métricas reais (sucesso de tarefas, memória, erros) → score 0-100 por ciclo",
   "Imortalidade: nenhum erro derruba o processo (uncaughtException → log e segue)",
   "Watchdogs: cada integração reinicia sozinha se morrer",
 ].map((it) => ({ icon: "▸", text: it })));
@@ -149,8 +149,8 @@ th.para("Esta é a proposta de valor central: tudo abaixo acontece sem nenhuma a
 
 th.sub("Os 4 Ciclos Autônomos (o coração do sistema)");
 const cycles = [
-  ["📈 HyperLearning", "30 min", "Inteligência ×1.05 por ciclo (cap 1,000,000). Consulta Ollama, sintetiza insights, escreve relatórios em data/reports/."],
-  ["🧬 AutoEvolution", "60 min", "Todos os agentes ganham conhecimento (0.01-5%) + 1-3 novas capacidades (self_healing, swarm_intelligence). Cruzamento gera capacidades híbridas no LTM + Qdrant."],
+  ["📈 HyperLearning", "30 min", "Coleta métricas reais (tarefas, agentes, memória, erros) e gera insights via IA local. Score 0-100 baseado em performance real."],
+  ["🧬 AutoEvolution", "60 min", "Agentes ganham capacidades REAIS baseadas em evidência (tarefas completadas, erros tratados, APIs chamadas). Cruza conhecimento entre agentes."],
   ["📚 AutoLearning", "30 min", "Consolida STM→LTM, mede o conhecimento real, gera insights e atualiza os estados cerebrais de Pedro e Trinnity."],
   ["🤖 AutoPilot", "30 min", "Escaneia o sistema, GERA tarefas e as EXECUTA sozinho. Autonomia sobe +5 a cada 3 ciclos (máx 100). O sistema melhora a si mesmo."],
 ];

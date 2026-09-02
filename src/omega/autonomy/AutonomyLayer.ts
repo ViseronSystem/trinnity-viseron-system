@@ -35,7 +35,7 @@ export interface LearningEngineAdapter {
   executeCycle(): Promise<void>;
   getIntelligenceLevel(): number;
   getCycleCount(): number;
-  getStats(): { cycleCount: number; intelligenceLevel: number; multiplier: number };
+  getStats(): { cycleCount: number; intelligenceScore: number };
   start(intervalMinutes?: number): void;
   stop(): void;
 }
@@ -44,7 +44,7 @@ export interface AutonomyLayerStatus {
   enabled: boolean;
   planning: { autonomyLevel: number; cycleCount: number; pendingTasks: number } | null;
   evolution: { totalCycles: number; totalAgents: number; averageWisdom: number } | null;
-  learning: { cycleCount: number; intelligenceLevel: number; multiplier: number } | null;
+  learning: { cycleCount: number; intelligenceScore: number } | null;
   lastRuns: Record<AutonomyCycleKind, number>;
 }
 
@@ -193,6 +193,6 @@ export class AutonomyLayer {
   private async runLearningCycle(): Promise<any> {
     if (!this.learning) return { engine: null, cycle: 0 };
     await this.learning.executeCycle();
-    return { engine: "core-learning", cycle: this.learning.getCycleCount(), intelligenceLevel: this.learning.getIntelligenceLevel() };
+    return { engine: "core-learning", cycle: this.learning.getCycleCount(), intelligenceScore: this.learning.getIntelligenceLevel() };
   }
 }

@@ -299,7 +299,7 @@ async function runOmegaTests() {
       executeCycle: async () => {},
       getIntelligenceLevel: () => 300,
       getCycleCount: () => 1,
-      getStats: () => ({ cycleCount: 1, intelligenceLevel: 300, multiplier: 6 }),
+      getStats: () => ({ cycleCount: 1, intelligenceScore: 300 }),
       start: () => {},
       stop: () => {},
     };
@@ -316,7 +316,7 @@ async function runOmegaTests() {
     assert(evolution.records === 1 && evolution.agents.includes("agent_ceo"), "Autonomy: evolução via core engine");
 
     const learning = await layer.runCycle("learning");
-    assert(learning.cycle === 1 && learning.intelligenceLevel === 300, "Autonomy: aprendizagem via core engine");
+    assert(learning.cycle === 1 && learning.intelligenceScore === 300, "Autonomy: aprendizagem via core engine");
 
     assert(events.length === 3 && events.includes("learning"), "Autonomy: eventos por ciclo no bus");
     assert(layer.status().lastRuns.planning > 0 && layer.status().lastRuns.evolution > 0 && layer.status().lastRuns.learning > 0, "Autonomy: lastRuns atualizados");

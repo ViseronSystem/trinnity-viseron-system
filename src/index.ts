@@ -40,42 +40,13 @@ webServer.start()
 const tvs = new ViseronCore();
 tvs.start();
 
-const architectAgent: IAgent = {
-  id: "agent_architect_01", name: "Architect Prime", role: "Architect",
-  status: "ACTIVE", capabilities: ["system_design", "cloud_architecture", "solution_design"],
-  execute: async (task: string): Promise<AgentExecutionResult> => ({
-    agentId: "agent_architect_01", agentName: "Architect Prime",
-    success: true, output: `[Arquitecto] Diseñada estructura modular para: ${task}`, executionTimeMs: 45
-  })
-};
-const developerAgent: IAgent = {
-  id: "agent_developer_01", name: "Dev Master", role: "Developer",
-  status: "ACTIVE", capabilities: ["typescript", "node", "docker", "fullstack"],
-  execute: async (task: string): Promise<AgentExecutionResult> => ({
-    agentId: "agent_developer_01", agentName: "Dev Master",
-    success: true, output: `[Developer] Código TypeScript generado y optimizado para: ${task}`, executionTimeMs: 60
-  })
-};
-const securityAgent: IAgent = {
-  id: "agent_security_01", name: "CyberSentinel", role: "Security",
-  status: "ACTIVE", capabilities: ["audit", "compliance", "security_review"],
-  execute: async (task: string): Promise<AgentExecutionResult> => ({
-    agentId: "agent_security_01", agentName: "CyberSentinel",
-    success: true, output: `[Security] Auditoría completada: 0 vulnerabilidades detectadas en: ${task}`, executionTimeMs: 30
-  })
-};
 const appScaffolderLegacy = tvs.appScaffolder.createScaffolderAgent();
 
-tvs.agentManager.register(architectAgent);
-tvs.agentManager.register(developerAgent);
-tvs.agentManager.register(securityAgent);
 tvs.agentManager.register(appScaffolderLegacy);
 
 tvs.squadManager.addMemberToSquad("squad_executive", tvs.squadManager.leaderPedro);
 tvs.squadManager.addMemberToSquad("squad_architecture", tvs.squadManager.leaderTrinnity);
-tvs.squadManager.addMemberToSquad("squad_architecture", architectAgent);
-tvs.squadManager.addMemberToSquad("squad_architecture", developerAgent);
-tvs.squadManager.addMemberToSquad("squad_architecture", securityAgent);
+tvs.squadManager.addMemberToSquad("squad_architecture", appScaffolderLegacy);
 
 tvs.toolManager.createQuickTool("tool_n8n_deploy", "n8n Production Deployment", "N8N",
   "Dispara webhook n8n para despliegue Docker", async (input) => ({ deployed: true, timestamp: Date.now(), service: input.service }));
@@ -195,7 +166,7 @@ function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise
   console.log(`   🧠 SuperMind: ${(wisdom as any).domains?.length || 0} domínios`);
   console.log(`   ⚡ SuperIntelligence: ${((synthesis as any).confidence || 0).toFixed(0)}% sobre baseline`);
   console.log(`   🚀 Hiper-ciclos: ${hyperStats.cycleCount}`);
-  console.log(`   📈 Inteligência: ${hyperStats.intelligenceLevel.toExponential(2)}%`);
+  console.log(`   📈 Inteligência: ${hyperStats.intelligenceScore}/100`);
   console.log(`   🌐 OmniRoute Hub: ${(integStats as any).totalModels} modelos | 290+ providers`);
   console.log(`   📞 Call System: Twilio + IA por voz ativado`);
   console.log(`   🧠 OpenJarvis: AI local Stanford (${(integStats as any).details?.openJarvis?.count || 0} skills)`);

@@ -2,88 +2,64 @@ import cron from "node-cron";
 import { MemoryEngine } from "../memory/MemoryEngine";
 import { AgentManager } from "../AgentManager";
 import { AIProviderBridge, AIProviderId } from "../bridge/AIProviderBridge";
-import { SuperMind } from "../supermind/SuperMind";
 import * as fs from "fs-extra";
 import * as path from "path";
 
 const MAX_HISTORY = 200;
 
+/**
+ * HyperLearning Engine — REAL version
+ * 
+ * Instead of multiplying a counter by 1.05, this engine:
+ * 1. Reads real system metrics (task queue, agent activity, memory, errors)
+ * 2. Analyzes what's working and what's failing
+ * 3. Generates actionable insights via AI
+ * 4. Stores learnings that actually influence future behavior
+ * 5. Tracks a REAL intelligence score based on system performance
+ */
 export class HyperLearningEngine {
   private memoryEngine: MemoryEngine;
   private agentManager: AgentManager;
   private bridge: AIProviderBridge;
-  private superMind: SuperMind;
   private cronJob: ReturnType<typeof cron.schedule> | null = null;
   private cycleCount: number = 0;
-  private intelligenceLevel: number = 1000;
   private isRunning: boolean = false;
-  private history: Array<{ cycle: number; level: number; insights: string[]; timestamp: number }> = [];
+  private history: Array<{ cycle: number; metrics: RealMetrics; insights: string[]; timestamp: number }> = [];
+  private dataDir: string;
 
-  constructor(memoryEngine: MemoryEngine, agentManager: AgentManager, bridge: AIProviderBridge, superMind: SuperMind) {
+  constructor(memoryEngine: MemoryEngine, agentManager: AgentManager, bridge: AIProviderBridge, _superMind?: any) {
     this.memoryEngine = memoryEngine;
     this.agentManager = agentManager;
     this.bridge = bridge;
-    this.superMind = superMind;
-    // RETOMA do estado persistido (resume, nunca reset): o progresso autónomo
-    // (ciclos + nível de inteligência) sobrevive aos restarts do TVS.
+    this.dataDir = path.join(process.cwd(), "data");
     this.loadState();
-  }
-
-  private getReportsDir(): string {
-    const candidates = [
-      path.join(process.cwd(), "data", "reports"),
-      path.join(__dirname, "..", "..", "..", "data", "reports")
-    ];
-    return candidates.find((p) => fs.existsSync(p)) || candidates[0];
   }
 
   private loadState(): void {
     try {
-      const reportsDir = this.getReportsDir();
-      const logPath = path.join(reportsDir, "evolution_log.json");
-      let lastCycle = 0;
-      let lastLevel = 1000;
-
-      if (fs.existsSync(logPath)) {
-        const saved = fs.readJsonSync(logPath) as Array<{ cycle: number; level: number; insights: string[]; timestamp: number }>;
-        if (Array.isArray(saved) && saved.length) {
-          this.history = saved;
-          const last = saved[saved.length - 1];
-          if (last && typeof last.cycle === "number") lastCycle = last.cycle;
-          if (last && typeof last.level === "number") lastLevel = last.level;
-        }
+      const statePath = path.join(this.dataDir, "state", "hyper-learning.json");
+      if (fs.existsSync(statePath)) {
+        const saved = fs.readJsonSync(statePath);
+        this.cycleCount = saved.cycleCount || 0;
+        this.history = saved.history || [];
       }
+    } catch {}
+  }
 
-      // Fallback: se o evolution_log foi clobbered mas os relatórios por ciclo
-      // sobreviveram (cycle_N.json), retomar do ciclo mais alto encontrado.
-      try {
-        const files = fs.readdirSync(reportsDir).filter((f) => /^cycle_(\d+)\.json$/.test(f));
-        for (const f of files) {
-          const m = /^cycle_(\d+)\.json$/.exec(f);
-          if (!m) continue;
-          const c = parseInt(m[1], 10);
-          if (c > lastCycle) {
-            const rep = fs.readJsonSync(path.join(reportsDir, f));
-            lastCycle = c;
-            if (typeof rep?.intelligenceLevel === "number") lastLevel = rep.intelligenceLevel;
-          }
-        }
-      } catch {}
-
-      if (lastCycle > 0) {
-        this.cycleCount = lastCycle;
-        this.intelligenceLevel = Math.max(this.intelligenceLevel, lastLevel);
-        console.log(`[HyperLearning] RESUMIDO do estado persistido: ciclo ${this.cycleCount} · inteligência ${this.intelligenceLevel.toFixed(0)} (continua, não reinicia)`);
-      }
-    } catch (err) {
-      console.warn(`[HyperLearning] loadState falhou (a começar do zero): ${(err as any)?.message || err}`);
-    }
+  private saveState(): void {
+    try {
+      const statePath = path.join(this.dataDir, "state", "hyper-learning.json");
+      fs.ensureDirSync(path.dirname(statePath));
+      fs.writeJsonSync(statePath, {
+        cycleCount: this.cycleCount,
+        history: this.history.slice(-50),
+        lastUpdated: new Date().toISOString()
+      });
+    } catch {}
   }
 
   start(intervalMinutes: number = 30): void {
-    if (this.cronJob) {
-      this.stop();
-    }
+    if (this.cronJob) this.stop();
     this.executeCycle();
     this.cronJob = cron.schedule(`2-59/${intervalMinutes} * * * *`, () => {
       this.executeCycle();
@@ -91,148 +67,246 @@ export class HyperLearningEngine {
   }
 
   stop(): void {
-    if (this.cronJob) {
-      this.cronJob.stop();
-      this.cronJob = null;
-    }
+    if (this.cronJob) { this.cronJob.stop(); this.cronJob = null; }
   }
 
   async executeCycle(): Promise<void> {
     if (this.isRunning) return;
     this.isRunning = true;
-    try {
-      await this.runCycle();
-    } finally {
-      this.isRunning = false;
-    }
+    try { await this.runCycle(); } finally { this.isRunning = false; }
   }
 
   private async runCycle(): Promise<void> {
     this.cycleCount++;
-    (global as any).__TVS_LAST_HYPER = Date.now();
     const start = Date.now();
-    const multiplier = Math.min(Math.pow(1.05, Math.max(0, this.cycleCount - 1)), 20);
-    this.intelligenceLevel = Math.min(this.intelligenceLevel * 1.05, 1_000_000); // +5% each cycle (capped)
-
     const insights: string[] = [];
-    const agents = this.agentManager.list("ACTIVE");
 
     try {
-      const agentCount = agents.length;
-      const knowledgeCount = this.memoryEngine.getStats?.()?.knowledge?.totalDocuments || 0;
+      // 1. Collect REAL system metrics
+      const metrics = this.collectRealMetrics();
 
-      insights.push(`Cycle #${this.cycleCount}: ${agentCount} agents active, ${knowledgeCount} knowledge documents`);
+      // 2. Analyze trends from history
+      const trends = this.analyzeTrends(metrics);
+      insights.push(...trends);
 
-      const bridgeResponse = await this.bridge.chat({
-        prompt: `Analyze the current state of the TVS system. Cycle ${this.cycleCount}. Intelligence level: ${this.intelligenceLevel.toExponential(2)}%. Generate strategic insights.`,
-        systemPrompt: "You are the Trinnity Viseron HyperLearning Engine. Generate deep insights.",
-        providerId: "ollama" as AIProviderId,
-        maxTokens: 2048,
-        taskType: "reasoning"
-      });
-
-      if (bridgeResponse.success) {
-        insights.push(`AI Synthesis: ${bridgeResponse.text.slice(0, 500)}`);
-      }
-
-      const superWisdom = await this.superMind.synthesize(
-        `hyperlearning cycle ${this.cycleCount} intelligence ${this.intelligenceLevel.toExponential(2)}`,
-        ["Artificial Intelligence", "Systems Theory", "Universal Knowledge"]
-      );
-      insights.push(`SuperMind: ${superWisdom.insight.slice(0, 300)}`);
-
-      // Reality Hardening: collect real metrics alongside the legacy counter
-      const realMetrics: any = {};
+      // 3. Generate AI insights based on real data
       try {
-        const memStats = this.memoryEngine.getStats?.() || {};
-        realMetrics.tasksCompleted24h = 0; // requires event counter — will populate over time
-        realMetrics.taskSuccessRate = null;
-        realMetrics.agentsActive = agentCount;
-        realMetrics.agentsDispatched24h = 0;
-        realMetrics.toolsCalled24h = 0;
-        realMetrics.avgTaskLatencyMs = null;
-        realMetrics.memoryItemsConsolidated24h = 0;
-        realMetrics.knowledgeGraphEntities = memStats?.longTerm?.totalItems || 0;
-        realMetrics.knowledgeDocuments = knowledgeCount;
-      } catch { /* non-blocking */ }
-
-      const report = {
-        cycle: this.cycleCount,
-        intelligenceLevel: Math.round(this.intelligenceLevel),
-        levelMultiplier: multiplier,
-        activeAgents: agentCount,
-        knowledgeDocuments: knowledgeCount,
-        realMetrics,                              // ← NOVO: métricas verificáveis
-        insights,
-        executionTimeMs: Date.now() - start,
-        timestamp: new Date().toISOString()
-      };
-
-      this.history.push({
-        cycle: this.cycleCount,
-        level: this.intelligenceLevel,
-        insights: insights.slice(0, 5),
-        timestamp: Date.now()
-      });
-      if (this.history.length > MAX_HISTORY) {
-        this.history = this.history.slice(-MAX_HISTORY);
-      }
-
-      const reportsDir = (() => {
-        const candidates = [
-          path.join(process.cwd(), "data", "reports"),
-          path.join(__dirname, "..", "..", "..", "data", "reports")
-        ];
-        return candidates.find((p) => fs.existsSync(p)) || candidates[0];
-      })();
-      await fs.ensureDir(reportsDir);
-      const reportPath = path.join(reportsDir, `cycle_${this.cycleCount}.json`);
-      await fs.writeJson(reportPath, report, { spaces: 2 });
-
-      const logPath = path.join(reportsDir, "evolution_log.json");
-      // APPEND ao histórico persistido (nunca sobrescrever): se o ficheiro já
-      // existir, carrega-o e adiciona o ciclo novo — o progresso entre restarts
-      // nunca é perdido.
-      let persisted: Array<{ cycle: number; level: number; insights: string[]; timestamp: number }> = [];
-      try {
-        if (fs.existsSync(logPath)) {
-          const existing = fs.readJsonSync(logPath);
-          if (Array.isArray(existing)) persisted = existing;
+        const aiInsights = await this.bridge.chat({
+          prompt: `System Health Report (Cycle #${this.cycleCount}):\n` +
+            `- Active agents: ${metrics.activeAgents}\n` +
+            `- Tasks completed (24h): ${metrics.tasksCompleted24h}\n` +
+            `- Task success rate: ${metrics.taskSuccessRate}%\n` +
+            `- Memory items: ${metrics.memoryItems}\n` +
+            `- Knowledge docs: ${metrics.knowledgeDocs}\n` +
+            `- Errors (24h): ${metrics.errors24h}\n` +
+            `- Uptime: ${metrics.uptimeHours}h\n` +
+            (trends.length > 0 ? `\nTrends:\n${trends.join("\n")}` : "") +
+            `\nGenerate 3 actionable insights to improve system performance.`,
+          systemPrompt: "You are a system performance analyst. Be concise and actionable.",
+          providerId: "ollama" as AIProviderId,
+          maxTokens: 1024,
+          taskType: "reasoning"
+        });
+        if (aiInsights.success && aiInsights.text) {
+          const aiLines = aiInsights.text.split("\n").filter(l => l.trim().length > 10).slice(0, 3);
+          insights.push(...aiLines.map(l => `[AI] ${l.trim()}`));
         }
       } catch {}
-      this.history = [...persisted, ...this.history.filter((h) => !persisted.some((p) => p.cycle === h.cycle))];
-      await fs.writeJson(logPath, this.history, { spaces: 2 });
 
+      // 4. Calculate REAL intelligence score (not cosmetic)
+      const intelligenceScore = this.calculateRealIntelligence(metrics);
+
+      // 5. Store learnings
       this.memoryEngine.addKnowledge(
         `HyperLearning Cycle #${this.cycleCount}`,
         "HYPER_LEARNING",
-        `Intelligence: ${this.intelligenceLevel.toFixed(0)} (${(multiplier * 1000).toFixed(0)}x base). Agents: ${agentCount}. Insights: ${insights.length}`,
-        ["hyperlearning", `cycle_${this.cycleCount}`, "evolution"]
+        JSON.stringify({ metrics, intelligenceScore, insightsCount: insights.length }),
+        ["hyperlearning", `cycle_${this.cycleCount}`, "system_health"]
       );
 
-      console.log(`[HyperLearning] Cycle ${this.cycleCount} | Intelligence: ${this.intelligenceLevel.toFixed(0)} | +5% growth | ${insights.length} insights stored`);
+      // 6. Persist state
+      this.history.push({ cycle: this.cycleCount, metrics, insights: insights.slice(0, 10), timestamp: Date.now() });
+      if (this.history.length > MAX_HISTORY) this.history = this.history.slice(-MAX_HISTORY);
+      this.saveState();
+
+      // 7. Write cycle report
+      const reportDir = path.join(this.dataDir, "reports");
+      fs.ensureDirSync(reportDir);
+      fs.writeJsonSync(path.join(reportDir, `cycle_${this.cycleCount}.json`), {
+        cycle: this.cycleCount,
+        timestamp: new Date().toISOString(),
+        metrics,
+        intelligenceScore,
+        insights,
+        executionTimeMs: Date.now() - start
+      }, { spaces: 2 });
+
+      console.log(`[HyperLearning] Cycle #${this.cycleCount} | Score: ${intelligenceScore}/100 | Tasks: ${metrics.tasksCompleted24h} | Success: ${metrics.taskSuccessRate}% | ${insights.length} insights | ${Date.now() - start}ms`);
     } catch (err) {
-      console.error(`[HyperLearning] Error in cycle ${this.cycleCount}:`, err);
+      console.error(`[HyperLearning] Error in cycle #${this.cycleCount}:`, err);
     }
   }
 
-  getIntelligenceLevel(): number {
-    return this.intelligenceLevel;
+  /**
+   * Collect REAL metrics from the actual system state
+   */
+  private collectRealMetrics(): RealMetrics {
+    const metrics: RealMetrics = {
+      activeAgents: 0,
+      tasksCompleted24h: 0,
+      tasksFailed24h: 0,
+      taskSuccessRate: 0,
+      memoryItems: 0,
+      knowledgeDocs: 0,
+      errors24h: 0,
+      uptimeHours: Math.round(process.uptime() / 3600 * 10) / 10,
+      avgResponseTimeMs: 0,
+      toolsExecuted24h: 0,
+      memoryConsolidations: 0,
+      eventBusEvents: 0,
+      timestamp: Date.now()
+    };
+
+    try {
+      // Active agents
+      metrics.activeAgents = this.agentManager.list("ACTIVE").length;
+
+      // Task queue metrics
+      const taskQueuePath = path.join(this.dataDir, "state", "task-queue.json");
+      if (fs.existsSync(taskQueuePath)) {
+        try {
+          const tq = fs.readJsonSync(taskQueuePath);
+          const tasks = Array.isArray(tq) ? tq : (tq.tasks || []);
+          const now = Date.now();
+          const dayAgo = now - 86400000;
+          const recent = tasks.filter((t: any) => {
+            const ts = new Date(t.createdAt || t.updatedAt || 0).getTime();
+            return ts > dayAgo;
+          });
+          metrics.tasksCompleted24h = recent.filter((t: any) => t.status === "completed" || t.status === "COMPLETED").length;
+          metrics.tasksFailed24h = recent.filter((t: any) => t.status === "failed" || t.status === "FAILED").length;
+          const total = metrics.tasksCompleted24h + metrics.tasksFailed24h;
+          metrics.taskSuccessRate = total > 0 ? Math.round(metrics.tasksCompleted24h / total * 100) : 0;
+        } catch {}
+      }
+
+      // Memory metrics
+      try {
+        const memStats = (this.memoryEngine as any).getStats?.() || {};
+        metrics.memoryItems = memStats?.longTerm?.totalItems || 0;
+        metrics.knowledgeDocs = memStats?.knowledge?.totalDocuments || 0;
+      } catch {}
+
+      // Error log count
+      const errorLogPath = path.join(this.dataDir, "..", "server-error.log");
+      if (fs.existsSync(errorLogPath)) {
+        try {
+          const stat = fs.statSync(errorLogPath);
+          metrics.errors24h = Math.floor(stat.size / 500); // rough estimate
+        } catch {}
+      }
+
+      // Agent activity
+      const activityPath = path.join(this.dataDir, "knowledge", "agent-activity.jsonl");
+      if (fs.existsSync(activityPath)) {
+        try {
+          const content = fs.readFileSync(activityPath, "utf8");
+          const lines = content.trim().split("\n").filter(Boolean);
+          const dayAgo = Date.now() - 86400000;
+          const recent = lines.filter(l => {
+            try { const e = JSON.parse(l); return new Date(e.timestamp || 0).getTime() > dayAgo; } catch { return false; }
+          });
+          metrics.toolsExecuted24h = recent.filter(l => l.includes("tool")).length;
+        } catch {}
+      }
+
+    } catch {}
+
+    return metrics;
   }
 
-  getCycleCount(): number {
-    return this.cycleCount;
+  /**
+   * Analyze trends from historical data
+   */
+  private analyzeTrends(current: RealMetrics): string[] {
+    const trends: string[] = [];
+    if (this.history.length < 2) return trends;
+
+    const prev = this.history[this.history.length - 1]?.metrics;
+    if (!prev) return trends;
+
+    if (current.tasksCompleted24h > prev.tasksCompleted24h * 1.2) {
+      trends.push(`↑ Task completion up ${Math.round((current.tasksCompleted24h / (prev.tasksCompleted24h || 1) - 1) * 100)}%`);
+    }
+    if (current.taskSuccessRate < prev.taskSuccessRate - 10) {
+      trends.push(`↓ Success rate dropped from ${prev.taskSuccessRate}% to ${current.taskSuccessRate}%`);
+    }
+    if (current.errors24h > prev.errors24h * 1.5) {
+      trends.push(`↑ Errors increased: ${prev.errors24h} → ${current.errors24h}`);
+    }
+    if (current.memoryItems > prev.memoryItems * 1.1) {
+      trends.push(`↑ Memory growing: ${prev.memoryItems} → ${current.memoryItems} items`);
+    }
+
+    return trends;
   }
 
-  getHistory(): any[] {
-    return this.history;
+  /**
+   * Calculate REAL intelligence score based on actual system performance
+   * Score 0-100 based on: task success, learning rate, error rate, uptime
+   */
+  private calculateRealIntelligence(metrics: RealMetrics): number {
+    let score = 0;
+
+    // Task success (0-30 points)
+    score += Math.min(30, metrics.taskSuccessRate * 0.3);
+
+    // Activity level (0-20 points) — more real work = higher score
+    score += Math.min(20, metrics.tasksCompleted24h * 2);
+
+    // Memory/knowledge growth (0-20 points)
+    score += Math.min(20, (metrics.memoryItems + metrics.knowledgeDocs) * 0.01);
+
+    // Error penalty (0-15 points deducted)
+    score -= Math.min(15, metrics.errors24h * 0.1);
+
+    // Uptime bonus (0-15 points)
+    score += Math.min(15, metrics.uptimeHours * 0.5);
+
+    return Math.max(0, Math.min(100, Math.round(score)));
   }
 
-  getStats(): { cycleCount: number; intelligenceLevel: number; multiplier: number } {
+  getStats(): { cycleCount: number; intelligenceScore: number; lastMetrics: RealMetrics | null } {
+    const lastMetrics = this.history.length > 0 ? this.history[this.history.length - 1].metrics : null;
     return {
       cycleCount: this.cycleCount,
-      intelligenceLevel: this.intelligenceLevel,
-      multiplier: Math.min(Math.pow(1.05, Math.max(0, this.cycleCount - 1)), 20)
+      intelligenceScore: lastMetrics ? this.calculateRealIntelligence(lastMetrics) : 0,
+      lastMetrics
     };
   }
+
+  getIntelligenceLevel(): number {
+    const lastMetrics = this.history.length > 0 ? this.history[this.history.length - 1].metrics : null;
+    return lastMetrics ? this.calculateRealIntelligence(lastMetrics) : 0;
+  }
+
+  getCycleCount(): number { return this.cycleCount; }
+
+  getHistory(): any[] { return this.history; }
+}
+
+interface RealMetrics {
+  activeAgents: number;
+  tasksCompleted24h: number;
+  tasksFailed24h: number;
+  taskSuccessRate: number;
+  memoryItems: number;
+  knowledgeDocs: number;
+  errors24h: number;
+  uptimeHours: number;
+  avgResponseTimeMs: number;
+  toolsExecuted24h: number;
+  memoryConsolidations: number;
+  eventBusEvents: number;
+  timestamp: number;
 }

@@ -170,7 +170,7 @@ function step<T>(label: string, fn: () => Promise<T> | T, fallback?: T): Promise
   console.log(`   🧠 SuperMind: ${(wisdom as any).domains?.length || 0} domínios`);
   console.log(`   ⚡ SuperIntelligence: ${((synthesis as any).confidence || 0).toFixed(0)}% sobre baseline`);
   console.log(`   🚀 Hiper-ciclos: ${hyperStats.cycleCount}`);
-  console.log(`   📈 Inteligência: ${hyperStats.intelligenceLevel.toExponential(2)}%`);
+  console.log(`   📈 Inteligência: ${hyperStats.intelligenceScore}/100`);
   console.log(`   🌐 OmniRoute Hub: ${(integStats as any).totalModels} modelos | 290+ providers`);
   console.log(`   📞 Call System: Twilio + IA por voz ativado`);
   console.log(`   🧠 OpenJarvis: AI local Stanford (${(integStats as any).details?.openJarvis?.count || 0} skills)`);
