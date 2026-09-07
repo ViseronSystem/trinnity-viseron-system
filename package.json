@@ -1,7 +1,7 @@
 {
   "name": "trinnity-viseron-system",
   "version": "7.0.0",
-  "description": "Multi Agent AI Operating System CORE v5.0",
+  "description": "Trinnity Viseron System v7.0 — AI Operating System for Autonomous Organizations — 10 agentes nucleares reais + 12 squads + 6 módulos enterprise (honesto, verificável)",
   "main": "dist/src/index.js",
   "scripts": {
     "start": "node --max-old-space-size=8192 dist/src/index.js",
@@ -203,7 +203,8 @@
     "eco:detail": "tsx scripts/ecosystem-cli.ts detail",
     "eco:monitor": "tsx scripts/ecosystem-cli.ts monitor",
     "eco:logs": "tsx scripts/ecosystem-cli.ts logs",
-    "ecosistema:pdf": "tsx scripts/gerar-ecossistema-repos.ts"
+    "ecosistema:pdf": "tsx scripts/gerar-ecossistema-repos.ts",
+    "v7:mestre": "tsx scripts/gerar-v7-mestre.ts"
   },
   "dependencies": {
     "@google-cloud/aiplatform": "^7.2.0",

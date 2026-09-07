@@ -12,7 +12,7 @@
 > Connect your company, agents, models, software and machines into one autonomous operating system.
 
 - **TVS Enterprise Autonomy** (produto): a empresa conecta Gmail, CRM, ERP, Slack/Teams, GitHub, cloud, banco, documentos, APIs → o TVS aprende a organização, cria agentes, executa operações e mede resultados. Promessa: "reduza 60% do trabalho administrativo", não "temos 5.000 agentes".
-- **Métrica honesta:** substituir "5.396 mentes" por **"5.396 agent definitions / capabilities"** e medir o que importa: agentes ativos, tarefas simultâneas, tokens processados, ferramentas utilizadas, decisões tomadas, workflows concluídos, taxa de sucesso, custo/tarefa, latência, **autonomia sem intervenção humana**.
+- **Métrica honesta V7.0 REAL:** **10 agentes nucleares reais** (CEO, CTO, Finance, Sales, Research, Developer, DevOps, Security, Support, Vision) + **12 squads** + **6 módulos enterprise** + **1.997 skills indexadas**. Cada agente tem spec, capabilities, provider e evidência de execução. Mede-se: agentes ativos, tarefas simultâneas, tokens processados, ferramentas utilizadas, decisões tomadas, workflows concluídos, taxa de sucesso, custo/tarefa, latência, **autonomia sem intervenção humana**. Nada de "5.396 mentes" — V7.0 é capacidade verificada.
 
 ## 2. Estado real (pontuação honesta, 2026-08)
 
@@ -211,7 +211,7 @@ Métricas: Success Rate · Cost · Latency · Human Interventions · Error Rate 
 | Prio | Item | Prazo |
 |------|------|-------|
 | P0 | Inventário 🟢🟡🔴 + README honesto | 1 semana |
-| P0 | Métrica honesta no site (5.396 → capabilities) | 1 semana |
+| P0 | Métrica honesta V7.0 — site/PDFs com 10 agentes nucleares reais + 12 squads (fechado) | 1 semana |
 | P1 | OMEGA Kernel (runtime/event/task/memory/tools/safety/audit) | 4 semanas |
 | P1 | Safety OS (RBAC + approvals + risk scores) | 3 semanas |
 | P1 | Verifier OS (check de resultados antes de commit) | 3 semanas |
