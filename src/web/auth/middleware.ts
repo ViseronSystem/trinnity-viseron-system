@@ -9,8 +9,7 @@ export interface AuthedRequest extends Request {
 export function authSecret(): string {
   const secret = process.env.TVS_JWT_SECRET || process.env.JWT_SECRET;
   if (!secret) {
-    console.error("[AUTH] FATAL: TVS_JWT_SECRET not set! Using fallback — CHANGE IN PRODUCTION!");
-    return "tvs-dev-secret-change-in-production";
+    throw new Error("[AUTH] FATAL: TVS_JWT_SECRET não definido — o servidor arranca SEM autenticação! Define a variável e reinicia.");
   }
   return secret;
 }

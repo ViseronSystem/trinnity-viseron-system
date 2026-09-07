@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { OmegaPlatform } from "./index";
 import { openSSEStream } from "./kernel/EventBridge";
+import { requireAuth } from "../web/auth/middleware";
 
 /**
  * Placeholder montado na fase de setup (antes do catch-all 404): responde com
@@ -22,6 +23,7 @@ export function createOmegaGatewayPlaceholder(): Router {
 
 export function createOmegaGateway(omega: OmegaPlatform): Router {
   const router = Router();
+  router.use(requireAuth);
 
   router.get("/status", (_req, res) => {
     res.json(omega.status());

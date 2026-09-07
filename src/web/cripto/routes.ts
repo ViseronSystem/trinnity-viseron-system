@@ -3,6 +3,7 @@ import { Router, Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import { Connection, PublicKey } from "@solana/web3.js";
+import { requireAuth } from "../auth/middleware";
 
 const ROOT = process.cwd();
 const IDX_FILE = path.join(ROOT, "contracts", "wallets", "index.json");
@@ -44,7 +45,7 @@ export function createCriptoRouter(): Router {
   const router = Router();
 
   // GET /api/cripto/status — tudo o que o painel precisa numa chamada
-  router.get("/status", async (_req: Request, res: Response) => {
+  router.get("/status", requireAuth, async (_req: Request, res: Response) => {
     try {
       // ── Wallets + saldos (cache 60s) ──
       let walletsBlock = balCache.data;

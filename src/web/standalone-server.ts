@@ -22,6 +22,7 @@ import { createEmailRouter } from "./email/routes";
 import { MessageStore } from "./messaging/store";
 import { createMessagingRouter } from "./messaging/routes";
 import { createJarvisRouter } from "./jarvis/routes";
+import { JarvisAgent } from "./jarvis/agent";
 import { createViseronRouter } from "./viseron/routes";
 import { createTutorRouter } from "./tutor/routes";
 import { createRevenueRouter } from "./revenue/routes";
@@ -61,6 +62,20 @@ import { WorkspaceStore } from "./workspace/store";
 import { UserTaskOrchestrator } from "./workspace/orchestrator";
 import { createWorkspaceRouter } from "./workspace/routes";
 
+// VISERON Platform v8 — IDE + Models + Git + Memory + Marketplace
+import { createIDERouter, serveIDE } from "../core/ide/IDERoutes";
+import { ModelRegistry } from "../core/models/ModelRegistry";
+import { createModelRouter } from "./ModelRoutes";
+import { GitServer } from "../core/git/GitServer";
+import { createGitRouter } from "../core/git/GitRoutes";
+import { MemoryEngine } from "../core/memory/MemoryEngine";
+import { createMemoryRouter } from "../core/memory/MemoryRoutes";
+import { createConversationMemoryRouter } from "../core/memory/ConversationMemoryRoutes";
+import { createFineTuningRouter } from "../core/memory/FineTuningRoutes";
+import { sseRouter } from "./routes/SseStreamingRoutes";
+import { Marketplace } from "../core/marketplace/Marketplace";
+import { createMarketplaceRouter } from "./marketplace/routes";
+
 const PUBLIC_DIR = path.join(__dirname, "..", "dashboard", "public");
 const DATA_DIR = path.resolve(__dirname, "..", "..", "..", "data");
 
@@ -94,6 +109,10 @@ export class ViseronWebServer {
   private osRouter!: express.Router;
   private omegaRouter!: express.Router;
   private autoMonetizeTimer?: NodeJS.Timeout;
+  private modelRegistry: ModelRegistry;
+  private gitServer: GitServer;
+  private memoryEngine: MemoryEngine;
+  private marketplace: Marketplace;
   private omegaEventsUnsub?: () => void;
   private omegaInstance: any = null;
   private db: ReturnType<typeof getDatabase>;
@@ -101,6 +120,7 @@ export class ViseronWebServer {
   private port: number;
   private workspace: WorkspaceStore;
   private workspaceOrchestrator: UserTaskOrchestrator;
+  public jarvisAgent: JarvisAgent | null = null;
 
   constructor(options?: { dataDir?: string; port?: number; disablePostgresAccounts?: boolean }) {
     this.app = express();
@@ -158,6 +178,12 @@ export class ViseronWebServer {
     }).catch(err => console.warn(`[Web] Agent Activation falhou: ${err.message}`));
     this.workspace = new WorkspaceStore(this.dataDir);
     this.workspaceOrchestrator = new UserTaskOrchestrator(this.workspace);
+
+    // VISERON Platform v8 — new services
+    this.modelRegistry = new ModelRegistry({ dataDir: this.dataDir });
+    this.gitServer = new GitServer(this.dataDir);
+    this.memoryEngine = new MemoryEngine(path.join(this.dataDir, "memory"));
+    this.marketplace = new Marketplace(this.dataDir);
 
     this.setupMiddleware();
     this.setupRoutes();
@@ -415,6 +441,21 @@ export class ViseronWebServer {
     this.app.use("/api", createOnboardingRouter(this.accounts, this.dataDir, this.logger, this.metrics));
     this.app.use("/api", createEmailRouter(this.accounts, this.email, this.logger, this.metrics));
     this.app.use("/api", createMessagingRouter(this.accounts, this.messaging, this.io, this.logger, this.metrics));
+    // Create JarvisAgent instance for brain access
+    this.jarvisAgent = new JarvisAgent({
+      dataDir: this.dataDir,
+      accounts: this.accounts,
+      billing: this.billing,
+      email: this.email,
+      messaging: this.messaging,
+      blog: this.blog,
+      composio: this.composio,
+      agency: this.agency,
+      rcs: this.rcs,
+      skillBridge: this.skillBridge,
+      logger: this.logger,
+      metrics: this.metrics,
+    });
     this.app.use("/api", createJarvisRouter({
       dataDir: this.dataDir,
       accounts: this.accounts,
@@ -494,6 +535,75 @@ export class ViseronWebServer {
 
     // ── FOUNDER OS — daily plan, status, weekly/monthly reviews, KPIs
     this.app.use("/api", createFounderRouter(this.dataDir));
+
+    // ── VISERON PLATFORM v8 — IDE + Models + Git + Memory + Marketplace
+    this.app.use("/api", createIDERouter(path.resolve(this.dataDir, "..")));
+    this.app.use("/api", createModelRouter(this.modelRegistry));
+    this.app.use("/api", createGitRouter(this.gitServer, this.logger));
+    this.app.use("/api", createMemoryRouter(this.memoryEngine));
+
+    // ── VISERON v8.1 — Neural Memory + Fine-Tuning + SSE Streaming
+    this.app.use("/api/memory", createConversationMemoryRouter());
+    this.app.use("/api/fine-tuning", createFineTuningRouter());
+    this.app.use("/api/ai", sseRouter);
+
+    this.app.use("/api", createMarketplaceRouter(this.marketplace));
+    serveIDE(this.app);
+
+    // ── AUTONOMOUS BRAIN — cérebro autônomo (planejamento + execução + aprendizagem)
+    this.app.get("/api/brain/status", async (_req, res) => {
+      try {
+        if (!this.jarvisAgent?.brain) {
+          return res.json({ configured: false, message: "Brain not initialized yet" });
+        }
+        const status = await this.jarvisAgent.brain.getStatus();
+        res.json(status);
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+    this.app.post("/api/brain/execute", requireAuth, async (req, res) => {
+      try {
+        if (!this.jarvisAgent?.brain) {
+          return res.status(503).json({ error: "Brain not initialized" });
+        }
+        const { message, language, clientContext, maxSteps } = req.body;
+        if (!message) return res.status(400).json({ error: "message required" });
+        const response = await this.jarvisAgent.brain.process({
+          message,
+          language,
+          clientContext,
+          maxSteps,
+        });
+        res.json(response);
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+    this.app.get("/api/brain/learning", async (req, res) => {
+      try {
+        if (!this.jarvisAgent?.brain) {
+          return res.json({ records: [], stats: null });
+        }
+        const limit = parseInt(String(req.query.limit || "20"), 10);
+        const records = this.jarvisAgent.brain.getLearningHistory(limit);
+        res.json({ records, totalExecutions: records.length });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+    this.app.get("/api/brain/suggestions", async (req, res) => {
+      try {
+        if (!this.jarvisAgent?.brain) {
+          return res.json({ suggestions: [] });
+        }
+        const category = req.query.category as string | undefined;
+        const suggestions = this.jarvisAgent.brain.getSuggestions(category);
+        res.json({ suggestions });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
 
     // TVS Desktop — página do sistema operativo
     this.app.get("/os", (_req, res) => {
@@ -622,6 +732,11 @@ export class ViseronWebServer {
         console.log(`[Viseron Web] Business: http://localhost:${this.port}/api/business/* (agentes de atendimento)`);
         console.log(`[Viseron Web] Agency OS: http://localhost:${this.port}/api/agency/* (clientes, leads, report, creativos, projeção)`);
         console.log(`[Viseron Web] Métricas: http://localhost:${this.port}/api/metrics`);
+        console.log(`[Viseron Web] IDE: http://localhost:${this.port}/ide`);
+        console.log(`[Viseron Web] Models: http://localhost:${this.port}/api/models`);
+        console.log(`[Viseron Web] Git: http://localhost:${this.port}/api/git/repos`);
+        console.log(`[Viseron Web] Memory: http://localhost:${this.port}/api/memory/stats`);
+        console.log(`[Viseron Web] Marketplace: http://localhost:${this.port}/api/marketplace/packages`);
         console.log(`==========================================\n`);
         resolve();
       });

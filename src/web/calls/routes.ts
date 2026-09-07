@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { CallLogStore, CallRecord } from "./store";
 import { CallLearning } from "./learning";
+import { requireAuth } from "../auth/middleware";
 
 const TWILIO_SID = process.env.TWILIO_ACCOUNT_SID || "";
 const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
@@ -138,7 +139,7 @@ export function createCallsRouter(store: CallLogStore, learning: CallLearning, l
     res.type("text/xml").send("<Response/>");
   });
 
-  router.post("/calls/outbound", async (req: Request, res: Response) => {
+  router.post("/calls/outbound", requireAuth, async (req: Request, res: Response) => {
     const to = String(req.body?.to || "").trim();
     if (!to || !TWILIO_SID || !TWILIO_TOKEN || !TWILIO_NUMBER) {
       res.status(400).json({ ok: false, error: "Missing 'to' or Twilio not configured" });
@@ -183,11 +184,11 @@ export function createCallsRouter(store: CallLogStore, learning: CallLearning, l
     }
   });
 
-  router.get("/calls/logs", (_req: Request, res: Response) => {
+  router.get("/calls/logs", requireAuth, (_req: Request, res: Response) => {
     res.json({ ok: true, calls: store.list(200) });
   });
 
-  router.get("/calls/learned", (_req: Request, res: Response) => {
+  router.get("/calls/learned", requireAuth, (_req: Request, res: Response) => {
     res.json({ ok: true, learned: learning.getLearned(50) });
   });
 

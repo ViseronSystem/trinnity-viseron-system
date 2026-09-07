@@ -1,9 +1,11 @@
 // Agent Interaction API — endpoints para conversar, listar e atribuir tarefas a agentes.
 import { Router, Request, Response } from "express";
 import { AgentActivationEngine } from "../../omega/activation/AgentActivationEngine";
+import { requireAuth } from "../auth/middleware";
 
 export function createAgentRouter(engine: AgentActivationEngine): Router {
   const router = Router();
+  router.use(requireAuth);
 
   // GET /api/agents — listar todos os agentes ativos
   router.get("/", (_req: Request, res: Response) => {

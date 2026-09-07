@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { BlogStorage } from "./blog-storage";
+import { requireAuth } from "./auth/middleware";
 
 function getParam(p: string | string[] | undefined): string {
   return typeof p === 'string' ? p : (p && p[0]) || '';
@@ -23,7 +24,7 @@ export function createBlogRouter(blog: BlogStorage): Router {
     res.json(post);
   });
 
-  router.post("/api/blog/posts", (req: Request, res: Response) => {
+  router.post("/api/blog/posts", requireAuth, (req: Request, res: Response) => {
     const { title, slug, excerpt, content, contentHtml, author, tags, coverUrl, status } = req.body;
     if (!title || !slug || !content) {
       return res.status(400).json({ error: "title, slug, and content are required" });
@@ -36,21 +37,21 @@ export function createBlogRouter(blog: BlogStorage): Router {
     res.status(201).json(post);
   });
 
-  router.put("/api/blog/posts/:id", (req: Request, res: Response) => {
+  router.put("/api/blog/posts/:id", requireAuth, (req: Request, res: Response) => {
     const id = getParam(req.params.id);
     const updated = blog.update(id, req.body);
     if (!updated) return res.status(404).json({ error: "Post not found" });
     res.json(updated);
   });
 
-  router.post("/api/blog/posts/:id/publish", (req: Request, res: Response) => {
+  router.post("/api/blog/posts/:id/publish", requireAuth, (req: Request, res: Response) => {
     const id = getParam(req.params.id);
     const published = blog.publish(id);
     if (!published) return res.status(404).json({ error: "Post not found" });
     res.json(published);
   });
 
-  router.delete("/api/blog/posts/:id", (req: Request, res: Response) => {
+  router.delete("/api/blog/posts/:id", requireAuth, (req: Request, res: Response) => {
     const id = getParam(req.params.id);
     const deleted = blog.delete(id);
     if (!deleted) return res.status(404).json({ error: "Post not found" });

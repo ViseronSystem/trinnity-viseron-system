@@ -6,6 +6,7 @@ import { AccountStore } from "../auth/store";
 import { CryptoPayments } from "../../core/crypto/payments";
 import { PLANS } from "../billing/plans";
 import { projectionTable, capacityIndicators } from "../../core/agency/finance";
+import { requireAuth } from "../auth/middleware";
 
 export interface RevenueDeps {
   accounts?: AccountStore;
@@ -23,7 +24,7 @@ export function createRevenueRouter(metrics: IMetrics, deps: RevenueDeps = {}): 
   });
 
   // Painel de receita real: planos, tenants, crypto, agência.
-  router.get("/revenue/dashboard", async (_req, res) => {
+  router.get("/revenue/dashboard", requireAuth, async (_req, res) => {
     try {
       const tenants = deps.accounts ? await deps.accounts.listTenants() : [];
       const byPlan: Record<string, number> = { free: 0, core: 0, pro: 0, enterprise: 0 };

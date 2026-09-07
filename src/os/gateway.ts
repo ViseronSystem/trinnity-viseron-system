@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { TVSOs } from "./index";
+import { requireAuth } from "../web/auth/middleware";
 
 export function createOsGateway(os: TVSOs): Router {
   const router = Router();
+  router.use(requireAuth);
 
   router.get("/status", (_req, res) => {
     res.json(os.status());
