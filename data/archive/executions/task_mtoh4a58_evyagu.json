@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoh4a58_evyagu",
+  "timestamp": "2026-09-05T14:24:00.228Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "819db38754fc2a47f507069c53d433fec3f89d6a5dded6973368db190f2477dc"
+}

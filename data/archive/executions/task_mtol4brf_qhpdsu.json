@@ -1,0 +1,21 @@
+{
+  "id": "task_mtol4brf_qhpdsu",
+  "timestamp": "2026-09-05T16:16:02.057Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "036bd280345f5f15c46c0600ef04b4c940e0278cd021d410a2b8a8d3b35a20b7"
+}

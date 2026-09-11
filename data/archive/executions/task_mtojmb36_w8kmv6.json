@@ -1,0 +1,21 @@
+{
+  "id": "task_mtojmb36_w8kmv6",
+  "timestamp": "2026-09-05T15:34:00.303Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "78070488d8931f95a0dd964db664f4b47c7e756ee9c759308c5692f5e6cdd788"
+}

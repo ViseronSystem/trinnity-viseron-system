@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgeyg5z_rj70th",
+  "timestamp": "2026-08-30T23:01:20.205Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ebd0f83843560ea16739f8e1a5751471a2834651a5cd729451cc3ca9442b5d8e"
+}

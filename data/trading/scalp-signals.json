@@ -1,0 +1,78 @@
+[
+  {
+    "symbol": "JUP",
+    "action": "BUY",
+    "confidence": 95,
+    "price": 0.2203,
+    "rsi": 24.444444444444656,
+    "ema5": 0.2208865523160755,
+    "ema10": 0.22131360658673335,
+    "ema20": 0.2214675497417982,
+    "macd": -3.105131922084836e-05,
+    "support": 0.2203,
+    "resistance": 0.223,
+    "dist_support": 0.0,
+    "dist_resist": 1.225601452564688,
+    "change_5m": -0.09070294784580758,
+    "reasons": [
+      "RSI EXTREMO + SUFORTE"
+    ]
+  },
+  {
+    "symbol": "RAY",
+    "action": "BUY",
+    "confidence": 95,
+    "price": 0.8022,
+    "rsi": 22.115384615384983,
+    "ema5": 0.8026471830485662,
+    "ema10": 0.8037047463642322,
+    "ema20": 0.8048253492460702,
+    "macd": -0.0009385440405844658,
+    "support": 0.8012,
+    "resistance": 0.8076,
+    "dist_support": 0.12465719272002004,
+    "dist_resist": 0.6731488406881028,
+    "change_5m": 0.0,
+    "reasons": [
+      "RSI EXTREMO + SUFORTE"
+    ]
+  },
+  {
+    "symbol": "WIF",
+    "action": "BUY",
+    "confidence": 70,
+    "price": 0.2032,
+    "rsi": 30.769230769230816,
+    "ema5": 0.20353902865897527,
+    "ema10": 0.2038254143509372,
+    "ema20": 0.2040151843798801,
+    "macd": -0.0001446787308755082,
+    "support": 0.2032,
+    "resistance": 0.2049,
+    "dist_support": 0.0,
+    "dist_resist": 0.83661417322835,
+    "change_5m": 0.0,
+    "reasons": [
+      "ABAIXO EMA20 + SUFORTE"
+    ]
+  },
+  {
+    "symbol": "PENGU",
+    "action": "BUY",
+    "confidence": 70,
+    "price": 0.009185,
+    "rsi": 32.026143790849474,
+    "ema5": 0.009188574445059258,
+    "ema10": 0.00919775861094337,
+    "ema20": 0.009195798524476233,
+    "macd": 9.291421707153386e-06,
+    "support": 0.009166,
+    "resistance": 0.009266,
+    "dist_support": 0.20685900925421796,
+    "dist_resist": 0.8818726183995587,
+    "change_5m": 0.07626933972543104,
+    "reasons": [
+      "ABAIXO EMA20 + SUFORTE"
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "id": "task_mtokwlvt_jcoe2i",
+  "timestamp": "2026-09-05T16:10:01.292Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a702abd56515a98fc722ee895ec264b3b5daf670a86dc8c1bbf04c879c3d9322"
+}

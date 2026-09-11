@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgyusgq_dq3pwb",
+  "timestamp": "2026-08-31T08:18:21.432Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2c18ad4b53c6391c5013872a7505a8e90e57ef2786e250882d5103f7da8752c7"
+}

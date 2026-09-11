@@ -96,6 +96,15 @@ const INTEGRATIONS = [
     desc: "Design de loops: patterns + starters + loop-audit/init/cost.",
     local: () => fs.existsSync(path.join(VENDOR_DIR, "loop-engineering")),
   },
+  {
+    id: "soup",
+    name: "Soup (LLM Fine-Tuning)",
+    repo: "https://github.com/MakazhanAlpamys/Soup",
+    license: "Apache-2.0",
+    where: "skills/vendor/soup",
+    desc: "CLI para fine-tune de LLMs (SFT/DPO/ORPO/SimPO) — treina 8B numa GPU de 4GB via layer streaming.",
+    local: () => fs.existsSync(path.join(VENDOR_DIR, "soup")),
+  },
 ];
 
 function box(title: string): void {
@@ -105,7 +114,7 @@ function box(title: string): void {
 }
 
 async function statusAll(): Promise<void> {
-  box("INTEGRAÇÕES — ECOSSISTEMA TVS (9 repositórios + skills)");
+  box("INTEGRAÇÕES — ECOSSISTEMA TVS (10 repositórios + skills)");
   const stats = await skillsRegistry.stats();
   console.log(`Skills indexadas: ${stats.total} em ${stats.sources.length} coleções`);
   console.log("");
@@ -122,7 +131,7 @@ async function statusAll(): Promise<void> {
   }
   console.log("");
   console.log("Comandos novos: npm run ecc:setup · loop:init · loop:doctor · loop:audit ·");
-  console.log("                npm run loop:cost · tutor:deeptutor · integrations:ecc/loop/crm/comp/tutor");
+  console.log("                npm run loop:cost · tutor:deeptutor · integrations:ecc/loop/crm/comp/tutor/soup");
 }
 
 function showEcc(): void {
@@ -187,6 +196,31 @@ function showTutor(): void {
   console.log("Complementa o ATLAS (tutor de inglês do TVS) com aprendizagem lifelong multi-domínio.");
 }
 
+function showSoup(): void {
+  box("SOUP — MakazhanAlpamys/Soup (LLM Fine-Tuning CLI, Apache-2.0)");
+  console.log("Fine-tune e post-train de LLMs a partir de um YAML — 5.7k stars, 1.1k commits.");
+  console.log("Treina um modelo 8B numa GPU de 4GB via layer streaming (LoRA + NF4).");
+  console.log("");
+  console.log("O que faz:");
+  console.log("  • soup init  — wizard interativo (templates: chat/code/tool-calling/medical/reasoning...)");
+  console.log("  • soup train — SFT, DPO, GRPO, KTO, ORPO, SimPO, IPO, BCO, RLHF");
+  console.log("  • soup chat  — conversa interativa com o modelo fine-tuned");
+  console.log("  • soup eval  — benchmarks + probes de qualidade");
+  console.log("  • soup export — GGUF (Ollama/llama.cpp), ONNX, TensorRT, AWQ, GPTQ");
+  console.log("  • soup serve — API server compatível OpenAI");
+  console.log("");
+  console.log("Layer Streaming (BETA): stream_layers: true — treina 8B em 4GB (3.32GB peak)");
+  console.log("VRAM guide: 8GB → 7B | 16GB → 14B | 24GB → 34B | 48GB → 70B | 80GB+ → 70B+");
+  console.log("");
+  console.log("Instalar (light CLI):  pip install soup-cli");
+  console.log("Instalar (+ training): pip install \"soup-cli[train]\"");
+  console.log("Instalar (all):        pip install \"soup-cli[all]\"");
+  console.log("");
+  console.log("Modelos suportados: Llama 3.x/4, Qwen 2.5/3, Gemma 3, Mistral, DeepSeek, Phi-4, 100+ outros.");
+  console.log("Docs completos: skills/vendor/soup/docs/");
+  console.log("Relevância TVS: fine-tune de modelos locais (Ollama) + export GGUF para integração direta.");
+}
+
 const command = process.argv[2] || "status";
 
 async function main(): Promise<void> {
@@ -205,6 +239,9 @@ async function main(): Promise<void> {
       break;
     case "tutor":
       showTutor();
+      break;
+    case "soup":
+      showSoup();
       break;
     case "status":
     default:

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISERON — AI Operating System for Autonomous Organizations</title>
+<meta name="description" content="VISERON v7.0 — 10 agentes nucleares reais, 12 squads, 178 endpoints. Transforme objetivos em processos autónomos verificáveis.">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#020208;--panel:#0a0f1e;--line:rgba(34,211,238,.14);--cyan:#22d3ee;--gold:#ffd700;--purple:#8b5cf6;--text:#e6e8f4;--muted:#8a90ab}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(2,2,10,.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron';font-weight:900;letter-spacing:1px}
+nav .logo span{width:32px;height:32px;background:var(--cyan);border-radius:8px;display:grid;place-items:center;color:#020208;font-size:11px}
+nav .cta{background:var(--gold);color:#020208;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px}
+.hero{padding:120px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 50% 0%, rgba(34,211,238,.18), transparent 70%), radial-gradient(800px 400px at 80% 100%, rgba(139,92,246,.12), transparent)}
+.hero h1{font-family:'Orbitron';font-weight:900;font-size:clamp(32px,6vw,56px);line-height:1.05;position:relative}
+.hero h1 i{color:var(--cyan);font-style:normal}
+.hero h1 b{color:var(--gold)}
+.hero p{max-width:760px;margin:16px auto 0;color:var(--muted);font-size:17px;line-height:1.6;position:relative}
+.hero .actions{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+.btn{padding:14px 22px;border-radius:999px;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+.btn-gold{background:var(--gold);color:#020208}
+.btn-ghost{border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.04)}
+.stats{max-width:1020px;margin:26px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;padding:0 24px}
+.stat{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.stat b{font-size:22px;color:var(--cyan)}
+.stat span{display:block;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.grid{max-width:1100px;margin:48px auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h3{font-size:15px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:13px;line-height:1.6}
+.card code{font-family:'JetBrains Mono';font-size:11px;color:var(--cyan);background:rgba(34,211,238,.08);padding:2px 6px;border-radius:6px}
+.pricing{max-width:1100px;margin:48px auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
+.price.featured{border-color:var(--gold);background:linear-gradient(180deg, rgba(255,215,0,.12), rgba(255,255,255,.03))}
+.price h4{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.price b{font-size:28px;display:block;margin:8px 0}
+.price ul{list-style:none;text-align:left;margin:12px 0 0;color:var(--muted);font-size:13px;line-height:1.8}
+.proof{max-width:1100px;margin:48px auto;padding:22px 24px;background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.18);border-radius:14px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.proof b{color:var(--cyan)}
+footer{padding:32px 24px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:48px}
+@media(max-width:900px){.grid,.pricing,.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><span>TVS</span> VISERON <small style="color:var(--muted);font-weight:400">v7.0</small></div>
+  <a class="cta" href="#demo">Agendar Demo</a>
+</nav>
+
+<section class="hero">
+  <h1>Transforme objetivos em <i>processos</i> <b>autónomos verificáveis</b></h1>
+  <p>AI Operating System for Autonomous Organizations — <b>10 agentes nucleares reais</b> + 12 squads + 178 endpoints + fila persistente + verifier. Não é chatbot. É infraestrutura que opera 24/7 e prova cada entrega.</p>
+  <div class="actions">
+    <a class="btn btn-gold" href="#demo">Ver Command Center ao vivo →</a>
+    <a class="btn btn-ghost" href="/api/health">GET /api/health</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>10</b><span>Agentes nucleares</span></div>
+    <div class="stat"><b>12</b><span>Squads AIOX</span></div>
+    <div class="stat"><b>178+</b><span>Endpoints REST</span></div>
+    <div class="stat"><b>6/6</b><span>Revenue readiness</span></div>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card"><h3>10 Agentes que executam</h3><p>CEO, CTO, Developer, DevOps, Finance, Research, Sales, Security, Support, Vision — cada um com spec <code>src/omega/agent-runtime/specs/*.agent.json</code> e prova em <code>tests/omega.test.ts:193</code></p></div>
+  <div class="card"><h3>12 Squads, 6 Módulos</h3><p>Engineering, Security, Business, Operations, Research, Evolution + 6 intelligence. Módulos: CRM, Sales, Finance, Marketing, Support, Legal.</p></div>
+  <div class="card"><h3>Fila que não morre</h3><p>TaskQueue 9 estados <code>CREATED→COMPLETED</code> + planner + verifier + persistência <code>data/state/task-queue.json</code> — sobrevive a restart.</p></div>
+  <div class="card"><h3>EventBus reativo</h3><p>43 tópicos, wildcards, ring buffer 500, SSE <code>GET /api/omega/events?topic=task.*</code></p></div>
+  <div class="card"><h3>Governança que vende</h3><p>9 princípios bíblicos + AutonomyOS L0-L5 + 9 bypasses fechados <code>f19bc8cd</code></p></div>
+  <div class="card"><h3>Receita real</h3><p>Avirato 3 planos Core $29/Pro $99/Enterprise $499 + webhook HMAC + Postgres Neon. <code>GET /api/revenue/readiness</code></p></div>
+</section>
+
+<section class="pricing" id="demo">
+  <div class="price"><h4>Core</h4><b>$29<span style="font-size:13px;color:var(--muted)">/mês</span></b><ul><li>✓ 1 workspace</li><li>✓ 10 agentes</li><li>✓ 50 tasks/mês</li></ul><a class="btn btn-ghost" style="margin-top:12px;width:100%;justify-content:center" href="/api/billing/checkout?plan=core">Começar</a></div>
+  <div class="price featured"><h4>Pro — Mais vendido</h4><b>$99<span style="font-size:13px;color:var(--muted)">/mês</span></b><ul><li>✓ 5 workspaces</li><li>✓ 12 squads</li><li>✓ 500 tasks/mês + verifier</li></ul><a class="btn btn-gold" style="margin-top:12px;width:100%;justify-content:center" href="/api/billing/checkout?plan=pro">Agendar demo</a></div>
+  <div class="price"><h4>Enterprise</h4><b>$499<span style="font-size:13px;color:var(--muted)">/mês</span></b><ul><li>✓ Ilimitado + on-premise</li><li>✓ SLA + White-label</li></ul><a class="btn btn-ghost" style="margin-top:12px;width:100%;justify-content:center" href="/api/billing/checkout?plan=enterprise">Falar com CEO</a></div>
+</section>
+
+<div class="proof"><div><b>Prova em 20s:</b> <code>POST /api/sites/generate {"name":"Minha Loja"}</code> → <code>GET /api/sites/:slug</code> | <code>POST /api/omega/tasks {"title":"criar proposta"}</code> → SSE <code>task:completed PASS</code></div><a class="btn btn-gold" href="/command-center">Abrir Command Center</a></div>
+
+<footer>© Pedro Costa (Comandante) · Trinnity Hurtado (Rainha) — Trinnity Viseron System v7.0 · <a href="/api/health">health</a> · <a href="/api/omega/status">omega/status</a> · OMEGA 250/250 PASS</footer>
+</body>
+</html>

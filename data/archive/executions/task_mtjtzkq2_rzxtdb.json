@@ -1,0 +1,21 @@
+{
+  "id": "task_mtjtzkq2_rzxtdb",
+  "timestamp": "2026-09-02T08:25:24.122Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "7bfc9eb85e06ed333dbb80b4612e07bf55b7c7d3d05d403c271196bfafcb7153"
+}

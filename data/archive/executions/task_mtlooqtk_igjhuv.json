@@ -1,0 +1,21 @@
+{
+  "id": "task_mtlooqtk_igjhuv",
+  "timestamp": "2026-09-03T15:32:32.914Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9dba9d3621c6c81c04b393ae862c31d76d48b9e6ba69546fbcc97b164dbb800e"
+}

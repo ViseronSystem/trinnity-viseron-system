@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-08-27T19:26:45.359013",
+  "wallet": "Ak3J4hps9zAJiDzghkPRb1kqkPKDjg89d3jjM8tjcLVj",
+  "sol_price": 109.19,
+  "signals": [
+    {
+      "token": "SOL",
+      "action": "SELL",
+      "confidence": 80,
+      "reason": "RSI overbought",
+      "entry": 109.19
+    },
+    {
+      "token": "JUP",
+      "action": "BUY",
+      "confidence": 70,
+      "reason": "DEX aggregator, alta demanda",
+      "price": 0.2328
+    },
+    {
+      "token": "RAY",
+      "action": "BUY",
+      "confidence": 68,
+      "reason": "AMM Solana, fundamentos",
+      "price": 0.8405
+    },
+    {
+      "token": "BONK",
+      "action": "BUY",
+      "confidence": 65,
+      "reason": "Meme coin, momentum",
+      "price": 3.179e-06
+    },
+    {
+      "token": "WIF",
+      "action": "BUY",
+      "confidence": 65,
+      "reason": "Meme coin trending",
+      "price": 0.2291
+    }
+  ]
+}

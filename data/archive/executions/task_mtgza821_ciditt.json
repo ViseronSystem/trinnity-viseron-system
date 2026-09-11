@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgza821_ciditt",
+  "timestamp": "2026-08-31T08:30:22.324Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "33cf194cd4c60bfee9ca79c1f06e2f245db0d47f3a569f87dded50213294177c"
+}

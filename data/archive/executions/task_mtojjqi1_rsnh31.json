@@ -1,0 +1,21 @@
+{
+  "id": "task_mtojjqi1_rsnh31",
+  "timestamp": "2026-09-05T15:32:00.925Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "59cb298bc892b16bf44cb736dfe0c2cc2c515b0dd6e8c08328f8f84bc6a2ca2c"
+}

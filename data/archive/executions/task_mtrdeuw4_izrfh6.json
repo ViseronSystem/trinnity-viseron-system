@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrdeuw4_izrfh6",
+  "timestamp": "2026-09-07T15:03:33.210Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d2a4a8c8474f90572b2b0d405126be08b9883c80fd6e3d45cc51941681ff925e"
+}

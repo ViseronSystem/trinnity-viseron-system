@@ -1,0 +1,21 @@
+{
+  "id": "task_mtlm66x5_z4ktu5",
+  "timestamp": "2026-09-03T14:22:08.422Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0d2eaf1d84c65ac92fd28df1a0f2a08c4b36d035bd81fae43c01618731a67276"
+}

@@ -9,6 +9,11 @@
 
 import { strixBridge } from "../src/core/strix/StrixBridge";
 import path from "path";
+import fs from "fs";
+import dotenv from "dotenv";
+
+const envPath = path.resolve(process.cwd(), ".env");
+if (fs.existsSync(envPath)) dotenv.config({ path: envPath });
 
 const args = process.argv.slice(2);
 const command = args[0] || "status";

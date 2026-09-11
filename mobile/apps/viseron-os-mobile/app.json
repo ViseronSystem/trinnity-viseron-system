@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "VISERON OS Mobile",
+    "slug": "viseron-os-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#05060f"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tvs.app.viseronosmobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#05060f"
+      },
+      "package": "com.tvs.app.viseronosmobile",
+      "versionCode": 1,
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
+            "kotlinVersion": "1.9.25",
+            "usesCleartextTraffic": true,
+            "newArchEnabled": false
+          }
+        }
+      ]
+    ]
+  }
+}

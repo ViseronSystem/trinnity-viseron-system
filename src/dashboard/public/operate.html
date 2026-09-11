@@ -1,346 +1,571 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SEE VISERON OPERATE — TVS</title>
-<style>
-  :root {
-    --neon: #00f0ff;
-    --neon2: #bf5af2;
-    --neon3: #ff2d55;
-    --green: #3dffa0;
-    --amber: #ffb020;
-    --bg: #050510;
-    --card: rgba(255,255,255,0.03);
-    --border: rgba(255,255,255,0.08);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: #e5e7eb;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: "";
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(600px 300px at 20% 0%, rgba(0,240,255,0.08), transparent 60%),
-      radial-gradient(600px 300px at 80% 10%, rgba(191,90,242,0.08), transparent 60%);
-  }
-  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
-  header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
-  .brand h1 {
-    font-size: 22px; letter-spacing: 0.16em; font-weight: 800;
-    background: linear-gradient(90deg, var(--neon), var(--neon2));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .brand p { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 0.1em; margin-top: 4px; }
-  .status-pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
-    border: 1px solid var(--border); background: var(--card); letter-spacing: 0.08em;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; animation: pulse 2s infinite; }
-  .dot.on { background: var(--green); box-shadow: 0 0 12px var(--green); }
-  .dot.warn { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VISERON Operate — E2E Task Execution Pipeline</title>
+  <meta name="description" content="VISERON Operate — Real-time task execution pipeline with OMEGA kernel events, verification engine, and mission control interface." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030310'/%3E%3Cpath d='M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23bf5af2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tvs-design.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--tvs-bg); color: var(--tvs-text); font-family: var(--tvs-font-sans); }
 
-  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 24px; }
-  .stage {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 12px 10px; text-align: center; position: relative;
-  }
-  .stage .n { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.16em; font-weight: 700; }
-  .stage .t { font-size: 12px; font-weight: 700; margin-top: 4px; color: var(--neon); }
-  .stage .s { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; min-height: 24px; }
-  .stage.active { border-color: var(--green); box-shadow: 0 0 18px rgba(61,255,160,0.25); }
-  .stage.active .t { color: var(--green); }
-  .stage.fail { border-color: var(--neon3); box-shadow: 0 0 18px rgba(255,45,85,0.3); }
-  .stage.fail .t { color: var(--neon3); }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(900px 450px at 10% 5%, rgba(0,240,255,0.05), transparent 60%),
+        radial-gradient(700px 350px at 90% 15%, rgba(191,90,242,0.04), transparent 60%),
+        radial-gradient(500px 250px at 50% 95%, rgba(48,209,88,0.03), transparent 60%);
+    }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 18px; transition: border-color .2s;
-  }
-  .card:hover { border-color: rgba(0,240,255,0.35); }
-  .card .label { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.14em; text-transform: uppercase; }
-  .card .value { font-size: 30px; font-weight: 800; margin-top: 8px; font-variant-numeric: tabular-nums; }
-  .card .sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 6px; }
-  .accent-1 .value { color: var(--neon); } .accent-2 .value { color: var(--neon2); }
-  .accent-3 .value { color: var(--neon3); } .accent-4 .value { color: var(--green); }
+    .scanline { position: fixed; inset: 0; z-index: 99998; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.008) 2px, rgba(0,240,255,0.008) 4px); }
 
-  .cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 24px; }
-  @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } .pipeline { grid-template-columns: repeat(3, 1fr); } }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.4); }
 
-  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
-  .panel h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
-  .logs {
-    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.7;
-    color: rgba(255,255,255,0.55); max-height: 420px; overflow-y: auto; padding-right: 6px;
-  }
-  .logs .live { color: var(--green); }
-  .logs .warn { color: var(--amber); }
-  .logs .err { color: var(--neon3); }
-  .logs .accent { color: var(--neon2); }
+    #app { position: fixed; inset: 0; display: flex; flex-direction: column; z-index: 1; }
 
-  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .btn {
-    padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
-    background: rgba(255,255,255,0.04); color: #fff; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: all .15s; font-family: inherit;
-  }
-  .btn:hover { border-color: var(--neon); box-shadow: 0 0 18px rgba(0,240,255,0.25); }
-  .btn.primary { background: linear-gradient(90deg, rgba(0,240,255,0.18), rgba(191,90,242,0.18)); border-color: rgba(0,240,255,0.4); }
-  .autonomy { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
-  .autonomy .row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .autonomy .row span:first-child { color: rgba(255,255,255,0.45); }
-  .verdict { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-  .verdict.auto { background: rgba(61,255,160,0.14); color: var(--green); }
-  .verdict.approval { background: rgba(255,176,32,0.14); color: var(--amber); }
-  .verdict.deny { background: rgba(255,45,85,0.14); color: var(--neon3); }
-  .verdict.supervised { background: rgba(0,240,255,0.14); color: var(--neon); }
-  .hint { color: rgba(255,255,255,0.35); font-size: 12px; text-align: center; margin-top: 24px; }
-  .hint a { color: var(--neon); text-decoration: none; }
-</style>
+    /* ── NAV BAR ── */
+    .tvs-nav { height: 52px; display: flex; align-items: center; gap: 16px; padding: 0 20px; background: rgba(5,5,16,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--tvs-border); flex-shrink: 0; z-index: 50; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .nav-logo { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(191,90,242,0.15)); border: 1px solid rgba(0,240,255,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(0,240,255,0.1); }
+    .nav-logo svg { width: 18px; height: 18px; }
+    .nav-title { font-family: var(--tvs-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+    .nav-links { display: flex; align-items: center; gap: 4px; margin-left: 16px; }
+    .nav-link { padding: 6px 12px; border-radius: var(--tvs-radius-md); font-size: 12px; font-weight: 500; color: var(--tvs-text-secondary); text-decoration: none; transition: all 150ms ease; }
+    .nav-link:hover { color: var(--tvs-text); background: var(--tvs-surface-hover); }
+    .nav-link-active { color: var(--tvs-cyan); background: rgba(0,240,255,0.08); }
+    .nav-spacer { flex: 1; }
+    .live-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--tvs-radius-full); background: rgba(48,209,88,0.08); border: 1px solid rgba(48,209,88,0.2); font-size: 11px; font-weight: 600; color: var(--tvs-green); }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tvs-green); animation: livePulse 2s ease-in-out infinite; }
+    @keyframes livePulse { 0%,100% { opacity: 1; box-shadow: 0 0 6px var(--tvs-green); } 50% { opacity: 0.4; box-shadow: none; } }
+
+    .nav-toggle { display: none; background: none; border: none; color: var(--tvs-text-secondary); font-size: 20px; cursor: pointer; padding: 4px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: fixed; top: 52px; left: 0; right: 0; bottom: 0; flex-direction: column; background: rgba(5,5,16,0.97); backdrop-filter: blur(24px); padding: 16px; z-index: 40; }
+      .nav-links-open { display: flex; }
+      .nav-toggle { display: block; }
+      .pipeline-flow { flex-direction: column; align-items: stretch !important; }
+      .pipeline-step { width: 100% !important; }
+      .pipeline-arrow { transform: rotate(90deg) !important; margin: 4px auto !important; }
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-content { flex: 1; overflow-y: auto; padding: 20px; position: relative; z-index: 1; }
+    .main-content > .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+
+    /* ── PIPELINE ── */
+    .pipeline-wrap { background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border); border-radius: var(--tvs-radius-lg); padding: 20px; margin-bottom: 20px; }
+    .pipeline-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tvs-text-muted); margin-bottom: 14px; }
+    .pipeline-flow { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 4px 0; }
+    .pipeline-step { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 90px; padding: 10px 8px; border-radius: var(--tvs-radius-md); border: 1px solid var(--tvs-border); background: var(--tvs-bg-elevated); transition: all 200ms ease; position: relative; }
+    .pipeline-step.active { border-color: rgba(0,240,255,0.4); background: rgba(0,240,255,0.05); box-shadow: 0 0 20px rgba(0,240,255,0.08); }
+    .pipeline-step.completed { border-color: rgba(48,209,88,0.3); background: rgba(48,209,88,0.04); }
+    .pipeline-step.failed { border-color: rgba(255,69,58,0.3); background: rgba(255,69,58,0.04); }
+    .pipeline-step-icon { font-size: 18px; }
+    .pipeline-step-name { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--tvs-text-secondary); white-space: nowrap; }
+    .pipeline-step.active .pipeline-step-name { color: var(--tvs-cyan); }
+    .pipeline-step.completed .pipeline-step-name { color: var(--tvs-green); }
+    .pipeline-step-count { font-family: var(--tvs-font-mono); font-size: 11px; color: var(--tvs-text-muted); }
+    .pipeline-arrow { color: var(--tvs-text-muted); font-size: 14px; margin: 0 4px; flex-shrink: 0; }
+    .pipeline-branch { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 4px; }
+    .pipeline-branch-label { font-size: 9px; font-weight: 600; color: var(--tvs-danger); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pipeline-fail-path { display: flex; align-items: center; gap: 0; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,69,58,0.2); }
+
+    /* ── STATS ROW ── */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border); border-radius: var(--tvs-radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 6px; transition: border-color 200ms ease; }
+    .stat-card:hover { border-color: rgba(0,240,255,0.15); }
+    .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tvs-text-muted); }
+    .stat-value { font-family: var(--tvs-font-display); font-size: 28px; font-weight: 700; line-height: 1; }
+    .stat-value.cyan { color: var(--tvs-cyan); }
+    .stat-value.green { color: var(--tvs-green); }
+    .stat-value.purple { color: var(--tvs-purple); }
+    .stat-value.orange { color: var(--tvs-orange); }
+    .stat-sub { font-size: 11px; color: var(--tvs-text-muted); }
+
+    /* ── PANELS ── */
+    .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 900px) { .panel-grid { grid-template-columns: 1fr; } }
+    .panel { background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border); border-radius: var(--tvs-radius-lg); overflow: hidden; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--tvs-border-subtle); }
+    .panel-title { font-family: var(--tvs-font-display); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .panel-badge { padding: 2px 8px; border-radius: var(--tvs-radius-full); font-size: 10px; font-weight: 600; }
+    .panel-body { padding: 16px; max-height: 380px; overflow-y: auto; }
+    .panel-full { grid-column: 1 / -1; }
+
+    /* ── TASK CARDS ── */
+    .task-card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--tvs-radius-md); border: 1px solid var(--tvs-border-subtle); background: var(--tvs-bg-elevated); margin-bottom: 8px; transition: border-color 150ms ease; }
+    .task-card:last-child { margin-bottom: 0; }
+    .task-card:hover { border-color: rgba(0,240,255,0.15); }
+    .task-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .task-icon.running { background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.25); }
+    .task-icon.planning { background: rgba(191,90,242,0.1); border: 1px solid rgba(191,90,242,0.25); }
+    .task-icon.queued { background: rgba(255,159,10,0.1); border: 1px solid rgba(255,159,10,0.25); }
+    .task-info { flex: 1; min-width: 0; }
+    .task-name { font-size: 13px; font-weight: 600; color: var(--tvs-text); margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .task-meta { font-size: 11px; color: var(--tvs-text-muted); display: flex; align-items: center; gap: 8px; }
+    .task-agent { font-size: 11px; color: var(--tvs-purple); font-weight: 500; }
+    .task-elapsed { font-family: var(--tvs-font-mono); font-size: 11px; color: var(--tvs-text-muted); }
+    .task-progress { width: 100%; height: 4px; background: var(--tvs-surface-2); border-radius: var(--tvs-radius-full); margin-top: 6px; overflow: hidden; }
+    .task-progress-bar { height: 100%; border-radius: var(--tvs-radius-full); background: var(--tvs-cyan); transition: width 600ms ease; }
+    .task-progress-bar.purple { background: var(--tvs-purple); }
+
+    /* ── TABLE ── */
+    .tvs-table { width: 100%; font-size: 12px; }
+    .tvs-table th { font-size: 10px; }
+    .tvs-table td { padding: 10px 12px; }
+    .result-badge { padding: 2px 8px; border-radius: var(--tvs-radius-full); font-size: 10px; font-weight: 600; }
+    .result-badge.pass { background: rgba(48,209,88,0.1); color: var(--tvs-green); }
+    .result-badge.fail { background: rgba(255,69,58,0.1); color: var(--tvs-danger); }
+    .result-badge.pending { background: rgba(255,159,10,0.1); color: var(--tvs-orange); }
+
+    /* ── EVENT FEED ── */
+    .event-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--tvs-border-subtle); font-size: 12px; }
+    .event-item:last-child { border-bottom: none; }
+    .event-time { font-family: var(--tvs-font-mono); font-size: 10px; color: var(--tvs-text-muted); white-space: nowrap; min-width: 55px; }
+    .event-topic { font-family: var(--tvs-font-mono); font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+    .event-topic.task { background: rgba(0,240,255,0.1); color: var(--tvs-cyan); }
+    .event-topic.tool { background: rgba(191,90,242,0.1); color: var(--tvs-purple); }
+    .event-topic.memory { background: rgba(48,209,88,0.1); color: var(--tvs-green); }
+    .event-topic.error { background: rgba(255,69,58,0.1); color: var(--tvs-danger); }
+    .event-msg { color: var(--tvs-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── VERIFIER ── */
+    .verifier-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+    .v-stat { text-align: center; padding: 10px; border-radius: var(--tvs-radius-md); background: var(--tvs-bg-elevated); border: 1px solid var(--tvs-border-subtle); }
+    .v-stat-val { font-family: var(--tvs-font-display); font-size: 22px; font-weight: 700; }
+    .v-stat-label { font-size: 10px; color: var(--tvs-text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+    .rule-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--tvs-radius-sm); background: var(--tvs-bg-elevated); margin-bottom: 6px; font-size: 12px; }
+    .rule-item:last-child { margin-bottom: 0; }
+    .rule-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .rule-dot.active { background: var(--tvs-green); }
+    .rule-dot.inactive { background: var(--tvs-text-muted); }
+
+    /* ── CREATE FORM ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tvs-text-muted); }
+
+    /* ── FOOTER ── */
+    .footer { padding: 12px 20px; border-top: 1px solid var(--tvs-border); background: rgba(5,5,16,0.8); text-align: center; font-size: 11px; color: var(--tvs-text-muted); flex-shrink: 0; z-index: 1; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <h1>SEE VISERON OPERATE</h1>
-      <p>PIPELINE E2E · eventos reais do OMEGA em tempo real · v7.0</p>
+  <div class="scanline"></div>
+  <div id="app">
+    <!-- NAVIGATION -->
+    <nav class="tvs-nav">
+      <a href="/" class="nav-brand">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--tvs-cyan)" stroke-width="1.5"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/><circle cx="12" cy="12" r="2.5" fill="var(--tvs-purple)" stroke="none"/></svg>
+        </div>
+        <span class="nav-title">TVS <span style="color:var(--tvs-cyan)">OPERATE</span></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <a href="/operate" class="nav-link nav-link-active">Operate</a>
+        <a href="/command-center" class="nav-link">Command Center</a>
+        <a href="/workspace" class="nav-link">Workspace</a>
+        <a href="/viseron" class="nav-link">VISERON</a>
+        <a href="/atlas" class="nav-link">ATLAS</a>
+      </div>
+      <div class="nav-spacer"></div>
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('nav-links-open')">&#9776;</button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="section-header">
+        <div>
+          <h1 style="font-family:var(--tvs-font-display);font-size:var(--tvs-text-2xl);font-weight:700;display:flex;align-items:center;gap:10px;">
+            <span style="color:var(--tvs-cyan)">&#9881;</span> VISERON Operate
+          </h1>
+          <p style="font-size:12px;color:var(--tvs-text-muted);margin-top:4px;">E2E Task Execution Pipeline &middot; OMEGA Kernel</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="live-badge"><div class="live-dot"></div><span id="statusText">System Online</span></div>
+        </div>
+      </div>
+
+      <!-- Pipeline Visualization -->
+      <div class="pipeline-wrap">
+        <div class="pipeline-label">&#9654; Execution Pipeline</div>
+        <div class="pipeline-flow">
+          <div class="pipeline-step completed" id="p-created">
+            <div class="pipeline-step-icon">&#10010;</div>
+            <div class="pipeline-step-name">Created</div>
+            <div class="pipeline-step-count" id="count-created">0</div>
+          </div>
+          <div class="pipeline-arrow">&#10132;</div>
+          <div class="pipeline-step" id="p-planning">
+            <div class="pipeline-step-icon">&#9998;</div>
+            <div class="pipeline-step-name">Planning</div>
+            <div class="pipeline-step-count" id="count-planning">0</div>
+          </div>
+          <div class="pipeline-arrow">&#10132;</div>
+          <div class="pipeline-step" id="p-queued">
+            <div class="pipeline-step-icon">&#9881;</div>
+            <div class="pipeline-step-name">Queued</div>
+            <div class="pipeline-step-count" id="count-queued">0</div>
+          </div>
+          <div class="pipeline-arrow">&#10132;</div>
+          <div class="pipeline-step active" id="p-running">
+            <div class="pipeline-step-icon">&#9654;</div>
+            <div class="pipeline-step-name">Running</div>
+            <div class="pipeline-step-count" id="count-running">0</div>
+          </div>
+          <div class="pipeline-arrow">&#10132;</div>
+          <div class="pipeline-step" id="p-verifying">
+            <div class="pipeline-step-icon">&#10004;</div>
+            <div class="pipeline-step-name">Verifying</div>
+            <div class="pipeline-step-count" id="count-verifying">0</div>
+          </div>
+          <div class="pipeline-arrow">&#10132;</div>
+          <div class="pipeline-step completed" id="p-completed">
+            <div class="pipeline-step-icon">&#9733;</div>
+            <div class="pipeline-step-name">Completed</div>
+            <div class="pipeline-step-count" id="count-completed">0</div>
+          </div>
+        </div>
+        <div class="pipeline-fail-path">
+          <div class="pipeline-branch">
+            <div class="pipeline-branch-label">&#10006; On Failure</div>
+          </div>
+          <div class="pipeline-arrow" style="color:var(--tvs-danger)">&#10132;</div>
+          <div class="pipeline-step failed">
+            <div class="pipeline-step-icon" style="color:var(--tvs-danger)">&#10008;</div>
+            <div class="pipeline-step-name" style="color:var(--tvs-danger)">Failed</div>
+            <div class="pipeline-step-count" id="count-failed">0</div>
+          </div>
+          <div class="pipeline-arrow" style="color:var(--tvs-orange)">&#10132;</div>
+          <div class="pipeline-step" style="border-color:rgba(255,159,10,0.3);">
+            <div class="pipeline-step-icon" style="color:var(--tvs-orange)">&#8635;</div>
+            <div class="pipeline-step-name" style="color:var(--tvs-orange)">Recovering</div>
+            <div class="pipeline-step-count" id="count-recovering">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Verified Completion Rate</div>
+          <div class="stat-value cyan" id="stat-verified">--</div>
+          <div class="stat-sub">of total tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Tasks</div>
+          <div class="stat-value purple" id="stat-total">0</div>
+          <div class="stat-sub">all time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg Execution Time</div>
+          <div class="stat-value green" id="stat-avgtime">--</div>
+          <div class="stat-sub">seconds</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Now</div>
+          <div class="stat-value orange" id="stat-active">0</div>
+          <div class="stat-sub">tasks in pipeline</div>
+        </div>
+      </div>
+
+      <!-- Main Panels -->
+      <div class="panel-grid">
+        <!-- Active Tasks -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><span style="color:var(--tvs-cyan)">&#9654;</span> Active Tasks</div>
+            <span class="panel-badge" style="background:rgba(0,240,255,0.1);color:var(--tvs-cyan);" id="activeCount">0</span>
+          </div>
+          <div class="panel-body" id="activeTasks">
+            <div style="text-align:center;padding:24px;color:var(--tvs-text-muted);font-size:12px;">No active tasks</div>
+          </div>
+        </div>
+
+        <!-- OMEGA Events Stream -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><span style="color:var(--tvs-purple)">&#9889;</span> OMEGA Events</div>
+            <span class="panel-badge" style="background:rgba(191,90,242,0.1);color:var(--tvs-purple);">SSE</span>
+          </div>
+          <div class="panel-body" id="eventFeed">
+            <div style="text-align:center;padding:24px;color:var(--tvs-text-muted);font-size:12px;">Connecting to event stream...</div>
+          </div>
+        </div>
+
+        <!-- Task History Table -->
+        <div class="panel panel-full">
+          <div class="panel-header">
+            <div class="panel-title"><span style="color:var(--tvs-green)">&#128203;</span> Task History</div>
+            <span class="panel-badge" style="background:rgba(48,209,88,0.1);color:var(--tvs-green);" id="historyCount">0</span>
+          </div>
+          <div class="panel-body" style="max-height:300px;">
+            <table class="tvs-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Agent</th>
+                  <th>Status</th>
+                  <th>Verified</th>
+                  <th>Duration</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="taskHistoryBody">
+                <tr><td colspan="7" style="text-align:center;color:var(--tvs-text-muted);padding:24px;">No completed tasks yet</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Verifier Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><span style="color:var(--tvs-green)">&#10004;</span> Verifier Engine</div>
+          </div>
+          <div class="panel-body">
+            <div class="verifier-stats">
+              <div class="v-stat">
+                <div class="v-stat-val" style="color:var(--tvs-green);" id="v-pass">0</div>
+                <div class="v-stat-label">Passed</div>
+              </div>
+              <div class="v-stat">
+                <div class="v-stat-val" style="color:var(--tvs-danger);" id="v-fail">0</div>
+                <div class="v-stat-label">Failed</div>
+              </div>
+              <div class="v-stat">
+                <div class="v-stat-val" style="color:var(--tvs-orange);" id="v-pending">0</div>
+                <div class="v-stat-label">Pending</div>
+              </div>
+            </div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--tvs-text-muted);margin-bottom:8px;">Active Rules</div>
+            <div id="verifierRules">
+              <div class="rule-item"><div class="rule-dot active"></div>hasResult</div>
+              <div class="rule-item"><div class="rule-dot active"></div>resultTruthy</div>
+              <div class="rule-item"><div class="rule-dot active"></div>outputNonEmpty</div>
+              <div class="rule-item"><div class="rule-dot active"></div>schemaRule</div>
+              <div class="rule-item"><div class="rule-dot active"></div>invariantRule</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Task Form -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><span style="color:var(--tvs-orange)">&#10010;</span> Create Task</div>
+          </div>
+          <div class="panel-body">
+            <form id="createTaskForm" onsubmit="return createTask(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Task Type</label>
+                  <select class="tvs-select" id="taskType">
+                    <option value="business">Business</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="research">Research</option>
+                    <option value="operations">Operations</option>
+                    <option value="finance">Finance</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Priority</label>
+                  <select class="tvs-select" id="taskPriority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">Title</label>
+                <input class="tvs-input" id="taskTitle" placeholder="Task title" required />
+              </div>
+              <div class="form-group" style="margin-bottom:16px;">
+                <label class="form-label">Description</label>
+                <textarea class="tvs-textarea" id="taskDesc" placeholder="Describe the task..." rows="3"></textarea>
+              </div>
+              <button type="submit" class="tvs-btn tvs-btn-primary tvs-btn-lg" style="width:100%;">
+                &#10010; Submit Task
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="status-pill"><span class="dot" id="sysdot"></span><span id="sysstatus">CONNECTING…</span></div>
-  </header>
 
-  <div class="pipeline">
-    <div class="stage" id="st_objetivo"><div class="n">01</div><div class="t">OBJETIVO</div><div class="s">entra no sistema</div></div>
-    <div class="stage" id="st_kernel"><div class="n">02</div><div class="t">KERNEL</div><div class="s">event bus + permissões</div></div>
-    <div class="stage" id="st_agentes"><div class="n">03</div><div class="t">AGENTES</div><div class="s">5.4k mentes ativas</div></div>
-    <div class="stage" id="st_executa"><div class="n">04</div><div class="t">EXECUTAR + VERIFICAR</div><div class="s">tools → verifier</div></div>
-    <div class="stage" id="st_aprende"><div class="n">05</div><div class="t">APRENDER</div><div class="s">memória + graph</div></div>
-  </div>
-
-  <div class="grid">
-    <div class="card accent-1"><div class="label">Tasks Completas</div><div class="value" id="k_tasks">—</div><div class="sub">task queue</div></div>
-    <div class="card accent-2"><div class="label">Taxa Verificada</div><div class="value" id="k_verified">—</div><div class="sub">verified completion</div></div>
-    <div class="card accent-4"><div class="label">Eventos Emitidos</div><div class="value" id="k_events">—</div><div class="sub">event bus</div></div>
-    <div class="card accent-1"><div class="label">Agentes Ativos</div><div class="value" id="k_agents">—</div><div class="sub">nuclear runtime</div></div>
-    <div class="card accent-2"><div class="label">Graph</div><div class="value" id="k_graph">—</div><div class="sub">entities · relations</div></div>
-    <div class="card accent-3"><div class="label">Ferramentas</div><div class="value" id="k_tools">—</div><div class="sub">tool manager</div></div>
-  </div>
-
-  <div class="cols">
-    <div class="panel">
-      <h2>Stream ao vivo (SSE · task.* tool.* memory.* kernel.*)</h2>
-      <div class="toolbar">
-        <button class="btn primary" onclick="runTask()">▶ Executar Tarefa Real</button>
-        <button class="btn" onclick="runAutonomy()">⚙ Ciclo de Autonomia</button>
-        <button class="btn" onclick="assessAutonomy()">🔒 Avaliar Autonomia</button>
-        <button class="btn" onclick="clearLogs()">Limpar</button>
-      </div>
-      <div class="logs" id="logs">
-        <div>[viseron] à espera de eventos reais… abre a página e clica em "Executar Tarefa Real"</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="panel" style="margin-bottom:16px">
-        <h2>Autonomy OS (L0-L5)</h2>
-        <div class="autonomy" id="autonomyBox"><div style="color:rgba(255,255,255,0.3);font-size:12px">A carregar…</div></div>
-      </div>
-      <div class="panel">
-        <h2>Pipeline</h2>
-        <div class="autonomy" id="pipelineLog"><div style="color:rgba(255,255,255,0.3);font-size:12px">A aguardar atividade…</div></div>
-      </div>
+    <!-- FOOTER -->
+    <div class="footer">
+      &copy; Pedro Costa (Commander) &amp; Trinnity Hurtado (Queen) &middot; Trinnity Viseron System v7.0 &middot; OMEGA Kernel
     </div>
   </div>
 
-  <div class="hint">
-    API: <a href="/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*,autonomy.*" target="_blank">SSE /api/omega/events</a> ·
-    <a href="/api/omega/status" target="_blank">/api/omega/status</a> ·
-    <a href="/api/omega/autonomy/os" target="_blank">/api/omega/autonomy/os</a>
-  </div>
-</div>
+  <script>
+    const API = '';
+    let eventSource = null;
+    let events = [];
 
-<script>
-  const logEl = document.getElementById("logs");
-  function log(msg, cls) {
-    const div = document.createElement("div");
-    div.textContent = "[" + new Date().toLocaleTimeString() + "] " + msg;
-    if (cls) div.className = cls;
-    logEl.insertBefore(div, logEl.firstChild);
-    while (logEl.children.length > 60) logEl.removeChild(logEl.lastChild);
-  }
-  function clearLogs() {
-    logEl.innerHTML = "";
-    log("logs limpos");
-  }
-  async function j(url, opts) {
-    const r = await fetch(url, opts);
-    if (!r.ok) throw new Error(url + " → " + r.status);
-    return r.json();
-  }
-  function setStatus(on) {
-    document.getElementById("sysdot").className = "dot " + (on ? "on" : "warn");
-    document.getElementById("sysstatus").textContent = on ? "SYSTEM ONLINE" : "DEGRADED";
-  }
-  function stage(id, state) {
-    const el = document.getElementById(id);
-    el.className = "stage";
-    if (state) el.classList.add(state);
-  }
-  function pushPipeline(msg, cls) {
-    const box = document.getElementById("pipelineLog");
-    if (box.children.length === 1 && box.children[0].textContent.indexOf("A aguardar") !== -1) box.innerHTML = "";
-    const div = document.createElement("div");
-    div.className = "row";
-    div.innerHTML = "<span>" + msg + "</span><span class='" + (cls || "verdict auto") + "'>●</span>";
-    box.insertBefore(div, box.firstChild);
-    while (box.children.length > 12) box.removeChild(box.lastChild);
-  }
-
-  async function refresh() {
-    try {
-      const health = await j("/api/health");
-      setStatus(health && (health.status === "OK" || health.status === "online"));
-      const omega = await j("/api/omega/status");
-      const k = omega.kernel, g = omega.graph, r = omega.runtime;
-      document.getElementById("k_tasks").textContent = k.tasks.completed;
-      document.getElementById("k_verified").textContent = Math.round((k.tasks.verified / (k.tasks.total || 1)) * 100) + "%";
-      document.getElementById("k_events").textContent = k.events.totalEmitted;
-      document.getElementById("k_agents").textContent = r.active + " / " + r.loaded;
-      document.getElementById("k_graph").textContent = g.entities;
-      document.getElementById("k_graph").nextElementSibling.textContent = g.entities + " entities · " + g.relations + " relations";
-      document.getElementById("k_tools").textContent = k.tools.enabled + " / " + k.tools.total;
-    } catch (e) {
-      setStatus(false);
-      log("refresh failed: " + e.message, "err");
-    }
-  }
-
-  async function loadAutonomy() {
-    try {
-      const s = await j("/api/omega/autonomy/os");
-      const box = document.getElementById("autonomyBox");
-      box.innerHTML = "";
-      const levels = s.levels || [];
-      levels.forEach(lv => {
-        const row = document.createElement("div");
-        row.className = "row";
-        row.innerHTML = "<span>L" + lv.level + " · " + lv.label + "</span><span>" + lv.name + "</span>";
-        box.appendChild(row);
-      });
-      (s.policies || []).slice(0, 4).forEach(p => {
-        const row = document.createElement("div");
-        row.className = "row";
-        row.innerHTML = "<span>" + p.domain + " (L" + p.level + ")</span><span>" + (p.autoBelow !== undefined ? "auto<" + p.autoBelow : "aprov.") + "</span>";
-        box.appendChild(row);
-      });
-      const st = document.createElement("div");
-      st.className = "row";
-      st.innerHTML = "<span>decisões auditadas</span><span>" + (s.decisions || 0) + "</span>";
-      box.appendChild(st);
-    } catch (e) { log("autonomy os load failed: " + e.message, "err"); }
-  }
-
-  async function runTask() {
-    try {
-      stage("st_objetivo", "active");
-      log("objetivo: enfileirar tarefa real no kernel…", "accent");
-      const res = await j("/api/omega/tasks", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "omega:live", title: "Tarefa ao vivo do SEE VISERON OPERATE", payload: { origin: "operate" }, priority: "high" })
-      });
-      log("task criada: " + res.id + " [" + res.priority + "] — estado " + res.state, "live");
-      stage("st_kernel", "active");
-      pushPipeline("task " + res.id + " → kernel", "auto");
-      setTimeout(() => { stage("st_kernel", ""); }, 2500);
-    } catch (e) { log("runTask failed: " + e.message, "err"); }
-  }
-
-  async function runAutonomy() {
-    try {
-      log("ciclo de autonomia (planning) a arrancar…", "accent");
-      const res = await j("/api/omega/autonomy/cycle", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind: "planning" })
-      });
-      log("autonomy planning → engine: " + (res.engine || "-") + " · " + new Date().toLocaleTimeString(), "live");
-      pushPipeline("ciclo planning → " + (res.engine || "-"), "auto");
-    } catch (e) { log("autonomy failed: " + e.message, "err"); }
-  }
-
-  async function assessAutonomy() {
-    try {
-      stage("st_kernel", "active");
-      const cases = [
-        { domain: "finance", op: "charge", value: 25, actor: "viserogem" },
-        { domain: "finance", op: "charge", value: 1500, actor: "viserogem" },
-        { domain: "finance", op: "card_data_access", actor: "viserogem" },
-        { domain: "research", op: "market_scan", actor: "viserogem" },
-      ];
-      for (const c of cases) {
-        const d = await j("/api/omega/autonomy/os/assess", {
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(c)
-        });
-        const v = '<span class="verdict ' + d.verdict + '">' + d.verdict.toUpperCase() + "</span>";
-        log(c.domain + ":" + c.op + (c.value !== undefined ? " €" + c.value : "") + " → " + d.verdict + " (L" + d.level + ") · " + d.reason, d.verdict === "deny" ? "err" : d.verdict === "approval" ? "warn" : "live");
-        pushPipeline(d.reason, v);
-      }
-      setTimeout(() => { stage("st_kernel", ""); }, 2500);
-    } catch (e) { log("assessAutonomy failed: " + e.message, "err"); }
-  }
-
-  function onEvent(topic, data) {
-    if (topic === "task.completed") {
-      stage("st_executa", "");
-      stage("st_aprende", "active");
-      pushPipeline("task " + data.taskId + " completada → verifier " + (data.verification || ""), "auto");
-      setTimeout(() => stage("st_aprende", ""), 3000);
-    } else if (topic === "task.failed") {
-      stage("st_executa", "fail");
-      log("task " + data.taskId + " FALHOU", "err");
-      setTimeout(() => stage("st_executa", ""), 3000);
-    } else if (topic.indexOf("tool.") === 0) {
-      stage("st_executa", "active");
-      log("tool " + data.toolId + " " + (data.success ? "✓" : "✗") + " (" + (data.executionTimeMs || 0) + "ms)", data.success ? "live" : "err");
-    } else if (topic.indexOf("autonomy") === 0) {
-      pushPipeline(topic + " · " + (data.verdict || "…"), data.verdict ? "verdict " + data.verdict : "auto");
-    } else {
-      const tag = topic.split(".")[0];
-      log(topic + " · " + JSON.stringify(data).slice(0, 90), tag === "memory" ? "accent" : "live");
-    }
-  }
-
-  function connectSSE() {
-    const es = new EventSource("/api/omega/events?topic=task.*,tool.*,memory.*,kernel.*,autonomy.*");
-    es.onopen = () => { setStatus(true); log("SSE ligado — eventos reais do OMEGA a fluir", "live"); };
-    es.addEventListener("task", e => onEvent("task", JSON.parse(e.data)));
-    es.addEventListener("task.completed", e => onEvent("task.completed", JSON.parse(e.data)));
-    es.addEventListener("task.failed", e => onEvent("task.failed", JSON.parse(e.data)));
-    es.addEventListener("tool.called", e => onEvent("tool.called", JSON.parse(e.data)));
-    es.addEventListener("tool.completed", e => onEvent("tool.completed", JSON.parse(e.data)));
-    es.addEventListener("tool.failed", e => onEvent("tool.failed", JSON.parse(e.data)));
-    es.addEventListener("memory:updated", e => onEvent("memory:updated", JSON.parse(e.data)));
-    es.addEventListener("autonomy:decided", e => onEvent("autonomy:decided", JSON.parse(e.data)));
-    es.addEventListener("message", e => {
+    // ── Fetch tasks ──
+    async function loadTasks() {
       try {
-        const d = JSON.parse(e.data);
-        onEvent(d.topic || "event", d.payload || d);
-      } catch {}
-    });
-    es.onerror = () => { setStatus(false); log("SSE reconnecting…", "warn"); };
-  }
+        const res = await fetch(API + '/api/omega/tasks');
+        if (!res.ok) throw new Error('API not available');
+        const data = await res.json();
+        updatePipeline(data);
+        updateStats(data);
+        updateActiveTasks(data);
+        updateHistory(data);
+      } catch (e) {
+        document.getElementById('statusText').textContent = 'API Offline';
+        document.querySelector('.live-badge').style.background = 'rgba(255,69,58,0.08)';
+        document.querySelector('.live-badge').style.borderColor = 'rgba(255,69,58,0.2)';
+        document.querySelector('.live-badge').style.color = 'var(--tvs-danger)';
+        document.querySelector('.live-dot').style.background = 'var(--tvs-danger)';
+      }
+    }
 
-  refresh();
-  loadAutonomy();
-  connectSSE();
-  setInterval(refresh, 15000);
-</script>
+    function updatePipeline(data) {
+      const counts = { CREATED: 0, PLANNING: 0, QUEUED: 0, RUNNING: 0, VERIFYING: 0, COMPLETED: 0, FAILED: 0, RECOVERING: 0 };
+      const tasks = data.tasks || data.list || [];
+      tasks.forEach(t => { const s = (t.status || '').toUpperCase(); if (counts[s] !== undefined) counts[s]++; });
+      Object.keys(counts).forEach(k => {
+        const el = document.getElementById('count-' + k.toLowerCase());
+        if (el) el.textContent = counts[k];
+      });
+    }
+
+    function updateStats(data) {
+      const stats = data.stats || {};
+      document.getElementById('stat-total').textContent = stats.total || 0;
+      document.getElementById('stat-active').textContent = (stats.running || 0) + (stats.queued || 0);
+      document.getElementById('stat-verified').textContent = stats.verified ? Math.round((stats.verified / (stats.total || 1)) * 100) + '%' : '--';
+      document.getElementById('stat-avgtime').textContent = stats.avgDuration ? (stats.avgDuration / 1000).toFixed(1) : '--';
+    }
+
+    function updateActiveTasks(data) {
+      const tasks = data.tasks || data.list || [];
+      const active = tasks.filter(t => ['RUNNING', 'PLANNING', 'QUEUED', 'VERIFYING', 'RECOVERING'].includes((t.status || '').toUpperCase()));
+      const container = document.getElementById('activeTasks');
+      document.getElementById('activeCount').textContent = active.length;
+      if (active.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--tvs-text-muted);font-size:12px;">No active tasks</div>';
+        return;
+      }
+      container.innerHTML = active.map(t => {
+        const status = (t.status || '').toLowerCase();
+        const icon = status === 'running' ? '&#9654;' : status === 'planning' ? '&#9998;' : status === 'queued' ? '&#9881;' : '&#10004;';
+        const progress = t.progress || (status === 'completed' ? 100 : status === 'running' ? 65 : status === 'planning' ? 25 : 10);
+        return '<div class="task-card">' +
+          '<div class="task-icon ' + status + '">' + icon + '</div>' +
+          '<div class="task-info">' +
+            '<div class="task-name">' + (t.title || t.id || 'Unnamed Task') + '</div>' +
+            '<div class="task-meta"><span class="task-agent">' + (t.agent || t.assignedTo || 'Unassigned') + '</span><span class="task-elapsed">' + (t.elapsed || '--') + '</span></div>' +
+            '<div class="task-progress"><div class="task-progress-bar' + (status === 'planning' ? ' purple' : '') + '" style="width:' + progress + '%"></div></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function updateHistory(data) {
+      const tasks = data.tasks || data.list || [];
+      const completed = tasks.filter(t => ['COMPLETED', 'FAILED'].includes((t.status || '').toUpperCase()));
+      document.getElementById('historyCount').textContent = completed.length;
+      const tbody = document.getElementById('taskHistoryBody');
+      if (completed.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--tvs-text-muted);padding:24px;">No completed tasks yet</td></tr>';
+        return;
+      }
+      tbody.innerHTML = completed.slice(0, 20).map(t => {
+        const s = (t.status || '').toUpperCase();
+        const verified = t.verified !== undefined ? (t.verified ? '<span class="result-badge pass">PASS</span>' : '<span class="result-badge fail">FAIL</span>') : '<span class="result-badge pending">N/A</span>';
+        return '<tr>' +
+          '<td style="font-family:var(--tvs-font-mono);font-size:11px;color:var(--tvs-text-muted);">' + (t.id || '--').substring(0, 8) + '</td>' +
+          '<td style="font-weight:500;">' + (t.title || t.id || '--') + '</td>' +
+          '<td style="color:var(--tvs-purple);">' + (t.agent || t.assignedTo || '--') + '</td>' +
+          '<td><span class="result-badge ' + (s === 'COMPLETED' ? 'pass' : 'fail') + '">' + s + '</span></td>' +
+          '<td>' + verified + '</td>' +
+          '<td style="font-family:var(--tvs-font-mono);">' + (t.duration ? (t.duration / 1000).toFixed(1) + 's' : '--') + '</td>' +
+          '<td style="font-family:var(--tvs-font-mono);font-size:11px;color:var(--tvs-text-muted);">' + (t.timestamp ? new Date(t.timestamp).toLocaleTimeString() : '--') + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    // ── SSE Events ──
+    function connectSSE() {
+      if (eventSource) eventSource.close();
+      eventSource = new EventSource(API + '/api/omega/events');
+      eventSource.onmessage = function(e) {
+        try {
+          const ev = JSON.parse(e.data);
+          events.unshift(ev);
+          if (events.length > 50) events.pop();
+          renderEvents();
+        } catch (err) {}
+      };
+      eventSource.onerror = function() {
+        document.getElementById('eventFeed').innerHTML = '<div style="text-align:center;padding:24px;color:var(--tvs-text-muted);font-size:12px;">Event stream disconnected. Retrying...</div>';
+      };
+    }
+
+    function renderEvents() {
+      const container = document.getElementById('eventFeed');
+      if (events.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--tvs-text-muted);font-size:12px;">Waiting for events...</div>';
+        return;
+      }
+      container.innerHTML = events.map(ev => {
+        const topic = (ev.topic || ev.type || 'system').split('.')[0];
+        const topicClass = topic === 'task' ? 'task' : topic === 'tool' ? 'tool' : topic === 'memory' ? 'memory' : topic === 'error' || topic === 'eventbus' ? 'error' : 'task';
+        const time = ev.timestamp ? new Date(ev.timestamp).toLocaleTimeString() : '--:--';
+        return '<div class="event-item">' +
+          '<span class="event-time">' + time + '</span>' +
+          '<span class="event-topic ' + topicClass + '">' + (ev.topic || ev.type || 'system') + '</span>' +
+          '<span class="event-msg">' + (ev.message || ev.data || JSON.stringify(ev).substring(0, 80)) + '</span>' +
+        '</div>';
+      }).join('');
+    }
+
+    // ── Create Task ──
+    async function createTask(e) {
+      e.preventDefault();
+      const title = document.getElementById('taskTitle').value.trim();
+      const desc = document.getElementById('taskDesc').value.trim();
+      const type = document.getElementById('taskType').value;
+      const priority = document.getElementById('taskPriority').value;
+      if (!title) return;
+      try {
+        const res = await fetch(API + '/api/omega/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, description: desc, type, priority })
+        });
+        if (res.ok) {
+          document.getElementById('taskTitle').value = '';
+          document.getElementById('taskDesc').value = '';
+          loadTasks();
+        }
+      } catch (err) {
+        alert('Could not create task. Is the API running?');
+      }
+      return false;
+    }
+
+    // ── Init ──
+    loadTasks();
+    connectSSE();
+    setInterval(loadTasks, 5000);
+  </script>
 </body>
 </html>

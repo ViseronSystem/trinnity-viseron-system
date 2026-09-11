@@ -5,7 +5,7 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$BackupDir,
-    [string]$TargetRoot = "C:\tvs"
+    [string]$TargetRoot = "C:\Trinnity-Viseron-System"
 )
 
 $ErrorActionPreference = "Stop"

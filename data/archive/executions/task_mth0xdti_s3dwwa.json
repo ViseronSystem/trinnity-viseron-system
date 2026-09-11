@@ -1,0 +1,21 @@
+{
+  "id": "task_mth0xdti_s3dwwa",
+  "timestamp": "2026-08-31T09:16:25.402Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3aa7890b337daeca22c9891809a3bdbaa9dbfefe4836f5dec90286f2e77b0d52"
+}

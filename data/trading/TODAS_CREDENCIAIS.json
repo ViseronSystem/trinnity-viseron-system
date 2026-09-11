@@ -1,0 +1,72 @@
+{
+  "tvss_crendenciais": {
+    "data_geracao": "2026-08-27",
+    "sistema": "TVS VISERON v7.0",
+    "comandante": "Pedro Costa",
+    "rainha": "Trinnity Hurtado"
+  },
+  "wallet_solana_trading": {
+    "endereco": "Ak3J4hps9zAJiDzghkPRb1kqkPKDjg89d3jjM8tjcLVj",
+    "chave_privada_array": [26,40,37,248,151,195,132,140,228,71,42,231,45,153,87,222,135,6,179,63,106,122,88,43,114,156,240,187,235,151,154,34,144,191,192,78,41,209,63,77,59,137,130,19,169,83,17,51,200,4,37,69,232,144,226,179,12,250,30,121,49,245,154,230],
+    "frase_seed": "smoke piece enhance gauge oxygen author hybrid next nose worth bean hurt",
+    "rede": "Solana Mainnet",
+    "dex": "Jupiter (jup.ag)",
+    "status": "ATIVA"
+  },
+  "wallet_ethereum": {
+    "endereco": "0x0d76646cD1D2FaD174a317856A9D4B63F8491400",
+    "chave_privada": "4fb65a05a78ba12af9e141873cddd904f5ab05bb113815d0fa3897cb2617d037",
+    "frase_seed": "inhale green rent core truth dragon glide prison nurse mammal calm rug",
+    "rede": "Ethereum Mainnet",
+    "dex": "Uniswap",
+    "router": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+  },
+  "alpaca_paper": {
+    "api_key": "PK4F0K1PSQZQ5QD3TQ9D",
+    "secret_key": "qD6r3pJ7gKj5sW4vR8tB2nX1yF6hL0mC3eD4fG7hJ",
+    "base_url": "https://paper-api.alpaca.markets",
+    "portfolio": 100000,
+    "account_id": "PA3B0I0CZF1I"
+  },
+  "okx_api": {
+    "tipo": "API Publica (so leitura)",
+    "endpoint": "https://www.okx.com/api/v5/market/ticker",
+    "chave": "Nao necessaria"
+  },
+  "tokens_tvs": {
+    "VSR": {
+      "mint": "7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU",
+      "supply": 300000000,
+      "nome": "Viseron Crown"
+    },
+    "TRIN": {
+      "mint": "Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx",
+      "supply": 420690000,
+      "nome": "Trinnity"
+    }
+  },
+  "tokens_trading": {
+    "JUP": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+    "RAY": "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R",
+    "WIF": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+    "BONK": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+    "PENGU": "2zMMhcVQ6D1SEjWrD6gRmjNDRkF1eFLcckage7NkVLry",
+    "TRUMP": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"
+  },
+  "sistema": {
+    "servidor": "localhost:32123",
+    "dashboard": "localhost:3000",
+    "atlas": "localhost:3000/atlas",
+    "viseron": "localhost:3000/viseron",
+    "game": "localhost:3000/game",
+    "cosmos": "localhost:3000/cosmos",
+    "api_health": "localhost:32123/api/health",
+    "trading_bot": "scripts/mega-scalper.py",
+    "vps_script": "scripts/vps-setup.sh"
+  },
+  "criptografia": {
+    "encryption_key": "B4bLpybdTLTLlLDKC7wb7n2ZG7qk1j4Prk7AN7oUVXY=",
+    "pdf_encriptado": "data/Viseron_Credenciais_TVS_ENCRYPTED.pdf",
+    "script_desencriptar": "scripts/decrypt-pdf.py"
+  }
+}

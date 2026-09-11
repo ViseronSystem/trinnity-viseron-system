@@ -1,0 +1,21 @@
+{
+  "id": "task_mtj37gm2_kbrjes",
+  "timestamp": "2026-09-01T19:55:42.337Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "41cf84281609a4106afd0c2ab9731c2b203a393d5175f86ffded00818954ae39"
+}

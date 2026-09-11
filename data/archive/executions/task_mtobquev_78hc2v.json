@@ -1,0 +1,21 @@
+{
+  "id": "task_mtobquev_78hc2v",
+  "timestamp": "2026-09-05T11:53:35.092Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "2cdaa1d370e33ecac5f0cbeb4596d1e5039c8b7df1b92e9e71e075a89994a714"
+}

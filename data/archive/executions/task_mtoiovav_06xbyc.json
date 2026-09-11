@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoiovav_06xbyc",
+  "timestamp": "2026-09-05T15:08:00.191Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "76445dfc116085c9da8d50802454fc2bba207f9b20abb5939db2d32d0e78a1d2"
+}

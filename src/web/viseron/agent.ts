@@ -177,9 +177,17 @@ export class ViseronAgent {
         "email_status", "messaging_status", "audit_info", "composio_status", "composio_connect",
         "composio_execute", "memory_recall", "agency_status", "agency_lead_add", "agency_report",
         "agency_creative", "agency_nurture", "agency_projection", "rcs_broadcast", "trilingual",
+        // Autonomous Brain capabilities
+        "brain_plan", "brain_research", "brain_code", "brain_create", "brain_automate",
+        "brain_operate", "brain_coordinate", "brain_adapt", "brain_evolve", "brain_execute",
       ],
     };
     const sup = this.supervision(1);
+    const brainStatus = this.jarvis.brain ? {
+      available: true,
+      composioConnected: false,
+      learningEnabled: true,
+    } : { available: false };
     return {
       ok: true,
       name: "VISERON",
@@ -194,7 +202,8 @@ export class ViseronAgent {
         tts: "speechSynthesis (navegador)",
         trilingual: true,
       },
-      autonomy: "executa operações reais: estado, planos, checkout, conteúdo, mensageria, email, agency OS, apps Composio, RCS de marca, memória persistente",
+      autonomy: "AUTONOMIA TOTAL: planejar, pesquisar, programar, criar sites/apps, automatizar, operar empresas, coordenar agentes, adaptar soluções, evolucionar · executa operações reais: estado, planos, checkout, conteúdo, mensageria, email, agency OS, apps Composio, RCS de marca, memória persistente",
+      brain: brainStatus,
       supervision: {
         active: true,
         aiox: "squad AIOX audita data/knowledge/viseron-supervision.jsonl com Pedro Costa e Trinnity Hurtado",

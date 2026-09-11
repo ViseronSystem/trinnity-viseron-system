@@ -1,0 +1,21 @@
+{
+  "id": "task_mtohouzd_kly80w",
+  "timestamp": "2026-09-05T14:40:01.321Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "25f80b8e4b8227a07f9fb100899f152e713019be44b19b78a3ffbbf2117fcc1e"
+}

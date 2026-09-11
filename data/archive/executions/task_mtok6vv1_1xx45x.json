@@ -1,0 +1,21 @@
+{
+  "id": "task_mtok6vv1_1xx45x",
+  "timestamp": "2026-09-05T15:50:00.981Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "428fdee89e1500b3413ef46bd7b3a9270dd1c53a1cc79254f2ab453998bc0c0f"
+}

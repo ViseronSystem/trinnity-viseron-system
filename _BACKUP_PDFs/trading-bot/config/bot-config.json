@@ -1,0 +1,90 @@
+{
+  "nombre": "TVS Trading Bot v1.0",
+  "autor": "Pedro Costa (Comandante) + Trinnity Hurtado (Rainha)",
+  "version": "1.0.0",
+
+  "modo": "paper",
+  "modos_disponibles": ["paper", "live", "backtest"],
+
+  "mercados": {
+    "forex_oro": {
+      "habilitado": true,
+      "conector": "mt5",
+      "simbolos": ["XAUUSD", "EURUSD", "GBPUSD"],
+      "timeframe": "5m",
+      "lote_max": 0.1,
+      "lote_min": 0.01
+    },
+    "crypto": {
+      "habilitado": true,
+      "conector": "binance",
+      "simbolos": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+      "timeframe": "5m",
+      "lote_max": 0.01,
+      "lote_min": 0.0001
+    },
+    "acciones_us": {
+      "habilitado": false,
+      "conector": "alpaca",
+      "simbolos": ["AAPL", "MSFT", "NVDA", "TSLA"],
+      "timeframe": "1d",
+      "lote_max": 10,
+      "lote_min": 1
+    }
+  },
+
+  "estrategia": {
+    "nombre": "Multi-Indicator Momentum",
+    "indicadores": {
+      "rsi": { "periodo": 14, "sobrecompra": 70, "sobreventa": 30 },
+      "ema_rapida": { "periodo": 12 },
+      "ema_lenta": { "periodo": 26 },
+      "macd": { "rapida": 12, "lenta": 26, "signal": 9 },
+      "volumen": { "multiplicador": 1.5 },
+      "atr": { "periodo": 14 }
+    },
+    "señales": {
+      "comprar": {
+        "rsi_debajo": 35,
+        "ema_cruce_arriba": true,
+        "macd_cruce_arriba": true,
+        "volumen_encima_media": true,
+        "min_confirmaciones": 3
+      },
+      "vender": {
+        "rsi_encima": 65,
+        "ema_cruce_abajo": true,
+        "macd_cruce_abajo": true,
+        "volumen_encima_media": true,
+        "min_confirmaciones": 3
+      }
+    }
+  },
+
+  "riesgo": {
+    "max_riesgo_por_trade": 0.015,
+    "max_drawdown": 0.10,
+    "max_posiciones_simultaneas": 3,
+    "max_riesgo_total": 0.05,
+    "stop_loss_atr_multiplicador": 2.0,
+    "take_profit_atr_multiplicador": 3.5,
+    "trailing_stop": true,
+    "trailing_stop_atr": 1.5,
+    "break_even": false,
+    "grid": false,
+    "dca": false
+  },
+
+  "capital": {
+    "inicial": 10000,
+    "moneda": "USD"
+  },
+
+  "logging": {
+    "directorio": "logs",
+    "nivel": "INFO",
+    "archivo_señales": "logs/señales.csv",
+    "archivo_trades": "logs/trades.csv",
+    "archivo_resumen": "logs/resumen_diario.json"
+  }
+}

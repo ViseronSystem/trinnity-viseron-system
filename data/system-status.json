@@ -1,11 +1,11 @@
 {
   "schema": "tvs/system-status/1",
   "system": "Trinnity Viseron System",
-  "version": "5.0.0",
-  "verifiedAt": "2026-08-10T01:10:17.370Z",
+  "version": "7.0.0",
+  "verifiedAt": "2026-08-27T23:08:18.779Z",
   "branch": "main",
-  "commitCount": "139",
-  "lastCommit": "b3781c1 fix(system-of-truth): versionar data/system-status.json para o /api/status funcionar em prod (Render) com KPIs reais (374/374, 1997 skills, 6 squads)",
+  "commitCount": "253",
+  "lastCommit": "500b9473 feat: iOS PWA + Expo Go support for iPhone",
   "tests": {
     "core": {
       "label": "CORE",
@@ -18,16 +18,16 @@
     "web": {
       "label": "WEB",
       "type": "integration",
-      "passed": 109,
-      "total": 109,
-      "ok": true,
+      "passed": 0,
+      "total": 0,
+      "ok": false,
       "timedOut": false
     },
     "omega": {
       "label": "OMEGA",
       "type": "integration",
-      "passed": 229,
-      "total": 229,
+      "passed": 250,
+      "total": 250,
       "ok": true,
       "timedOut": false
     },
@@ -48,8 +48,8 @@
       "timedOut": false
     },
     "totals": {
-      "passed": 397,
-      "total": 397
+      "passed": 309,
+      "total": 309
     }
   },
   "typeScript": {
@@ -61,11 +61,11 @@
     "vulnerabilities": {
       "info": 0,
       "low": 0,
-      "moderate": 2,
+      "moderate": 4,
       "high": 0,
       "critical": 0
     },
-    "total": 2
+    "total": 4
   },
   "agents": {
     "core": 10,
@@ -81,13 +81,19 @@
       "Support Agent",
       "Vision Agent"
     ],
-    "squads": 6,
+    "squads": 12,
     "squadNames": [
+      "Advanced Engineering Squad",
+      "Aerospace Intelligence Squad",
       "Business Squad",
+      "Creative Intelligence Squad",
+      "Engineering Intelligence Squad",
       "Engineering Squad",
       "Evolution Squad",
+      "Executive Intelligence Squad",
       "Operations Squad",
       "Research Squad",
+      "Security Intelligence Squad",
       "Security Squad"
     ],
     "definitions": 3

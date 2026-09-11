@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgu2fti_idhnlh",
+  "timestamp": "2026-08-31T06:04:19.387Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "36819d5dd2f06911e310c5b3e9a0cc6f5109ced16a1efb84ff2959028babe4c3"
+}

@@ -1,0 +1,57 @@
+{
+  "tenantId": "ten_msdeld4a",
+  "template": "conteudo",
+  "templateName": "Marketing de Conteúdo",
+  "agents": [
+    {
+      "name": "Editor-Chefe",
+      "role": "Planeador",
+      "capabilities": [
+        "pesquisa",
+        "planeamento",
+        "calendário"
+      ],
+      "prompt": "Define o calendário editorial semanal baseado em tendências e palavras-chave.",
+      "id": "ag_trinnity-demo-ld2a_editor_chefe"
+    },
+    {
+      "name": "Escritor",
+      "role": "Redator",
+      "capabilities": [
+        "escrita",
+        "blog",
+        "markdown"
+      ],
+      "prompt": "Redige artigos completos em português/espanhol/inglês com SEO.",
+      "id": "ag_trinnity-demo-ld2a_escritor"
+    },
+    {
+      "name": "Revisor",
+      "role": "Editor",
+      "capabilities": [
+        "revisão",
+        "gramática",
+        "SEO"
+      ],
+      "prompt": "Revisa e otimiza artigos para qualidade e ranqueamento.",
+      "id": "ag_trinnity-demo-ld2a_revisor"
+    },
+    {
+      "name": "Publicador",
+      "role": "Distribuidor",
+      "capabilities": [
+        "publicação",
+        "agendamento"
+      ],
+      "prompt": "Publica o conteúdo aprovado no blog e nas redes sociais.",
+      "id": "ag_trinnity-demo-ld2a_publicador"
+    }
+  ],
+  "tools": [
+    "blog",
+    "content-generate",
+    "seo"
+  ],
+  "appliedAt": "2026-08-03T15:48:07.327Z",
+  "appliedBy": "pedro.msdeld2a@trinnityviseronsystem.io"
+}

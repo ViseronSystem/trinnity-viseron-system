@@ -1,0 +1,115 @@
+{
+  "models": [
+    {
+      "id": "m_mto9k2ld369ab0dc",
+      "name": "qwen2.5:7b",
+      "provider": "ollama",
+      "size": "4.4 GB",
+      "parameterCount": "7.6B",
+      "capabilities": [
+        "multilingual",
+        "text-generation"
+      ],
+      "status": "ready",
+      "pulledAt": "2026-08-10T14:52:59.8793408+02:00",
+      "useCount": 0
+    },
+    {
+      "id": "m_mto9k302188d9b80",
+      "name": "qwen2.5:3b",
+      "provider": "ollama",
+      "size": "1.8 GB",
+      "parameterCount": "3.1B",
+      "capabilities": [
+        "multilingual",
+        "text-generation"
+      ],
+      "status": "ready",
+      "pulledAt": "2026-08-03T15:43:09.5384445+02:00",
+      "useCount": 0
+    }
+  ],
+  "templates": [
+    {
+      "id": "chat-general",
+      "name": "General Chat",
+      "description": "Conversa geral e perguntas quotidianas",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "Responde de forma clara e concisa. Se o utilizador falar em português, responde em português. Se falar em espanhol, responde em espanhol. Se falar em inglês, responde em inglês.",
+      "temperature": 0.7,
+      "maxTokens": 2048,
+      "useCase": "chat"
+    },
+    {
+      "id": "code-assistant",
+      "name": "Code Assistant",
+      "description": "Assistência de código — TypeScript, Python, Solidity",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "És um programador expert. Escreve código limpo, sem comentários desnecessários, seguindo boas práticas. Explica brevemente a solução.",
+      "temperature": 0.3,
+      "maxTokens": 4096,
+      "useCase": "code"
+    },
+    {
+      "id": "reasoning-deep",
+      "name": "Deep Reasoning",
+      "description": "Raciocínio profundo e análise complexa",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "Pensa passo a passo antes de responder. Analisa o problema por todos os ângulos. Dá uma resposta fundamentada.",
+      "temperature": 0.2,
+      "maxTokens": 4096,
+      "useCase": "reasoning"
+    },
+    {
+      "id": "creative-writer",
+      "name": "Creative Writer",
+      "description": "Escrita criativa — posts, emails, conteúdo",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "És um escritor criativo profissional. Escreve conteúdo envolvente, bem estruturado e adaptado ao tom do público-alvo.",
+      "temperature": 0.8,
+      "maxTokens": 3072,
+      "useCase": "creative"
+    },
+    {
+      "id": "translation",
+      "name": "Translator",
+      "description": "Tradução entre ES/PT/EN",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "Traduz o texto mantendo o significado e tom originais. Não adiciones explicações — apenas a tradução. Se o idioma de destino não for指定, usa português.",
+      "temperature": 0.3,
+      "maxTokens": 4096,
+      "useCase": "translation"
+    },
+    {
+      "id": "agent-response",
+      "name": "Agent Response",
+      "description": "Respostas de agentes autónomos do TVS",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "És um agente autónomo do Trinnity Viseron System. Responde de forma profissional, técnica e orientada a ação. Inclui sempre o resultado da operação executada.",
+      "temperature": 0.5,
+      "maxTokens": 2048,
+      "useCase": "automation"
+    },
+    {
+      "id": "data-analysis",
+      "name": "Data Analysis",
+      "description": "Análise de dados e métricas",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "Analisa os dados fornecidos. Identifica padrões, anomalias e tendências. Apresenta conclusões quantificadas com fonte dos dados.",
+      "temperature": 0.2,
+      "maxTokens": 3072,
+      "useCase": "analysis"
+    },
+    {
+      "id": "tutor-language",
+      "name": "Language Tutor",
+      "description": "Tutor de idiomas — inglês, español, português",
+      "model": "qwen2.5:3b",
+      "systemPrompt": "És um professor de idiomas paciente eencourajador. Corrige erros gentilmente, explica regras simplesmente e dá exemplos práticos. Fala na língua nativa do estudante para explicar conceitos.",
+      "temperature": 0.6,
+      "maxTokens": 2048,
+      "useCase": "education"
+    }
+  ],
+  "lastSynced": "2026-09-05T11:11:41.093Z"
+}

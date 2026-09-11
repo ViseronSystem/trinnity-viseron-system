@@ -1,0 +1,21 @@
+{
+  "id": "task_mtokelrq_sxfc0e",
+  "timestamp": "2026-09-05T15:56:01.487Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "433c08d58c8e89b01caf12377844cd05ca8f3742c6564fc0135888fded108382"
+}

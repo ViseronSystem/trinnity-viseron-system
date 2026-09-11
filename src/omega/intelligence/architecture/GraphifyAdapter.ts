@@ -5,19 +5,30 @@ import { ArchitectureGraphData, ArchitectureStats, ArchitectureNodeInfo, PathFin
 export interface GraphifyAdapterOptions {
   graphPath?: string;
   maxBfs?: number;
+  maxGraphBytes?: number;
 }
 
 const DEFAULT_GRAPH_PATH = "graphify-out/graph.json";
+// Guard anti-congelamento: um grafo gigante (ex.: 248MB) parseado via
+// JSON.parse sincrono congela o event loop do processo durante minutos
+// (web server/API ficam sem responder no arranque). Acima deste limite o
+// grafo NAO e carregado: o sistema arranca normal e architecture fica
+// ready:false. Para reativar, reduzir o grafo ou subir o limite no .env
+// (ARCH_GRAPH_MAX_MB).
+export const GRAPH_MAX_BYTES_DEFAULT = 60 * 1024 * 1024;
 
 export class GraphifyAdapter {
   public readonly name = "GraphifyAdapter";
   private data?: ArchitectureGraphData;
   private readonly graphPath: string;
   private readonly maxBfs: number;
+  private readonly maxGraphBytes: number;
 
   constructor(options?: GraphifyAdapterOptions) {
     this.graphPath = options?.graphPath ?? DEFAULT_GRAPH_PATH;
     this.maxBfs = options?.maxBfs ?? 200;
+    const envLimit = parseFloat(process.env.ARCH_GRAPH_MAX_MB || "");
+    this.maxGraphBytes = options?.maxGraphBytes ?? (Number.isFinite(envLimit) && envLimit > 0 ? envLimit * 1024 * 1024 : GRAPH_MAX_BYTES_DEFAULT);
   }
 
   public get loaded(): boolean {
@@ -27,6 +38,13 @@ export class GraphifyAdapter {
   public load(): void {
     if (!fs.existsSync(this.graphPath)) {
       throw new Error(`[GraphifyAdapter] graph not found: ${this.graphPath}`);
+    }
+    const stat = fs.statSync(this.graphPath);
+    if (stat.size > this.maxGraphBytes) {
+      throw new Error(
+        `[GraphifyAdapter] graph too big (${(stat.size / 1024 / 1024).toFixed(1)}MB > ${(this.maxGraphBytes / 1024 / 1024).toFixed(0)}MB). ` +
+        `Arranque protegido: architecture desligado. Reduz graphify-out/graph.json ou sobe ARCH_GRAPH_MAX_MB para o ativar.`
+      );
     }
     const raw = fs.readFileSync(this.graphPath, "utf-8");
     this.data = JSON.parse(raw) as ArchitectureGraphData;

@@ -82,6 +82,11 @@ export const SKILL_SOURCES: SkillSource[] = [
     repoUrl: "https://github.com/trycompai/comp.git",
     license: "AGPL-3.0",
   },
+  {
+    name: "soup",
+    repoUrl: "https://github.com/MakazhanAlpamys/Soup.git",
+    license: "Apache-2.0",
+  },
 ];
 
 function parseFrontmatter(content: string): Record<string, string> {

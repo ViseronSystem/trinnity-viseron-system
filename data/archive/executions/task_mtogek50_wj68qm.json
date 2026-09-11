@@ -1,0 +1,21 @@
+{
+  "id": "task_mtogek50_wj68qm",
+  "timestamp": "2026-09-05T14:04:02.048Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b1e40688a24d940759525a72c1a3ccb8fd3a0a45ae38817e698c5af16253801a"
+}

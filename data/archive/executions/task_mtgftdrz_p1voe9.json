@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgftdrz_p1voe9",
+  "timestamp": "2026-08-30T23:25:22.279Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f35558b3d5bfb5591f0592d3c9c2cd5e106e576c337835eb78d2816d4823b8aa"
+}

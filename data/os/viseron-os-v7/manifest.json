@@ -1,0 +1,30 @@
+{
+  "id": "viseron-os-v7",
+  "name": "VISERON OS v7",
+  "version": "7.0.0",
+  "kernel": "OMEGA Kernel v1.1.0",
+  "agents": 10,
+  "squads": 12,
+  "modules": 6,
+  "hierarchy": "PEDRO -> TRINNITY -> VISERON -> JARVIS -> AIOX/GRAPHIFY/MEMORY -> COMMAND CENTER -> AGENTS/SKILLS/TOOLS -> EXECUTION -> CLIENTS",
+  "boot": {
+    "entry": "src/index.ts:31 webServer :32123 + OmegaPlatform mount",
+    "watchdog": "5 alvos stale 180s"
+  },
+  "fs": {
+    "root": "data/tvs-os/viseron-os-v7",
+    "mounts": [
+      "/apps",
+      "/agents",
+      "/memory"
+    ]
+  },
+  "store": {
+    "apps": [
+      "viseron-audiobooks",
+      "viseron-os-mobile"
+    ]
+  },
+  "createdAt": "2026-09-07T18:30:50.305Z",
+  "taskId": "task_mtrktfob_s0o6cc"
+}

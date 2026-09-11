@@ -1,0 +1,21 @@
+{
+  "id": "task_mtiyly4g_kboymf",
+  "timestamp": "2026-09-01T17:47:00.614Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3270b5f944418b3f653d59f39a0863f840476bd15d1c20aa7ede689003ab8895"
+}

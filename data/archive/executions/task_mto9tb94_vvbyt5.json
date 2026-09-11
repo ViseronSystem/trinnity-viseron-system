@@ -1,0 +1,21 @@
+{
+  "id": "task_mto9tb94_vvbyt5",
+  "timestamp": "2026-09-05T10:59:31.242Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "344307520f336d8e6c2c436393b3ffbc04c02289aede43cc136b288481aee144"
+}

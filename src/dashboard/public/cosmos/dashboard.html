@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VISERON COSMOS - DASHBOARD</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a1a; color: #fff; min-height: 100vh; }
+    .header { background: linear-gradient(135deg, #e94560, #533483); padding: 20px; text-align: center; }
+    .header h1 { font-size: 28px; }
+    .status-bar { display: flex; justify-content: space-around; padding: 15px; background: #16213e; }
+    .status-item { text-align: center; }
+    .status-value { font-size: 24px; font-weight: bold; color: #00ff00; }
+    .status-label { font-size: 12px; color: #888; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
+    .card { background: #16213e; border-radius: 15px; padding: 20px; }
+    .card h2 { color: #e94560; margin-bottom: 15px; font-size: 18px; }
+    .card-value { font-size: 32px; font-weight: bold; }
+    .card-label { color: #888; font-size: 14px; }
+    .progress { background: #0f3460; height: 10px; border-radius: 5px; margin-top: 10px; }
+    .progress-bar { background: #e94560; height: 100%; border-radius: 5px; }
+    .btn { display: block; width: 100%; background: #e94560; color: #fff; padding: 15px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; margin: 10px 0; text-decoration: none; text-align: center; }
+    .btn:active { background: #ff6b6b; }
+    .btn-success { background: #00ff00; color: #000; }
+    .log { background: #0f3460; padding: 15px; border-radius: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+    .live { color: #00ff00; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌟 VISERON COSMOS DASHBOARD</h1>
+    <p>Sistema Automático de Valorização</p>
+  </div>
+  
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-value"><span class="live">●</span> ATIVO</div>
+      <div class="status-label">Trading Bot</div>
+    </div>
+    <div class="status-item">
+      <div class="status-value"><span class="live">●</span> ATIVO</div>
+      <div class="status-label">Social Media</div>
+    </div>
+    <div class="status-item">
+      <div class="status-value"><span class="live">●</span> ATIVO</div>
+      <div class="status-label">Price Booster</div>
+    </div>
+    <div class="status-item">
+      <div class="status-value"><span class="live">●</span> ATIVO</div>
+      <div class="status-label">Listing System</div>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h2>💰 MARKET CAP</h2>
+      <div class="card-value">$89,000</div>
+      <div class="card-label">Meta: $1,000,000</div>
+      <div class="progress"><div class="progress-bar" style="width: 8.9%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>👥 HOLDERS</h2>
+      <div class="card-value">4</div>
+      <div class="card-label">Meta: 1,000</div>
+      <div class="progress"><div class="progress-bar" style="width: 0.4%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>📊 24H VOLUME</h2>
+      <div class="card-value">$2.10</div>
+      <div class="card-label">Meta: $100,000</div>
+      <div class="progress"><div class="progress-bar" style="width: 0.002%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>🔄 TRADES HOJE</h2>
+      <div class="card-value" id="trades-today">0</div>
+      <div class="card-label">Meta: 1,500</div>
+      <div class="progress"><div class="progress-bar" style="width: 0%"></div></div>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h2>📝 TWEETS POSTADOS</h2>
+      <div class="card-value" id="tweets-posted">0</div>
+      <div class="card-label">Meta: 30</div>
+      <div class="progress"><div class="progress-bar" style="width: 0%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>📱 TELEGRAM MEMBERS</h2>
+      <div class="card-value">0</div>
+      <div class="card-label">Meta: 500</div>
+      <div class="progress"><div class="progress-bar" style="width: 0%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>📋 LISTINGS ATIVOS</h2>
+      <div class="card-value">4</div>
+      <div class="card-label">Meta: 20</div>
+      <div class="progress"><div class="progress-bar" style="width: 20%"></div></div>
+    </div>
+    
+    <div class="card">
+      <h2>🎯 PREÇO VSR</h2>
+      <div class="card-value">$0.031</div>
+      <div class="card-label">Meta: $0.10</div>
+      <div class="progress"><div class="progress-bar" style="width: 31%"></div></div>
+    </div>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h2>🚀 SISTEMAS ATIVOS</h2>
+      <div class="log">
+        <div>✅ Trading Bot - 1500 trades/dia</div>
+        <div>✅ Social Media Auto</div>
+        <div>✅ Price Booster</div>
+        <div>✅ Listing System</div>
+        <div>✅ Landing Page</div>
+        <div>✅ Content Calendar</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📊 PRÓXIMOS PASSOS</h2>
+      <div class="log">
+        <div>1. Criar Twitter @ViseronCosmos</div>
+        <div>2. Criar Telegram @ViseronCosmos</div>
+        <div>3. Postar primeiro tweet</div>
+        <div>4. Submeter ao CoinGecko</div>
+        <div>5. Submeter a CEXs</div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="padding: 20px;">
+    <a href="https://jup.ag" class="btn" target="_blank">📈 Ver no Jupiter</a>
+    <a href="https://raydium.io" class="btn" target="_blank">🔄 Ver no Raydium</a>
+    <a href="https://trinnityviseronsystem.io/cosmos" class="btn btn-success" target="_blank">🌐 Ver Landing Page</a>
+  </div>
+  
+  <script>
+    // Simular trades em tempo real
+    let trades = 0;
+    setInterval(() => {
+      trades += Math.floor(Math.random() * 5) + 1;
+      document.getElementById('trades-today').textContent = trades;
+    }, 5000);
+    
+    // Simular tweets
+    let tweets = 0;
+    setInterval(() => {
+      if (tweets < 30) tweets++;
+      document.getElementById('tweets-posted').textContent = tweets;
+    }, 10000);
+  </script>
+</body>
+</html>

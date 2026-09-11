@@ -1,0 +1,21 @@
+{
+  "id": "task_mtokjqwj_anwy43",
+  "timestamp": "2026-09-05T16:00:00.590Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "db0e468665b05de29bf44562e3fcc1673d9d32d9b56c5958e0b3036ff94f621a"
+}

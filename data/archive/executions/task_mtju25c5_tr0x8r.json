@@ -1,0 +1,21 @@
+{
+  "id": "task_mtju25c5_tr0x8r",
+  "timestamp": "2026-09-02T08:27:24.228Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "6fbac5176666d42a946cf5895f3b23e99c549e4fe533ba168ba3e47ab0fdd43b"
+}

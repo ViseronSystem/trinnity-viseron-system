@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgw7m15_1qkapu",
+  "timestamp": "2026-08-31T07:04:20.017Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "eabb851be197bbec6e334a773ccb11b7f636897c3ea449c45dc00f13162596fd"
+}

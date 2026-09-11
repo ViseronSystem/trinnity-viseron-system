@@ -1,0 +1,3237 @@
+﻿<style>/* ============================================================
+   TVS DESIGN SYSTEM v2 â€” Modern Dark Theme
+   Â© Pedro Costa (Comandante) Â· Trinnity Hurtado (Rainha)
+   Consumo: <link rel="stylesheet" href="/tvs-design.css">
+   ------------------------------------------------------------
+   Complete design system: tokens, reset, typography, layout,
+   components, animations, responsive, accessibility.
+   ============================================================ */
+
+/* â”€â”€ 1. DESIGN TOKENS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+:root {
+  /* â”€â”€ Colors: Primary Palette â”€â”€ */
+  --tvs-cyan: #00f0ff;
+  --tvs-cyan-rgb: 0, 240, 255;
+  --tvs-purple: #bf5af2;
+  --tvs-purple-rgb: 191, 90, 242;
+  --tvs-pink: #ff2d55;
+  --tvs-pink-rgb: 255, 45, 85;
+  --tvs-green: #30d158;
+  --tvs-green-rgb: 48, 209, 88;
+  --tvs-orange: #ff9f0a;
+  --tvs-orange-rgb: 255, 159, 10;
+  --tvs-yellow: #ffd60a;
+  --tvs-yellow-rgb: 255, 214, 10;
+  --tvs-red: #ff453a;
+  --tvs-red-rgb: 255, 69, 58;
+
+  /* â”€â”€ Colors: Semantic â”€â”€ */
+  --tvs-success: #30d158;
+  --tvs-success-rgb: 48, 209, 88;
+  --tvs-warning: #ff9f0a;
+  --tvs-warning-rgb: 255, 159, 10;
+  --tvs-danger: #ff453a;
+  --tvs-danger-rgb: 255, 69, 58;
+  --tvs-info: #00f0ff;
+  --tvs-info-rgb: 0, 240, 255;
+
+  /* â”€â”€ Colors: Surfaces â”€â”€ */
+  --tvs-bg: #050510;
+  --tvs-bg-rgb: 5, 5, 16;
+  --tvs-bg-elevated: #0c0c1d;
+  --tvs-bg-elevated-rgb: 12, 12, 29;
+  --tvs-surface-0: rgba(255, 255, 255, 0.02);
+  --tvs-surface-1: rgba(255, 255, 255, 0.04);
+  --tvs-surface-2: rgba(255, 255, 255, 0.06);
+  --tvs-surface-3: rgba(255, 255, 255, 0.08);
+  --tvs-surface-hover: rgba(255, 255, 255, 0.07);
+  --tvs-surface-active: rgba(255, 255, 255, 0.10);
+  --tvs-surface-glass: rgba(255, 255, 255, 0.03);
+
+  /* â”€â”€ Colors: Text â”€â”€ */
+  --tvs-text: #eaeaf5;
+  --tvs-text-rgb: 234, 234, 245;
+  --tvs-text-secondary: rgba(234, 234, 245, 0.6);
+  --tvs-text-muted: rgba(234, 234, 245, 0.35);
+  --tvs-text-inverse: #050510;
+  --tvs-text-link: #00f0ff;
+
+  /* â”€â”€ Colors: Borders â”€â”€ */
+  --tvs-border: rgba(255, 255, 255, 0.08);
+  --tvs-border-subtle: rgba(255, 255, 255, 0.05);
+  --tvs-border-strong: rgba(255, 255, 255, 0.14);
+  --tvs-border-focus: rgba(0, 240, 255, 0.6);
+
+  /* â”€â”€ Typography: Families â”€â”€ */
+  --tvs-font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --tvs-font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --tvs-font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
+
+  /* â”€â”€ Typography: Sizes (fluid scale) â”€â”€ */
+  --tvs-text-xs: clamp(0.625rem, 0.6rem + 0.125vw, 0.6875rem);
+  --tvs-text-sm: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --tvs-text-base: clamp(0.8125rem, 0.78rem + 0.17vw, 0.875rem);
+  --tvs-text-md: clamp(0.875rem, 0.84rem + 0.18vw, 0.9375rem);
+  --tvs-text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --tvs-text-xl: clamp(1.125rem, 1.05rem + 0.37vw, 1.3125rem);
+  --tvs-text-2xl: clamp(1.375rem, 1.25rem + 0.62vw, 1.75rem);
+  --tvs-text-3xl: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+  --tvs-text-4xl: clamp(2.25rem, 1.875rem + 1.87vw, 3.25rem);
+
+  /* â”€â”€ Typography: Weights â”€â”€ */
+  --tvs-weight-regular: 400;
+  --tvs-weight-medium: 500;
+  --tvs-weight-semibold: 600;
+  --tvs-weight-bold: 700;
+  --tvs-weight-black: 900;
+
+  /* â”€â”€ Typography: Line Heights â”€â”€ */
+  --tvs-leading-none: 1;
+  --tvs-leading-tight: 1.2;
+  --tvs-leading-snug: 1.35;
+  --tvs-leading-normal: 1.55;
+  --tvs-leading-relaxed: 1.7;
+  --tvs-leading-loose: 2;
+
+  /* â”€â”€ Typography: Letter Spacing â”€â”€ */
+  --tvs-tracking-tighter: -0.03em;
+  --tvs-tracking-tight: -0.015em;
+  --tvs-tracking-normal: 0;
+  --tvs-tracking-wide: 0.025em;
+  --tvs-tracking-wider: 0.06em;
+  --tvs-tracking-widest: 0.1em;
+
+  /* â”€â”€ Spacing (4px base) â”€â”€ */
+  --tvs-space-0: 0;
+  --tvs-space-px: 1px;
+  --tvs-space-0\.5: 2px;
+  --tvs-space-1: 4px;
+  --tvs-space-1\.5: 6px;
+  --tvs-space-2: 8px;
+  --tvs-space-2\.5: 10px;
+  --tvs-space-3: 12px;
+  --tvs-space-4: 16px;
+  --tvs-space-5: 20px;
+  --tvs-space-6: 24px;
+  --tvs-space-7: 28px;
+  --tvs-space-8: 32px;
+  --tvs-space-10: 40px;
+  --tvs-space-12: 48px;
+  --tvs-space-14: 56px;
+  --tvs-space-16: 64px;
+  --tvs-space-20: 80px;
+  --tvs-space-24: 96px;
+
+  /* â”€â”€ Border Radius â”€â”€ */
+  --tvs-radius-xs: 4px;
+  --tvs-radius-sm: 6px;
+  --tvs-radius-md: 10px;
+  --tvs-radius-lg: 14px;
+  --tvs-radius-xl: 20px;
+  --tvs-radius-2xl: 28px;
+  --tvs-radius-full: 9999px;
+
+  /* â”€â”€ Shadows â”€â”€ */
+  --tvs-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --tvs-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.25);
+  --tvs-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --tvs-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --tvs-shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.5);
+  --tvs-shadow-2xl: 0 24px 80px rgba(0, 0, 0, 0.6);
+  --tvs-shadow-inner: inset 0 1px 4px rgba(0, 0, 0, 0.3);
+
+  /* â”€â”€ Glow Effects â”€â”€ */
+  --tvs-glow-cyan: 0 0 20px rgba(var(--tvs-cyan-rgb), 0.15), 0 0 60px rgba(var(--tvs-cyan-rgb), 0.05);
+  --tvs-glow-purple: 0 0 20px rgba(var(--tvs-purple-rgb), 0.15), 0 0 60px rgba(var(--tvs-purple-rgb), 0.05);
+  --tvs-glow-pink: 0 0 20px rgba(var(--tvs-pink-rgb), 0.15), 0 0 60px rgba(var(--tvs-pink-rgb), 0.05);
+  --tvs-glow-green: 0 0 20px rgba(var(--tvs-green-rgb), 0.15), 0 0 60px rgba(var(--tvs-green-rgb), 0.05);
+  --tvs-glow-sm-cyan: 0 0 10px rgba(var(--tvs-cyan-rgb), 0.2);
+  --tvs-glow-sm-purple: 0 0 10px rgba(var(--tvs-purple-rgb), 0.2);
+
+  /* â”€â”€ Backdrop Blur â”€â”€ */
+  --tvs-blur-sm: 8px;
+  --tvs-blur-md: 16px;
+  --tvs-blur-lg: 24px;
+  --tvs-blur-xl: 40px;
+
+  /* â”€â”€ Transitions â”€â”€ */
+  --tvs-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tvs-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --tvs-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --tvs-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --tvs-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --tvs-duration-instant: 50ms;
+  --tvs-duration-fast: 100ms;
+  --tvs-duration-normal: 200ms;
+  --tvs-duration-moderate: 300ms;
+  --tvs-duration-slow: 500ms;
+  --tvs-duration-slower: 700ms;
+
+  /* â”€â”€ Z-Index â”€â”€ */
+  --tvs-z-behind: -1;
+  --tvs-z-base: 0;
+  --tvs-z-raised: 10;
+  --tvs-z-dropdown: 100;
+  --tvs-z-sticky: 200;
+  --tvs-z-overlay: 300;
+  --tvs-z-modal: 400;
+  --tvs-z-popover: 500;
+  --tvs-z-toast: 600;
+  --tvs-z-tooltip: 700;
+
+  /* â”€â”€ Breakpoints (for reference, used via @media) â”€â”€ */
+  /* --tvs-bp-sm: 640px; */
+  /* --tvs-bp-md: 768px; */
+  /* --tvs-bp-lg: 1024px; */
+  /* --tvs-bp-xl: 1280px; */
+  /* --tvs-bp-2xl: 1536px; */
+}
+
+
+/* â”€â”€ 2. RESET / BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--tvs-font-sans);
+  font-size: var(--tvs-text-base);
+  line-height: var(--tvs-leading-normal);
+  color: var(--tvs-text);
+  background: var(--tvs-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  max-width: 100%;
+}
+
+img, video { height: auto; }
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+button { cursor: pointer; }
+
+a {
+  color: var(--tvs-text-link);
+  text-decoration: none;
+  transition: color var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+a:hover { color: var(--tvs-cyan); }
+
+ul, ol { list-style: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--tvs-border);
+  margin: var(--tvs-space-6) 0;
+}
+
+::selection {
+  background: rgba(var(--tvs-cyan-rgb), 0.3);
+  color: var(--tvs-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--tvs-border-focus);
+  outline-offset: 2px;
+}
+
+
+/* â”€â”€ 3. TYPOGRAPHY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-h1 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-4xl);
+  font-weight: var(--tvs-weight-bold);
+  line-height: var(--tvs-leading-tight);
+  letter-spacing: var(--tvs-tracking-tight);
+  color: var(--tvs-text);
+}
+
+.tvs-h2 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-3xl);
+  font-weight: var(--tvs-weight-bold);
+  line-height: var(--tvs-leading-tight);
+  letter-spacing: var(--tvs-tracking-tight);
+  color: var(--tvs-text);
+}
+
+.tvs-h3 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-2xl);
+  font-weight: var(--tvs-weight-semibold);
+  line-height: var(--tvs-leading-snug);
+  color: var(--tvs-text);
+}
+
+.tvs-h4 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-xl);
+  font-weight: var(--tvs-weight-semibold);
+  line-height: var(--tvs-leading-snug);
+  color: var(--tvs-text);
+}
+
+.tvs-h5 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-lg);
+  font-weight: var(--tvs-weight-medium);
+  line-height: var(--tvs-leading-snug);
+  color: var(--tvs-text);
+}
+
+.tvs-h6 {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-md);
+  font-weight: var(--tvs-weight-medium);
+  line-height: var(--tvs-leading-normal);
+  color: var(--tvs-text-secondary);
+}
+
+.tvs-body { font-size: var(--tvs-text-base); line-height: var(--tvs-leading-normal); }
+.tvs-body-sm { font-size: var(--tvs-text-sm); line-height: var(--tvs-leading-normal); }
+.tvs-body-lg { font-size: var(--tvs-text-lg); line-height: var(--tvs-leading-relaxed); }
+.tvs-caption { font-size: var(--tvs-text-xs); line-height: var(--tvs-leading-normal); color: var(--tvs-text-muted); }
+.tvs-overline {
+  font-size: var(--tvs-text-xs);
+  font-weight: var(--tvs-weight-semibold);
+  letter-spacing: var(--tvs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--tvs-text-muted);
+}
+
+.tvs-font-sans { font-family: var(--tvs-font-sans); }
+.tvs-font-display { font-family: var(--tvs-font-display); }
+.tvs-font-mono { font-family: var(--tvs-font-mono); }
+
+.tvs-text-gradient {
+  background: linear-gradient(135deg, var(--tvs-cyan), var(--tvs-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tvs-text-gradient-pink {
+  background: linear-gradient(135deg, var(--tvs-pink), var(--tvs-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+/* â”€â”€ 4. LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Container */
+.tvs-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--tvs-space-4);
+}
+@media (min-width: 768px) {
+  .tvs-container { padding: 0 var(--tvs-space-6); }
+}
+@media (min-width: 1280px) {
+  .tvs-container { padding: 0 var(--tvs-space-8); }
+}
+
+/* Flex */
+.tvs-flex { display: flex; }
+.tvs-flex-col { flex-direction: column; }
+.tvs-flex-row { flex-direction: row; }
+.tvs-flex-wrap { flex-wrap: wrap; }
+.tvs-flex-1 { flex: 1 1 0%; }
+.tvs-flex-auto { flex: 1 1 auto; }
+.tvs-flex-none { flex: none; }
+.tvs-items-start { align-items: flex-start; }
+.tvs-items-center { align-items: center; }
+.tvs-items-end { align-items: flex-end; }
+.tvs-items-stretch { align-items: stretch; }
+.tvs-items-baseline { align-items: baseline; }
+.tvs-justify-start { justify-content: flex-start; }
+.tvs-justify-center { justify-content: center; }
+.tvs-justify-end { justify-content: flex-end; }
+.tvs-justify-between { justify-content: space-between; }
+.tvs-justify-around { justify-content: space-around; }
+.tvs-justify-evenly { justify-content: space-evenly; }
+.tvs-self-start { align-self: flex-start; }
+.tvs-self-center { align-self: center; }
+.tvs-self-end { align-self: flex-end; }
+
+/* Grid */
+.tvs-grid { display: grid; }
+.tvs-grid-1 { grid-template-columns: repeat(1, 1fr); }
+.tvs-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.tvs-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.tvs-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.tvs-grid-6 { grid-template-columns: repeat(6, 1fr); }
+.tvs-grid-12 { grid-template-columns: repeat(12, 1fr); }
+.tvs-grid-auto-fill { grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); }
+.tvs-grid-auto-fit { grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.tvs-col-span-2 { grid-column: span 2; }
+.tvs-col-span-3 { grid-column: span 3; }
+.tvs-col-span-4 { grid-column: span 4; }
+.tvs-col-span-6 { grid-column: span 6; }
+.tvs-col-span-full { grid-column: 1 / -1; }
+
+/* Gap */
+.tvs-gap-0 { gap: 0; }
+.tvs-gap-1 { gap: var(--tvs-space-1); }
+.tvs-gap-2 { gap: var(--tvs-space-2); }
+.tvs-gap-3 { gap: var(--tvs-space-3); }
+.tvs-gap-4 { gap: var(--tvs-space-4); }
+.tvs-gap-5 { gap: var(--tvs-space-5); }
+.tvs-gap-6 { gap: var(--tvs-space-6); }
+.tvs-gap-8 { gap: var(--tvs-space-8); }
+.tvs-gap-10 { gap: var(--tvs-space-10); }
+
+/* Spacing */
+.tvs-p-0 { padding: 0; }
+.tvs-p-1 { padding: var(--tvs-space-1); }
+.tvs-p-2 { padding: var(--tvs-space-2); }
+.tvs-p-3 { padding: var(--tvs-space-3); }
+.tvs-p-4 { padding: var(--tvs-space-4); }
+.tvs-p-5 { padding: var(--tvs-space-5); }
+.tvs-p-6 { padding: var(--tvs-space-6); }
+.tvs-p-8 { padding: var(--tvs-space-8); }
+.tvs-px-2 { padding-left: var(--tvs-space-2); padding-right: var(--tvs-space-2); }
+.tvs-px-3 { padding-left: var(--tvs-space-3); padding-right: var(--tvs-space-3); }
+.tvs-px-4 { padding-left: var(--tvs-space-4); padding-right: var(--tvs-space-4); }
+.tvs-px-6 { padding-left: var(--tvs-space-6); padding-right: var(--tvs-space-6); }
+.tvs-py-1 { padding-top: var(--tvs-space-1); padding-bottom: var(--tvs-space-1); }
+.tvs-py-2 { padding-top: var(--tvs-space-2); padding-bottom: var(--tvs-space-2); }
+.tvs-py-3 { padding-top: var(--tvs-space-3); padding-bottom: var(--tvs-space-3); }
+.tvs-py-4 { padding-top: var(--tvs-space-4); padding-bottom: var(--tvs-space-4); }
+
+.tvs-m-0 { margin: 0; }
+.tvs-m-auto { margin: auto; }
+.tvs-mt-1 { margin-top: var(--tvs-space-1); }
+.tvs-mt-2 { margin-top: var(--tvs-space-2); }
+.tvs-mt-3 { margin-top: var(--tvs-space-3); }
+.tvs-mt-4 { margin-top: var(--tvs-space-4); }
+.tvs-mt-6 { margin-top: var(--tvs-space-6); }
+.tvs-mt-8 { margin-top: var(--tvs-space-8); }
+.tvs-mt-10 { margin-top: var(--tvs-space-10); }
+.tvs-mb-1 { margin-bottom: var(--tvs-space-1); }
+.tvs-mb-2 { margin-bottom: var(--tvs-space-2); }
+.tvs-mb-3 { margin-bottom: var(--tvs-space-3); }
+.tvs-mb-4 { margin-bottom: var(--tvs-space-4); }
+.tvs-mb-6 { margin-bottom: var(--tvs-space-6); }
+.tvs-mb-8 { margin-bottom: var(--tvs-space-8); }
+.tvs-ml-auto { margin-left: auto; }
+.tvs-mr-auto { margin-right: auto; }
+.tvs-mx-auto { margin-left: auto; margin-right: auto; }
+
+/* Sizing */
+.tvs-w-full { width: 100%; }
+.tvs-w-auto { width: auto; }
+.tvs-w-screen { width: 100vw; }
+.tvs-min-w-0 { min-width: 0; }
+.tvs-h-full { height: 100%; }
+.tvs-h-auto { height: auto; }
+.tvs-min-h-screen { min-height: 100vh; }
+
+/* Overflow */
+.tvs-overflow-hidden { overflow: hidden; }
+.tvs-overflow-auto { overflow: auto; }
+.tvs-overflow-y-auto { overflow-y: auto; }
+.tvs-overflow-x-hidden { overflow-x: hidden; }
+
+/* Position */
+.tvs-relative { position: relative; }
+.tvs-absolute { position: absolute; }
+.tvs-fixed { position: fixed; }
+.tvs-sticky { position: sticky; top: 0; z-index: var(--tvs-z-sticky); }
+
+/* Misc */
+.tvs-text-left { text-align: left; }
+.tvs-text-center { text-align: center; }
+.tvs-text-right { text-align: right; }
+.tvs-whitespace-nowrap { white-space: nowrap; }
+.tvs-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tvs-line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tvs-line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.tvs-rounded-xs { border-radius: var(--tvs-radius-xs); }
+.tvs-rounded-sm { border-radius: var(--tvs-radius-sm); }
+.tvs-rounded-md { border-radius: var(--tvs-radius-md); }
+.tvs-rounded-lg { border-radius: var(--tvs-radius-lg); }
+.tvs-rounded-xl { border-radius: var(--tvs-radius-xl); }
+.tvs-rounded-full { border-radius: var(--tvs-radius-full); }
+.tvs-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
+.tvs-pointer { cursor: pointer; }
+.tvs-select-none { user-select: none; }
+.tvs-opacity-0 { opacity: 0; }
+.tvs-opacity-50 { opacity: 0.5; }
+.tvs-opacity-100 { opacity: 1; }
+
+
+/* â”€â”€ 5. NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--tvs-z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tvs-space-3) var(--tvs-space-6);
+  background: rgba(var(--tvs-bg-rgb), 0.7);
+  backdrop-filter: blur(var(--tvs-blur-lg));
+  -webkit-backdrop-filter: blur(var(--tvs-blur-lg));
+  border-bottom: 1px solid var(--tvs-border-subtle);
+  transition: background var(--tvs-duration-normal) var(--tvs-ease-in-out);
+}
+
+.tvs-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-lg);
+  font-weight: var(--tvs-weight-bold);
+  color: var(--tvs-text);
+  text-decoration: none;
+}
+.tvs-nav-brand:hover { color: var(--tvs-cyan); }
+
+.tvs-nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-1);
+}
+
+.tvs-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md);
+  font-size: var(--tvs-text-sm);
+  font-weight: var(--tvs-weight-medium);
+  color: var(--tvs-text-secondary);
+  text-decoration: none;
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+.tvs-nav-link:hover {
+  color: var(--tvs-text);
+  background: var(--tvs-surface-hover);
+}
+.tvs-nav-link-active {
+  color: var(--tvs-cyan);
+  background: rgba(var(--tvs-cyan-rgb), 0.08);
+}
+
+.tvs-nav-mobile-toggle {
+  display: none;
+  padding: var(--tvs-space-2);
+  border-radius: var(--tvs-radius-sm);
+  color: var(--tvs-text-secondary);
+  cursor: pointer;
+}
+.tvs-nav-mobile-toggle:hover { background: var(--tvs-surface-hover); }
+
+@media (max-width: 768px) {
+  .tvs-nav-mobile-toggle { display: flex; }
+  .tvs-nav-links {
+    position: fixed;
+    top: 57px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--tvs-space-1);
+    padding: var(--tvs-space-4);
+    background: rgba(var(--tvs-bg-rgb), 0.95);
+    backdrop-filter: blur(var(--tvs-blur-lg));
+    -webkit-backdrop-filter: blur(var(--tvs-blur-lg));
+    transform: translateX(-100%);
+    transition: transform var(--tvs-duration-moderate) var(--tvs-ease-out);
+    z-index: var(--tvs-z-overlay);
+  }
+  .tvs-nav-links-open { transform: translateX(0); }
+  .tvs-nav-link { padding: var(--tvs-space-3) var(--tvs-space-4); border-radius: var(--tvs-radius-md); }
+}
+
+
+/* â”€â”€ 6. CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--tvs-surface-glass);
+  backdrop-filter: blur(var(--tvs-blur-md));
+  -webkit-backdrop-filter: blur(var(--tvs-blur-md));
+  border: 1px solid var(--tvs-border);
+  border-radius: var(--tvs-radius-lg);
+  transition: border-color var(--tvs-duration-normal) var(--tvs-ease-in-out),
+    box-shadow var(--tvs-duration-normal) var(--tvs-ease-in-out),
+    transform var(--tvs-duration-normal) var(--tvs-ease-out);
+}
+.tvs-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(var(--tvs-cyan-rgb), 0.03), transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--tvs-duration-normal) var(--tvs-ease-in-out);
+}
+.tvs-card:hover::before { opacity: 1; }
+.tvs-card:hover {
+  border-color: rgba(var(--tvs-cyan-rgb), 0.15);
+  box-shadow: var(--tvs-shadow-md), var(--tvs-glow-sm-cyan);
+}
+.tvs-card-clickable { cursor: pointer; }
+.tvs-card-clickable:hover { transform: translateY(-2px); }
+
+.tvs-card-body { padding: var(--tvs-space-5); }
+.tvs-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tvs-space-4) var(--tvs-space-5);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+}
+.tvs-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-3) var(--tvs-space-5);
+  border-top: 1px solid var(--tvs-border-subtle);
+  background: rgba(0, 0, 0, 0.15);
+}
+.tvs-card-title {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-lg);
+  font-weight: var(--tvs-weight-semibold);
+  color: var(--tvs-text);
+}
+.tvs-card-subtitle {
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text-secondary);
+  margin-top: var(--tvs-space-1);
+}
+.tvs-card-divider {
+  border: none;
+  border-top: 1px solid var(--tvs-border-subtle);
+  margin: var(--tvs-space-4) 0;
+}
+
+/* Card variants */
+.tvs-card-purple:hover {
+  border-color: rgba(var(--tvs-purple-rgb), 0.2);
+  box-shadow: var(--tvs-shadow-md), var(--tvs-glow-purple);
+}
+.tvs-card-pink:hover {
+  border-color: rgba(var(--tvs-pink-rgb), 0.2);
+  box-shadow: var(--tvs-shadow-md), var(--tvs-glow-pink);
+}
+.tvs-card-green:hover {
+  border-color: rgba(var(--tvs-green-rgb), 0.2);
+  box-shadow: var(--tvs-shadow-md), var(--tvs-glow-green);
+}
+
+.tvs-card-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-5);
+}
+.tvs-card-stat-value {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-3xl);
+  font-weight: var(--tvs-weight-bold);
+  line-height: var(--tvs-leading-none);
+}
+.tvs-card-stat-label {
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text-secondary);
+}
+
+/* Empty / Error / Loading states */
+.tvs-empty, .tvs-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-12) var(--tvs-space-6);
+  color: var(--tvs-text-secondary);
+}
+.tvs-empty-icon, .tvs-error-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--tvs-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--tvs-text-2xl);
+}
+.tvs-empty-icon { background: var(--tvs-surface-2); border: 1px solid var(--tvs-border); }
+.tvs-error-state { color: var(--tvs-danger); }
+.tvs-error-icon { background: rgba(var(--tvs-danger-rgb), 0.1); border: 1px solid rgba(var(--tvs-danger-rgb), 0.25); }
+.tvs-empty-title, .tvs-error-title {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-lg);
+  font-weight: var(--tvs-weight-semibold);
+  color: var(--tvs-text);
+}
+.tvs-empty-hint, .tvs-error-hint { font-size: var(--tvs-text-sm); max-width: 400px; line-height: var(--tvs-leading-relaxed); }
+
+
+/* â”€â”€ 7. BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-2) var(--tvs-space-4);
+  border-radius: var(--tvs-radius-md);
+  font-family: var(--tvs-font-sans);
+  font-size: var(--tvs-text-sm);
+  font-weight: var(--tvs-weight-medium);
+  line-height: var(--tvs-leading-none);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: var(--tvs-surface-2);
+  color: var(--tvs-text);
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+  position: relative;
+  overflow: hidden;
+}
+.tvs-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+  opacity: 0;
+  transition: opacity var(--tvs-duration-fast);
+  pointer-events: none;
+}
+.tvs-btn:hover::after { opacity: 1; }
+.tvs-btn:hover {
+  background: var(--tvs-surface-3);
+  border-color: var(--tvs-border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--tvs-shadow-sm);
+}
+.tvs-btn:active { transform: translateY(0); box-shadow: none; }
+.tvs-btn:focus-visible {
+  outline: 2px solid var(--tvs-border-focus);
+  outline-offset: 2px;
+}
+.tvs-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary */
+.tvs-btn-primary {
+  background: var(--tvs-cyan);
+  border-color: var(--tvs-cyan);
+  color: var(--tvs-text-inverse);
+  font-weight: var(--tvs-weight-semibold);
+}
+.tvs-btn-primary:hover {
+  background: #00dce6;
+  border-color: #00dce6;
+  box-shadow: var(--tvs-glow-sm-cyan);
+}
+.tvs-btn-primary:active { background: #00c4cc; }
+
+/* Secondary */
+.tvs-btn-secondary {
+  background: rgba(var(--tvs-cyan-rgb), 0.08);
+  border-color: rgba(var(--tvs-cyan-rgb), 0.2);
+  color: var(--tvs-cyan);
+}
+.tvs-btn-secondary:hover {
+  background: rgba(var(--tvs-cyan-rgb), 0.14);
+  border-color: rgba(var(--tvs-cyan-rgb), 0.35);
+  box-shadow: var(--tvs-glow-sm-cyan);
+}
+
+/* Purple */
+.tvs-btn-purple {
+  background: rgba(var(--tvs-purple-rgb), 0.1);
+  border-color: rgba(var(--tvs-purple-rgb), 0.25);
+  color: var(--tvs-purple);
+}
+.tvs-btn-purple:hover {
+  background: rgba(var(--tvs-purple-rgb), 0.18);
+  border-color: rgba(var(--tvs-purple-rgb), 0.4);
+  box-shadow: var(--tvs-glow-sm-purple);
+}
+
+/* Ghost */
+.tvs-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--tvs-text-secondary);
+}
+.tvs-btn-ghost:hover {
+  background: var(--tvs-surface-1);
+  color: var(--tvs-text);
+}
+
+/* Danger */
+.tvs-btn-danger {
+  background: rgba(var(--tvs-danger-rgb), 0.08);
+  border-color: rgba(var(--tvs-danger-rgb), 0.25);
+  color: var(--tvs-danger);
+}
+.tvs-btn-danger:hover {
+  background: rgba(var(--tvs-danger-rgb), 0.15);
+  border-color: rgba(var(--tvs-danger-rgb), 0.4);
+}
+
+/* Success */
+.tvs-btn-success {
+  background: rgba(var(--tvs-green-rgb), 0.08);
+  border-color: rgba(var(--tvs-green-rgb), 0.25);
+  color: var(--tvs-green);
+}
+.tvs-btn-success:hover {
+  background: rgba(var(--tvs-green-rgb), 0.15);
+  border-color: rgba(var(--tvs-green-rgb), 0.4);
+}
+
+/* Sizes */
+.tvs-btn-xs {
+  padding: var(--tvs-space-0\.5) var(--tvs-space-2);
+  font-size: var(--tvs-text-xs);
+  border-radius: var(--tvs-radius-sm);
+}
+.tvs-btn-sm {
+  padding: var(--tvs-space-1\.5) var(--tvs-space-3);
+  font-size: var(--tvs-text-sm);
+}
+.tvs-btn-lg {
+  padding: var(--tvs-space-3) var(--tvs-space-6);
+  font-size: var(--tvs-text-base);
+}
+.tvs-btn-xl {
+  padding: var(--tvs-space-4) var(--tvs-space-8);
+  font-size: var(--tvs-text-lg);
+}
+
+/* Icon only */
+.tvs-btn-icon {
+  padding: var(--tvs-space-2);
+  aspect-ratio: 1;
+}
+.tvs-btn-icon.tvs-btn-sm { padding: var(--tvs-space-1\.5); }
+.tvs-btn-icon.tvs-btn-lg { padding: var(--tvs-space-3); }
+
+/* Pill */
+.tvs-btn-pill { border-radius: var(--tvs-radius-full); }
+
+
+/* â”€â”€ 8. BADGES / TAGS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tvs-space-1);
+  padding: var(--tvs-space-0\.5) var(--tvs-space-2\.5);
+  border-radius: var(--tvs-radius-full);
+  font-size: var(--tvs-text-xs);
+  font-weight: var(--tvs-weight-medium);
+  line-height: var(--tvs-leading-normal);
+  white-space: nowrap;
+  border: 1px solid var(--tvs-border-strong);
+  color: var(--tvs-text-secondary);
+  background: var(--tvs-surface-1);
+}
+
+.tvs-badge-cyan {
+  background: rgba(var(--tvs-cyan-rgb), 0.1);
+  color: var(--tvs-cyan);
+  border-color: rgba(var(--tvs-cyan-rgb), 0.2);
+}
+.tvs-badge-purple {
+  background: rgba(var(--tvs-purple-rgb), 0.1);
+  color: var(--tvs-purple);
+  border-color: rgba(var(--tvs-purple-rgb), 0.2);
+}
+.tvs-badge-pink {
+  background: rgba(var(--tvs-pink-rgb), 0.1);
+  color: var(--tvs-pink);
+  border-color: rgba(var(--tvs-pink-rgb), 0.2);
+}
+.tvs-badge-green {
+  background: rgba(var(--tvs-green-rgb), 0.1);
+  color: var(--tvs-green);
+  border-color: rgba(var(--tvs-green-rgb), 0.2);
+}
+.tvs-badge-orange {
+  background: rgba(var(--tvs-orange-rgb), 0.1);
+  color: var(--tvs-orange);
+  border-color: rgba(var(--tvs-orange-rgb), 0.2);
+}
+.tvs-badge-danger {
+  background: rgba(var(--tvs-danger-rgb), 0.1);
+  color: var(--tvs-danger);
+  border-color: rgba(var(--tvs-danger-rgb), 0.2);
+}
+
+/* Dot indicator */
+.tvs-badge-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.tvs-badge-dot-animated::before {
+  animation: tvs-pulse-dot 2s ease-in-out infinite;
+}
+
+/* Sizes */
+.tvs-badge-sm {
+  padding: 0 var(--tvs-space-1\.5);
+  font-size: 0.625rem;
+}
+.tvs-badge-lg {
+  padding: var(--tvs-space-1) var(--tvs-space-3);
+  font-size: var(--tvs-text-sm);
+}
+
+
+/* â”€â”€ 9. INPUTS / FORMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tvs-space-1\.5);
+}
+
+.tvs-label {
+  display: block;
+  font-size: var(--tvs-text-xs);
+  font-weight: var(--tvs-weight-semibold);
+  color: var(--tvs-text-secondary);
+  letter-spacing: var(--tvs-tracking-wide);
+  text-transform: uppercase;
+}
+
+.tvs-input,
+.tvs-select,
+.tvs-textarea {
+  width: 100%;
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md);
+  font-family: var(--tvs-font-sans);
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text);
+  background: var(--tvs-bg-elevated);
+  border: 1px solid var(--tvs-border-strong);
+  transition: border-color var(--tvs-duration-fast) var(--tvs-ease-in-out),
+    box-shadow var(--tvs-duration-fast) var(--tvs-ease-in-out),
+    background var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+.tvs-input::placeholder,
+.tvs-textarea::placeholder {
+  color: var(--tvs-text-muted);
+}
+.tvs-input:hover,
+.tvs-select:hover,
+.tvs-textarea:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.tvs-input:focus,
+.tvs-select:focus,
+.tvs-textarea:focus {
+  outline: none;
+  border-color: var(--tvs-border-focus);
+  box-shadow: 0 0 0 3px rgba(var(--tvs-cyan-rgb), 0.1);
+  background: var(--tvs-bg);
+}
+.tvs-input:disabled,
+.tvs-select:disabled,
+.tvs-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tvs-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: var(--tvs-leading-normal);
+}
+
+.tvs-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23999' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--tvs-space-3) center;
+  padding-right: var(--tvs-space-8);
+}
+
+/* Input with icon */
+.tvs-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.tvs-input-group .tvs-input { padding-left: var(--tvs-space-10); }
+.tvs-input-icon {
+  position: absolute;
+  left: var(--tvs-space-3);
+  color: var(--tvs-text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Sizes */
+.tvs-input-sm {
+  padding: var(--tvs-space-1\.5) var(--tvs-space-2\.5);
+  font-size: var(--tvs-text-xs);
+}
+.tvs-input-lg {
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  font-size: var(--tvs-text-base);
+}
+
+/* Error state */
+.tvs-input-error,
+.tvs-select-error,
+.tvs-textarea-error {
+  border-color: rgba(var(--tvs-danger-rgb), 0.5);
+}
+.tvs-input-error:focus,
+.tvs-select-error:focus,
+.tvs-textarea-error:focus {
+  box-shadow: 0 0 0 3px rgba(var(--tvs-danger-rgb), 0.1);
+}
+
+.tvs-form-error {
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-danger);
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-1);
+}
+
+.tvs-form-hint {
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+}
+
+/* Checkbox / Radio */
+.tvs-checkbox,
+.tvs-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  cursor: pointer;
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text);
+  user-select: none;
+}
+.tvs-checkbox input,
+.tvs-radio input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--tvs-border-strong);
+  border-radius: var(--tvs-radius-xs);
+  background: var(--tvs-bg-elevated);
+  cursor: pointer;
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+  flex-shrink: 0;
+}
+.tvs-radio input { border-radius: 50%; }
+.tvs-checkbox input:checked,
+.tvs-radio input:checked {
+  background: var(--tvs-cyan);
+  border-color: var(--tvs-cyan);
+}
+.tvs-checkbox input:checked::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid var(--tvs-text-inverse);
+  border-bottom: 2px solid var(--tvs-text-inverse);
+  transform: rotate(-45deg) translate(1px, -1px);
+  margin: 0 auto;
+}
+.tvs-radio input:checked::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tvs-text-inverse);
+  margin: 0 auto;
+}
+.tvs-checkbox input:focus-visible,
+.tvs-radio input:focus-visible {
+  outline: 2px solid var(--tvs-border-focus);
+  outline-offset: 2px;
+}
+
+
+/* â”€â”€ 10. MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--tvs-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--tvs-space-4);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(var(--tvs-blur-sm));
+  -webkit-backdrop-filter: blur(var(--tvs-blur-sm));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--tvs-duration-moderate) var(--tvs-ease-in-out),
+    visibility var(--tvs-duration-moderate);
+}
+.tvs-modal-overlay-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tvs-modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  background: var(--tvs-bg-elevated);
+  border: 1px solid var(--tvs-border);
+  border-radius: var(--tvs-radius-xl);
+  box-shadow: var(--tvs-shadow-2xl);
+  overflow: hidden;
+  transform: scale(0.95) translateY(8px);
+  transition: transform var(--tvs-duration-moderate) var(--tvs-ease-out-back);
+}
+.tvs-modal-overlay-open .tvs-modal {
+  transform: scale(1) translateY(0);
+}
+.tvs-modal-lg { max-width: 720px; }
+.tvs-modal-sm { max-width: 380px; }
+.tvs-modal-full { max-width: none; height: 100vh; max-height: 100vh; border-radius: 0; }
+
+.tvs-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tvs-space-5) var(--tvs-space-6);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+}
+.tvs-modal-title {
+  font-family: var(--tvs-font-display);
+  font-size: var(--tvs-text-lg);
+  font-weight: var(--tvs-weight-semibold);
+}
+
+.tvs-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--tvs-radius-sm);
+  color: var(--tvs-text-muted);
+  cursor: pointer;
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+.tvs-modal-close:hover {
+  background: var(--tvs-surface-2);
+  color: var(--tvs-text);
+}
+
+.tvs-modal-body {
+  padding: var(--tvs-space-6);
+  overflow-y: auto;
+  max-height: calc(85vh - 140px);
+}
+
+.tvs-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-4) var(--tvs-space-6);
+  border-top: 1px solid var(--tvs-border-subtle);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+
+/* â”€â”€ 11. TOOLTIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.tvs-tooltip {
+  position: absolute;
+  z-index: var(--tvs-z-tooltip);
+  padding: var(--tvs-space-1\.5) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-sm);
+  background: var(--tvs-bg-elevated);
+  border: 1px solid var(--tvs-border-strong);
+  box-shadow: var(--tvs-shadow-lg);
+  font-size: var(--tvs-text-xs);
+  font-weight: var(--tvs-weight-medium);
+  color: var(--tvs-text);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity var(--tvs-duration-fast) var(--tvs-ease-in-out),
+    transform var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+
+/* Positions */
+.tvs-tooltip-bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+.tvs-tooltip-top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+.tvs-tooltip-left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+.tvs-tooltip-right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+}
+
+.tvs-tooltip-wrap:hover .tvs-tooltip,
+.tvs-tooltip-wrap:focus-within .tvs-tooltip {
+  opacity: 1;
+}
+.tvs-tooltip-wrap:hover .tvs-tooltip-bottom,
+.tvs-tooltip-wrap:focus-within .tvs-tooltip-bottom { transform: translateX(-50%) translateY(0); }
+.tvs-tooltip-wrap:hover .tvs-tooltip-top,
+.tvs-tooltip-wrap:focus-within .tvs-tooltip-top { transform: translateX(-50%) translateY(0); }
+.tvs-tooltip-wrap:hover .tvs-tooltip-left,
+.tvs-tooltip-wrap:focus-within .tvs-tooltip-left { transform: translateY(-50%) translateX(0); }
+.tvs-tooltip-wrap:hover .tvs-tooltip-right,
+.tvs-tooltip-wrap:focus-within .tvs-tooltip-right { transform: translateY(-50%) translateX(0); }
+
+
+/* â”€â”€ 12. TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--tvs-radius-lg);
+  border: 1px solid var(--tvs-border);
+  background: var(--tvs-surface-glass);
+  backdrop-filter: blur(var(--tvs-blur-sm));
+  -webkit-backdrop-filter: blur(var(--tvs-blur-sm));
+}
+
+.tvs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--tvs-text-sm);
+}
+.tvs-table th {
+  text-align: left;
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  font-size: var(--tvs-text-xs);
+  font-weight: var(--tvs-weight-semibold);
+  letter-spacing: var(--tvs-tracking-wide);
+  text-transform: uppercase;
+  color: var(--tvs-text-muted);
+  border-bottom: 1px solid var(--tvs-border-strong);
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.2);
+}
+.tvs-table td {
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+  color: var(--tvs-text);
+}
+.tvs-table tbody tr {
+  transition: background var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+.tvs-table tbody tr:hover {
+  background: var(--tvs-surface-hover);
+}
+.tvs-table tbody tr:last-child td { border-bottom: none; }
+.tvs-table-align-right { text-align: right; }
+.tvs-table-align-center { text-align: center; }
+.tvs-table-compact th,
+.tvs-table-compact td {
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+}
+
+
+/* â”€â”€ 13. ALERTS / NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-4);
+  border-radius: var(--tvs-radius-md);
+  border: 1px solid;
+  font-size: var(--tvs-text-sm);
+  line-height: var(--tvs-leading-normal);
+}
+.tvs-alert-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.tvs-alert-content { flex: 1; }
+.tvs-alert-title {
+  font-weight: var(--tvs-weight-semibold);
+  margin-bottom: var(--tvs-space-1);
+}
+.tvs-alert-dismiss {
+  flex-shrink: 0;
+  padding: var(--tvs-space-1);
+  border-radius: var(--tvs-radius-sm);
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity var(--tvs-duration-fast);
+}
+.tvs-alert-dismiss:hover { opacity: 1; }
+
+.tvs-alert-info {
+  background: rgba(var(--tvs-cyan-rgb), 0.06);
+  border-color: rgba(var(--tvs-cyan-rgb), 0.2);
+  color: var(--tvs-cyan);
+}
+.tvs-alert-success {
+  background: rgba(var(--tvs-green-rgb), 0.06);
+  border-color: rgba(var(--tvs-green-rgb), 0.2);
+  color: var(--tvs-green);
+}
+.tvs-alert-warning {
+  background: rgba(var(--tvs-orange-rgb), 0.06);
+  border-color: rgba(var(--tvs-orange-rgb), 0.2);
+  color: var(--tvs-orange);
+}
+.tvs-alert-danger {
+  background: rgba(var(--tvs-danger-rgb), 0.06);
+  border-color: rgba(var(--tvs-danger-rgb), 0.2);
+  color: var(--tvs-danger);
+}
+
+/* Toast */
+.tvs-toast {
+  position: fixed;
+  bottom: var(--tvs-space-6);
+  right: var(--tvs-space-6);
+  z-index: var(--tvs-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tvs-space-2);
+  pointer-events: none;
+}
+.tvs-toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  background: var(--tvs-bg-elevated);
+  border: 1px solid var(--tvs-border-strong);
+  border-radius: var(--tvs-radius-md);
+  box-shadow: var(--tvs-shadow-lg);
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text);
+  animation: tvs-toast-in var(--tvs-duration-moderate) var(--tvs-ease-out-back);
+}
+.tvs-toast-item-out {
+  animation: tvs-toast-out var(--tvs-duration-normal) var(--tvs-ease-in-out) forwards;
+}
+
+
+/* â”€â”€ 14. LOADING / SKELETON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  color: var(--tvs-text-muted);
+  font-size: var(--tvs-text-sm);
+}
+
+.tvs-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--tvs-border-strong);
+  border-top-color: var(--tvs-cyan);
+  animation: tvs-spin 0.7s linear infinite;
+}
+.tvs-spinner-sm { width: 14px; height: 14px; border-width: 1.5px; }
+.tvs-spinner-lg { width: 24px; height: 24px; border-width: 2.5px; }
+
+/* Dots loader */
+.tvs-loading-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.tvs-loading-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tvs-cyan);
+  animation: tvs-bounce-dot 1.4s ease-in-out infinite;
+}
+.tvs-loading-dots span:nth-child(2) { animation-delay: 0.16s; }
+.tvs-loading-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+/* Skeleton */
+.tvs-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--tvs-surface-2);
+  border-radius: var(--tvs-radius-md);
+}
+.tvs-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  animation: tvs-shimmer 1.8s ease-in-out infinite;
+}
+.tvs-skeleton-text {
+  height: 12px;
+  border-radius: var(--tvs-radius-sm);
+  margin-bottom: var(--tvs-space-2);
+}
+.tvs-skeleton-text:last-child { width: 60%; }
+.tvs-skeleton-title { height: 20px; width: 40%; margin-bottom: var(--tvs-space-3); }
+.tvs-skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.tvs-skeleton-card {
+  height: 120px;
+  width: 100%;
+}
+
+/* Progress bar */
+.tvs-progress {
+  width: 100%;
+  height: 6px;
+  background: var(--tvs-surface-2);
+  border-radius: var(--tvs-radius-full);
+  overflow: hidden;
+}
+.tvs-progress-bar {
+  height: 100%;
+  border-radius: var(--tvs-radius-full);
+  background: var(--tvs-cyan);
+  transition: width var(--tvs-duration-slow) var(--tvs-ease-out);
+}
+.tvs-progress-bar-purple { background: var(--tvs-purple); }
+.tvs-progress-bar-pink { background: var(--tvs-pink); }
+.tvs-progress-bar-green { background: var(--tvs-green); }
+
+
+/* â”€â”€ 15. ANIMATION UTILITIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@keyframes tvs-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tvs-pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes tvs-bounce-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tvs-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes tvs-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes tvs-toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px) scale(0.95);
+  }
+}
+
+@keyframes tvs-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes tvs-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tvs-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tvs-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tvs-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tvs-glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(var(--tvs-cyan-rgb), 0.15); }
+  50% { box-shadow: 0 0 40px rgba(var(--tvs-cyan-rgb), 0.25); }
+}
+
+@keyframes tvs-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Animation classes */
+.tvs-animate-fade-in { animation: tvs-fade-in var(--tvs-duration-moderate) var(--tvs-ease-in-out); }
+.tvs-animate-fade-in-up { animation: tvs-fade-in-up var(--tvs-duration-moderate) var(--tvs-ease-out); }
+.tvs-animate-fade-in-down { animation: tvs-fade-in-down var(--tvs-duration-moderate) var(--tvs-ease-out); }
+.tvs-animate-scale-in { animation: tvs-scale-in var(--tvs-duration-moderate) var(--tvs-ease-out-back); }
+.tvs-animate-slide-in-right { animation: tvs-slide-in-right var(--tvs-duration-moderate) var(--tvs-ease-out); }
+.tvs-animate-glow-pulse { animation: tvs-glow-pulse 3s ease-in-out infinite; }
+.tvs-animate-float { animation: tvs-float 3s ease-in-out infinite; }
+.tvs-animate-spin { animation: tvs-spin 1s linear infinite; }
+
+/* Stagger delays */
+.tvs-delay-0 { animation-delay: 0ms; }
+.tvs-delay-1 { animation-delay: 50ms; }
+.tvs-delay-2 { animation-delay: 100ms; }
+.tvs-delay-3 { animation-delay: 150ms; }
+.tvs-delay-4 { animation-delay: 200ms; }
+.tvs-delay-5 { animation-delay: 250ms; }
+.tvs-delay-6 { animation-delay: 300ms; }
+.tvs-delay-7 { animation-delay: 350ms; }
+.tvs-delay-8 { animation-delay: 400ms; }
+
+
+/* â”€â”€ 16. RESPONSIVE BREAKPOINTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@media (max-width: 639px) {
+  /* Mobile */
+  .tvs-hide-mobile { display: none !important; }
+  .tvs-grid-2, .tvs-grid-3, .tvs-grid-4, .tvs-grid-6 {
+    grid-template-columns: 1fr;
+  }
+  .tvs-col-span-2, .tvs-col-span-3, .tvs-col-span-4, .tvs-col-span-6 {
+    grid-column: span 1;
+  }
+  .tvs-modal { max-width: 100%; margin: var(--tvs-space-4); }
+  .tvs-toast { left: var(--tvs-space-4); right: var(--tvs-space-4); bottom: var(--tvs-space-4); }
+}
+
+@media (min-width: 640px) {
+  .tvs-hide-desktop { display: none !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablet */
+  .tvs-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .tvs-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .tvs-grid-6 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop */
+  .tvs-hide-lg { display: none !important; }
+}
+
+@media (min-width: 1280px) {
+  .tvs-hide-xl { display: none !important; }
+}
+
+
+/* â”€â”€ 17. DIVIDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-divider {
+  border: none;
+  border-top: 1px solid var(--tvs-border);
+  margin: var(--tvs-space-4) 0;
+}
+.tvs-divider-vertical {
+  border: none;
+  border-left: 1px solid var(--tvs-border);
+  align-self: stretch;
+  margin: 0 var(--tvs-space-3);
+}
+
+
+/* â”€â”€ 18. AVATAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tvs-surface-2);
+  border: 1.5px solid var(--tvs-border);
+  font-size: var(--tvs-text-sm);
+  font-weight: var(--tvs-weight-semibold);
+  color: var(--tvs-text-secondary);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tvs-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.tvs-avatar-sm { width: 28px; height: 28px; font-size: var(--tvs-text-xs); }
+.tvs-avatar-lg { width: 48px; height: 48px; font-size: var(--tvs-text-lg); }
+.tvs-avatar-xl { width: 64px; height: 64px; font-size: var(--tvs-text-2xl); }
+
+.tvs-avatar-group {
+  display: flex;
+}
+.tvs-avatar-group .tvs-avatar + .tvs-avatar {
+  margin-left: -8px;
+  border-color: var(--tvs-bg);
+}
+
+
+/* â”€â”€ 19. TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-1);
+  border-bottom: 1px solid var(--tvs-border);
+  padding-bottom: 0;
+  overflow-x: auto;
+}
+
+.tvs-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  border-bottom: 2px solid transparent;
+  font-size: var(--tvs-text-sm);
+  font-weight: var(--tvs-weight-medium);
+  color: var(--tvs-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+  margin-bottom: -1px;
+}
+.tvs-tab:hover {
+  color: var(--tvs-text);
+  background: var(--tvs-surface-0);
+}
+.tvs-tab-active {
+  color: var(--tvs-cyan);
+  border-bottom-color: var(--tvs-cyan);
+}
+.tvs-tab-panel {
+  padding: var(--tvs-space-4) 0;
+}
+.tvs-tab-panel-hidden { display: none; }
+
+
+/* â”€â”€ 20. DROPDOWN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+.tvs-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: var(--tvs-z-dropdown);
+  min-width: 180px;
+  padding: var(--tvs-space-1);
+  background: var(--tvs-bg-elevated);
+  border: 1px solid var(--tvs-border-strong);
+  border-radius: var(--tvs-radius-md);
+  box-shadow: var(--tvs-shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+}
+.tvs-dropdown-open .tvs-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.tvs-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  width: 100%;
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-sm);
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text-secondary);
+  cursor: pointer;
+  transition: all var(--tvs-duration-fast) var(--tvs-ease-in-out);
+  text-decoration: none;
+}
+.tvs-dropdown-item:hover {
+  background: var(--tvs-surface-2);
+  color: var(--tvs-text);
+}
+.tvs-dropdown-item-danger { color: var(--tvs-danger); }
+.tvs-dropdown-item-danger:hover { background: rgba(var(--tvs-danger-rgb), 0.08); color: var(--tvs-danger); }
+
+.tvs-dropdown-divider {
+  border: none;
+  border-top: 1px solid var(--tvs-border-subtle);
+  margin: var(--tvs-space-1) 0;
+}
+
+
+/* â”€â”€ 21. UTILITY: COLOR HIGHLIGHTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tvs-text-cyan { color: var(--tvs-cyan); }
+.tvs-text-purple { color: var(--tvs-purple); }
+.tvs-text-pink { color: var(--tvs-pink); }
+.tvs-text-green { color: var(--tvs-green); }
+.tvs-text-orange { color: var(--tvs-orange); }
+.tvs-text-danger { color: var(--tvs-danger); }
+.tvs-text-muted { color: var(--tvs-text-muted); }
+.tvs-text-secondary { color: var(--tvs-text-secondary); }
+.tvs-text-inverse { color: var(--tvs-text-inverse); }
+.tvs-bg-cyan-subtle { background: rgba(var(--tvs-cyan-rgb), 0.06); }
+.tvs-bg-purple-subtle { background: rgba(var(--tvs-purple-rgb), 0.06); }
+.tvs-bg-pink-subtle { background: rgba(var(--tvs-pink-rgb), 0.06); }
+.tvs-bg-green-subtle { background: rgba(var(--tvs-green-rgb), 0.06); }
+
+
+/* â”€â”€ 22. REDUCED MOTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .tvs-card:hover,
+  .tvs-btn:hover {
+    transform: none;
+  }
+
+  .tvs-card-clickable:hover {
+    transform: none;
+  }
+
+  .tvs-modal-overlay {
+    transition: none;
+  }
+
+  .tvs-modal {
+    transition: none;
+  }
+
+  .tvs-spinner {
+    animation-duration: 1.4s;
+  }
+}
+
+
+/* â”€â”€ 23. PRINT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@media print {
+  .tvs-nav,
+  .tvs-modal-overlay,
+  .tvs-toast,
+  .tvs-btn {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .tvs-card {
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .tvs-text-gradient,
+  .tvs-text-gradient-pink {
+    -webkit-text-fill-color: black;
+    background: none;
+  }
+}
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinnity Viseron System v7.0 — AI-Native Operating System for Autonomous Organizations</title>
+  <meta name="description" content="TVS v7.0 — An AI-Native Operating System that transforms objectives into autonomous, verifiable processes. 2002 skills, 12 AIOX squads, 10 core agents, 178+ API endpoints. Built by Pedro Costa (Commander) & Trinnity Hurtado (Queen)." />
+  <meta property="og:title" content="Trinnity Viseron System v7.0 — AI-Native Operating System" />
+  <meta property="og:description" content="Autonomous AI Operating System & Intelligence Infrastructure. Intelligence + Memory + Audit + Evolution." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.trinnityviseronsystem.io" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030310'/%3E%3Cpath d='M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23bf5af2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- tvs-design.css INLINED -->
+  <style>
+    :root {
+      --neon: #00f0ff;
+      --neon2: #bf5af2;
+      --neon3: #ff2d55;
+      --neon4: #30d158;
+      --bg: #030310;
+      --bg2: #060618;
+      --card: rgba(255,255,255,0.025);
+      --card2: rgba(0,240,255,0.04);
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(0,240,255,0.12);
+      --text: #e8e8f4;
+      --text2: rgba(232,232,244,0.55);
+      --text3: rgba(232,232,244,0.25);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; font-size:16px; }
+    body {
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Inter',sans-serif;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+    }
+    h1,h2,h3,h4,h5 { font-family:'Space Grotesk',sans-serif; line-height:1.15; }
+    code, .mono { font-family:'JetBrains Mono',monospace; }
+
+    /* ── GRID BACKGROUND ── */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0,240,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.018) 1px, transparent 1px);
+      background-size:60px 60px;
+    }
+
+    /* ── PARTICLE GRID ANIMATION (CSS only) ── */
+    .particle-field {
+      position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+    }
+    .particle-field::before,
+    .particle-field::after {
+      content:''; position:absolute; border-radius:50%;
+    }
+    .particle-field::before {
+      width:300px; height:300px; top:15%; left:20%;
+      background:radial-gradient(circle, rgba(0,240,255,0.04) 0%, transparent 70%);
+      animation:float1 18s ease-in-out infinite;
+    }
+    .particle-field::after {
+      width:400px; height:400px; bottom:10%; right:15%;
+      background:radial-gradient(circle, rgba(191,90,242,0.035) 0%, transparent 70%);
+      animation:float2 22s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.1);}66%{transform:translate(-20px,20px) scale(0.95);}
+    }
+    @keyframes float2 {
+      0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(-30px,40px) scale(1.05);}66%{transform:translate(25px,-15px) scale(0.9);}
+    }
+
+    /* ── SCANLINE ── */
+    .scanline {
+      position:fixed; inset:0; z-index:9998; pointer-events:none;
+      background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,240,255,0.008) 3px,rgba(0,240,255,0.008) 4px);
+    }
+
+    /* ── NOISE ── */
+    body::after {
+      content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+      opacity:0.015;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      transition:all 0.4s ease;
+      border-bottom:1px solid transparent;
+    }
+    #nav.scrolled {
+      background:rgba(3,3,16,0.88);
+      backdrop-filter:blur(24px) saturate(180%);
+      border-bottom-color:var(--border);
+    }
+    .nav-inner {
+      max-width:1200px; margin:0 auto; padding:0 24px;
+      height:64px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo {
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:inherit;
+    }
+    .nav-logo-icon {
+      width:36px; height:36px; border-radius:10px;
+      background:linear-gradient(135deg, rgba(0,240,255,0.12), rgba(191,90,242,0.12));
+      border:1px solid rgba(0,240,255,0.25);
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 0 20px rgba(0,240,255,0.1), inset 0 0 12px rgba(0,240,255,0.04);
+    }
+    .nav-logo-text { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; }
+    .nav-logo-text .t1 { color:var(--neon); }
+    .nav-logo-text .t2 { color:rgba(255,255,255,0.35); }
+    .nav-links { display:flex; align-items:center; gap:6px; }
+    .nav-link {
+      color:var(--text2); font-size:13.5px; text-decoration:none; padding:6px 10px;
+      border-radius:6px; transition:all 0.2s; font-weight:500;
+    }
+    .nav-link:hover { color:var(--neon); background:rgba(0,240,255,0.06); }
+    .nav-lang { display:flex; gap:3px; margin-right:8px; }
+    .lang-btn {
+      background:none; border:1px solid var(--border); border-radius:6px;
+      padding:4px 8px; font-size:13px; cursor:pointer; color:var(--text2);
+      transition:all 0.2s; font-family:'Space Grotesk',sans-serif;
+    }
+    .lang-btn:hover, .lang-btn.active { border-color:var(--border2); color:var(--neon); background:rgba(0,240,255,0.06); }
+    .btn-nav-cta {
+      padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600;
+      background:var(--neon); color:var(--bg); border:none; cursor:pointer;
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      transition:all 0.25s; font-family:'Space Grotesk',sans-serif;
+    }
+    .btn-nav-cta:hover { background:#00d4e6; box-shadow:0 0 30px rgba(0,240,255,0.3); transform:translateY(-1px); }
+    .hamburger { display:none; background:none; border:1px solid var(--border); border-radius:7px; padding:8px; cursor:pointer; color:var(--text2); }
+    .mobile-menu {
+      display:none; position:absolute; top:64px; left:0; right:0;
+      background:rgba(3,3,16,0.98); backdrop-filter:blur(24px);
+      border-bottom:1px solid var(--border); padding:16px 24px 24px;
+      flex-direction:column; gap:4px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-link {
+      color:var(--text2); font-size:14px; text-decoration:none; padding:10px 12px;
+      border-radius:8px; font-weight:500; transition:all 0.2s;
+    }
+    .mobile-link:hover { color:var(--neon); background:rgba(0,240,255,0.06); }
+
+    /* ── SECTIONS ── */
+    section { position:relative; z-index:2; }
+    .section-inner { max-width:1200px; margin:0 auto; padding:0 24px; }
+    .section-tag {
+      font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+      margin-bottom:12px; font-family:'JetBrains Mono',monospace;
+    }
+    .section-title {
+      font-size:clamp(30px, 4.5vw, 52px); font-weight:800; letter-spacing:-0.025em;
+      line-height:1.08; margin-bottom:16px;
+    }
+    .section-sub {
+      color:var(--text2); max-width:600px; font-size:15px; line-height:1.7;
+    }
+    .section-header { text-align:center; margin-bottom:64px; }
+    .section-header .section-sub { margin:0 auto; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height:1px; max-width:700px; margin:0 auto;
+      background:linear-gradient(90deg, transparent, rgba(0,240,255,0.12), transparent);
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity:0; transform:translateY(28px); transition:all 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in-view { opacity:1; transform:translateY(0); }
+    .reveal-d1 { transition-delay:0.1s; }
+    .reveal-d2 { transition-delay:0.2s; }
+    .reveal-d3 { transition-delay:0.3s; }
+    .reveal-d4 { transition-delay:0.4s; }
+    .reveal-d5 { transition-delay:0.5s; }
+    .reveal-d6 { transition-delay:0.6s; }
+
+    /* ── GLASS CARD ── */
+    .glass-card {
+      background:var(--card); backdrop-filter:blur(20px);
+      border:1px solid var(--border); border-radius:16px;
+      position:relative; overflow:hidden;
+      transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .glass-card::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(0,240,255,0.03), transparent, rgba(191,90,242,0.03));
+      opacity:0; transition:opacity 0.4s; pointer-events:none;
+    }
+    .glass-card:hover {
+      border-color:rgba(0,240,255,0.15);
+      transform:translateY(-4px);
+      box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 20px rgba(0,240,255,0.05);
+    }
+    .glass-card:hover::after { opacity:1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      text-align:center; padding:120px 24px 80px; overflow:hidden;
+    }
+    .hero-content { position:relative; z-index:2; max-width:900px; margin:0 auto; }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 16px; border-radius:100px;
+      background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.18);
+      color:var(--neon); font-size:11.5px; font-weight:700; letter-spacing:0.12em;
+      text-transform:uppercase; margin-bottom:32px;
+      font-family:'Space Grotesk',sans-serif;
+    }
+    .hero-badge-dot {
+      width:7px; height:7px; border-radius:50%; background:var(--neon4);
+      box-shadow:0 0 8px var(--neon4); animation:blink 1.8s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .hero-title {
+      font-size:clamp(52px, 8vw, 100px); font-weight:900;
+      line-height:0.92; letter-spacing:-0.03em; margin-bottom:28px;
+    }
+    .hero-title .line1 { display:block; color:#fff; }
+    .hero-title .line2 {
+      display:block;
+      background:linear-gradient(90deg, var(--neon), var(--neon2), var(--neon3), var(--neon));
+      background-size:300% 100%;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation:flow 5s linear infinite;
+    }
+    @keyframes flow { to { background-position:300% 0; } }
+    .hero-sub {
+      font-size:clamp(15px, 2vw, 19px); color:var(--text2); max-width:680px;
+      margin:0 auto 44px; line-height:1.65; font-weight:300;
+    }
+    .hero-sub strong { color:var(--neon); font-weight:600; }
+    .hero-btns { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:64px; }
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:9px;
+      padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700;
+      background:var(--neon); color:var(--bg); border:none; cursor:pointer;
+      text-decoration:none; font-family:'Space Grotesk',sans-serif;
+      transition:all 0.3s; position:relative; overflow:hidden;
+    }
+    .btn-primary::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform:translateX(-100%); transition:transform 0.5s;
+    }
+    .btn-primary:hover::before { transform:translateX(100%); }
+    .btn-primary:hover { box-shadow:0 0 50px rgba(0,240,255,0.35); transform:translateY(-2px); }
+    .btn-secondary {
+      display:inline-flex; align-items:center; gap:9px;
+      padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700;
+      background:transparent; color:var(--text); border:1px solid var(--border);
+      cursor:pointer; text-decoration:none; font-family:'Space Grotesk',sans-serif;
+      transition:all 0.3s;
+    }
+    .btn-secondary:hover { border-color:var(--border2); color:var(--neon); background:rgba(0,240,255,0.05); }
+
+    /* ── HERO STATS ── */
+    .hero-stats { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+    .stat-card {
+      background:rgba(255,255,255,0.03); border:1px solid var(--border);
+      border-radius:14px; padding:18px 26px; text-align:center; min-width:120px;
+      backdrop-filter:blur(20px);
+      transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .stat-card:hover {
+      border-color:var(--border2); transform:translateY(-4px);
+      box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 20px rgba(0,240,255,0.06);
+    }
+    .stat-val { font-size:26px; font-weight:800; font-family:'Space Grotesk',sans-serif; }
+    .stat-label {
+      font-size:11px; color:var(--text3); margin-top:4px; font-weight:500;
+      text-transform:uppercase; letter-spacing:0.06em;
+    }
+    .c-neon { color:var(--neon); }
+    .c-neon2 { color:var(--neon2); }
+    .c-green { color:var(--neon4); }
+
+    /* ── FEATURE GRID ── */
+    .features-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+    .feature-card { padding:32px; }
+    .feature-icon {
+      width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+      margin-bottom:20px; font-size:24px;
+    }
+    .feature-title { font-size:18px; font-weight:700; margin-bottom:10px; }
+    .feature-desc { font-size:14px; color:var(--text2); line-height:1.7; }
+
+    /* ── TVS OS GRID ── */
+    .os-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+    .os-card { padding:24px; }
+    .os-icon {
+      width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+      margin-bottom:14px; font-size:20px;
+    }
+    .os-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+    .os-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+
+    /* ── AGENTS GRID ── */
+    .agents-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; }
+    .agent-card { padding:20px; text-align:center; }
+    .agent-avatar {
+      width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      margin:0 auto 12px; font-size:20px;
+    }
+    .agent-name { font-size:13px; font-weight:700; margin-bottom:4px; }
+    .agent-role { font-size:11px; color:var(--text2); }
+    .squads-row { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:32px; }
+    .squad-pill {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:8px 16px; border-radius:100px;
+      background:rgba(255,255,255,0.03); border:1px solid var(--border);
+      font-size:12px; font-weight:600; font-family:'Space Grotesk',sans-serif;
+      transition:all 0.25s;
+    }
+    .squad-pill:hover { border-color:var(--border2); background:rgba(0,240,255,0.04); }
+    .squad-dot { width:7px; height:7px; border-radius:50%; animation:blink 1.8s ease infinite; }
+
+    /* ── INTEGRATION GRID ── */
+    .int-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
+    .int-card {
+      padding:20px; display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+    }
+    .int-name { font-size:14px; font-weight:700; }
+    .int-desc { font-size:12px; color:var(--text2); line-height:1.5; }
+    .int-badge {
+      font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px;
+      font-family:'JetBrains Mono',monospace;
+    }
+
+    /* ── TOKENS ── */
+    .tokens-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .token-card { padding:40px; text-align:center; }
+    .token-symbol { font-size:64px; font-weight:900; font-family:'Space Grotesk',sans-serif; margin-bottom:8px; }
+    .token-name { font-size:18px; font-weight:600; color:var(--text2); margin-bottom:20px; }
+    .token-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+    .token-stat { background:rgba(255,255,255,0.025); border-radius:10px; padding:14px; }
+    .token-stat-val { font-size:18px; font-weight:800; font-family:'Space Grotesk',sans-serif; }
+    .token-stat-label { font-size:10px; color:var(--text3); margin-top:3px; text-transform:uppercase; letter-spacing:0.06em; }
+    .token-features { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:20px; }
+    .token-feat {
+      font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px;
+      border:1px solid var(--border); color:var(--text2);
+    }
+
+    /* ── PRICING ── */
+    .pricing-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; max-width:1000px; margin:0 auto; }
+    .plan-card { padding:32px; border-radius:20px; position:relative; overflow:hidden; }
+    .plan-card.featured { border-color:rgba(0,240,255,0.3) !important; }
+    .plan-card.featured::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(0,240,255,0.06), transparent, rgba(191,90,242,0.04));
+    }
+    .plan-badge {
+      font-size:10.5px; font-weight:700; padding:4px 12px; border-radius:20px;
+      margin-bottom:20px; display:inline-block;
+      font-family:'Space Grotesk',sans-serif; letter-spacing:0.08em; text-transform:uppercase;
+    }
+    .plan-name { font-size:22px; font-weight:800; margin-bottom:8px; }
+    .plan-price {
+      font-size:48px; font-weight:900; font-family:'Space Grotesk',sans-serif;
+      letter-spacing:-0.03em; margin-bottom:4px;
+    }
+    .plan-price span { font-size:16px; font-weight:500; color:var(--text2); }
+    .plan-sub { font-size:13px; color:var(--text2); margin-bottom:24px; }
+    .plan-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+    .plan-features li { display:flex; align-items:flex-start; gap:10px; font-size:13.5px; color:var(--text2); }
+    .plan-features li::before { content:'✦'; color:var(--neon); font-size:10px; margin-top:3px; flex-shrink:0; }
+    .plan-features li.off { opacity:0.45; }
+    .plan-features li.off::before { color:var(--text3); }
+    .plan-btn {
+      width:100%; padding:14px; border-radius:10px; font-size:15px; font-weight:700;
+      cursor:pointer; text-align:center; text-decoration:none; display:block;
+      font-family:'Space Grotesk',sans-serif; transition:all 0.3s;
+    }
+    .plan-btn-neon { background:var(--neon); color:var(--bg); border:none; }
+    .plan-btn-neon:hover { background:#00d4e6; box-shadow:0 0 40px rgba(0,240,255,0.3); transform:translateY(-2px); }
+    .plan-btn-outline { background:transparent; color:var(--text); border:1px solid var(--border); }
+    .plan-btn-outline:hover { border-color:var(--border2); color:var(--neon); }
+
+    /* ── TRUST ── */
+    .trust-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+    .trust-card { padding:24px; text-align:center; }
+    .trust-num { font-size:36px; font-weight:900; font-family:'Space Grotesk',sans-serif; }
+    .trust-label { font-size:12px; color:var(--text3); margin-top:6px; text-transform:uppercase; letter-spacing:0.08em; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      padding:96px 24px; text-align:center;
+      background:linear-gradient(180deg, transparent, rgba(0,240,255,0.03), transparent);
+    }
+    .cta-title { font-size:clamp(32px, 5vw, 56px); font-weight:900; margin-bottom:20px; letter-spacing:-0.02em; }
+    .cta-sub { font-size:17px; color:var(--text2); max-width:600px; margin:0 auto 40px; line-height:1.7; }
+    .cta-btns { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top:1px solid var(--border); padding:48px 24px;
+      position:relative; z-index:2; background:rgba(3,3,16,0.7);
+    }
+    .footer-inner { max-width:1200px; margin:0 auto; }
+    .footer-top { display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between; margin-bottom:40px; }
+    .footer-brand { max-width:280px; }
+    .footer-brand-title { font-size:18px; font-weight:800; margin-bottom:10px; }
+    .footer-brand-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+    .footer-links h4 {
+      font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
+      color:var(--text3); margin-bottom:14px;
+    }
+    .footer-links ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-links a { font-size:13.5px; color:var(--text2); text-decoration:none; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--neon); }
+    .footer-bottom {
+      display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
+      gap:12px; padding-top:28px; border-top:1px solid var(--border);
+    }
+    .footer-copy { font-size:12.5px; color:var(--text3); }
+    .footer-copy strong { color:var(--text2); }
+    .footer-authority { font-size:12px; color:var(--text3); text-align:right; }
+    .footer-authority strong { color:var(--neon2); }
+
+    /* ── BADGE ── */
+    .badge {
+      display:inline-flex; align-items:center; gap:5px; padding:3px 10px;
+      border-radius:20px; font-size:11px; font-weight:700;
+      font-family:'JetBrains Mono',monospace;
+    }
+    .badge-green { background:rgba(48,209,88,0.12); color:var(--neon4); border:1px solid rgba(48,209,88,0.2); }
+    .badge-neon { background:rgba(0,240,255,0.1); color:var(--neon); border:1px solid rgba(0,240,255,0.18); }
+    .badge-purple { background:rgba(191,90,242,0.1); color:var(--neon2); border:1px solid rgba(191,90,242,0.18); }
+
+    /* ── SCROLL BAR ── */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--neon); border-radius:2px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1024px) {
+      .features-grid { grid-template-columns:repeat(2, 1fr); }
+      .os-grid { grid-template-columns:repeat(2, 1fr); }
+      .agents-grid { grid-template-columns:repeat(3, 1fr); }
+      .int-grid { grid-template-columns:repeat(2, 1fr); }
+      .trust-grid { grid-template-columns:repeat(2, 1fr); }
+    }
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .hamburger { display:flex; align-items:center; gap:8px; }
+      .features-grid { grid-template-columns:1fr; }
+      .os-grid { grid-template-columns:1fr; }
+      .agents-grid { grid-template-columns:repeat(2, 1fr); }
+      .tokens-grid { grid-template-columns:1fr; }
+      .pricing-grid { grid-template-columns:1fr; }
+      .int-grid { grid-template-columns:1fr; }
+      .trust-grid { grid-template-columns:1fr 1fr; }
+      .footer-top { flex-direction:column; gap:32px; }
+      .footer-authority { text-align:left; }
+    }
+    @media (max-width:480px) {
+      .hero-btns { flex-direction:column; align-items:center; }
+      .agents-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="particle-field"></div>
+<div class="scanline"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- NAVIGATION -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.5 7.5L23 13l-7.5 3.5L12 24l-3.5-7.5L1 13l7.5-3.5z" stroke="#00f0ff" stroke-width="1.5" fill="none"/><circle cx="12" cy="13" r="2.5" fill="#bf5af2"/></svg>
+      </div>
+      <div class="nav-logo-text"><span class="t1">Trinnity</span><span class="t2"> Viseron</span></div>
+    </a>
+    <div class="nav-links">
+      <div class="nav-lang">
+        <button class="lang-btn" onclick="setLang('es')" id="lb-es">ES</button>
+        <button class="lang-btn" onclick="setLang('pt')" id="lb-pt">PT</button>
+        <button class="lang-btn active" onclick="setLang('en')" id="lb-en">EN</button>
+      </div>
+      <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+      <a href="#os" class="nav-link" data-i18n="nav.os">TVS OS</a>
+      <a href="#tokens" class="nav-link" data-i18n="nav.tokens">Tokens</a>
+      <a href="#pricing" class="nav-link" data-i18n="nav.pricing">Pricing</a>
+      <a href="/blog" class="nav-link" data-app="1">Blog</a>
+      <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="nav-link">GitHub</a>
+      <a href="/workspace" class="btn-nav-cta" data-app="1" data-i18n="nav.cta">Start Free</a>
+    </div>
+    <button class="hamburger" onclick="toggleMobile()" id="hamburger-btn">
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#features" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.features">Features</a>
+    <a href="#os" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.os">TVS OS</a>
+    <a href="#tokens" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.tokens">Tokens</a>
+    <a href="#pricing" class="mobile-link" onclick="toggleMobile()" data-i18n="nav.pricing">Pricing</a>
+    <a href="/workspace" class="mobile-link" data-app="1">Start Free</a>
+    <a href="/blog" class="mobile-link" data-app="1">Blog</a>
+    <a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank" class="mobile-link">GitHub</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section class="hero grid-bg">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(0,240,255,0.06) 0%, transparent 60%);z-index:1;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 80%, rgba(191,90,242,0.04) 0%, transparent 50%);z-index:1;"></div>
+  <div class="hero-content reveal">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span data-i18n="hero.badge">v7.0 · AI-Native Operating System · LIVE</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="line1">Trinnity</span>
+      <span class="line2">Viseron System</span>
+    </h1>
+    <p class="hero-sub">
+      <span data-i18n="hero.sub1">The first AI-Native Operating System for Autonomous Organizations.</span>
+      <strong data-i18n="hero.sub2"> Not a chatbot.</strong>
+      <span data-i18n="hero.sub3"> It transforms business objectives into autonomous, verifiable processes powered by specialized agents, persistent memory, and continuous evolution.</span>
+    </p>
+    <div class="hero-btns">
+      <a href="/workspace" class="btn-primary" data-app="1" data-i18n="hero.cta1">
+        Start Free
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="/operate" class="btn-secondary" data-app="1" data-i18n="hero.cta2">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 3l14 9-14 9V3z"/></svg>
+        Watch Demo
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card reveal"><p class="stat-val c-neon" id="stat-skills">2,002</p><p class="stat-label" data-i18n="stat.skills">SKILLS</p></div>
+      <div class="stat-card reveal reveal-d1"><p class="stat-val c-neon2">12</p><p class="stat-label" data-i18n="stat.squads">AIOX SQUADS</p></div>
+      <div class="stat-card reveal reveal-d2"><p class="stat-val c-green">10</p><p class="stat-label" data-i18n="stat.minds">CORE AGENTS</p></div>
+      <div class="stat-card reveal reveal-d3"><p class="stat-val c-neon">178+</p><p class="stat-label" data-i18n="stat.api">API ENDPOINTS</p></div>
+      <div class="stat-card reveal reveal-d4"><p class="stat-val c-neon2">309/309</p><p class="stat-label" data-i18n="stat.tests">TESTS PASS</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="margin-top:0;"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- FEATURES -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="features" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon reveal" data-i18n="features.tag">// CAPABILITIES</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="features.title">Built for Autonomous Organizations</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="features.sub">Six pillars powering the next generation of AI-driven business operations.</p>
+    </div>
+    <div class="features-grid">
+      <div class="glass-card feature-card reveal">
+        <div class="feature-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.18);">
+          <svg width="24" height="24" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-13.5 0V9a3 3 0 013-3h7.5a3 3 0 013 3v5.25"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f1.title">AI Operating System</div>
+        <div class="feature-desc" data-i18n="features.f1.desc">A complete OS with process management, virtual filesystem, app store, package manager, and security center — all AI-native.</div>
+      </div>
+      <div class="glass-card feature-card reveal reveal-d1">
+        <div class="feature-icon" style="background:rgba(191,90,242,0.08);border:1px solid rgba(191,90,242,0.18);">
+          <svg width="24" height="24" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f2.title">Multi-Agent Orchestration</div>
+        <div class="feature-desc" data-i18n="features.f2.desc">10 core agents and 12 AIOX squads working in concert. CEO, Developer, Finance, Security — each with specialized skills and autonomous execution.</div>
+      </div>
+      <div class="glass-card feature-card reveal reveal-d2">
+        <div class="feature-icon" style="background:rgba(48,209,88,0.08);border:1px solid rgba(48,209,88,0.18);">
+          <svg width="24" height="24" fill="none" stroke="var(--neon4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f3.title">Real-Time Monitoring</div>
+        <div class="feature-desc" data-i18n="features.f3.desc">Observable platform with live dashboards, SSE event streams, and a command center tracking health, autonomy, revenue, and agent execution.</div>
+      </div>
+      <div class="glass-card feature-card reveal">
+        <div class="feature-icon" style="background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.18);">
+          <svg width="24" height="24" fill="none" stroke="#ff9f0a" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f4.title">Autonomous Evolution</div>
+        <div class="feature-desc" data-i18n="features.f4.desc">VAEC cycles: Implement, Test, Sync, Build, Verify, Learn, Promote. If nothing improves, no promotion. Safe, auditable, continuous.</div>
+      </div>
+      <div class="glass-card feature-card reveal reveal-d1">
+        <div class="feature-icon" style="background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.18);">
+          <svg width="24" height="24" fill="none" stroke="var(--neon3)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f5.title">Enterprise Security</div>
+        <div class="feature-desc" data-i18n="features.f5.desc">JWT, HMAC, x25519+AES-256-GCM encryption, biblical governance, least-privilege authorization, and zero critical vulnerabilities.</div>
+      </div>
+      <div class="glass-card feature-card reveal reveal-d2">
+        <div class="feature-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.18);">
+          <svg width="24" height="24" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="features.f6.title">Global Infrastructure</div>
+        <div class="feature-desc" data-i18n="features.f6.desc">Deployed on Cloudflare, Vercel, Render with Neon Postgres. Domain: www.trinnityviseronsystem.io. Portable across servers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TVS OS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="os" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon2 reveal" data-i18n="os.tag">// OPERATING SYSTEM</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="os.title">TVS OS — AI-Native Desktop</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="os.sub">A full operating system built for AI agents. Process management, virtual filesystem, app store, and security — all observable and controllable.</p>
+    </div>
+    <div class="os-grid">
+      <div class="glass-card os-card reveal">
+        <div class="os-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.18);">
+          <svg width="20" height="20" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.pm.title">Process Manager</div>
+        <div class="os-desc" data-i18n="os.pm.desc">Spawn, monitor, and kill AI agent processes. Real-time CPU/memory tracking per agent.</div>
+      </div>
+      <div class="glass-card os-card reveal reveal-d1">
+        <div class="os-icon" style="background:rgba(191,90,242,0.08);border:1px solid rgba(191,90,242,0.18);">
+          <svg width="20" height="20" fill="none" stroke="var(--neon2)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.vfs.title">Virtual Filesystem</div>
+        <div class="os-desc" data-i18n="os.vfs.desc">Agent workspace isolation with virtual filesystem. Read, write, and manage files per tenant.</div>
+      </div>
+      <div class="glass-card os-card reveal reveal-d2">
+        <div class="os-icon" style="background:rgba(48,209,88,0.08);border:1px solid rgba(48,209,88,0.18);">
+          <svg width="20" height="20" fill="none" stroke="var(--neon4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016A3.001 3.001 0 0021 9.349"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.store.title">App Store</div>
+        <div class="os-desc" data-i18n="os.store.desc">Install, update, and uninstall AI agents, squads, and modules. Browse the marketplace of capabilities.</div>
+      </div>
+      <div class="glass-card os-card reveal">
+        <div class="os-icon" style="background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.18);">
+          <svg width="20" height="20" fill="none" stroke="#ff9f0a" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.42 15.17l-5.384 3.18A1.5 1.5 0 014 17.017V6.983a1.5 1.5 0 012.036-1.414l5.384 3.18m0 0l5.384 3.18A1.5 1.5 0 0119 17.017V6.983a1.5 1.5 0 01-2.036-1.414l-5.384 3.18m0 0v10"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.pkg.title">Package Manager</div>
+        <div class="os-desc" data-i18n="os.pkg.desc">Dependency resolution, version management, and automatic updates for all installed packages.</div>
+      </div>
+      <div class="glass-card os-card reveal reveal-d1">
+        <div class="os-icon" style="background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.18);">
+          <svg width="20" height="20" fill="none" stroke="var(--neon3)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.sec.title">Security Center</div>
+        <div class="os-desc" data-i18n="os.sec.desc">Authorization policies, risk scoring (0-5), audit trails, and biblical governance checks on every operation.</div>
+      </div>
+      <div class="glass-card os-card reveal reveal-d2">
+        <div class="os-icon" style="background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.18);">
+          <svg width="20" height="20" fill="none" stroke="var(--neon)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 7.41A2.25 2.25 0 012.25 5.496V5.25"/></svg>
+        </div>
+        <div class="os-title" data-i18n="os.desktop.title">TVS Desktop</div>
+        <div class="os-desc" data-i18n="os.desktop.desc">Full web-based desktop UI. Open apps, manage agents, view dashboards — all in the browser.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- AI AGENTS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="agents" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon reveal" data-i18n="agents.tag">// AI AGENTS</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="agents.title">10 Core Agents · 12 Squads</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="agents.sub">Each agent has specialized skills, autonomous execution, and continuous learning. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).</p>
+    </div>
+    <div class="agents-grid">
+      <div class="glass-card agent-card reveal">
+        <div class="agent-avatar" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">👔</div>
+        <div class="agent-name">CEO Agent</div>
+        <div class="agent-role" data-i18n="agents.ceo">Strategic Planning</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d1">
+        <div class="agent-avatar" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">📋</div>
+        <div class="agent-name">Planner</div>
+        <div class="agent-role" data-i18n="agents.planner">Task Decomposition</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d2">
+        <div class="agent-avatar" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">🔬</div>
+        <div class="agent-name">Researcher</div>
+        <div class="agent-role" data-i18n="agents.researcher">Knowledge Discovery</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d3">
+        <div class="agent-avatar" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">⚙️</div>
+        <div class="agent-name">Engineer</div>
+        <div class="agent-role" data-i18n="agents.engineer">Code & Systems</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d4">
+        <div class="agent-avatar" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">🚀</div>
+        <div class="agent-name">Operator</div>
+        <div class="agent-role" data-i18n="agents.operator">Task Execution</div>
+      </div>
+      <div class="glass-card agent-card reveal">
+        <div class="agent-avatar" style="background:rgba(48,209,88,0.1);border:1px solid rgba(48,209,88,0.2);">💰</div>
+        <div class="agent-name">Finance</div>
+        <div class="agent-role" data-i18n="agents.finance">Revenue & Billing</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d1">
+        <div class="agent-avatar" style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);">📈</div>
+        <div class="agent-name">Sales</div>
+        <div class="agent-role" data-i18n="agents.sales">Pipeline & CRM</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d2">
+        <div class="agent-avatar" style="background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);">🛡️</div>
+        <div class="agent-name">Security</div>
+        <div class="agent-role" data-i18n="agents.security">Audit & Protection</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d3">
+        <div class="agent-avatar" style="background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);">✅</div>
+        <div class="agent-name">Verifier</div>
+        <div class="agent-role" data-i18n="agents.verifier">Quality Assurance</div>
+      </div>
+      <div class="glass-card agent-card reveal reveal-d4">
+        <div class="agent-avatar" style="background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);">🧬</div>
+        <div class="agent-name">Evolution</div>
+        <div class="agent-role" data-i18n="agents.evolution">Continuous Learning</div>
+      </div>
+    </div>
+    <div class="squads-row reveal reveal-d5">
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon);box-shadow:0 0 6px var(--neon);"></span> Engineering</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon3);box-shadow:0 0 6px var(--neon3);"></span> Security</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon4);box-shadow:0 0 6px var(--neon4);"></span> Business</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:#ff9f0a;box-shadow:0 0 6px #ff9f0a;"></span> Operations</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon2);box-shadow:0 0 6px var(--neon2);"></span> Research</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span> Evolution</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon);box-shadow:0 0 6px var(--neon);"></span> Content</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon4);box-shadow:0 0 6px var(--neon4);"></span> Agency</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon2);box-shadow:0 0 6px var(--neon2);"></span> Tutoring</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon3);box-shadow:0 0 6px var(--neon3);"></span> Compliance</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:#ff9f0a;box-shadow:0 0 6px #ff9f0a;"></span> Pentesting</div>
+      <div class="squad-pill"><span class="squad-dot" style="background:var(--neon);box-shadow:0 0 6px var(--neon);"></span> Prospection</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- INTEGRATIONS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="integrations" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon2 reveal" data-i18n="int.tag">// INTEGRATIONS</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="int.title">Connected to Everything</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="int.sub">19 apps via Composio, local AI via Ollama, email via Gmail, payments via Avirato/Stripe, and more.</p>
+    </div>
+    <div class="int-grid">
+      <div class="glass-card int-card reveal">
+        <span style="font-size:24px;">🦙</span>
+        <div class="int-name">Ollama</div>
+        <div class="int-desc" data-i18n="int.ollama">Local AI inference. Zero cost, full privacy. qwen2.5:3b + 1.5b models.</div>
+        <span class="int-badge badge-green">LOCAL</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d1">
+        <span style="font-size:24px;">🔗</span>
+        <div class="int-name">Composio</div>
+        <div class="int-desc" data-i18n="int.composio">19 apps connected: Gmail, Slack, GitHub, Calendar, Notion, and more via MCP protocol.</div>
+        <span class="int-badge badge-neon">19 APPS</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d2">
+        <span style="font-size:24px;">📧</span>
+        <div class="int-name">Gmail OAuth</div>
+        <div class="int-desc" data-i18n="int.gmail">Real email sending: verification, reset, invoices, and support. OAuth2 authenticated.</div>
+        <span class="int-badge badge-green">LIVE</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d3">
+        <span style="font-size:24px;">📱</span>
+        <div class="int-name">Twilio RCS</div>
+        <div class="int-desc" data-i18n="int.twilio">Branded RCS messaging with logo. SMS/MMS fallback. Live or mock mode.</div>
+        <span class="int-badge badge-purple">RCS</span>
+      </div>
+      <div class="glass-card int-card reveal">
+        <span style="font-size:24px;">🛡️</span>
+        <div class="int-name">Cloudflare</div>
+        <div class="int-desc" data-i18n="int.cloudflare">DNS, CDN, and DDoS protection. Zone: trinnityviseronsystem.io.</div>
+        <span class="int-badge badge-neon">DNS</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d1">
+        <span style="font-size:24px;">☁️</span>
+        <div class="int-name">Render</div>
+        <div class="int-desc" data-i18n="int.render">API backend hosting. Auto-deploy from GitHub. Health checks and scaling.</div>
+        <span class="int-badge badge-green">HOSTED</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d2">
+        <span style="font-size:24px;">🐘</span>
+        <div class="int-name">Postgres (Neon)</div>
+        <div class="int-desc" data-i18n="int.postgres">Serverless Postgres. 10 migrated tables: tenants, users, billing, usage events.</div>
+        <span class="int-badge badge-green">CONNECTED</span>
+      </div>
+      <div class="glass-card int-card reveal reveal-d3">
+        <span style="font-size:24px;">💳</span>
+        <div class="int-name">Avirato / Stripe</div>
+        <div class="int-desc" data-i18n="int.billing">Live payment processing with HMAC webhook verification. Core $29 / Pro $99 / Enterprise $499.</div>
+        <span class="int-badge badge-green">LIVE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- COSMOS TOKENS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="tokens" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon reveal" data-i18n="tokens.tag">// VISERON COSMOS</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="tokens.title">$VSR · $TRIN — Real Tokens</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="tokens.sub">Two real tokens powering the Viseron ecosystem. Deployed on Solana mainnet with revoked mint authority.</p>
+    </div>
+    <div class="tokens-grid">
+      <div class="glass-card token-card reveal" style="border-color:rgba(0,240,255,0.2);">
+        <div class="token-symbol c-neon">$VSR</div>
+        <div class="token-name" data-i18n="tokens.vsr.name">Viseron Crown</div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <span class="badge badge-neon">ERC-20</span>
+          <span class="badge badge-neon">BEP-20</span>
+          <span class="badge badge-green">SPL ✓</span>
+        </div>
+        <div class="token-stats">
+          <div class="token-stat"><div class="token-stat-val c-neon">300M</div><div class="token-stat-label">Supply</div></div>
+          <div class="token-stat"><div class="token-stat-val c-green">Revoked</div><div class="token-stat-label">Mint Authority</div></div>
+          <div class="token-stat"><div class="token-stat-val c-neon">1%</div><div class="token-stat-label">Burn per Tx</div></div>
+          <div class="token-stat"><div class="token-stat-val c-neon2">3%</div><div class="token-stat-label">Anti-Whale</div></div>
+        </div>
+        <div class="token-features">
+          <span class="token-feat">Governance (ERC20Votes)</span>
+          <span class="token-feat">1% Treasury</span>
+          <span class="token-feat">PoM (Proof of Mandate)</span>
+        </div>
+      </div>
+      <div class="glass-card token-card reveal reveal-d1" style="border-color:rgba(191,90,242,0.2);">
+        <div class="token-symbol c-neon2">$TRIN</div>
+        <div class="token-name" data-i18n="tokens.trin.name">Trinnity</div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <span class="badge badge-purple">ERC-20</span>
+          <span class="badge badge-purple">BEP-20</span>
+          <span class="badge badge-green">SPL ✓</span>
+        </div>
+        <div class="token-stats">
+          <div class="token-stat"><div class="token-stat-val c-neon2">420.69M</div><div class="token-stat-label">Supply</div></div>
+          <div class="token-stat"><div class="token-stat-val c-green">Revoked</div><div class="token-stat-label">Mint Authority</div></div>
+          <div class="token-stat"><div class="token-stat-val c-neon2">2%</div><div class="token-stat-label">Burn per Tx</div></div>
+          <div class="token-stat"><div class="token-stat-val c-neon2">0.5%</div><div class="token-stat-label">Anti-Bot</div></div>
+        </div>
+        <div class="token-features">
+          <span class="token-feat">Interplanetary Currency</span>
+          <span class="token-feat">Liquidity Optimized</span>
+          <span class="token-feat">Pre-Launch Lock</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;" class="reveal reveal-d2">
+      <p style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;">
+        VSR: <span style="color:var(--neon);">7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU</span> · 
+        TRIN: <span style="color:var(--neon2);">Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx</span>
+      </p>
+      <a href="/cosmos" class="btn-secondary" data-app="1" style="margin-top:16px;font-size:13px;padding:10px 20px;" data-i18n="tokens.explore">Explore Cosmos →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- PRICING -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="pricing" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-neon2 reveal" data-i18n="pricing.tag">// PRICING</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="pricing.title">Choose Your Plan</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="pricing.sub">Access the superintelligence in operation. Real billing via Avirato. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="glass-card plan-card reveal">
+        <span class="plan-badge" style="background:rgba(0,240,255,0.08);color:var(--neon);border:1px solid rgba(0,240,255,0.18);">Core</span>
+        <div class="plan-name" data-i18n="plan.core.name">Core</div>
+        <div class="plan-price" style="color:var(--neon);">$29<span>/mo</span></div>
+        <div class="plan-sub" data-i18n="plan.core.sub">For startups and developers</div>
+        <ul class="plan-features">
+          <li data-i18n="plan.core.f1">1 workspace, 5 active agents</li>
+          <li data-i18n="plan.core.f2">100 AI tasks/day</li>
+          <li data-i18n="plan.core.f3">Full REST API</li>
+          <li data-i18n="plan.core.f4">Local Ollama + 3 cloud providers</li>
+          <li data-i18n="plan.core.f5">Email support</li>
+          <li class="off" data-i18n="plan.core.f6">Custom squads</li>
+          <li class="off" data-i18n="plan.core.f7">Multi-tenant</li>
+        </ul>
+        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Core Plan" class="plan-btn plan-btn-outline" data-i18n="plan.btn.start">Get Started</a>
+      </div>
+      <div class="glass-card plan-card featured reveal reveal-d1">
+        <span class="plan-badge" style="background:var(--neon);color:var(--bg);">★ PRO — POPULAR</span>
+        <div class="plan-name" data-i18n="plan.pro.name">Pro</div>
+        <div class="plan-price" style="color:var(--neon);">$99<span>/mo</span></div>
+        <div class="plan-sub" data-i18n="plan.pro.sub">For growing companies</div>
+        <ul class="plan-features">
+          <li data-i18n="plan.pro.f1">5 workspaces, 50 agents</li>
+          <li data-i18n="plan.pro.f2">1000 tasks/day</li>
+          <li data-i18n="plan.pro.f3">Configured AIOX Squads</li>
+          <li data-i18n="plan.pro.f4">All AI providers</li>
+          <li data-i18n="plan.pro.f5">Advanced JARVIS Chat</li>
+          <li data-i18n="plan.pro.f6">E2E encrypted messaging</li>
+          <li data-i18n="plan.pro.f7">Priority support</li>
+        </ul>
+        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Pro Plan" class="plan-btn plan-btn-neon" data-i18n="plan.btn.start">Get Started</a>
+      </div>
+      <div class="glass-card plan-card reveal reveal-d2">
+        <span class="plan-badge" style="background:rgba(191,90,242,0.12);color:var(--neon2);border:1px solid rgba(191,90,242,0.25);">Enterprise</span>
+        <div class="plan-name" data-i18n="plan.ent.name">Enterprise</div>
+        <div class="plan-price" style="color:var(--neon2);">$499<span>/mo</span></div>
+        <div class="plan-sub" data-i18n="plan.ent.sub">For large organizations</div>
+        <ul class="plan-features">
+          <li data-i18n="plan.ent.f1">Unlimited workspaces</li>
+          <li data-i18n="plan.ent.f2">Unlimited agents + customer factory</li>
+          <li data-i18n="plan.ent.f3">Custom AIOX Squads + white-label</li>
+          <li data-i18n="plan.ent.f4">SLA 99.9% + dedicated support</li>
+          <li data-i18n="plan.ent.f5">On-premise deployment</li>
+          <li data-i18n="plan.ent.f6">API commercialization</li>
+          <li data-i18n="plan.ent.f7">Composio + RCS integration</li>
+        </ul>
+        <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Enterprise" class="plan-btn plan-btn-outline" data-i18n="plan.btn.contact">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- TRUST / VALIDATION -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="trust" style="padding:96px 0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag c-green reveal" data-i18n="trust.tag">// VALIDATION</p>
+      <h2 class="section-title reveal reveal-d1" data-i18n="trust.title">Proven, Tested, Deployed</h2>
+      <p class="section-sub reveal reveal-d2" data-i18n="trust.sub">Real numbers from live systems. No invented figures.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="glass-card trust-card reveal">
+        <div class="trust-num c-neon" id="trust-tests">309/309</div>
+        <div class="trust-label" data-i18n="trust.tests">TESTS PASS</div>
+      </div>
+      <div class="glass-card trust-card reveal reveal-d1">
+        <div class="trust-num c-green">CLEAN</div>
+        <div class="trust-label" data-i18n="trust.ts">TYPESCRIPT</div>
+      </div>
+      <div class="glass-card trust-card reveal reveal-d2">
+        <div class="trust-num c-neon2">2,002</div>
+        <div class="trust-label" data-i18n="trust.skills">SKILLS INDEXED</div>
+      </div>
+      <div class="glass-card trust-card reveal reveal-d3">
+        <div class="trust-num c-green">6/6</div>
+        <div class="trust-label" data-i18n="trust.revenue">REVENUE READY</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:32px;" class="reveal reveal-d4">
+      <span class="badge badge-green">Avirato LIVE</span>
+      <span class="badge badge-neon">Postgres Connected</span>
+      <span class="badge badge-purple">Gmail OAuth Active</span>
+      <span class="badge badge-green">HTTPS Active</span>
+      <span class="badge badge-neon">Cloudflare DNS</span>
+      <span class="badge badge-purple">0 Critical Vulnerabilities</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- CTA -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="section-inner">
+    <h2 class="cta-title reveal" data-i18n="cta.title">Ready to Build the Future?</h2>
+    <p class="cta-sub reveal reveal-d1" data-i18n="cta.sub">Join the AI-Native Operating System that transforms objectives into autonomous, verifiable processes. Start free today.</p>
+    <div class="cta-btns reveal reveal-d2">
+      <a href="/workspace" class="btn-primary" data-app="1" data-i18n="cta.start">
+        Start Free
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="mailto:daviiicostaaa11@gmail.com?subject=TVS Enterprise Inquiry" class="btn-secondary" data-i18n="cta.contact">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">
+          <span style="color:var(--neon);">Trinnity</span> Viseron System
+        </div>
+        <div class="footer-brand-desc" data-i18n="footer.desc">Autonomous, evolvable, and auditable AI operational infrastructure. An AI-native operating system with agents, memory, audit, and continuous evolution.</div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="badge badge-green">v7.0 LIVE</span>
+          <span class="badge badge-neon">TVS OS v1</span>
+          <span class="badge badge-purple">OMEGA Platform</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer.product">Product</h4>
+        <ul>
+          <li><a href="/workspace" data-app="1">Workspace</a></li>
+          <li><a href="/os" data-app="1">TVS Desktop</a></li>
+          <li><a href="/viseron" data-app="1">VISERON HUD</a></li>
+          <li><a href="/atlas" data-app="1">ATLAS Tutor</a></li>
+          <li><a href="/command-center" data-app="1">Command Center</a></li>
+          <li><a href="/game" data-app="1">VISERON Game</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer.resources">Resources</h4>
+        <ul>
+          <li><a href="/blog" data-app="1">Blog</a></li>
+          <li><a href="/cosmos" data-app="1">Viseron Cosmos</a></li>
+          <li><a href="https://github.com/ViseronSystem/trinnity-viseron-system" target="_blank">GitHub</a></li>
+          <li><a href="/pitch/Viseron_Mapa_Site.pdf" target="_blank">Site Map (PDF)</a></li>
+          <li><a href="/pitch/Viseron_Relatorio_Estado.pdf" target="_blank">Status Report</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer.company">Company</h4>
+        <ul>
+          <li><a href="mailto:daviiicostaaa11@gmail.com">Contact</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="https://github.com/ViseronSystem" target="_blank">GitHub Org</a></li>
+          <li><a href="/api/health" data-app="1">API Health</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong>Trinnity Viseron System</strong> · AI-Native Operating System v7.0</div>
+      <div class="footer-authority">
+        <strong data-i18n="footer.auth">© Pedro Costa (Commander) & Trinnity Hurtado (Queen)</strong><br>
+        <span data-i18n="footer.rights">All rights reserved. Authorship and intellectual property.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SCRIPTS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<script>
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+
+// ── MOBILE MENU ──
+function toggleMobile() { document.getElementById('mobile-menu').classList.toggle('open'); }
+
+// ── REVEAL ON SCROLL ──
+const revealEls = document.querySelectorAll('.reveal');
+try {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  revealEls.forEach(el => obs.observe(el));
+  setTimeout(() => revealEls.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight && r.bottom > 0) el.classList.add('in-view');
+  }), 500);
+} catch(e) { revealEls.forEach(el => el.classList.add('in-view')); }
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// ── APP BASE ──
+(function() {
+  const host = location.hostname;
+  const onVercel = host.indexOf('trinnityviseronsystem.io') !== -1 && host !== 'localhost';
+  const base = onVercel ? 'https://viseron-web.onrender.com' : '';
+  document.querySelectorAll('[data-app]').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href && href.charAt(0) === '/') a.setAttribute('href', base + href);
+  });
+})();
+
+// ── ANIMATED COUNTERS ──
+function animateCounter(el, target, duration) {
+  const isFloat = String(target).includes('.');
+  const start = 0;
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(start + (target - start) * eased);
+    if (isFloat) el.textContent = current.toLocaleString();
+    else el.textContent = current.toLocaleString();
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = 'true';
+      const text = e.target.textContent.replace(/[^0-9]/g, '');
+      const num = parseInt(text);
+      if (!isNaN(num) && num > 1) animateCounter(e.target, num, 1200);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-val, .trust-num').forEach(el => counterObserver.observe(el));
+
+// ── I18N ──
+const LANG = {
+  es: {
+    "nav.features":"Características","nav.os":"TVS OS","nav.tokens":"Tokens","nav.pricing":"Precios","nav.cta":"Empezar Gratis",
+    "hero.badge":"v7.0 · Sistema Operativo Native IA · EN VIVO",
+    "hero.sub1":"El primer Sistema Operativo IA-Nativo para Organizaciones Autónomas.",
+    "hero.sub2":" No es un chatbot.",
+    "hero.sub3":" Transforma objetivos de negocio en procesos autónomos y verificables, impulsados por agentes especializados, memoria persistente y evolución continua.",
+    "hero.cta1":"Empezar Gratis","hero.cta2":"Ver Demo",
+    "stat.skills":"SKILLS","stat.squads":"ESCUADRONES AIOX","stat.minds":"AGENTES NUCLEARES","stat.api":"ENDPOINTS API","stat.tests":"TESTS PASAN",
+    "features.tag":"// CAPACIDADES","features.title":"Construido para Organizaciones Autónomas",
+    "features.sub":"Seis pilares que impulsan la próxima generación de operaciones empresariales con IA.",
+    "features.f1.title":"Sistema Operativo IA","features.f1.desc":"Un SO completo con gestión de procesos, sistema de archivos virtual, tienda de apps, gestor de paquetes y centro de seguridad — todo nativo en IA.",
+    "features.f2.title":"Orquestación Multi-Agente","features.f2.desc":"10 agentes nucleares y 12 escuadrones AIOX trabajando en concierto. CEO, Desarrollador, Finanzas, Seguridad — cada uno con habilidades especializadas.",
+    "features.f3.title":"Monitoreo en Tiempo Real","features.f3.desc":"Plataforma observable con paneles en vivo, flujos de eventos SSE y centro de comando que rastrea salud, autonomía, ingresos y ejecución.",
+    "features.f4.title":"Evolución Autónoma","features.f4.desc":"Ciclos VAEC: Implementar, Probar, Sincronizar, Compilar, Verificar, Aprender, Promover. Si nada mejora, no hay promoción.",
+    "features.f5.title":"Seguridad Empresarial","features.f5.desc":"JWT, HMAC, cifrado x25519+AES-256-GCM, gobernanza bíblica, autorización de menor privilegio y cero vulnerabilidades críticas.",
+    "features.f6.title":"Infraestructura Global","features.f6.desc":"Desplegado en Cloudflare, Vercel, Render con Neon Postgres. Dominio: www.trinnityviseronsystem.io. Portable entre servidores.",
+    "os.tag":"// SISTEMA OPERATIVO","os.title":"TVS OS — Escritorio IA-Nativo",
+    "os.sub":"Un sistema operativo completo construido para agentes de IA. Gestión de procesos, sistema de archivos virtual, tienda de apps y seguridad — todo observable y controlable.",
+    "os.pm.title":"Gestor de Procesos","os.pm.desc":"Ejecutar, monitorear y detener procesos de agentes IA. Rastreo de CPU/memoria en tiempo real por agente.",
+    "os.vfs.title":"Sistema de Archivos Virtual","os.vfs.desc":"Aislamiento de espacio de trabajo de agentes con sistema de archivos virtual. Leer, escribir y gestionar archivos por tenant.",
+    "os.store.title":"Tienda de Apps","os.store.desc":"Instalar, actualizar y desinstalar agentes IA, escuadrones y módulos. Explorar el mercado de capacidades.",
+    "os.pkg.title":"Gestor de Paquetes","os.pkg.desc":"Resolución de dependencias, gestión de versiones y actualizaciones automáticas para todos los paquetes instalados.",
+    "os.sec.title":"Centro de Seguridad","os.sec.desc":"Políticas de autorización, puntuación de riesgo (0-5), pistas de auditoría y verificaciones de gobernanza bíblica en cada operación.",
+    "os.desktop.title":"TVS Desktop","os.desktop.desc":"Interfaz de escritorio web completa. Abrir apps, gestionar agentes, ver paneles — todo en el navegador.",
+    "agents.tag":"// AGENTES IA","agents.title":"10 Agentes Nucleares · 12 Escuadrones",
+    "agents.sub":"Cada agente tiene habilidades especializadas, ejecución autónoma y aprendizaje continuo. Supervisados por Pedro Costa (Comandante) y Trinnity Hurtado (Reina).",
+    "agents.ceo":"Planificación Estratégica","agents.planner":"Descomposición de Tareas","agents.researcher":"Descubrimiento de Conocimiento",
+    "agents.engineer":"Código y Sistemas","agents.operator":"Ejecución de Tareas","agents.finance":"Ingresos y Facturación",
+    "agents.sales":"Pipeline y CRM","agents.security":"Auditoría y Protección","agents.verifier":"Aseguramiento de Calidad",
+    "agents.evolution":"Aprendizaje Continuo",
+    "int.tag":"// INTEGRACIONES","int.title":"Conectado con Todo",
+    "int.sub":"19 apps vía Composio, IA local vía Ollama, email vía Gmail, pagos vía Avirato/Stripe y más.",
+    "int.ollama":"Inferencia IA local. Cero coste, privacidad total. Modelos qwen2.5:3b + 1.5b.",
+    "int.composio":"19 apps conectadas: Gmail, Slack, GitHub, Calendar, Notion y más vía protocolo MCP.",
+    "int.gmail":"Envío de emails reales: verificación, restablecimiento, facturas y soporte. OAuth2 autenticado.",
+    "int.twilio":"Mensajes RCS de marca con logo. Fallback SMS/MMS. Modo live o mock.",
+    "int.cloudflare":"DNS, CDN y protección DDoS. Zona: trinnityviseronsystem.io.",
+    "int.render":"Hosting de backend API. Deploy automático desde GitHub. Health checks y escalado.",
+    "int.postgres":"Postgres serverless. 10 tablas migradas: tenants, users, facturación, eventos de uso.",
+    "int.billing":"Procesamiento de pagos en vivo con verificación HMAC webhook. Core $29 / Pro $99 / Enterprise $499.",
+    "tokens.tag":"// VISERON COSMOS","tokens.title":"$VSR · $TRIN — Tokens Reales",
+    "tokens.sub":"Dos tokens reales que impulsan el ecosistema Viseron. Desplegados en Solana mainnet con autoridad de acuñación revocada.",
+    "tokens.vsr.name":"Viseron Crown","tokens.trin.name":"Trinnity","tokens.explore":"Explorar Cosmos →",
+    "pricing.tag":"// PRECIOS","pricing.title":"Elige tu Plan","pricing.sub":"Acceso a la superinteligencia en operación. Cobros reales vía Avirato. Cancela cuando quieras.",
+    "plan.core.name":"Core","plan.core.sub":"Para startups y desarrolladores",
+    "plan.core.f1":"1 workspace, 5 agentes activos","plan.core.f2":"100 tareas IA/día","plan.core.f3":"API REST completa",
+    "plan.core.f4":"Ollama local + 3 proveedores cloud","plan.core.f5":"Soporte por email","plan.core.f6":"Escuadrones personalizados","plan.core.f7":"Multi-tenant",
+    "plan.pro.name":"Pro","plan.pro.sub":"Para empresas en crecimiento",
+    "plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tareas/día","plan.pro.f3":"Escuadrones AIOX configurados",
+    "plan.pro.f4":"Todos los proveedores IA","plan.pro.f5":"JARVIS Chat avanzado","plan.pro.f6":"Mensajería E2E cifrada","plan.pro.f7":"Soporte prioritario",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizaciones",
+    "plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Escuadrones AIOX custom + white-label",
+    "plan.ent.f4":"SLA 99.9% + soporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialización de API","plan.ent.f7":"Integración Composio + RCS",
+    "plan.btn.start":"Empezar","plan.btn.contact":"Contactar",
+    "trust.tag":"// VALIDACIÓN","trust.title":"Probado, Testeado, Desplegado",
+    "trust.sub":"Números reales de sistemas en vivo. Sin cifras inventadas.",
+    "trust.tests":"TESTS PASAN","trust.ts":"TYPESCRIPT","trust.skills":"SKILLS INDEXADAS","trust.revenue":"INGRESOS LISTOS",
+    "cta.title":"¿Listo para Construir el Futuro?",
+    "cta.sub":"Únete al Sistema Operativo IA-Nativo que transforma objetivos en procesos autónomos y verificables. Empieza gratis hoy.",
+    "cta.start":"Empezar Gratis","cta.contact":"Contactar Ventas",
+    "footer.desc":"Infraestructura operacional de IA autónoma, evolutiva y auditada. Un sistema operativo IA-nativo con agentes, memoria, auditoría y evolución continua.",
+    "footer.product":"Producto","footer.resources":"Recursos","footer.company":"Empresa",
+    "footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Reina)","footer.rights":"Todos los derechos reservados. Autoría y propiedad intelectual."
+  },
+  pt: {
+    "nav.features":"Recursos","nav.os":"TVS OS","nav.tokens":"Tokens","nav.pricing":"Preços","nav.cta":"Começar Grátis",
+    "hero.badge":"v7.0 · Sistema Operativo Native IA · AO VIVO",
+    "hero.sub1":"O primeiro Sistema Operativo IA-Nativo para Organizações Autónomas.",
+    "hero.sub2":" Não é um chatbot.",
+    "hero.sub3":" Transforma objetivos de negócio em processos autónomos e verificáveis, impulsionados por agentes especializados, memória persistente e evolução contínua.",
+    "hero.cta1":"Começar Grátis","hero.cta2":"Ver Demo",
+    "stat.skills":"SKILLS","stat.squads":"ESQUADRÕES AIOX","stat.minds":"AGENTES NUCLEARES","stat.api":"ENDPOINTS API","stat.tests":"TESTES PASSAM",
+    "features.tag":"// CAPACIDADES","features.title":"Construído para Organizações Autónomas",
+    "features.sub":"Seis pilares que impulsionam a próxima geração de operações empresariais com IA.",
+    "features.f1.title":"Sistema Operativo IA","features.f1.desc":"Um SO completo com gestão de processos, sistema de arquivos virtual, loja de apps, gestor de pacotes e centro de segurança — tudo nativo em IA.",
+    "features.f2.title":"Orquestração Multi-Agente","features.f2.desc":"10 agentes nucleares e 12 esquadrões AIOX trabalhando em concerto. CEO, Desenvolvedor, Finanças, Segurança — cada um com habilidades especializadas.",
+    "features.f3.title":"Monitorização em Tempo Real","features.f3.desc":"Plataforma observável com painéis ao vivo, fluxos de eventos SSE e centro de comando que rastreia saúde, autonomia, receita e execução.",
+    "features.f4.title":"Evolução Autónoma","features.f4.desc":"Ciclos VAEC: Implementar, Testar, Sincronizar, Compilar, Verificar, Aprender, Promover. Se nada melhorar, não há promoção.",
+    "features.f5.title":"Segurança Empresarial","features.f5.desc":"JWT, HMAC, cifra x25519+AES-256-GCM, governança bíblica, autorização de menor privilégio e zero vulnerabilidades críticas.",
+    "features.f6.title":"Infraestrutura Global","features.f6.desc":"Implementado em Cloudflare, Vercel, Render com Neon Postgres. Domínio: www.trinnityviseronsystem.io. Portável entre servidores.",
+    "os.tag":"// SISTEMA OPERATIVO","os.title":"TVS OS — Ambiente de Trabalho IA-Nativo",
+    "os.sub":"Um sistema operativo completo construído para agentes de IA. Gestão de processos, sistema de arquivos virtual, loja de apps e segurança — tudo observável e controlável.",
+    "os.pm.title":"Gestor de Processos","os.pm.desc":"Executar, monitorizar e parar processos de agentes IA. Rastreamento de CPU/memória em tempo real por agente.",
+    "os.vfs.title":"Sistema de Arquivos Virtual","os.vfs.desc":"Isolamento de espaço de trabalho de agentes com sistema de arquivos virtual. Ler, escrever e gerir arquivos por tenant.",
+    "os.store.title":"Loja de Apps","os.store.desc":"Instalar, atualizar e desinstalar agentes IA, esquadrões e módulos. Explorar o mercado de capacidades.",
+    "os.pkg.title":"Gestor de Pacotes","os.pkg.desc":"Resolução de dependências, gestão de versões e atualizações automáticas para todos os pacotes instalados.",
+    "os.sec.title":"Centro de Segurança","os.sec.desc":"Políticas de autorização, pontuação de risco (0-5), pistas de auditoria e verificações de governança bíblica em cada operação.",
+    "os.desktop.title":"TVS Desktop","os.desktop.desc":"Interface de trabalho web completa. Abrir apps, gerir agentes, ver painéis — tudo no navegador.",
+    "agents.tag":"// AGENTES IA","agents.title":"10 Agentes Nucleares · 12 Esquadrões",
+    "agents.sub":"Cada agente tem habilidades especializadas, execução autónoma e aprendizagem contínua. Supervisionados por Pedro Costa (Comandante) e Trinnity Hurtado (Rainha).",
+    "agents.ceo":"Planeamento Estratégico","agents.planner":"Descomposição de Tarefas","agents.researcher":"Descoberta de Conhecimento",
+    "agents.engineer":"Código e Sistemas","agents.operator":"Execução de Tarefas","agents.finance":"Receita e Faturação",
+    "agents.sales":"Pipeline e CRM","agents.security":"Auditoria e Proteção","agents.verifier":"Garantia de Qualidade",
+    "agents.evolution":"Aprendizagem Contínua",
+    "int.tag":"// INTEGRAÇÕES","int.title":"Conectado com Tudo",
+    "int.sub":"19 apps via Composio, IA local via Ollama, email via Gmail, pagamentos via Avirato/Stripe e mais.",
+    "int.ollama":"Inferência IA local. Custo zero, privacidade total. Modelos qwen2.5:3b + 1.5b.",
+    "int.composio":"19 apps conectadas: Gmail, Slack, GitHub, Calendar, Notion e mais via protocolo MCP.",
+    "int.gmail":"Envio de emails reais: verificação, redefinição, faturas e suporte. OAuth2 autenticado.",
+    "int.twilio":"Mensagens RCS de marca com logo. Fallback SMS/MMS. Modo live ou mock.",
+    "int.cloudflare":"DNS, CDN e proteção DDoS. Zona: trinnityviseronsystem.io.",
+    "int.render":"Hospedagem de backend API. Deploy automático do GitHub. Health checks e escalabilidade.",
+    "int.postgres":"Postgres serverless. 10 tabelas migradas: tenants, users, faturação, eventos de uso.",
+    "int.billing":"Processamento de pagamentos ao vivo com verificação HMAC webhook. Core $29 / Pro $99 / Enterprise $499.",
+    "tokens.tag":"// VISERON COSMOS","tokens.title":"$VSR · $TRIN — Tokens Reais",
+    "tokens.sub":"Dois tokens reais que impulsionam o ecossistema Viseron. Implementados na Solana mainnet com autoridade de cunhagem revogada.",
+    "tokens.vsr.name":"Viseron Crown","tokens.trin.name":"Trinnity","tokens.explore":"Explorar Cosmos →",
+    "pricing.tag":"// PREÇOS","pricing.title":"Escolhe o teu Plano","pricing.sub":"Acesso à superinteligência em operação. Cobranças reais via Avirato. Cancela quando quiseres.",
+    "plan.core.name":"Core","plan.core.sub":"Para startups e developers",
+    "plan.core.f1":"1 workspace, 5 agentes ativos","plan.core.f2":"100 tarefas IA/dia","plan.core.f3":"API REST completa",
+    "plan.core.f4":"Ollama local + 3 providers cloud","plan.core.f5":"Suporte por email","plan.core.f6":"Esquadrões personalizados","plan.core.f7":"Multi-tenant",
+    "plan.pro.name":"Pro","plan.pro.sub":"Para empresas em crescimento",
+    "plan.pro.f1":"5 workspaces, 50 agentes","plan.pro.f2":"1000 tarefas/dia","plan.pro.f3":"Esquadrões AIOX configurados",
+    "plan.pro.f4":"Todos os providers IA","plan.pro.f5":"JARVIS Chat avançado","plan.pro.f6":"Messaging E2E cifrado","plan.pro.f7":"Suporte prioritário",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"Para grandes organizações",
+    "plan.ent.f1":"Workspaces ilimitados","plan.ent.f2":"Agentes ilimitados + customer factory","plan.ent.f3":"Esquadrões AIOX custom + white-label",
+    "plan.ent.f4":"SLA 99.9% + suporte dedicado","plan.ent.f5":"Deploy on-premise","plan.ent.f6":"Comercialização de API","plan.ent.f7":"Integração Composio + RCS",
+    "plan.btn.start":"Começar","plan.btn.contact":"Contactar",
+    "trust.tag":"// VALIDAÇÃO","trust.title":"Pro Testado, Implementado",
+    "trust.sub":"Números reais de sistemas ao vivo. Sem cifras inventadas.",
+    "trust.tests":"TESTES PASSAM","trust.ts":"TYPESCRIPT","trust.skills":"SKILLS INDEXADAS","trust.revenue":"RECEITA PRONTA",
+    "cta.title":"Pronto para Construir o Futuro?",
+    "cta.sub":"Junta-te ao Sistema Operativo IA-Nativo que transforma objetivos em processos autónomos e verificáveis. Começa gratis hoje.",
+    "cta.start":"Começar Grátis","cta.contact":"Contactar Vendas",
+    "footer.desc":"Infraestrutura operacional de IA autónoma, evolutiva e auditada. Um sistema operativo IA-nativo com agentes, memória, auditoria e evolução contínua.",
+    "footer.product":"Produto","footer.resources":"Recursos","footer.company":"Empresa",
+    "footer.auth":"© Pedro Costa (Comandante) & Trinnity Hurtado (Rainha)","footer.rights":"Todos os direitos reservados. Autoria e propriedade intelectual."
+  },
+  en: {
+    "nav.features":"Features","nav.os":"TVS OS","nav.tokens":"Tokens","nav.pricing":"Pricing","nav.cta":"Start Free",
+    "hero.badge":"v7.0 · AI-Native Operating System · LIVE",
+    "hero.sub1":"The first AI-Native Operating System for Autonomous Organizations.",
+    "hero.sub2":" Not a chatbot.",
+    "hero.sub3":" It transforms business objectives into autonomous, verifiable processes powered by specialized agents, persistent memory, and continuous evolution.",
+    "hero.cta1":"Start Free","hero.cta2":"Watch Demo",
+    "stat.skills":"SKILLS","stat.squads":"AIOX SQUADS","stat.minds":"CORE AGENTS","stat.api":"API ENDPOINTS","stat.tests":"TESTS PASS",
+    "features.tag":"// CAPABILITIES","features.title":"Built for Autonomous Organizations",
+    "features.sub":"Six pillars powering the next generation of AI-driven business operations.",
+    "features.f1.title":"AI Operating System","features.f1.desc":"A complete OS with process management, virtual filesystem, app store, package manager, and security center — all AI-native.",
+    "features.f2.title":"Multi-Agent Orchestration","features.f2.desc":"10 core agents and 12 AIOX squads working in concert. CEO, Developer, Finance, Security — each with specialized skills and autonomous execution.",
+    "features.f3.title":"Real-Time Monitoring","features.f3.desc":"Observable platform with live dashboards, SSE event streams, and a command center tracking health, autonomy, revenue, and agent execution.",
+    "features.f4.title":"Autonomous Evolution","features.f4.desc":"VAEC cycles: Implement, Test, Sync, Build, Verify, Learn, Promote. If nothing improves, no promotion. Safe, auditable, continuous.",
+    "features.f5.title":"Enterprise Security","features.f5.desc":"JWT, HMAC, x25519+AES-256-GCM encryption, biblical governance, least-privilege authorization, and zero critical vulnerabilities.",
+    "features.f6.title":"Global Infrastructure","features.f6.desc":"Deployed on Cloudflare, Vercel, Render with Neon Postgres. Domain: www.trinnityviseronsystem.io. Portable across servers.",
+    "os.tag":"// OPERATING SYSTEM","os.title":"TVS OS — AI-Native Desktop",
+    "os.sub":"A full operating system built for AI agents. Process management, virtual filesystem, app store, and security — all observable and controllable.",
+    "os.pm.title":"Process Manager","os.pm.desc":"Spawn, monitor, and kill AI agent processes. Real-time CPU/memory tracking per agent.",
+    "os.vfs.title":"Virtual Filesystem","os.vfs.desc":"Agent workspace isolation with virtual filesystem. Read, write, and manage files per tenant.",
+    "os.store.title":"App Store","os.store.desc":"Install, update, and uninstall AI agents, squads, and modules. Browse the marketplace of capabilities.",
+    "os.pkg.title":"Package Manager","os.pkg.desc":"Dependency resolution, version management, and automatic updates for all installed packages.",
+    "os.sec.title":"Security Center","os.sec.desc":"Authorization policies, risk scoring (0-5), audit trails, and biblical governance checks on every operation.",
+    "os.desktop.title":"TVS Desktop","os.desktop.desc":"Full web-based desktop UI. Open apps, manage agents, view dashboards — all in the browser.",
+    "agents.tag":"// AI AGENTS","agents.title":"10 Core Agents · 12 Squads",
+    "agents.sub":"Each agent has specialized skills, autonomous execution, and continuous learning. Supervised by Pedro Costa (Commander) and Trinnity Hurtado (Queen).",
+    "agents.ceo":"Strategic Planning","agents.planner":"Task Decomposition","agents.researcher":"Knowledge Discovery",
+    "agents.engineer":"Code & Systems","agents.operator":"Task Execution","agents.finance":"Revenue & Billing",
+    "agents.sales":"Pipeline & CRM","agents.security":"Audit & Protection","agents.verifier":"Quality Assurance",
+    "agents.evolution":"Continuous Learning",
+    "int.tag":"// INTEGRATIONS","int.title":"Connected to Everything",
+    "int.sub":"19 apps via Composio, local AI via Ollama, email via Gmail, payments via Avirato/Stripe, and more.",
+    "int.ollama":"Local AI inference. Zero cost, full privacy. qwen2.5:3b + 1.5b models.",
+    "int.composio":"19 apps connected: Gmail, Slack, GitHub, Calendar, Notion, and more via MCP protocol.",
+    "int.gmail":"Real email sending: verification, reset, invoices, and support. OAuth2 authenticated.",
+    "int.twilio":"Branded RCS messaging with logo. SMS/MMS fallback. Live or mock mode.",
+    "int.cloudflare":"DNS, CDN, and DDoS protection. Zone: trinnityviseronsystem.io.",
+    "int.render":"API backend hosting. Auto-deploy from GitHub. Health checks and scaling.",
+    "int.postgres":"Serverless Postgres. 10 migrated tables: tenants, users, billing, usage events.",
+    "int.billing":"Live payment processing with HMAC webhook verification. Core $29 / Pro $99 / Enterprise $499.",
+    "tokens.tag":"// VISERON COSMOS","tokens.title":"$VSR · $TRIN — Real Tokens",
+    "tokens.sub":"Two real tokens powering the Viseron ecosystem. Deployed on Solana mainnet with revoked mint authority.",
+    "tokens.vsr.name":"Viseron Crown","tokens.trin.name":"Trinnity","tokens.explore":"Explore Cosmos →",
+    "pricing.tag":"// PRICING","pricing.title":"Choose Your Plan","pricing.sub":"Access the superintelligence in operation. Real billing via Avirato. Cancel anytime.",
+    "plan.core.name":"Core","plan.core.sub":"For startups and developers",
+    "plan.core.f1":"1 workspace, 5 active agents","plan.core.f2":"100 AI tasks/day","plan.core.f3":"Full REST API",
+    "plan.core.f4":"Local Ollama + 3 cloud providers","plan.core.f5":"Email support","plan.core.f6":"Custom squads","plan.core.f7":"Multi-tenant",
+    "plan.pro.name":"Pro","plan.pro.sub":"For growing companies",
+    "plan.pro.f1":"5 workspaces, 50 agents","plan.pro.f2":"1000 tasks/day","plan.pro.f3":"Configured AIOX Squads",
+    "plan.pro.f4":"All AI providers","plan.pro.f5":"Advanced JARVIS Chat","plan.pro.f6":"E2E encrypted messaging","plan.pro.f7":"Priority support",
+    "plan.ent.name":"Enterprise","plan.ent.sub":"For large organizations",
+    "plan.ent.f1":"Unlimited workspaces","plan.ent.f2":"Unlimited agents + customer factory","plan.ent.f3":"Custom AIOX Squads + white-label",
+    "plan.ent.f4":"SLA 99.9% + dedicated support","plan.ent.f5":"On-premise deployment","plan.ent.f6":"API commercialization","plan.ent.f7":"Composio + RCS integration",
+    "plan.btn.start":"Get Started","plan.btn.contact":"Contact Us",
+    "trust.tag":"// VALIDATION","trust.title":"Proven, Tested, Deployed",
+    "trust.sub":"Real numbers from live systems. No invented figures.",
+    "trust.tests":"TESTS PASS","trust.ts":"TYPESCRIPT","trust.skills":"SKILLS INDEXED","trust.revenue":"REVENUE READY",
+    "cta.title":"Ready to Build the Future?",
+    "cta.sub":"Join the AI-Native Operating System that transforms objectives into autonomous, verifiable processes. Start free today.",
+    "cta.start":"Start Free","cta.contact":"Contact Sales",
+    "footer.desc":"Autonomous, evolvable, and auditable AI operational infrastructure. An AI-native operating system with agents, memory, audit, and continuous evolution.",
+    "footer.product":"Product","footer.resources":"Resources","footer.company":"Company",
+    "footer.auth":"© Pedro Costa (Commander) & Trinnity Hurtado (Queen)","footer.rights":"All rights reserved. Authorship and intellectual property."
+  }
+};
+
+let currentLang = 'en';
+function setLang(l) {
+  currentLang = l;
+  const d = LANG[l] || LANG['en'];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (d[key]) el.textContent = d[key];
+  });
+  ['es','pt','en'].forEach(lx => {
+    const btn = document.getElementById('lb-' + lx);
+    if (btn) btn.classList.toggle('active', lx === l);
+  });
+  document.documentElement.lang = l;
+  try { localStorage.setItem('tvs-lang', l); } catch(e) {}
+}
+
+// Restore saved language
+try { const saved = localStorage.getItem('tvs-lang'); if (saved && LANG[saved]) setLang(saved); } catch(e) {}
+
+// ── LIVE API FETCH ──
+(async function() {
+  let healthOk = false;
+  try {
+    const h = await (await fetch('/api/health', { signal: AbortSignal.timeout(12000) })).json();
+    healthOk = true;
+    // Update live status badge if present
+    const liveEl = document.getElementById('live-indicator');
+    if (liveEl) {
+      liveEl.textContent = '● LIVE';
+      liveEl.style.color = 'var(--neon4)';
+    }
+  } catch(e) {}
+  try {
+    const s = await (await fetch('/api/status', { signal: AbortSignal.timeout(12000) })).json();
+    const sk = s.skills || s.lastFullCheck?.skills;
+    if (sk?.total) {
+      const el = document.getElementById('stat-skills');
+      if (el) el.textContent = sk.total.toLocaleString();
+    }
+    // Update tests if available
+    const tests = s.tests || s.results || s.lastFullCheck?.tests;
+    if (tests && typeof tests === 'object') {
+      const cnt = tests.pass || tests.completed || tests.total;
+      if (cnt) {
+        const el = document.getElementById('trust-tests');
+        if (el) el.textContent = cnt + (tests.total ? '/' + tests.total : '');
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgetaiy_6fk6wv",
+  "timestamp": "2026-08-30T22:57:19.236Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "45293edf4073a58bb17d649fdf5a556a42b33720ad47e663f2623a0e9ff6056b"
+}

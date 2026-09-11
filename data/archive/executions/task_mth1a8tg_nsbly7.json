@@ -1,0 +1,21 @@
+{
+  "id": "task_mth1a8tg_nsbly7",
+  "timestamp": "2026-08-31T09:26:22.566Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9cd1f43eea72db22e3a1e4b4842116038bcbd1dfb3ce93dbaed37b3ee4920c1e"
+}

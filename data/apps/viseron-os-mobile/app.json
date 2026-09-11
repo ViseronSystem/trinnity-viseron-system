@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "VISERON OS Mobile",
+    "slug": "viseron-os-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#05060f"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tvs.app.viseron-os-mobile"
+    },
+    "android": {
+      "package": "com.tvs.app.viseron-os-mobile",
+      "edgeToEdgeEnabled": true
+    }
+  }
+}

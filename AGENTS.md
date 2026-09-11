@@ -508,7 +508,7 @@ Regras operativas:
 
 ## Ecossistema de Integrações (skills + repositórios do TVS)
 
-O TVS integra **9 repositórios/skills externos** (2026-08) que alimentam os agentes do sistema. As coleções de skills vivem em `skills/vendor/` (gitignored, instaláveis por `npm run skills:install`) e são indexadas pelo `SkillsRegistry` (`src/core/skills/`) — **1.997 skills em 10coleções**. Estado completo: `npm run integrations:status`.
+O TVS integra **10 repositórios/skills externos** (2026-09) que alimentam os agentes do sistema. As coleções de skills vivem em `skills/vendor/` (gitignored, instaláveis por `npm run skills:install`) e são indexadas pelo `SkillsRegistry` (`src/core/skills/`) — **1.997+ skills em 11 coleções**. Estado completo: `npm run integrations:status`.
 
 | Repositório | Skills | Licença | O que traz |
 |---|---|---|---|
@@ -521,17 +521,20 @@ O TVS integra **9 repositórios/skills externos** (2026-08) que alimentam os age
 | `trycompai/comp` | 53 | AGPL-3.0 | Compliance AI-native (SOC2/GDPR/ISO27001) |
 | `HKUDS/DeepTutor` | 6 | Apache-2.0 | Tutor lifelong personalizado (memória L1/L2/L3) |
 | `cobusgreyling/loop-engineering` | 41 | MIT | Loop engineering: patterns/starters/audit/init/cost |
+| `MakazhanAlpamys/Soup` | — | Apache-2.0 | Fine-tuning de LLMs num YAML (8B numa GPU de 4GB via layer streaming) |
 
 Comandos novos:
 
 | Comando | Descrição |
 |---------|-----------|
-| `npm run integrations:status` | Estado das 9 integrações + skills indexadas |
+| `npm run integrations:status` | Estado das 10 integrações + skills indexadas |
 | `npm run integrations:ecc` | Detalhe ECC (harness system) |
 | `npm run integrations:loop` | Detalhe Loop Engineering (7 patterns) |
 | `npm run integrations:crm` | Detalhe Comp AI CRM (skills do agente) |
 | `npm run integrations:comp` | Detalhe Comp AI (compliance) |
 | `npm run integrations:tutor` | Detalhe DeepTutor |
+| `npm run integrations:soup` | Detalhe Soup (LLM fine-tuning CLI, v0.74.0) |
+| `npm run soup:doctor` | Diagnóstico Soup (GPU/deps/ambiente) — requer Python 3.10–3.12 |
 | `npm run ecc:setup` | Instalador oficial ECC para o harness opencode (correr SÓ com autorização do Comandante — escreve nos `.opencode/`) |
 | `npm run loop:init` | Scaffold do loop (`@cobusgreyling/loop init .`) |
 | `npm run loop:doctor` | Saúde do loop (`loop doctor .`) |

@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgw51fh_di8vnc",
+  "timestamp": "2026-08-31T07:02:20.061Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "b708b4903850110dcd5e78427b345eb7ee2df8bbb6330f18ca9226740cc4e076"
+}

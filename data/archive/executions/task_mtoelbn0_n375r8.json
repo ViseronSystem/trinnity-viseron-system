@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoelbn0_n375r8",
+  "timestamp": "2026-09-05T13:14:10.090Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "963fd1109492aa3ebec7aca94cb532289f43dae2c9e5e4d78359c1c9532fd6c7"
+}

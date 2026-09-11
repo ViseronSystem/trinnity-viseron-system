@@ -1,0 +1,21 @@
+{
+  "id": "task_mto96rjn_k61gfd",
+  "timestamp": "2026-09-05T10:42:05.240Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "03cbdb3dee05fe592f3ac542400de6be27ee391dedcd44b2e41d910ff408d66e"
+}

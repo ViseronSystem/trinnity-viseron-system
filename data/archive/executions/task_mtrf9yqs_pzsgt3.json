@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrf9yqs_pzsgt3",
+  "timestamp": "2026-09-07T15:55:45.869Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "83e26484fa6d5ea1807c7c4e72762ab67ac433687c18a604452699b94b8e4812"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mtj0mtui_rm0u7t",
+  "timestamp": "2026-09-01T18:43:40.685Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8ef48dbd18bfe8e02b4ac3420674a0e278da320559a7933097e5ac134c175803"
+}

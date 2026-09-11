@@ -1,0 +1,21 @@
+{
+  "id": "task_mth7snix_8h4pkr",
+  "timestamp": "2026-08-31T12:28:37.554Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "570875570fcf20494b7728162bcddb99ff3efca694594ffa99d231ac973bccce"
+}

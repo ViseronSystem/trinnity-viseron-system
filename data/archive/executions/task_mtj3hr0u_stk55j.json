@@ -1,0 +1,21 @@
+{
+  "id": "task_mtj3hr0u_stk55j",
+  "timestamp": "2026-09-01T20:03:42.594Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "d1f0320772591897d54006fe7e2c0ef34f3676b81b6cae827b593278a70d3284"
+}

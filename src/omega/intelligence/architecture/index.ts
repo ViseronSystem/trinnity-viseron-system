@@ -26,13 +26,22 @@ export class ArchitectureIntelligence {
   }
 
   public initialize(): this {
-    try {
-      this.adapter.load();
-      this.loaded = true;
-    } catch (err: any) {
-      this.loaded = false;
-      console.warn(`[ArchitectureIntelligence] graph not available: ${err?.message || String(err)}`);
-    }
+    // Carregamento NÃO-BLOQUEANTE. O grafo pode ser muito grande (300MB+),
+    // e um JSON.parse síncrono aqui congela o event loop do processo no boot
+    // (web server/API ficam sem responder durante minutos). O load roda em
+    // background: o sistema arranca normal e isReady() devolve true quando
+    // o grafo ficar disponível.
+    setTimeout(() => {
+      try {
+        this.adapter.load();
+        this.loaded = true;
+        const g = this.adapter.getGraph();
+        console.log(`[ArchitectureIntelligence] graph carregado em background (${g.nodes?.length || 0} nós / ${g.links?.length || 0} arestas)`);
+      } catch (err: any) {
+        this.loaded = false;
+        console.warn(`[ArchitectureIntelligence] graph not available: ${err?.message || String(err)}`);
+      }
+    }, 0);
     return this;
   }
 

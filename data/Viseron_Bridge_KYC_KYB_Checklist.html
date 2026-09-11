@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trinnity Viseron System — Checklist KYB/KYC Bridge.xyz</title>
+<style>
+  @page { margin: 1.5cm 2cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.5; padding: 0; font-size: 11pt; }
+  .cover { text-align: center; padding: 80px 40px 60px; page-break-after: always; }
+  .cover h1 { font-size: 28pt; color: #0a0a0a; margin-bottom: 10px; letter-spacing: -0.5px; }
+  .cover h2 { font-size: 16pt; color: #444; font-weight: 400; margin-bottom: 30px; }
+  .cover .subtitle { font-size: 12pt; color: #666; margin-bottom: 40px; }
+  .cover .meta { font-size: 10pt; color: #888; margin-top: 60px; }
+  .cover .bridge-logo { font-size: 20pt; font-weight: 700; color: #000; margin-bottom: 20px; letter-spacing: 2px; }
+  .cover .divider { width: 80px; height: 3px; background: #000; margin: 20px auto; }
+  .section { page-break-inside: avoid; margin-bottom: 24px; }
+  h2 { font-size: 16pt; color: #0a0a0a; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 14px; margin-top: 28px; }
+  h3 { font-size: 12pt; color: #222; margin-top: 18px; margin-bottom: 8px; }
+  h4 { font-size: 11pt; color: #444; margin-top: 12px; margin-bottom: 6px; }
+  p { margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 10pt; }
+  th { background: #0a0a0a; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid #ddd; vertical-align: top; }
+  tr:nth-child(even) td { background: #f7f7f7; }
+  .highlight { background: #fffde7; border-left: 4px solid #f9a825; padding: 10px 14px; margin: 12px 0; font-size: 10pt; }
+  .danger { background: #fff3e0; border-left: 4px solid #e65100; padding: 10px 14px; margin: 12px 0; font-size: 10pt; }
+  .success { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 10px 14px; margin: 12px 0; font-size: 10pt; }
+  .text-box { background: #f5f5f5; border: 1px solid #ccc; padding: 12px 14px; margin: 10px 0 14px; font-size: 10pt; font-style: italic; line-height: 1.6; }
+  ul, ol { margin: 6px 0 12px 20px; }
+  li { margin-bottom: 4px; }
+  .checklist li { list-style: none; margin-left: 0; padding-left: 22px; position: relative; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; font-size: 12pt; }
+  .timeline td:first-child { font-weight: 600; white-space: nowrap; width: 120px; }
+  .footer { text-align: center; font-size: 9pt; color: #999; margin-top: 40px; padding-top: 12px; border-top: 1px solid #ddd; }
+  .page-break { page-break-before: always; }
+  .form-field { background: #e3f2fd; border: 1px solid #90caf9; padding: 8px 12px; margin: 4px 0; border-radius: 4px; font-size: 10pt; }
+  .form-field strong { color: #1565c0; }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="bridge-logo">BRIDGE.XYZ</div>
+  <div class="divider"></div>
+  <h1>Checklist KYB / KYC</h1>
+  <h2>Trinnity Viseron System</h2>
+  <p class="subtitle">Guía completa para aprobar la cuenta en Bridge (Stripe)<br>Integración de pagos cross-border con stablecoins</p>
+  <p class="meta">
+    <strong>Pedro Henrique Gomes Costa Mattos</strong> — CEO &amp; Founder<br>
+    pedrocosta@trinnityviseron.com<br>
+    https://www.trinnityviseronsystem.io<br><br>
+    Documento generado: Septiembre 2026<br>
+    Clasificación: CONFIDENCIAL — Uso interno
+  </p>
+</div>
+
+<!-- SECCIÓN 1: FORMULARIO DE DEMO -->
+<h2>1. Formulario de Demo — bridge.xyz/requestfreedemo</h2>
+
+<div class="highlight">
+  <strong>Acción:</strong> Rellenar el formulario en <code>https://www.bridge.xyz/requestfreedemo</code> antes de la llamada con el equipo de Bridge.
+</div>
+
+<h3>1.1 Campos del formulario y valores</h3>
+
+<table>
+  <tr><th>Campo</th><th>Valor a ingresar</th><th>Notas</th></tr>
+  <tr><td><strong>Work Email</strong></td><td><code>pedrocosta@trinnityviseron.com</code></td><td>NO usar Gmail/Yahoo — Bridge los rechaza</td></tr>
+  <tr><td><strong>First Name</strong></td><td><code>Pedro</code></td><td>Nombre real</td></tr>
+  <tr><td><strong>Last Name</strong></td><td><code>Costa Mattos</code></td><td>Apellido real</td></tr>
+  <tr><td><strong>Company Name</strong></td><td><code>Trinnity Viseron System</code></td><td>Nombre legal/proyecto</td></tr>
+  <tr><td><strong>Company Website</strong></td><td><code>https://www.trinnityviseronsystem.io</code></td><td>Sitio real y activo</td></tr>
+  <tr><td><strong>Monthly Volume</strong></td><td><code>$250K-$1M</code> (o la opción equivalente)</td><td>Volumen proyectado</td></tr>
+  <tr><td><strong>What would you like to achieve?</strong></td><td>Seleccionar <strong>TODAS</strong> las opciones</td><td>Orquestación, emisión, wallets, pagos</td></tr>
+  <tr><td><strong>Phone</strong></td><td>Tu número real</td><td>Bridge puede llamar para verificar</td></tr>
+  <tr><td><strong>Job Title</strong></td><td><code>CEO &amp; Founder</code></td><td></td></tr>
+  <tr><td><strong>Country</strong></td><td><code>Spain</code></td><td>O Portugal si es desde allí</td></tr>
+  <tr><td><strong>How did you hear about Bridge?</strong></td><td><code>Stripe ecosystem / crypto infrastructure research</code></td><td></td></tr>
+</table>
+
+<h3>1.2 Texto para campo "Use Case" / "Tell us more"</h3>
+
+<div class="text-box">
+Trinnity Viseron System is an AI-powered autonomous operating system for organizations. We are integrating stablecoin infrastructure to enable: (1) cross-border payments to global contractors and clients in USD/EUR/MXN via stablecoin rails, (2) issuing our own branded stablecoin ($VSR/$TRIN) for our ecosystem of AI agents and marketplace, (3) stablecoin-backed virtual cards for users, and (4) secure wallets for holding and moving stablecoins. We process B2B payments across Europe and Latin America and need Bridge's orchestration API to unify fiat-to-stablecoin conversion and settlement. Expected volume: $250K-$1M/month at scale.
+</div>
+
+<!-- SECCIÓN 2: KYB EMPRESA -->
+<h2 class="page-break">2. KYB — Documentos de la Empresa</h2>
+
+<div class="highlight">
+  <strong>Bridge requiere:</strong> Verificar la entidad legal, identificar beneficial owners, validar representantes y conectar la documentación con obligaciones AML bajo Ley 10/2010 y MiCA.
+</div>
+
+<h3>2.1 Datos de la empresa (para la plataforma Bridge)</h3>
+
+<table>
+  <tr><th>Campo Bridge</th><th>Valor</th><th>Notas</th></tr>
+  <tr><td><strong>Business Legal Name</strong></td><td><code>Trinnity Viseron System</code></td><td>Nombre registrado en escritura</td></tr>
+  <tr><td><strong>Business Type</strong></td><td><code>llc</code> o <code>corporation</code></td><td>Depende de constitución (SL = llc)</td></tr>
+  <tr><td><strong>Business Industry</strong></td><td><code>6201</code> (Computer Programming) o <code>6209</code></td><td>NAICS code</td></tr>
+  <tr><td><strong>Business Description</strong></td><td>Ver texto abajo</td></tr>
+  <tr><td><strong>Primary Website</strong></td><td><code>https://www.trinnityviseronsystem.io</code></td><td></td></tr>
+  <tr><td><strong>Registered Address</strong></td><td>Dirección fiscal de la empresa</td><td>Debe coincidir con Registro Mercantil</td></tr>
+  <tr><td><strong>Physical Operating Address</strong></td><td>Tu dirección real de operación</td></tr>
+  <tr><td><strong>NIF/CIF</strong></td><td>Tu NIF español (B para SL, A para SA)</td><td>Obligatorio para empresas españolas</td></tr>
+  <tr><td><strong>Email</strong></td><td><code>pedrocosta@trinnityviseron.com</code></td></tr>
+  <tr><td><strong>Is DAO</strong></td><td><code>false</code></td></tr>
+  <tr><td><strong>Is High Risk</strong></td><td><code>false</code></td></tr>
+  <tr><td><strong>Operates in Prohibited Countries</strong></td><td><code>no</code></td><td>Cuba, Iran, Myanmar, North Korea, Syria</td></tr>
+</table>
+
+<h4>Business Description (campo libre):</h4>
+<div class="text-box">
+Trinnity Viseron System is a technology company building an AI-powered autonomous operating system for organizations. We integrate stablecoin infrastructure to enable cross-border B2B payments, contractor payouts, and financial settlement across Europe and Latin America. Our platform processes USD/EUR/MXN conversions through stablecoin rails, with plans to offer wallets and payment cards backed by stablecoins.
+</div>
+
+<h3>2.2 Propósito de cuenta y flujos de dinero</h3>
+
+<table>
+  <tr><th>Campo</th><th>Valor</th></tr>
+  <tr><td><strong>Account Purpose</strong></td><td><code>receive_payments_for_goods_and_services</code></td></tr>
+  <tr><td><strong>Source of Funds</strong></td><td><code>business_revenue</code></td></tr>
+  <tr><td><strong>Source of Funds Description</strong></td><td><code>Revenue from SaaS subscriptions, AI agent services, and B2B payment processing fees</code></td></tr>
+  <tr><td><strong>Expected Monthly Volume (USD)</strong></td><td><code>$500,000</code></td></tr>
+  <tr><td><strong>Estimated Annual Revenue</strong></td><td><code>$6,000,000</code></td></tr>
+  <tr><td><strong>Conducts Money Services</strong></td><td><code>true</code></td></tr>
+  <tr><td><strong>Conducts Money Services Using Bridge</strong></td><td><code>true</code></td></tr>
+</table>
+
+<h4>Compliance Screening Explanation:</h4>
+<div class="text-box">
+We conduct KYC on all business clients using automated identity verification (document + biometric checks). We screen against EU/UN sanctions lists and perform PEP checks. Transaction monitoring is implemented with anomaly detection for unusual patterns. We maintain AML policies aligned with Ley 10/2010 and MiCA requirements. Our compliance officer oversees all due diligence procedures.
+</div>
+
+<h3>2.3 Documentos de formación de la empresa</h3>
+
+<table>
+  <tr><th>Documento</th><th>Qué es</th><th>Dónde obtenerlo</th></tr>
+  <tr><td><strong>Escritura de constitución</strong></td><td>Documento notarial que crea la SL/SA</td><td>Notaría al constituir la empresa</td></tr>
+  <tr><td><strong>Certificado del Registro Mercantil</strong></td><td>Prueba de inscripción</td><td>Registro Mercantil (registradores.org)</td></tr>
+  <tr><td><strong>NIF de la empresa</strong></td><td>Identificación fiscal</td><td>Agencia Tributaria (Hacienda)</td></tr>
+  <tr><td><strong>Certificado de titularidades reales</strong></td><td>Registro de UBOs (&gt;25%)</td><td>Registro Central de Titularidades Reales</td></tr>
+</table>
+
+<h3>2.4 Documentos de ownership</h3>
+
+<table>
+  <tr><th>Documento</th><th>Qué necesita</th></tr>
+  <tr><td><strong>Capitalization Table</strong></td><td>Lista de todos los socios con % de participación</td></tr>
+  <tr><td><strong>Si eres socio único</strong></td><td>Escritura + acta de socios mostrando 100% ownership</td></tr>
+  <tr><td><strong>Si hay otros socios</strong></td><td>Acuerdo de socios o actas de Junta General</td></tr>
+</table>
+
+<div class="danger">
+  <strong>⚠ IMPORTANTE:</strong> Bridge necesita que el <strong>100% de la ownership</strong> esté documentada. Si eres el único socio, es más fácil — solo tu escritura de constitución.
+</div>
+
+<!-- SECCIÓN 3: KYC PERSONAL -->
+<h2 class="page-break">3. KYC — Documentos Personales (Pedro Costa como UBO)</h2>
+
+<div class="highlight">
+  <strong>Bridge pedirá KYC individual</strong> para cada beneficial owner con &gt;25% ownership. Si eres socio único = solo tu KYC.
+</div>
+
+<h3>3.1 Documentos personales obligatorios</h3>
+
+<table>
+  <tr><th>Documento</th><th>Detalles</th><th>Estado</th></tr>
+  <tr><td><strong>Pasaporte o DNI</strong></td><td>Foto frontal + trasera. Debe estar vigente</td><td>☐</td></tr>
+  <tr><td><strong>NIE</strong> (si aplica)</td><td>Número de Identificación de Extranjero</td><td>☐</td></tr>
+  <tr><td><strong>Proof of Address</strong></td><td>Factura de luz, agua, banco o teléfono (&lt;3 meses) con nombre y dirección</td><td>☐</td></tr>
+  <tr><td><strong>Selfie / Verificación biométrica</strong></td><td>Bridge puede pedir liveness check (selfie en tiempo real)</td><td>☐</td></tr>
+</table>
+
+<h3>3.2 Datos personales para Bridge</h3>
+
+<table>
+  <tr><th>Campo</th><th>Valor</th></tr>
+  <tr><td><strong>First Name</strong></td><td><code>Pedro</code></td></tr>
+  <tr><td><strong>Last Name</strong></td><td><code>Costa Mattos</code></td></tr>
+  <tr><td><strong>Birth Date</strong></td><td>Tu fecha de nacimiento real</td></tr>
+  <tr><td><strong>Email</strong></td><td><code>pedrocosta@trinnityviseron.com</code></td></tr>
+  <tr><td><strong>Residential Address</strong></td><td>Tu dirección real (debe coincidir con proof of address)</td></tr>
+  <tr><td><strong>Phone</strong></td><td>Tu número real</td></tr>
+  <tr><td><strong>Employment Status</strong></td><td><code>self_employed</code></td></tr>
+  <tr><td><strong>Occupation</strong></td><td><code>CEO / Technology Entrepreneur</code></td></tr>
+  <tr><td><strong>Account Purpose</strong></td><td><code>business_operations</code></td></tr>
+  <tr><td><strong>Source of Funds</strong></td><td><code>business_revenue</code></td></tr>
+  <tr><td><strong>Expected Monthly Payments</strong></td><td><code>$500,000</code></td></tr>
+  <tr><td><strong>Intermediary Status</strong></td><td><code>no</code></td></tr>
+</table>
+
+<h3>3.3 Documentos adicionales (Enhanced Due Diligence)</h3>
+
+<table>
+  <tr><th>Documento</th><th>Cuándo lo piden</th></tr>
+  <tr><td><strong>Extracto bancario</strong> (últimos 3 meses)</td><td>Para probar source of funds</td></tr>
+  <tr><td><strong>Contratos con clientes</strong></td><td>Para probar que el volumen es legítimo</td></tr>
+  <tr><td><strong>Declaración de la renta</strong></td><td>Para confirmar ingresos reportados</td></tr>
+</table>
+
+<!-- SECCIÓN 4: PAQUETE DIGITAL -->
+<h2 class="page-break">4. Paquete Digital — Estructura de carpetas</h2>
+
+<div class="success">
+  <strong>Organizar todos los documentos</strong> en una carpeta digital (Google Drive, Dropbox o local) con esta estructura antes de subirlos a Bridge.
+</div>
+
+<h3>4.1 Estructura de carpetas</h3>
+
+<table>
+  <tr><th>Carpeta / Archivo</th><th>Contenido</th><th>Estado</th></tr>
+  <tr><td><strong>📁 Empresa/</strong></td><td></td><td></td></tr>
+  <tr><td>&nbsp;&nbsp;Escritura_constitucion_TVS.pdf</td><td>Escritura notarial de la empresa</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;CIF_NIF_empresa.pdf</td><td>Identificación fiscal de la empresa</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Certificado_titularidades_reales.pdf</td><td>Registro de UBOs</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Capitalizacion_table.pdf</td><td>Tabla de capitalización (o acta de socios)</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Certificado_registro_mercantil.pdf</td><td>Certificado de inscripción</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Acuerdo_socios.pdf</td><td>Si hay más de un socio</td><td>☐</td></tr>
+  <tr><td><strong>📁 UBO_Pedro_Costa/</strong></td><td></td><td></td></tr>
+  <tr><td>&nbsp;&nbsp;Pasaporte_o_DNI_frontal.jpg</td><td>Frente del documento de identidad</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Pasaporte_o_DNI_trasera.jpg</td><td>Reverso del documento de identidad</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Proof_of_Address.pdf</td><td>Factura reciente (&lt;3 meses)</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Selfie_verificacion.jpg</td><td>Si Bridge lo solicita</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Extracto_bancario.pdf</td><td>Si Bridge lo solicita (Enhanced DD)</td><td>☐</td></tr>
+  <tr><td><strong>📁 Operaciones/</strong></td><td></td><td></td></tr>
+  <tr><td>&nbsp;&nbsp;Contratos_clientes.pdf</td><td>Muestra de 2-3 contratos</td><td>☐</td></tr>
+  <tr><td>&nbsp;&nbsp;Declaracion_renta_2025.pdf</td><td>Si Bridge lo solicita</td><td>☐</td></tr>
+</table>
+
+<!-- SECCIÓN 5: TIMELINE -->
+<h2>5. Timeline — Cuándo preparar qué</h2>
+
+<table class="timeline">
+  <tr><th>Período</th><th>Acción</th><th>Estado</th></tr>
+  <tr><td><strong>Hoy</strong></td><td>Rellenar formulario de demo en bridge.xyz/requestfreedemo</td><td>☐</td></tr>
+  <tr><td><strong>Día 1-3</strong></td><td>Bridge responde al demo (llamada o email)</td><td>☐</td></tr>
+  <tr><td><strong>Día 3-7</strong></td><td>Preparar documentos KYB (escritura, NIF, titularidades)</td><td>☐</td></tr>
+  <tr><td><strong>Día 7-14</strong></td><td>Subir documentos KYC personales (pasaporte, proof of address)</td><td>☐</td></tr>
+  <tr><td><strong>Día 14-21</strong></td><td>Bridge revisa → endorsement `approved` → API key activa</td><td>☐</td></tr>
+  <tr><td><strong>Día 21+</strong></td><td>Integrar Bridge API en Viseron</td><td>☐</td></tr>
+</table>
+
+<!-- SECCIÓN 6: PUNTOS CRÍTICOS -->
+<h2 class="page-break">6. Puntos Críticos — Que NO rechacen tu cuenta</h2>
+
+<div class="danger">
+  <strong>⚠ ERRORES COMUNES QUE CAUSAN RECHAZO:</strong>
+</div>
+
+<table>
+  <tr><th>#</th><th>Requisito</th><th>Por qué es crítico</th></tr>
+  <tr><td>1</td><td><strong>Escritura de constitución</strong></td><td>Si no tienes empresa constituida legalmente, Bridge te rechazará. Necesitas al menos una SL o ser autónomo con NIF.</td></tr>
+  <tr><td>2</td><td><strong>100% ownership documentada</strong></td><td>Si eres socio único, la escritura basta. Si hay más socios, necesitas acta de socios con % exactos.</td></tr>
+  <tr><td>3</td><td><strong>Proof of address con &lt;3 meses</strong></td><td>No sirve una factura de hace 6 meses. Reciente o no vale.</td></tr>
+  <tr><td>4</td><td><strong>Email corporativo</strong></td><td>Bridge rechaza Gmail/Yahoo. Necesitas pedrocosta@trinnityviseron.com funcionando con MX records.</td></tr>
+  <tr><td>5</td><td><strong>Actividad coherente</strong></td><td>El volumen declarado ($500K/mes) debe ser creíble para una startup tecnológica.</td></tr>
+  <tr><td>6</td><td><strong>No menciones tokens especulativos</strong></td><td>Usa "stablecoin-backed settlement" no "our cryptocurrency token".</td></tr>
+</table>
+
+<h3>6.1 Términos correctos vs. incorrectos</h3>
+
+<table>
+  <tr><th>❌ NO usar</th><th>✅ Usar en su lugar</th></tr>
+  <tr><td>"our cryptocurrency"</td><td>"branded stablecoin" / "stablecoin-backed digital asset"</td></tr>
+  <tr><td>"token sale"</td><td>"ecosystem settlement token"</td></tr>
+  <tr><td>"speculative asset"</td><td>"payment and governance utility"</td></tr>
+  <tr><td>"DeFi yield"</td><td>"stablecoin settlement"</td></tr>
+  <tr><td>"moon/lambo"</td><td>"cross-border payment infrastructure"</td></tr>
+</table>
+
+<!-- SECCIÓN 7: REGULACIÓN ESPAÑA -->
+<h2>7. Contexto Regulatorio — España y MiCA</h2>
+
+<p>Bridge opera bajo <strong>Bridge Building SA</strong> (Luxemburgo, RCS B298785) para clientes EEA. España es país EEA, por lo que se aplican:</p>
+
+<table>
+  <tr><th>Regulación</th><th>Qué regula</th><th>Relevancia para TVS</th></tr>
+  <tr><td><strong>Ley 10/2010</strong></td><td>Prevención de blanqueo de capitales</td><td>KYC/KYB obligatorio para todas las operaciones</td></tr>
+  <tr><td><strong>Real Decreto 304/2014</strong></td><td>Marco operativo de due diligence</td><td>Procedimientos de identificación no presencial</td></tr>
+  <tr><td><strong>Real Decreto 609/2023</strong></td><td>Registro Central de Titularidades Reales</td><td>Debes registrarte como UBO de la empresa</td></tr>
+  <tr><td><strong>MiCA</strong> (Regulation EU 2023/1114)</td><td>Mercados de criptoactivos</td><td>Si emites stablecoins = supervisión Banco de España; si provees servicios = CNMV</td></tr>
+  <tr><td><strong>SEPBLAC</strong></td><td>Unidad de inteligencia financiera</td><td>Reporte de operaciones sospechosas</td></tr>
+</table>
+
+<div class="highlight">
+  <strong>Nota MiCA:</strong> El período de transición en España finaliza el 1 de julio de 2026. Los proveedores de servicios de criptoactivos deben estar autorizados por la CNMV o estar en proceso de solicitud.
+</div>
+
+<!-- SECCIÓN 8: INTEGRACIÓN API -->
+<h2 class="page-break">8. Próximos pasos — Integración Bridge API en Viseron</h2>
+
+<p>Una vez aprobada la cuenta, la integración con Bridge API incluye:</p>
+
+<table>
+  <tr><th>Paso</th><th>Endpoint</th><th>Función</th></tr>
+  <tr><td>1</td><td><code>POST /customers</code></td><td>Crear customer (business/individual) con KYC</td></tr>
+  <tr><td>2</td><td><code>GET /customers/:id/endorsements</code></td><td>Verificar estado de aprobación</td></tr>
+  <tr><td>3</td><td><code>POST /exchange</code></td><td>Convertir fiat ↔ stablecoin</td></tr>
+  <tr><td>4</td><td><code>POST /transfers</code></td><td>Enviar stablecoins entre wallets</td></tr>
+  <tr><td>5</td><td><code>POST /wallets</code></td><td>Crear wallets para clientes</td></tr>
+  <tr><td>6</td><td><code>POST /issuance</code></td><td>Emitir stablecoin propia ($VSR/$TRIN)</td></tr>
+  <tr><td>7</td><td><code>POST /cards</code></td><td>Emitir tarjetas respaldadas por stablecoins</td></tr>
+</table>
+
+<div class="footer">
+  <p><strong>Trinnity Viseron System</strong> — © Pedro Costa (Comandante) · Trinnity Hurtado (Rainha)</p>
+  <p>Documento generado automáticamente · Septiembre 2026 · CONFIDENCIAL</p>
+  <p>Bridge.xyz — Stripe Company · stablecoin infrastructure for developers</p>
+</div>
+
+</body>
+</html>

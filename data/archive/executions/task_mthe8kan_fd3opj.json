@@ -1,0 +1,21 @@
+{
+  "id": "task_mthe8kan_fd3opj",
+  "timestamp": "2026-08-31T15:28:58.112Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "74e432f5906de8b21509354943b8a5fda3424a1413a67bb4731a9474071762f7"
+}

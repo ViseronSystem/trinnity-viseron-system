@@ -1,0 +1,41 @@
+{
+  "group": {
+    "name": "Viseron Cosmos",
+    "username": "@ViseronCosmos",
+    "description": "Official VISERON Cosmos community | $VSR + $TRIN | Solana | 5,000+ AI Minds",
+    "rules": [
+      "Be respectful to all members",
+      "No spam or self-promotion",
+      "No FUD or price predictions",
+      "Stay on topic",
+      "Have fun!"
+    ]
+  },
+  "welcome_message": "🌟 Welcome to Viseron Cosmos!\n\nOfficial community for $VSR and $TRIN tokens.\n\n📊 Current Status:\n• $VSR: Governance Token\n• $TRIN: Memecoin\n• Both live on Raydium!\n\n🌐 Website: trinnityviseronsystem.io\n📈 Trade: raydium.io\n\nEnjoy your stay! 🚀",
+  "messages": [
+    {
+      "type": "daily_update",
+      "template": "📊 Daily Update\n\n💰 Price:\n• $VSR: ${vsr_price}\n• $TRIN: ${trin_price}\n\n📈 Market Cap: ${market_cap}\n\n🔄 24h Volume: ${volume}\n\n👥 Holders: ${holders}"
+    },
+    {
+      "type": "milestone",
+      "template": "🎉 MILESTONE ACHIEVED!\n\n${milestone}\n\nThank you community!\n\nNext goal: ${next_goal}\n\n#ViseronCosmos"
+    },
+    {
+      "type": "announcement",
+      "template": "📢 ANNOUNCEMENT\n\n${announcement}\n\nFor more info visit:\ntrinnityviseronsystem.io"
+    },
+    {
+      "type": "ama",
+      "template": "🎙️ AMA SESSION\n\nQuestion: ${question}\n\nAnswer: ${answer}\n\nAsk anything! We're here to help."
+    }
+  ],
+  "stickers": [
+    "🚀 To the moon!",
+    "🔥 Burning tokens!",
+    "🤖 AI powered!",
+    "🗳️ Governance!",
+    "📊 Price up!",
+    "🤝 Community!"
+  ]
+}

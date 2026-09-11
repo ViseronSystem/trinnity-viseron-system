@@ -1,0 +1,57 @@
+{
+  "tenantId": "ten_msa9gtu5",
+  "template": "conteudo",
+  "templateName": "Marketing de Conteúdo",
+  "agents": [
+    {
+      "name": "Editor-Chefe",
+      "role": "Planeador",
+      "capabilities": [
+        "pesquisa",
+        "planeamento",
+        "calendário"
+      ],
+      "prompt": "Define o calendário editorial semanal baseado em tendências e palavras-chave.",
+      "id": "ag_trinnity-demo-gtsc_editor_chefe"
+    },
+    {
+      "name": "Escritor",
+      "role": "Redator",
+      "capabilities": [
+        "escrita",
+        "blog",
+        "markdown"
+      ],
+      "prompt": "Redige artigos completos em português/espanhol/inglês com SEO.",
+      "id": "ag_trinnity-demo-gtsc_escritor"
+    },
+    {
+      "name": "Revisor",
+      "role": "Editor",
+      "capabilities": [
+        "revisão",
+        "gramática",
+        "SEO"
+      ],
+      "prompt": "Revisa e otimiza artigos para qualidade e ranqueamento.",
+      "id": "ag_trinnity-demo-gtsc_revisor"
+    },
+    {
+      "name": "Publicador",
+      "role": "Distribuidor",
+      "capabilities": [
+        "publicação",
+        "agendamento"
+      ],
+      "prompt": "Publica o conteúdo aprovado no blog e nas redes sociais.",
+      "id": "ag_trinnity-demo-gtsc_publicador"
+    }
+  ],
+  "tools": [
+    "blog",
+    "content-generate",
+    "seo"
+  ],
+  "appliedAt": "2026-08-01T11:01:19.095Z",
+  "appliedBy": "pedro.msa9gtsc@trinnityviseronsystem.io"
+}

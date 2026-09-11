@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgocdxc_mpqyem",
+  "timestamp": "2026-08-31T03:24:05.829Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a447fd1980db5dab4ea591c48b996a19aa86a77fc7d3b264b818716d6c95a269"
+}

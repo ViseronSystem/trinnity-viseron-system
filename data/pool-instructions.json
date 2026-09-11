@@ -1,0 +1,54 @@
+{
+  "step1": {
+    "action": "Deposit SOL",
+    "amount": "$50 (~0.36 SOL)",
+    "address": "Ak3J4hps9zAJiDzghkPRb1kqkPKDjg89d3jjM8tjcLVj",
+    "time": "5 minutes",
+    "instructions": [
+      "Open Phantom wallet",
+      "Click Send",
+      "Paste wallet address",
+      "Enter 0.36 SOL",
+      "Confirm transaction"
+    ]
+  },
+  "step2": {
+    "action": "Create VSR Pool",
+    "time": "10 minutes",
+    "instructions": [
+      "Go to raydium.io",
+      "Connect Phantom wallet",
+      "Click Liquidity",
+      "Click Create Pool",
+      "Select VSR token",
+      "Select SOL",
+      "Enter amount: 0.14 SOL + 142,857 VSR",
+      "Confirm transaction"
+    ]
+  },
+  "step3": {
+    "action": "Create TRIN Pool",
+    "time": "10 minutes",
+    "instructions": [
+      "Go to raydium.io",
+      "Connect Phantom wallet",
+      "Click Liquidity",
+      "Click Create Pool",
+      "Select TRIN token",
+      "Select SOL",
+      "Enter amount: 0.14 SOL + 1,428,571 TRIN",
+      "Confirm transaction"
+    ]
+  },
+  "step4": {
+    "action": "List on Jupiter",
+    "time": "1 day",
+    "instructions": [
+      "Go to jup.ag",
+      "Click List Token",
+      "Enter VSR mint address",
+      "Submit for review",
+      "Repeat for TRIN"
+    ]
+  }
+}

@@ -1,126 +1,329 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VISERON · Content Studio Autónomo</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<title>Trinnity Viseron System - AI-Native Operating System for Autonomous Organizations</title>
+<meta name="description" content="Reduce 60% of administrative work with 2000+ AI skills. Enterprise-grade security. The AI Operating System for autonomous organizations.">
+<link rel="stylesheet" href="/tvs-design.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#02020a;--panel:rgba(8,10,24,.94);--line:rgba(0,240,255,.16);--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
-.wrap{max-width:1000px;margin:0 auto;padding:22px 16px 60px}
-header{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
-header h1{font-family:'Orbitron';font-weight:900;font-size:1.2rem;color:var(--cyan)}
-header .sub{color:var(--muted);font-size:.72rem}
-.btn{background:rgba(0,240,255,.08);border:1px solid var(--line);color:var(--cyan);border-radius:99px;padding:8px 16px;font-size:.72rem;font-weight:800;cursor:pointer;text-decoration:none;margin-left:auto}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
-.panel h3{font-family:'Orbitron';font-size:.82rem;color:var(--purple);letter-spacing:1px;margin-bottom:12px}
-.horario{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.slot{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.72rem;text-align:center}
-.slot .hora{color:var(--orange);font-weight:900;font-family:'Orbitron'}
-.slot .tipo{color:var(--muted);margin-top:3px;font-size:.66rem}
-.slot .estado{margin-top:5px;font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:99px;display:inline-block;background:rgba(255,159,10,.15);color:var(--orange)}
-.slot .estado.ok{background:rgba(0,255,135,.15);color:var(--green)}
-.post{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:10px 0}
-.post .meta{display:flex;gap:10px;align-items:center;font-size:.66rem;color:var(--muted);margin-bottom:8px;flex-wrap:wrap}
-.post .meta .badge{background:rgba(191,90,242,.15);color:var(--purple);padding:2px 9px;border-radius:99px;font-weight:800}
-.post .texto{font-size:.85rem;line-height:1.65;white-space:pre-wrap}
-.post .acciones{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-.post .acciones button{background:rgba(0,240,255,.1);border:1px solid rgba(0,240,255,.3);color:var(--cyan);border-radius:8px;padding:7px 13px;font-size:.7rem;font-weight:800;cursor:pointer}
-.gen{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none;border-radius:12px;padding:13px 24px;font-weight:900;font-size:.85rem;cursor:pointer}
-.gen:disabled{opacity:.5;cursor:wait}
-.notice{background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.3);border-radius:10px;padding:10px 12px;font-size:.7rem;color:var(--orange);margin-bottom:12px;line-height:1.5}
-.status-line{font-size:.75rem;color:var(--muted);margin-top:8px;min-height:18px}
+.tvs-hero { padding: var(--tvs-space-24) 0 var(--tvs-space-20); text-align: center; position: relative; overflow: hidden; }
+.tvs-hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(var(--tvs-cyan-rgb), 0.08) 0%, transparent 70%); pointer-events: none; }
+.tvs-hero::after { content: ''; position: absolute; top: -100px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(var(--tvs-purple-rgb), 0.06) 0%, transparent 70%); pointer-events: none; }
+.tvs-hero-content { position: relative; z-index: 1; }
+.tvs-hero-eyebrow { display: inline-flex; align-items: center; gap: var(--tvs-space-2); padding: var(--tvs-space-1) var(--tvs-space-4); background: rgba(var(--tvs-cyan-rgb), 0.08); border: 1px solid rgba(var(--tvs-cyan-rgb), 0.2); border-radius: var(--tvs-radius-full); font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); color: var(--tvs-cyan); letter-spacing: var(--tvs-tracking-wide); text-transform: uppercase; margin-bottom: var(--tvs-space-6); }
+.tvs-hero h1 { font-family: var(--tvs-font-display); font-size: var(--tvs-text-4xl); font-weight: var(--tvs-weight-bold); line-height: var(--tvs-leading-tight); letter-spacing: var(--tvs-tracking-tight); margin-bottom: var(--tvs-space-6); }
+.tvs-hero-sub { font-size: var(--tvs-text-lg); color: var(--tvs-text-secondary); max-width: 640px; margin: 0 auto var(--tvs-space-10); line-height: var(--tvs-leading-relaxed); }
+.tvs-hero-actions { display: flex; gap: var(--tvs-space-4); justify-content: center; flex-wrap: wrap; }
+.tvs-section { padding: var(--tvs-space-20) 0; }
+.tvs-section-header { text-align: center; margin-bottom: var(--tvs-space-12); }
+.tvs-section-label { font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); letter-spacing: var(--tvs-tracking-widest); text-transform: uppercase; color: var(--tvs-cyan); margin-bottom: var(--tvs-space-3); }
+.tvs-section-title { font-family: var(--tvs-font-display); font-size: var(--tvs-text-3xl); font-weight: var(--tvs-weight-bold); line-height: var(--tvs-leading-tight); margin-bottom: var(--tvs-space-4); }
+.tvs-section-desc { font-size: var(--tvs-text-lg); color: var(--tvs-text-secondary); max-width: 600px; margin: 0 auto; }
+.tvs-value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--tvs-space-6); }
+.tvs-value-card { padding: var(--tvs-space-8); }
+.tvs-value-icon { width: 56px; height: 56px; border-radius: var(--tvs-radius-lg); display: grid; place-items: center; font-size: var(--tvs-text-2xl); margin-bottom: var(--tvs-space-5); background: rgba(var(--tvs-cyan-rgb), 0.08); border: 1px solid rgba(var(--tvs-cyan-rgb), 0.15); }
+.tvs-value-card h3 { font-family: var(--tvs-font-display); font-size: var(--tvs-text-xl); font-weight: var(--tvs-weight-semibold); margin-bottom: var(--tvs-space-3); }
+.tvs-value-card p { font-size: var(--tvs-text-base); color: var(--tvs-text-secondary); line-height: var(--tvs-leading-relaxed); }
+.tvs-usecase-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--tvs-space-6); }
+.tvs-usecase-card { padding: var(--tvs-space-6); cursor: default; }
+.tvs-usecase-tag { display: inline-block; padding: var(--tvs-space-0\.5) var(--tvs-space-3); background: rgba(var(--tvs-purple-rgb), 0.1); color: var(--tvs-purple); border-radius: var(--tvs-radius-full); font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); margin-bottom: var(--tvs-space-4); }
+.tvs-usecase-card h3 { font-size: var(--tvs-text-lg); font-weight: var(--tvs-weight-semibold); margin-bottom: var(--tvs-space-2); }
+.tvs-usecase-card p { font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); line-height: var(--tvs-leading-relaxed); }
+.tvs-compare-table { width: 100%; }
+.tvs-compare-table th { text-align: left; padding: var(--tvs-space-4); font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); letter-spacing: var(--tvs-tracking-wide); text-transform: uppercase; color: var(--tvs-text-muted); border-bottom: 1px solid var(--tvs-border-strong); background: rgba(0, 0, 0, 0.2); }
+.tvs-compare-table td { padding: var(--tvs-space-4); border-bottom: 1px solid var(--tvs-border-subtle); font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); }
+.tvs-compare-table td:first-child { color: var(--tvs-text); font-weight: var(--tvs-weight-medium); }
+.tvs-compare-table th.tvs-highlight { color: var(--tvs-cyan); background: rgba(var(--tvs-cyan-rgb), 0.04); }
+.tvs-compare-table td.tvs-highlight { color: var(--tvs-cyan); background: rgba(var(--tvs-cyan-rgb), 0.02); font-weight: var(--tvs-weight-semibold); }
+.tvs-check { color: var(--tvs-green); }
+.tvs-cross { color: var(--tvs-text-muted); }
+.tvs-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--tvs-space-6); }
+.tvs-stat-card { text-align: center; padding: var(--tvs-space-8) var(--tvs-space-4); }
+.tvs-stat-value { font-family: var(--tvs-font-display); font-size: var(--tvs-text-3xl); font-weight: var(--tvs-weight-bold); margin-bottom: var(--tvs-space-2); }
+.tvs-stat-label { font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); }
+.tvs-pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--tvs-space-6); }
+.tvs-price-card { padding: var(--tvs-space-8); text-align: center; }
+.tvs-price-card.tvs-featured { border-color: rgba(var(--tvs-cyan-rgb), 0.3); box-shadow: var(--tvs-glow-cyan); }
+.tvs-price-tag { font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); letter-spacing: var(--tvs-tracking-widest); text-transform: uppercase; color: var(--tvs-cyan); margin-bottom: var(--tvs-space-4); }
+.tvs-price-amount { font-family: var(--tvs-font-display); font-size: var(--tvs-text-3xl); font-weight: var(--tvs-weight-bold); margin-bottom: var(--tvs-space-1); }
+.tvs-price-period { font-size: var(--tvs-text-sm); color: var(--tvs-text-muted); margin-bottom: var(--tvs-space-6); }
+.tvs-price-features { text-align: left; margin-bottom: var(--tvs-space-8); }
+.tvs-price-feature { display: flex; align-items: center; gap: var(--tvs-space-3); padding: var(--tvs-space-2) 0; font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); }
+.tvs-price-feature .tvs-check { flex-shrink: 0; }
+.tvs-cta-section { text-align: center; padding: var(--tvs-space-20) 0; }
+.tvs-cta-actions { display: flex; gap: var(--tvs-space-4); justify-content: center; flex-wrap: wrap; margin-top: var(--tvs-space-8); }
+.tvs-footer { border-top: 1px solid var(--tvs-border); padding: var(--tvs-space-12) 0 var(--tvs-space-8); }
+.tvs-footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: var(--tvs-space-10); margin-bottom: var(--tvs-space-10); }
+.tvs-footer-brand p { font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); line-height: var(--tvs-leading-relaxed); margin-top: var(--tvs-space-4); max-width: 280px; }
+.tvs-footer-col h4 { font-size: var(--tvs-text-xs); font-weight: var(--tvs-weight-semibold); letter-spacing: var(--tvs-tracking-widest); text-transform: uppercase; color: var(--tvs-text-muted); margin-bottom: var(--tvs-space-4); }
+.tvs-footer-col a { display: block; font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); padding: var(--tvs-space-1) 0; transition: color var(--tvs-duration-fast); }
+.tvs-footer-col a:hover { color: var(--tvs-cyan); }
+.tvs-footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: var(--tvs-space-8); border-top: 1px solid var(--tvs-border-subtle); font-size: var(--tvs-text-xs); color: var(--tvs-text-muted); }
+.tvs-newsletter { display: flex; gap: var(--tvs-space-2); margin-top: var(--tvs-space-4); }
+.tvs-newsletter input { flex: 1; }
+@media (max-width: 1024px) { .tvs-value-grid { grid-template-columns: 1fr; } .tvs-usecase-grid { grid-template-columns: 1fr; } .tvs-stats-grid { grid-template-columns: repeat(2, 1fr); } .tvs-pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } .tvs-footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 639px) { .tvs-stats-grid { grid-template-columns: 1fr; } .tvs-footer-grid { grid-template-columns: 1fr; } .tvs-footer-bottom { flex-direction: column; gap: var(--tvs-space-4); text-align: center; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <span style="font-size:1.8rem">&#128640;</span>
-    <div><h1>CONTENT STUDIO</h1><div class="sub">Marketing autónomo VISERON · 5 posts/día · generados por la IA local (Ollama)</div></div>
-    <a class="btn" href="/">&#8592; TVS</a>
-  </header>
 
-  <div class="notice">&#9200; El motor genera los 5 posts del día con el modelo local qwen2.5. La publicación automática en X/Instagram/TikTok/YouTube se activa conectando cada cuenta en n8n (las plantillas están listas). Mientras tanto: copia y publica en 1 clic.</div>
+<nav class="tvs-nav">
+  <a href="/" class="tvs-nav-brand">
+    <span style="font-size:1.2rem">&#9889;</span> TRINNITY VISERON
+  </a>
+  <button class="tvs-nav-mobile-toggle" onclick="document.querySelector('.tvs-nav-links').classList.toggle('tvs-nav-links-open')" aria-label="Toggle navigation">&#9776;</button>
+  <div class="tvs-nav-links">
+    <a href="#features" class="tvs-nav-link">Features</a>
+    <a href="#use-cases" class="tvs-nav-link">Use Cases</a>
+    <a href="#compare" class="tvs-nav-link">Compare</a>
+    <a href="#pricing" class="tvs-nav-link">Pricing</a>
+    <a href="/sistema.html" class="tvs-nav-link">System</a>
+    <a href="/" class="tvs-nav-link tvs-nav-link-active">Home</a>
+  </div>
+</nav>
 
-  <div class="panel">
-    <h3>&#128197; CALENDARIO DEL DÍA</h3>
-    <div class="horario" id="horario"></div>
-    <div style="margin-top:14px">
-      <button class="gen" id="btnGen" onclick="generarDia()">&#129302; GENERAR LOS 5 POSTS DE HOY (IA)</button>
-      <div class="status-line" id="estado"></div>
+<section class="tvs-hero">
+  <div class="tvs-container tvs-hero-content">
+    <div class="tvs-hero-eyebrow">&#9889; Now in Production</div>
+    <h1>The AI-Native Operating System<br>for <span class="tvs-text-gradient">Autonomous Organizations</span></h1>
+    <p class="tvs-hero-sub">Transform objectives into autonomous, verifiable processes. 2000+ AI skills, 10 core agents, enterprise-grade security. Reduce 60% of administrative work.</p>
+    <div class="tvs-hero-actions">
+      <a href="/" class="tvs-btn tvs-btn-primary tvs-btn-lg">Start Free Trial</a>
+      <a href="/sistema.html" class="tvs-btn tvs-btn-secondary tvs-btn-lg">View System Status</a>
     </div>
   </div>
+</section>
 
-  <div class="panel">
-    <h3>&#128172; COLA DE PUBLICACIÓN</h3>
-    <div id="cola"></div>
+<section class="tvs-section" id="features">
+  <div class="tvs-container">
+    <div class="tvs-section-header">
+      <div class="tvs-section-label">Why TVS</div>
+      <h2 class="tvs-section-title">Built for the autonomous future</h2>
+      <p class="tvs-section-desc">Three pillars that set Trinnity Viseron apart from every other AI platform.</p>
+    </div>
+    <div class="tvs-value-grid">
+      <div class="tvs-card tvs-value-card">
+        <div class="tvs-value-icon">&#9879;</div>
+        <h3>Reduce 60% of Administrative Work</h3>
+        <p>Connect Gmail, CRM, ERP, Slack, GitHub. TVS learns your workflows, creates agents, executes tasks and measures ROI autonomously.</p>
+      </div>
+      <div class="tvs-card tvs-value-card">
+        <div class="tvs-value-icon" style="background:rgba(var(--tvs-purple-rgb),0.08);border-color:rgba(var(--tvs-purple-rgb),0.15)">&#129504;</div>
+        <h3>2000+ Skills for Any Task</h3>
+        <p>From marketing automation to code deployment, financial reporting to customer support. Pre-built skills across 10 collections, extensible by your team.</p>
+      </div>
+      <div class="tvs-card tvs-value-card">
+        <div class="tvs-value-icon" style="background:rgba(var(--tvs-green-rgb),0.08);border-color:rgba(var(--tvs-green-rgb),0.15)">&#128274;</div>
+        <h3>Enterprise-Grade Security</h3>
+        <p>Role-based access control, biblical governance with 9 ethical principles, encrypted E2E messaging, audit trails for every operation. Your data never leaves your control.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<section class="tvs-section" style="background:var(--tvs-bg-elevated)" id="use-cases">
+  <div class="tvs-container">
+    <div class="tvs-section-header">
+      <div class="tvs-section-label">Use Cases</div>
+      <h2 class="tvs-section-title">One platform, every industry</h2>
+      <p class="tvs-section-desc">Whether you run a marketing agency or a tech startup, TVS adapts to your domain.</p>
+    </div>
+    <div class="tvs-usecase-grid">
+      <div class="tvs-card tvs-usecase-card">
+        <span class="tvs-usecase-tag">Marketing</span>
+        <h3>Marketing Agency</h3>
+        <p>Automate lead nurturing, generate creatives in 3 languages, run biweekly reports and manage client dashboards. 50 clients per operator with AI.</p>
+      </div>
+      <div class="tvs-card tvs-usecase-card">
+        <span class="tvs-usecase-tag" style="background:rgba(var(--tvs-green-rgb),0.1);color:var(--tvs-green);border-color:rgba(var(--tvs-green-rgb),0.2)">Startup</span>
+        <h3>Tech Startup</h3>
+        <p>Ship features faster with autonomous engineering agents, automated code review, deployment pipelines and real-time system monitoring.</p>
+      </div>
+      <div class="tvs-card tvs-usecase-card">
+        <span class="tvs-usecase-tag" style="background:rgba(var(--tvs-orange-rgb),0.1);color:var(--tvs-orange);border-color:rgba(var(--tvs-orange-rgb),0.2)">Enterprise</span>
+        <h3>Enterprise</h3>
+        <p>Orchestrate cross-department workflows, automate compliance checks and generate executive reports. Multi-tenant with RBAC and audit trails.</p>
+      </div>
+      <div class="tvs-card tvs-usecase-card">
+        <span class="tvs-usecase-tag" style="background:rgba(var(--tvs-pink-rgb),0.1);color:var(--tvs-pink);border-color:rgba(var(--tvs-pink-rgb),0.2)">Freelancer</span>
+        <h3>Freelancer</h3>
+        <p>Run your solo business like a team. Automated invoicing, client communication, content generation and project management with AI agents.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tvs-section" id="compare">
+  <div class="tvs-container">
+    <div class="tvs-section-header">
+      <div class="tvs-section-label">Comparison</div>
+      <h2 class="tvs-section-title">How TVS compares</h2>
+      <p class="tvs-section-desc">See why teams choose Trinnity Viseron over generic AI tools.</p>
+    </div>
+    <div class="tvs-table-wrap">
+      <table class="tvs-table tvs-compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="tvs-highlight">Trinnity Viseron</th>
+            <th>Generic AI Tools</th>
+            <th>Custom AI Stack</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Autonomous agents</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> 10 core + squads</td><td><span class="tvs-cross">&#10007;</span> Single agent</td><td><span class="tvs-cross">&#10007;</span> Manual setup</td></tr>
+          <tr><td>Built-in integrations</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> 2000+ skills</td><td><span class="tvs-cross">&#10007;</span> Limited</td><td><span class="tvs-check">&#10003;</span> Custom dev</td></tr>
+          <tr><td>E2E task verification</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> OMEGA Kernel</td><td><span class="tvs-cross">&#10007;</span> None</td><td><span class="tvs-cross">&#10007;</span> Manual QA</td></tr>
+          <tr><td>Multi-tenant auth</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> Built-in</td><td><span class="tvs-cross">&#10007;</span> None</td><td><span class="tvs-check">&#10003;</span> Weeks to build</td></tr>
+          <tr><td>Billing & payments</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> Avirato + Stripe</td><td><span class="tvs-cross">&#10007;</span> None</td><td><span class="tvs-cross">&#10007;</span> Months to build</td></tr>
+          <tr><td>Local AI (no API key)</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> Ollama</td><td><span class="tvs-cross">&#10007;</span> Cloud only</td><td><span class="tvs-check">&#10003;</span> Custom setup</td></tr>
+          <tr><td>Audit & governance</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> Biblical + AIOX</td><td><span class="tvs-cross">&#10007;</span> None</td><td><span class="tvs-cross">&#10007;</span> None</td></tr>
+          <tr><td>Time to production</td><td class="tvs-highlight"><span class="tvs-check">&#10003;</span> Same day</td><td>Days</td><td>Months</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="tvs-section" style="background:var(--tvs-bg-elevated)">
+  <div class="tvs-container">
+    <div class="tvs-section-header">
+      <div class="tvs-section-label">Proven Results</div>
+      <h2 class="tvs-section-title">Numbers that speak for themselves</h2>
+    </div>
+    <div class="tvs-stats-grid">
+      <div class="tvs-card tvs-stat-card">
+        <div class="tvs-stat-value tvs-text-gradient">309/309</div>
+        <div class="tvs-stat-label">Tests Passed</div>
+      </div>
+      <div class="tvs-card tvs-stat-card">
+        <div class="tvs-stat-value" style="color:var(--tvs-purple)">2,002</div>
+        <div class="tvs-stat-label">Skills Available</div>
+      </div>
+      <div class="tvs-card tvs-stat-card">
+        <div class="tvs-stat-value" style="color:var(--tvs-green)">12</div>
+        <div class="tvs-stat-label">Active Squads</div>
+      </div>
+      <div class="tvs-card tvs-stat-card">
+        <div class="tvs-stat-value" style="color:var(--tvs-orange)">10</div>
+        <div class="tvs-stat-label">Core Agents</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tvs-section" id="pricing">
+  <div class="tvs-container">
+    <div class="tvs-section-header">
+      <div class="tvs-section-label">Pricing</div>
+      <h2 class="tvs-section-title">Simple, transparent plans</h2>
+      <p class="tvs-section-desc">Start free. Scale when you are ready.</p>
+    </div>
+    <div class="tvs-pricing-grid">
+      <div class="tvs-card tvs-price-card">
+        <div class="tvs-price-tag">Core</div>
+        <div class="tvs-price-amount">$29<span style="font-size:var(--tvs-text-sm);font-weight:var(--tvs-weight-regular);color:var(--tvs-text-muted)">/mo</span></div>
+        <div class="tvs-price-period">For individuals and small teams</div>
+        <div class="tvs-price-features">
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> 5 AI agents</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> 500 skills</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Local AI (Ollama)</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Basic analytics</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Email support</div>
+        </div>
+        <a href="/" class="tvs-btn tvs-btn-secondary tvs-btn-lg tvs-w-full">Get Started</a>
+      </div>
+      <div class="tvs-card tvs-price-card tvs-featured">
+        <div class="tvs-price-tag">Pro</div>
+        <div class="tvs-price-amount" style="color:var(--tvs-cyan)">$99<span style="font-size:var(--tvs-text-sm);font-weight:var(--tvs-weight-regular);color:var(--tvs-text-muted)">/mo</span></div>
+        <div class="tvs-price-period">For growing organizations</div>
+        <div class="tvs-price-features">
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> 20 AI agents</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> 2000 skills</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Cloud AI providers</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> OMEGA Kernel</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Billing integration</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Priority support</div>
+        </div>
+        <a href="/" class="tvs-btn tvs-btn-primary tvs-btn-lg tvs-w-full">Start Free Trial</a>
+      </div>
+      <div class="tvs-card tvs-price-card">
+        <div class="tvs-price-tag">Enterprise</div>
+        <div class="tvs-price-amount">$499<span style="font-size:var(--tvs-text-sm);font-weight:var(--tvs-weight-regular);color:var(--tvs-text-muted)">/mo</span></div>
+        <div class="tvs-price-period">For large-scale deployments</div>
+        <div class="tvs-price-features">
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Unlimited agents</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> All 2002 skills</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Custom integrations</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> Dedicated support</div>
+          <div class="tvs-price-feature"><span class="tvs-check">&#10003;</span> SLA guarantee</div>
+        </div>
+        <a href="/" class="tvs-btn tvs-btn-secondary tvs-btn-lg tvs-w-full">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tvs-cta-section" style="background:linear-gradient(180deg, var(--tvs-bg) 0%, rgba(var(--tvs-cyan-rgb), 0.03) 100%)">
+  <div class="tvs-container">
+    <h2 class="tvs-section-title">Ready to go autonomous?</h2>
+    <p class="tvs-section-desc">Join the organizations already using Trinnity Viseron to automate their operations.</p>
+    <div class="tvs-cta-actions">
+      <a href="/" class="tvs-btn tvs-btn-primary tvs-btn-xl">Start Your Free Trial</a>
+      <a href="/sistema.html" class="tvs-btn tvs-btn-ghost tvs-btn-xl">Schedule a Demo</a>
+    </div>
+  </div>
+</section>
+
+<footer class="tvs-footer">
+  <div class="tvs-container">
+    <div class="tvs-footer-grid">
+      <div class="tvs-footer-brand">
+        <a href="/" class="tvs-nav-brand" style="font-size:var(--tvs-text-lg)"><span style="font-size:1.2rem">&#9889;</span> TRINNITY VISERON</a>
+        <p>The AI-Native Operating System for Autonomous Organizations. Built with 9 biblical governance principles.</p>
+        <div class="tvs-newsletter">
+          <input type="email" class="tvs-input tvs-input-sm" placeholder="Your email" aria-label="Email for newsletter">
+          <button class="tvs-btn tvs-btn-primary tvs-btn-sm">Subscribe</button>
+        </div>
+      </div>
+      <div class="tvs-footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="/sistema.html">System Status</a>
+        <a href="/atlas.html">ATLAS Tutor</a>
+        <a href="/viseron.html">VISERON Voice</a>
+      </div>
+      <div class="tvs-footer-col">
+        <h4>Resources</h4>
+        <a href="/cosmos">Cosmos ($VSR/$TRIN)</a>
+        <a href="/os">TVS OS Desktop</a>
+        <a href="/game">VISERON Game</a>
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="tvs-footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="tvs-footer-bottom">
+      <span>&copy; Pedro Costa (Commander) & Trinnity Hurtado (Queen)</span>
+      <span>Trinnity Viseron System v7.0</span>
+    </div>
+  </div>
+</footer>
+
 <script>
-var TIPOS = [
-  {hora:"09:00", tipo:"Valor TVS", tema:"Escribe un post breve y potente en español sobre el Trinnity Viseron System: sistema operativo de IA multi-agente con 5000+ mentes. Maximo 280 caracteres. Sin hashtags."},
-  {hora:"12:00", tipo:"VSR / TRIN", tema:"Escribe un post en español sobre los tokens VSR (gobernanza, 300M) y TRIN (memecoin con quema del 2%). Maximo 280 caracteres. Incluye 2 hashtags."},
-  {hora:"15:00", tipo:"Educación IA", tema:"Da un consejo util en español sobre inteligencia artificial para emprendedores. Maximo 280 caracteres. Cierra con una pregunta para generar comentarios."},
-  {hora:"18:00", tipo:"Misiones", tema:"Escribe un post en español invitando a cumplir las 50 misiones del TVS OS y ganar TRIN. Maximo 280 caracteres. Incluye emoji de cohete."},
-  {hora:"21:00", tipo:"Comunidad", tema:"Escribe una frase inspiradora en español sobre construir el futuro con IA y comunidad, firmada por el batallon Viseron. Maximo 280 caracteres."}
-];
-var COLA = [];
-function guardar(){ localStorage.setItem('tvs_marketing', JSON.stringify({cola:COLA, dia:new Date().toISOString().slice(0,10)})); }
-function cargar(){ try{ var d=JSON.parse(localStorage.getItem('tvs_marketing')||'null'); if(d && d.dia===new Date().toISOString().slice(0,10)) COLA=d.cola||[]; }catch(e){} }
-function pintarHorario(){
-  var h='';
-  TIPOS.forEach(function(t, i){
-    var hecho = COLA[i] ? true : false;
-    h+='<div class="slot"><div class="hora">'+t.hora+'</div><div class="tipo">'+t.tipo+'</div><div class="estado'+(hecho?' ok':'')+'">'+(hecho?'GENERADO':'PENDIENTE')+'</div></div>';
+document.querySelectorAll('.tvs-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.tvs-nav-links').classList.remove('tvs-nav-links-open');
   });
-  document.getElementById('horario').innerHTML=h;
-}
-function pintarCola(){
-  var el=document.getElementById('cola');
-  if(!COLA.length){ el.innerHTML='<div class="status-line">Sin posts aun. Pulsa GENERAR para que la IA cree los 5 del dia.</div>'; return; }
-  var h='';
-  COLA.forEach(function(p, i){
-    h+='<div class="post"><div class="meta"><span class="badge">'+p.tipo+'</span><span>'+p.hora+'</span><span>plataformas: X · IG · TikTok · FB</span></div>'+
-      '<div class="texto">'+p.texto+'</div>'+
-      '<div class="acciones"><button onclick="copiar('+i+')">&#128203; COPIAR</button><button onclick="regenerar('+i+')">&#128260; REGENERAR</button></div></div>';
-  });
-  el.innerHTML=h;
-}
-function copiar(i){ navigator.clipboard.writeText(COLA[i].texto); }
-function pintar(){ pintarHorario(); pintarCola(); guardar(); }
-async function generarUno(t){
-  try {
-    var r = await fetch('/api/viseron/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:t.tema})});
-    var j = await r.json();
-    if(j && j.text) return j.text;
-  } catch(e){}
-  return null;
-}
-function textoPlantilla(t){
-  if(t.tipo==='Valor TVS') return 'El Trinnity Viseron System no es un chatbot: es un sistema operativo de IA multi-agente con 5000+ mentes trabajando 24/7. Piensa, ejecuta, audita y evoluciona. Esto es el futuro. #Viseron #IA';
-  if(t.tipo==='VSR / TRIN') return 'VSR gobierna (300M, staking). TRIN viaja (quema 2% por tx). El cosmos Viseron tiene su propia economia. #VSR #TRIN #Crypto';
-  if(t.tipo==='Educación IA') return 'Consejo IA para emprendedores: automatiza lo repetitivo con agentes y usa tu tiempo en decidir. Que tarea repetitiva te roba mas horas hoy?';
-  if(t.tipo==='Misiones') return '50 misiones te esperan en el TVS OS. Cumple, gana TRIN y sube de rango en el batallon. Empieza hoy. #Viseron #TRIN';
-  return 'Construimos el futuro con IA, comunidad y evidencia. El batallon Viseron avanza. Se parte. #Viseron';
-}
-async function generarDia(){
-  var btn=document.getElementById('btnGen'); btn.disabled=true;
-  var est=document.getElementById('estado');
-  COLA=[];
-  for(var i=0;i<TIPOS.length;i++){
-    est.textContent='Generando post '+(i+1)+'/5 ('+TIPOS[i].tipo+') con la IA local...';
-    var t=TIPOS[i];
-    var texto=await generarUno(t);
-    if(!texto) texto=textoPlantilla(t);
-    COLA.push({hora:t.hora, tipo:t.tipo, texto:texto});
-    pintar();
-  }
-  est.textContent='✓ 5 posts generados y encolados. Programacion: 09:00 · 12:00 · 15:00 · 18:00 · 21:00';
-  btn.disabled=false;
-}
-cargar(); pintar();
+});
 </script>
 </body>
 </html>

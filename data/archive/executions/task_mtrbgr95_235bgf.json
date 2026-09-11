@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrbgr95_235bgf",
+  "timestamp": "2026-09-07T14:09:03.858Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "066fd8f35f1b0c4b79cc2014d5c97a0bee345bfb3dca587874f21d12d1b833ba"
+}

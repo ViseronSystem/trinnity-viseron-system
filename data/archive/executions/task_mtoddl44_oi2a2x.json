@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoddl44_oi2a2x",
+  "timestamp": "2026-09-05T12:39:16.734Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "07bb925e75a076374db445d88d6dcf4e995d6ba77f4141cba077561b7ad1be9e"
+}

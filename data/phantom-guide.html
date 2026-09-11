@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar Tokens na Phantom</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #1a1a2e; color: #fff; padding: 15px; }
+    .container { max-width: 500px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 20px; font-size: 24px; }
+    .step { background: #16213e; padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 4px solid #e94560; }
+    .step h3 { color: #e94560; margin-bottom: 10px; }
+    .step p { line-height: 1.6; }
+    .mint { background: #0f3460; padding: 10px; border-radius: 5px; font-family: monospace; word-break: break-all; margin: 10px 0; cursor: pointer; border: 1px solid #e94560; }
+    .mint:active { background: #e94560; }
+    .btn { display: block; width: 100%; background: #e94560; color: #fff; padding: 15px; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; margin: 20px 0; }
+    .btn:active { background: #ff6b6b; }
+    .note { background: #533483; padding: 15px; border-radius: 10px; margin-top: 20px; }
+    .emoji { font-size: 24px; }
+    .highlight { color: #e94560; font-weight: bold; }
+    .screenshot { background: #0f3460; padding: 20px; border-radius: 10px; text-align: center; margin: 10px 0; }
+    .copy-hint { color: #888; font-size: 12px; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📱 Adicionar Tokens na Phantom</h1>
+    
+    <div class="step">
+      <h3>Passo 1: Abre a Phantom</h3>
+      <p>Abre a app <span class="highlight">Phantom</span> no telemóvel</p>
+    </div>
+    
+    <div class="step">
+      <h3>Passo 2: Clica no "+"</h3>
+      <p>No fundo da ecrã, clica no botão <span class="highlight">"+"</span> ou <span class="highlight">"Import Tokens"</span></p>
+      <div class="screenshot">
+        <span class="emoji">⬇️</span><br>
+        Botão "+" no fundo
+      </div>
+    </div>
+    
+    <div class="step">
+      <h3>Passo 3: Seleciona "Import Token"</h3>
+      <p>Seleciona a opção <span class="highlight">"Import Token"</span></p>
+    </div>
+    
+    <div class="step">
+      <h3>Passo 4: Cola o Mint Address do VSR</h3>
+      <p>Clica no mint abaixo para copiar:</p>
+      <div class="mint" onclick="copyToClipboard('7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU')">
+        7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU
+      </div>
+      <p class="copy-hint">Toca para copiar</p>
+      <p>Depois clica <span class="highlight">"Add"</span></p>
+    </div>
+    
+    <div class="step">
+      <h3>Passo 5: Repete para o TRIN</h3>
+      <p>Adiciona outro token com este mint:</p>
+      <div class="mint" onclick="copyToClipboard('Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx')">
+        Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx
+      </div>
+      <p class="copy-hint">Toca para copiar</p>
+      <p>Clica <span class="highlight">"Add"</span></p>
+    </div>
+    
+    <div class="note">
+      <h3>✅ Pronto!</h3>
+      <p>Depois de adicionares, os tokens vão aparecer na tua wallet com os valores!</p>
+      <p><br><strong>VSR:</strong> 299,750,000 tokens</p>
+      <p><strong>TRIN:</strong> 419,261,429 tokens</p>
+    </div>
+    
+    <button class="btn" onclick="copyToClipboard('7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU')">
+      📋 Copiar Mint VSR
+    </button>
+    
+    <button class="btn" onclick="copyToClipboard('Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx')">
+      📋 Copiar Mint TRIN
+    </button>
+  </div>
+  
+  <script>
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copiado: ' + text);
+      }).catch(() => {
+        // Fallback
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Copiado: ' + text);
+      });
+    }
+  </script>
+</body>
+</html>

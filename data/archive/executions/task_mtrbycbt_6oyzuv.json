@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrbycbt_6oyzuv",
+  "timestamp": "2026-09-07T14:22:47.078Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "9660ed86896a7c4f6f0613d9f9045398c040251f0484039895daadc7019f5c7c"
+}

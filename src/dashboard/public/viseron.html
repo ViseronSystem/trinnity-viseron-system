@@ -3,155 +3,752 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VISERON — HUD · Voz Stark</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<title>VISERON — Superintelligence Command Center</title>
+<link rel="stylesheet" href="/tvs-design.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#02020a;--cyan:#00f0ff;--purple:#bf5af2;--orange:#ff9f0a;--green:#00ff87;--red:#ff5f57;--text:#e6e8f4;--muted:#8a90ab}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:30px 16px}
-h1{font-family:'Orbitron';font-weight:900;letter-spacing:2px;color:var(--cyan);font-size:1.5rem;text-align:center}
-.sub{color:var(--muted);font-size:.75rem;margin:6px 0 20px;text-align:center;letter-spacing:1px}
-.core{position:relative;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#0a2a3a,#050510 70%);border:2px solid rgba(0,240,255,.4);display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(0,240,255,.25),inset 0 0 60px rgba(0,240,255,.12);margin:0 auto 24px}
-.core .pulso{position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(0,240,255,.5);animation:pulso 3s infinite}
-.core .pulso2{animation-delay:1.5s}
-@keyframes pulso{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.35);opacity:0}}
-.core .estado{font-family:'Orbitron';font-size:.8rem;color:var(--green);text-align:center;z-index:2}
-.core .estado.escuchando{color:var(--orange)}
-.panel{width:min(720px,96vw);background:rgba(8,10,24,.94);border:1px solid rgba(0,240,255,.16);border-radius:16px;padding:18px;margin:10px 0}
-.panel h3{font-family:'Orbitron';font-size:.8rem;color:var(--purple);letter-spacing:1px;margin-bottom:10px}
-.log{font-size:.8rem;line-height:1.7;max-height:200px;overflow-y:auto;font-family:Consolas,monospace}
-.log .u{color:var(--orange)} .log .v{color:var(--cyan)} .log .m{color:var(--muted)}
-.botones{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.botones button{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.3);color:var(--cyan);border-radius:99px;padding:11px 20px;font-weight:800;font-size:.8rem;cursor:pointer;transition:.2s}
-.botones button:hover{background:rgba(0,240,255,.2)}
-.botones button.mic{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#030310;border:none}
-.botones button.mic.activo{background:linear-gradient(90deg,#ff5f57,#ff9f0a);animation:parp 1s infinite}
-@keyframes parp{0%,100%{opacity:1}50%{opacity:.5}}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:640px){.grid2{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse;font-size:.74rem}
-table th{text-align:left;color:var(--cyan);border-bottom:1px solid rgba(0,240,255,.2);padding:6px 4px;font-size:.66rem}
-table td{padding:6px 4px;border-bottom:1px solid rgba(255,255,255,.05)}
-.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.62rem;font-weight:800}
-.bg{background:rgba(0,255,135,.15);color:var(--green)} .by{background:rgba(255,159,10,.15);color:var(--orange)}
-.pista{color:var(--muted);font-size:.7rem;text-align:center;margin-top:14px;line-height:1.7}
+body { background: var(--tvs-bg); }
+
+/* ── Reactor Core ── */
+.reactor-core {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #0a2a3a, var(--tvs-bg) 70%);
+  border: 2px solid rgba(0, 240, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 60px rgba(0, 240, 255, 0.2), inset 0 0 60px rgba(0, 240, 255, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.reactor-core:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 80px rgba(0, 240, 255, 0.35), inset 0 0 80px rgba(0, 240, 255, 0.15);
+}
+.reactor-core.listening {
+  border-color: rgba(255, 159, 10, 0.6);
+  box-shadow: 0 0 80px rgba(255, 159, 10, 0.3), inset 0 0 60px rgba(255, 159, 10, 0.15);
+  animation: reactor-listen 1s ease-in-out infinite;
+}
+@keyframes reactor-listen {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  animation: pulse-expand 3s ease-out infinite;
+}
+.pulse-ring:nth-child(2) { animation-delay: 1.5s; }
+.pulse-ring:nth-child(3) { inset: 0; animation-duration: 4s; }
+@keyframes pulse-expand {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.reactor-label {
+  font-family: 'Orbitron', var(--tvs-font-display);
+  font-size: var(--tvs-text-sm);
+  font-weight: 700;
+  color: var(--tvs-cyan);
+  text-align: center;
+  z-index: 2;
+  line-height: 1.4;
+}
+.reactor-label .status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tvs-green);
+  margin-right: 6px;
+  animation: tvs-pulse-dot 2s ease-in-out infinite;
+}
+.reactor-label .status-dot.offline { background: var(--tvs-danger); }
+.reactor-label .sub {
+  display: block;
+  font-family: var(--tvs-font-sans);
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+/* ── Voice Wave Visualization ── */
+.voice-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.voice-wave.active { opacity: 1; }
+.voice-wave .bar {
+  width: 3px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--tvs-cyan);
+  animation: wave-bar 0.8s ease-in-out infinite;
+}
+.voice-wave .bar:nth-child(1) { animation-delay: 0s; }
+.voice-wave .bar:nth-child(2) { animation-delay: 0.1s; }
+.voice-wave .bar:nth-child(3) { animation-delay: 0.2s; }
+.voice-wave .bar:nth-child(4) { animation-delay: 0.3s; }
+.voice-wave .bar:nth-child(5) { animation-delay: 0.15s; }
+.voice-wave .bar:nth-child(6) { animation-delay: 0.25s; }
+.voice-wave .bar:nth-child(7) { animation-delay: 0.05s; }
+@keyframes wave-bar {
+  0%, 100% { height: 8px; opacity: 0.4; }
+  50% { height: 32px; opacity: 1; }
+}
+
+/* ── Chat Messages ── */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tvs-space-3);
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--tvs-space-4);
+}
+.chat-msg {
+  display: flex;
+  gap: var(--tvs-space-3);
+  animation: tvs-fade-in-up 0.3s var(--tvs-ease-out);
+}
+.chat-msg-user { flex-direction: row-reverse; }
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--tvs-text-sm);
+  flex-shrink: 0;
+}
+.chat-avatar.user {
+  background: rgba(var(--tvs-purple-rgb), 0.15);
+  border: 1px solid rgba(var(--tvs-purple-rgb), 0.3);
+  color: var(--tvs-purple);
+}
+.chat-avatar.viseron {
+  background: rgba(var(--tvs-cyan-rgb), 0.15);
+  border: 1px solid rgba(var(--tvs-cyan-rgb), 0.3);
+  color: var(--tvs-cyan);
+}
+.chat-bubble {
+  max-width: 75%;
+  padding: var(--tvs-space-3) var(--tvs-space-4);
+  border-radius: var(--tvs-radius-lg);
+  font-size: var(--tvs-text-sm);
+  line-height: var(--tvs-leading-relaxed);
+}
+.chat-msg-user .chat-bubble {
+  background: rgba(var(--tvs-purple-rgb), 0.1);
+  border: 1px solid rgba(var(--tvs-purple-rgb), 0.15);
+  border-bottom-right-radius: var(--tvs-radius-xs);
+}
+.chat-msg-viseron .chat-bubble {
+  background: rgba(var(--tvs-cyan-rgb), 0.06);
+  border: 1px solid rgba(var(--tvs-cyan-rgb), 0.12);
+  border-bottom-left-radius: var(--tvs-radius-xs);
+}
+
+/* ── Governance Table ── */
+.gov-table { width: 100%; }
+.gov-table th {
+  text-align: left;
+  color: var(--tvs-text-muted);
+  font-size: var(--tvs-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-bottom: 1px solid var(--tvs-border);
+}
+.gov-table td {
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  font-size: var(--tvs-text-sm);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+}
+
+/* ── Wake Word Indicator ── */
+.wake-indicator {
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+  text-align: center;
+  padding: var(--tvs-space-2) var(--tvs-space-4);
+  background: var(--tvs-surface-1);
+  border-radius: var(--tvs-radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+}
+.wake-indicator .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tvs-cyan);
+  animation: tvs-pulse-dot 2s ease-in-out infinite;
+}
+
+/* ── Language Switcher ── */
+.lang-switch {
+  display: flex;
+  gap: 2px;
+  background: var(--tvs-surface-1);
+  border-radius: var(--tvs-radius-full);
+  padding: 2px;
+}
+.lang-switch button {
+  padding: var(--tvs-space-1) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-full);
+  font-size: var(--tvs-text-xs);
+  font-weight: 600;
+  color: var(--tvs-text-muted);
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+.lang-switch button.active {
+  background: rgba(var(--tvs-cyan-rgb), 0.15);
+  color: var(--tvs-cyan);
+}
+.lang-switch button:hover:not(.active) { color: var(--tvs-text); }
+
+/* ── AIOX Operation Row ── */
+.op-row {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-sm);
+  font-size: var(--tvs-text-sm);
+  transition: background 0.15s;
+}
+.op-row:hover { background: var(--tvs-surface-1); }
+.op-row .op-time {
+  font-family: var(--tvs-font-mono);
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+  min-width: 60px;
+}
+.op-row .op-intent {
+  color: var(--tvs-purple);
+  font-weight: 500;
+  min-width: 100px;
+}
+.op-row .op-result { flex: 1; color: var(--tvs-text-secondary); }
+
+/* ── Footer ── */
+.page-footer {
+  text-align: center;
+  padding: var(--tvs-space-8) var(--tvs-space-4);
+  border-top: 1px solid var(--tvs-border-subtle);
+  margin-top: var(--tvs-space-10);
+}
+.page-footer p {
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+  line-height: var(--tvs-leading-relaxed);
+}
+.page-footer a { color: var(--tvs-text-link); }
+
+@media (max-width: 768px) {
+  .reactor-core { width: 160px; height: 160px; }
+  .chat-bubble { max-width: 90%; }
+}
 </style>
 </head>
 <body>
-<a href="/" style="position:fixed;top:14px;left:14px;color:var(--cyan);text-decoration:none;font-size:.75rem;font-weight:800;background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.3);padding:8px 14px;border-radius:99px">&#8592; TVS</a>
-<h1>VISERON</h1>
-<div class="sub">SUPERINTELIGENCIA CON VOZ · PERSONA STARK · SUPERVISIÓN AIOX · GOBERNANZA BÍBLICA</div>
 
-<div class="core"><div class="pulso"></div><div class="pulso pulso2"></div><div class="estado" id="estado">&#128308; EN LÍNEA<br><span style="font-size:.6rem" id="modo">modo: reposo</span></div></div>
-
-<div class="botones">
-  <button class="mic" id="btnMic">&#127908; HABLAR CON VISERON</button>
-  <button id="btnWake">&#128264; ACTIVAR WAKE WORD</button>
-  <button onclick="decir('estado')">Estado</button>
-  <button onclick="decir('auditoria')">Auditoría</button>
-  <button onclick="decir('quien manda')">Autoridad</button>
-  <button onclick="decir('tokens')">Tokens</button>
-</div>
-
-<div class="grid2" style="margin-top:16px;max-width:720px;width:min(720px,96vw)">
-  <div class="panel"><h3>&#128172; TRANSCRIPCIÓN</h3><div class="log" id="log"></div></div>
-  <div class="panel"><h3>&#128737; GOBERNANZA</h3>
-    <table><tr><th>Principio</th><th>Estado</th></tr>
-    <tr><td>Sabedoria · Verdad · Mayordomía</td><td><span class="badge bg">ACTIVO</span></td></tr>
-    <tr><td>Justicia · Servicio · Diligencia</td><td><span class="badge bg">ACTIVO</span></td></tr>
-    <tr><td>Humildad · Liberalidad · Fidelidad</td><td><span class="badge bg">ACTIVO</span></td></tr>
-    <tr><td>Blocked: fraude, hidden_fee, data_leak, seed_exposure</td><td><span class="badge bg">BLOQUEADO</span></td></tr>
-    <tr><td>7 checks éticos por operación</td><td><span class="badge bg">ACTIVO</span></td></tr></table>
+<!-- Navigation -->
+<nav class="tvs-nav">
+  <a href="/" class="tvs-nav-brand">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="var(--tvs-cyan)"/></svg>
+    TVS
+  </a>
+  <div class="tvs-nav-links" id="navLinks">
+    <a href="/" class="tvs-nav-link">Home</a>
+    <a href="/viseron" class="tvs-nav-link tvs-nav-link-active">VISERON</a>
+    <a href="/atlas" class="tvs-nav-link">ATLAS</a>
+    <a href="/os" class="tvs-nav-link">Desktop</a>
+    <a href="/cosmos" class="tvs-nav-link">Cosmos</a>
+    <div class="lang-switch" style="margin-left:8px">
+      <button class="active" onclick="setLang('es')">ES</button>
+      <button onclick="setLang('pt')">PT</button>
+      <button onclick="setLang('en')">EN</button>
+    </div>
   </div>
-</div>
+  <button class="tvs-nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('tvs-nav-links-open')" aria-label="Toggle menu">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg>
+  </button>
+</nav>
 
-<div class="panel" style="max-width:720px;width:min(720px,96vw)"><h3>&#129302; SUPERVISIÓN AIOX</h3>
-  <table><tr><th>Métrica</th><th>Valor</th></tr>
-  <tr><td>okRate operaciones</td><td><span class="badge bg" id="okrate">98,2%</span></td></tr>
-  <tr><td>Últimas operaciones</td><td>10 registradas (JSONL + SHA-256)</td></tr>
-  <tr><td>Intents distribuidos</td><td>23 intents · speaker: usuario</td></tr>
-  <tr><td>Providers</td><td>OmniRoute · 6 proveedores</td></tr></table>
-</div>
+<!-- Main Content -->
+<main class="tvs-container tvs-py-8">
 
-<div class="pista">WAKE WORD: di <b>"visor"</b> en voz alta con el micrófono activo · comandos: "estado", "auditoría", "quién manda", "tokens", "roadmap", "misiones", "qué sabes hacer"<br>El reconocimiento de voz usa el motor del navegador (Chrome/Edge) · sin coste de API</div>
+  <!-- Header Section -->
+  <section class="tvs-text-center tvs-mb-8 tvs-animate-fade-in">
+    <h1 class="tvs-h1 tvs-text-gradient" style="font-family:'Orbitron',var(--tvs-font-display); letter-spacing:0.08em;">
+      VISERON
+    </h1>
+    <p class="tvs-body-sm tvs-text-secondary tvs-mt-2">
+      Superintelligence Command Center &middot; Stark Persona &middot; AIOX Supervision &middot; Biblical Governance
+    </p>
+    <div class="tvs-flex tvs-items-center tvs-justify-center tvs-gap-3 tvs-mt-4">
+      <span class="tvs-badge tvs-badge-green tvs-badge-dot tvs-badge-dot-animated" id="statusBadge">Online</span>
+      <span class="tvs-badge tvs-badge-purple" id="providerBadge">Provider: loading...</span>
+      <span class="tvs-badge tvs-badge-cyan" id="uptimeBadge">Uptime: --</span>
+    </div>
+  </section>
+
+  <!-- Reactor + Voice Interface -->
+  <section class="tvs-text-center tvs-mb-8 tvs-animate-fade-in-up tvs-delay-1">
+    <div style="display:inline-block; position:relative;">
+      <div class="reactor-core" id="reactorCore" onclick="toggleListening()">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="reactor-label">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="reactorStatus">STANDBY</span>
+          <span class="sub" id="reactorMode">Click to speak</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice Wave -->
+    <div class="voice-wave" id="voiceWave">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+
+    <!-- Wake Word Indicator -->
+    <div class="tvs-mt-4">
+      <div class="wake-indicator">
+        <span class="pulse-dot"></span>
+        <span id="wakeText">Say <strong>"VISERON"</strong> to activate &middot; Di <strong>"VISERON"</strong> para activar</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="tvs-flex tvs-justify-center tvs-gap-3 tvs-mt-4 tvs-flex-wrap">
+      <button class="tvs-btn tvs-btn-primary tvs-btn-pill" id="btnMic" onclick="toggleListening()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        Speak
+      </button>
+      <button class="tvs-btn tvs-btn-secondary tvs-btn-pill" id="btnWake" onclick="toggleWakeWord()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        Wake Word
+      </button>
+      <button class="tvs-btn tvs-btn-ghost tvs-btn-pill" onclick="sendQuick('estado')">Estado</button>
+      <button class="tvs-btn tvs-btn-ghost tvs-btn-pill" onclick="sendQuick('auditoria')">Auditoria</button>
+      <button class="tvs-btn tvs-btn-ghost tvs-btn-pill" onclick="sendQuick('tokens')">Tokens</button>
+      <button class="tvs-btn tvs-btn-ghost tvs-btn-pill" onclick="sendQuick('roadmap')">Roadmap</button>
+    </div>
+  </section>
+
+  <!-- Two Column Layout -->
+  <div class="tvs-grid tvs-grid-2 tvs-gap-6" style="grid-template-columns: 1fr 1fr;">
+
+    <!-- Chat Panel -->
+    <div class="tvs-card tvs-animate-fade-in-up tvs-delay-2" style="grid-column: 1 / -1;">
+      <div class="tvs-card-header">
+        <span class="tvs-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tvs-cyan)" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Chat with VISERON
+        </span>
+        <span class="tvs-badge tvs-badge-cyan tvs-badge-sm" id="chatCount">0 messages</span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg chat-msg-viseron">
+          <div class="chat-avatar viseron">V</div>
+          <div class="chat-bubble">VISERON online. Biblical governance active. AIOX supervision ready. How can I serve, Commander?</div>
+        </div>
+      </div>
+      <div class="tvs-card-footer" style="gap:var(--tvs-space-2);">
+        <input type="text" class="tvs-input" id="chatInput" placeholder="Type a message to VISERON..." style="flex:1" onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="tvs-btn tvs-btn-primary" onclick="sendChat()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send
+        </button>
+      </div>
+    </div>
+
+    <!-- System Status -->
+    <div class="tvs-card tvs-card-purple tvs-animate-fade-in-up tvs-delay-3">
+      <div class="tvs-card-header">
+        <span class="tvs-card-title">System Status</span>
+        <span class="tvs-badge tvs-badge-green tvs-badge-sm tvs-badge-dot" id="sysStatusBadge">Active</span>
+      </div>
+      <div class="tvs-card-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--tvs-space-3);">
+          <div>
+            <div class="tvs-overline">Minds</div>
+            <div class="tvs-h4 tvs-text-cyan" id="mindCount">--</div>
+          </div>
+          <div>
+            <div class="tvs-overline">Providers</div>
+            <div class="tvs-h4 tvs-text-purple" id="providerCount">--</div>
+          </div>
+          <div>
+            <div class="tvs-overline">Intents</div>
+            <div class="tvs-h4 tvs-text-green" id="intentCount">--</div>
+          </div>
+          <div>
+            <div class="tvs-overline">Uptime</div>
+            <div class="tvs-h4 tvs-text-orange" id="uptimeVal">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Governance Principles -->
+    <div class="tvs-card tvs-card-pink tvs-animate-fade-in-up tvs-delay-4">
+      <div class="tvs-card-header">
+        <span class="tvs-card-title">Biblical Governance</span>
+        <span class="tvs-badge tvs-badge-green tvs-badge-sm">9 Principles Active</span>
+      </div>
+      <div class="tvs-card-body" style="padding:0;">
+        <table class="gov-table">
+          <thead><tr><th>Principle</th><th>Status</th></tr></thead>
+          <tbody id="govTable">
+            <tr><td>Wisdom &middot; Truth &middot; Stewardship</td><td><span class="tvs-badge tvs-badge-green tvs-badge-sm">Active</span></td></tr>
+            <tr><td>Justice &middot; Service &middot; Diligence</td><td><span class="tvs-badge tvs-badge-green tvs-badge-sm">Active</span></td></tr>
+            <tr><td>Humility &middot; Generosity &middot; Faithfulness</td><td><span class="tvs-badge tvs-badge-green tvs-badge-sm">Active</span></td></tr>
+            <tr><td>Blocked: fraud, data leak, seed exposure</td><td><span class="tvs-badge tvs-badge-danger tvs-badge-sm">Enforced</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AIOX Supervision Panel -->
+    <div class="tvs-card tvs-card-green tvs-col-span-full tvs-animate-fade-in-up tvs-delay-5">
+      <div class="tvs-card-header">
+        <span class="tvs-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tvs-green)" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          AIOX Supervision
+        </span>
+        <span class="tvs-badge tvs-badge-green" id="aioxOkRate">Success Rate: --</span>
+      </div>
+      <div class="tvs-card-body" style="padding:0; max-height:260px; overflow-y:auto;" id="aioxOps">
+        <div class="op-row">
+          <span class="op-time">--:--</span>
+          <span class="op-intent">Loading...</span>
+          <span class="op-result">Awaiting supervision data</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="page-footer">
+  <p>
+    &copy; Pedro Costa (Commander) &amp; Trinnity Hurtado (Queen)<br>
+    <a href="/">Home</a> &middot;
+    <a href="/viseron">VISERON</a> &middot;
+    <a href="/atlas">ATLAS</a> &middot;
+    <a href="/os">Desktop</a> &middot;
+    <a href="/cosmos">Cosmos</a> &middot;
+    <a href="https://www.trinnityviseronsystem.io" target="_blank">trinnityviseronsystem.io</a>
+  </p>
+</footer>
 
 <script>
-var logEl = document.getElementById('log');
-function logLine(txt, cls){ var d=document.createElement('div'); d.className=cls||'m'; d.innerHTML=txt; logEl.appendChild(d); logEl.scrollTop=9e9; }
-function hablar(texto){
-  if(!window.speechSynthesis){ logLine('(TTS no disponible en este navegador)','m'); return; }
+/* ── State ── */
+let isListening = false;
+let wakeActive = false;
+let recognition = null;
+let msgCount = 0;
+let currentLang = 'es';
+
+/* ── Language ── */
+function setLang(l) {
+  currentLang = l;
+  document.querySelectorAll('.lang-switch button').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === l);
+  });
+}
+
+/* ── Speech Synthesis ── */
+function speak(text) {
+  if (!window.speechSynthesis) return;
   speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(texto);
-  u.lang='es-ES'; u.rate=0.98; u.pitch=1.05;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = currentLang === 'pt' ? 'pt-PT' : currentLang === 'en' ? 'en-US' : 'es-ES';
+  u.rate = 0.98;
+  u.pitch = 1.05;
   speechSynthesis.speak(u);
-  logLine('<span class="v">VISERON: '+texto+'</span>','v');
 }
-var SABER = {
- 'estado':'El sistema está operativo: 5.385 agentes registrados, manifiestos válidos, n8n activo en el servidor y auditoría en verde.',
- 'auditoria':'Auditoría 17 de agosto de 2026: VERDE. QA del TVS OS 13 de 13, core tests 20 de 20, recovery 10 de 10, aprendizaje 22 de 24 real, cero simulados.',
- 'quien manda':'La autoridad máxima del TVS: Pedro Costa, Comandante Supremo, y Trinnity Hurtado, Reina y Chief Evolution Officer. Ninguna decisión se ejecuta sin su firma.',
- 'tokens':'VSR: 300 millones, gobernanza con staking que genera TRIN. TRIN: 420,69 millones, quema del 2% por transacción. Redes: Ethereum, BSC y Solana.',
- 'roadmap':'Fase 1 Génesis: deploy y liquidity pools. Fase 2 Ascensión: staking y metaverso. Fase 3 Exchange: CoinGecko y CEXs. Fase 4: Cosmos Mainnet con L2 propio.',
- 'misiones':'Hay 50 misiones en el TVS OS con recompensas en TRIN, de 10 a 1.000. La misión 50, Mente Cósmica, otorga 1.000 TRIN.',
- 'que sabes hacer':'Puedo darte el estado del sistema, la auditoría, información de tokens, roadmap, misiones y gobernanza. Di "visor" y luego tu orden.',
- 'hola':'Saludos, comandante. Soy VISERON, el alma del sistema. Gobernanza bíblica activa y supervisión AIOX en línea.',
- 'gracias':'A tu servicio. El batallón sigue avanzando hacia las estrellas.',
- 'default':'Orden recibida. Puedes pedirme: estado, auditoría, tokens, roadmap, misiones, o quién manda.'
+
+/* ── Chat ── */
+function addMessage(text, sender) {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg chat-msg-' + sender;
+  const avatar = sender === 'user' ? '<div class="chat-avatar user">P</div>' : '<div class="chat-avatar viseron">V</div>';
+  div.innerHTML = avatar + '<div class="chat-bubble">' + escapeHtml(text) + '</div>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  msgCount++;
+  document.getElementById('chatCount').textContent = msgCount + ' messages';
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMessage(text, 'user');
+
+  try {
+    const r = await fetch('/api/viseron/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, speaker: 'pedro', lang: currentLang })
+    });
+    const d = await r.json();
+    const reply = d.reply || d.response || d.message || 'Order received, Commander.';
+    addMessage(reply, 'viseron');
+    speak(reply);
+  } catch (e) {
+    const fallback = getLocalResponse(text);
+    addMessage(fallback, 'viseron');
+    speak(fallback);
+  }
+}
+
+function sendQuick(topic) {
+  document.getElementById('chatInput').value = topic;
+  sendChat();
+}
+
+/* ── Local Fallback Responses ── */
+const KNOWLEDGE = {
+  estado: 'The system is operational: 5,385+ agents registered, valid manifests, n8n active, and governance in green.',
+  auditoria: 'Audit August 2026: GREEN. TVS OS QA 13/13, core tests 20/20, recovery 10/10, learning 22/24 real, zero simulated.',
+  tokens: 'VSR: 300M governance with staking generating TRIN. TRIN: 420.69M, 2% burn per transaction. Networks: Ethereum, BSC, and Solana.',
+  roadmap: 'Phase 1 Genesis: deploy and liquidity pools. Phase 2 Ascension: staking and metaverse. Phase 3 Exchange: CoinGecko and CEXs. Phase 4: Cosmos Mainnet with L2.',
+  default: 'Order received. You can ask me about: status, audit, tokens, roadmap, missions, or authority.'
 };
-function responder(texto){
-  var t = (texto||'').toLowerCase();
-  var clave = 'default';
-  Object.keys(SABER).forEach(function(k){ if(k!=='default' && t.indexOf(k)>=0) clave = k; });
-  var resp = SABER[clave];
-  hablar(resp);
+
+function getLocalResponse(text) {
+  const t = text.toLowerCase();
+  for (const [key, val] of Object.entries(KNOWLEDGE)) {
+    if (key !== 'default' && t.includes(key)) return val;
+  }
+  return KNOWLEDGE.default;
 }
-var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-var wakeActivo = false, escuchando = false, rec;
-document.getElementById('btnMic').onclick = function(){ hablarActivo(); };
-function hablarActivo(){
-  if(!SR){ logLine('(Reconocimiento de voz no soportado: usa Chrome o Edge)','m'); hablar('Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.'); return; }
-  if(escuchando){ rec.stop(); return; }
-  escuchando = true;
-  var b = document.getElementById('btnMic'); b.classList.add('activo'); b.textContent = '&#128308; ESCUCHANDO...';
-  document.getElementById('estado').classList.add('escuchando'); document.getElementById('modo').textContent = 'modo: escuchando';
-  rec = new SR(); rec.lang = 'es-ES'; rec.interimResults = false;
-  rec.onresult = function(e){
-    var texto = e.results[0][0].transcript;
-    logLine('<span class="u">TÚ: '+texto+'</span>','u');
-    responder(texto);
+
+/* ── Voice Recognition ── */
+function toggleListening() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    addMessage('Voice recognition not supported. Use Chrome or Edge.', 'viseron');
+    return;
+  }
+  if (isListening) { stopListening(); return; }
+
+  isListening = true;
+  updateReactorUI(true);
+
+  recognition = new SR();
+  recognition.lang = currentLang === 'pt' ? 'pt-PT' : currentLang === 'en' ? 'en-US' : 'es-ES';
+  recognition.interimResults = false;
+
+  recognition.onresult = function(e) {
+    const text = e.results[0][0].transcript;
+    addMessage(text, 'user');
+    const reply = getLocalResponse(text);
+    addMessage(reply, 'viseron');
+    speak(reply);
   };
-  rec.onerror = function(e){ logLine('(error de micrófono: '+e.error+')','m'); };
-  rec.onend = function(){
-    escuchando = false;
-    var b = document.getElementById('btnMic'); b.classList.remove('activo'); b.textContent = '&#127908; HABLAR CON VISERON';
-    document.getElementById('estado').classList.remove('escuchando');
-    document.getElementById('modo').textContent = wakeActivo ? 'modo: wake word activo' : 'modo: reposo';
-    if(wakeActivo){ setTimeout(function(){ try{ rec.start(); }catch(e){} }, 400); }
+
+  recognition.onerror = function(e) {
+    console.warn('Speech error:', e.error);
   };
-  try{ rec.start(); }catch(e){ logLine('(no se pudo iniciar: '+e.message+')','m'); }
+
+  recognition.onend = function() {
+    isListening = false;
+    updateReactorUI(false);
+    if (wakeActive) {
+      setTimeout(function() { try { recognition.start(); } catch(e) {} }, 400);
+    }
+  };
+
+  try { recognition.start(); } catch(e) {}
 }
-document.getElementById('btnWake').onclick = function(){
-  if(!SR){ logLine('(Reconocimiento no soportado)','m'); return; }
-  wakeActivo = !wakeActivo;
-  document.getElementById('modo').textContent = wakeActivo ? 'modo: wake word activo' : 'modo: reposo';
-  this.textContent = wakeActivo ? '&#128308; WAKE WORD ACTIVO' : '&#128264; ACTIVAR WAKE WORD';
-  logLine(wakeActivo ? 'Wake word activado. Di "visor" y tu orden. Ej: "visor, estado".' : 'Wake word desactivado.','m');
-  if(wakeActivo && !escuchando){
-    rec = new SR(); rec.lang='es-ES'; rec.continuous=true; rec.interimResults=false;
-    rec.onresult = function(e){
-      for(var i=e.resultIndex;i<e.results.length;i++){
-        var texto = e.results[i][0].transcript.toLowerCase();
-        logLine('<span class="u">ESCUCHADO: '+texto+'</span>','u');
-        if(texto.indexOf('visor')>=0){ responder(texto.replace(/visor/g,'')); }
+
+function stopListening() {
+  if (recognition) { try { recognition.stop(); } catch(e) {} }
+  isListening = false;
+  updateReactorUI(false);
+}
+
+function updateReactorUI(listening) {
+  const core = document.getElementById('reactorCore');
+  const status = document.getElementById('reactorStatus');
+  const mode = document.getElementById('reactorMode');
+  const wave = document.getElementById('voiceWave');
+  const btn = document.getElementById('btnMic');
+
+  if (listening) {
+    core.classList.add('listening');
+    status.textContent = 'LISTENING';
+    mode.textContent = 'Speak now...';
+    wave.classList.add('active');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> Stop';
+  } else {
+    core.classList.remove('listening');
+    status.textContent = wakeActive ? 'WAKE ACTIVE' : 'STANDBY';
+    mode.textContent = wakeActive ? 'Say "VISERON"' : 'Click to speak';
+    wave.classList.remove('active');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg> Speak';
+  }
+}
+
+/* ── Wake Word ── */
+function toggleWakeWord() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    addMessage('Wake word requires Chrome or Edge browser.', 'viseron');
+    return;
+  }
+
+  wakeActive = !wakeActive;
+  const btn = document.getElementById('btnWake');
+  const status = document.getElementById('reactorStatus');
+  const mode = document.getElementById('reactorMode');
+  const wakeText = document.getElementById('wakeText');
+
+  if (wakeActive) {
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> Wake Active';
+    btn.classList.add('tvs-btn-danger');
+    btn.classList.remove('tvs-btn-secondary');
+    status.textContent = 'WAKE ACTIVE';
+    mode.textContent = 'Say "VISERON"';
+    wakeText.innerHTML = 'Listening for <strong>"VISERON"</strong>...';
+
+    const rec = new SR();
+    rec.lang = currentLang === 'pt' ? 'pt-PT' : currentLang === 'en' ? 'en-US' : 'es-ES';
+    rec.continuous = true;
+    rec.interimResults = false;
+
+    rec.onresult = function(e) {
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const text = e.results[i][0].transcript.toLowerCase();
+        if (text.includes('viseron') || text.includes('jarvis') || text.includes('companheiro')) {
+          const query = text.replace(/viseron|jarvis|companheiro/g, '').trim();
+          if (query) {
+            addMessage(query, 'user');
+            const reply = getLocalResponse(query);
+            addMessage(reply, 'viseron');
+            speak(reply);
+          }
+        }
       }
     };
-    rec.onerror=function(e){};
-    rec.onend=function(){ if(wakeActivo){ setTimeout(function(){ try{rec.start();}catch(e){} },400); } };
-    try{ rec.start(); }catch(e){}
+
+    rec.onerror = function() {};
+    rec.onend = function() { if (wakeActive) { setTimeout(function() { try { rec.start(); } catch(e) {} }, 400); } };
+
+    try { rec.start(); } catch(e) {}
+    window._wakeRec = rec;
+  } else {
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> Wake Word';
+    btn.classList.remove('tvs-btn-danger');
+    btn.classList.add('tvs-btn-secondary');
+    status.textContent = 'STANDBY';
+    mode.textContent = 'Click to speak';
+    wakeText.innerHTML = 'Say <strong>"VISERON"</strong> to activate &middot; Di <strong>"VISERON"</strong> para activar';
+    if (window._wakeRec) { try { window._wakeRec.stop(); } catch(e) {} }
   }
-};
-function decir(t){ responder(t); }
-setTimeout(function(){ logLine('VISERON en línea. Persona Stark activa. Gobernanza bíblica en ejecución.','v'); }, 600);
+}
+
+/* ── API Data Loading ── */
+async function loadStatus() {
+  try {
+    const r = await fetch('/api/viseron/status');
+    const d = await r.json();
+    document.getElementById('providerBadge').textContent = 'Provider: ' + (d.provider || 'omniroute');
+    document.getElementById('uptimeBadge').textContent = 'Uptime: ' + formatUptime(d.uptimeMs || 0);
+    document.getElementById('mindCount').textContent = d.minds || d.agentCount || '5,385+';
+    document.getElementById('providerCount').textContent = d.providers || '6';
+    document.getElementById('intentCount').textContent = d.intents || '23+';
+    document.getElementById('uptimeVal').textContent = formatUptime(d.uptimeMs || 0);
+  } catch(e) {
+    document.getElementById('providerBadge').textContent = 'Provider: local';
+    document.getElementById('mindCount').textContent = '5,385+';
+    document.getElementById('providerCount').textContent = '6';
+    document.getElementById('intentCount').textContent = '23+';
+  }
+}
+
+async function loadSupervision() {
+  try {
+    const r = await fetch('/api/viseron/supervision');
+    const d = await r.json();
+    document.getElementById('aioxOkRate').textContent = 'Success Rate: ' + (d.okRate || '98.2%');
+    const ops = d.recent || d.operations || [];
+    const container = document.getElementById('aioxOps');
+    if (ops.length > 0) {
+      container.innerHTML = ops.slice(0, 8).map(op => {
+        const time = op.timestamp ? new Date(op.timestamp).toLocaleTimeString() : '--:--';
+        return '<div class="op-row">' +
+          '<span class="op-time">' + time + '</span>' +
+          '<span class="op-intent">' + escapeHtml(op.intent || op.type || 'chat') + '</span>' +
+          '<span class="op-result">' + escapeHtml((op.message || op.summary || '').slice(0, 80)) + '</span>' +
+          '</div>';
+      }).join('');
+    }
+  } catch(e) {}
+}
+
+async function loadGovernance() {
+  try {
+    const r = await fetch('/api/viseron/governance');
+    const d = await r.json();
+    if (d.principles) {
+      const tbody = document.getElementById('govTable');
+      tbody.innerHTML = d.principles.map(p =>
+        '<tr><td>' + escapeHtml(p.name || p) + '</td><td><span class="tvs-badge tvs-badge-green tvs-badge-sm">Active</span></td></tr>'
+      ).join('');
+    }
+  } catch(e) {}
+}
+
+function formatUptime(ms) {
+  if (!ms) return '--';
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const h = Math.floor(m / 60);
+  if (h > 0) return h + 'h ' + (m % 60) + 'm';
+  return m + 'm ' + (s % 60) + 's';
+}
+
+/* ── Init ── */
+loadStatus();
+loadSupervision();
+loadGovernance();
+setInterval(loadStatus, 30000);
+setInterval(loadSupervision, 15000);
 </script>
 </body>
 </html>

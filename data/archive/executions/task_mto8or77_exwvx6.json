@@ -1,0 +1,21 @@
+{
+  "id": "task_mto8or77_exwvx6",
+  "timestamp": "2026-09-05T10:27:59.438Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "917a8106795f7bb2cdf3bc33fbc5da84f3b479d99b4962780b589b492f7a7a66"
+}

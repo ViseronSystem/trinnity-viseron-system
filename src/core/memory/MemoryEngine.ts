@@ -1,792 +1,921 @@
-import fs from "fs-extra";
-import path from "path";
+import * as fs from "fs-extra";
+import * as path from "path";
+import { createHash } from "crypto";
 import { EventEmitter } from "events";
-import { 
-  ShortTermMemoryItem, 
-  LongTermMemoryItem, 
-  KnowledgeDocument, 
-  VectorEmbedding,
-  MemoryConfig,
-  MemoryEvent,
-  MemoryStats,
-  SearchOptions,
-  UnifiedSearchResult
-} from "../types";
-import { QdrantVectorStore } from "./QdrantVectorStore";
 
-const DEFAULT_CONFIG: MemoryConfig = {
-  stmMaxItemsPerSession: 200,
-  stmTtlMs: 30 * 60 * 1000,
-  ltmAutoSaveIntervalMs: 5000,
-  ltmBackupEnabled: true,
-  ltmMaxBackupFiles: 5,
-  kbMinScoreForMatch: 0.2
-};
+// ==========================================
+// Interfaces
+// ==========================================
 
-const MAX_LTM_ITEMS = 20_000;
-const MAX_KB_DOCS = 2_000;
+export interface MemoryEntry {
+  id: string;
+  type: "interaction" | "knowledge" | "fact" | "code" | "decision" | "error";
+  content: string;
+  embedding?: number[];
+  title: string;
+  category: string;
+  key: string;
+  value: any;
+  metadata: {
+    source: string;
+    lang: string;
+    tags: string[];
+    importance: number;
+    accessCount: number;
+    createdAt: string;
+    lastAccessedAt: string;
+  };
+}
 
-/**
- * MemoryEngine v3.0 - Motor de Memoria Multicapa Mejorado para Trinnity Viseron System (Hyper-Brain)
- * Mejoras:
- *  - STM con TTL, límite por sesión y evicción LRU
- *  - LTM con persistencia debounced, backups automáticos y búsqueda full-text
- *  - KB con búsqueda por relevancia (TF-IDF ligero)
- *  - Búsqueda unificada en todas las capas
- *  - Consolidación automática STM→LTM
- *  - Sistema de eventos y estadísticas de salud
- */
+export interface MemoryQuery {
+  text: string;
+  type?: string;
+  tags?: string[];
+  limit?: number;
+  minImportance?: number;
+  timeRange?: { from?: string; to?: string };
+}
+
+export interface MemoryResult {
+  entry: MemoryEntry;
+  score: number;
+  layer: "stm" | "ltm" | "kb";
+}
+
+export interface MemoryStats {
+  stm: number;
+  ltm: number;
+  kb: number;
+  total: number;
+  totalSizeBytes: number;
+  lastConsolidation: string;
+  queriesTotal: number;
+  avgRecallScore: number;
+}
+
+// ==========================================
+// Constants
+// ==========================================
+
+const EMBEDDING_DIM = 384;
+const STM_MAX = 100;
+const STM_MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
+const LTM_ACCESS_THRESHOLD = 10;
+const DEDUP_SIMILARITY = 0.95;
+const CONSOLIDATION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
+
+// ==========================================
+// MemoryEngine — RAG system with STM/LTM/KB
+// ==========================================
+
 export class MemoryEngine extends EventEmitter {
-  private config: MemoryConfig;
+  private stm: MemoryEntry[] = [];
+  private ltm: MemoryEntry[] = [];
+  private kb: MemoryEntry[] = [];
 
-  // Short Term Memory (In-Memory per session)
-  private shortTermStore: Map<string, ShortTermMemoryItem[]> = new Map();
+  private storageDir: string;
+  private consolidationTimer: ReturnType<typeof setInterval> | null = null;
+  private stats = {
+    queriesTotal: 0,
+    totalScore: 0,
+    lastConsolidation: new Date().toISOString(),
+  };
 
-  // Long Term Memory (KV Map con respaldo en disco)
-  private longTermStore: Map<string, LongTermMemoryItem> = new Map();
-
-  // Full-text index for LTM
-  private ltmFullTextIndex: Map<string, Set<string>> = new Map();
-
-  // Knowledge Base
-  private knowledgeStore: Map<string, KnowledgeDocument> = new Map();
-
-  // Full-text index for KB
-  private kbFullTextIndex: Map<string, Set<string>> = new Map();
-
-  // Qdrant Vector Store
-  public qdrant: QdrantVectorStore;
-
-  private storagePath: string;
-  private saveTimer: ReturnType<typeof setTimeout> | null = null;
-  private lastLTMSave: number | null = null;
-  private backupCount: number = 0;
-  private consolidationStats: { lastRun: number | null; totalPromoted: number } = { lastRun: null, totalPromoted: 0 };
-
-  constructor(storageDir?: string, config?: Partial<MemoryConfig>) {
+  constructor(storageDir?: string) {
     super();
-    this.config = { ...DEFAULT_CONFIG, ...config };
-    this.storagePath = storageDir || path.join(process.cwd(), 'database', 'memory');
-    fs.ensureDirSync(this.storagePath);
-    this.qdrant = new QdrantVectorStore();
-    this.loadLongTermMemory();
-    this.loadAioxKnowledge();
-  }
-
-  private emitEvent(type: MemoryEvent['type'], data?: Record<string, any>): void {
-    const event: MemoryEvent = { type, timestamp: Date.now(), data };
-    this.emit('memory:event', event);
+    this.storageDir = storageDir || path.join(process.cwd(), "data", "memory");
+    fs.ensureDirSync(this.storageDir);
+    this.loadFromDisk();
+    this.startConsolidation();
   }
 
   // ==========================================
-  // 1. Short Term Memory (STM) Mejorada
+  // Embedding — deterministic hash-based 384-dim
   // ==========================================
 
-  /**
-   * Añade un ítem a STM con control de TTL y límite por sesión.
-   * Si la sesión excede el límite, elimina los más viejos (LRU eviction).
-   */
-  public addShortTerm(sessionId: string, role: 'user' | 'agent' | 'system', content: string, metadata?: Record<string, any>): ShortTermMemoryItem {
-    this.evictExpiredSTM(sessionId);
+  generateEmbedding(text: string): number[] {
+    const embedding = new Array(EMBEDDING_DIM).fill(0);
+    const normalized = text.toLowerCase().replace(/[^\w\s]/g, " ");
+    const tokens = normalized.split(/\s+/).filter((t) => t.length > 0);
 
-    const item: ShortTermMemoryItem = {
-      id: `stm_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      sessionId,
-      role,
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      const hash = createHash("sha256").update(token).digest();
+      const seed = hash.readUInt32BE(0);
+      const angle = ((i + 1) * seed) % EMBEDDING_DIM;
+      const magnitude = 1.0 / Math.sqrt(tokens.length);
+
+      for (let d = 0; d < EMBEDDING_DIM; d++) {
+        const phase = (2 * Math.PI * d * angle) / EMBEDDING_DIM;
+        embedding[d] += magnitude * Math.cos(phase);
+      }
+
+      const charHash = createHash("sha256").update(token + "_char").digest();
+      for (let d = 0; d < EMBEDDING_DIM && d < 64; d++) {
+        const byteVal = charHash[d % 32];
+        embedding[d] += (byteVal / 255.0 - 0.5) * 0.01;
+      }
+    }
+
+    let norm = 0;
+    for (let d = 0; d < EMBEDDING_DIM; d++) {
+      norm += embedding[d] * embedding[d];
+    }
+    norm = Math.sqrt(norm);
+    if (norm > 0) {
+      for (let d = 0; d < EMBEDDING_DIM; d++) {
+        embedding[d] /= norm;
+      }
+    }
+
+    return embedding;
+  }
+
+  cosineSimilarity(a: number[], b: number[]): number {
+    if (a.length !== b.length) return 0;
+    let dot = 0;
+    let normA = 0;
+    let normB = 0;
+    for (let i = 0; i < a.length; i++) {
+      dot += a[i] * b[i];
+      normA += a[i] * a[i];
+      normB += b[i] * b[i];
+    }
+    const denom = Math.sqrt(normA) * Math.sqrt(normB);
+    return denom === 0 ? 0 : dot / denom;
+  }
+
+  // ==========================================
+  // Write Operations
+  // ==========================================
+
+  remember(
+    content: string,
+    type: MemoryEntry["type"],
+    metadata: Partial<MemoryEntry["metadata"]> = {}
+  ): MemoryEntry {
+    const now = new Date().toISOString();
+    const entry: MemoryEntry = {
+      id: `mem_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      type,
       content,
-      timestamp: Date.now(),
-      metadata
+      title: content.slice(0, 80),
+      category: type,
+      key: `mem_${Date.now()}`,
+      value: content,
+      embedding: this.generateEmbedding(content),
+      metadata: {
+        source: metadata.source || "api",
+        lang: metadata.lang || "es",
+        tags: metadata.tags || [],
+        importance: metadata.importance ?? 0.5,
+        accessCount: 0,
+        createdAt: now,
+        lastAccessedAt: now,
+      },
     };
 
-    if (!this.shortTermStore.has(sessionId)) {
-      this.shortTermStore.set(sessionId, []);
+    this.stm.push(entry);
+    if (this.stm.length > STM_MAX) {
+      this.stm.shift();
     }
 
-    const session = this.shortTermStore.get(sessionId)!;
+    this.emit("memory:remembered", { id: entry.id, type, layer: "stm" });
+    this.persistToDisk();
+    return entry;
+  }
 
-    // LRU eviction: si excede el límite, eliminar los más antiguos
-    if (session.length >= this.config.stmMaxItemsPerSession) {
-      const removed = session.splice(0, session.length - this.config.stmMaxItemsPerSession + 1);
-      this.emitEvent('stm:evicted', { sessionId, count: removed.length });
+  forget(id: string): boolean {
+    const before = this.stm.length + this.ltm.length + this.kb.length;
+    this.stm = this.stm.filter((e) => e.id !== id);
+    this.ltm = this.ltm.filter((e) => e.id !== id);
+    this.kb = this.kb.filter((e) => e.id !== id);
+    const removed = before > this.stm.length + this.ltm.length + this.kb.length;
+    if (removed) {
+      this.emit("memory:forgotten", { id });
+      this.persistToDisk();
+    }
+    return removed;
+  }
+
+  updateImportance(id: string, importance: number): boolean {
+    const entry = this.findEntry(id);
+    if (!entry) return false;
+    entry.metadata.importance = Math.max(0, Math.min(1, importance));
+    this.emit("memory:importance_updated", { id, importance: entry.metadata.importance });
+    this.persistToDisk();
+    return true;
+  }
+
+  addKnowledge(
+    contentOrTitle: string,
+    sourceOrCategory: string,
+    contentOrTags?: string | string[],
+    maybeTags?: string[]
+  ): MemoryEntry {
+    let content: string;
+    let source: string;
+    let tags: string[];
+
+    if (Array.isArray(contentOrTags) || typeof contentOrTags === "string") {
+      content = contentOrTitle;
+      source = sourceOrCategory;
+      tags = Array.isArray(contentOrTags) ? contentOrTags : (maybeTags || []);
+    } else {
+      content = contentOrTags || contentOrTitle;
+      source = sourceOrCategory;
+      tags = maybeTags || [];
     }
 
-    session.push(item);
-    this.emitEvent('stm:added', { sessionId, itemId: item.id });
-    return item;
+    const now = new Date().toISOString();
+    const entry: MemoryEntry = {
+      id: `kb_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      type: "knowledge",
+      content,
+      title: content.slice(0, 80),
+      category: source,
+      key: `kb_${Date.now()}`,
+      value: content,
+      embedding: this.generateEmbedding(content),
+      metadata: {
+        source,
+        lang: "es",
+        tags,
+        importance: 0.7,
+        accessCount: 0,
+        createdAt: now,
+        lastAccessedAt: now,
+      },
+    };
+
+    this.kb.push(entry);
+    this.emit("memory:knowledge_added", { id: entry.id, source });
+    this.persistToDisk();
+    return entry;
   }
 
-  public getShortTerm(sessionId: string, limit: number = 20): ShortTermMemoryItem[] {
-    this.evictExpiredSTM(sessionId);
-    const items = this.shortTermStore.get(sessionId) || [];
-    return items.slice(-limit);
-  }
+  consolidate(): { stmToLtm: number; ltmToKb: number; deduped: number } {
+    let stmToLtm = 0;
+    let ltmToKb = 0;
+    let deduped = 0;
 
-  /**
-   * Busca en STM por contenido textual.
-   */
-  public searchShortTerm(sessionId: string, query: string): ShortTermMemoryItem[] {
-    this.evictExpiredSTM(sessionId);
-    const items = this.shortTermStore.get(sessionId) || [];
-    const q = query.toLowerCase();
-    return items.filter(item =>
-      item.content.toLowerCase().includes(q) ||
-      (item.metadata && JSON.stringify(item.metadata).toLowerCase().includes(q))
-    );
-  }
-
-  public clearShortTerm(sessionId: string): void {
-    this.shortTermStore.delete(sessionId);
-    this.emitEvent('stm:cleared', { sessionId });
-  }
-
-  /**
-   * Limpia ítems expirados de una sesión STM según TTL configurado.
-   */
-  private evictExpiredSTM(sessionId: string): void {
-    const items = this.shortTermStore.get(sessionId);
-    if (!items || items.length === 0) return;
-
-    const cutoff = Date.now() - this.config.stmTtlMs;
-    const valid = items.filter(item => item.timestamp > cutoff);
-
-    if (valid.length !== items.length) {
-      this.shortTermStore.set(sessionId, valid);
-    }
-  }
-
-  // ==========================================
-  // 2. Long Term Memory (LTM) Mejorada
-  // ==========================================
-
-  public setLongTerm(key: string, value: any, tags: string[] = []): LongTermMemoryItem {
     const now = Date.now();
-    const existing = this.longTermStore.get(key);
-    
-    const item: LongTermMemoryItem = {
-      id: existing ? existing.id : `ltm_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      key,
-      value,
-      tags,
-      createdAt: existing ? existing.createdAt : now,
-      updatedAt: now
-    };
+    const cutoff = now - STM_MAX_AGE_MS;
+    const toPromote: MemoryEntry[] = [];
+    const remaining: MemoryEntry[] = [];
 
-    this.longTermStore.set(key, item);
-
-    // Actualizar índice full-text
-    this.indexLTM(item);
-
-    this.evictLTM();
-    this.scheduleSave();
-    this.emitEvent('ltm:set', { key, tags });
-    return item;
-  }
-
-  /**
-   * Evicción FIFO por actualización: mantiene la LTM dentro del límite de memoria
-   * para evitar el crecimiento infinito (causa raíz del Out of Memory).
-   */
-  private evictLTM(): void {
-    if (this.longTermStore.size <= MAX_LTM_ITEMS) return;
-    const sorted = Array.from(this.longTermStore.values())
-      .sort((a, b) => (a.updatedAt || 0) - (b.updatedAt || 0));
-    const toRemove = sorted.slice(0, this.longTermStore.size - MAX_LTM_ITEMS);
-    for (const item of toRemove) {
-      this.deindexLTM(item);
-      this.longTermStore.delete(item.key);
+    for (const entry of this.stm) {
+      const created = new Date(entry.metadata.createdAt).getTime();
+      if (created < cutoff || entry.metadata.importance >= 0.8) {
+        toPromote.push(entry);
+      } else {
+        remaining.push(entry);
+      }
     }
-    this.emitEvent('ltm:evicted', { count: toRemove.length, reason: 'capacity' });
-  }
 
-  public getLongTerm(key: string): any | undefined {
-    return this.longTermStore.get(key)?.value;
-  }
+    this.stm = remaining;
 
-  public getLongTermItem(key: string): LongTermMemoryItem | undefined {
-    return this.longTermStore.get(key);
-  }
-
-  public deleteLongTerm(key: string): boolean {
-    const existed = this.longTermStore.has(key);
-    if (existed) {
-      this.deindexLTM(this.longTermStore.get(key)!);
-      this.longTermStore.delete(key);
-      this.scheduleSave();
-      this.emitEvent('ltm:deleted', { key });
+    for (const entry of toPromote) {
+      entry.metadata.accessCount++;
+      this.ltm.push(entry);
+      stmToLtm++;
     }
-    return existed;
+
+    const toPromoteKb: MemoryEntry[] = [];
+    const remainingLtm: MemoryEntry[] = [];
+
+    for (const entry of this.ltm) {
+      if (entry.metadata.accessCount >= LTM_ACCESS_THRESHOLD) {
+        toPromoteKb.push(entry);
+      } else {
+        remainingLtm.push(entry);
+      }
+    }
+
+    this.ltm = remainingLtm;
+
+    for (const entry of toPromoteKb) {
+      this.kb.push(entry);
+      ltmToKb++;
+    }
+
+    deduped = this.deduplicateAll();
+
+    this.stats.lastConsolidation = new Date().toISOString();
+    this.emit("memory:consolidated", { stmToLtm, ltmToKb, deduped });
+    this.persistToDisk();
+
+    return { stmToLtm, ltmToKb, deduped };
   }
 
-  public searchLongTermByTag(tag: string): LongTermMemoryItem[] {
-    const t = tag.toLowerCase();
-    return Array.from(this.longTermStore.values()).filter(item =>
-      item.tags.some(tag => tag.toLowerCase() === t)
-    );
+  private deduplicateAll(): number {
+    let removed = 0;
+    removed += this.deduplicateLayer(this.stm);
+    removed += this.deduplicateLayer(this.ltm);
+    removed += this.deduplicateLayer(this.kb);
+    return removed;
   }
 
-  /**
-   * Búsqueda full-text en LTM: busca en tags, key, y contenido serializado del value.
-   */
-  public searchLongTerm(query: string): LongTermMemoryItem[] {
-    const results = new Map<string, LongTermMemoryItem>();
-
-    // Split query into terms and search each term in the inverted index
-    const queryTerms = this.tokenize(query);
-    for (const term of queryTerms) {
-      const termIndex = this.ltmFullTextIndex.get(term);
-      if (termIndex) {
-        for (const key of termIndex) {
-          if (!results.has(key)) {
-            const item = this.longTermStore.get(key);
-            if (item) results.set(key, item);
+  private deduplicateLayer(layer: MemoryEntry[]): number {
+    const toRemove = new Set<string>();
+    for (let i = 0; i < layer.length; i++) {
+      if (toRemove.has(layer[i].id)) continue;
+      for (let j = i + 1; j < layer.length; j++) {
+        if (toRemove.has(layer[j].id)) continue;
+        if (layer[i].embedding && layer[j].embedding) {
+          const sim = this.cosineSimilarity(layer[i].embedding!, layer[j].embedding!);
+          if (sim >= DEDUP_SIMILARITY) {
+            if (layer[i].metadata.importance >= layer[j].metadata.importance) {
+              toRemove.add(layer[j].id);
+            } else {
+              toRemove.add(layer[i].id);
+              break;
+            }
           }
         }
       }
     }
-
-    // Also try exact match as fallback
-    const exactIndex = this.ltmFullTextIndex.get(query.toLowerCase());
-    if (exactIndex) {
-      for (const key of exactIndex) {
-        if (!results.has(key)) {
-          const item = this.longTermStore.get(key);
-          if (item) results.set(key, item);
+    if (toRemove.size > 0) {
+      const removeIds = Array.from(toRemove);
+      for (let k = layer.length - 1; k >= 0; k--) {
+        if (removeIds.indexOf(layer[k].id) !== -1) {
+          layer.splice(k, 1);
         }
       }
     }
-
-    // Fallback: key substring and tag match
-    const q = query.toLowerCase();
-    for (const item of this.longTermStore.values()) {
-      if (results.has(item.key)) continue;
-      if (item.key.toLowerCase().includes(q)) { results.set(item.key, item); continue; }
-      if (item.tags.some(t => t.toLowerCase().includes(q))) { results.set(item.key, item); }
-    }
-
-    return Array.from(results.values());
-  }
-
-  /**
-   * Lista todas las claves LTM.
-   */
-  public listLongTermKeys(): string[] {
-    return Array.from(this.longTermStore.keys());
-  }
-
-  /**
-   * Registra un ítem en el índice full-text de LTM.
-   */
-  private indexLTM(item: LongTermMemoryItem): void {
-    const terms = this.tokenize(`${item.key} ${item.tags.join(' ')} ${JSON.stringify(item.value)}`);
-    for (const term of terms) {
-      if (!this.ltmFullTextIndex.has(term)) {
-        this.ltmFullTextIndex.set(term, new Set());
-      }
-      this.ltmFullTextIndex.get(term)!.add(item.key);
-    }
-  }
-
-  private deindexLTM(item: LongTermMemoryItem): void {
-    const terms = this.tokenize(`${item.key} ${item.tags.join(' ')} ${JSON.stringify(item.value)}`);
-    for (const term of terms) {
-      const index = this.ltmFullTextIndex.get(term);
-      if (index) {
-        index.delete(item.key);
-        if (index.size === 0) this.ltmFullTextIndex.delete(term);
-      }
-    }
+    return toRemove.size;
   }
 
   // ==========================================
-  // 3. Knowledge Base (KB) Mejorada
+  // Read Operations
   // ==========================================
 
-  public addKnowledge(title: string, category: string, content: string, tags: string[] = []): KnowledgeDocument {
-    const doc: KnowledgeDocument = {
-      id: `kb_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      title,
-      category,
-      content,
-      tags
+  recall(query: MemoryQuery): MemoryResult[] {
+    const queryEmbedding = this.generateEmbedding(query.text);
+    const results: MemoryResult[] = [];
+    const limit = query.limit || 20;
+
+    const scoreLayer = (
+      entries: MemoryEntry[],
+      layer: "stm" | "ltm" | "kb"
+    ) => {
+      for (const entry of entries) {
+        if (query.type && entry.type !== query.type) continue;
+        if (
+          query.tags &&
+          query.tags.length > 0 &&
+          !query.tags.some((t) => entry.metadata.tags.includes(t))
+        )
+          continue;
+        if (
+          query.minImportance !== undefined &&
+          entry.metadata.importance < query.minImportance
+        )
+          continue;
+        if (query.timeRange) {
+          const created = new Date(entry.metadata.createdAt).getTime();
+          if (query.timeRange.from && created < new Date(query.timeRange.from).getTime())
+            continue;
+          if (query.timeRange.to && created > new Date(query.timeRange.to).getTime())
+            continue;
+        }
+
+        let score: number;
+        if (entry.embedding) {
+          score = this.cosineSimilarity(queryEmbedding, entry.embedding);
+        } else {
+          score = this.textSimilarity(query.text, entry.content);
+        }
+
+        entry.metadata.accessCount++;
+        entry.metadata.lastAccessedAt = new Date().toISOString();
+
+        results.push({ entry, score, layer });
+      }
     };
 
-    this.knowledgeStore.set(doc.id, doc);
-    this.indexKB(doc);
-    this.evictKB();
-    this.emitEvent('kb:added', { docId: doc.id, title, category });
-    return doc;
-  }
-
-  private evictKB(): void {
-    if (this.knowledgeStore.size <= MAX_KB_DOCS) return;
-    const ids = Array.from(this.knowledgeStore.keys());
-    const toRemove = ids.slice(0, this.knowledgeStore.size - MAX_KB_DOCS);
-    for (const id of toRemove) {
-      const doc = this.knowledgeStore.get(id);
-      if (doc) this.deindexKB(doc);
-      this.knowledgeStore.delete(id);
-    }
-  }
-
-  public removeKnowledge(docId: string): boolean {
-    const doc = this.knowledgeStore.get(docId);
-    if (doc) {
-      this.deindexKB(doc);
-      this.knowledgeStore.delete(docId);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Búsqueda por relevancia en KB usando TF-IDF ligero y scoring.
-   * Mejor que simple includes() porque ordena por relevancia.
-   */
-  public searchKnowledge(query: string): KnowledgeDocument[] {
-    const q = query.toLowerCase();
-    const terms = this.tokenize(q);
-    if (terms.length === 0) return [];
-
-    const scored: Array<{ doc: KnowledgeDocument; score: number }> = [];
-
-    for (const doc of this.knowledgeStore.values()) {
-      const score = this.computeRelevance(doc, terms);
-      if (score >= this.config.kbMinScoreForMatch) {
-        scored.push({ doc, score });
-      }
-    }
-
-    scored.sort((a, b) => b.score - a.score);
-    return scored.map(s => s.doc);
-  }
-
-  /**
-   * Calcula relevancia de un documento contra términos de búsqueda.
-   */
-  private computeRelevance(doc: KnowledgeDocument, queryTerms: string[]): number {
-    const docText = `${doc.title} ${doc.content} ${doc.tags.join(' ')} ${doc.category}`.toLowerCase();
-    let score = 0;
-
-    for (const term of queryTerms) {
-      const count = (docText.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
-      if (count > 0) {
-        // TF: frecuencia del término en el documento
-        const tf = count / docText.split(/\s+/).length;
-        // IDF simulado: los términos raros tienen más peso
-        const matchingDocs = Array.from(this.knowledgeStore.values()).filter(d =>
-          `${d.title} ${d.content} ${d.tags.join(' ')}`.toLowerCase().includes(term)
-        ).length;
-        const idf = Math.log((this.knowledgeStore.size + 1) / (matchingDocs + 1)) + 1;
-        score += tf * idf;
-      }
-    }
-
-    // Bonus por coincidencia exacta en título
-    const titleLower = doc.title.toLowerCase();
-    if (queryTerms.some(t => titleLower.includes(t))) {
-      score *= 1.5;
-    }
-
-    // Bonus por coincidencia en tags
-    if (doc.tags.some(t => queryTerms.some(qt => t.toLowerCase().includes(qt)))) {
-      score *= 1.3;
-    }
-
-    // Normalizar
-    return score / queryTerms.length;
-  }
-
-  public listKnowledge(category?: string): KnowledgeDocument[] {
-    const all = Array.from(this.knowledgeStore.values());
-    if (category) {
-      return all.filter(d => d.category === category);
-    }
-    return all;
-  }
-
-  private indexKB(doc: KnowledgeDocument): void {
-    const terms = this.tokenize(`${doc.title} ${doc.content} ${doc.tags.join(' ')} ${doc.category}`);
-    for (const term of terms) {
-      if (!this.kbFullTextIndex.has(term)) {
-        this.kbFullTextIndex.set(term, new Set());
-      }
-      this.kbFullTextIndex.get(term)!.add(doc.id);
-    }
-  }
-
-  private deindexKB(doc: KnowledgeDocument): void {
-    const terms = this.tokenize(`${doc.title} ${doc.content} ${doc.tags.join(' ')} ${doc.category}`);
-    for (const term of terms) {
-      const index = this.kbFullTextIndex.get(term);
-      if (index) {
-        index.delete(doc.id);
-        if (index.size === 0) this.kbFullTextIndex.delete(term);
-      }
-    }
-  }
-
-  // ==========================================
-  // 4. Vector Memory API (Delegado en Qdrant)
-  // ==========================================
-
-  public async storeVector(vector: number[], payload: Record<string, any>): Promise<string> {
-    const id = `vec_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    await this.qdrant.upsertVector(id, vector, payload);
-    this.emitEvent('vector:stored', { vectorId: id });
-    return id;
-  }
-
-  public async queryVector(queryVector: number[], topK: number = 5): Promise<VectorEmbedding[]> {
-    return await this.qdrant.searchSimilar(queryVector, topK);
-  }
-
-  // ==========================================
-  // 5. Búsqueda Unificada (todas las capas)
-  // ==========================================
-
-  /**
-   * Busca en todas las capas de memoria y devuelve resultados unificados y rankeados.
-   */
-  public unifiedSearch(query: string, options?: SearchOptions): UnifiedSearchResult[] {
-    const results: UnifiedSearchResult[] = [];
-    const maxResults = options?.maxResults || 20;
-    const q = query.toLowerCase();
-    const terms = this.tokenize(q);
-
-    if (terms.length === 0) return [];
-
-    // Buscar en STM (todas las sesiones)
-    if (options?.includeSTM !== false) {
-      for (const [sessionId, items] of this.shortTermStore.entries()) {
-        for (const item of items) {
-          const score = this.computeTextScore(item.content, terms);
-          if (score >= (options?.minScore || 0.1)) {
-            results.push({
-              source: 'stm',
-              id: item.id,
-              title: `[STM] ${sessionId} (${item.role})`,
-              content: item.content.slice(0, 500),
-              score,
-              timestamp: item.timestamp,
-              tags: item.metadata ? Object.keys(item.metadata) : undefined
-            });
-          }
-        }
-      }
-    }
-
-    // Buscar en LTM
-    if (options?.includeLTM !== false) {
-      for (const item of this.longTermStore.values()) {
-        const text = `${item.key} ${item.tags.join(' ')} ${JSON.stringify(item.value)}`;
-        const score = this.computeTextScore(text, terms);
-        if (score >= (options?.minScore || 0.1)) {
-          results.push({
-            source: 'ltm',
-            id: item.id,
-            title: `[LTM] ${item.key}`,
-            content: text.slice(0, 500),
-            score,
-            timestamp: item.updatedAt,
-            tags: item.tags
-          });
-        }
-      }
-    }
-
-    // Buscar en KB
-    if (options?.includeKB !== false) {
-      for (const doc of this.knowledgeStore.values()) {
-        const text = `${doc.title} ${doc.content} ${doc.tags.join(' ')}`;
-        const score = this.computeTextScore(text, terms);
-        if (score >= (options?.minScore || 0.1)) {
-          results.push({
-            source: 'kb',
-            id: doc.id,
-            title: doc.title,
-            content: doc.content.slice(0, 500),
-            score,
-            timestamp: 0,
-            tags: doc.tags
-          });
-        }
-      }
-    }
+    scoreLayer(this.stm, "stm");
+    scoreLayer(this.ltm, "ltm");
+    scoreLayer(this.kb, "kb");
 
     results.sort((a, b) => b.score - a.score);
-    return results.slice(0, maxResults);
+    const top = results.slice(0, limit);
+
+    this.stats.queriesTotal++;
+    this.stats.totalScore += top.length > 0 ? top[0].score : 0;
+
+    this.emit("memory:recalled", {
+      query: query.text,
+      resultCount: top.length,
+      topScore: top.length > 0 ? top[0].score : 0,
+    });
+
+    return top;
   }
 
-  // ==========================================
-  // 6. Consolidación STM → LTM
-  // ==========================================
-
-  /**
-   * Promueve ítems frecuentemente accedidos de STM a LTM.
-   * Los ítems que aparecen en múltiples sesiones o tienen alta relevancia
-   * se consolidan en memoria de largo plazo.
-   */
-  public consolidateSTMtoLTM(): number {
-    let promoted = 0;
-    const accessCount = new Map<string, { content: string; sessions: Set<string>; lastTimestamp: number }>();
-
-    // Contar accesos por contenido normalizado
-    for (const [sessionId, items] of this.shortTermStore.entries()) {
-      for (const item of items) {
-        const normalized = item.content.toLowerCase().trim();
-        if (normalized.length < 20) continue; // Ignorar ítems muy cortos
-
-        if (!accessCount.has(normalized)) {
-          accessCount.set(normalized, { content: item.content, sessions: new Set(), lastTimestamp: 0 });
+  recallByType(
+    type: MemoryEntry["type"],
+    limit: number = 20
+  ): MemoryResult[] {
+    const results: MemoryResult[] = [];
+    const scoreLayer = (
+      entries: MemoryEntry[],
+      layer: "stm" | "ltm" | "kb"
+    ) => {
+      for (const entry of entries) {
+        if (entry.type === type) {
+          entry.metadata.accessCount++;
+          entry.metadata.lastAccessedAt = new Date().toISOString();
+          results.push({ entry, score: 1.0, layer });
         }
-        const entry = accessCount.get(normalized)!;
-        entry.sessions.add(sessionId);
-        if (item.timestamp > entry.lastTimestamp) entry.lastTimestamp = item.timestamp;
       }
-    }
-
-    // Promover a LTM los que aparecen en 3+ sesiones o tienen contenido significativo
-    for (const [, entry] of accessCount.entries()) {
-      if (entry.sessions.size >= 3 || entry.content.length > 200) {
-        const key = `consolidated_stm_${Date.now()}_${promoted}`;
-        this.setLongTerm(key, {
-          content: entry.content,
-          sessions: Array.from(entry.sessions),
-          consolidatedAt: Date.now()
-        }, ['consolidated', 'stm_promoted']);
-        promoted++;
-      }
-    }
-
-    this.consolidationStats.lastRun = Date.now();
-    this.consolidationStats.totalPromoted += promoted;
-    this.emitEvent('consolidation:run', { promoted, total: this.consolidationStats.totalPromoted });
-    return promoted;
+    };
+    scoreLayer(this.stm, "stm");
+    scoreLayer(this.ltm, "ltm");
+    scoreLayer(this.kb, "kb");
+    return results.slice(0, limit);
   }
 
-  // ==========================================
-  // 7. Estadísticas y Salud
-  // ==========================================
+  recallByTags(tags: string[], limit: number = 20): MemoryResult[] {
+    const results: MemoryResult[] = [];
+    const tagSet = new Set(tags.map((t) => t.toLowerCase()));
+    const scoreLayer = (
+      entries: MemoryEntry[],
+      layer: "stm" | "ltm" | "kb"
+    ) => {
+      for (const entry of entries) {
+        const matchCount = entry.metadata.tags.filter((t) =>
+          tagSet.has(t.toLowerCase())
+        ).length;
+        if (matchCount > 0) {
+          entry.metadata.accessCount++;
+          entry.metadata.lastAccessedAt = new Date().toISOString();
+          results.push({
+            entry,
+            score: matchCount / tags.length,
+            layer,
+          });
+        }
+      }
+    };
+    scoreLayer(this.stm, "stm");
+    scoreLayer(this.ltm, "ltm");
+    scoreLayer(this.kb, "kb");
+    results.sort((a, b) => b.score - a.score);
+    return results.slice(0, limit);
+  }
 
-  public getStats(): MemoryStats {
-    let stmTotalItems = 0;
-    for (const items of this.shortTermStore.values()) {
-      stmTotalItems += items.length;
-    }
+  getRecent(limit: number = 50): MemoryEntry[] {
+    return this.stm.slice(-limit).reverse();
+  }
+
+  getStats(): any {
+    const totalSize =
+      this.estimateSize(this.stm) +
+      this.estimateSize(this.ltm) +
+      this.estimateSize(this.kb);
 
     const ltmTags = new Set<string>();
-    for (const item of this.longTermStore.values()) {
-      for (const tag of item.tags) ltmTags.add(tag);
+    for (const e of this.ltm) {
+      for (const t of e.metadata.tags) ltmTags.add(t);
     }
 
     const kbCategories = new Set<string>();
-    for (const doc of this.knowledgeStore.values()) {
-      kbCategories.add(doc.category);
+    for (const e of this.kb) {
+      kbCategories.add(e.metadata.source);
     }
 
-    const vectorProvider = this.detectVectorProvider();
-
     return {
+      stm: this.stm.length,
+      ltm: this.ltm.length,
+      kb: this.kb.length,
+      total: this.stm.length + this.ltm.length + this.kb.length,
+      totalSizeBytes: totalSize,
+      lastConsolidation: this.stats.lastConsolidation,
+      queriesTotal: this.stats.queriesTotal,
+      avgRecallScore:
+        this.stats.queriesTotal > 0
+          ? this.stats.totalScore / this.stats.queriesTotal
+          : 0,
       shortTerm: {
-        totalSessions: this.shortTermStore.size,
-        totalItems: stmTotalItems,
-        avgItemsPerSession: this.shortTermStore.size > 0 ? stmTotalItems / this.shortTermStore.size : 0,
-        memoryUsageBytes: this.estimateMemoryUsage()
+        totalSessions: this.stmSessionStore.size,
+        totalItems: this.stm.length,
+        avgItemsPerSession:
+          this.stmSessionStore.size > 0
+            ? this.stm.length / this.stmSessionStore.size
+            : 0,
+        memoryUsageBytes: this.estimateSize(this.stm),
       },
       longTerm: {
-        totalItems: this.longTermStore.size,
+        totalItems: this.ltm.length,
         totalTags: ltmTags.size,
-        lastSaved: this.lastLTMSave,
-        backupCount: this.backupCount
+        lastSaved: null,
+        backupCount: 0,
       },
       knowledge: {
-        totalDocuments: this.knowledgeStore.size,
-        totalCategories: kbCategories.size
+        totalDocuments: this.kb.length,
+        totalCategories: kbCategories.size,
       },
       vector: {
-        totalVectors: 0,
-        provider: vectorProvider
+        totalVectors: this.kb.filter((e) => e.embedding).length,
+        provider: "fallback" as const,
       },
       consolidation: {
         lastRun: this.consolidationStats.lastRun,
-        totalPromoted: this.consolidationStats.totalPromoted
-      }
+        totalPromoted: this.consolidationStats.totalPromoted,
+      },
     };
   }
 
-  private detectVectorProvider(): MemoryStats['vector']['provider'] {
-    const qdrantHost = process.env.QDRANT_HOST || "http://localhost:6333";
-    try {
-      const url = new URL(qdrantHost);
-      if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
-        return this.qdrant['fallbackStore']?.size > 0 ? 'fallback' : 'qdrant';
-      }
-      return 'qdrant';
-    } catch {
-      return 'unavailable';
-    }
-  }
-
-  private estimateMemoryUsage(): number {
-    let total = 0;
-    for (const [, items] of this.shortTermStore.entries()) {
-      for (const item of items) {
-        total += item.content.length * 2;
-        if (item.metadata) total += JSON.stringify(item.metadata).length * 2;
-      }
-    }
-    return total;
+  exportAll(): {
+    stm: MemoryEntry[];
+    ltm: MemoryEntry[];
+    kb: MemoryEntry[];
+    stats: MemoryStats;
+  } {
+    return {
+      stm: [...this.stm],
+      ltm: [...this.ltm],
+      kb: [...this.kb],
+      stats: this.getStats(),
+    };
   }
 
   // ==========================================
-  // 8. Persistencia Mejorada
+  // Text similarity fallback
   // ==========================================
 
-  /**
-   * Persistencia debounced: agrupa escrituras consecutivas
-   * para evitar E/S excesiva en el disco.
-   */
-  private scheduleSave(): void {
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
+  private textSimilarity(a: string, b: string): number {
+    const tokensA = new Set(
+      a.toLowerCase().split(/\s+/).filter((t) => t.length > 2)
+    );
+    const tokensB = new Set(
+      b.toLowerCase().split(/\s+/).filter((t) => t.length > 2)
+    );
+    if (tokensA.size === 0 || tokensB.size === 0) return 0;
+    let intersection = 0;
+    const tokensAArray = Array.from(tokensA);
+    for (let i = 0; i < tokensAArray.length; i++) {
+      if (tokensB.has(tokensAArray[i])) intersection++;
     }
-    this.saveTimer = setTimeout(() => {
-      this.saveLongTermMemory();
-      this.saveTimer = null;
-    }, this.config.ltmAutoSaveIntervalMs);
+    return intersection / Math.max(tokensA.size, tokensB.size);
   }
 
-  /**
-   * Guarda LTM a disco de forma asíncrona (no bloquea el event loop
-   * aunque haya decenas de miles de registros).
-   */
-  private async saveLongTermMemory(): Promise<void> {
+  // ==========================================
+  // Persistence
+  // ==========================================
+
+  private persistToDisk(): void {
     try {
-      const file = path.join(this.storagePath, 'ltm.json');
-      const data = Array.from(this.longTermStore.values());
+      const stmFile = path.join(this.storageDir, "stm.json");
+      const ltmFile = path.join(this.storageDir, "long-term.jsonl");
+      const kbFile = path.join(this.storageDir, "knowledge.json");
+      const statsFile = path.join(this.storageDir, "stats.json");
 
-      // Backup del archivo anterior si existe
-      if (this.config.ltmBackupEnabled && fs.existsSync(file)) {
-        await this.createBackup(file);
-      }
+      fs.writeJsonSync(stmFile, this.stm, { spaces: 2 });
 
-      await fs.writeJson(file, data, { spaces: 2 });
-      this.lastLTMSave = Date.now();
+      const ltmLines = this.ltm.map((e) => JSON.stringify(e)).join("\n");
+      fs.writeFileSync(ltmFile, ltmLines, "utf-8");
+
+      fs.writeJsonSync(kbFile, this.kb, { spaces: 2 });
+
+      fs.writeJsonSync(statsFile, this.stats, { spaces: 2 });
     } catch (err) {
-      console.error('[MemoryEngine] Error al guardar Long Term Memory:', err);
+      console.error("[MemoryEngine] Persist error:", err);
     }
   }
 
-  private async createBackup(file: string): Promise<void> {
+  private loadFromDisk(): void {
     try {
-      const backupDir = path.join(this.storagePath, 'backups');
-      await fs.ensureDir(backupDir);
-
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const backupFile = path.join(backupDir, `ltm_backup_${timestamp}.json`);
-      await fs.copy(file, backupFile);
-      this.backupCount++;
-
-      // Limitar número de backups
-      const backups = (await fs.readdir(backupDir))
-        .filter(f => f.startsWith('ltm_backup_'))
-        .sort()
-        .reverse();
-
-      while (backups.length > this.config.ltmMaxBackupFiles) {
-        const old = backups.pop()!;
-        await fs.remove(path.join(backupDir, old));
-      }
-    } catch (err) {
-      console.warn('[MemoryEngine] Error al crear backup LTM:', err);
-    }
-  }
-
-  private loadLongTermMemory(): void {
-    try {
-      const file = path.join(this.storagePath, 'ltm.json');
-      if (fs.existsSync(file)) {
-        const items: LongTermMemoryItem[] = fs.readJsonSync(file);
-        for (const item of items) {
-          this.longTermStore.set(item.key, item);
-          this.indexLTM(item);
+      const stmFile = path.join(this.storageDir, "stm.json");
+      if (fs.existsSync(stmFile)) {
+        this.stm = fs.readJsonSync(stmFile);
+        if (this.stm.length > STM_MAX) {
+          this.stm = this.stm.slice(-STM_MAX);
         }
-        console.log(`[MemoryEngine] LTM cargada: ${items.length} registros`);
       }
+
+      const ltmFile = path.join(this.storageDir, "long-term.jsonl");
+      if (fs.existsSync(ltmFile)) {
+        const content = fs.readFileSync(ltmFile, "utf-8").trim();
+        if (content) {
+          this.ltm = content
+            .split("\n")
+            .filter((l) => l.trim().length > 0)
+            .map((l) => JSON.parse(l));
+        }
+      }
+
+      const kbFile = path.join(this.storageDir, "knowledge.json");
+      if (fs.existsSync(kbFile)) {
+        this.kb = fs.readJsonSync(kbFile);
+      }
+
+      const statsFile = path.join(this.storageDir, "stats.json");
+      if (fs.existsSync(statsFile)) {
+        const loaded = fs.readJsonSync(statsFile);
+        this.stats = { ...this.stats, ...loaded };
+      }
+
+      console.log(
+        `[MemoryEngine] Loaded: STM=${this.stm.length} LTM=${this.ltm.length} KB=${this.kb.length}`
+      );
     } catch (err) {
-      console.error('[MemoryEngine] Error al cargar Long Term Memory:', err);
+      console.error("[MemoryEngine] Load error:", err);
     }
   }
 
-  /**
-   * Guardado forzado inmediato.
-   */
-  public flush(): void {
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
-      this.saveTimer = null;
+  // ==========================================
+  // Consolidation timer
+  // ==========================================
+
+  private startConsolidation(): void {
+    this.consolidationTimer = setInterval(() => {
+      this.consolidate();
+    }, CONSOLIDATION_INTERVAL_MS);
+  }
+
+  stopConsolidation(): void {
+    if (this.consolidationTimer) {
+      clearInterval(this.consolidationTimer);
+      this.consolidationTimer = null;
     }
-    this.saveLongTermMemory();
   }
 
   // ==========================================
-  // 9. Conocimiento Base AIOX
+  // Helpers
   // ==========================================
 
-  private loadAioxKnowledge(): void {
-    this.addKnowledge(
-      "AIOX 50-Year Collective Intelligence Base",
-      "AIOX_EXPERIENCE",
-      "Compendio acumulado de 50 años hipotéticos de experiencia en orquestación multiagente, auto-refuerzo, patrones de seguridad defensivos y optimización de razonamiento.",
-      ["aiox", "pedro", "trinnity", "learning", "50_years"]
-    );
-
-    this.addKnowledge(
-      "Squad Governance & Leadership Model",
-      "AIOX_EXPERIENCE",
-      "Modelo de gobernanza basado en Pedro Costa como Commander/CEO y Trinnity Hurtado como Queen/Architect. Los squads se organizan por propósito con líderes claros y permisos granulares.",
-      ["aiox", "pedro", "trinnity", "governance", "squads"]
-    );
-
-    this.addKnowledge(
-      "Multi-Agent Orchestration Patterns",
-      "AIOX_EXPERIENCE",
-      "Patrones de orquestación multi-agente: descomposición de tareas, ejecución paralela, síntesis de resultados, y asignación inteligente basada en roles y capacidades.",
-      ["aiox", "orchestration", "agents", "patterns"]
+  private findEntry(id: string): MemoryEntry | undefined {
+    return (
+      this.stm.find((e) => e.id === id) ||
+      this.ltm.find((e) => e.id === id) ||
+      this.kb.find((e) => e.id === id)
     );
   }
 
-  // ==========================================
-  // 10. Utilidades Compartidas
-  // ==========================================
-
-  /**
-   * Tokeniza un texto en términos normalizados para indexación.
-   */
-  private tokenize(text: string): string[] {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9áéíóúüñ\s]/g, ' ')
-      .split(/\s+/)
-      .filter(t => t.length > 2)
-      .slice(0, 100);
+  searchKnowledge(query: string): MemoryEntry[] {
+    const q = query.toLowerCase();
+    return this.kb.filter(
+      (e) =>
+        e.content.toLowerCase().includes(q) ||
+        e.metadata.source.toLowerCase().includes(q) ||
+        e.metadata.tags.some((t) => t.toLowerCase().includes(q))
+    );
   }
 
-  /**
-   * Calcula un score de relevancia entre un texto y términos de búsqueda.
-   */
-  private computeTextScore(text: string, queryTerms: string[]): number {
-    const lower = text.toLowerCase();
-    let score = 0;
+  listKnowledge(category?: string): MemoryEntry[] {
+    if (category) {
+      return this.kb.filter((e) => e.metadata.source === category);
+    }
+    return [...this.kb];
+  }
 
-    for (const term of queryTerms) {
-      const count = (lower.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
-      if (count > 0) {
-        const tf = count / (lower.split(/\s+/).length || 1);
-        score += tf;
+  private estimateSize(entries: MemoryEntry[]): number {
+    let bytes = 0;
+    for (const e of entries) {
+      bytes += e.content.length * 2;
+      bytes += (e.embedding?.length || 0) * 8;
+      bytes += JSON.stringify(e.metadata).length * 2;
+    }
+    return bytes;
+  }
+
+  // ==========================================
+  // Backward-compatible API (old consumers)
+  // ==========================================
+
+  private ltmKeyStore: Map<string, MemoryEntry> = new Map();
+  private stmSessionStore: Map<string, MemoryEntry[]> = new Map();
+
+  setLongTerm(key: string, value: any, tags: string[] = []): void {
+    const existing = this.ltmKeyStore.get(key);
+    if (existing) {
+      existing.content = typeof value === "string" ? value : JSON.stringify(value);
+      existing.value = value;
+      existing.metadata.tags = tags;
+      existing.metadata.lastAccessedAt = new Date().toISOString();
+    } else {
+      const now = new Date().toISOString();
+      const entry: MemoryEntry = {
+        id: `ltm_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        type: "fact",
+        content: typeof value === "string" ? value : JSON.stringify(value),
+        key,
+        value,
+        title: key,
+        category: "ltm",
+        embedding: this.generateEmbedding(typeof value === "string" ? value : JSON.stringify(value)),
+        metadata: {
+          source: "legacy-ltm",
+          lang: "es",
+          tags,
+          importance: 0.6,
+          accessCount: 0,
+          createdAt: now,
+          lastAccessedAt: now,
+        },
+      };
+      this.ltmKeyStore.set(key, entry);
+      this.ltm.push(entry);
+    }
+    this.persistToDisk();
+  }
+
+  getLongTerm(key: string): any {
+    const entry = this.ltmKeyStore.get(key);
+    if (entry) {
+      entry.metadata.accessCount++;
+      entry.metadata.lastAccessedAt = new Date().toISOString();
+      return entry.content;
+    }
+    return undefined;
+  }
+
+  listLongTermKeys(): string[] {
+    return Array.from(this.ltmKeyStore.keys());
+  }
+
+  searchLongTerm(query: string): MemoryEntry[] {
+    const q = query.toLowerCase();
+    return this.ltm.filter(
+      (e) =>
+        e.content.toLowerCase().includes(q) ||
+        e.metadata.tags.some((t) => t.toLowerCase().includes(q))
+    );
+  }
+
+  unifiedSearch(
+    query: string,
+    options?: {
+      maxResults?: number;
+      minScore?: number;
+      includeSTM?: boolean;
+      includeLTM?: boolean;
+      includeKB?: boolean;
+    }
+  ): Array<{
+    source: string;
+    id: string;
+    title: string;
+    content: string;
+    score: number;
+    timestamp: number;
+    tags?: string[];
+  }> {
+    const results = this.recall({
+      text: query,
+      limit: options?.maxResults || 20,
+    });
+    return results.map((r) => ({
+      source: r.layer,
+      id: r.entry.id,
+      title: `[${r.layer.toUpperCase()}] ${r.entry.type}`,
+      content: r.entry.content.slice(0, 500),
+      score: r.score,
+      timestamp: new Date(r.entry.metadata.createdAt).getTime(),
+      tags: r.entry.metadata.tags,
+    }));
+  }
+
+  async storeVector(
+    vector: number[],
+    payload: Record<string, any>
+  ): Promise<string> {
+    const id = `vec_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const now = new Date().toISOString();
+    const entry: MemoryEntry = {
+      id,
+      type: "knowledge",
+      content: payload.content || payload.text || JSON.stringify(payload),
+      title: payload.title || payload.content || "vector",
+      category: payload.source || "vector-store",
+      key: id,
+      value: payload,
+      embedding: vector,
+      metadata: {
+        source: payload.source || "vector-store",
+        lang: payload.lang || "es",
+        tags: payload.tags || [],
+        importance: 0.5,
+        accessCount: 0,
+        createdAt: now,
+        lastAccessedAt: now,
+      },
+    };
+    this.kb.push(entry);
+    this.persistToDisk();
+    return id;
+  }
+
+  async queryVector(
+    queryVector: number[],
+    topK: number = 5
+  ): Promise<Array<{ id: string; vector: number[]; payload: Record<string, any>; score: number }>> {
+    const allWithEmbeddings = [...this.stm, ...this.ltm, ...this.kb].filter(
+      (e) => e.embedding && e.embedding.length === queryVector.length
+    );
+
+    const scored = allWithEmbeddings.map((entry) => ({
+      id: entry.id,
+      vector: entry.embedding!,
+      payload: {
+        content: entry.content,
+        type: entry.type,
+        source: entry.metadata.source,
+        tags: entry.metadata.tags,
+      },
+      score: this.cosineSimilarity(queryVector, entry.embedding!),
+    }));
+
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, topK);
+  }
+
+  addShortTerm(
+    sessionId: string,
+    role: "user" | "agent" | "system",
+    content: string,
+    metadata?: Record<string, any>
+  ): MemoryEntry {
+    const now = new Date().toISOString();
+    const entry: MemoryEntry = {
+      id: `stm_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      type: "interaction",
+      content,
+      title: content.slice(0, 80),
+      category: `session:${sessionId}`,
+      key: `stm_${Date.now()}`,
+      value: content,
+      embedding: this.generateEmbedding(content),
+      metadata: {
+        source: `session:${sessionId}`,
+        lang: metadata?.lang || "es",
+        tags: metadata?.tags || [role],
+        importance: 0.3,
+        accessCount: 0,
+        createdAt: now,
+        lastAccessedAt: now,
+      },
+    };
+
+    if (!this.stmSessionStore.has(sessionId)) {
+      this.stmSessionStore.set(sessionId, []);
+    }
+    const session = this.stmSessionStore.get(sessionId)!;
+    session.push(entry);
+    this.stm.push(entry);
+
+    if (this.stm.length > STM_MAX) {
+      this.stm.shift();
+    }
+
+    return entry;
+  }
+
+  getShortTerm(sessionId: string, limit: number = 20): MemoryEntry[] {
+    const session = this.stmSessionStore.get(sessionId) || [];
+    return session.slice(-limit);
+  }
+
+  searchShortTerm(sessionId: string, query: string): MemoryEntry[] {
+    const session = this.stmSessionStore.get(sessionId) || [];
+    const q = query.toLowerCase();
+    return session.filter((e) => e.content.toLowerCase().includes(q));
+  }
+
+  consolidationStats = { lastRun: null as number | null, totalPromoted: 0 };
+
+  consolidateSTMtoLTM(): number {
+    let promoted = 0;
+    const now = Date.now();
+    const cutoff = now - STM_MAX_AGE_MS;
+    const remaining: MemoryEntry[] = [];
+
+    for (const entry of this.stm) {
+      const created = new Date(entry.metadata.createdAt).getTime();
+      if (created < cutoff || entry.metadata.importance >= 0.8) {
+        this.ltm.push(entry);
+        promoted++;
+      } else {
+        remaining.push(entry);
       }
     }
 
-    return score / queryTerms.length;
+    this.stm = remaining;
+    this.consolidationStats.lastRun = now;
+    this.consolidationStats.totalPromoted += promoted;
+    this.persistToDisk();
+    return promoted;
+  }
+
+  flush(): void {
+    this.persistToDisk();
+  }
+
+  destroy(): void {
+    this.stopConsolidation();
+    this.flush();
+    this.removeAllListeners();
   }
 }

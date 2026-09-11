@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoe3b1e_d0a3e0",
+  "timestamp": "2026-09-05T12:59:18.054Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3cff22e2da2a05d5cf8e7f92378ded245c6b5a13b9f4f6193260ab02637340b5"
+}

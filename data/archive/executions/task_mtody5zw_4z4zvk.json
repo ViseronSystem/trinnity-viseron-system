@@ -1,0 +1,21 @@
+{
+  "id": "task_mtody5zw_4z4zvk",
+  "timestamp": "2026-09-05T12:55:18.409Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ac8553624a11115e4dd163a518663524116e92ed164860521567943e2220b635"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoa687m_ym88bm",
+  "timestamp": "2026-09-05T11:09:33.733Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "4e75fb011a0e5028ebec999e8d0cfdbe3e114d636de1b0e44a1b0e3d31e89a8c"
+}

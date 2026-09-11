@@ -1,0 +1,47 @@
+{
+  "twitter": {
+    "frequency": "3 tweets/day",
+    "content": "Rotating 30 tweets",
+    "hashtags": [
+      "#Solana",
+      "#DeFi",
+      "#Memecoin",
+      "#AI",
+      "#ViseronCosmos"
+    ],
+    "engagement": "Like, retweet, reply to mentions"
+  },
+  "telegram": {
+    "frequency": "1 update/day",
+    "content": "Daily market updates",
+    "features": [
+      "Welcome message",
+      "AMAs",
+      "Polls",
+      "Memes"
+    ],
+    "moderation": "Auto-welcome new members"
+  },
+  "reddit": {
+    "frequency": "2 posts/week",
+    "subreddits": [
+      "r/solana",
+      "r/CryptoMoonShots",
+      "r/SatoshiStreetBets"
+    ],
+    "content": "Educational + promotional"
+  },
+  "discord": {
+    "frequency": "Daily engagement",
+    "channels": [
+      "general",
+      "trading",
+      "announcements",
+      "community"
+    ],
+    "events": [
+      "Weekly AMAs",
+      "Trading competitions"
+    ]
+  }
+}

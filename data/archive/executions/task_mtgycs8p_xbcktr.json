@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgycs8p_xbcktr",
+  "timestamp": "2026-08-31T08:04:20.738Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "56d83c12c4b6772ad954bc4aa04876f91877a0fdd8a878656a085c4ba1d8e178"
+}

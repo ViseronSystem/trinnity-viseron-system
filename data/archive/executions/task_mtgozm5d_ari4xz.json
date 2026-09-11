@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgozm5d_ari4xz",
+  "timestamp": "2026-08-31T03:42:10.658Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "18dfb8b2da83429c5ae25ccd2a5e0ea1c822bd6befff74d80edf4193a6879d65"
+}

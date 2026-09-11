@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgwcrag_qpfcrd",
+  "timestamp": "2026-08-31T07:08:21.822Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "face3ad8010935bc6ab651d07665dab7b0c822a9a97880133a864320dbeb3485"
+}

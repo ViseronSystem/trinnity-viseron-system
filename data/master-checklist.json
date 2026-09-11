@@ -1,0 +1,83 @@
+{
+  "beforeLaunch": [
+    {
+      "task": "Deposit $50 SOL to wallet",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Create VSR/SOL pool on Raydium",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Create TRIN/SOL pool on Raydium",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Create Twitter @ViseronCosmos",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Create Telegram @ViseronCosmos",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Post first tweet",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "task": "Create Telegram announcement",
+      "status": "pending",
+      "priority": "medium"
+    }
+  ],
+  "week1": [
+    {
+      "task": "Daily tweets (7 total)",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "task": "List on Jupiter",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "task": "Submit to CoinGecko",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "task": "Community engagement",
+      "status": "pending",
+      "priority": "medium"
+    }
+  ],
+  "week2": [
+    {
+      "task": "CoinGecko approval",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "task": "Submit to CoinMarketCap",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "task": "Partnership outreach",
+      "status": "pending",
+      "priority": "low"
+    },
+    {
+      "task": "CEX application (MEXC)",
+      "status": "pending",
+      "priority": "low"
+    }
+  ]
+}

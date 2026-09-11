@@ -1,0 +1,21 @@
+{
+  "id": "task_mthbnkpu_6zzfny",
+  "timestamp": "2026-08-31T14:16:40.810Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "5f9b2595ded9b0e07cd62f6ee5c999564c0294f75400fccdde56aace5a18d94e"
+}

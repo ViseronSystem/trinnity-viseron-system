@@ -1,0 +1,21 @@
+{
+  "id": "task_mtitjhug_kyqi8h",
+  "timestamp": "2026-09-01T15:25:09.656Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "8b5f3b2e877fffacfddbfd79a6139a86e749a2c7e52d7e1f596c203d89fc3535"
+}

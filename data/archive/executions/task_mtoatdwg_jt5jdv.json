@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoatdwg_jt5jdv",
+  "timestamp": "2026-09-05T11:27:38.255Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "04693730b576045c756f0702099ca7e16a7b69025392e728aaeeaf95189ed925"
+}

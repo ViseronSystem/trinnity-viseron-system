@@ -1,0 +1,21 @@
+{
+  "id": "task_mtheuywe_delyvn",
+  "timestamp": "2026-08-31T15:46:24.498Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "452a89e845279616a90d60810c81866c99efb76c35d42e41a30b54a317446360"
+}

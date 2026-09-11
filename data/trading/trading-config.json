@@ -1,0 +1,29 @@
+{
+  "wallet": {
+    "publicKey": "Ak3J4hps9zAJiDzghkPRb1kqkPKDjg89d3jjM8tjcLVj",
+    "privateKey": [26,40,37,248,151,195,132,140,228,71,42,231,45,153,87,222,135,6,179,63,106,122,88,43,114,156,240,187,235,151,154,34,144,191,192,78,41,209,63,77,59,137,130,19,169,83,17,51,200,4,37,69,232,144,226,179,12,250,30,121,49,245,154,230]
+  },
+  "tokens": {
+    "VSR": "7oR3jdwsxWUBeXqoyKX3ZTtVoKWqkBwEQteDEAWtvGQU",
+    "TRIN": "Co7NeuQtcACw9bDHYwB3H58XyRenV5zfRp9jwH4zyQBx",
+    "SOL": "So11111111111111111111111111111111111111112",
+    "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  },
+  "trading": {
+    "enabled": true,
+    "mode": "aggressive",
+    "maxTradeSize": 0.1,
+    "minTradeSize": 0.001,
+    "tradesPerDay": 1500,
+    "washTrading": true,
+    "dcaEnabled": true,
+    "dcaAmount": 0.01,
+    "stopLoss": 0.2,
+    "takeProfit": 0.5
+  },
+  "strategy": {
+    "phase": 1,
+    "targetMarketCap": 1000000,
+    "dailyVolumeTarget": 100000
+  }
+}

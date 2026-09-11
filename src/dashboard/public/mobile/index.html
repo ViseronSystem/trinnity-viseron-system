@@ -1,24 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#0a0a2e" />
-    <link rel="manifest" href="/mobile/manifest.json" />
-    <link rel="apple-touch-icon" href="/icon.png" />
-    <title>Trinnity Viseron System</title>
-    <style id="expo-reset">
-      html, body { height: 100%; }
-      body { overflow: hidden; background: #0a0a2e; }
-      #root { display: flex; height: 100%; flex: 1; }
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script src="/_expo/static/js/web/AppEntry-3ff6089ed3d2d14c78e35b607ea24218.js" defer></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#050510" />
+  <meta name="description" content="Trinnity Viseron System — Mobile AI Operating System. Access JARVIS, VISERON, ATLAS, and your autonomous agents from anywhere." />
+  <link rel="manifest" href="/mobile/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon.png" />
+  <title>TVS Mobile — Trinnity Viseron System v7.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tvs-design.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--tvs-bg); color: var(--tvs-text); font-family: var(--tvs-font-sans); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+    body { display: flex; flex-direction: column; }
+
+    /* ── SPLASH SCREEN ─────────────────────────────────── */
+    .splash {
+      position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+      background: var(--tvs-bg); transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    .splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-logo {
+      width: 80px; height: 80px; border-radius: 20px; position: relative;
+      background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(191,90,242,0.15));
+      border: 1.5px solid rgba(0,240,255,0.3); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 40px rgba(0,240,255,0.15), 0 0 80px rgba(191,90,242,0.08);
+      animation: splash-pulse 2s ease-in-out infinite;
+    }
+    .splash-logo svg { width: 44px; height: 44px; }
+    .splash-title { font-family: var(--tvs-font-display); font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+    .splash-title .cyan { color: var(--tvs-cyan); }
+    .splash-title .purple { color: var(--tvs-purple); }
+    .splash-version { font-family: var(--tvs-font-mono); font-size: 11px; color: var(--tvs-text-muted); letter-spacing: 2px; }
+    .splash-loader { width: 120px; height: 3px; background: var(--tvs-surface-2); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+    .splash-loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--tvs-cyan), var(--tvs-purple)); border-radius: 3px; animation: splash-load 2.5s ease-in-out forwards; }
+    @keyframes splash-load { 0% { width: 0%; } 30% { width: 45%; } 60% { width: 70%; } 100% { width: 100%; } }
+    @keyframes splash-pulse { 0%, 100% { box-shadow: 0 0 40px rgba(0,240,255,0.15); } 50% { box-shadow: 0 0 60px rgba(0,240,255,0.25), 0 0 100px rgba(191,90,242,0.12); } }
+
+    /* ── MAIN APP ──────────────────────────────────────── */
+    .app { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .app-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 80px; -webkit-overflow-scrolling: touch; }
+    .app-content::-webkit-scrollbar { display: none; }
+
+    /* ── TOP HEADER ────────────────────────────────────── */
+    .top-header {
+      position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; background: rgba(5,5,16,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--tvs-border-subtle);
+    }
+    .top-brand { display: flex; align-items: center; gap: 10px; }
+    .top-logo {
+      width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(191,90,242,0.15));
+      border: 1px solid rgba(0,240,255,0.25); display: flex; align-items: center; justify-content: center;
+    }
+    .top-logo svg { width: 18px; height: 18px; }
+    .top-name { font-family: var(--tvs-font-display); font-size: 15px; font-weight: 700; }
+    .top-status { display: flex; align-items: center; gap: 6px; }
+    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tvs-green); box-shadow: 0 0 8px var(--tvs-green); animation: dot-pulse 2.5s ease-in-out infinite; }
+    .online-label { font-size: 10px; font-weight: 600; color: var(--tvs-green); text-transform: uppercase; letter-spacing: 0.5px; }
+    @keyframes dot-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* ── SECTION ───────────────────────────────────────── */
+    .section { padding: 16px; }
+    .section-title {
+      font-family: var(--tvs-font-display); font-size: 13px; font-weight: 600; color: var(--tvs-text-secondary);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    /* ── STATUS CARDS ──────────────────────────────────── */
+    .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .status-card {
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border); border-radius: 14px;
+      padding: 14px 10px; text-align: center; transition: border-color 0.2s;
+    }
+    .status-card:hover { border-color: rgba(0,240,255,0.2); }
+    .status-icon { font-size: 22px; margin-bottom: 6px; }
+    .status-val { font-family: var(--tvs-font-display); font-size: 20px; font-weight: 700; line-height: 1.1; }
+    .status-val.cyan { color: var(--tvs-cyan); }
+    .status-val.purple { color: var(--tvs-purple); }
+    .status-val.green { color: var(--tvs-green); }
+    .status-lbl { font-size: 10px; color: var(--tvs-text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── QUICK ACTIONS ─────────────────────────────────── */
+    .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .action-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      padding: 20px 12px; min-height: 110px; border-radius: 16px; cursor: pointer; text-decoration: none;
+      border: 1px solid var(--tvs-border); background: var(--tvs-surface-glass);
+      transition: all 0.2s ease; -webkit-user-select: none; user-select: none;
+    }
+    .action-btn:hover { border-color: rgba(0,240,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .action-btn:active { transform: scale(0.97); }
+    .action-icon {
+      width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .action-icon.cyan-bg { background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.15); }
+    .action-icon.purple-bg { background: rgba(191,90,242,0.1); border: 1px solid rgba(191,90,242,0.15); }
+    .action-icon.green-bg { background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.15); }
+    .action-icon.pink-bg { background: rgba(255,45,85,0.1); border: 1px solid rgba(255,45,85,0.15); }
+    .action-icon.orange-bg { background: rgba(255,159,10,0.1); border: 1px solid rgba(255,159,10,0.15); }
+    .action-label { font-size: 13px; font-weight: 600; color: var(--tvs-text); }
+    .action-sub { font-size: 10px; color: var(--tvs-text-muted); }
+
+    /* ── NOTIFICATION BANNER ───────────────────────────── */
+    .notif-banner {
+      display: flex; align-items: center; gap: 12px; margin: 0 16px 16px; padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(0,240,255,0.06), rgba(191,90,242,0.04));
+      border: 1px solid rgba(0,240,255,0.15); border-radius: 14px;
+    }
+    .notif-icon { font-size: 24px; flex-shrink: 0; }
+    .notif-text { flex: 1; }
+    .notif-title { font-size: 13px; font-weight: 600; color: var(--tvs-text); }
+    .notif-desc { font-size: 11px; color: var(--tvs-text-secondary); margin-top: 2px; }
+    .notif-action {
+      padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer;
+      background: var(--tvs-cyan); color: var(--tvs-text-inverse); border: none; white-space: nowrap;
+    }
+    .notif-dismiss {
+      padding: 4px 8px; border-radius: 6px; font-size: 18px; cursor: pointer;
+      background: none; border: none; color: var(--tvs-text-muted); line-height: 1;
+    }
+
+    /* ── APP INFO ──────────────────────────────────────── */
+    .app-info {
+      margin: 0 16px 24px; padding: 16px; background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+      border-radius: 14px;
+    }
+    .app-info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+    .app-info-row + .app-info-row { border-top: 1px solid var(--tvs-border-subtle); }
+    .app-info-label { font-size: 12px; color: var(--tvs-text-secondary); }
+    .app-info-value { font-size: 12px; font-family: var(--tvs-font-mono); color: var(--tvs-text); }
+    .install-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+      padding: 12px; margin-top: 12px; border-radius: 12px; font-size: 13px; font-weight: 600;
+      background: linear-gradient(135deg, var(--tvs-cyan), var(--tvs-purple)); color: var(--tvs-text-inverse);
+      border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .install-btn:hover { opacity: 0.9; }
+
+    /* ── BOTTOM NAV ────────────────────────────────────── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: stretch; height: 68px;
+      background: rgba(5,5,16,0.94); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--tvs-border-subtle);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    .nav-tab {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      padding: 6px 0; cursor: pointer; text-decoration: none; color: var(--tvs-text-muted);
+      transition: color 0.15s; -webkit-user-select: none; user-select: none; position: relative;
+    }
+    .nav-tab.active { color: var(--tvs-cyan); }
+    .nav-tab.active::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 24px; height: 2px; background: var(--tvs-cyan); border-radius: 0 0 2px 2px;
+    }
+    .nav-icon { font-size: 20px; line-height: 1; }
+    .nav-label { font-size: 10px; font-weight: 500; letter-spacing: 0.3px; }
+    .nav-badge {
+      position: absolute; top: 4px; right: 50%; transform: translateX(14px);
+      width: 16px; height: 16px; border-radius: 50%; font-size: 9px; font-weight: 700;
+      background: var(--tvs-pink); color: #fff; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    .app-footer { text-align: center; padding: 20px 16px 32px; font-size: 10px; color: var(--tvs-text-muted); line-height: 1.6; }
+
+    /* ── AMBIENT ───────────────────────────────────────── */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(600px 300px at 20% 10%, rgba(0,240,255,0.04), transparent 60%),
+                  radial-gradient(500px 250px at 80% 80%, rgba(191,90,242,0.035), transparent 60%);
+    }
+    .app { position: relative; z-index: 1; }
+    .splash { z-index: 9999; }
+
+    @media (min-width: 640px) {
+      .status-grid { grid-template-columns: repeat(3, 1fr); }
+      .actions-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div class="splash" id="splash">
+    <div class="splash-logo">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" stroke="#00f0ff" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="3" fill="#bf5af2"/></svg>
+    </div>
+    <div class="splash-title"><span class="cyan">TVS</span> <span class="purple">Mobile</span></div>
+    <div class="splash-version">v7.0</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="app" id="app" style="display:none;">
+    <div class="app-content">
+
+      <!-- Top Header -->
+      <div class="top-header">
+        <div class="top-brand">
+          <div class="top-logo">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" stroke="#00f0ff" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="3" fill="#bf5af2"/></svg>
+          </div>
+          <span class="top-name">TVS Mobile</span>
+        </div>
+        <div class="top-status">
+          <div class="online-dot"></div>
+          <span class="online-label">Online</span>
+        </div>
+      </div>
+
+      <!-- Push Notification Banner -->
+      <div class="notif-banner" id="notifBanner">
+        <div class="notif-icon">🔔</div>
+        <div class="notif-text">
+          <div class="notif-title">Stay Updated</div>
+          <div class="notif-desc">Enable push notifications for agent alerts and system updates.</div>
+        </div>
+        <button class="notif-action" onclick="requestNotifications()">Enable</button>
+        <button class="notif-dismiss" onclick="dismissNotif()">&times;</button>
+      </div>
+
+      <!-- Status Cards -->
+      <div class="section">
+        <div class="section-title">System Overview</div>
+        <div class="status-grid">
+          <div class="status-card">
+            <div class="status-icon">🤖</div>
+            <div class="status-val cyan" id="agentCount">10</div>
+            <div class="status-lbl">Agents</div>
+          </div>
+          <div class="status-card">
+            <div class="status-icon">⚡</div>
+            <div class="status-val purple" id="squadCount">12</div>
+            <div class="status-lbl">Squads</div>
+          </div>
+          <div class="status-card">
+            <div class="status-icon">🧩</div>
+            <div class="status-val green" id="skillCount">1997</div>
+            <div class="status-lbl">Skills</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section">
+        <div class="section-title">Quick Actions</div>
+        <div class="actions-grid">
+          <a href="/jarvis" class="action-btn">
+            <div class="action-icon cyan-bg">💬</div>
+            <div class="action-label">JARVIS</div>
+            <div class="action-sub">AI Chat</div>
+          </a>
+          <a href="/viseron" class="action-btn">
+            <div class="action-icon purple-bg">🧠</div>
+            <div class="action-label">VISERON</div>
+            <div class="action-sub">Superintelligence</div>
+          </a>
+          <a href="/atlas" class="action-btn">
+            <div class="action-icon green-bg">📚</div>
+            <div class="action-label">ATLAS</div>
+            <div class="action-sub">English Tutor</div>
+          </a>
+          <a href="/agency" class="action-btn">
+            <div class="action-icon pink-bg">📈</div>
+            <div class="action-label">Agency</div>
+            <div class="action-sub">Marketing OS</div>
+          </a>
+          <a href="/cosmos" class="action-btn">
+            <div class="action-icon orange-bg">🪐</div>
+            <div class="action-label">Cosmos</div>
+            <div class="action-sub">$VSR · $TRIN</div>
+          </a>
+          <a href="/os" class="action-btn">
+            <div class="action-icon cyan-bg">🖥️</div>
+            <div class="action-label">TVS OS</div>
+            <div class="action-sub">Desktop</div>
+          </a>
+          <a href="/game" class="action-btn">
+            <div class="action-icon purple-bg">🎮</div>
+            <div class="action-label">Game</div>
+            <div class="action-sub">Play Now</div>
+          </a>
+          <a href="/api/jarvis/memory" class="action-btn">
+            <div class="action-icon green-bg">🧠</div>
+            <div class="action-label">Memory</div>
+            <div class="action-sub">JARVIS Recall</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- App Info -->
+      <div class="section">
+        <div class="section-title">App Information</div>
+        <div class="app-info">
+          <div class="app-info-row">
+            <span class="app-info-label">Version</span>
+            <span class="app-info-value">7.0.0</span>
+          </div>
+          <div class="app-info-row">
+            <span class="app-info-label">Build</span>
+            <span class="app-info-value">2026.08.31</span>
+          </div>
+          <div class="app-info-row">
+            <span class="app-info-label">Engine</span>
+            <span class="app-info-value">OmniKernel</span>
+          </div>
+          <div class="app-info-row">
+            <span class="app-info-label">Status</span>
+            <span class="app-info-value" style="color:var(--tvs-green);">Operational</span>
+          </div>
+          <div class="app-info-row">
+            <span class="app-info-label">Domain</span>
+            <span class="app-info-value">trinnityviseronsystem.io</span>
+          </div>
+          <button class="install-btn" id="installBtn" onclick="installPWA()" style="display:none;">
+            📲 Install TVS Mobile
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="app-footer">
+        &copy; Pedro Costa (Commander) &amp; Trinnity Hurtado (Queen)<br />
+        Trinnity Viseron System v7.0
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="/" class="nav-tab active">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </a>
+      <a href="/os" class="nav-tab">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">Agents</span>
+        <span class="nav-badge">3</span>
+      </a>
+      <a href="/jarvis" class="nav-tab">
+        <span class="nav-icon">💬</span>
+        <span class="nav-label">Chat</span>
+      </a>
+      <a href="/dashboard" class="nav-tab">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Settings</span>
+      </a>
+      <button class="nav-tab" onclick="toggleMore()" id="moreTab">
+        <span class="nav-icon">⋯</span>
+        <span class="nav-label">More</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    /* Splash auto-dismiss */
+    setTimeout(function() {
+      document.getElementById('splash').classList.add('hidden');
+      document.getElementById('app').style.display = 'flex';
+    }, 2600);
+
+    /* Push notifications */
+    function requestNotifications() {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(function(p) {
+          if (p === 'granted') {
+            new Notification('TVS Mobile', { body: 'Push notifications enabled!', icon: '/icon.png' });
+            dismissNotif();
+          }
+        });
+      } else {
+        dismissNotif();
+      }
+    }
+    function dismissNotif() {
+      var el = document.getElementById('notifBanner');
+      if (el) el.style.display = 'none';
+    }
+
+    /* PWA install prompt */
+    var deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = 'flex';
+    });
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(r) {
+          if (r.outcome === 'accepted') document.getElementById('installBtn').style.display = 'none';
+          deferredPrompt = null;
+        });
+      }
+    }
+
+    /* Bottom nav active state */
+    var tabs = document.querySelectorAll('.nav-tab');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+
+    /* More menu toggle */
+    function toggleMore() {
+      /* placeholder for future slide-up menu */
+    }
+
+    /* Fetch live system stats */
+    fetch('/api/health').then(function(r) { return r.json(); }).then(function(d) {
+      if (d.agents) document.getElementById('agentCount').textContent = d.agents;
+      if (d.squads) document.getElementById('squadCount').textContent = d.squads;
+      if (d.skills) document.getElementById('skillCount').textContent = d.skills;
+    }).catch(function() {});
+  </script>
+</body>
 </html>

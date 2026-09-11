@@ -1,0 +1,21 @@
+{
+  "id": "task_mtre4kws_8vwdvi",
+  "timestamp": "2026-09-07T15:23:34.931Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c2c802cc5c1512e89eac8b581a1edf2f967d3d426454aa6db39db804b9847362"
+}

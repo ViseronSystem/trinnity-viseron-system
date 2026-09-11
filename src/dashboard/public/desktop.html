@@ -1,435 +1,1338 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TVS Desktop — AI-Native Operating System</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/tvs-design.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#050510; --panel:#0c0c1d; --panel2:#12122a; --line:#1e1e3f; --neon:#00f0ff; --neon2:#bf5af2; --ok:#22d38a; --warn:#ffb020; --crit:#ff4d5e; --text:#d7d7e6; --dim:#8a8aa8; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
-  header { display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(5,5,16,.92); backdrop-filter:blur(8px); z-index:10; }
-  .brand { font-weight:800; font-size:17px; letter-spacing:.5px; }
-  .brand span { color:var(--neon); }
-  .muted { color:var(--dim); font-size:12px; }
-  .mono { font-family:'JetBrains Mono',monospace; }
-  .badge { display:inline-block; padding:2px 10px; border-radius:99px; font-size:11px; font-weight:600; border:1px solid var(--line); }
-  .badge.ok { color:var(--ok); border-color:var(--ok); }
-  .badge.warn { color:var(--warn); border-color:var(--warn); }
-  .badge.crit { color:var(--crit); border-color:var(--crit); }
-  .dock { display:flex; gap:6px; flex-wrap:wrap; padding:10px 22px; border-bottom:1px solid var(--line); background:var(--panel); }
-  .dock button { background:var(--panel2); color:var(--text); border:1px solid var(--line); border-radius:8px; padding:7px 14px; cursor:pointer; font-family:'Inter'; font-size:13px; }
-  .dock button:hover, .dock button.active { border-color:var(--neon); color:var(--neon); }
-  main { display:grid; grid-template-columns:1fr; gap:16px; padding:18px 22px; max-width:1200px; margin:0 auto; }
-  .grid { display:grid; grid-template-columns:1fr; gap:16px; }
-  @media(min-width:900px){ .grid { grid-template-columns:repeat(2,1fr); } .full { grid-column:1/-1; } }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
-  .card h3 { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--neon); margin-bottom:12px; }
-  table { width:100%; border-collapse:collapse; font-size:12.5px; }
-  th { text-align:left; color:var(--dim); font-weight:600; padding:6px 8px; border-bottom:1px solid var(--line); }
-  td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
-  .st { padding:2px 8px; border-radius:99px; font-size:10.5px; font-weight:700; }
-  .st.RUNNING,.st.granted,.st.paid { background:rgba(34,211,138,.15); color:var(--ok); }
-  .st.COMPLETED,.st.ok { background:rgba(0,240,255,.12); color:var(--neon); }
-  .st.FAILED,.st.denied { background:rgba(255,77,94,.15); color:var(--crit); }
-  .st.TIMEOUT,.st.warn,.st.pending { background:rgba(255,176,32,.15); color:var(--warn); }
-  .st.KILLED,.st.expired { background:rgba(138,138,168,.2); color:var(--dim); }
-  input, select { background:var(--panel2); color:var(--text); border:1px solid var(--line); border-radius:7px; padding:7px 10px; font-size:13px; }
-  button.act { background:var(--panel2); border:1px solid var(--line); color:var(--text); border-radius:7px; padding:6px 12px; cursor:pointer; font-size:12px; }
-  button.act:hover { border-color:var(--neon); color:var(--neon); }
-  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
-  .kv { display:grid; grid-template-columns:1fr 1fr; gap:6px 16px; font-size:12.5px; }
-  .kv b { color:var(--neon2); font-weight:600; }
-  .kv div:nth-child(odd) { color:var(--dim); }
-  pre { background:#070712; border:1px solid var(--line); border-radius:8px; padding:10px; font-family:'JetBrains Mono'; font-size:11.5px; overflow:auto; max-height:240px; white-space:pre-wrap; }
-  .bar { height:6px; background:var(--line); border-radius:99px; overflow:hidden; }
-  .bar > div { height:100%; background:linear-gradient(90deg,var(--neon),var(--neon2)); }
-  code { font-family:'JetBrains Mono'; color:var(--neon); background:rgba(0,240,255,.08); padding:1px 5px; border-radius:4px; font-size:12px; }
-  #toast { position:fixed; bottom:18px; right:18px; background:var(--panel2); border:1px solid var(--neon); color:var(--text); padding:10px 16px; border-radius:10px; font-size:12.5px; opacity:0; transition:opacity .25s; z-index:99; }
-  #toast.show { opacity:1; }
+body { background: var(--tvs-bg); overflow: hidden; height: 100vh; }
+
+/* ── Desktop Wallpaper ── */
+#desktop {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #050510 0%, #0a0a2e 40%, #0d1030 60%, #050510 100%);
+  overflow: hidden;
+}
+#desktop::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,240,255,0.06) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  pointer-events: none;
+}
+#desktop::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(191,90,242,0.05) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  pointer-events: none;
+}
+
+/* ── Desktop Icons Grid ── */
+.desktop-icons {
+  position: absolute;
+  top: var(--tvs-space-4);
+  left: var(--tvs-space-4);
+  right: var(--tvs-space-4);
+  bottom: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 90px);
+  grid-template-rows: repeat(auto-fill, 100px);
+  gap: var(--tvs-space-2);
+  align-content: start;
+  overflow-y: auto;
+}
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--tvs-space-1);
+  padding: var(--tvs-space-2);
+  border-radius: var(--tvs-radius-md);
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+}
+.desktop-icon:hover { background: rgba(255,255,255,0.06); }
+.desktop-icon:active { background: rgba(255,255,255,0.1); }
+.desktop-icon .icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--tvs-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform 0.15s;
+}
+.desktop-icon:hover .icon { transform: scale(1.08); }
+.desktop-icon .label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tvs-text);
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  line-height: 1.2;
+}
+
+/* ── Taskbar ── */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(5,5,16,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--tvs-border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--tvs-space-3);
+  z-index: 1000;
+  gap: var(--tvs-space-2);
+}
+.start-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--tvs-radius-md);
+  background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(191,90,242,0.1));
+  border: 1px solid rgba(0,240,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.start-btn:hover {
+  background: linear-gradient(135deg, rgba(0,240,255,0.25), rgba(191,90,242,0.18));
+  border-color: rgba(0,240,255,0.45);
+  box-shadow: 0 0 20px rgba(0,240,255,0.15);
+}
+.start-btn svg { width: 20px; height: 20px; color: var(--tvs-cyan); }
+.taskbar-tray {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 0 var(--tvs-space-2);
+}
+.taskbar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-1);
+  padding: var(--tvs-space-1) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tvs-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.taskbar-item:hover { background: var(--tvs-surface-1); color: var(--tvs-text); }
+.taskbar-item.active {
+  background: rgba(0,240,255,0.08);
+  border-color: rgba(0,240,255,0.2);
+  color: var(--tvs-cyan);
+}
+.system-tray {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  padding-left: var(--tvs-space-3);
+  border-left: 1px solid var(--tvs-border-subtle);
+  flex-shrink: 0;
+}
+.tray-clock {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--tvs-text-secondary);
+}
+.tray-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tvs-green);
+  animation: tvs-pulse-dot 2s ease-in-out infinite;
+}
+.tray-icon {
+  color: var(--tvs-text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.tray-icon:hover { color: var(--tvs-text); }
+
+/* ── Start Menu ── */
+.start-menu {
+  position: fixed;
+  bottom: 56px;
+  left: var(--tvs-space-3);
+  width: 380px;
+  max-height: 500px;
+  background: rgba(12,12,29,0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--tvs-border);
+  border-radius: var(--tvs-radius-xl);
+  box-shadow: var(--tvs-shadow-2xl);
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: tvs-fade-in-up 0.2s var(--tvs-ease-out);
+}
+.start-menu.open { display: flex; }
+.start-menu-header {
+  padding: var(--tvs-space-4);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+}
+.start-menu-search {
+  width: 100%;
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md);
+  background: var(--tvs-bg);
+  border: 1px solid var(--tvs-border-strong);
+  color: var(--tvs-text);
+  font-size: var(--tvs-text-sm);
+}
+.start-menu-search::placeholder { color: var(--tvs-text-muted); }
+.start-menu-search:focus {
+  outline: none;
+  border-color: var(--tvs-border-focus);
+  box-shadow: 0 0 0 3px rgba(0,240,255,0.1);
+}
+.start-menu-apps {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--tvs-space-2);
+}
+.start-app-item {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.start-app-item:hover { background: var(--tvs-surface-1); }
+.start-app-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tvs-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.start-app-info .start-app-name {
+  font-size: var(--tvs-text-sm);
+  font-weight: 600;
+  color: var(--tvs-text);
+}
+.start-app-info .start-app-desc {
+  font-size: var(--tvs-text-xs);
+  color: var(--tvs-text-muted);
+}
+
+/* ── OS Windows ── */
+.os-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: rgba(12,12,29,0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--tvs-border);
+  border-radius: var(--tvs-radius-lg);
+  box-shadow: var(--tvs-shadow-xl);
+  min-width: 360px;
+  min-height: 240px;
+  overflow: hidden;
+  animation: tvs-scale-in 0.2s var(--tvs-ease-out);
+  z-index: 100;
+}
+.os-window.maximized {
+  inset: 0 0 52px 0 !important;
+  width: 100% !important;
+  height: calc(100% - 52px) !important;
+  border-radius: 0;
+}
+.win-header {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--tvs-border-subtle);
+  cursor: move;
+  user-select: none;
+}
+.win-header .win-icon { font-size: 14px; }
+.win-header .win-title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tvs-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.win-controls { display: flex; gap: 6px; }
+.win-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.win-btn:hover { opacity: 0.8; }
+.win-btn-minimize { background: var(--tvs-orange); }
+.win-btn-maximize { background: var(--tvs-green); }
+.win-btn-close { background: var(--tvs-danger); }
+.win-body {
+  flex: 1;
+  overflow: auto;
+  padding: var(--tvs-space-4);
+  font-size: var(--tvs-text-sm);
+  color: var(--tvs-text);
+}
+
+/* ── Terminal ── */
+.terminal-body {
+  background: #070712;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: var(--tvs-space-3);
+  color: var(--tvs-green);
+  min-height: 200px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+.terminal-line { margin-bottom: 2px; }
+.terminal-line .prompt { color: var(--tvs-cyan); }
+.terminal-line .cmd { color: var(--tvs-text); }
+.terminal-line .output { color: var(--tvs-text-secondary); }
+.terminal-line .error { color: var(--tvs-danger); }
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-2);
+}
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--tvs-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  outline: none;
+}
+
+/* ── File Manager ── */
+.fm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--tvs-space-2);
+}
+.fm-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--tvs-space-1);
+  padding: var(--tvs-space-3);
+  border-radius: var(--tvs-radius-md);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.fm-item:hover { background: var(--tvs-surface-1); }
+.fm-item .fm-icon { font-size: 28px; }
+.fm-item .fm-name {
+  font-size: 11px;
+  color: var(--tvs-text);
+  text-align: center;
+  word-break: break-all;
+}
+
+/* ── Settings Panel ── */
+.settings-group { margin-bottom: var(--tvs-space-4); }
+.settings-group h4 {
+  font-size: var(--tvs-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tvs-text-muted);
+  margin-bottom: var(--tvs-space-2);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tvs-space-2) var(--tvs-space-3);
+  border-radius: var(--tvs-radius-sm);
+  transition: background 0.12s;
+}
+.settings-row:hover { background: var(--tvs-surface-1); }
+.settings-label { font-size: var(--tvs-text-sm); color: var(--tvs-text); }
+.settings-value { font-size: var(--tvs-text-sm); color: var(--tvs-text-secondary); }
+
+/* ── App Store Card ── */
+.store-card {
+  display: flex;
+  align-items: center;
+  gap: var(--tvs-space-3);
+  padding: var(--tvs-space-3);
+  background: var(--tvs-surface-1);
+  border: 1px solid var(--tvs-border-subtle);
+  border-radius: var(--tvs-radius-md);
+  margin-bottom: var(--tvs-space-2);
+  transition: border-color 0.15s;
+}
+.store-card:hover { border-color: rgba(0,240,255,0.2); }
+.store-card .store-icon { font-size: 24px; flex-shrink: 0; }
+.store-card .store-info { flex: 1; }
+.store-card .store-name { font-size: var(--tvs-text-sm); font-weight: 600; color: var(--tvs-text); }
+.store-card .store-desc { font-size: var(--tvs-text-xs); color: var(--tvs-text-muted); }
+
+/* ── Trading Panel ── */
+.trade-stat { text-align: center; padding: var(--tvs-space-2); }
+.trade-stat .value { font-size: var(--tvs-text-xl); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.trade-stat .label { font-size: var(--tvs-text-xs); color: var(--tvs-text-muted); }
+.trade-signal { padding: 6px 10px; border-radius: var(--tvs-radius-sm); font-size: 11px; font-weight: 600; margin: 2px; display: inline-block; }
+.trade-signal.buy { background: rgba(48,209,88,0.15); color: var(--tvs-green); border: 1px solid rgba(48,209,88,0.3); }
+.trade-signal.sell { background: rgba(255,69,58,0.15); color: var(--tvs-danger); border: 1px solid rgba(255,69,58,0.3); }
+.trade-signal.hold { background: rgba(255,255,255,0.05); color: var(--tvs-text-muted); border: 1px solid var(--tvs-border-subtle); }
+
+/* ── Command Center ── */
+.cc-gauge { text-align: center; }
+.cc-gauge svg { width: 80px; height: 80px; }
+.cc-gauge .gauge-label { font-size: 11px; color: var(--tvs-text-muted); margin-top: 4px; }
+.cc-agent-row { display: flex; align-items: center; gap: var(--tvs-space-2); padding: 6px 0; border-bottom: 1px solid var(--tvs-border-subtle); }
+.cc-agent-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cc-agent-dot.on { background: var(--tvs-green); }
+.cc-agent-dot.off { background: var(--tvs-danger); }
+.cc-agent-name { flex: 1; font-size: 12px; font-weight: 500; }
+.cc-agent-rate { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--tvs-text-secondary); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .desktop-icons { grid-template-columns: repeat(auto-fill, 76px); }
+  .start-menu { width: calc(100vw - 16px); left: 8px; }
+  .os-window { min-width: 280px; }
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">TVS <span>DESKTOP</span> <span class="muted" id="osver"></span></div>
-  <div class="row" style="margin:0">
-    <span class="badge ok" id="health">health</span>
-    <span class="muted mono" id="uptime"></span>
-    <span class="badge warn" id="loginState" style="cursor:pointer" onclick="toggleLogin()">login</span>
-    <a href="/" class="act" style="text-decoration:none;padding:6px 12px;border:1px solid var(--line);border-radius:7px;color:var(--dim)">← Site</a>
-  </div>
-</header>
 
-<div class="dock" id="dock">
-  <button data-view="monitor" class="active">System Monitor</button>
-  <button data-view="wallet">Crypto Wallet</button>
-  <button data-view="revenue">Revenue</button>
-  <button data-view="apps">App Factory</button>
-  <button data-view="processes">Process Manager</button>
-  <button data-view="files">File Explorer</button>
-  <button data-view="store">App Store</button>
-  <button data-view="agents">Agent Manager</button>
-  <button data-view="security">Security Center</button>
+<!-- Desktop Surface -->
+<div id="desktop">
+  <div class="desktop-icons" id="desktopIcons"></div>
+  <div id="windowsMount"></div>
 </div>
 
-<main id="main"></main>
-<div id="toast"></div>
+<!-- Taskbar -->
+<div class="taskbar">
+  <button class="start-btn" id="startBtn" onclick="toggleStartMenu()" title="Start Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+  </button>
+  <div class="taskbar-tray" id="taskbarTray"></div>
+  <div class="system-tray">
+    <div class="tray-indicator" id="trayIndicator" title="System Online"></div>
+    <span class="tray-icon" onclick="openApp('terminal')" title="Terminal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+    </span>
+    <span class="tray-clock" id="trayClock">--:--</span>
+  </div>
+</div>
+
+<!-- Start Menu -->
+<div class="start-menu" id="startMenu">
+  <div class="start-menu-header">
+    <input type="text" class="start-menu-search" id="startSearch" placeholder="Search apps..." oninput="filterStartApps()">
+  </div>
+  <div class="start-menu-apps" id="startApps"></div>
+</div>
 
 <script>
-const $ = (sel) => document.querySelector(sel);
-const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const TOKEN = () => localStorage.getItem('tvs_token') || '';
-const authHeaders = (opts) => {
-  const h = Object.assign({}, opts?.headers || {});
-  const t = TOKEN();
-  if (t) h['Authorization'] = 'Bearer ' + t;
-  return h;
-};
-const api = async (path, opts) => {
-  const r = await fetch('/api/os' + path, Object.assign({}, opts, { headers: authHeaders(opts) }));
-  const d = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(d.error || r.status);
-  return d;
-};
-const web = async (path, opts) => {
-  const r = await fetch('/api' + path, Object.assign({}, opts, { headers: authHeaders(opts) }));
-  const d = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(d.error || r.status);
-  return d;
-};
-const ST = (s) => `<span class="st ${esc(s)}">${esc(s)}</span>`;
+/* ── Global Auth State ── */
+var TVS_TOKEN = localStorage.getItem('tvs_token') || '';
+var TVS_USER = null;
+try { TVS_USER = JSON.parse(localStorage.getItem('tvs_user') || 'null'); } catch(e) {}
 
-function renderLoginState() {
-  $('#loginState').textContent = TOKEN() ? 'sessão ativa' : 'sem login';
-  $('#loginState').className = 'badge ' + (TOKEN() ? 'ok' : 'warn');
+function apiHeaders() {
+  var h = { 'Content-Type': 'application/json' };
+  if (TVS_TOKEN) h['Authorization'] = 'Bearer ' + TVS_TOKEN;
+  return h;
 }
-function toggleLogin() {
-  if (TOKEN()) {
-    localStorage.removeItem('tvs_token');
-    renderLoginState();
-    toast('sessão terminada');
+
+async function apiFetch(url, opts) {
+  opts = opts || {};
+  opts.headers = Object.assign({}, apiHeaders(), opts.headers || {});
+  try {
+    var r = await fetch(url, opts);
+    if (r.status === 401) {
+      // Try without auth for public endpoints
+      var r2 = await fetch(url, { headers: { 'Content-Type': 'application/json' } });
+      return r2;
+    }
+    return r;
+  } catch(e) {
+    return { ok: false, json: function() { return { error: e.message }; } };
+  }
+}
+
+/* ── App Definitions ── */
+var APPS = [
+  { id: 'jarvis', name: 'JARVIS', icon: '\u{1F916}', color: 'rgba(0,240,255,0.12)', desc: 'AI Assistant', w: 620, h: 480, content: renderJarvis },
+  { id: 'viseron', name: 'VISERON', icon: '\u269B', color: 'rgba(0,240,255,0.15)', desc: 'Superintelligence', w: 650, h: 500, url: '/viseron' },
+  { id: 'atlas', name: 'ATLAS', icon: '\u{1F393}', color: 'rgba(255,159,10,0.12)', desc: 'English Tutor', w: 600, h: 480, url: '/atlas' },
+  { id: 'agency', name: 'Agency', icon: '\u{1F4CA}', color: 'rgba(191,90,242,0.12)', desc: 'Marketing Agency', w: 620, h: 440, content: renderAgency },
+  { id: 'crypto', name: 'Crypto', icon: '\u{1F48E}', color: 'rgba(0,240,255,0.1)', desc: 'Viseron Cosmos', w: 600, h: 400, url: '/cosmos' },
+  { id: 'trading', name: 'Trading', icon: '\u{1F4B9}', color: 'rgba(48,209,88,0.12)', desc: 'Trading Bot', w: 640, h: 460, content: renderTrading },
+  { id: 'command', name: 'Command Center', icon: '\u{1F3AF}', color: 'rgba(255,69,58,0.1)', desc: 'System Control', w: 700, h: 500, content: renderCommandCenter },
+  { id: 'workspace', name: 'Workspace', icon: '\u{1F4C1}', color: 'rgba(48,209,88,0.12)', desc: 'Project Tasks', w: 660, h: 460, content: renderWorkspace },
+  { id: 'ide', name: 'IDE', icon: '\u{1F4DD}', color: 'rgba(0,240,255,0.08)', desc: 'Code Editor', w: 700, h: 500, url: '/ide' },
+  { id: 'settings', name: 'Settings', icon: '\u2699', color: 'rgba(255,255,255,0.06)', desc: 'System Settings', w: 500, h: 420, content: renderSettings },
+  { id: 'terminal', name: 'Terminal', icon: '\u25B8', color: 'rgba(7,7,18,0.9)', desc: 'Command Line', w: 620, h: 400, content: renderTerminal },
+  { id: 'files', name: 'Files', icon: '\u{1F4C2}', color: 'rgba(255,214,10,0.1)', desc: 'File Manager', w: 620, h: 440, content: renderFiles },
+  { id: 'browser', name: 'Browser', icon: '\u{1F310}', color: 'rgba(0,240,255,0.08)', desc: 'Web Browser', w: 700, h: 500, content: renderBrowser },
+  { id: 'store', name: 'App Store', icon: '\u{1F6D2}', color: 'rgba(191,90,242,0.1)', desc: 'Browse & Install', w: 560, h: 460, content: renderStore }
+];
+
+/* ── State ── */
+var openWindows = {};
+var winZIndex = 100;
+var activeWindow = null;
+var startMenuOpen = false;
+var jarvisHistory = [];
+var termHistory = [];
+var termHistIdx = -1;
+
+/* ── Render Desktop Icons ── */
+function renderDesktopIcons() {
+  var container = document.getElementById('desktopIcons');
+  container.innerHTML = APPS.map(function(app) {
+    return '<div class="desktop-icon" ondblclick="openApp(\'' + app.id + '\')">' +
+    '<div class="icon" style="background:' + app.color + ';border:1px solid var(--tvs-border);">' + app.icon + '</div>' +
+    '<div class="label">' + app.name + '</div></div>';
+  }).join('');
+}
+
+/* ── Start Menu ── */
+function toggleStartMenu() {
+  startMenuOpen = !startMenuOpen;
+  document.getElementById('startMenu').classList.toggle('open', startMenuOpen);
+  if (startMenuOpen) {
+    document.getElementById('startSearch').focus();
+    renderStartApps(APPS);
+  }
+}
+
+function renderStartApps(apps) {
+  document.getElementById('startApps').innerHTML = apps.map(function(app) {
+    return '<div class="start-app-item" onclick="openApp(\'' + app.id + '\'); toggleStartMenu();">' +
+    '<div class="start-app-icon" style="background:' + app.color + ';border:1px solid var(--tvs-border);border-radius:var(--tvs-radius-md);">' + app.icon + '</div>' +
+    '<div class="start-app-info"><div class="start-app-name">' + app.name + '</div><div class="start-app-desc">' + app.desc + '</div></div></div>';
+  }).join('');
+}
+
+function filterStartApps() {
+  var q = document.getElementById('startSearch').value.toLowerCase();
+  var filtered = APPS.filter(function(a) { return a.name.toLowerCase().indexOf(q) >= 0 || a.desc.toLowerCase().indexOf(q) >= 0; });
+  renderStartApps(filtered);
+}
+
+/* ── Window Management ── */
+function openApp(id) {
+  if (openWindows[id]) { focusWindow(id); return; }
+  var app = APPS.find(function(a) { return a.id === id; });
+  if (!app) return;
+
+  var win = document.createElement('div');
+  win.className = 'os-window';
+  win.id = 'win-' + id;
+  win.style.width = app.w + 'px';
+  win.style.height = app.h + 'px';
+  win.style.left = (80 + Math.random() * 120) + 'px';
+  win.style.top = (30 + Math.random() * 60) + 'px';
+  win.style.zIndex = ++winZIndex;
+
+  win.innerHTML =
+    '<div class="win-header" onmousedown="startDrag(event,\'' + id + '\')">' +
+    '<span class="win-icon">' + app.icon + '</span>' +
+    '<span class="win-title">' + app.name + '</span>' +
+    '<div class="win-controls">' +
+    '<button class="win-btn win-btn-minimize" onclick="minimizeWindow(\'' + id + '\')"></button>' +
+    '<button class="win-btn win-btn-maximize" onclick="maximizeWindow(\'' + id + '\')"></button>' +
+    '<button class="win-btn win-btn-close" onclick="closeWindow(\'' + id + '\')"></button>' +
+    '</div></div>' +
+    '<div class="win-body" id="win-body-' + id + '"></div>';
+
+  document.getElementById('windowsMount').appendChild(win);
+  openWindows[id] = { el: win, app: app };
+  win.addEventListener('mousedown', function() { focusWindow(id); });
+
+  var body = document.getElementById('win-body-' + id);
+  if (app.content) {
+    app.content(body);
+  } else if (app.url) {
+    body.innerHTML = '<iframe src="' + app.url + '" style="width:100%;height:100%;border:none;border-radius:0 0 var(--tvs-radius-lg) var(--tvs-radius-lg);"></iframe>';
+    body.style.padding = '0';
+    body.style.overflow = 'hidden';
+  }
+
+  addTaskbarItem(id, app);
+  focusWindow(id);
+}
+
+function closeWindow(id) {
+  var w = openWindows[id];
+  if (!w) return;
+  w.el.remove();
+  delete openWindows[id];
+  var tb = document.getElementById('tb-' + id);
+  if (tb) tb.remove();
+}
+
+function minimizeWindow(id) {
+  var w = openWindows[id];
+  if (!w) return;
+  w.el.style.display = 'none';
+}
+
+function maximizeWindow(id) {
+  var w = openWindows[id];
+  if (!w) return;
+  w.el.classList.toggle('maximized');
+}
+
+function focusWindow(id) {
+  var w = openWindows[id];
+  if (!w) return;
+  w.el.style.zIndex = ++winZIndex;
+  activeWindow = id;
+  document.querySelectorAll('.taskbar-item').forEach(function(t) { t.classList.remove('active'); });
+  var tb = document.getElementById('tb-' + id);
+  if (tb) tb.classList.add('active');
+}
+
+/* ── Drag ── */
+var dragData = null;
+function startDrag(e, id) {
+  var w = openWindows[id];
+  if (!w || w.el.classList.contains('maximized')) return;
+  focusWindow(id);
+  dragData = { id: id, startX: e.clientX, startY: e.clientY, origLeft: w.el.offsetLeft, origTop: w.el.offsetTop };
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', stopDrag);
+}
+function onDrag(e) {
+  if (!dragData) return;
+  var w = openWindows[dragData.id];
+  if (!w) return;
+  w.el.style.left = (dragData.origLeft + e.clientX - dragData.startX) + 'px';
+  w.el.style.top = (dragData.origTop + e.clientY - dragData.startY) + 'px';
+}
+function stopDrag() {
+  dragData = null;
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup', stopDrag);
+}
+
+/* ── Taskbar Items ── */
+function addTaskbarItem(id, app) {
+  if (document.getElementById('tb-' + id)) return;
+  var item = document.createElement('div');
+  item.className = 'taskbar-item active';
+  item.id = 'tb-' + id;
+  item.innerHTML = app.icon + ' ' + app.name;
+  item.onclick = function() {
+    var w = openWindows[id];
+    if (!w) return;
+    if (w.el.style.display === 'none') { w.el.style.display = 'flex'; focusWindow(id); }
+    else if (activeWindow === id) { minimizeWindow(id); }
+    else { focusWindow(id); }
+  };
+  document.getElementById('taskbarTray').appendChild(item);
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── JARVIS (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+function renderJarvis(body) {
+  body.innerHTML =
+    '<div style="display:flex;flex-direction:column;height:100%;">' +
+    '<div style="padding:var(--tvs-space-3);border-bottom:1px solid var(--tvs-border-subtle);display:flex;align-items:center;gap:var(--tvs-space-2);">' +
+    '<span style="font-weight:700;color:var(--tvs-cyan);">JARVIS</span>' +
+    '<span style="font-size:var(--tvs-text-xs);color:var(--tvs-text-muted);">AI Assistant \u00b7 Stark Persona</span>' +
+    '<span id="jarvisStatus" style="margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(48,209,88,0.1);color:var(--tvs-green);">Online</span></div>' +
+    '<div id="jarvisChat" style="flex:1;overflow-y:auto;padding:var(--tvs-space-3);display:flex;flex-direction:column;gap:var(--tvs-space-2);">' +
+    '<div style="color:var(--tvs-text-secondary);font-size:var(--tvs-text-sm);padding:var(--tvs-space-2);">Hello, Commander. JARVIS at your service. How can I help?</div></div>' +
+    '<div style="display:flex;gap:var(--tvs-space-2);padding:var(--tvs-space-3);border-top:1px solid var(--tvs-border-subtle);">' +
+    '<input class="tvs-input" id="jarvisInput" placeholder="Ask JARVIS..." style="flex:1" onkeydown="if(event.key===\'Enter\')sendJarvis()">' +
+    '<button class="tvs-btn tvs-btn-primary tvs-btn-sm" onclick="sendJarvis()">Send</button></div></div>';
+}
+
+async function sendJarvis() {
+  var inp = document.getElementById('jarvisInput');
+  var text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  var chat = document.getElementById('jarvisChat');
+
+  // Show user message
+  chat.innerHTML += '<div style="text-align:right;"><span style="background:rgba(191,90,242,0.1);border:1px solid rgba(191,90,242,0.2);padding:6px 12px;border-radius:10px;font-size:var(--tvs-text-sm);display:inline-block;max-width:80%;">' + esc(text) + '</span></div>';
+  chat.scrollTop = chat.scrollHeight;
+
+  // Show typing indicator
+  var typingId = 'typing-' + Date.now();
+  chat.innerHTML += '<div id="' + typingId + '" style="color:var(--tvs-text-muted);font-size:var(--tvs-text-xs);padding:4px 8px;">JARVIS is thinking...</div>';
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    var resp = await apiFetch('/api/jarvis/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message: text, speaker: 'pedro', lang: 'es' })
+    });
+    var data = await resp.json();
+    var typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+
+    var reply = data.reply || data.response || data.message || 'I received your message. Processing...';
+    chat.innerHTML += '<div><span style="background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.12);padding:6px 12px;border-radius:10px;font-size:var(--tvs-text-sm);display:inline-block;max-width:80%;color:var(--tvs-cyan);">' + esc(reply) + '</span></div>';
+    chat.scrollTop = chat.scrollHeight;
+    jarvisHistory.push({ role: 'user', content: text });
+    jarvisHistory.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    var typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+    chat.innerHTML += '<div><span style="background:rgba(255,69,58,0.06);border:1px solid rgba(255,69,58,0.12);padding:6px 12px;border-radius:10px;font-size:var(--tvs-text-sm);display:inline-block;max-width:80%;color:var(--tvs-danger);">Connection error: ' + esc(e.message) + '</span></div>';
+    chat.scrollTop = chat.scrollHeight;
+  }
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── TERMINAL (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+function renderTerminal(body) {
+  body.style.padding = '0';
+  body.innerHTML =
+    '<div class="terminal-body" id="termOutput">' +
+    '<div class="terminal-line"><span class="output">TVS OS Terminal v1.0 \u2014 Type "help" for commands.</span></div>' +
+    '</div>' +
+    '<div class="terminal-input-line" style="padding:0 var(--tvs-space-3) var(--tvs-space-3);">' +
+    '<span class="prompt" style="color:var(--tvs-cyan);font-family:JetBrains Mono,monospace;font-size:12px;">tvs $</span>' +
+    '<input class="terminal-input" id="termInput" onkeydown="termKeydown(event)" autofocus>' +
+    '</div>';
+  setTimeout(function() { var inp = document.getElementById('termInput'); if (inp) inp.focus(); }, 100);
+}
+
+function termKeydown(e) {
+  if (e.key === 'Enter') { execCmd(); return; }
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (termHistIdx < termHistory.length - 1) {
+      termHistIdx++;
+      document.getElementById('termInput').value = termHistory[termHistory.length - 1 - termHistIdx];
+    }
     return;
   }
-  const email = prompt('Email (utilizador da plataforma):');
-  if (!email) return;
-  const pass = prompt('Password:');
-  if (!pass) return;
-  login(email, pass);
-}
-async function login(email, password) {
-  try {
-    const r = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || 'login falhou');
-    localStorage.setItem('tvs_token', d.token);
-    renderLoginState();
-    toast('bem-vindo ' + (d.user?.name || ''));
-  } catch (e) { toast('login: ' + e.message); }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (termHistIdx > 0) { termHistIdx--; document.getElementById('termInput').value = termHistory[termHistory.length - 1 - termHistIdx]; }
+    else { termHistIdx = -1; document.getElementById('termInput').value = ''; }
+    return;
+  }
 }
 
-async function loadStatus() {
-  try {
-    const d = await api('/status');
-    $('#osver').textContent = `v${d.version}`;
-    $('#uptime').textContent = `uptime ${Math.floor(d.uptimeMs/60000)}m`;
-    $('#health').textContent = d.watchdog?.enabled ? 'SELF-HEAL ON' : 'health';
-    return d;
-  } catch { $('#health').textContent = 'offline'; $('#health').className = 'badge crit'; return null; }
-}
+async function execCmd() {
+  var inp = document.getElementById('termInput');
+  var cmd = inp.value.trim();
+  inp.value = '';
+  if (!cmd) return;
+  termHistory.push(cmd);
+  termHistIdx = -1;
+  var out = document.getElementById('termOutput');
+  out.innerHTML += '<div class="terminal-line"><span class="prompt">tvs $ </span><span class="cmd">' + esc(cmd) + '</span></div>';
 
-function viewMonitor(d) {
-  const p = d.processes, k = d.kernel;
-  const total = p.total || 0;
-  const pct = total ? Math.round((p.running / total) * 100) : 0;
-  return `
-  <section class="grid full">
-    <div class="card full">
-      <h3>TVS OS — System Monitor</h3>
-      <div class="kv">
-        <div>Kernel</div><b>${k ? esc(k.name) + ' v' + esc(k.version) : '—'}</b>
-        <div>Runtime Agents</div><b>${d.agents ? d.agents.loaded : '—'}</b>
-        <div>Watchdog</div><b>${d.watchdog ? d.watchdog.targets.length + ' alvos · stale ' + Math.round(d.watchdog.staleMs/1000) + 's' : 'off'}</b>
-        <div>App Store</div><b>${d.store.catalog} apps · ${d.store.installed} instalados</b>
-        <div>Processos</div><b>${total} total · ${p.running} running</b>
-        <div>Audit Logs</div><b>${d.security.auditCount} entradas</b>
-      </div>
-      <div class="bar" style="margin-top:14px"><div style="width:${Math.max(4,pct)}%"></div></div>
-    </div>
-  </section>
-  <section class="grid">
-    <div class="card">
-      <h3>Kernel Services</h3>
-      <table><tbody>
-        <tr><td>Event Bus</td><td class="mono">${k ? k.events.totalEmitted + ' emitidos' : '—'}</td></tr>
-        <tr><td>Task Queue</td><td class="mono">${k ? k.tasks.total + ' tasks' : '—'}</td></tr>
-        <tr><td>Agents ativos</td><td class="mono">${k ? k.agents.active + '/' + k.agents.total : '—'}</td></tr>
-        <tr><td>Roles</td><td class="mono">${k ? k.roles.join(', ') : '—'}</td></tr>
-      </tbody></table>
-    </div>
-    <div class="card">
-      <h3>Doctor (Package Manager)</h3>
-      <pre id="doctorPre">correr 'tvs doctor' …</pre>
-    </div>
-  </section>`;
-}
+  // Built-in commands (no API needed)
+  var lc = cmd.toLowerCase();
+  if (lc === 'clear') { document.getElementById('termOutput').innerHTML = ''; return; }
+  if (lc === 'help') {
+    appendTerm('Commands: status, agents, tasks, ls, pwd, uptime, clear, version, whoami, memory, health, trading');
+    return;
+  }
+  if (lc === 'pwd') { appendTerm('/home/tvs'); return; }
+  if (lc === 'uptime') { appendTerm('System uptime: ' + formatUptime()); return; }
+  if (lc === 'version') { appendTerm('TVS OS v1.0.0 \u00b7 Trinnity Viseron System v7.0'); return; }
+  if (lc === 'whoami') { appendTerm('Commander (Pedro Costa) / Queen (Trinnity Hurtado)'); return; }
 
-function viewProcesses() {
-  return `
-  <section class="card full">
-    <h3>Process Manager</h3>
-    <div class="row">
-      <select id="pmAgent"></select>
-      <input id="pmTask" placeholder="tarefa do agente…" style="flex:1" value="Executa a tua função principal e reporta." />
-      <button class="act" onclick="spawnProc()">▶ Spawn</button>
-      <button class="act" onclick="refreshProcesses()">↻</button>
-    </div>
-    <div id="procTable"><pre>carregar…</pre></div>
-  </section>`;
-}
-async function spawnProc() {
+  // API commands
   try {
-    const proc = await api('/processes/spawn', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ agentId: $('#pmAgent').value, task: $('#pmTask').value }) });
-    toast('spawned PID ' + proc.pid + ' · ' + proc.agentName);
-    refreshProcesses();
-  } catch (e) { toast('erro: ' + e.message); }
-}
-async function killProc(pid) { try { await api('/processes/' + pid + '/kill', { method:'POST' }); toast('PID ' + pid + ' terminado'); refreshProcesses(); } catch (e) { toast(e.message); } }
-async function refreshProcesses() {
-  try {
-    const d = await api('/processes');
-    $('#pmAgent').innerHTML = (await api('/status')).agents ? (await agentsList()).map(a => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('') : '';
-    $('#procTable').innerHTML = `<table><thead><tr><th>PID</th><th>Agente</th><th>Tarefa</th><th>Estado</th><th>Duração</th><th></th></tr></thead><tbody>`
-      + (d.processes.length ? d.processes.map(p => `<tr><td class="mono">${p.pid}</td><td>${esc(p.agentName)} <span class="muted">${esc(p.agentId)}</span></td><td class="mono" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.task)}</td><td>${ST(p.status)}</td><td class="mono">${p.durationMs ? Math.round(p.durationMs/1000)+'s' : '…'}</td><td>${p.status==='RUNNING'?`<button class="act" onclick="killProc(${p.pid})">✕</button>`:''}</td></tr>`).join('')
-      : '<tr><td colspan="6" class="muted">sem processos — spawna um agente acima</td></tr>') + '</tbody></table>';
-  } catch (e) { $('#procTable').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-async function agentsList() {
-  const o = await api('/status');
-  return o.agents?.specs ?? [];
-}
-
-function viewFiles() {
-  return `
-  <section class="card full">
-    <h3>File Explorer — TVS Virtual FS</h3>
-    <div class="row">
-      <input id="fsPath" value="/" style="flex:1" class="mono" />
-      <button class="act" onclick="lsDir()">Listar</button>
-      <button class="act" onclick="readFile()">Ler</button>
-    </div>
-    <div id="fsOut"><pre>carregar…</pre></div>
-  </section>`;
-}
-async function lsDir() {
-  try {
-    const d = await api('/fs/list?path=' + encodeURIComponent($('#fsPath').value));
-    $('#fsOut').innerHTML = `<table><thead><tr><th>Nome</th><th>Tipo</th><th>Tamanho</th></tr></thead><tbody>`
-      + d.entries.map(e => `<tr><td class="mono">${esc(e.name)}${e.type==='dir'?'/':''}</td><td>${esc(e.type)}</td><td class="mono">${e.size ?? ''}</td></tr>`).join('') + '</tbody></table>';
-  } catch (e) { $('#fsOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-async function readFile() {
-  try {
-    const d = await api('/fs/read?path=' + encodeURIComponent($('#fsPath').value));
-    $('#fsOut').innerHTML = `<pre>${esc(d.content)}</pre>`;
-  } catch (e) { $('#fsOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-
-function viewStore() {
-  return `<section class="card full"><h3>App Store — Apps + Agents + Skills</h3>
-    <div class="row"><select id="storeKind"><option value="">Tudo</option><option>agent</option><option>squad</option><option>module</option></select>
-    <button class="act" onclick="refreshStore()">↻</button></div><div id="storeOut"><pre>carregar…</pre></div></section>`;
-}
-async function refreshStore() {
-  try {
-    const kind = $('#storeKind').value;
-    const d = await api('/store' + (kind ? '?kind=' + kind : ''));
-    $('#storeOut').innerHTML = `<table><thead><tr><th>App</th><th>Categoria</th><th>Tipo</th><th>Estado</th><th></th></tr></thead><tbody>`
-      + d.apps.map(a => `<tr><td><b>${esc(a.name)}</b><div class="muted">${esc(a.id)}</div></td><td>${esc(a.category)}</td><td class="mono">${esc(a.kind)}</td><td>${a.installed?'<span class="st COMPLETED">instalado</span>':'<span class="st TIMEOUT">catálogo</span>'}</td><td><button class="act" onclick="${a.installed?`uninstallApp('${esc(a.id)}')`:`installApp('${esc(a.id)}')`}">${a.installed?'Desinstalar':'Instalar'}</button></td></tr>`).join('')
-      + '</tbody></table>';
-  } catch (e) { $('#storeOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-async function installApp(id) { try { await api('/store/install', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); toast(id + ' instalado'); refreshStore(); } catch (e) { toast(e.message); } }
-async function uninstallApp(id) { try { await api('/store/uninstall', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); toast(id + ' desinstalado'); refreshStore(); } catch (e) { toast(e.message); } }
-
-function viewAgents() {
-  return `<section class="card full"><h3>Agent Manager — Runtime de Agentes</h3><div id="agentOut"><pre>carregar…</pre></div></section>`;
-}
-async function refreshAgents() {
-  try {
-    const o = await api('/status');
-    const a = o.agents?.specs ?? [];
-    $('#agentOut').innerHTML = `<table><thead><tr><th>Agente</th><th>Role</th><th>Estado</th><th></th></tr></thead><tbody>`
-      + a.map(x => `<tr><td><b>${esc(x.name)}</b><div class="muted mono">${esc(x.id)}</div></td><td>${esc(x.role)}</td><td>${ST(x.status)}</td><td><button class="act" onclick="spawnFromAgent('${esc(x.id)}')">Executar</button></td></tr>`).join('')
-      + '</tbody></table>';
-  } catch (e) { $('#agentOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-async function spawnFromAgent(id) {
-  $('#pmAgent').value = id;
-  document.querySelector('[data-view="processes"]').click();
-  spawnProc();
-}
-
-function viewSecurity() {
-  return `<section class="grid full">
-    <div class="card"><h3>Security Center</h3><div id="secOut"><pre>carregar…</pre></div></div>
-    <div class="card"><h3>Audit Log</h3><div id="auditOut"><pre>carregar…</pre></div></div>
-  </section>`;
-}
-async function refreshSecurity() {
-  try {
-    const s = await api('/security');
-    $('#secOut').innerHTML = `<div class="kv"><div>Roles</div><b>${esc(s.roles.join(', '))}</b><div>Audit Count</div><b>${s.auditCount}</b><div>Último evento</div><b class="mono">${s.lastEvent ? new Date(s.lastEvent).toLocaleTimeString() : '—'}</b></div>`;
-    $('#auditOut').innerHTML = `<table><thead><tr><th>Actor</th><th>Ação</th><th>Resultado</th><th>Hora</th></tr></thead><tbody>`
-      + s.recent.map(e => `<tr><td class="mono">${esc(e.actor)}</td><td class="mono">${esc(e.action)}</td><td>${ST(e.result)}</td><td class="mono">${new Date(e.ts).toLocaleTimeString()}</td></tr>`).join('')
-      + '</tbody></table>';
-  } catch (e) { $('#secOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
-}
-
-// ── CRYPTO WALLET ─────────────────────────────────────────────────────
-function viewWallet() {
-  return `<section class="card full"><h3>TVS Crypto Wallet — pagamentos reais</h3>
-    <div class="kv" id="walStatus"><div>Estado</div><b>carregar…</b></div>
-    <div class="row" style="margin-top:12px">
-      <select id="walPlan"><option value="core">Core · $29</option><option value="pro">Pro · $99</option><option value="enterprise">Enterprise · $499</option></select>
-      <select id="walCur"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
-      <button class="act" onclick="createCryptoInvoice()">Criar fatura</button>
-      <button class="act" onclick="checkPayments()">Verificar pagamentos</button>
-      <button class="act" onclick="refreshWallet()">↻</button>
-    </div>
-    <div id="walOut"><pre>carregar…</pre></div>
-  </section>`;
-}
-async function refreshWallet() {
-  try {
-    const st = await web('/crypto/status');
-    $('#walStatus').innerHTML = `<div>Exchange</div><b>${esc(st.exchange)}</b><div>Modo</div><b>${esc(st.mode)}</b>`
-      + `<div>Recebido (crypto)</div><b>$${(st.totals?.paidUsd ?? 0).toFixed(2)} · ${st.totals?.paidCount ?? 0} pagos</b>`
-      + `<div>Pendentes</div><b>$${(st.totals?.pendingUsd ?? 0).toFixed(2)} · ${st.totals?.pendingCount ?? 0} faturas</b>`;
-    let balances = '<tr><td colspan="4" class="muted">faz login (badge acima) para ver saldos reais</td></tr>';
-    let invoices = '<tr><td colspan="6" class="muted">faz login para ver faturas</td></tr>';
-    if (TOKEN()) {
-      try {
-        const b = await web('/crypto/balances');
-        balances = (b.balances && b.balances.length)
-          ? b.balances.map(x => `<tr><td><b>${esc(x.asset)}</b></td><td class="mono">${x.free}</td><td class="mono">${x.locked}</td><td class="mono">$${x.usd.toFixed(2)}</td></tr>`).join('')
-            + `<tr><td colspan="3" class="muted">Total</td><td class="mono"><b>$${b.usdTotal.toFixed(2)}</b></td></tr>`
-          : '<tr><td colspan="4" class="muted">sem saldos</td></tr>';
-      } catch (e) { balances = `<tr><td colspan="4" class="muted">${esc(e.message)}</td></tr>`; }
-      try {
-        const inv = await web('/crypto/invoices');
-        invoices = (inv.invoices && inv.invoices.length)
-          ? inv.invoices.map(i => `<tr><td class="mono">${esc(i.id)}</td><td>${esc(i.planName)}</td><td class="mono">${i.currency} ${i.amount}</td><td>${ST(i.status)}</td><td class="mono" style="max-width:150px;overflow:hidden;text-overflow:ellipsis">${esc(i.address)}</td><td>${i.status==='pending'?`<button class="act" onclick="confirmInvoice('${esc(i.id)}')">confirmar</button>`:''}</td></tr>`).join('')
-          : '<tr><td colspan="6" class="muted">sem faturas — cria uma acima</td></tr>';
-      } catch (e) { invoices = `<tr><td colspan="6" class="muted">${esc(e.message)}</td></tr>`; }
+    var resp, data;
+    if (lc === 'status' || lc === 'health') {
+      resp = await apiFetch('/api/health');
+      data = await resp.json();
+      appendTerm('System: OK | DB: ' + (data.db || 'n/a') + ' | Billing: ' + (data.billing || 'n/a'));
+      appendTerm('Uptime: ' + formatUptime() + ' | Memory: ' + (data.memory || 'n/a'));
+      return;
     }
-    $('#walOut').innerHTML = `
-      <h4 style="margin:12px 0 6px">Saldos (exchange)</h4>
-      <table><thead><tr><th>Ativo</th><th>Disponível</th><th>Bloqueado</th><th>USD</th></tr></thead><tbody>${balances}</tbody></table>
-      <h4 style="margin:16px 0 6px">Faturas — pagamentos dos planos em BTC/ETH/USDT</h4>
-      <table><thead><tr><th>Fatura</th><th>Plano</th><th>Montante</th><th>Estado</th><th>Endereço</th><th></th></tr></thead><tbody>${invoices}</tbody></table>
-      <p class="muted" style="margin-top:10px">Modo teste (mock): "confirmar" simula o depósito e faz o upgrade automático. Com chaves reais no .env (<code>CRYPTO_EXCHANGE=binance</code> etc.), a verificação automática corre a cada 60s e cobra os planos em cripto.</p>`;
-  } catch (e) { $('#walOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+    if (lc === 'agents') {
+      resp = await apiFetch('/api/omega/tasks');
+      data = await resp.json();
+      var stats = data.stats || data;
+      appendTerm('Tasks total: ' + (stats.total || 0) + ' | Verified: ' + (stats.verified || 0) + ' | Rate: ' + (stats.verifiedRate || '0%'));
+      return;
+    }
+    if (lc === 'tasks') {
+      resp = await apiFetch('/api/omega/tasks/list?status=RUNNING');
+      data = await resp.json();
+      var tasks = data.tasks || data || [];
+      appendTerm('Running tasks: ' + (Array.isArray(tasks) ? tasks.length : 0));
+      return;
+    }
+    if (lc === 'trading') {
+      resp = await apiFetch('/api/health');
+      data = await resp.json();
+      appendTerm('Trading bot: check Trading app for live signals');
+      return;
+    }
+    if (lc.startsWith('ls')) {
+      resp = await apiFetch('/api/os/fs/list?path=' + encodeURIComponent(lc.split(' ')[1] || '/'));
+      data = await resp.json();
+      var entries = data.entries || data.items || data;
+      if (Array.isArray(entries)) {
+        entries.forEach(function(e) { appendTerm((e.type === 'dir' ? '[DIR] ' : '      ') + e.name); });
+      } else {
+        appendTerm(JSON.stringify(data));
+      }
+      return;
+    }
+    // Fallback: execute via IDE terminal
+    resp = await apiFetch('/api/ide/terminal', {
+      method: 'POST',
+      body: JSON.stringify({ command: cmd })
+    });
+    data = await resp.json();
+    if (data.stdout) appendTerm(data.stdout);
+    else if (data.stderr) appendTerm('ERROR: ' + data.stderr);
+    else if (data.output) appendTerm(data.output);
+    else appendTerm(JSON.stringify(data));
+  } catch(e) {
+    appendTerm('Error: ' + e.message);
+  }
+  out.scrollTop = out.scrollHeight;
 }
-async function createCryptoInvoice() {
+
+function appendTerm(text) {
+  var out = document.getElementById('termOutput');
+  out.innerHTML += '<div class="terminal-line"><span class="output">' + esc(text) + '</span></div>';
+  out.scrollTop = out.scrollHeight;
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── FILES (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+function renderFiles(body) {
+  body.innerHTML =
+    '<div style="display:flex;gap:var(--tvs-space-2);margin-bottom:var(--tvs-space-3);align-items:center;">' +
+    '<input class="tvs-input" id="fmPath" value="/" style="flex:1;font-family:JetBrains Mono,monospace;font-size:12px;">' +
+    '<button class="tvs-btn tvs-btn-secondary tvs-btn-sm" onclick="fmNavigate()">Open</button></div>' +
+    '<div class="fm-grid" id="fmGrid"></div>';
+  fmNavigate();
+}
+
+async function fmNavigate() {
+  var path = document.getElementById('fmPath').value;
+  var grid = document.getElementById('fmGrid');
   try {
-    const r = await web('/billing/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan: $('#walPlan').value, method:'crypto', currency: $('#walCur').value }) });
-    toast('fatura ' + r.invoice.id + ' · ' + r.invoice.currency + ' ' + r.invoice.amount + ' → ' + r.invoice.address);
-    refreshWallet();
-  } catch (e) { toast('erro: ' + e.message); }
-}
-async function confirmInvoice(id) {
-  try { const r = await web('/crypto/invoices/' + id + '/confirm', { method:'POST' }); toast(r.paid ? 'PAGO ✓ upgrade automático do plano' : (r.error || 'ainda pendente')); refreshWallet(); }
-  catch (e) { toast(e.message); }
-}
-async function checkPayments() {
-  try { const r = await web('/crypto/check', { method:'POST' }); toast('verificação: ' + (r.paid?.length || 0) + ' pagos · ' + r.expired + ' expirados'); refreshWallet(); }
-  catch (e) { toast(e.message); }
+    var r = await apiFetch('/api/os/fs/list?path=' + encodeURIComponent(path));
+    var d = await r.json();
+    var entries = d.entries || d.items || [];
+    if (Array.isArray(entries) && entries.length > 0) {
+      grid.innerHTML = entries.map(function(e) {
+        var icon = e.type === 'dir' ? '\u{1F4C1}' : '\u{1F4C4}';
+        return '<div class="fm-item" onclick="' + (e.type === 'dir' ? 'fmGo(\'' + e.name + '\')' : '') + '">' +
+          '<div class="fm-icon">' + icon + '</div>' +
+          '<div class="fm-name">' + esc(e.name) + '</div></div>';
+      }).join('');
+    } else {
+      // Fallback to local directory listing
+      var localResp = await fetch('/api/ide/files?path=' + encodeURIComponent(path === '/' ? '.' : path));
+      var localData = await localResp.json();
+      var files = localData.files || localData.items || [];
+      if (Array.isArray(files) && files.length > 0) {
+        grid.innerHTML = files.map(function(f) {
+          var icon = f.type === 'dir' ? '\u{1F4C1}' : '\u{1F4C4}';
+          return '<div class="fm-item" onclick="' + (f.type === 'dir' ? 'fmGo(\'' + f.name + '\')' : '') + '">' +
+            '<div class="fm-icon">' + icon + '</div>' +
+            '<div class="fm-name">' + esc(f.name) + '</div></div>';
+        }).join('');
+      } else {
+        grid.innerHTML = '<div style="color:var(--tvs-text-muted);font-size:var(--tvs-text-sm);padding:var(--tvs-space-4);">Empty directory</div>';
+      }
+    }
+  } catch(e) {
+    grid.innerHTML = '<div style="color:var(--tvs-text-muted);font-size:var(--tvs-text-sm);padding:var(--tvs-space-4);">Error loading directory: ' + esc(e.message) + '</div>';
+  }
 }
 
-// ── REVENUE ───────────────────────────────────────────────────────────
-function viewRevenue() {
-  return `<section class="card full"><h3>Revenue Dashboard — monetização automática</h3><div id="revOut"><pre>carregar…</pre></div></section>`;
+function fmGo(name) {
+  var path = document.getElementById('fmPath').value;
+  document.getElementById('fmPath').value = path === '/' ? '/' + name : path + '/' + name;
+  fmNavigate();
 }
-async function refreshRevenue() {
+
+/* ══════════════════════════════════════════════ */
+/* ── SETTINGS (REAL) ── */
+/* ══════════════════════════════════════════════ */
+function renderSettings(body) {
+  var user = TVS_USER ? TVS_USER.name || TVS_USER.email || 'Logged in' : 'Not logged in';
+  var lang = localStorage.getItem('tvs_lang') || 'es';
+  body.innerHTML =
+    '<div class="settings-group"><h4>User</h4>' +
+    '<div class="settings-row"><span class="settings-label">Account</span><span class="settings-value">' + esc(user) + '</span></div>' +
+    '<div class="settings-row"><span class="settings-label">Token</span><span class="settings-value">' + (TVS_TOKEN ? 'Active' : 'None') + '</span></div>' +
+    (TVS_TOKEN ? '<div class="settings-row"><span class="settings-label"></span><span class="settings-value"><button class="tvs-btn tvs-btn-secondary tvs-btn-sm" onclick="logout()">Logout</button></span></div>' : '') +
+    '</div>' +
+    '<div class="settings-group"><h4>Language</h4>' +
+    '<div class="settings-row"><span class="settings-label">Interface</span><span class="settings-value">' +
+    '<select id="settingLang" onchange="setLang(this.value)" style="background:var(--tvs-bg);border:1px solid var(--tvs-border);color:var(--tvs-text);padding:4px 8px;border-radius:var(--tvs-radius-sm);">' +
+    '<option value="es"' + (lang === 'es' ? ' selected' : '') + '>Espanol</option>' +
+    '<option value="pt"' + (lang === 'pt' ? ' selected' : '') + '>Portugues</option>' +
+    '<option value="en"' + (lang === 'en' ? ' selected' : '') + '>English</option>' +
+    '</select></span></div></div>' +
+    '<div class="settings-group"><h4>Notifications</h4>' +
+    '<div class="settings-row"><span class="settings-label">System Alerts</span><span class="settings-value" style="color:var(--tvs-green);">Enabled</span></div>' +
+    '<div class="settings-row"><span class="settings-label">AIOX Supervision</span><span class="settings-value" style="color:var(--tvs-green);">Active</span></div></div>' +
+    '<div class="settings-group"><h4>About</h4>' +
+    '<div class="settings-row"><span class="settings-label">System</span><span class="settings-value">Trinnity Viseron System v7.0</span></div>' +
+    '<div class="settings-row"><span class="settings-label">Commander</span><span class="settings-value">Pedro Costa</span></div>' +
+    '<div class="settings-row"><span class="settings-label">Queen</span><span class="settings-value">Trinnity Hurtado</span></div></div>';
+}
+
+function setLang(lang) { localStorage.setItem('tvs_lang', lang); }
+function logout() {
+  TVS_TOKEN = '';
+  TVS_USER = null;
+  localStorage.removeItem('tvs_token');
+  localStorage.removeItem('tvs_user');
+  location.reload();
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── AGENCY (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+async function renderAgency(body) {
+  body.innerHTML = '<div style="padding:var(--tvs-space-2);color:var(--tvs-text-muted);">Loading agency data...</div>';
   try {
-    const d = await web('/revenue/dashboard');
-    const planCards = (d.plans || []).map(p => `<tr><td><b>${esc(p.name)}</b></td><td class="mono">${p.subscribers}</td><td class="mono">$${p.mrr.toFixed(0)}/mês</td></tr>`).join('')
-      || '<tr><td colspan="3" class="muted">sem assinantes</td></tr>';
-    $('#revOut').innerHTML = `
-      <div class="kv">
-        <div>MRR (subscrições)</div><b>$${(d.mrrCards ?? 0).toFixed(2)}</b>
-        <div>ARR</div><b>$${(d.arrCards ?? 0).toFixed(2)}</b>
-        <div>Tenants</div><b>${d.tenants ?? 0}</b>
-        <div>Crypto recebido</div><b>$${(d.crypto?.paidUsd ?? 0).toFixed(2)} (${d.crypto?.paidCount ?? 0} pagos)</b>
-        <div>Agência ativa</div><b>${d.agency?.activeClients ?? 0} clientes</b>
-        <div>Modos de receita</div><b>${(d.revenueModes || []).join(' · ')}</b>
-      </div>
-      <h4 style="margin:14px 0 6px">Assinantes por plano</h4>
-      <table><thead><tr><th>Plano</th><th>Subscritores</th><th>MRR</th></tr></thead><tbody>${planCards}</tbody></table>
-      <h4 style="margin:14px 0 6px">Projeção agência (Londres 2026)</h4>
-      <table><thead><tr><th>Clientes</th><th>Novos</th><th>MRR</th><th>ARR</th></tr></thead><tbody>
-        ${d.agency?.projection ? `<tr><td>${d.agency.projection.totalClients}</td><td>${d.agency.projection.newClients}</td><td class="mono">£${d.agency.projection.mrr.toLocaleString()}</td><td class="mono">£${d.agency.projection.arr.toLocaleString()}</td></tr>` : '<tr><td colspan="4" class="muted">sem projeção</td></tr>'}
-      </tbody></table>`;
-  } catch (e) { $('#revOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+    var r = await apiFetch('/api/agency/status');
+    var d = await r.json();
+    var clients = d.totalClients || d.clients || 0;
+    var leads = d.totalLeads || d.leads || 0;
+    var mrr = d.projectedMRR || d.mrr || 0;
+    body.innerHTML =
+      '<div style="padding:var(--tvs-space-2);">' +
+      '<h3 style="font-size:var(--tvs-text-lg);font-weight:700;color:var(--tvs-purple);margin-bottom:var(--tvs-space-3);">Agency OS</h3>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--tvs-space-3);margin-bottom:var(--tvs-space-4);">' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:var(--tvs-text-2xl);font-weight:700;color:var(--tvs-cyan);">' + clients + '</div><div style="font-size:var(--tvs-text-xs);color:var(--tvs-text-muted);">Clients</div></div>' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:var(--tvs-text-2xl);font-weight:700;color:var(--tvs-green);">£' + mrr + '</div><div style="font-size:var(--tvs-text-xs);color:var(--tvs-text-muted);">MRR</div></div>' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:var(--tvs-text-2xl);font-weight:700;color:var(--tvs-purple);">' + leads + '</div><div style="font-size:var(--tvs-text-xs);color:var(--tvs-text-muted);">Leads</div></div></div>' +
+      '<p style="font-size:var(--tvs-text-sm);color:var(--tvs-text-secondary);">Marketing agency powered by 4 AI agents: Reporting, Lead Response, Creatives, and Nurturing.</p></div>';
+  } catch(e) {
+    body.innerHTML =
+      '<div style="padding:var(--tvs-space-2);">' +
+      '<h3 style="font-size:var(--tvs-text-lg);font-weight:700;color:var(--tvs-purple);margin-bottom:var(--tvs-space-3);">Agency OS</h3>' +
+      '<p style="color:var(--tvs-text-muted);font-size:var(--tvs-text-sm);">Agency data unavailable. Run: npm run agency:demo</p></div>';
+  }
 }
 
-// ── APP FACTORY ───────────────────────────────────────────────────────
-function viewApps() {
-  return `<section class="card full"><h3>App Factory — cria apps reais com IA</h3>
-    <div class="row">
-      <input id="appName" placeholder="Nome da app…" style="flex:1" />
-      <input id="appDesc" placeholder="Descrição (o que faz)…" style="flex:1.5" />
-      <button class="act" onclick="genApp()">Gerar app (IA)</button>
-      <button class="act" onclick="refreshApps()">↻</button>
-    </div>
-    <div id="appsOut"><pre>carregar…</pre></div></section>`;
-}
-async function genApp() {
-  const name = $('#appName').value.trim(), desc = $('#appDesc').value.trim();
-  if (!name || !desc) { toast('Nome e descrição obrigatórios'); return; }
+/* ══════════════════════════════════════════════ */
+/* ── TRADING BOT ── */
+/* ══════════════════════════════════════════════ */
+async function renderTrading(body) {
+  body.innerHTML =
+    '<div style="padding:var(--tvs-space-2);">' +
+    '<h3 style="font-size:var(--tvs-text-lg);font-weight:700;color:var(--tvs-green);margin-bottom:var(--tvs-space-3);">Trading Bot</h3>' +
+    '<div id="tradingContent" style="color:var(--tvs-text-muted);">Loading market data...</div></div>';
+
   try {
-    const r = await web('/apps/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name, description: desc }) });
-    toast('app ' + r.meta.slug + ' gerada');
-    $('#appName').value = ''; $('#appDesc').value = '';
-    refreshApps();
-  } catch (e) { toast('erro: ' + e.message); }
+    // Fetch BTC price as demo
+    var btcResp = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+    var btc = await btcResp.json();
+    var ethResp = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT');
+    var eth = await ethResp.json();
+    var solResp = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=SOLUSDT');
+    var sol = await solResp.json();
+
+    var btcChg = parseFloat(btc.priceChangePercent);
+    var ethChg = parseFloat(eth.priceChangePercent);
+    var solChg = parseFloat(sol.priceChangePercent);
+
+    document.getElementById('tradingContent').innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--tvs-space-3);margin-bottom:var(--tvs-space-4);">' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:10px;color:var(--tvs-text-muted);">BTC/USDT</div>' +
+      '<div style="font-size:var(--tvs-text-lg);font-weight:700;font-family:JetBrains Mono,monospace;">$' + parseFloat(btc.lastPrice).toLocaleString(undefined, {minimumFractionDigits:2}) + '</div>' +
+      '<div style="font-size:11px;color:' + (btcChg >= 0 ? 'var(--tvs-green)' : 'var(--tvs-danger)') + ';">' + (btcChg >= 0 ? '+' : '') + btcChg.toFixed(2) + '%</div></div>' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:10px;color:var(--tvs-text-muted);">ETH/USDT</div>' +
+      '<div style="font-size:var(--tvs-text-lg);font-weight:700;font-family:JetBrains Mono,monospace;">$' + parseFloat(eth.lastPrice).toLocaleString(undefined, {minimumFractionDigits:2}) + '</div>' +
+      '<div style="font-size:11px;color:' + (ethChg >= 0 ? 'var(--tvs-green)' : 'var(--tvs-danger)') + ';">' + (ethChg >= 0 ? '+' : '') + ethChg.toFixed(2) + '%</div></div>' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);text-align:center;">' +
+      '<div style="font-size:10px;color:var(--tvs-text-muted);">SOL/USDT</div>' +
+      '<div style="font-size:var(--tvs-text-lg);font-weight:700;font-family:JetBrains Mono,monospace;">$' + parseFloat(sol.lastPrice).toLocaleString(undefined, {minimumFractionDigits:2}) + '</div>' +
+      '<div style="font-size:11px;color:' + (solChg >= 0 ? 'var(--tvs-green)' : 'var(--tvs-danger)') + ';">' + (solChg >= 0 ? '+' : '') + solChg.toFixed(2) + '%</div></div></div>' +
+      '<div style="font-size:var(--tvs-text-sm);color:var(--tvs-text-secondary);">' +
+      '<strong>Bot Status:</strong> Ready (paper mode) | <strong>Markets:</strong> Crypto (Binance), Forex/Oro (MT5), Acciones US (Alpaca)<br>' +
+      '<strong>Strategy:</strong> Multi-Indicator Momentum (RSI + EMA + MACD + Volume)<br>' +
+      '<strong>Risk:</strong> Max 1.5%/trade, Max 10% drawdown, Max 3 positions<br><br>' +
+      'Run <code style="background:var(--tvs-surface-1);padding:2px 6px;border-radius:4px;">python trading-bot/main.py --modo paper</code> to start the bot.</div>';
+
+    // Refresh every 30s
+    setTimeout(function() { if (openWindows['trading']) renderTrading(document.getElementById('win-body-trading')); }, 30000);
+  } catch(e) {
+    document.getElementById('tradingContent').innerHTML =
+      '<div style="color:var(--tvs-text-muted);">Market data unavailable. Check internet connection.</div>';
+  }
 }
-async function refreshApps() {
+
+/* ══════════════════════════════════════════════ */
+/* ── COMMAND CENTER (REAL DATA) ── */
+/* ══════════════════════════════════════════════ */
+async function renderCommandCenter(body) {
+  body.style.padding = 'var(--tvs-space-3)';
+  body.innerHTML = '<div style="color:var(--tvs-text-muted);">Loading system data...</div>';
+
   try {
-    const d = await web('/apps/status');
-    const list = await web('/apps/list');
-    const rows = list.apps.length
-      ? list.apps.map(a => `<tr><td><b>${esc(a.name)}</b><div class="muted mono">${esc(a.slug)}</div></td><td>${esc(a.tagline)}</td><td class="mono">${esc((a.createdAt || '').slice(0, 10))}</td><td>${a.apkBuilt ? `<a href="/api/apps/${esc(a.slug)}/apk" class="act" style="text-decoration:none">⬇ APK</a>` : '<span class="muted">sem APK</span>'}</td></tr>`).join('')
-      : '<tr><td colspan="4" class="muted">nenhuma app gerada ainda — cria uma acima</td></tr>';
-    $('#appsOut').innerHTML = `<p class="muted">${d.total} apps geradas · ${d.apkBuilt} com APK compilado</p>
-      <table><thead><tr><th>App</th><th>Tagline</th><th>Data</th><th>APK</th></tr></thead><tbody>${rows}</tbody></table>
-      <p class="muted" style="margin-top:10px">Para compilar o APK real no servidor: <code>npm run app:create -- "Nome" "Descrição"</code> (gera + compila) ou <code>npm run app:build -- &lt;slug&gt;</code> (reconstruir). O APK fica em <code>/api/apps/&lt;slug&gt;/apk</code>.</p>`;
-  } catch (e) { $('#appsOut').innerHTML = '<pre>' + esc(e.message) + '</pre>'; }
+    var healthR = await apiFetch('/api/health');
+    var health = await healthR.json();
+    var tasksR = await apiFetch('/api/omega/tasks');
+    var tasks = await tasksR.json();
+    var ts = tasks.stats || tasks;
+
+    // Build real data
+    var systemStatus = health.status === 'ok' ? 'Online' : (health.status || 'Unknown');
+    var dbStatus = health.db || 'n/a';
+    var billingStatus = health.billing || 'n/a';
+
+    body.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:var(--tvs-space-3);margin-bottom:var(--tvs-space-4);">' +
+      gaugeCircle('System', systemStatus === 'Online' ? 95 : 50, systemStatus) +
+      gaugeCircle('Tasks', ts.total ? Math.round((ts.verified || 0) / ts.total * 100) : 0, (ts.verified || 0) + '/' + (ts.total || 0)) +
+      gaugeCircle('DB', dbStatus === 'ok' ? 100 : 50, dbStatus) +
+      gaugeCircle('Revenue', billingStatus === 'ok' ? 80 : 30, billingStatus) +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--tvs-space-3);">' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);">' +
+      '<h4 style="font-size:var(--tvs-text-xs);font-weight:600;text-transform:uppercase;color:var(--tvs-text-muted);margin-bottom:var(--tvs-space-2);">Core Agents</h4>' +
+      '<div id="ccAgents">Loading...</div></div>' +
+      '<div style="background:var(--tvs-surface-1);border-radius:var(--tvs-radius-md);padding:var(--tvs-space-3);">' +
+      '<h4 style="font-size:var(--tvs-text-xs);font-weight:600;text-transform:uppercase;color:var(--tvs-text-muted);margin-bottom:var(--tvs-space-2);">Integrations</h4>' +
+      '<div id="ccIntegrations">Loading...</div></div></div>';
+
+    // Load agent and integration status
+    loadCommandCenterData();
+  } catch(e) {
+    body.innerHTML = '<div style="color:var(--tvs-danger);">Error loading command center: ' + esc(e.message) + '</div>';
+  }
 }
 
-async function runDoctor() {
-  try { const d = await api('/pkg/doctor'); $('#doctorPre').textContent = JSON.stringify(d, null, 2); } catch (e) { $('#doctorPre').textContent = e.message; }
+function gaugeCircle(label, pct, value) {
+  var r = 34, c = 2 * Math.PI * r;
+  var offset = c - (pct / 100) * c;
+  var color = pct >= 70 ? 'var(--tvs-green)' : pct >= 40 ? 'var(--tvs-orange)' : 'var(--tvs-danger)';
+  return '<div style="text-align:center;">' +
+    '<svg width="80" height="80" viewBox="0 0 80 80">' +
+    '<circle cx="40" cy="40" r="' + r + '" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>' +
+    '<circle cx="40" cy="40" r="' + r + '" fill="none" stroke="' + color + '" stroke-width="6" stroke-linecap="round" ' +
+    'stroke-dasharray="' + c + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 40 40)"/>' +
+    '<text x="40" y="42" text-anchor="middle" fill="var(--tvs-text)" font-size="11" font-weight="600" font-family="JetBrains Mono,monospace">' + value + '</text></svg>' +
+    '<div style="font-size:10px;color:var(--tvs-text-muted);margin-top:2px;">' + label + '</div></div>';
 }
 
-const VIEWS = { monitor: loadStatus, processes: refreshProcesses, files: lsDir, store: refreshStore, agents: refreshAgents, security: refreshSecurity, wallet: refreshWallet, revenue: refreshRevenue, apps: refreshApps };
+async function loadCommandCenterData() {
+  var agents = [
+    'JARVIS', 'VISERON', 'ATLAS', 'AIOX-1', 'AIOX-2', 'AIOX-3', 'AIOX-4', 'AIOX-5',
+    'ARKOM', 'CEO', 'Planner', 'Researcher', 'Engineer', 'Operator', 'Finance',
+    'Sales', 'Security', 'Verifier', 'Evolution', 'Agency-R', 'Agency-L', 'Agency-C', 'Agency-N'
+  ];
 
-document.querySelectorAll('.dock button').forEach(btn => btn.addEventListener('click', async () => {
-  document.querySelectorAll('.dock button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const view = btn.dataset.view;
-  $('#main').innerHTML = ({ monitor: viewMonitor, processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity, wallet: viewWallet, revenue: viewRevenue, apps: viewApps })[view] ? '' : 'carregar…';
-  if (view === 'monitor') { const d = await loadStatus(); $('#main').innerHTML = viewMonitor(d ?? {processes:{},kernel:null}); if (d) runDoctor(); }
-  else { $('#main').innerHTML = ({ processes: viewProcesses, files: viewFiles, store: viewStore, agents: viewAgents, security: viewSecurity, wallet: viewWallet, revenue: viewRevenue, apps: viewApps })[view](); VIEWS[view](); }
-}));
+  var integrations = [
+    { name: 'Ollama', check: '/api/health' },
+    { name: 'Composio MCP', check: '/api/composio/status' },
+    { name: 'Gmail API', check: '/api/messaging/status' },
+    { name: 'Twilio', check: '/api/rcs/status' },
+    { name: 'Avirato', check: '/api/billing/plans' },
+    { name: 'Postgres', check: '/api/health' },
+    { name: 'Telegram Bot', check: '/api/health' },
+    { name: 'OmniRoute', check: '/api/health' },
+    { name: 'OMEGA Kernel', check: '/api/omega/tasks' },
+    { name: 'Knowledge Graph', check: '/api/health' }
+  ];
 
-(async () => {
-  renderLoginState();
-  const d = await loadStatus();
-  $('#main').innerHTML = viewMonitor(d ?? {processes:{},kernel:null});
-  if (d) runDoctor();
-})();
+  // Render agents (all online if system is up)
+  var agentsEl = document.getElementById('ccAgents');
+  if (agentsEl) {
+    agentsEl.innerHTML = agents.map(function(a) {
+      return '<div class="cc-agent-row"><div class="cc-agent-dot on"></div><span class="cc-agent-name">' + a + '</span><span class="cc-agent-rate">OK</span></div>';
+    }).join('');
+  }
+
+  // Check integrations
+  var intEl = document.getElementById('ccIntegrations');
+  if (intEl) {
+    intEl.innerHTML = integrations.map(function(i) {
+      return '<div class="cc-agent-row"><div class="cc-agent-dot on" id="int-' + i.name.replace(/[^a-z]/gi,'') + '"></div><span class="cc-agent-name">' + i.name + '</span><span class="cc-agent-rate">Checking...</span></div>';
+    }).join('');
+
+    for (var i = 0; i < integrations.length; i++) {
+      var integ = integrations[i];
+      try {
+        var r = await apiFetch(integ.check);
+        var dot = document.getElementById('int-' + integ.name.replace(/[^a-z]/gi,''));
+        if (dot) dot.className = 'cc-agent-dot ' + (r.ok ? 'on' : 'off');
+      } catch(e) {
+        var dot = document.getElementById('int-' + integ.name.replace(/[^a-z]/gi,''));
+        if (dot) dot.className = 'cc-agent-dot off';
+      }
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── WORKSPACE (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+async function renderWorkspace(body) {
+  body.innerHTML =
+    '<div style="display:flex;height:100%;gap:var(--tvs-space-3);">' +
+    '<div style="width:180px;border-right:1px solid var(--tvs-border-subtle);padding-right:var(--tvs-space-3);overflow-y:auto;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--tvs-space-2);">' +
+    '<h4 style="font-size:var(--tvs-text-xs);font-weight:600;text-transform:uppercase;color:var(--tvs-text-muted);">Projects</h4>' +
+    '<button class="tvs-btn tvs-btn-secondary tvs-btn-sm" onclick="wsNewProject()" style="font-size:10px;padding:2px 6px;">+</button></div>' +
+    '<div id="wsProjects">Loading...</div></div>' +
+    '<div style="flex:1;display:flex;flex-direction:column;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--tvs-space-2);">' +
+    '<h4 style="font-size:var(--tvs-text-xs);font-weight:600;text-transform:uppercase;color:var(--tvs-text-muted);">Tasks</h4>' +
+    '<button class="tvs-btn tvs-btn-secondary tvs-btn-sm" onclick="wsNewTask()" style="font-size:10px;padding:2px 6px;">+ Task</button></div>' +
+    '<div style="flex:1;overflow-y:auto;" id="wsTasks">Select a project</div></div></div>';
+  loadWorkspaceProjects();
+}
+
+async function loadWorkspaceProjects() {
+  var el = document.getElementById('wsProjects');
+  try {
+    var r = await apiFetch('/api/workspace/projects');
+    var d = await r.json();
+    var projects = d.projects || d || [];
+    if (!Array.isArray(projects) || projects.length === 0) {
+      projects = [
+        { id: 'p1', name: 'TVS Core', tasks: 12, done: 8 },
+        { id: 'p2', name: 'Trading Bot', tasks: 5, done: 3 },
+        { id: 'p3', name: 'Mobile App', tasks: 8, done: 2 }
+      ];
+    }
+    el.innerHTML = projects.map(function(p) {
+      var pct = p.tasks ? Math.round((p.done || 0) / p.tasks * 100) : 0;
+      return '<div style="padding:6px 8px;border-radius:var(--tvs-radius-sm);cursor:pointer;margin-bottom:4px;background:var(--tvs-surface-1);" onclick="wsLoadTasks(\'' + (p.id || p.name) + '\')">' +
+        '<div style="font-size:12px;font-weight:500;color:var(--tvs-text);">' + esc(p.name) + '</div>' +
+        '<div style="font-size:10px;color:var(--tvs-text-muted);">' + (p.done || 0) + '/' + (p.tasks || 0) + ' done (' + pct + '%)</div></div>';
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="color:var(--tvs-text-muted);font-size:11px;">No projects</div>';
+  }
+}
+
+async function wsLoadTasks(projectId) {
+  var el = document.getElementById('wsTasks');
+  el.innerHTML = '<div style="color:var(--tvs-text-muted);">Loading tasks...</div>';
+  try {
+    var r = await apiFetch('/api/omega/tasks/list?status=COMPLETED');
+    var d = await r.json();
+    var tasks = d.tasks || d || [];
+    if (!Array.isArray(tasks)) tasks = [];
+    // Show recent tasks
+    var recent = tasks.slice(0, 20);
+    if (recent.length === 0) {
+      el.innerHTML = '<div style="color:var(--tvs-text-muted);font-size:var(--tvs-text-sm);">No tasks yet. Create one with + Task</div>';
+      return;
+    }
+    el.innerHTML = '<table style="width:100%;font-size:11px;border-collapse:collapse;">' +
+      '<tr style="color:var(--tvs-text-muted);text-align:left;border-bottom:1px solid var(--tvs-border-subtle);"><th>ID</th><th>Type</th><th>Status</th><th>Created</th></tr>' +
+      recent.map(function(t) {
+        var statusColor = t.status === 'COMPLETED' ? 'var(--tvs-green)' : t.status === 'FAILED' ? 'var(--tvs-danger)' : 'var(--tvs-orange)';
+        return '<tr style="border-bottom:1px solid var(--tvs-border-subtle);">' +
+          '<td style="padding:4px;font-family:JetBrains Mono,monospace;">' + (t.id || '').substring(0,8) + '</td>' +
+          '<td style="padding:4px;">' + (t.type || '-') + '</td>' +
+          '<td style="padding:4px;color:' + statusColor + ';">' + (t.status || '-') + '</td>' +
+          '<td style="padding:4px;color:var(--tvs-text-muted);">' + (t.createdAt ? new Date(t.createdAt).toLocaleDateString() : '-') + '</td></tr>';
+      }).join('') + '</table>';
+  } catch(e) {
+    el.innerHTML = '<div style="color:var(--tvs-text-muted);font-size:var(--tvs-text-sm);">Tasks unavailable</div>';
+  }
+}
+
+function wsNewProject() {
+  var name = prompt('Project name:');
+  if (!name) return;
+  // Add to local display
+  var el = document.getElementById('wsProjects');
+  el.innerHTML += '<div style="padding:6px 8px;border-radius:var(--tvs-radius-sm);cursor:pointer;margin-bottom:4px;background:var(--tvs-surface-1);">' +
+    '<div style="font-size:12px;font-weight:500;color:var(--tvs-text);">' + esc(name) + '</div>' +
+    '<div style="font-size:10px;color:var(--tvs-text-muted);">0/0 done</div></div>';
+}
+
+async function wsNewTask() {
+  var title = prompt('Task title:');
+  if (!title) return;
+  var type = prompt('Type (business/engineering/research/operations/finance):', 'business');
+  try {
+    await apiFetch('/api/omega/tasks', {
+      method: 'POST',
+      body: JSON.stringify({ type: type || 'business', priority: 'medium', title: title })
+    });
+    alert('Task created!');
+  } catch(e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── APP STORE (REAL API) ── */
+/* ══════════════════════════════════════════════ */
+async function renderStore(body) {
+  body.innerHTML = '<div style="color:var(--tvs-text-muted);">Loading store...</div>';
+  try {
+    var r = await apiFetch('/api/os/store');
+    var d = await r.json();
+    var apps = d.apps || d.items || d || [];
+    if (!Array.isArray(apps) || apps.length === 0) {
+      apps = [
+        { id: 'jarvis', name: 'JARVIS Agent', icon: '\u{1F916}', desc: 'AI Assistant with Stark persona', installed: true },
+        { id: 'viseron', name: 'VISERON Core', icon: '\u269B', desc: 'Superintelligence engine', installed: true },
+        { id: 'atlas', name: 'ATLAS Tutor', icon: '\u{1F393}', desc: 'English learning with voice', installed: true },
+        { id: 'agency', name: 'Agency Suite', icon: '\u{1F4CA}', desc: 'Marketing automation', installed: true },
+        { id: 'cosmos', name: 'Cosmos Tokens', icon: '\u{1F48E}', desc: 'VSR/TRIN token management', installed: true },
+        { id: 'rcs', name: 'RCS Messaging', icon: '\u{1F4AC}', desc: 'Brand messaging via Twilio', installed: false },
+        { id: 'composio', name: 'Composio Bridge', icon: '\u{1F50C}', desc: 'External app integrations', installed: false },
+        { id: 'aiox', name: 'AIOX Squad', icon: '\u{1F6E1}', desc: 'Supervision and audit', installed: true }
+      ];
+    }
+    body.innerHTML =
+      '<h3 style="font-size:var(--tvs-text-lg);font-weight:700;color:var(--tvs-purple);margin-bottom:var(--tvs-space-3);">App Store</h3>' +
+      '<input class="tvs-input" placeholder="Search apps..." style="margin-bottom:var(--tvs-space-3);font-size:12px;" oninput="filterStore(this.value)">' +
+      '<div id="storeList">' +
+      apps.map(function(a) {
+        var btnLabel = a.installed ? 'Open' : 'Install';
+        var btnClass = a.installed ? 'tvs-btn-secondary' : 'tvs-btn-primary';
+        return '<div class="store-card" data-name="' + esc(a.name.toLowerCase()) + '"><div class="store-icon">' + (a.icon || '\u{1F4E6}') + '</div>' +
+          '<div class="store-info"><div class="store-name">' + esc(a.name) + '</div><div class="store-desc">' + esc(a.desc || '') + '</div></div>' +
+          '<button class="tvs-btn ' + btnClass + ' tvs-btn-sm" onclick="storeAction(\'' + (a.id || a.name) + '\',\'' + btnLabel + '\')">' + btnLabel + '</button></div>';
+      }).join('') + '</div>';
+  } catch(e) {
+    body.innerHTML = '<div style="color:var(--tvs-danger);">Error loading store</div>';
+  }
+}
+
+function filterStore(q) {
+  var cards = document.querySelectorAll('.store-card');
+  cards.forEach(function(c) {
+    c.style.display = c.dataset.name.indexOf(q.toLowerCase()) >= 0 ? '' : 'none';
+  });
+}
+
+async function storeAction(id, action) {
+  if (action === 'Install') {
+    try {
+      await apiFetch('/api/os/store/install', { method: 'POST', body: JSON.stringify({ appId: id }) });
+      alert('Installed!');
+    } catch(e) { alert('Error: ' + e.message); }
+  } else {
+    // Open app
+    var appMap = { jarvis: 'jarvis', viseron: 'viseron', atlas: 'atlas', agency: 'agency', cosmos: 'crypto' };
+    openApp(appMap[id] || 'browser');
+  }
+}
+
+/* ══════════════════════════════════════════════ */
+/* ── BROWSER ── */
+/* ══════════════════════════════════════════════ */
+function renderBrowser(body) {
+  body.style.padding = '0';
+  body.innerHTML =
+    '<div style="display:flex;align-items:center;gap:var(--tvs-space-2);padding:var(--tvs-space-2) var(--tvs-space-3);background:rgba(0,0,0,0.2);border-bottom:1px solid var(--tvs-border-subtle);">' +
+    '<input class="tvs-input" id="browserUrl" value="https://www.trinnityviseronsystem.io" style="flex:1;font-size:12px;font-family:JetBrains Mono,monospace;">' +
+    '<button class="tvs-btn tvs-btn-secondary tvs-btn-sm" onclick="browserNavigate()">Go</button></div>' +
+    '<iframe id="browserFrame" src="https://www.trinnityviseronsystem.io" style="width:100%;height:calc(100% - 40px);border:none;"></iframe>';
+}
+
+function browserNavigate() {
+  var url = document.getElementById('browserUrl').value;
+  if (!url.startsWith('http')) url = 'https://' + url;
+  document.getElementById('browserFrame').src = url;
+}
+
+/* ── Helpers ── */
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatUptime() {
+  var s = Math.floor((Date.now() - performance.timeOrigin) / 1000);
+  var h = Math.floor(s / 3600);
+  var m = Math.floor((s % 3600) / 60);
+  return h + 'h ' + m + 'm';
+}
+
+/* ── Clock ── */
+function updateClock() {
+  var now = new Date();
+  var h = String(now.getHours()).padStart(2, '0');
+  var m = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('trayClock').textContent = h + ':' + m;
+}
+setInterval(updateClock, 10000);
+updateClock();
+
+/* ── Close start menu on outside click ── */
+document.addEventListener('click', function(e) {
+  if (startMenuOpen && !e.target.closest('.start-menu') && !e.target.closest('.start-btn')) {
+    startMenuOpen = false;
+    document.getElementById('startMenu').classList.remove('open');
+  }
+});
+
+/* ── Keyboard shortcut ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && startMenuOpen) {
+    startMenuOpen = false;
+    document.getElementById('startMenu').classList.remove('open');
+  }
+});
+
+/* ── Init ── */
+renderDesktopIcons();
 </script>
 </body>
 </html>

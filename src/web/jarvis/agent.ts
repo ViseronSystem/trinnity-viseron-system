@@ -15,6 +15,8 @@ import { SkillBridge } from "../../core/intelligence/SkillBridge";
 import { capacityIndicators, projectionTable, AGENCY_PACKAGES, LEGACY_FEE, NEW_FEE } from "../../core/agency/finance";
 import { ILogger } from "../monitoring/logger";
 import { IMetrics } from "../monitoring/metrics";
+import { AutonomousBrain } from "../../core/brain/AutonomousBrain";
+import { ToolManager } from "../../core/tools/ToolManager";
 
 // JARVIS — Agente conversacional autónomo do Viseron.
 // Conversa com as pessoas e EXECUTA operações reais (estado, planos, checkout,
@@ -121,6 +123,8 @@ export class JarvisAgent {
   private agency: AgencyDeps;
   private rcs?: RcsEngine;
   private skillBridge?: SkillBridge;
+  public brain: AutonomousBrain;
+  private toolManager: ToolManager;
 
   constructor(ctx: {
     dataDir: string;
@@ -154,6 +158,13 @@ export class JarvisAgent {
     this.modelRouter = new ViseronModelRouter(this.providerFactory);
     this.sessionsFile = path.join(this.dataDir, "jarvis-sessions.json");
     this.memoryFile = path.join(this.dataDir, "knowledge", "jarvis-memory.jsonl");
+    this.toolManager = new ToolManager();
+    this.brain = new AutonomousBrain({
+      router: this.modelRouter,
+      composio: this.composio,
+      toolManager: this.toolManager,
+      dataDir: this.dataDir,
+    });
   }
 
   private persona?: string;
@@ -376,6 +387,17 @@ export class JarvisAgent {
     if (/(quem [eé]s|[oó]s|quem e voce|what are you|about you|identidade)/.test(m)) return "who_are_you";
     if (/(ajuda|help|comandos|o que podes|que podes|help me|what can)/.test(m)) return "help";
     if (/([oó]i|ol[áa]|hey|hello|hi|boa tarde|bom dia)/.test(m)) return "greeting";
+    // NEW: Autonomous Brain intents — general-purpose execution
+    if (/(planea|plano|plan|planejar|planificar|organiza|organize|estrateg|strateg)/i.test(m)) return "brain_plan";
+    if (/(pesquis|research|investiga|investigate|busca|search|encontra|find|informa[çc]ão|information)/i.test(m)) return "brain_research";
+    if (/(programa|program|c[oó]digo|code|desenvolv|develop|build|compila|compile|script)/i.test(m)) return "brain_code";
+    if (/(cria|crea|create|gera|genera|generar|criar|faz|make|constru|construct|site|app|landing|p[aá]gina|web)/i.test(m) && !/(blog|post|conte[úu]do)/.test(m)) return "brain_create";
+    if (/(automat|automatiz|workflow|pipeline|fluxo|processo|process)/i.test(m)) return "brain_automate";
+    if (/(opera|empresa|business|neg[oó]cio|client|cliente|receita|revenue|venda|sale|gest[aã]o|manage)/i.test(m)) return "brain_operate";
+    if (/(coordena|coordina|orquesta|delega|delegate|agent|equipe|team)/i.test(m)) return "brain_coordinate";
+    if (/(adapta|adapt|personaliza|personaliz|customiz|configura|configure)/i.test(m)) return "brain_adapt";
+    if (/(evolui|evolve|melhora|improve|upgrade|aprend|learn|estuda|study)/i.test(m)) return "brain_evolve";
+    if (/(executa|execute|faz|do it|roda|run|processa|process)/i.test(m)) return "brain_execute";
     return "chat";
   }
 
@@ -421,6 +443,18 @@ export class JarvisAgent {
         return this.toolAuditInfo();
       case "waitlist_info":
         return this.toolWaitlistInfo();
+      // NEW: Autonomous Brain — general-purpose execution
+      case "brain_plan":
+      case "brain_research":
+      case "brain_code":
+      case "brain_create":
+      case "brain_automate":
+      case "brain_operate":
+      case "brain_coordinate":
+      case "brain_adapt":
+      case "brain_evolve":
+      case "brain_execute":
+        return await this.toolBrainExecute(input, intent);
       default:
         return null;
     }
@@ -685,6 +719,36 @@ export class JarvisAgent {
     return { tool: "waitlist_info", ok: true, detail: "Podes entrar na lista de espera via POST /api/waitlist (email)." };
   }
 
+  /**
+   * Autonomous Brain — execução genérica de qualquer pedido.
+   * Planeja, executa, aprende e responde.
+   */
+  private async toolBrainExecute(input: JarvisChatInput, intent: string): Promise<JarvisAction> {
+    try {
+      const lang = this.detectLanguage(input.message);
+      const response = await this.brain.process({
+        message: input.message,
+        sessionId: input.sessionId,
+        language: lang,
+        clientContext: input.email || undefined,
+      });
+
+      const detail = [
+        response.success ? "Tarefa executada com sucesso." : "Tarefa processada com alguns problemas.",
+        "",
+        response.reply,
+        "",
+        `Ferramentas: ${response.actions.map(a => `${a.tool} ${a.ok ? "✓" : "✗"}`).join(" · ")}`,
+        `Duração: ${Math.round(response.durationMs / 1000)}s · Provider: ${response.provider} · Modelo: ${response.model}`,
+        response.lessons.length > 0 ? `Lições: ${response.lessons.join("; ")}` : "",
+      ].filter(Boolean).join("\n");
+
+      return { tool: `brain_${intent.replace("brain_", "")}`, ok: response.success, detail };
+    } catch (e: any) {
+      return { tool: `brain_${intent.replace("brain_", "")}`, ok: false, detail: `Erro no brain: ${e.message}` };
+    }
+  }
+
   /** Memória persistente: mostra as operações que o JARVIS já executou (nunca esquece). */
   private toolMemoryRecall(): JarvisAction {
     const recent = this.recall(6);
@@ -899,6 +963,17 @@ export class JarvisAgent {
       agency_creative: { es: detail, pt: detail, en: detail },
       agency_nurture: { es: detail, pt: detail, en: detail },
       agency_projection: { es: detail, pt: detail, en: detail },
+      // Autonomous Brain — responses are the detail itself
+      brain_plan: { es: detail, pt: detail, en: detail },
+      brain_research: { es: detail, pt: detail, en: detail },
+      brain_code: { es: detail, pt: detail, en: detail },
+      brain_create: { es: detail, pt: detail, en: detail },
+      brain_automate: { es: detail, pt: detail, en: detail },
+      brain_operate: { es: detail, pt: detail, en: detail },
+      brain_coordinate: { es: detail, pt: detail, en: detail },
+      brain_adapt: { es: detail, pt: detail, en: detail },
+      brain_evolve: { es: detail, pt: detail, en: detail },
+      brain_execute: { es: detail, pt: detail, en: detail },
       who_are_you: {
         es: "Soy JARVIS, asistente del Trinnity Viseron System (TVS) — un sistema operativo multi-agente con 5000+ mentes. Autonomía real: consulto el estado, los planes, el blog, la mensajería, creo checkouts y ejecuto acciones en apps conectadas (Gmail, Slack, GitHub, Notion...) via Composio. ¿Cómo puedo ayudarte?",
         pt: "Sou o JARVIS, assistente do Trinnity Viseron System (TVS) — um sistema operativo multi-agente com 5000+ mentes. Tenho autonomia para consultar o estado do sistema, planos, blog, mensageria, criar sessões de checkout e ligar apps (Gmail, Slack, GitHub, Notion...) via Composio. Como posso ajudar-te?",
@@ -910,9 +985,9 @@ export class JarvisAgent {
         en: "Hello! I'm JARVIS from Viseron. I can show system status, plans (Core $29 / Pro $99 / Enterprise $499), blog, E2E messaging, create your checkout or connect apps (e.g. 'connect gmail and slack'). What do you need?",
       },
       help: {
-        es: "Puedo: (1) estado del sistema · (2) planes y precios · (3) crear sesión de checkout · (4) blog y contenido · (5) estado del email · (6) estado de la mensajería E2E · (7) auditoría operacional (npm run audit:arkom) · (8) conectar apps via Composio (di 'conecta gmail y slack' o 'conecta todas las apps'). También recuerdo cada operación que ejecuto: pregúntame '¿qué has hecho?'.",
-        pt: "Posso: (1) estado do sistema · (2) planos/preços · (3) criar sessão de checkout · (4) blog e conteúdo · (5) status do email · (6) status da mensageria E2E · (7) auditoria operacional (npm run audit:arkom) · (8) ligar apps via Composio (diz 'liga o gmail e o slack' ou 'liga todas as apps'). Também lembro cada operação que executo: pergunta 'o que já fizeste?'.",
-        en: "I can: (1) system status · (2) plans & pricing · (3) create checkout session · (4) blog & content · (5) email status · (6) E2E messaging status · (7) operational audit (npm run audit:arkom) · (8) connect apps via Composio (say 'connect gmail and slack' or 'connect all apps'). I also remember every operation I run — ask me 'what have you done?'.",
+        es: "Puedo: (1) estado del sistema · (2) planes y precios · (3) crear sesión de checkout · (4) blog y contenido · (5) estado del email · (6) estado de la mensajería E2E · (7) auditoría operacional · (8) conectar apps via Composio · (9) AUTONOMÍA TOTAL: planificar, investigar, programar, crear sites/apps, automatizar, operar empresas, coordinar agentes, adaptar soluciones, evolucionar. Di 'ejecuta [tu tarea]' y yo planifico, ejecuto y aprendo.",
+        pt: "Posso: (1) estado do sistema · (2) planos/preços · (3) criar sessão de checkout · (4) blog e conteúdo · (5) status do email · (6) status da mensageria E2E · (7) auditoria operacional · (8) ligar apps via Composio · (9) AUTONOMIA TOTAL: planear, pesquisar, programar, criar sites/apps, automatizar, operar empresas, coordenar agentes, adaptar soluções, evoluir. Diz 'executa [a tua tarefa]' e eu planejo, executo e aprendo.",
+        en: "I can: (1) system status · (2) plans & pricing · (3) create checkout · (4) blog & content · (5) email status · (6) E2E messaging · (7) audit · (8) connect apps via Composio · (9) FULL AUTONOMY: plan, research, code, create sites/apps, automate, operate businesses, coordinate agents, adapt solutions, evolve. Say 'execute [your task]' and I'll plan, execute and learn.",
       },
       default: {
         es: `Entiendo que hablas de "${message.slice(0, 80)}". Soy JARVIS de Viseron — puedo consultar el estado del sistema, los planes, el blog o crear un checkout. Dime qué necesitas.`,
@@ -922,7 +997,8 @@ export class JarvisAgent {
     };
     const tpl = T[intent] || T.default;
     const t = tpl[lang] || tpl.es || detail;
-    if (intent === "composio_connect" || intent === "composio_execute" || intent === "composio_status" || intent === "rcs_broadcast") {
+    if (intent === "composio_connect" || intent === "composio_execute" || intent === "composio_status" || intent === "rcs_broadcast" ||
+        intent.startsWith("brain_")) {
       return toolResult ? detail : t;
     }
     return t;

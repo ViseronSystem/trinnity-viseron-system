@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrcrpg1_kihcd2",
+  "timestamp": "2026-09-07T14:45:35.547Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "c829ca490c76294a2c49b80865dd3a3b99f9f1734772fb7700dd06d185ee832d"
+}

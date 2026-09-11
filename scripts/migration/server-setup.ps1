@@ -13,7 +13,7 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 $PKG = Split-Path -Parent $PSScriptRoot
-$AppDir = "C:\tvs"
+$AppDir = "C:\Trinnity-Viseron-System"
 $RepoUrl = "https://github.com/ViseronSystem/trinnity-viseron-system.git"
 
 Write-Host ""

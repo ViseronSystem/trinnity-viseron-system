@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgzn31p_liwfy8",
+  "timestamp": "2026-08-31T08:40:22.032Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "f1064b3faa735d61d3a95d232bc045374c4828f7fcbc83a563a733328e1ec5c1"
+}

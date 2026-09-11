@@ -1,0 +1,21 @@
+{
+  "id": "task_mtobbex5_k3w6ck",
+  "timestamp": "2026-09-05T11:41:38.064Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "0ae0a76b5a0e744e5599f021cfa9d29e29ac31e5deebc7ca2b75985f6473d2d5"
+}

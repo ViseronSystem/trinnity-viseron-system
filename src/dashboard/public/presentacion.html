@@ -1,214 +1,799 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VISERON · El Futuro se Construye Hoy</title>
-<style>
-:root{
-  --bg1:#020617;--bg2:#0b1026;--gold:#f5c86e;--gold2:#f9e0a8;
-  --cyan:#22d3ee;--pink:#e879f9;--purple:#a78bfa;--ink:#eef2ff;--muted:#9aa8cf;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg1);color:var(--ink);font-family:'Segoe UI',Poppins,'Helvetica Neue',Arial,sans-serif}
-#stars{position:fixed;inset:0;z-index:0;background:
-  radial-gradient(1200px 700px at 80% -10%,rgba(232,121,249,.16),transparent 60%),
-  radial-gradient(1000px 600px at -10% 90%,rgba(34,211,238,.12),transparent 60%),
-  radial-gradient(900px 500px at 50% 120%,rgba(245,200,110,.08),transparent 60%),
-  linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg1));}
-#stars .s{position:absolute;background:#fff;border-radius:50%;opacity:.85;animation:twinkle 4s infinite ease-in-out}
-@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.9;transform:scale(1.15)}}
-#aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.5;
-  background:conic-gradient(from 210deg at 70% 30%,rgba(232,121,249,.5),transparent 30%,rgba(34,211,238,.5),transparent 60%,rgba(167,139,250,.5),transparent 80%);animation:drift 26s ease-in-out infinite alternate}
-@keyframes drift{from{transform:rotate(0) scale(1)}to{transform:rotate(12deg) scale(1.15)}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinnity Viseron System — Pitch Deck</title>
+  <meta name="description" content="AI-Native Operating System for Autonomous Organizations. Trinnity Viseron System investor presentation." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030310'/%3E%3Cpath d='M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z' fill='none' stroke='%2300f0ff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23bf5af2'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tvs-design.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    body { background: var(--tvs-bg); color: var(--tvs-text); font-family: var(--tvs-font-sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-/* SLIDES */
-.deck{position:relative;z-index:2;height:100%}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(30px,7vw,110px);opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.slide.on{opacity:1;visibility:visible;transform:none}
-.slide .kicker{font-size:.72rem;letter-spacing:.34em;font-weight:800;text-transform:uppercase;color:var(--gold);margin-bottom:18px;opacity:0;transform:translateY(12px);transition:opacity .6s .15s,transform .6s .15s}
-.slide.on .kicker{opacity:1;transform:none}
-.slide h1{font-size:clamp(2.6rem,9.5vw,7.5rem);line-height:1.02;letter-spacing:-.045em;font-weight:800;opacity:0;transform:translateY(16px);transition:opacity .7s .25s,transform .7s .25s}
-.slide.on h1{opacity:1;transform:none}
-.slide h2{font-size:clamp(2rem,6.4vw,4.6rem);line-height:1.06;letter-spacing:-.04em;font-weight:800;opacity:0;transform:translateY(16px);transition:opacity .7s .25s,transform .7s .25s}
-.slide.on h2{opacity:1;transform:none}
-.grad{background:linear-gradient(92deg,var(--gold) 5%,var(--gold2) 30%,var(--cyan) 65%,var(--pink) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.grad2{background:linear-gradient(92deg,var(--cyan),var(--pink),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-.slide p.lead{max-width:720px;font-size:clamp(1rem,2.2vw,1.5rem);color:var(--muted);line-height:1.65;margin-top:26px;opacity:0;transform:translateY(16px);transition:opacity .7s .4s,transform .7s .4s}
-.slide.on p.lead{opacity:1;transform:none}
-.slide p.lead b{color:var(--ink);font-weight:700}
-.slide .big{font-size:clamp(1.5rem,4.4vw,3rem);font-weight:800;letter-spacing:-.03em;margin-top:30px;opacity:0;transform:translateY(16px);transition:opacity .7s .55s,transform .7s .55s}
-.slide.on .big{opacity:1;transform:none}
-.items{margin-top:34px;display:grid;gap:16px;max-width:860px}
-.item{display:flex;gap:16px;align-items:flex-start;opacity:0;transform:translateX(-16px);transition:opacity .6s,transform .6s}
-.item .ic{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:1.25rem;
-  background:linear-gradient(135deg,rgba(245,200,110,.16),rgba(34,211,238,.12));border:1px solid rgba(245,200,110,.28)}
-.item p{font-size:clamp(.95rem,1.9vw,1.25rem);color:var(--muted);line-height:1.55}
-.item p b{color:var(--ink);font-weight:700}
-.slide.on .item{opacity:1;transform:none}
-.slide.on .item:nth-child(1){transition-delay:.45s}.slide.on .item:nth-child(2){transition-delay:.55s}
-.slide.on .item:nth-child(3){transition-delay:.65s}.slide.on .item:nth-child(4){transition-delay:.75s}
-.slide.on .item:nth-child(5){transition-delay:.85s}.slide.on .item:nth-child(6){transition-delay:.95s}
-.num-bg{position:absolute;right:clamp(10px,3vw,60px);top:50%;transform:translateY(-50%);font-size:clamp(10rem,38vw,30rem);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);pointer-events:none;user-select:none;z-index:-1}
-.foot{position:absolute;left:clamp(30px,7vw,110px);bottom:28px;font-size:.72rem;letter-spacing:.22em;color:rgba(154,168,207,.5);text-transform:uppercase;opacity:0;transition:opacity .6s .7s}
-.slide.on .foot{opacity:1}
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(900px 500px at 20% 0%, rgba(0,240,255,0.06), transparent 60%),
+        radial-gradient(900px 500px at 80% 10%, rgba(191,90,242,0.05), transparent 60%),
+        radial-gradient(600px 300px at 50% 100%, rgba(255,45,85,0.03), transparent 60%);
+    }
 
-/* CONTROLS */
-.hud{position:fixed;z-index:10;bottom:0;left:0;right:0;display:flex;align-items:center;gap:14px;padding:14px clamp(16px,3vw,40px);background:linear-gradient(transparent,rgba(2,6,23,.85));pointer-events:none}
-.hud button{pointer-events:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--ink);border-radius:99px;padding:8px 14px;font:inherit;font-size:.78rem;cursor:pointer;transition:.2s}
-.hud button:hover{background:rgba(245,200,110,.18);border-color:var(--gold)}
-#bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
-#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--cyan),var(--pink));transition:width .4s ease}
-#dots{display:flex;gap:7px;flex-wrap:wrap;pointer-events:auto}
-#dots button{width:9px;height:9px;padding:0;border-radius:50%;background:rgba(255,255,255,.16);border:0}
-#dots button.on{background:var(--gold);transform:scale(1.35)}
-.credit{position:fixed;top:18px;right:22px;z-index:10;font-size:.68rem;letter-spacing:.2em;color:rgba(154,168,207,.55);text-transform:uppercase;text-align:right;line-height:1.6}
-.credit b{color:var(--gold)}
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.25); border-radius: 3px; }
 
-@media(max-width:640px){.slide{padding:70px 26px 90px}.hud{flex-wrap:wrap}.credit{display:none}}
-</style>
+    /* ── NAV ─────────────────────────────────────────── */
+    .pitch-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 56px;
+      background: rgba(5,5,16,0.8); backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--tvs-border-subtle);
+    }
+    .pitch-nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--tvs-font-display); font-size: 15px; font-weight: 700;
+      color: var(--tvs-text); text-decoration: none;
+    }
+    .pitch-nav-brand span { color: var(--tvs-cyan); }
+    .pitch-nav-links { display: flex; align-items: center; gap: 4px; }
+    .pitch-nav-link {
+      padding: 6px 12px; border-radius: var(--tvs-radius-md);
+      font-size: 13px; font-weight: 500; color: var(--tvs-text-secondary);
+      text-decoration: none; transition: all 150ms;
+    }
+    .pitch-nav-link:hover { color: var(--tvs-text); background: var(--tvs-surface-hover); }
+    .pitch-nav-link.active { color: var(--tvs-cyan); background: rgba(0,240,255,0.08); }
+    .pitch-nav-cta {
+      padding: 7px 18px; border-radius: var(--tvs-radius-full);
+      background: var(--tvs-cyan); color: var(--tvs-text-inverse);
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 150ms; border: none; cursor: pointer;
+    }
+    .pitch-nav-cta:hover { background: #00dce6; box-shadow: var(--tvs-glow-sm-cyan); transform: translateY(-1px); }
+    .mobile-toggle { display: none; background: none; border: none; color: var(--tvs-text-secondary); cursor: pointer; padding: 8px; }
+    @media (max-width: 768px) {
+      .pitch-nav-links { display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0; flex-direction: column; align-items: stretch; padding: 16px; background: rgba(5,5,16,0.96); backdrop-filter: blur(24px); }
+      .pitch-nav-links.open { display: flex; }
+      .mobile-toggle { display: block; }
+      .pitch-nav { padding: 0 16px; }
+    }
+
+    /* ── SLIDE ───────────────────────────────────────── */
+    .slide {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 100px 32px 60px; position: relative; scroll-snap-align: start;
+    }
+    .slide-inner { max-width: 1100px; width: 100%; position: relative; z-index: 1; }
+    .slide-number {
+      position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+      font-family: var(--tvs-font-display); font-size: clamp(8rem, 20vw, 16rem);
+      font-weight: 900; line-height: 1; color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.04); pointer-events: none; user-select: none;
+    }
+    .slide-kicker {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--tvs-cyan); margin-bottom: 16px;
+    }
+    .slide-title {
+      font-family: var(--tvs-font-display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px;
+    }
+    .slide-title .grad {
+      background: linear-gradient(135deg, var(--tvs-cyan), var(--tvs-purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .slide-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem); color: var(--tvs-text-secondary);
+      line-height: 1.7; max-width: 680px;
+    }
+    .slide-subtitle strong { color: var(--tvs-text); font-weight: 600; }
+
+    /* ── GRID ITEMS ──────────────────────────────────── */
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 36px; }
+    .item-card {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 20px; border-radius: var(--tvs-radius-lg);
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+      transition: all 250ms;
+    }
+    .item-card:hover { border-color: rgba(0,240,255,0.15); transform: translateY(-2px); box-shadow: var(--tvs-shadow-md); }
+    .item-icon {
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: var(--tvs-radius-md);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.15);
+    }
+    .item-icon.purple { background: rgba(191,90,242,0.08); border-color: rgba(191,90,242,0.15); }
+    .item-icon.green { background: rgba(48,209,88,0.08); border-color: rgba(48,209,88,0.15); }
+    .item-icon.pink { background: rgba(255,45,85,0.08); border-color: rgba(255,45,85,0.15); }
+    .item-text h4 { font-family: var(--tvs-font-display); font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .item-text p { font-size: 13px; color: var(--tvs-text-secondary); line-height: 1.5; }
+
+    /* ── STATS ROW ───────────────────────────────────── */
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 36px; }
+    .stat-block {
+      text-align: center; padding: 28px 16px; border-radius: var(--tvs-radius-lg);
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+    }
+    .stat-block-value {
+      font-family: var(--tvs-font-display); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; line-height: 1;
+    }
+    .stat-block-value.cyan { color: var(--tvs-cyan); }
+    .stat-block-value.purple { color: var(--tvs-purple); }
+    .stat-block-value.green { color: var(--tvs-green); }
+    .stat-block-value.pink { color: var(--tvs-pink); }
+    .stat-block-label { font-size: 12px; color: var(--tvs-text-secondary); margin-top: 8px; letter-spacing: 0.05em; }
+
+    /* ── ARCHITECTURE PIPE ───────────────────────────── */
+    .arch-pipe { display: flex; align-items: center; gap: 0; margin-top: 36px; flex-wrap: wrap; justify-content: center; }
+    .arch-step {
+      padding: 14px 24px; border-radius: var(--tvs-radius-md);
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+      font-family: var(--tvs-font-display); font-size: 14px; font-weight: 600;
+      text-align: center; min-width: 140px;
+    }
+    .arch-step.active { border-color: rgba(0,240,255,0.3); color: var(--tvs-cyan); background: rgba(0,240,255,0.06); }
+    .arch-arrow { color: var(--tvs-text-muted); font-size: 20px; padding: 0 8px; }
+
+    /* ── TIMELINE ────────────────────────────────────── */
+    .timeline { margin-top: 36px; position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 11px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, var(--tvs-cyan), var(--tvs-purple), var(--tvs-pink));
+    }
+    .timeline-item { position: relative; margin-bottom: 28px; }
+    .timeline-dot {
+      position: absolute; left: -32px; top: 4px; width: 22px; height: 22px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background: var(--tvs-bg); border: 2px solid var(--tvs-cyan);
+    }
+    .timeline-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tvs-cyan); }
+    .timeline-dot.purple { border-color: var(--tvs-purple); }
+    .timeline-dot.purple::after { background: var(--tvs-purple); }
+    .timeline-dot.pink { border-color: var(--tvs-pink); }
+    .timeline-dot.pink::after { background: var(--tvs-pink); }
+    .timeline-year { font-family: var(--tvs-font-display); font-size: 13px; font-weight: 700; color: var(--tvs-cyan); margin-bottom: 4px; }
+    .timeline-desc { font-size: 14px; color: var(--tvs-text-secondary); line-height: 1.5; }
+    .timeline-desc strong { color: var(--tvs-text); }
+
+    /* ── PRICING ─────────────────────────────────────── */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 36px; }
+    .price-card {
+      padding: 32px 24px; border-radius: var(--tvs-radius-lg);
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+      text-align: center; transition: all 250ms; position: relative; overflow: hidden;
+    }
+    .price-card:hover { border-color: rgba(0,240,255,0.2); transform: translateY(-4px); box-shadow: var(--tvs-shadow-lg); }
+    .price-card.featured { border-color: rgba(0,240,255,0.3); }
+    .price-card.featured::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--tvs-cyan), var(--tvs-purple));
+    }
+    .price-name { font-family: var(--tvs-font-display); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .price-amount { font-family: var(--tvs-font-display); font-size: 40px; font-weight: 800; color: var(--tvs-cyan); }
+    .price-amount span { font-size: 16px; font-weight: 500; color: var(--tvs-text-secondary); }
+    .price-features { margin-top: 20px; text-align: left; }
+    .price-feature { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 13px; color: var(--tvs-text-secondary); }
+    .price-feature::before { content: '✓'; color: var(--tvs-green); font-weight: 700; }
+
+    /* ── TEAM ────────────────────────────────────────── */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 36px; }
+    .team-card {
+      display: flex; align-items: center; gap: 20px;
+      padding: 28px; border-radius: var(--tvs-radius-lg);
+      background: var(--tvs-surface-glass); border: 1px solid var(--tvs-border);
+    }
+    .team-avatar {
+      width: 72px; height: 72px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(0,240,255,0.15), rgba(191,90,242,0.15));
+      border: 2px solid rgba(0,240,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--tvs-font-display); font-size: 24px; font-weight: 800; color: var(--tvs-cyan);
+    }
+    .team-name { font-family: var(--tvs-font-display); font-size: 18px; font-weight: 700; }
+    .team-role { font-size: 13px; color: var(--tvs-cyan); margin-top: 2px; }
+    .team-desc { font-size: 13px; color: var(--tvs-text-secondary); margin-top: 8px; line-height: 1.5; }
+
+    /* ── CTA SECTION ─────────────────────────────────── */
+    .cta-box {
+      text-align: center; padding: 60px 32px; border-radius: var(--tvs-radius-xl);
+      background: linear-gradient(135deg, rgba(0,240,255,0.06), rgba(191,90,242,0.06));
+      border: 1px solid rgba(0,240,255,0.15); margin-top: 36px;
+    }
+    .cta-title { font-family: var(--tvs-font-display); font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 12px; }
+    .cta-desc { font-size: 15px; color: var(--tvs-text-secondary); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    .pitch-footer {
+      padding: 32px; text-align: center; border-top: 1px solid var(--tvs-border-subtle);
+      font-size: 12px; color: var(--tvs-text-muted);
+    }
+    .pitch-footer a { color: var(--tvs-text-secondary); text-decoration: none; }
+    .pitch-footer a:hover { color: var(--tvs-cyan); }
+
+    /* ── ANIMATIONS ──────────────────────────────────── */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      .slide { padding: 80px 20px 40px; }
+      .slide-number { display: none; }
+      .arch-pipe { flex-direction: column; gap: 8px; }
+      .arch-arrow { transform: rotate(90deg); }
+    }
+  </style>
 </head>
 <body>
-<div id="stars"></div>
-<div id="aurora"></div>
-<div class="credit">TRINNITY VISERON SYSTEM<br>© Pedro Costa · <b>Trinnity Hurtado</b></div>
 
-<div class="deck" id="deck">
+<!-- ═══════════════════ NAVIGATION ═══════════════════════ -->
+<nav class="pitch-nav">
+  <a href="/" class="pitch-nav-brand">
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 4l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" stroke="var(--tvs-cyan)" stroke-width="1.5"/><circle cx="16" cy="16" r="3" fill="var(--tvs-purple)"/></svg>
+    <span>Trinnity</span> Viseron
+  </a>
+  <div class="pitch-nav-links" id="navLinks">
+    <a href="#problem" class="pitch-nav-link">Problem</a>
+    <a href="#solution" class="pitch-nav-link">Solution</a>
+    <a href="#architecture" class="pitch-nav-link">Architecture</a>
+    <a href="#market" class="pitch-nav-link">Market</a>
+    <a href="#pricing" class="pitch-nav-link">Pricing</a>
+    <a href="#team" class="pitch-nav-link">Team</a>
+    <a href="#contact" class="pitch-nav-cta">Contact</a>
+  </div>
+  <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
 
-  <section class="slide">
-    <div class="num-bg">∞</div>
-    <span class="kicker">VISERON · 2026</span>
-    <h1>El futuro<br><span class="grad">no se espera.</span></h1>
-    <h2 style="margin-top:6px">Se construye hoy.</h2>
-    <p class="lead">Una historia de visión, poder y principios — que empieza ahora, con nosotros.</p>
-    <div class="foot">Pulsa → para continuar</div>
-  </section>
-
-  <section class="slide">
-    <div class="num-bg">I</div>
-    <span class="kicker">Acto I · La visión</span>
-    <h2>Una organización que <span class="grad2">nunca olvida</span></h2>
-    <p class="lead">Imagina un cerebro vivo con la memoria de tu empresa entera. Que aprende de cada error, de cada conversación, de cada decisión.<br><br>Que trabaja mientras tú duermes. Que responde cuando tú descansas. Que crece — un poco más — <b>cada día</b>.</p>
-    <div class="big">Eso es <span class="grad">VISERON</span>.</div>
-    <div class="foot">Acto I · La visión</div>
-  </section>
-
-  <section class="slide">
-    <div class="num-bg">II</div>
-    <span class="kicker">Acto II · El problema</span>
-    <h2>El mundo se hunde<br>en <span class="grad">lo repetitivo</span></h2>
-    <p class="lead">Cada día, miles de horas humanas se pierden en lo mismo: responder lo mismo, buscar lo mismo, registrar lo mismo, perseguir lo mismo.<br><br>El talento de verdad debería <b>crear, decidir y cuidar</b>. En cambio, vive apagando incendios.</p>
-    <div class="big">No falta gente. <span class="grad2">Falta un cerebro.</span></div>
-    <div class="foot">Acto II · El problema</div>
-  </section>
-
-  <section class="slide">
-    <div class="num-bg">III</div>
-    <span class="kicker">Acto III · La promesa</span>
-    <h2>Una empresa con<br><span class="grad2">5.000 mentes</span></h2>
-    <p class="lead">VISERON no es una herramienta. Es un ecosistema: un núcleo que piensa, agentes que actúan, memoria que recuerda y principios que guían.</p>
-    <div class="items">
-      <div class="item"><span class="ic">🧠</span><p><b>Un cerebro</b> que aprende de tu empresa cada día.</p></div>
-      <div class="item"><span class="ic">🤖</span><p><b>Equipos de agentes</b> que trabajan sin cansarse y sin fallar dos veces igual.</p></div>
-      <div class="item"><span class="ic">🗣️</span><p><b>Una voz</b> que habla contigo, en tu idioma, con tu visión.</p></div>
-      <div class="item"><span class="ic">🛡️</span><p><b>Un escudo de principios</b> que nunca cruza la línea.</p></div>
+<!-- ═══════════════════ SLIDE 1: TITLE ═══════════════════ -->
+<section class="slide" id="title">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">∞</div>
+    <div class="slide-kicker">Trinnity Viseron System · 2026</div>
+    <h1 class="slide-title">
+      AI-Native Operating System<br>for <span class="grad">Autonomous Organizations</span>
+    </h1>
+    <p class="slide-subtitle">
+      The future is not awaited — it is built today. TVS transforms objectives into verifiable autonomous processes with <strong>2,002 skills</strong>, <strong>12 AI squads</strong>, and a governance framework rooted in ethical principles.
+    </p>
+    <div class="stat-row" style="margin-top:48px">
+      <div class="stat-block"><div class="stat-block-value cyan">5,000+</div><div class="stat-block-label">Agent Minds</div></div>
+      <div class="stat-block"><div class="stat-block-value purple">2,002</div><div class="stat-block-label">Skills Indexed</div></div>
+      <div class="stat-block"><div class="stat-block-value green">309/309</div><div class="stat-block-label">Tests Passing</div></div>
+      <div class="stat-block"><div class="stat-block-value pink">12</div><div class="stat-block-label">AI Squads</div></div>
     </div>
-    <div class="foot">Acto III · La promesa</div>
-  </section>
+  </div>
+</section>
 
-  <section class="slide">
-    <div class="num-bg">IV</div>
-    <span class="kicker">Acto IV · Ya estamos en órbita</span>
-    <h2>No es un sueño.<br>Es <span class="grad">real y vivo</span>.</h2>
-    <p class="lead">Esto ya respira y trabaja hoy:</p>
-    <div class="items">
-      <div class="item"><span class="ic">🔥</span><p><b>VISERON habla.</b> Te escucha, te responde y ejecuta órdenes con voz — como en las películas.</p></div>
-      <div class="item"><span class="ic">🌍</span><p><b>JARVIS</b> conversa en tu idioma y hace cosas de verdad: envía, cobra, responde, organiza.</p></div>
-      <div class="item"><span class="ic">💜</span><p><b>ATLAS</b> te enseña inglés con voz, hasta que hables con seguridad.</p></div>
-      <div class="item"><span class="ic">🤝</span><p><b>La Agencia</b> trabaja por ti: recibe leads, crea creativos y mide resultados.</p></div>
-      <div class="item"><span class="ic">🌌</span><p><b>Dos estrellas propias</b> — $VSR y $TRIN — brillan reales en la cadena Solana.</p></div>
+<!-- ═══════════════════ SLIDE 2: PROBLEM ═════════════════ -->
+<section class="slide" id="problem">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">01</div>
+    <div class="slide-kicker">The Problem</div>
+    <h2 class="slide-title">
+      Organizations waste <span class="grad">60% of time</span><br>on administrative tasks
+    </h2>
+    <p class="slide-subtitle">
+      Every day, thousands of human hours are lost on repetitive work — answering the same questions, searching the same data, chasing the same leads, generating the same reports. <strong>Talent should create, decide, and care.</strong> Instead, it fights fires.
+    </p>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-icon pink">⏱</div>
+        <div class="item-text">
+          <h4>Lost Productivity</h4>
+          <p>Knowledge workers spend 60% of their day on tasks that could be automated — searching, copying, reporting, scheduling.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon pink">🔄</div>
+        <div class="item-text">
+          <h4>Repetitive Operations</h4>
+          <p>Teams repeat the same workflows daily without learning from past errors or building institutional memory.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon pink">🧩</div>
+        <div class="item-text">
+          <h4>Fragmented Tools</h4>
+          <p>Businesses juggle 10+ disconnected SaaS tools. Data lives in silos. Context is lost between platforms.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon pink">📉</div>
+        <div class="item-text">
+          <h4>Scaling Bottleneck</h4>
+          <p>Growth means hiring more people for the same repetitive tasks. Costs scale linearly while value does not.</p>
+        </div>
+      </div>
     </div>
-    <div class="foot">Acto IV · Ya estamos en órbita</div>
-  </section>
+  </div>
+</section>
 
-  <section class="slide">
-    <div class="num-bg">V</div>
-    <span class="kicker">Acto V · Diez años · Un destino</span>
-    <h2>El viaje</h2>
-    <p class="lead">Cada año es un capítulo. Cada capítulo construye el siguiente. Avanzamos todos los días, un poco más lejos.</p>
-    <div class="items">
-      <div class="item"><span class="ic">🌱</span><p><b>Hoy</b> — El primer latido: el sistema vive, piensa, recuerda y está listo para sus primeros guardianes.</p></div>
-      <div class="item"><span class="ic">🚀</span><p><b>Año 2</b> — La primera escala: las organizaciones confían y el sistema nunca las defrauda.</p></div>
-      <div class="item"><span class="ic">🧠</span><p><b>Año 3</b> — El despertar: memoria profunda real, comprensión verdadera, voz que emociona.</p></div>
-      <div class="item"><span class="ic">🌊</span><p><b>Año 4</b> — El océano: miles de tareas al día, en varios países, sin fronteras.</p></div>
-      <div class="item"><span class="ic">🛰️</span><p><b>Año 5</b> — El salto cósmico: del escritorio al espacio — misiones planeadas por agentes.</p></div>
-      <div class="item"><span class="ic">🌟</span><p><b>Año 10</b> — El legado: potencia con principios. La prueba de que inteligencia y ética pueden crecer juntas.</p></div>
+<!-- ═══════════════════ SLIDE 3: SOLUTION ════════════════ -->
+<section class="slide" id="solution">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">02</div>
+    <div class="slide-kicker">The Solution</div>
+    <h2 class="slide-title">
+      One system. <span class="grad">5,000 minds.</span><br>Zero repetition.
+    </h2>
+    <p class="slide-subtitle">
+      TVS is not a tool — it is an ecosystem: a brain that thinks, agents that act, memory that remembers, and principles that guide. <strong>2,002 skills across 10 collections</strong>, orchestrated by 12 AI squads.
+    </p>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-icon">🧠</div>
+        <div class="item-text">
+          <h4>OMEGA Kernel</h4>
+          <p>Persistent task execution with verification. Tasks survive restarts. Every action is auditable.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">🤖</div>
+        <div class="item-text">
+          <h4>10 Nuclear Agents</h4>
+          <p>CEO, Planner, Researcher, Engineer, Operator, Finance, Sales, Security, Verifier, Evolution — each an expert.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon green">🗣</div>
+        <div class="item-text">
+          <h4>Voice Interface</h4>
+          <p>VISERON speaks, listens, and executes. Web Speech STT + TTS. Wake word activation. Multilingual.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon pink">🛡</div>
+        <div class="item-text">
+          <h4>Ethical Governance</h4>
+          <p>9 biblical principles govern every operation. The system can do everything ethical — and gracefully refuses what is not.</p>
+        </div>
+      </div>
     </div>
-    <div class="foot">Acto V · Diez años · Un destino</div>
-  </section>
+  </div>
+</section>
 
-  <section class="slide">
-    <div class="num-bg">VI</div>
-    <span class="kicker">Acto VI · Poder con principios</span>
-    <h2>Potencia sin principios<br>es <span class="grad">destrucción</span>.</h2>
-    <p class="lead">Potencia con principios es bendición. Nuestra brújula son 9 principios sagrados: sabiduría, verdad, mordomía, justicia, servicio, diligencia, humildad, liberalidad y fidelidad.<br><br>VISERON puede hacer todo lo que sea ético — y se niega, con elegancia, a todo lo que no lo sea.</p>
-    <div class="big">Esta casa tiene dos soberanos:<br><span class="grad2">Pedro Costa · Comandante — Trinnity Hurtado · Reina</span></div>
-    <div class="foot">Acto VI · Poder con principios</div>
-  </section>
+<!-- ═══════════════════ SLIDE 4: HOW IT WORKS ════════════ -->
+<section class="slide" id="how">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">03</div>
+    <div class="slide-kicker">How It Works</div>
+    <h2 class="slide-title">
+      Three steps to <span class="grad">autonomous operations</span>
+    </h2>
+    <p class="slide-subtitle">
+      From onboarding to full automation in minutes, not months. TVS connects to your existing tools, learns your workflows, and begins executing autonomously.
+    </p>
+    <div class="arch-pipe">
+      <div class="arch-step active">1. Connect</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">2. Configure</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">3. Automate</div>
+    </div>
+    <div class="items-grid" style="margin-top:32px">
+      <div class="item-card">
+        <div class="item-icon">🔗</div>
+        <div class="item-text">
+          <h4>Connect Your Stack</h4>
+          <p>Gmail, Slack, GitHub, CRM, ERP, calendars — TVS integrates via Composio MCP with 31+ apps. One API key, done.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">⚙</div>
+        <div class="item-text">
+          <h4>Configure Agents</h4>
+          <p>Choose from 5 onboarding templates or create custom agents. Define knowledge bases, rules, and approval policies.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon green">🚀</div>
+        <div class="item-text">
+          <h4>Autonomous Execution</h4>
+          <p>Agents execute tasks, learn from outcomes, verify results, and improve. The VAEC cycle ensures quality without human bottlenecks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section class="slide">
-    <div class="num-bg">VII</div>
-    <span class="kicker">Acto VII · La invitación</span>
-    <h2>El futuro<br>se construye <span class="grad">hoy</span>.</h2>
-    <p class="lead">No te ofrecemos una plataforma. Te ofrecemos un lugar en una historia que empieza ahora.<br><br>Hoy, se construye con nosotros.</p>
-    <div class="big">¿Construyes <span class="grad2">con nosotros</span>?</div>
-    <div class="foot">© Pedro Costa (Comandante) · Trinnity Hurtado (Reina) · trinnityviseronsystem.io</div>
-  </section>
+<!-- ═══════════════════ SLIDE 5: ARCHITECTURE ════════════ -->
+<section class="slide" id="architecture">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">04</div>
+    <div class="slide-kicker">Architecture</div>
+    <h2 class="slide-title">
+      Built for <span class="grad">scale and safety</span>
+    </h2>
+    <p class="slide-subtitle">
+      The OMEGA Kernel is the foundation: a persistent, event-driven runtime with built-in verification, memory, and safety layers. Every component is modular, auditable, and replaceable.
+    </p>
+    <div class="arch-pipe" style="margin-top:32px">
+      <div class="arch-step active">OMEGA Kernel</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">Memory OS</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">Tool OS</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">Safety OS</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-step">Enterprise OS</div>
+    </div>
+    <div class="items-grid" style="margin-top:32px">
+      <div class="item-card">
+        <div class="item-icon">⚡</div>
+        <div class="item-text">
+          <h4>Event Bus</h4>
+          <p>Wildcards, source filtering, retry, isolation. Ring buffer history. SSE real-time streaming.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">📊</div>
+        <div class="item-text">
+          <h4>Task Queue</h4>
+          <p>9-state pipeline: CREATED → PLANNING → QUEUED → RUNNING → VERIFYING → COMPLETED. Persistent across restarts.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon green">🔍</div>
+        <div class="item-text">
+          <h4>Verifier</h4>
+          <p>Schema, evidence, invariants, policy rules. Verified Task Completion Rate as primary metric.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon pink">🔄</div>
+        <div class="item-text">
+          <h4>VAEC Evolution</h4>
+          <p>IMPLEMENT → TEST → SYNC → BUILD → VERIFY → LEARN → PROMOTE. Automatic rollback on failure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-</div>
+<!-- ═══════════════════ SLIDE 6: MARKET ══════════════════ -->
+<section class="slide" id="market">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">05</div>
+    <div class="slide-kicker">Market Opportunity</div>
+    <h2 class="slide-title">
+      A <span class="grad">$150B+ market</span> waiting<br>for an operating system
+    </h2>
+    <p class="slide-subtitle">
+      The AI agent market is projected to reach $65B by 2028. Enterprise automation adds another $85B. TVS targets the intersection: <strong>AI-native operating systems for autonomous organizations</strong>.
+    </p>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-block-value cyan">$150B+</div>
+        <div class="stat-block-label">TAM — Total Addressable Market</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-value purple">$28B</div>
+        <div class="stat-block-label">SAM — Serviceable Market</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-value green">$1.2B</div>
+        <div class="stat-block-label">SOM — Obtainable (Year 5)</div>
+      </div>
+    </div>
+    <div class="items-grid" style="margin-top:32px">
+      <div class="item-card">
+        <div class="item-icon">🏢</div>
+        <div class="item-text">
+          <h4>Enterprise Automation</h4>
+          <p>SMBs and mid-market companies spending $10K-$100K/mo on SaaS tools that don't talk to each other.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">🤖</div>
+        <div class="item-text">
+          <h4>AI Agent Platforms</h4>
+          <p>Developers and teams building autonomous agents need orchestration, memory, and safety infrastructure.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon green">📊</div>
+        <div class="item-text">
+          <h4>Digital Agencies</h4>
+          <p>Marketing agencies managing 10-50 clients need automated reporting, lead response, and creative generation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div class="hud">
-  <button id="prev" aria-label="Anterior">←</button>
-  <div id="bar"><i></i></div>
-  <button id="next" aria-label="Siguiente">→</button>
-  <div id="dots"></div>
-  <button id="full">⛶</button>
-  <button id="play">▶ Auto</button>
-</div>
+<!-- ═══════════════════ SLIDE 7: BUSINESS MODEL ══════════ -->
+<section class="slide" id="pricing">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">06</div>
+    <div class="slide-kicker">Business Model</div>
+    <h2 class="slide-title">
+      SaaS subscriptions + <span class="grad">agency services</span>
+    </h2>
+    <p class="slide-subtitle">
+      Dual revenue engine: recurring SaaS revenue from platform subscriptions, plus high-margin agency services for hands-on automation.
+    </p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Core</div>
+        <div class="price-amount">$29<span>/mo</span></div>
+        <div class="price-features">
+          <div class="price-feature">5 AI agents</div>
+          <div class="price-feature">500 skills</div>
+          <div class="price-feature">Basic memory</div>
+          <div class="price-feature">Email support</div>
+          <div class="price-feature">1 team member</div>
+        </div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-name">Pro</div>
+        <div class="price-amount">$99<span>/mo</span></div>
+        <div class="price-features">
+          <div class="price-feature">25 AI agents</div>
+          <div class="price-feature">2,002 skills</div>
+          <div class="price-feature">Full memory + voice</div>
+          <div class="price-feature">Priority support</div>
+          <div class="price-feature">10 team members</div>
+          <div class="price-feature">Custom integrations</div>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amount">$499<span>/mo</span></div>
+        <div class="price-features">
+          <div class="price-feature">Unlimited agents</div>
+          <div class="price-feature">All skills + custom</div>
+          <div class="price-feature">Private deployment</div>
+          <div class="price-feature">Dedicated support</div>
+          <div class="price-feature">Unlimited team</div>
+          <div class="price-feature">SLA guarantee</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ═══════════════════ SLIDE 8: TRACTION ════════════════ -->
+<section class="slide" id="traction">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">07</div>
+    <div class="slide-kicker">Traction</div>
+    <h2 class="slide-title">
+      Real system. <span class="grad">Real results.</span>
+    </h2>
+    <p class="slide-subtitle">
+      Not a pitch deck prototype — TVS is a fully operational system with production-grade infrastructure, automated testing, and live deployments.
+    </p>
+    <div class="stat-row">
+      <div class="stat-block">
+        <div class="stat-block-value cyan">309/309</div>
+        <div class="stat-block-label">Tests Passing</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-value purple">0</div>
+        <div class="stat-block-label">TypeScript Errors</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-value green">10</div>
+        <div class="stat-block-label">Nuclear Agents</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-value pink">12</div>
+        <div class="stat-block-label">AI Squads Active</div>
+      </div>
+    </div>
+    <div class="items-grid" style="margin-top:32px">
+      <div class="item-card">
+        <div class="item-icon green">✅</div>
+        <div class="item-text">
+          <h4>Live Production</h4>
+          <p>API on Render, site on Vercel, Android APK built, voice interface operational, RCS messaging active.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">🔗</div>
+        <div class="item-text">
+          <h4>31+ Integrations</h4>
+          <p>Gmail, Slack, GitHub, Composio MCP bridge, Twilio RCS, Stripe/Avirato billing, Ollama local AI.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon">📱</div>
+        <div class="item-text">
+          <h4>Cross-Platform</h4>
+          <p>Web dashboard, Android APK, iOS ready, game engine, metaverse, TVS OS desktop environment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SLIDE 9: TEAM ════════════════════ -->
+<section class="slide" id="team">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">08</div>
+    <div class="slide-kicker">Team</div>
+    <h2 class="slide-title">
+      Built by <span class="grad">two visionaries</span>
+    </h2>
+    <p class="slide-subtitle">
+      A complementary duo with the technical depth and strategic vision to build an AI operating system from the ground up.
+    </p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">PC</div>
+        <div>
+          <div class="team-name">Pedro Costa</div>
+          <div class="team-role">Commander — CEO & CTO</div>
+          <div class="team-desc">Full-stack architect, AI systems designer, and product visionary. Leads technical direction, architecture, and execution. Built TVS from zero to 5,000+ agent minds.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="border-color: rgba(191,90,242,0.3); color: var(--tvs-purple);">TH</div>
+        <div>
+          <div class="team-name">Trinnity Hurtado</div>
+          <div class="team-role">Queen — COO & Creative Director</div>
+          <div class="team-desc">Strategic operations, brand identity, and market positioning. Governs the ethical framework and ensures every decision aligns with the 9 biblical principles.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SLIDE 10: VISION ═════════════════ -->
+<section class="slide" id="vision">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">09</div>
+    <div class="slide-kicker">Vision</div>
+    <h2 class="slide-title">
+      5,000 minds today.<br><span class="grad">Global infrastructure tomorrow.</span>
+    </h2>
+    <p class="slide-subtitle">
+      The 10-year roadmap is clear: from the first heartbeat to autonomous evolution, from the desktop to space — power with principles, intelligence with ethics.
+    </p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Year 1 — Today</div>
+        <div class="timeline-desc"><strong>The first heartbeat:</strong> the system lives, thinks, remembers. 5,000+ agent minds, 2,002 skills, voice interface, ethical governance. Ready for its first guardians.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Year 2 — Scale</div>
+        <div class="timeline-desc"><strong>The first scaling:</strong> organizations trust TVS and the system never fails them. Enterprise clients, agency services, $1M+ ARR.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot purple"></div>
+        <div class="timeline-year">Year 3 — Awakening</div>
+        <div class="timeline-desc"><strong>Deep memory:</strong> real understanding, voice that moves, autonomous decision-making across departments.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot purple"></div>
+        <div class="timeline-year">Year 5 — Ocean</div>
+        <div class="timeline-desc"><strong>Global reach:</strong> thousands of tasks daily, across multiple countries, without borders. Robotics and physical infrastructure integration.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot pink"></div>
+        <div class="timeline-year">Year 10 — Legacy</div>
+        <div class="timeline-desc"><strong>The proof:</strong> power with principles. Intelligence and ethics growing together. A lasting testament that technology serves humanity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SLIDE 11: ASK ════════════════════ -->
+<section class="slide" id="ask">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">10</div>
+    <div class="slide-kicker">The Ask</div>
+    <h2 class="slide-title">
+      Join the <span class="grad">foundation</span>
+    </h2>
+    <p class="slide-subtitle">
+      We are building the operating system for the next generation of autonomous organizations. This is not a prototype — it is a production system seeking strategic partners and early-stage investment.
+    </p>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-icon">💰</div>
+        <div class="item-text">
+          <h4>Strategic Investment</h4>
+          <p>Seed round to accelerate enterprise sales, hire 2-3 engineers, and scale the agency pipeline to 50+ clients.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon purple">🤝</div>
+        <div class="item-text">
+          <h4>Strategic Partnerships</h4>
+          <p>Technology partners, cloud infrastructure providers, and enterprise integrators who share our vision.</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-icon green">🎯</div>
+        <div class="item-text">
+          <h4>Enterprise Pilots</h4>
+          <p>Organizations ready to automate operations with AI agents — we deliver measurable ROI in 30 days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SLIDE 12: CONTACT ════════════════ -->
+<section class="slide" id="contact">
+  <div class="slide-inner fade-up">
+    <div class="slide-number">11</div>
+    <div class="cta-box">
+      <div class="slide-kicker" style="margin-bottom:12px">Contact</div>
+      <div class="cta-title">Let's build the future <span class="grad">together</span></div>
+      <div class="cta-desc">
+        The future is not awaited — it is built today. Ready to join?
+      </div>
+      <div class="cta-actions">
+        <a href="https://www.trinnityviseronsystem.io" class="pitch-nav-cta" style="padding:12px 28px; font-size:15px;">Visit Website</a>
+        <a href="mailto:contact@trinnityviseronsystem.io" class="tvs-btn tvs-btn-secondary" style="padding:12px 28px; font-size:15px;">Email Us</a>
+        <a href="https://github.com/trinnityviseron" class="tvs-btn tvs-btn-ghost" style="padding:12px 28px; font-size:15px;">GitHub</a>
+      </div>
+      <div style="margin-top:28px; display:flex; gap:24px; justify-content:center; flex-wrap:wrap;">
+        <a href="https://www.trinnityviseronsystem.io" style="font-size:13px; color:var(--tvs-text-secondary);">trinnityviseronsystem.io</a>
+        <a href="https://github.com/trinnityviseron" style="font-size:13px; color:var(--tvs-text-secondary);">github.com/trinnityviseron</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════════════ -->
+<footer class="pitch-footer">
+  <p>© 2026 Pedro Costa (Commander) &amp; Trinnity Hurtado (Queen) — Trinnity Viseron System</p>
+  <p style="margin-top:4px">Built with purpose. Governed by principles.</p>
+</footer>
+
+<!-- ═══════════════════ SCRIPTS ══════════════════════════ -->
 <script>
-const slides=[...document.querySelectorAll('.slide')];
-const dotsBox=document.getElementById('dots');
-let cur=0,playing=false,timer=null;
-slides.forEach((_,i)=>{const b=document.createElement('button');b.addEventListener('click',()=>go(i));dotsBox.appendChild(b)});
-const dots=[...dotsBox.children];
-function go(i){cur=Math.max(0,Math.min(slides.length-1,i));
-  slides.forEach((s,k)=>s.classList.toggle('on',k===cur));
-  dots.forEach((d,k)=>d.classList.toggle('on',k===cur));
-  document.getElementById('bar').firstElementChild.style.width=((cur+1)/slides.length*100)+'%';}
-function next(){go(cur+1)}function prev(){go(cur-1)}
-function togglePlay(){playing=!playing;document.getElementById('play').textContent=playing?'⏸ Pausa':'▶ Auto';
-  if(playing){timer=setInterval(()=>{cur===slides.length-1?go(0):next()},9000)}
-  else{clearInterval(timer)}}
-document.getElementById('next').addEventListener('click',next);
-document.getElementById('prev').addEventListener('click',prev);
-document.getElementById('play').addEventListener('click',togglePlay);
-document.getElementById('full').addEventListener('click',()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}if(e.key==='ArrowLeft'){e.preventDefault();prev()}});
-let sx=null;
-document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-document.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){dx<0?next():prev()}sx=null},{passive:true});
-/* stars */
-const stars=document.getElementById('stars');
-for(let i=0;i<140;i++){const s=document.createElement('span');s.className='s';
-  const size=Math.random()*2.2+.4;
-  s.style.width=s.style.height=size+'px';
-  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-  s.style.animationDelay=(Math.random()*5)+'s';
-  stars.appendChild(s)}
-go(0);
+  /* Intersection Observer for fade-up animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* Smooth scroll for nav links */
+  document.querySelectorAll('.pitch-nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('navLinks').classList.remove('open');
+      }
+    });
+  });
+
+  /* Active nav highlight on scroll */
+  const sections = document.querySelectorAll('.slide[id]');
+  const navLinks = document.querySelectorAll('.pitch-nav-link[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  });
 </script>
+
 </body>
 </html>

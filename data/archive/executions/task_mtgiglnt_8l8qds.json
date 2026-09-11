@@ -1,0 +1,21 @@
+{
+  "id": "task_mtgiglnt_8l8qds",
+  "timestamp": "2026-08-31T00:39:26.281Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "cb1fab44d07e6a682ecb075b75cca7f872c4c1221416340f63c9dddd432e51e9"
+}

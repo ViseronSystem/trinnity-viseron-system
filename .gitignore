@@ -61,6 +61,8 @@ data/email-codes.json
 data/workspace.json
 
 data/Viseron_Cofre_Credenciais.pdf
+data/Viseron_Cofre_Total_*.pdf
+data/Viseron_Cofre_Total_*.md
 data/Viseron_Auditoria_Completa.pdf
 
 # Suite AEOS (Cofre de Acesso e artefatos gerados) — confidencial
@@ -83,3 +85,10 @@ data/Viseron_Wallets_Fabrica_*.txt
 
 # graphify — knowledge graph do VISERON (cache regeneravel)
 graphify-out/cache/
+
+# Large files
+graphify-out/
+graphify-out/**
+leads/Lead 450K*
+bin/qdrant/
+*.exe

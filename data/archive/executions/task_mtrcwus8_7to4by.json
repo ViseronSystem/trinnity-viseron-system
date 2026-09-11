@@ -1,0 +1,21 @@
+{
+  "id": "task_mtrcwus8_7to4by",
+  "timestamp": "2026-09-07T14:49:36.474Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "63258de280b9e61b165db98629afde1d7ab3cb11e607e3397f693f500236a4d5"
+}

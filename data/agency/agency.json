@@ -139,6 +139,71 @@
       "owner": "pedro",
       "status": "active",
       "createdAt": "2026-08-11T10:48:05.261Z"
+    },
+    {
+      "id": "cli_mthd0y8mwaj4sg",
+      "name": "Cl�nica Est�tica Premium",
+      "niche": "est�tica",
+      "plan": "bundle",
+      "fee": 1500,
+      "status": "active",
+      "owner": "pedro",
+      "country": "GB",
+      "createdAt": "2026-08-31T14:55:02.228Z",
+      "updatedAt": "2026-08-31T14:55:02.228Z",
+      "notes": ""
+    },
+    {
+      "id": "cli_mthd2vng2gthub",
+      "name": "Dermatologia Avanzada",
+      "niche": "dermatologia",
+      "plan": "solo_ads",
+      "fee": 2000,
+      "status": "active",
+      "owner": "pedro",
+      "country": "GB",
+      "createdAt": "2026-08-31T14:56:32.186Z",
+      "updatedAt": "2026-08-31T14:56:32.186Z",
+      "notes": ""
+    },
+    {
+      "id": "cli_mthd2vpfc3gt27",
+      "name": "Centro de Bienestar",
+      "niche": "wellness",
+      "plan": "bundle",
+      "fee": 1200,
+      "status": "active",
+      "owner": "trafico",
+      "country": "GB",
+      "createdAt": "2026-08-31T14:56:32.259Z",
+      "updatedAt": "2026-08-31T14:56:32.259Z",
+      "notes": ""
+    },
+    {
+      "id": "cli_mthd2vr6s9n3mk",
+      "name": "Spa & Relax",
+      "niche": "spa",
+      "plan": "solo_creativos",
+      "fee": 800,
+      "status": "active",
+      "owner": "pedro",
+      "country": "GB",
+      "createdAt": "2026-08-31T14:56:32.322Z",
+      "updatedAt": "2026-08-31T14:56:32.322Z",
+      "notes": ""
+    },
+    {
+      "id": "cli_mthd2vrj38bcbu",
+      "name": "Consultoria Imobili�ria",
+      "niche": "imobili�rio",
+      "plan": "landing",
+      "fee": 600,
+      "status": "active",
+      "owner": "trafico",
+      "country": "GB",
+      "createdAt": "2026-08-31T14:56:32.335Z",
+      "updatedAt": "2026-08-31T14:56:32.335Z",
+      "notes": ""
     }
   ],
   "leads": [
@@ -628,6 +693,45 @@
       "notes": "Lead de tiktok | Auto-response: Obrigado pelo interesse! Temos pacotes desde £600/mes.",
       "createdAt": "2026-08-01T16:16:50.131Z",
       "lastContact": "2026-08-11T10:50:14.057Z"
+    },
+    {
+      "id": "lead_mthd2vsost9372",
+      "name": "Maria Silva",
+      "email": "maria.silva@email.com",
+      "company": "",
+      "source": "Instagram",
+      "status": "responded",
+      "lang": "pt",
+      "firstContact": "2026-08-31T14:56:32.376Z",
+      "lastContact": "2026-08-31T14:58:02.661Z",
+      "followUpAt": "",
+      "notes": "[2026-08-31T14:58:02.608Z] resposta enviada: Obrigado pelo interesse! Sou o agente de resposta da agência. Os nossos pacotes: Ads (£900-1.200/mês), Criativos/IA (£600-900/mês), Landing page (£600-1.200) e Bundle completo (£1.400-1.800/mês). Quer"
+    },
+    {
+      "id": "lead_mthd4trpzlg2tm",
+      "name": "Ana Garc�a",
+      "email": "ana.garcia@email.com",
+      "company": "",
+      "source": "Google Ads",
+      "status": "responded",
+      "lang": "es",
+      "firstContact": "2026-08-31T14:58:03.060Z",
+      "lastContact": "2026-08-31T15:00:40.627Z",
+      "followUpAt": "",
+      "notes": "[2026-08-31T15:00:40.619Z] resposta enviada: ¡Gracias por tu interés! Soy el agente de respuesta de la agencia. Nuestros paquetes: Ads (£900-1.200/mes), Creativos/IA (£600-900/mes), Landing page (£600-1.200) y Bundle completo (£1.400-1.800/mes)."
+    },
+    {
+      "id": "lead_mthdf6f5umhy9q",
+      "name": "Maria Silva",
+      "email": "maria.silva@email.com",
+      "company": "",
+      "source": "Instagram",
+      "status": "responded",
+      "lang": "pt",
+      "firstContact": "2026-08-31T15:06:06.013Z",
+      "lastContact": "2026-08-31T15:07:37.628Z",
+      "followUpAt": "",
+      "notes": "[2026-08-31T15:07:37.557Z] resposta enviada: Obrigado pelo interesse! Sou o agente de resposta da agência. Os nossos pacotes: Ads (£900-1.200/mês), Criativos/IA (£600-900/mês), Landing page (£600-1.200) e Bundle completo (£1.400-1.800/mês). Quer"
     }
   ],
   "metrics": [

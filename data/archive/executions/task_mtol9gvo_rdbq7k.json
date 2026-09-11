@@ -1,0 +1,21 @@
+{
+  "id": "task_mtol9gvo_rdbq7k",
+  "timestamp": "2026-09-05T16:20:01.508Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "a942d339888e6e767908f20660b7a6ec405e68b0425f24f4180f49346c155d83"
+}

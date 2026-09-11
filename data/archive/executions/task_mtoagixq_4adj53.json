@@ -1,0 +1,21 @@
+{
+  "id": "task_mtoagixq_4adj53",
+  "timestamp": "2026-09-05T11:17:37.477Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "ce87801273bca4b57b99262c0b9f8b16a2c232e73b7829885f729fe55256706b"
+}

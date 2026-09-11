@@ -1,0 +1,21 @@
+{
+  "id": "task_mtlq9bzb_5py40k",
+  "timestamp": "2026-09-03T16:16:33.194Z",
+  "stage": "COMPLETED",
+  "success": true,
+  "model": {
+    "provider": "unknown",
+    "model": "unknown",
+    "isLocal": false,
+    "strategy": ""
+  },
+  "tools": {
+    "requested": 0,
+    "executed": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "verification": "PASS"
+  },
+  "executedBy": "",
+  "hash": "3bd0937e93dca96defc054ae9e5cf0cecc06e13903da5d0ded0b09b47da306fe"
+}
