@@ -279,9 +279,11 @@ export class ViseronWebServer {
     this.app.use(requestLogger(this.logger, this.metrics));
     this.app.use((req, res, next) => {
       const host = (req.headers.host || "").toLowerCase().replace(/:\d+$/, "");
-      if (host === "trinnityviseron.com") {
-        return res.redirect(301, "https://www.trinnityviseron.com" + req.url);
+      // Domínio antigo morto → redirecionar para o novo site
+      if (host === "trinnityviseron.com" || host === "www.trinnityviseron.com") {
+        return res.redirect(301, "https://www.trinnityviseronsystem.io" + req.url);
       }
+      // Sem www → com www
       if (host === "trinnityviseronsystem.io") {
         return res.redirect(301, "https://www.trinnityviseronsystem.io" + req.url);
       }
